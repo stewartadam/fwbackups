@@ -39,6 +39,3 @@ stamp-it
 *.gz
 *.rpm
 *.omf
-
-# help
-gnome-doc-utils.make
