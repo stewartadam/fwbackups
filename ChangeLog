@@ -1,0 +1,22 @@
+# This is the full fwbackups changelog, with detailed listing of changes in the
+# c++ branch (version 1.44.0)
+|| Version 1.44.0-prealpha changes ||
+* Sat Apr 18 2009 Stewart Adam <s.adam at diffingo.com>
+  - Initialize the configuration directory and log file upon startup
+  - Implement basic logging system
+  - Implement common.h with new functions for portably dealing with paths
+  - Fix "About" dialog
+  - Further simplify file layout
+
+* Thu Apr 9 2009 Stewart Adam <s.adam at diffingo.com>
+  - Restructure file layout
+  - Load the logfile & display it in the Log Viewer
+
+* Wed Apr 8 2009 Stewart Adam <s.adam at diffingo.com>
+  - Fix bug where set*Mode could be called multiple times removing the wrong tabs
+  - UI improvements
+  - Additional callbacks
+
+* Tue April 7 2009 Stewart Adam <s.adam at diffingo.com>
+  - Major UI improvements
+  - Add more callbacks for UI actions

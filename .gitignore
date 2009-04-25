@@ -1,0 +1,4 @@
+syntax: glob
+
+fwbackups.pc
+CMakeFiles

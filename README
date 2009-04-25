@@ -1,0 +1,35 @@
+-- BUILDING --
+  To build fwbackups, execute these commands:
+    $ cd build/<platform>
+    $ cmake . ../../
+    $ make
+  <platform> can be any of osx, cygwin, mingw, unix or linux.
+
+-- INSTALLING --
+  Run as root:
+    $ make install
+    
+-- UNINSTALLING --
+  Run as root:
+    $ make uninstall
+
+-- USAGE --
+    $ fwbackups
+  The administor, a GUI tool to manage sets or perform on the spot backups
+  and restore operations.
+
+    $ fwbackups-run SetName(s)
+  Run a manual backup of the set SetName. In the case of SetNames, separate each
+  set name by a space.
+
+    $ fwbackups-runonce Path1 Path2
+  Run a one-time backup, using the argument as paths to backup.
+
+-- FAQ --
+  Q: Why won't it start in Windows?
+  A: Please ensure you have a valid GTK+ installation. Any other errors are
+     reported through a graphical interface (which requires GTK+)
+
+  Q: Why can't you just include paramiko and pycrypto in the installer?
+  A: Because of export restrictions on cryptographic software, they can't be
+     included in the installer.

@@ -1,0 +1,34 @@
+<RCC>
+  <qresource prefix="program-icons" >
+    <file>program-icons/document-properties.png</file>
+    <file>program-icons/preferences-desktop.png</file>
+    <file>program-icons/archive.png</file>
+    <file>program-icons/back.png</file>
+    <file>program-icons/clear.png</file>
+    <file>program-icons/delete.png</file>
+    <file>program-icons/document-save.png</file>
+    <file>program-icons/drive-harddisk.png</file>
+    <file>program-icons/drive-optical.png</file>
+    <file>program-icons/filetype-text.png</file>
+    <file>program-icons/help.png</file>
+    <file>program-icons/home.png</file>
+    <file>program-icons/list-add.png</file>
+    <file>program-icons/list-remove.png</file>
+    <file>program-icons/media-optical.png</file>
+    <file>program-icons/network-server.png</file>
+    <file>program-icons/next.png</file>
+    <file>program-icons/preferences-system.png</file>
+    <file>program-icons/redo.png</file>
+    <file>program-icons/refresh.png</file>
+    <file>program-icons/undo.png</file>
+  </qresource>
+  <qresource prefix="application-icons" >
+    <file>./fwbackups-32.png</file>
+    <file>./fwbackups-64.png</file>
+    <file>./fwbackups-128.png</file>
+    <file>./fwbackups-256.png</file>
+    <file>./fwbackups-512.png</file>
+    <file>./fwbackups.ico</file>
+    <file>./fwbackups.svg</file>
+  </qresource>
+</RCC>
