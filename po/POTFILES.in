@@ -1,0 +1,16 @@
+[encoding: UTF-8]
+bin/fwbackups-run.py
+bin/fwbackups-runonce.py
+src/fwbackups-runapp.pyw
+src/fwbackups.glade
+src/BugReport.glade
+src/fwbackups-runapp.pyw
+src/fwbackups/backend.py
+src/fwbackups/config.py
+src/fwbackups/const.py
+src/fwbackups/cron.py
+src/fwbackups/fwlogger.py
+src/fwbackups/__init__.py
+src/fwbackups/remote.py
+src/fwbackups/shutil_modded.py
+src/fwbackups/widgets.py

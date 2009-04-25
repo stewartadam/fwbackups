@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Encoding=UTF-8
+Name=fwbackups
+Comment=Backup or restore your files
+Name[en_US]=fwbackups
+Comment[en_US]=Backup or restore your files
+Exec=/usr/bin/fwbackups --start-minimized
+Type=Application
+Version=1.0
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <subject category="GNOME|Applications|System Tools"/>
+    <type>manual</type>
+    <relation seriesid="01f5f474-29ad-cb16-e494-8967b807ca8ea0"/>
+    <rights type="GNU FDL" license.version="1.1" holder="Stewart Adam"/>
+  </resource>
+</omf>

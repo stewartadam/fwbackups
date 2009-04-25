@@ -1,0 +1,44 @@
+syntax: glob
+
+# autotool stuff
+aclocal.m4
+autom4te.cache
+config.guess
+config.log
+config.status
+config.sub
+configure
+fwbackups.pc
+stamp-h1
+
+# these get generated from .in or .am files
+intltool-extract
+intltool-merge
+intltool-update
+Makefile.in
+Makefile
+fwbackups.spec
+src/fwbackups/__init__.py
+bin/fwbackups
+
+# po
+POTFILES
+missing
+stamp-it
+*.gmo
+*.mo
+
+
+# ignore these file types
+*.exe
+*.pyc
+*.pyo
+*.old
+*.bak
+*.gladep
+*.gz
+*.rpm
+*.omf
+
+# help
+gnome-doc-utils.make

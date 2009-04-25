@@ -1,0 +1,226 @@
+# -*- coding: utf-8 -*-
+#  Copyright (C) 2005 - 2008 Stewart Adam
+#  This file is part of fwbackups.
+
+#  fwbackups is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+
+#  fwbackups is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+
+#  You should have received a copy of the GNU General Public License
+#  along with fwbackups; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+"""
+fwbackups package initialization.
+"""
+
+"""
+If you're wondering what each file does, here's a little runthrough:
+
+operations/
+  __init__.py           Common logic for all operations
+  backup.py             Controls the backup operations
+  restore.py            Controls the restore operation
+config.py               Defines configuration file and handles version upgrades
+const.py                Program constants
+cron.py                 Interfaces with the crontab
+fwlogger.py             The customized logger, subclassed from `logging'
+i18n.py                 Handles _('Translatable Strings')
+interface.py            Loads a Glade XML file and returns the 'ui' object
+remote.py:              Deals with remote servers (SSH/SFTP)
+shutil_modded.py        A slightly modified `shutil' so that it can handle special
+                        files (links, sockets, fifo, pipes) properly and not die
+subprocess_killable.py  A modified `subprocess' I got online that handles
+                        killing of processes on Win32 and has a timeout
+                        attribute to subprocessHandler.wait()
+widgets.py              Some wrappers to make dealing with GTK+ widgets easier
+winprocess.py           Used internally by subprocess_killable.py, also downloaded.
+"""
+
+import os
+import sys
+import subprocess_killable as subprocess
+import exceptions
+
+from threading import Thread, Event
+from i18n import _
+
+__author__ = "Stewart Adam <s.adam@diffingo.com>"
+__status__ = "beta"
+__version__ = "@VERSION@"
+__license__ = "GNU GPLv2+"
+
+class fwbackupsError(Exception):
+  """A generic Exception for the program."""
+  def __init__(self, value):
+    self.value = value
+  def __str__(self):
+    return repr(self.value)
+
+def execute(command, env=None, shell=False, timeout=-1):
+  """Execute a command, wait for it to finish"""
+  sub = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell, env=env)
+  return sub.wait(timeout), sub.stdout, sub.stderr
+
+def executeSub(command, env=None, shell=False):
+  """Execute a command in the background"""
+  sub = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell, env=env)
+  return sub
+
+def kill(PID, signal):
+  """Effectively kill a process (win32 too!)"""
+  # Thank you cookbook...
+  # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/347462
+
+  # IF we run Windows...
+  if sys.platform == "win32":
+    # ... Then use ctypes to kill it
+    import ctypes
+    PROCESS_TERMINATE = 1
+    handle = ctypes.windll.kernel32.OpenProcess(PROCESS_TERMINATE, False, PID)
+    ctypes.windll.kernel32.TerminateProcess(handle, -1)
+    return ctypes.windll.kernel32.CloseHandle(handle)
+  # IF not...
+  else:
+     # ... Then do things the normal way! :D
+     return os.kill(PID, int(signal))
+
+def CheckPerms(path, mustExist=False):
+  """Checks for read and write permissions."""
+  read = CheckPermsRead(path, mustExist)
+  write = CheckPermsWrite(path, mustExist)
+  if read == True and write == True:
+      return True
+  return False
+
+def CheckPermsRead(path, mustExist=False):
+  """Checks for read permissions."""
+  if not os.path.exists(path) and not mustExist:
+    path = os.path.dirname(path)
+  return os.access(path, os.R_OK)
+
+def CheckPermsWrite(path, mustExist=False):
+  """Checks for write permissions."""
+  if not os.path.exists(path) and not mustExist:
+    path = os.path.dirname(path)
+  return os.access(path, os.W_OK)
+
+class ClassAsThread(Thread):
+  """Run a class as a new thread."""
+  def __init__(self, classtorun, args):
+    Thread.__init__(self)
+    self.__args = args
+    self.classtorun = classtorun
+
+  def run(self):
+    try:
+      retval = self.classtorun(*self.__args)
+      return retval
+    except exceptions.SystemExit:
+      sys.exit(0)
+    except: # catch other exception and write it to the logger.
+      #logger = fwlogger.getLogger()
+      (etype, value, tb) = sys.exc_info()
+      #logger.logmsg('ERROR', _('An error occurred while running a subprocess!'))
+      #logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
+      self.exception = etype(evalue)
+      sys.exit(1)
+  
+class FuncAsThread(Thread):
+  """Run a function as a new thread."""
+  def __init__(self, functorun, args, raiseOnException=False):
+    Thread.__init__(self)
+    self.__args = args
+    self.__raiseOnException = raiseOnException
+    self.__functorun = functorun
+    self.retval = None
+    
+  def run(self):
+    try:
+      retval = self.__functorun(*self.__args)
+      self.retval = retval
+    except exceptions.SystemExit:
+      # cancelled
+      self.retval = -2
+    except: # catch other exception and write it to the logger.
+      # NOTE: Thread dies as soon as it gets the exception, so in the case of 
+      # __raiseOnException, retval will be None. Solution is to use
+      # `while thread.retval == None` rather than isAlive().
+      if self.__raiseOnException:
+        self.retval = sys.exc_info()[0], sys.exc_info()[1]
+      else:
+        #logger = fwlogger.getLogger()
+        (etype, value, tb) = sys.exc_info()
+        #logger.logmsg('ERROR', _('An error occurred while running a subprocess!'))
+        #logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
+        self.exception = etype(evalue)
+        self.retval = -1
+    finally:
+      return self.retval
+
+def runFuncAsThread(functorun, raiseOnException, *kargs):
+  """Runs a function as a new thread"""
+  thread = FuncAsThread(functorun, kargs, raiseOnException=raiseOnException)
+  thread.start()
+  return thread
+
+def runClassAsThread(classtorun, *kargs):
+  """Runs a function as a new thread"""
+  thread = ClassAsThread(classtorun, kargs)
+  thread.start()
+  return thread
+
+def isNewer(xfull, yfull):
+  """Determines is x is newer than y"""
+  x = map(int, xfull.split('rc')[0].split('.'))
+  y = map(int, yfull.split('rc')[0].split('.'))
+  for index in range(0, len(x)):
+    # this first to ensure we don't get IndexError
+    if index == len(y): # there is no y[index]
+      # x == y, but x has something extra
+      return True
+    elif x[index] > y[index]:
+      return True
+    elif x[index] < y[index]:
+      return False
+    else: # x[index] == y[index], next
+      continue
+  if index+1 < len(y):
+    # if we're this far, then that means x == y, but y has something extra
+    return False
+  else:
+    # equal version - check for rc
+    xrc = -1
+    yrc = -1
+    if len(xfull.split('rc')) >= 2:
+      xrc = int(xfull.split('rc')[1])
+    if len(yfull.split('rc')) >= 2:
+      yrc = int(yfull.split('rc')[1])
+    if xrc == yrc: # really equal
+      return True
+    elif xrc > -1 and yrc == -1: # y is final, x is rc
+      return False
+    elif xrc == -1 and yrc > -1: # x is final, y is rc
+      return True
+    elif xrc > yrc: # newer rc
+      return True
+    elif xrc < yrc: # older rc
+      return False
+    else:
+      raise ValueError('This should never happen - submit a bug')
+
+def getPyCronDir():
+  import _winreg
+  try:
+    k = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Python Cron Service_is1")
+  except EnvironmentError:
+    print "You must install PyCron to run this program."
+    print "Press any key to continue"
+    sys.exit(1)
+  cronDir = _winreg.QueryValueEx(k, "InstallLocation")[0]
+  return cronDir

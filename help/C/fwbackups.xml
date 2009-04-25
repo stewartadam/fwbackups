@@ -1,0 +1,1049 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY app "fwbackups">
+  <!ENTITY version "1.43.2rc3">
+  <!ENTITY date "July 15th, 2008">
+  <!ENTITY manrevision "1.1">
+
+  <!ENTITY legal SYSTEM "fdl.xml">
+]>
+<!--
+      (Do not remove this comment block.)
+  Maintained by Stewart Adam
+  http://www.diffingo.com/opensource
+  Based upon totem's DocBook help file:
+
+  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+-->
+
+<!-- =============Document Header ============================= -->
+<!--<?yelp:chunk-depth 3?>-->
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo>
+    <title><application>&app;</application> Manual</title>
+    <copyright>
+      <year>2007-2008</year>
+      <holder>Stewart Adam</holder>
+    </copyright>
+
+    <abstract role="description">
+      <para>&app; is a feature-rich user backups program</para>
+    </abstract>
+
+    <publisher>
+      <publishername>Stewart Adam</publishername>
+    </publisher>
+
+    &legal;
+    <!-- This file  contains link to license for the documentation (GNU FDL), and
+         other legal stuff such as "NO WARRANTY" statement. Please do not change
+   any of this. -->
+
+    <authorgroup>
+      <author role="maintainer">
+  <firstname>Stewart</firstname>
+  <surname>Adam</surname>
+  <!--<affiliation>
+      <corpname>Diffingo Solutions Inc.</corpname>
+    <address><email>s.adam@diffingo.com</email></address>
+  </affiliation>-->
+      </author>
+      <author>
+  <firstname>Stewart</firstname>
+  <surname>Adam</surname>
+  <!--<affiliation>
+      <corpname>Diffingo Solutions Inc.</corpname>
+    <address><email>s.adam@diffingo.com</email></address>
+  </affiliation>-->
+        <contrib>Update documentation</contrib>
+      </author>
+
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+      <othercredit role="translator">
+  <firstname>Latin</firstname>
+  <surname>Translator 1</surname>
+  <affiliation>
+          <orgname>Latin Translation Team</orgname>
+      <address><email>translator@gnome.org</email></address>
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document. If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other -->
+<!-- than the current revision. -->
+    <revhistory>
+      <revision>
+        <revnumber>&app; Manual V1.0</revnumber>
+          <date>July 19th, 2007</date>
+          <revdescription>
+            <para role="author">Stewart Adam
+              <email>s.adam@diffingo.com</email>
+            </para>
+            <para role="publisher">Stewart Adam</para>
+        </revdescription>
+      </revision>
+      <revision>
+        <revnumber>&app; Manual V1.1</revnumber>
+          <date>July 15th, 2008</date>
+          <revdescription>
+            <para role="author">Stewart Adam
+              <email>s.adam@diffingo.com</email>
+            </para>
+            <para role="publisher">Stewart Adam</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <releaseinfo>This manual describes version &version; of &app;.</releaseinfo>
+    <legalnotice>
+      <title>Feedback</title>
+      <para>To report a bug or make a suggestion regarding the &app; application or
+        this manual, follow the directions on the
+        <ulink url="http://www.diffingo.com/content/view/12/47/lang,en/" type="http">&app; project page</ulink>.
+      </para>
+    </legalnotice>
+  </articleinfo>
+
+  <indexterm zone="index">
+    <primary>&app;</primary>
+  </indexterm>
+  <indexterm zone="index">
+    <primary>&app;</primary>
+  </indexterm>
+
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+
+  <sect1 id="introduction">
+    <title>Introduction</title>
+    <para>
+          <application>&app;</application> is a feature-rich user backup program
+          with a simpe, intuitive interface. It offers the following features:
+      <itemizedlist>
+        <listitem>
+          <para>Each user of the system can configure their own backups</para>
+        </listitem>
+        <listitem>
+          <para>Automated backups for groups of files and folders with backup <link linkend="gloss-backup-set">sets</link></para>
+        </listitem>
+        <listitem>
+          <para>On-demand backups</para>
+        </listitem>
+        <listitem>
+          <para>A tray icon to monitor the current progress of backups or restore <link linkend="gloss-operation">operations</link></para>
+        </listitem>
+        <listitem>
+          <para>Several backup <link linkend="gloss-backup-engine">engines</link> including compression and incremental backups</para>
+        </listitem>
+        <listitem>
+          <para>Support for backing up to a remote host via SSH/SFTP</para>
+        </listitem>
+        <listitem>
+          <para>Support for restoring any of the backups created with &app;</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+
+<!-- =========== End of Introduction ========================= -->
+
+<!-- =========== Getting Started ============================= -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here.
+     If the information about how to get started is very short, you can
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="getting.started">
+    <title>Getting Started</title>
+    <sect2 id="starting.&app;">
+      <title>Starting &app;</title>
+      <para>There are two ways to start &app;:</para>
+      <variablelist>
+        <varlistentry>
+          <term><guimenu>Applications</guimenu> menu</term>
+          <listitem>
+            <para>Select
+              <menuchoice>
+                <guimenu>System</guimenu>
+                <guisubmenu>Preferences</guisubmenu>
+                <guimenuitem>&app;</guimenuitem>
+              </menuchoice>
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Command line</term>
+          <listitem>
+            <para>To start &app; from the command line, type <command>&app;</command>
+                  and press <keycap>Return</keycap>.
+            </para>
+            <tip>
+               <para>More options are available! Type <command>&app; --help</command>
+                     and then press <keycap>Return</keycap> to see all the available options.
+              </para>
+            </tip>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="pages">
+      <title>Once &app; has started</title>
+      <para>Once &app; has started, you are presented with the overview page.
+            To begin using &app;, either click a toolbar button to switch
+            pages or select an option from the menu. Below are short
+            descriptions of each page:
+      </para>
+      <figure>
+        <title>The Backup Sets Page</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/backup_sets_page.png" format="PNG"/>
+            </imageobject>
+            <textobject><phrase>Shows the Backup Sets page.</phrase></textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      <variablelist>
+        <varlistentry>
+          <term>Overview</term>
+          <listitem>
+            <para>The <guilabel>Overview</guilabel> page itself serves no purpose at the moment, but in
+            future releases it will include detailed statistics about backup runs.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Backup Sets</term>
+          <listitem>
+            <para>
+              The <guilabel>Backup Sets</guilabel> page allows you to create, edit or remove
+              <link linkend="gloss-backup-set">backup sets</link> as well as run a
+              backup of a set on demand.
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>One-Time Backup</term>
+          <listitem>
+            <para>The <guilabel>One-Time Backup</guilabel> page configures and runs
+            <link linkend="gloss-one-time-backup">one-time backups</link>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Log Viewer</term>
+          <listitem>
+            <para>The <guilabel>Log Viewer</guilabel> page displays the contents of the &app;
+                  log file (stored at <filename>~/.&app;/&app;-userlog.txt</filename>).
+            </para>
+            <tip>
+              <para>
+              </para>
+              <itemizedlist>
+                <listitem>
+                    <para>All log messages are formatted like this:
+                      <emphasis>Month DD HH:MM:SS :: severity : message</emphasis>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Messages from previous sessions are colored in purple</para>
+                </listitem>
+                <listitem>
+                    <para>Messages from the current session are colored in blue</para>
+                </listitem>
+                <listitem>
+                    <para>Errors and warnings are colored in red and yellow respectively</para>
+                </listitem>
+              </itemizedlist>
+            </tip>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Restore</term>
+          <listitem>
+            <para>
+              The <guilabel>Restore</guilabel> page allows you to restore any backups created with &app;.
+            </para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to customize the
+     application. -->
+  <sect1 id="usage">
+    <title>Using &app;</title>
+    <sect2 id="usage-create-set">
+      <title>Creating a new set</title>
+      <para>
+        To create a new set, click the <guibutton>Backup Sets</guibutton>
+        button on the toolbar to switch pages. Next, click the <guibutton>New Set</guibutton>
+        button on the left.
+      </para>
+      <para>
+        You'll find that the set configuration dialog has a set name text entry
+        plus five tabs:
+      </para>
+      <sect3 id="customize-paths">
+        <title>Paths</title>
+        <para>
+          Use the controls on the left to select which files or folders
+          (<link linkend="gloss-path">paths</link>) you would like to back
+          up. A green icon beside a <link linkend="gloss-path">path</link>
+          means that you are able to read it, while a red icon indicates
+          you are unable to read the <link linkend="gloss-path">path</link>
+          and it will be excluded from the backup.
+        </para>
+        <tip>
+          <para>
+            Adding files or folders is as easy as dragging them from your
+            favourite file manager and droping them onto the path list.
+          </para>
+        </tip>
+      </sect3>
+
+
+
+      <sect3 id="customize-destination">
+        <title>Destination</title>
+        <para>
+          The <link linkend="gloss-backup-destination">destination</link> tab
+          controls where your backup will be written to. You may choose to
+          backup to a local drive, to a removable drive or to a remote
+          computer which supports the SFTP protocol (such as those running
+          the OpenSSH server).
+        </para>
+        <warning>
+          <para>
+            Be sure to click the <guibutton>Test Settings</guibutton> button
+            before saving your set! Although all settings look complete in
+            the example configuration below, the password could have been
+            entered incorrectly and as a result, all subsequent backups would fail.
+          </para>
+          <figure>
+            <title>Remote Destinations</title>
+            <screenshot>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/configure_backup_remote.png" format="PNG"/>
+                </imageobject>
+                <textobject><phrase>Shows the destination configuration tab.</phrase></textobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+        </warning>
+      </sect3>
+
+
+
+      <sect3 id="customize-times">
+        <title>Times</title>
+        <para>
+          This tab controls the time and date at which the backup should be
+          started at. Both easy configuration and manual configuration
+          methods are supported. Using the manual entry is not recommended
+          for most users.
+        </para>
+        <sect4 id="customize-times-easy">
+          <title>Times (Easy configuration)</title>
+          <para>
+            The easy configuration is controlled by using the drop-down boxes,
+            and sliders to determine at which time &app; should schedule a
+            backup. A backup of the set is run whenever the date matches the
+            chosen parameters.
+          </para>
+        </sect4>
+        <sect4 id="customize-times-manual">
+          <title>Times (Manual configuration)</title>
+          <para>The fields in a crontab must follow this format:</para>
+          <literallayout>
+                +-------------- minute (0 - 59)
+                |   +------------ hour (0 - 23)
+                |   |   +---------- day of month (1 - 31)
+                |   |   |   +-------- month (1 - 12)
+                |   |   |   |   +------ day of week (0 - 7) (Sunday=0 or 7)
+                |   |   |   |   |      +-- command to run
+                *   *   *   *   *  command
+          </literallayout>
+          <para>
+            &app; can handle interfacing with the crontab, however in manual
+            configuration mode you must supply (valid) values for the
+            first five fields. The sixth field, used for the command, is
+            generated automatically by &app;.
+          </para>
+          <para>
+            To use manual configuration, simply enter the same values you
+            would into a crontab into the designated entry boxes. Please
+            note that you cannot enter all five fields onto one line; The
+            four fields are divided among four different entry boxes.
+          </para>
+          <tip>
+            <itemizedlist>
+              <listitem>
+                <para>Use a comma (,) to specify a list of values</para>
+                  <example>
+                    <title>Using a comma</title>
+                    <para>2,4,5,7,8,9</para>
+                  </example>
+              </listitem>
+              <listitem>
+                <para>Use a dash (-) to specify a range of values</para>
+                  <example>
+                    <title>Using a dash</title>
+                    <para>1-4 is equivalent to 1,2,3,4</para>
+                  </example>
+              </listitem>
+              <listitem>
+                <para>Use an asterisk (*) to specify all possible values</para>
+                  <example>
+                    <title>Using an asterisk</title>
+                    <para>* in the hours field is the same as 0-23 or 1,2,3,4,5,6,[...],23</para>
+                  </example>
+              </listitem>
+              <listitem>
+                <para>Most variants of cron support the forward slash (/) to designate a skip</para>
+                  <example>
+                    <title>Using a forward slash</title>
+                    <para>*/2 in the minutes field is equivalent to 0,2,4,6,8,[...],58</para>
+                  </example>
+              </listitem>
+            </itemizedlist>
+          </tip>
+          <important>
+            <itemizedlist>
+              <listitem>
+                <para>In the <emphasis>day of the week</emphasis> field, both 0 and 7 are counted as Sunday.</para>
+              </listitem>
+              <listitem>
+                <para>If both <emphasis>day of month</emphasis> and <emphasis>day of week</emphasis> are present, the command will be executed when either is true.</para>
+              </listitem>
+            </itemizedlist>
+          </important>
+        </sect4>
+      </sect3>
+
+
+
+      <sect3 id="customize-options-simple">
+        <title>Options (Simple &amp; Advanced)</title>
+        <para>
+          The <guilabel>Options (Simple)</guilabel> and <guilabel>Options (Advanced)</guilabel>
+          tabs include useful parameters about your backup. In addition, the
+          options tabs allow you to you select the backup <link linkend="gloss-backup-engine">engine</link>
+          and the number of old backups to keep at any given time.
+        </para>
+        <tip>
+          <para>
+            Please see the <link linkend="backup-options">Backup Options</link> 
+            section for a detailed description of the options presented in these
+            tabs.
+          </para>
+        </tip>
+      </sect3>
+    </sect2>
+    
+    
+    
+    <sect2 id="usage-edit-set">
+      <title>Editing an existing set</title>
+      <para>
+        To edit a set, click the <guibutton>Backup Sets</guibutton> button
+        on the toolbar to switch pages and select the desired set. Next, click
+        the <guibutton>Edit Set</guibutton> button to reconfigure the set.
+        You can configure existing sets the same way you configure a new set (see
+        <link linkend="usage-create-set">here</link>).
+      </para>
+    </sect2>
+  <sect2 id="one-time-backup-page">
+      <title>Running a backup only once</title>
+      <para>
+            The <guilabel>One-Time Backup</guilabel> page configures and runs 
+            <link linkend="gloss-one-time-backup">one-time backups</link>.
+            Similar to configuring sets, add files to a one-time backup using
+            the  buttons on the left and then click the <guibutton>Next</guibutton>
+            button. Once you have selected your backup options, click
+            <guibutton>Start Backup</guibutton> to begin the operation.
+      </para>
+      <para>
+            If you are looking for information on the various backup options,
+            please see the <link linkend="backup-options">Backup Options</link>
+            section for a more detailed description.
+      </para>
+    </sect2>
+
+    <sect2 id="restore-page">
+      <title>Restoring backups</title>
+      <para>
+            The <guilabel>Restore</guilabel> page gives access to restore
+            <link linkend="gloss-operation">operations</link> from either a set backup,
+            an external archive or an external folder.
+      </para>
+      <figure>
+        <title>Restore page</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/restore.png" format="PNG"/>
+            </imageobject>
+            <textobject><phrase>Restore page</phrase></textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      <variablelist>
+        <varlistentry>
+          <term>Restore to</term>
+          <listitem>
+            <para>
+              This entry defines where the files should be restored to. To
+              the make selection more convienient, a <guibutton>Browse...</guibutton>
+              button is available. As with the backup paths, a green icon
+              indicates that the folder entered is writable and a red icon
+              indicates that the folder is unwritable and another must be chosen.
+            </para>
+            <tip>
+              <para>
+                Setting this to root directory (<filename>/</filename> on *nix
+                platforms) or the root drive (typically <filename>C:\</filename>
+                on the Windows platform) will restore your files to their
+                original locations.
+              </para>
+            </tip>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Source type</term>
+          <listitem>
+            <para>A restore <link linkend="gloss-operation">operation</link> can be performed from various sources:</para>
+            <itemizedlist>
+              <listitem>
+                <para>A set's backup on date YYYY-MM-DD</para>
+              </listitem>
+              <listitem>
+                <para>
+                  An external archive (a one-time backup using the
+                  tar engines with or without compression)
+                </para>
+              </listitem>
+              <listitem>
+                <para>A folder (a one-time backup using the rsync engine)</para>
+              </listitem>
+              <listitem>
+                <para>A folder or archive on a remote computer (via SFTP)</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="import-export-sets">
+      <title>Importing and/or Exporting Sets</title>
+      <sect3 id="import-sets">
+        <title>Importing Sets</title>
+        <para>
+              To import set configuration files (<filename>.conf</filename>
+              files), select <menuchoice><guimenu>File</guimenu>
+                                         <guimenuitem>Import Sets</guimenuitem>
+              </menuchoice> and then select the .conf file(s) to be imported.
+              Any version of the &app; configuration files can be imported.
+        </para>
+        <tip>
+          <para>
+            The location at which set configurations are stored is
+            <filename>~/.&app;/Sets/</filename>.
+          </para>
+        </tip>
+      </sect3>
+
+      <sect3 id="export-sets">
+        <title>Exporting Sets</title>
+        <para>
+          To export set configurations, select <menuchoice>
+          <guimenu>File</guimenu><guimenuitem>Export Sets</guimenuitem>
+          </menuchoice>.
+        </para>
+        <para>
+          Simply check the sets you would like to export and choose a
+          folder to export their configurations to.
+        </para>
+      </sect3>
+    </sect2>
+  </sect1>
+
+
+
+  <sect1 id="backup-options">
+    <title>Backup Options</title>
+    <figure>
+      <title>One-Time Backup page</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/onetime_configuration.png" format="PNG"/>
+          </imageobject>
+          <textobject><phrase>Shows the One-Time Backup configuration page</phrase></textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+          Below is a description of the various backup options for both
+          set and one-time backups.
+    </para>
+    <variablelist>
+      <varlistentry>
+        <term>Enabled</term>
+        <listitem>
+          <para>
+            This checkbox only applicable to backup sets: One-time
+            backups must remain enabled otherwise they will not run
+            properly
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Handle sparse files efficiently</term>
+        <listitem>
+          <para>
+            If checked, sparse files will be handled more efficiently
+          </para>
+          <warning>
+            <para>
+              Checking this can cause your backup to fail in some
+              cases - do not enable it unless you are sure.
+            </para>
+          </warning>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Backup is recursive</term>
+        <listitem>
+          <para>
+            Sets whether or not the backup <link linkend="gloss-operation">operation</link> should recurse
+            into subfolders
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Backup hidden files</term>
+        <listitem>
+          <para>
+            If checked, hidden files -files starting with a period character,
+            <filename>.</filename> - are included in the backup.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Print installed packages to a text file</term>
+        <listitem>
+          <para>
+                If checked, installed RPM package's names and versions
+                will be printed to a text file in aim to easy recovery in
+                the unfortunate event of a system crash
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Print disk geometry information to a file</term>
+        <listitem>
+          <para>If checked, disk geometry will be printed to a file</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Follow links</term>
+        <listitem>
+          <para>
+                If checked, the backup will follow links and copy
+                their targets rather than copying the link into the
+                backup
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Incremental</term>
+        <listitem>
+          <para>
+            Selecting this option will run an incremental backup instead of a
+            full one. When using this option, the last complete backup is used
+            and only changes are copied, making the backup much quicker. However,
+            because only changes are copied all older backups are discarded.
+          </para>
+          <important>
+            <para>Currently, this option is only available with the rsync on *nix platforms.</para>
+          </important>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Finished backup will be a(n)</term>
+        <listitem>
+          <para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                      Archive (tar <link linkend="gloss-backup-engine">engine</link>): The backup is contained within a single .tar archive
+                      file making it easy to manage and/or manipulate.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                      A compressed archive (gzip - tar.gz <link linkend="gloss-backup-engine">engine</link>): This engine is identical
+                      to the tar <link linkend="gloss-backup-engine">engine</link>
+                      with the exception that the archive is filtered through a gzip
+                      compression filter on-the-fly to result in a smaller file.
+                      It is faster than bz2 compression, but also has larger
+                      file sizes.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                      A compressed archive (bz2 - tar.bz2<link linkend="gloss-backup-engine">engine</link>): This engine is is identical
+                      to the tar <link linkend="gloss-backup-engine">engine</link>
+                      with the exception that the archive is filtered through a bz2
+                      comrpession filter on-the-fly to result in a smaller file. bz2
+                      is much slower and more CPU-intensive than gzip compression,
+                      but tends to result in much lower file sizes.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                      A copy of the files or folders (rsync <link linkend="gloss-backup-engine">engine</link>): The backup is
+                      contained within a folder, just as if the files were copied
+                      via drag-and-drop. These type of backups can be harder to manage
+                      because all the files are loose rather than contained in a single archive.
+                      While the rsync <link linkend="gloss-backup-engine">engine</link> does not support any form of compression,
+                      it does offer incremental backups on *nix-based platforms.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Command to run before backup</term>
+        <listitem>
+          <para>
+            Command(s) entered here will run in the default system shell
+            before &app; begins to backup <link linkend="gloss-path">path</link>.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Command to run after backup</term>
+        <listitem>
+          <para>
+            Command(s) entered here will run in the default system shell
+            after &app; has finished backuping up <link linkend="gloss-path">path</link>.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Exclude from backup</term>
+        <listitem>
+          <para>A newline-separated list of files, folders and/or patterns.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Nice value of backup process</term>
+        <listitem>
+          <para>
+            This controls the priority of the backup. A lower nice value
+            indicates a higher priority. Please note this feature is only
+            available on *nix based platforms and only root may set a
+            negative nice value.
+           </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+
+
+  <sect1 id="usage-prefs">
+    <title>Changing your preferences</title>
+    <para>To change your preferences, choose
+      <menuchoice>
+        <guimenu>Edit</guimenu>
+        <guisubmenu>Preferences</guisubmenu>
+        <!--<shortcut><keycombo>
+          <keycap>Ctrl</keycap><keycap>O</keycap>
+        </keycombo></shortcut>-->
+      </menuchoice>. The configurable options available to you are:
+    </para>
+    <variablelist>
+      <varlistentry>
+        <term>Show tray icon</term>
+        <listitem>
+          <para>Toggling this checkbox will show or hide the tray icon.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Show notifications in tray area</term>
+        <listitem>
+          <para>
+            If this checkbox is enabled, you will recieve notifications like the one below
+            for important events:
+          </para>
+          <figure>
+            <title>Notifications in the tray area</title>
+            <screenshot>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/notification.png" format="PNG"/>
+                </imageobject>
+                <textobject><phrase>A notification in the tray area</phrase></textobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Minimize to tray on close</term>
+        <listitem>
+          <para>
+            Enabling this checkbox will make &app; minimize to the tray
+            icon when closing instead of quitting.
+          </para>
+          <tip>
+            <para>Clicking the tray icon will reopen the main &app; window.</para>
+          </tip>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Start minimized</term>
+        <listitem>
+          <para>
+            Check this box if you would like &app; to only show the
+            tray icon, not the main window when starting.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Always show debug messages</term>
+        <listitem>
+          <para>
+            This option enables all debugging messages in the log viewer.
+            It is not recommended to enable this option unless you are trying
+            to troubleshoot a problem.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Start &app; (minimized) when I login</term>
+        <listitem>
+          <para>
+            This option will start place &app; in the tray area as soon
+            as you login.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Pycron installation folder</term>
+        <listitem>
+          <para>
+            When running on the Windows platform, &app; must be configured
+            with the installation folder of the pycron software. The
+            installation folder can generally be auto-detected, but in the
+            event that it isn't use the <guibutton>Browse</guibutton> button to manually choose the
+            folder.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>"Don't show me again" messages</term>
+        <listitem>
+          <para>
+            Several messages in &app; can be disabled by selecting "Don't
+            show me again" when they appear. If you would like to enable these
+            messages again, click the <inlinemediaobject><imageobject>
+              <imagedata fileref="figures/prefs_refresh.png" format="PNG"/></imageobject>
+              <textobject><phrase>Shows a refresh button.</phrase></textobject>
+          </inlinemediaobject> (refresh) button.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default.
+     You can use it to describe known bugs and limitations of the
+    program if there are any - please be frank and list all
+     problems you know of.
+
+  <sect1 id="mayapp-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para></para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="&app;-about">
+    <title>About <application>&app;</application></title>
+    <para><application>&app;</application> is written by
+      Stewart Adam (<email>s.adam@diffingo.com</email>),
+      To find more information about <application>&app;</application>, please
+     visit the <ulink url="http://www.diffingo.com/content/view/12/47/lang,en/"
+      type="http"><application>&app;</application> homepage</ulink>.
+    </para>
+    <para>
+      To report a bug or make a suggestion regarding this application or
+      this manual, please file a bug at the <ulink
+       url="http://bugzilla.redhat.com/" type="http">Red Hat bugzilla</ulink>
+       (Product "Fedora", component "&app;").
+    </para>
+    <para>This program is distributed under the terms of the GNU
+      General Public license as published by the Free Software
+      Foundation; either version 2 of the License, or (at your option)
+      any later version. A copy of this license can be found at this
+      <ulink url="ghelp:gpl" type="help">link</ulink>, or in the file
+      COPYING included with the source code of this program.</para>
+  </sect1>
+
+  <glossary>
+    <title>Glossary</title>
+    <glossdiv id="all">
+      <title>All Terms</title>
+
+      <glossentry id="gloss-backup-destination">
+        <glossterm>Backup Destination</glossterm>
+        <glossdef>
+          <para>
+                The folder which the backup will be created in.
+                <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+          <example>
+            <title>Backup Sets</title>
+            <para>
+                  If a set named <emphasis>Home</emphasis> ran on May 9 2007,
+                  <link linkend="gloss-backup-engine">engine</link> of <emphasis>tar</emphasis> (archive) and the backup
+                  destination was set to <filename>/media/Backups</filename>, the
+                  result would be an archive named <filename>Backup-Home-2007-05-09.tar</filename>
+                  in the folder <filename>/media/Backups</filename>.
+            </para>
+          </example>
+          <!--<glossseealso otherterm="gloss-restore-destination" />-->
+        </glossdef>
+      </glossentry>
+
+      <glossentry id="gloss-backup-engine">
+        <glossterm>Backup Engine</glossterm>
+        <glossdef>
+          <para>
+                The backend for a given backup. Supported engines in this release
+                are:
+                <itemizedlist>
+                  <listitem>
+                    <para>tar (archive)</para>
+                  </listitem>
+                  <listitem>
+                    <para>tar.gz (archive filtered through gzip compression)</para>
+                  </listitem>
+                  <listitem>
+                    <para>tar.bz2 (archive filtered through bz2 compression)</para>
+                  </listitem>
+                  <listitem>
+                    <para>rsync (direct copy, comparable to a  drag-and-drop copy operation in a file browser)</para>
+                  </listitem>
+                </itemizedlist>
+                <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry id="gloss-backup-set">
+        <glossterm>Backup Set</glossterm>
+        <glossdef>
+          <para>
+            A group of files and/or folders that are backed up periodically
+            at a specified time and date to the set's destination. Sets have
+            their own configuration, meaning the options of one set has no
+            effect on the optiosn of another.
+            <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry id="gloss-one-time-backup">
+        <glossterm>One-time backup</glossterm>
+        <glossdef>
+          <para>
+            Identical to a backup set, with the exception that one-time
+            backups do not run periodically (it will only run once).
+            <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry id="gloss-operation">
+        <glossterm>Operation</glossterm>
+        <glossdef>
+          <para>
+            Any task where manipulating files is involved, such as:
+            <itemizedlist>
+              <listitem>
+                <para>Backing up a set</para>
+              </listitem>
+              <listitem>
+                <para>Performing a one-time backup</para>
+              </listitem>
+              <listitem>
+                <para>Restoring a backup</para>
+              </listitem>
+            </itemizedlist>
+            <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry id="gloss-path">
+        <glossterm>Path</glossterm>
+        <glossdef>
+          <para>
+                A path what represents a file or folder's location on your computer.
+                <filename>/home/myusername</filename>, <filename>~/apicture.jpg</filename>
+                and <filename>C:\Program Files</filename> are all examples of valid paths.
+                <!--Referenced on <xref linkend="backup-sets-page" />-->
+          </para>
+          <para>
+            <tip>
+              <para>
+                  In the end, path is just really a fancy name for the location
+                  of any file or folder. <filename>/home/myusername</filename> or
+                  <filename>C:\Program Files</filename> are both valid paths
+                  because they both point to the spot of a file or folder!
+              </para>
+            </tip>
+          </para>
+        </glossdef>
+      </glossentry>
+
+    </glossdiv>
+  </glossary>
+</article>
+
