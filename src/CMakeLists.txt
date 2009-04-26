@@ -6,12 +6,14 @@ set(SRC_FILES
     main.cpp
     interface/qt4/fwbackups.cpp
     interface/qt4/configBackup.cpp
+    interface/qt4/restore.cpp
     interface/qt4/custom_widgets.cpp
    )
 
 set(MOC_HDRS
     interface/qt4/fwbackups.h
     interface/qt4/configBackup.h
+    interface/qt4/restore.h
     interface/qt4/custom_widgets.h
     )
 
@@ -20,6 +22,7 @@ set(UI_FILES
     ../data/ui/configBackup.ui
     ../data/ui/exportSets.ui
     ../data/ui/prefs.ui
+    ../data/ui/restore.ui
     )
 
 set(RC_FILES ../data/fwbackups.qrc)

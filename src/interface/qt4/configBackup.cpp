@@ -57,7 +57,7 @@ void configBackupsDialog::setGuidedMode(bool isGuided) {
     cancelButton->show();
     nextButton->show();
     backButton->setEnabled(false);
-    header = tr("Configure a Backup - Welcome!");
+    header = tr("Configure a Backup - Welcome");
     headerLabel->setText(header);
   } else if (! isGuided && guidedMode) {
     configurationTabs->removeTab(0);

@@ -15,3 +15,7 @@ Below are the authors of gnome-icon-theme:
   *  Tuomas Kuosmanen <tigert at gimp.org>
   *  Andreas Nilsson <nisses.mail at home.se>
   *  Jakub Steiner <jimmac at novell.com>
+  
+fwbackups also makes use of the Tango project's icons, which are in the public
+domain. For more information on the Tango icon project, please visit their
+homepage, http://tango.freedesktop.org .

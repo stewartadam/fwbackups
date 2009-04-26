@@ -38,7 +38,7 @@ public slots:
   void switch_overview();
   void switch_backupsets();
   void show_one_time_backup();
-  void switch_restore();
+  void show_restore();
   void switch_operations();
   void switch_logviewer();
   void show_preferences();

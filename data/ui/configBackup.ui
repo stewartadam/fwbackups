@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>691</width>
-    <height>531</height>
+    <height>528</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,14 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Configure a Backup</string>
+   <string>Configure a Backup - fwbackups</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/document-properties.png</normaloff>:/program-icons/program-icons/document-properties.png</iconset>
-  </property>
-  <property name="sizeGripEnabled">
-   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
    <property name="sizeConstraint">
@@ -69,10 +66,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
-     </property>
-     <property name="usesScrollButtons">
-      <bool>false</bool>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="welcomeTab">
       <attribute name="title">
@@ -448,7 +442,7 @@ Choose a profile and click Next to get started.</string>
          <item row="2" column="2">
           <widget class="QPushButton" name="locationBrowseButton">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -492,7 +486,7 @@ Choose a profile and click Next to get started.</string>
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Location:</string>
+            <string>Folder:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -631,6 +625,12 @@ Choose a profile and click Next to get started.</string>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
                <widget class="QLabel" name="portLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Port:</string>
                 </property>
@@ -671,30 +671,23 @@ Choose a profile and click Next to get started.</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="1" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <property name="spacing">
-               <number>6</number>
+            <item row="5" column="1">
+             <widget class="QProgressBar" name="testSettingsProgressBar">
+              <property name="value">
+               <number>0</number>
               </property>
-              <item>
-               <widget class="QPushButton" name="testSettingsButton">
-                <property name="text">
-                 <string>Test Settings</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../fwbackups.qrc">
-                  <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QProgressBar" name="testSettingsProgressBar">
-                <property name="value">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QPushButton" name="testSettingsButton">
+              <property name="text">
+               <string>Test Settings</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../fwbackups.qrc">
+                <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1386,13 +1379,13 @@ Choose a profile and click Next to get started.</string>
             <string>Format:</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_10">
+           <item row="0" column="0" colspan="2">
             <widget class="QRadioButton" name="formatArchiveRadio">
              <property name="text">
               <string>Archive of files and folders</string>
@@ -1402,53 +1395,49 @@ Choose a profile and click Next to get started.</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="1" column="0" colspan="2">
             <widget class="QRadioButton" name="formatCopyRadio">
              <property name="text">
               <string>Direct copy of files and folders</string>
              </property>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QCheckBox" name="compressionCheck">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Enable compression:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="compressionTypeCombo">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <item>
-                <property name="text">
-                 <string>GNU Zip</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>bzip2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>LZMA (7zip)</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="compressionCheck">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Enable compression:</string>
+             </property>
+            </widget>
            </item>
-           <item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="compressionTypeCombo">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string>GNU Zip</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>bzip2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>LZMA (7zip)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
             <widget class="QLabel" name="label_9">
              <property name="font">
               <font>
@@ -1787,7 +1776,6 @@ Click Finish to close this window.</string>
   <tabstop>finishButton</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>saveBackupToCombo</tabstop>
-  <tabstop>testSettingsButton</tabstop>
   <tabstop>checkBox_22</tabstop>
   <tabstop>checkBox_25</tabstop>
  </tabstops>

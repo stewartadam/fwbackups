@@ -20,8 +20,10 @@
 #include <qmessagebox.h>
 // fwbackups
 #include "common.h"
-#include "configBackup.h"
 #include "logger.h"
+// interface - qt4
+#include "configBackup.h"
+#include "restore.h"
 // Local
 #include "fwbackups.h"
 
@@ -47,8 +49,8 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent)
   connect(actionLog_Viewer_2, SIGNAL(activated()), this, SLOT(switch_logviewer()));
   connect(actionOne_Time_Backup, SIGNAL(activated()), this, SLOT(show_one_time_backup()));
   connect(actionOne_Time_Backup_2, SIGNAL(activated()), this, SLOT(show_one_time_backup()));
-  connect(actionRestore, SIGNAL(activated()), this, SLOT(switch_restore()));
-  connect(actionRestore_2, SIGNAL(activated()), this, SLOT(switch_restore()));
+  connect(actionRestore, SIGNAL(activated()), this, SLOT(show_restore()));
+  connect(actionRestore_2, SIGNAL(activated()), this, SLOT(show_restore()));
   connect(actionPreferences, SIGNAL(activated()), this, SLOT(show_preferences()));
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(cleanup()));
   
@@ -120,11 +122,11 @@ void fwbackupsApp::show_one_time_backup()
   cwindow->show();
 }
 
-void fwbackupsApp::switch_restore()
+void fwbackupsApp::show_restore()
 {
-  this->clear_toolbar_status();
-  mainStackedWidget->setCurrentWidget(restorePage);
-  actionRestore_2->setChecked(true);
+  restoreDialog *rwindow = new restoreDialog;
+  rwindow->setGuidedMode(true);
+  rwindow->show();
 }
 
 void fwbackupsApp::switch_operations()

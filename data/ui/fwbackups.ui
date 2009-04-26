@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>450</height>
+    <height>466</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -31,7 +31,7 @@
     <item>
      <widget class="QStackedWidget" name="mainStackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="overviewPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -120,7 +120,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>5</height>
            </size>
           </property>
          </spacer>
@@ -128,185 +128,174 @@
        </layout>
       </widget>
       <widget class="QWidget" name="backupSetsPage">
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="topMargin">
+           <number>12</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="newSetButton">
+            <property name="text">
+             <string>New Set...</string>
             </property>
-            <property name="topMargin">
-             <number>12</number>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/list-add.png</normaloff>:/program-icons/program-icons/list-add.png</iconset>
             </property>
-            <item>
-             <widget class="QPushButton" name="newSetButton">
-              <property name="text">
-               <string>New Set...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/list-add.png</normaloff>:/program-icons/program-icons/list-add.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="editSetButton">
-              <property name="text">
-               <string>Edit Set...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/preferences-system.png</normaloff>:/program-icons/program-icons/preferences-system.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="deleteSetButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Delete Set</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/delete.png</normaloff>:/program-icons/program-icons/delete.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>12</height>
-               </size>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="backupNowButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Backup Now</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/archive.png</normaloff>:/program-icons/program-icons/archive.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="restoreButton">
-              <property name="text">
-               <string>Restore</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="burnButton">
-              <property name="text">
-               <string>Burn</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/media-optical.png</normaloff>:/program-icons/program-icons/media-optical.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QListView" name="listView"/>
+          <item>
+           <widget class="QPushButton" name="editSetButton">
+            <property name="text">
+             <string>Edit Set...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/preferences-system.png</normaloff>:/program-icons/program-icons/preferences-system.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="deleteSetButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Delete Set</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/delete.png</normaloff>:/program-icons/program-icons/delete.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="backupNowButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Backup Now</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/archive.png</normaloff>:/program-icons/program-icons/archive.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="restoreButton">
+            <property name="text">
+             <string>Restore</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="burnButton">
+            <property name="text">
+             <string>Burn</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../fwbackups.qrc">
+              <normaloff>:/program-icons/program-icons/media-optical.png</normaloff>:/program-icons/program-icons/media-optical.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QListView" name="listView"/>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="operationsPage">
-       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <property name="horizontalSpacing">
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <property name="spacing">
+           <number>-1</number>
+          </property>
+          <property name="topMargin">
            <number>12</number>
           </property>
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_10">
-            <property name="spacing">
-             <number>-1</number>
+          <item>
+           <widget class="QPushButton" name="viewDetailsButton">
+            <property name="text">
+             <string>View Details...</string>
             </property>
-            <property name="topMargin">
-             <number>12</number>
-            </property>
-            <item>
-             <widget class="QPushButton" name="viewDetailsButton">
-              <property name="text">
-               <string>View Details...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="cancelOperationButton">
-              <property name="text">
-               <string>Cancel Operation</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QListView" name="listView_2"/>
+          <item>
+           <widget class="QPushButton" name="cancelOperationButton">
+            <property name="text">
+             <string>Cancel Operation</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QListView" name="listView_2"/>
         </item>
        </layout>
       </widget>
@@ -334,7 +323,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
+              <width>5</width>
               <height>5</height>
              </size>
             </property>
@@ -374,23 +363,6 @@
            </widget>
           </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="restorePage">
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -614,9 +586,6 @@
    </property>
   </action>
   <action name="actionRestore_2">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>

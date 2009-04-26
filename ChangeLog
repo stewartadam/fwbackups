@@ -1,6 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes in the
 # c++ branch (version 1.44.0)
 || Version 1.44.0-prealpha changes ||
+* Sun Apr 26 2009 Stewart Adam <s.adam at diffingo.com>
+  - Create the Restore UI, link button with the new window
+  - Add note about Tango icons to AUTHORS
+
 * Sat Apr 18 2009 Stewart Adam <s.adam at diffingo.com>
   - Initialize the configuration directory and log file upon startup
   - Implement basic logging system

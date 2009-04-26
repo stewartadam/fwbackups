@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>300</height>
+    <width>450</width>
+    <height>320</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Export Sets - fwbackups</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../fwbackups.qrc">
