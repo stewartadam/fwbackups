@@ -23,5 +23,5 @@
 
 QString get_configuration_directory();
 QSettings* get_settings();
-
+QSettings* get_set_config(QString setName);
 #endif

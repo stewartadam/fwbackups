@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 {
   Q_INIT_RESOURCE(fwbackups);
   
-  initialize_configuration_directory();
+  initialize_configuration();
   initialize_logger();
   
   QApplication app(argc, argv);

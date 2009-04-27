@@ -42,3 +42,8 @@ QSettings* get_settings() {
   return new QSettings(settingsLocation, QSettings::IniFormat);
 #endif
 }
+
+QSettings* get_set_config(QString setName) {
+  QString setConfigDirectory = join_path(get_configuration_directory(), "Sets");
+  return new QSettings(join_path(setConfigDirectory, setName+".conf"), QSettings::IniFormat);
+}

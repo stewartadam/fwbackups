@@ -22,6 +22,12 @@
 // Pulls in some system limits, including PATH_MAX
 #include <limits.h>
 
+// Update me every release
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 44
+#define VERSION_PATCH 0
+#define VERSION "1.44.0"
+
 // PATH_MAX is MAX_PATH on Windows, so reverse it
 #if defined( WIN32 )
 #  include <malloc.h>

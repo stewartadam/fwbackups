@@ -19,6 +19,7 @@
 #define INITIALIZATION_H
 
 int initialize_configuration_directory();
+int initialize_configuration();
 int initialize_logger();
 
 #endif

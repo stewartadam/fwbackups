@@ -36,6 +36,14 @@ int initialize_configuration_directory() {
   return 1;
 }
 
+int initialize_configuration() {
+  if ( !initialize_configuration_directory() ) {
+    return 0;
+  }
+  get_settings()->setValue("version", VERSION);
+  return 1;
+}
+
 int initialize_logger() {
   QFile file( get_log_location() );
   if ( !file.exists() ) {

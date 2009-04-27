@@ -4,6 +4,7 @@
 * Mon Apr 27 2009 Stewart Adam <s.adam at diffingo.com>
   - Store program data in ~/Library/Appliction Support/fwbackups on OS X
   - Use QSettings for program settings
+  - Use QSettings for set configurations
 
 * Sun Apr 26 2009 Stewart Adam <s.adam at diffingo.com>
   - Create the Restore UI, link button with the new window
