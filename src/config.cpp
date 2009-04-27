@@ -16,7 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 // Global
+#include <QDir>
 #include <QString>
+#include <QStringList>
 #include <QSettings>
 // fwbackups
 #include "common.h"
@@ -33,6 +35,10 @@ QString get_configuration_directory() {
 #endif
 }
 
+QString get_set_configuration_directory() {
+  return join_path(get_configuration_directory(), "Sets");
+}
+
 QSettings* get_settings() {
 #if defined(__APPLE__)
   QString settingsLocation = join_path(get_home_directory(), "Library/Preferences/com.diffingo.fwbackups.plist");
@@ -43,7 +49,18 @@ QSettings* get_settings() {
 #endif
 }
 
-QSettings* get_set_config(QString setName) {
-  QString setConfigDirectory = join_path(get_configuration_directory(), "Sets");
-  return new QSettings(join_path(setConfigDirectory, setName+".conf"), QSettings::IniFormat);
+
+QStringList get_all_sets() {
+  QDir setDirectory(get_set_configuration_directory());
+  QStringList sets;
+  foreach ( QString set, setDirectory.entryList(QDir::Files, QDir::Name) ) {
+    set.remove(set.length()-5, 5);
+    sets.append(set);
+  }
+  return sets;
+}
+
+
+QSettings* get_set(QString setName) {
+  return new QSettings(join_path(get_set_configuration_directory(), setName+".conf"), QSettings::IniFormat);
 }

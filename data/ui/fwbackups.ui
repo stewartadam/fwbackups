@@ -31,7 +31,7 @@
     <item>
      <widget class="QStackedWidget" name="mainStackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="overviewPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -73,14 +73,14 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="failedBackupsLabel">
                <property name="text">
                 <string>&lt;i&gt;Not Loaded&lt;/i&gt;</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLabel" name="label_6">
+              <widget class="QLabel" name="totalBackupSetsLabel">
                <property name="text">
                 <string>&lt;i&gt;Not Loaded&lt;/i&gt;</string>
                </property>
@@ -101,7 +101,7 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QLabel" name="label_20">
+              <widget class="QLabel" name="operationsInProgressLabel">
                <property name="text">
                 <string>&lt;i&gt;Not Loaded&lt;/i&gt;</string>
                </property>
@@ -251,7 +251,29 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QListView" name="setsListView">
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="spacing">
+           <number>8</number>
+          </property>
+          <property name="gridSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::IconMode</enum>
+          </property>
+          <property name="uniformItemSizes">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

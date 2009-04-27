@@ -32,16 +32,23 @@ public:
 
 public slots:
   void cleanup();
-  void on_actionAbout_activated();
+  void refreshSets();
+  // Menu
   void on_actionQuit_activated();
-  void on_newSetButton_clicked();
+  void show_preferences();
+  void on_actionAbout_activated();
+  // Toolbar
   void switch_overview();
   void switch_backupsets();
   void show_one_time_backup();
   void show_restore();
   void switch_operations();
   void switch_logviewer();
-  void show_preferences();
+  // Sets
+  void on_newSetButton_clicked();
+  void on_editSetButton_clicked();
+  void on_deleteSetButton_clicked();
+  // Logger
   void on_saveLogButton_clicked();
   void on_clearLogButton_clicked();
   void on_refreshLogButton_clicked();

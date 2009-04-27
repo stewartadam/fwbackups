@@ -19,7 +19,6 @@
 #define CONFIGBACKUP_H
 
 #include "ui_configBackup.h"
-#include "custom_widgets.h"
 
 #define TYPE_SET 1
 #define TYPE_ONETIME 2

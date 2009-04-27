@@ -87,6 +87,7 @@ public:
                   const QModelIndex &parent = QModelIndex());
   bool removeRows(int position, int rows,
                   const QModelIndex &parent = QModelIndex());
+  void clear();
 
 private:
   TreeItem *getItem(const QModelIndex &index) const;

@@ -26,12 +26,16 @@
 
 int initialize_configuration_directory() {
   QDir directoryInfo( get_configuration_directory() );
-  if ( !directoryInfo.exists() ) {
-    directoryInfo.mkpath( directoryInfo.path() );
+  if ( !directoryInfo.exists() ) { // try to create the directory
+    if ( !directoryInfo.mkpath( directoryInfo.path() ) ) { // it failed
+      return 0;
+    }
   }
-  directoryInfo.setPath( join_path(get_configuration_directory(), "Sets") );
-  if (!directoryInfo.exists()) {
-    directoryInfo.mkpath( directoryInfo.path() );
+  directoryInfo.setPath( get_set_configuration_directory() );
+  if (!directoryInfo.exists()) { // try to create the directory
+    if ( !directoryInfo.mkpath( directoryInfo.path() ) ) { // it failed
+      return 0;
+    }
   }
   return 1;
 }
@@ -46,8 +50,10 @@ int initialize_configuration() {
 
 int initialize_logger() {
   QFile file( get_log_location() );
-  if ( !file.exists() ) {
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
+  if ( !file.exists() ) { // try to create an empty file
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Text) ) { // it failed
+      return 0;
+    }
     file.close();
   }
   return 1;

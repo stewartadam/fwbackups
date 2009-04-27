@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>338</height>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,25 +17,27 @@
    <iconset resource="../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/preferences-desktop.png</normaloff>:/program-icons/program-icons/preferences-desktop.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="sizeConstraint">
-    <enum>QLayout::SetFixedSize</enum>
-   </property>
-   <property name="leftMargin">
-    <number>12</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="topMargin">
     <number>6</number>
    </property>
-   <property name="rightMargin">
-    <number>12</number>
-   </property>
    <property name="bottomMargin">
-    <number>12</number>
+    <number>6</number>
    </property>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Preferences</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
@@ -48,7 +50,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <widget class="QCheckBox" name="checkBox_7">
+         <widget class="QCheckBox" name="guidedModeCheck">
           <property name="text">
            <string>Use the guided mode</string>
           </property>

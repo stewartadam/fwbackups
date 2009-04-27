@@ -20,6 +20,7 @@
 #include <qmessagebox.h>
 // fwbackups
 #include "common.h"
+#include "config.h"
 #include "logger.h"
 // interface - qt4
 #include "configBackup.h"
@@ -61,34 +62,73 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent)
   //void (*pointer_function)(QString);
   //pointer_function = &fwbackupsApp::new_log_message
   //log_connect_function(pointer_function);
+  QStringList sets = get_all_sets();
+  totalBackupSetsLabel->setText( QString::number( sets.length() ) );
+  
+  QStringList headers;
+  headers << tr("Name");
+  TreeModel *setsTreeModel = new TreeModel(headers);
+  setsListView->setModel(setsTreeModel);
+  this->refreshSets();
+  this->refreshSets();
 }
 
 void fwbackupsApp::cleanup() {
   log_message(LEVEL_INFO, tr("fwbackups administrator closed"));
 }
 
-void fwbackupsApp::on_actionAbout_activated()
-{
-  QMessageBox::about(this, tr("About fwbackups"),
-                     tr("<b>fwbackups</b> v1.44<br />\n"
-                     "<span style=\"font-weight: normal;\">A feature-rich user backups program<br />\n"
-                     "Copyright &copy; 2005 - 2009 Stewart Adam<br /><br />\n"
-                     "<i>Visit <a href=\"http://www.fwbackups.com\">www.fwbackups.com</a> for more information and product updates.</i></span>"));
+void fwbackupsApp::refreshSets() {
+  QAbstractItemModel *model = setsListView->model();
+  // Get the root index
+  QModelIndex root = setsListView->rootIndex();
+  // How many children = rows to remove?
+  int nRemoved = 0;
+  int nRows = model->rowCount(root);
+  while( nRemoved <= nRows ) {
+    // Always row=0 because as we remove row=0, index at row=1 becomes row=0
+    model->removeRow(0, root);
+    nRemoved++;
+  }
+  // Add the new rows
+  QModelIndex index = model->index(0, 0, root);
+  foreach (QString set, get_all_sets()) {
+    if (!model->insertRow(index.row()+1, index.parent())) {
+      return;
+    }
+    QModelIndex child = model->index(index.row()+1, 0, index.parent());
+    model->setData(child, QVariant(set), Qt::DisplayRole);
+  }
 }
+
+/***************** Menu ****************/
+
+// File menu
 
 void fwbackupsApp::on_actionQuit_activated()
 {
   qApp->closeAllWindows();
 }
 
-void fwbackupsApp::on_newSetButton_clicked()
+// Edit menu
+
+void fwbackupsApp::show_preferences()
 {
-  configBackupsDialog *cwindow = new configBackupsDialog;
-  cwindow->setGuidedMode(false);
-  cwindow->setAdvancedMode(false);
-  cwindow->setType(TYPE_SET);
-  cwindow->show();
+  prefsWindow *pwindow = new prefsWindow;
+  pwindow->show();
 }
+
+// Help menu
+
+void fwbackupsApp::on_actionAbout_activated()
+{
+  QMessageBox::about(this, tr("About fwbackups"),
+                     tr("<b>fwbackups</b> v%s<br />\n", VERSION
+                     "<span style=\"font-weight: normal;\">A feature-rich user backups program<br />\n"
+                     "Copyright &copy; 2005 - 2009 Stewart Adam<br /><br />\n"
+                     "<i>Visit <a href=\"http://www.fwbackups.com\">www.fwbackups.com</a> for more information and product updates.</i></span>"));
+}
+
+/***************** Toolbar ****************/
 
 void fwbackupsApp::fwbackupsApp::clear_toolbar_status() {
   actionOverview_2->setChecked(false);
@@ -116,7 +156,6 @@ void fwbackupsApp::switch_backupsets()
 void fwbackupsApp::show_one_time_backup()
 {
   configBackupsDialog *cwindow = new configBackupsDialog;
-  cwindow->setGuidedMode(true);
   cwindow->setAdvancedMode(false);
   cwindow->setType(TYPE_ONETIME);
   cwindow->show();
@@ -143,11 +182,34 @@ void fwbackupsApp::switch_logviewer()
   actionLog_Viewer_2->setChecked(true);
 }
 
-void fwbackupsApp::show_preferences()
+/***************** Sets ****************/
+
+void fwbackupsApp::on_newSetButton_clicked()
 {
-  prefsWindow *pwindow = new prefsWindow;
-  pwindow->show();
+  this->refreshSets();
 }
+
+void fwbackupsApp::on_editSetButton_clicked()
+{
+  this->refreshSets();
+}
+
+void fwbackupsApp::on_deleteSetButton_clicked()
+{
+  QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
+  QString setName = setsListView->model()->data(selected, 0).toString();
+  QString filename = join_path(get_set_configuration_directory(), setName+".conf");
+  // FIXME: Check if exists before removing.
+  // It will not exist/be removed if the filename has no .conf suffix due to ^^
+  QFile set(filename);
+  set.remove();
+  this->refreshSets();
+  QString message = tr("Removing set");
+  message += " `" + setName + "'";
+  log_message(LEVEL_INFO, message);
+}
+
+/***************** Logger ****************/
 
 void fwbackupsApp::on_saveLogButton_clicked() {
   QString filename = QFileDialog::getSaveFileName(this,
@@ -158,7 +220,7 @@ void fwbackupsApp::on_saveLogButton_clicked() {
     return;
   }
   QFile destination(filename);
-  // FIXME: We should append messages to the log as they are generated, not in bulk at quit time
+  // FIXME: We should append messages to the log viewer as they are generated, not in bulk at quit time
   // FIXME: Accents and other special characters don't work
   if (destination.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
     QTextStream textStream(&destination);
@@ -203,5 +265,6 @@ prefsWindow::prefsWindow(QDialog *parent)
 }
 
 void prefsWindow::on_closeButton_clicked() {
-  this->reject();
+  get_settings()->setValue( "guidedMode", guidedModeCheck->isChecked() );
+  this->accept();
 }

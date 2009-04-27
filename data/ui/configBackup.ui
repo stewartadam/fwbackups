@@ -5,9 +5,9 @@
   <property name="geometry">
    <rect>
     <x>0</x>
-    <y>0</y>
+    <y>3</y>
     <width>691</width>
-    <height>528</height>
+    <height>522</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,6 +29,9 @@
    </property>
    <property name="leftMargin">
     <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
    </property>
    <property name="bottomMargin">
     <number>6</number>

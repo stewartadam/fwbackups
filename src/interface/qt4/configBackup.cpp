@@ -15,14 +15,24 @@
  * along with fwbackups; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+// Global
+// fwbackups
+#include "config.h"
+// interface - qt4
+#include "custom_widgets.h"
+// Local
 #include "configBackup.h"
 
 configBackupsDialog::configBackupsDialog(QDialog *parent) {
   advancedMode = true;
-  guidedMode = false;
+  /* "not" is a workaround for the if check that ensures guidedMode is not true
+   * when calling setGuidedMode with a parmeter of true */
+  guidedMode = not get_settings()->value("guidedMode", true).toBool();
   setupUi(this); // this sets up GUI
   
-  this->setGuidedMode(true);
+  // Double negative makes a positive! Now guidedMode != isGuided
+  this->setGuidedMode(not guidedMode);
   this->setAdvancedMode(true);
   
   timeSimpleFrequencyCombo->setCurrentIndex(2); // default to "Weekly" frequency
@@ -201,7 +211,6 @@ void configBackupsDialog::on_addFilesButton_clicked() {
     QModelIndex index = pathsTreeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = pathsTreeView->model();
     if (!model->insertRow(index.row()+1, index.parent())) {
-      printf("Insert row failed! parent.isValid(): %d  selected.isValid(): %d\n", index.parent().isValid(), index.isValid());
       return;
     }
     QModelIndex child = model->index(index.row()+1, 0, index.parent());
@@ -278,7 +287,6 @@ void configBackupsDialog::on_presetHomeCheck_toggled(bool checked) {
     stringList << "Desktop" << "Documents" << "Music" << "Pictures" << "Videos";
     foreach (QString string, stringList) {
       if (!model->insertRow(model->rowCount(index), index)) {
-        printf("Insert row failed! selected.isValid(): %d\n", index.isValid());
         return;
       }
       QModelIndex child = model->index(model->rowCount(index)-1, 0, index);
