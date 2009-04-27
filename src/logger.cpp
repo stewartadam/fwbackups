@@ -24,20 +24,19 @@
 #include <time.h>
 // fwbackups
 #include "common.h"
+#include "config.h"
 // Local
 #include "logger.h"
 
 QString get_log_directory() {
-# ifdef WIN32
-  return join_path(get_appdata_directory(), LOGGER_DIR);
-# else
-  return join_path(get_home_directory(), LOGGER_DIR);
-# endif
+/* Keeping this in a separate function gives us the option of moving the log
+   somewhere else later. Until there's a need to do so, just return the
+   configuration directory. */
+  return get_configuration_directory();
 }
 
 QString get_log_location() {
-  QString location = join_path(get_log_directory(), "fwbackups-userlog.txt");
-  return location;
+  return join_path(get_log_directory(), "fwbackups-userlog.txt");
 }
 
 int log_message(int message_level, QString message_text) {

@@ -17,16 +17,28 @@
  */
 // Global
 #include <QString>
+#include <QSettings>
 // fwbackups
 #include "common.h"
 // local
 #include "config.h"
 
 QString get_configuration_directory() {
-# ifdef WIN32
+#if defined(WIN32)
   return join_path(get_appdata_directory(), "fwbackups");
-# else
+#elif defined(__APPLE__)
+  return join_path(get_appdata_directory(), "Library/Application Support/fwbackups");
+#else
   return join_path(get_home_directory(), ".fwbackups");
-# endif
+#endif
 }
 
+QSettings* get_settings() {
+#if defined(__APPLE__)
+  QString settingsLocation = join_path(get_home_directory(), "Library/Preferences/com.diffingo.fwbackups.plist");
+  return new QSettings(settingsLocation, QSettings::NativeFormat);
+#else
+  QString settingsLocation = join_path(get_configuration_directory(), "fwbackups-preferences.conf");
+  return new QSettings(settingsLocation, QSettings::IniFormat);
+#endif
+}

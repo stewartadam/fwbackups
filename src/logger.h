@@ -20,15 +20,6 @@
 
 #include <QString>
 
-// This is used in between the user's home and the log filename
-#if defined(__APPLE__)
-#  define LOGGER_DIR "Library/Logs"
-#elif defined(WIN32)
-#  define LOGGER_DIR "fwbackups"
-#else
-#  define LOGGER_DIR ".fwbackups"
-#endif
-
 // Our constants
 #define LEVEL_DEBUG 0
 #define LEVEL_INFO 1

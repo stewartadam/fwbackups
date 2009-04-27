@@ -19,7 +19,9 @@
 #define CONFIG_H
 
 #include <QString>
+#include <QSettings>
 
 QString get_configuration_directory();
+QSettings* get_settings();
 
 #endif
