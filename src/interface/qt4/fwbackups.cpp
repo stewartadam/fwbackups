@@ -62,14 +62,11 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent)
   //void (*pointer_function)(QString);
   //pointer_function = &fwbackupsApp::new_log_message
   //log_connect_function(pointer_function);
-  QStringList sets = get_all_sets();
-  totalBackupSetsLabel->setText( QString::number( sets.length() ) );
   
   QStringList headers;
-  headers << tr("Name");
+  headers << tr("Name") << tr("Icon");
   TreeModel *setsTreeModel = new TreeModel(headers);
   setsListView->setModel(setsTreeModel);
-  this->refreshSets();
   this->refreshSets();
 }
 
@@ -91,12 +88,18 @@ void fwbackupsApp::refreshSets() {
   }
   // Add the new rows
   QModelIndex index = model->index(0, 0, root);
-  foreach (QString set, get_all_sets()) {
+  QStringList sets = get_all_sets();
+  totalBackupSetsLabel->setText(QString::number( sets.length() ));
+  foreach (QString set, sets) {
     if (!model->insertRow(index.row()+1, index.parent())) {
       return;
     }
+    // Set name
     QModelIndex child = model->index(index.row()+1, 0, index.parent());
     model->setData(child, QVariant(set), Qt::DisplayRole);
+    // Icon resource path
+    child = model->index(index.row()+1, 1, index.parent());
+    model->setData(child, QVariant(":/program-icons/program-icons/copy.png"), Qt::DecorationRole);
   }
 }
 

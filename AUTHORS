@@ -1,10 +1,9 @@
 Authors:
   * Stewart Adam <s.adam at diffingo.com>
 
-Please note that the fwbackups icon is based upon three icons in the 
-gnome-icon-theme package (licensed under the GNU GPL).
-
-Below are the authors of gnome-icon-theme:
+Please note that the fwbackups icon, as well as some of the icons used inside
+the program interface, are based upon three icons in the gnome-icon-theme
+package (licensed under the GNU GPL). Below are the authors of gnome-icon-theme:
   *  Riccardo Buzzotta <raozuzu at yahoo.it>
   *  Josef Vybíral <cornelius at vybiral.info>
   *  Hylke Bons <h.bons at student.rug.nl>
@@ -15,7 +14,7 @@ Below are the authors of gnome-icon-theme:
   *  Tuomas Kuosmanen <tigert at gimp.org>
   *  Andreas Nilsson <nisses.mail at home.se>
   *  Jakub Steiner <jimmac at novell.com>
-  
-fwbackups also makes use of the Tango project's icons, which are in the public
-domain. For more information on the Tango icon project, please visit their
-homepage, http://tango.freedesktop.org .
+
+fwbackups also makes use of some icons from the Tango project, all of which are
+in the public domain. For more information on the Tango icon project, please
+visit their homepage at http://tango.freedesktop.org.

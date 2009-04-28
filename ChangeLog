@@ -1,6 +1,9 @@
 # This is the full fwbackups changelog, with detailed listing of changes in the
 # c++ branch (version 1.44.0)
 || Version 1.44.0-prealpha changes ||
+* Tue Apr 28 2009 Stewart Adam <s.adam at diffingo.com>
+  - Honor Qt::DecorationRole in custom_widgets
+  
 * Mon Apr 27 2009 Stewart Adam <s.adam at diffingo.com>
   - Store program data in ~/Library/Appliction Support/fwbackups on OS X
   - Use QSettings for program settings

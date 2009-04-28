@@ -252,25 +252,28 @@
         </item>
         <item>
          <widget class="QListView" name="setsListView">
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
+          <property name="movement">
+           <enum>QListView::Static</enum>
           </property>
           <property name="spacing">
-           <number>8</number>
+           <number>12</number>
           </property>
           <property name="gridSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>96</width>
+            <height>96</height>
            </size>
           </property>
           <property name="viewMode">
            <enum>QListView::IconMode</enum>
           </property>
           <property name="uniformItemSizes">
+           <bool>true</bool>
+          </property>
+          <property name="batchSize">
+           <number>10</number>
+          </property>
+          <property name="wordWrap">
            <bool>true</bool>
           </property>
          </widget>

@@ -158,12 +158,17 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const {
     return QVariant();
   }
 
-  if (role != Qt::DisplayRole) {
+  if (role == Qt::DisplayRole) {
+    TreeItem *item = getItem(index);
+    return item->data(index.column());
+  } else if (role == Qt::DecorationRole) {
+    TreeItem *item = getItem(index);
+    return QIcon( item->data(1).toString() );
+  } else {
     return QVariant();
   }
 
-  TreeItem *item = getItem(index);
-  return item->data(index.column());
+  
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const {
@@ -274,20 +279,21 @@ int TreeModel::rowCount(const QModelIndex &parent) const {
 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value,
                         int role) {
-  if (role != Qt::DisplayRole) {
+  if (role == Qt::DisplayRole || role == Qt::DecorationRole) {
+    TreeItem *item = getItem(index);
+    bool result = item->setData(index.column(), value);
+    if (result) {
+      emit dataChanged(index, index);
+    }
+    return result;
+  } else {
     return false;
   }
-  TreeItem *item = getItem(index);
-  bool result = item->setData(index.column(), value);
-  if (result) {
-    emit dataChanged(index, index);
-  }
-  return result;
 }
 
 bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
                               const QVariant &value, int role) {
-  if (role != Qt::DisplayRole || orientation != Qt::Horizontal) {
+  if ( !(role == Qt::DisplayRole || role == Qt::DecorationRole) || orientation != Qt::Horizontal) {
     return false;
   }
   bool result = rootItem->setData(section, value);

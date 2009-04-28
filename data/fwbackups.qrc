@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="program-icons" >
+    <file>program-icons/copy.png</file>
+    <file>program-icons/drive-removable-media.png</file>
+    <file>program-icons/media-flash.png</file>
     <file>program-icons/document-properties.png</file>
     <file>program-icons/preferences-desktop.png</file>
     <file>program-icons/archive.png</file>
