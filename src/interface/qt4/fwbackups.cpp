@@ -33,13 +33,15 @@
  ***************** Main App ****************
  *******************************************/
 
-fwbackupsApp::fwbackupsApp(QMainWindow *parent)
-{
+fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
   setupUi(this); // this sets up GUI
   
   this->switch_overview();
   
-  // This does the QStackedWidget switching
+  
+  // Action handlers
+  connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(cleanup()));
+  // This does the QStackedWidget switching (toolbar & View menu)
   connect(actionOverview, SIGNAL(activated()), this, SLOT(switch_overview()));
   connect(actionOverview_2, SIGNAL(activated()), this, SLOT(switch_overview()));
   connect(actionBackup_Sets, SIGNAL(activated()), this, SLOT(switch_backupsets()));
@@ -52,8 +54,6 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent)
   connect(actionOne_Time_Backup_2, SIGNAL(activated()), this, SLOT(show_one_time_backup()));
   connect(actionRestore, SIGNAL(activated()), this, SLOT(show_restore()));
   connect(actionRestore_2, SIGNAL(activated()), this, SLOT(show_restore()));
-  connect(actionPreferences, SIGNAL(activated()), this, SLOT(show_preferences()));
-  connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(cleanup()));
   
   this->on_refreshLogButton_clicked();
   log_message(LEVEL_INFO, tr("fwbackups administrator started"));
@@ -107,29 +107,55 @@ void fwbackupsApp::refreshSets() {
 
 // File menu
 
-void fwbackupsApp::on_actionQuit_activated()
-{
+void fwbackupsApp::on_actionImport_Sets_activated() {
+  QStringList filenames = QFileDialog::getOpenFileNames(this,
+                                                        tr("Select Sets"),
+                                                        QString::null,
+                                                        "Set configuration files (*.conf)");
+  foreach (QString filename, filenames) {
+    qDebug() << filename;
+  }
+
+}
+
+void fwbackupsApp::on_actionExport_Sets_activated() {
+  exportSetsWindow *ewindow = new exportSetsWindow;
+  ewindow->show();
+}
+
+void fwbackupsApp::on_actionQuit_activated() {
   qApp->closeAllWindows();
 }
 
 // Edit menu
 
-void fwbackupsApp::show_preferences()
-{
+void fwbackupsApp::on_actionPreferences_activated() {
   prefsWindow *pwindow = new prefsWindow;
   pwindow->show();
 }
 
 // Help menu
 
-void fwbackupsApp::on_actionAbout_activated()
-{
+void fwbackupsApp::on_actionAbout_activated() {
   QMessageBox::about(this, tr("About fwbackups"),
-                     tr("<b>fwbackups</b> v%s<br />\n", VERSION
-                     "<span style=\"font-weight: normal;\">A feature-rich user backups program<br />\n"
+                     tr("<b>fwbackups</b> v%1<br />\n"
+                     "<span style=\"font-weight: normal;\">"
+                     "A feature-rich user backups program<br />\n"
                      "Copyright &copy; 2005 - 2009 Stewart Adam<br /><br />\n"
-                     "<i>Visit <a href=\"http://www.fwbackups.com\">www.fwbackups.com</a> for more information and product updates.</i></span>"));
+                     "<i>Visit <a href=\"http://www.fwbackups.com\">www.fwbackups.com</a> "
+                     "for more information and product updates.</i></span>").arg(VERSION));
 }
+
+void fwbackupsApp::on_actionHelp_activated() {
+  QString url = QString("http://downloads.diffingo.com/fwbackups/docs/%1-html").arg(VERSION);
+  QDesktopServices::openUrl(url);
+}
+
+void fwbackupsApp::on_actionCheck_for_Updates_activated() {
+  QString url = QString("http://www.diffingo.com/update.php?product=fwbackups&version=%1").arg(VERSION);
+  QDesktopServices::openUrl(url);
+}
+
 
 /***************** Toolbar ****************/
 
@@ -142,44 +168,36 @@ void fwbackupsApp::fwbackupsApp::clear_toolbar_status() {
   actionLog_Viewer_2->setChecked(false);
 }
 
-void fwbackupsApp::switch_overview()
-{
+void fwbackupsApp::switch_overview() {
   this->clear_toolbar_status();
   mainStackedWidget->setCurrentWidget(overviewPage);
   actionOverview_2->setChecked(true);
 }
 
-void fwbackupsApp::switch_backupsets()
-{
+void fwbackupsApp::switch_backupsets() {
   this->clear_toolbar_status();
   mainStackedWidget->setCurrentWidget(backupSetsPage);
   actionBackup_Sets_2->setChecked(true);
 }
 
-void fwbackupsApp::show_one_time_backup()
-{
-  configBackupsDialog *cwindow = new configBackupsDialog;
-  cwindow->setAdvancedMode(false);
-  cwindow->setType(TYPE_ONETIME);
+void fwbackupsApp::show_one_time_backup() {
+  configBackupsDialog *cwindow = new configBackupsDialog(TYPE_ONETIME);
   cwindow->show();
 }
 
-void fwbackupsApp::show_restore()
-{
+void fwbackupsApp::show_restore() {
   restoreDialog *rwindow = new restoreDialog;
   rwindow->setGuidedMode(true);
   rwindow->show();
 }
 
-void fwbackupsApp::switch_operations()
-{
+void fwbackupsApp::switch_operations() {
   this->clear_toolbar_status();
   mainStackedWidget->setCurrentWidget(operationsPage);
   actionOperations_2->setChecked(true);
 }
 
-void fwbackupsApp::switch_logviewer()
-{
+void fwbackupsApp::switch_logviewer() {
   this->clear_toolbar_status();
   mainStackedWidget->setCurrentWidget(logViewerPage);
   actionLog_Viewer_2->setChecked(true);
@@ -187,18 +205,16 @@ void fwbackupsApp::switch_logviewer()
 
 /***************** Sets ****************/
 
-void fwbackupsApp::on_newSetButton_clicked()
-{
+void fwbackupsApp::on_newSetButton_clicked() {
+  configBackupsDialog *cwindow = new configBackupsDialog(TYPE_SET);
+  cwindow->show();
+}
+
+void fwbackupsApp::on_editSetButton_clicked() {
   this->refreshSets();
 }
 
-void fwbackupsApp::on_editSetButton_clicked()
-{
-  this->refreshSets();
-}
-
-void fwbackupsApp::on_deleteSetButton_clicked()
-{
+void fwbackupsApp::on_deleteSetButton_clicked() {
   QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
   QString setName = setsListView->model()->data(selected, 0).toString();
   QString filename = join_path(get_set_configuration_directory(), setName+".conf");
@@ -206,10 +222,10 @@ void fwbackupsApp::on_deleteSetButton_clicked()
   // It will not exist/be removed if the filename has no .conf suffix due to ^^
   QFile set(filename);
   set.remove();
-  this->refreshSets();
   QString message = tr("Removing set");
   message += " `" + setName + "'";
   log_message(LEVEL_INFO, message);
+  this->refreshSets();
 }
 
 /***************** Logger ****************/
@@ -259,15 +275,90 @@ void fwbackupsApp::on_refreshLogButton_clicked() {
 }
 
 /*******************************************
+ *************** Export Sets ***************
+ *******************************************/
+
+exportSetsWindow::exportSetsWindow(QDialog *parent) {
+  setupUi(this); // this sets up GUI
+  QListWidgetItem *item;
+  foreach ( QString set, get_all_sets() ) {
+    item = new QListWidgetItem(set, exportSetsList);
+    item->setFlags( Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+    item->setCheckState(Qt::Unchecked);
+  }
+}
+
+void exportSetsWindow::on_cancelButton_clicked() {
+  this->reject();
+}
+
+void exportSetsWindow::on_exportSetsButton_clicked() {
+  
+  this->accept();
+}
+
+/*******************************************
  *************** Preferences ***************
  *******************************************/
 
-prefsWindow::prefsWindow(QDialog *parent)
-{
+prefsWindow::prefsWindow(QDialog *parent) {
   setupUi(this); // this sets up GUI
+  QSettings *settings = get_settings();
+  
+  settings->beginGroup("ConfiguringBackups");
+  guidedModeCheck->setChecked(settings->value("GuidedMode", true).toBool());
+  warnBeforeReplaceCheck->setChecked(settings->value("WarnBeforeReplacing", true).toBool());
+  settings->endGroup();
+  
+  
+# if defined(__APPLE__)
+  trayAreaLabel->hide();
+  trayIconCheck->hide();
+  startMinimizedCheck->hide();
+  minimizeTrayCheck->hide();
+# endif
+  
+  settings->beginGroup("TrayArea");
+  trayIconCheck->setChecked(settings->value("Show", true).toBool());
+  startMinimizedCheck->setChecked(settings->value("StartMinimized", false).toBool());
+  minimizeTrayCheck->setChecked(settings->value("MinimizeOnClose", false).toBool());
+  settings->endGroup();
+  
+  settings->beginGroup("Misc");
+  popupNotificationsCheck->setChecked(settings->value("ShowPopupNotifications", true).toBool());
+  startOnLoginCheck->setChecked(settings->value("StartOnLogin", false).toBool());
+  if (settings->value("AlwaysShowDebug", LEVEL_INFO).toInt() == LEVEL_DEBUG) {
+    showDebugMessagesCheck->setChecked(true);
+  } else {
+    showDebugMessagesCheck->setChecked(false);
+  }
+  
+  settings->endGroup();
 }
 
 void prefsWindow::on_closeButton_clicked() {
-  get_settings()->setValue( "guidedMode", guidedModeCheck->isChecked() );
+    QSettings *settings = get_settings();
+  
+  settings->beginGroup("ConfiguringBackups");
+  settings->setValue("GuidedMode", guidedModeCheck->isChecked());
+  settings->setValue("WarnBeforeReplacing", warnBeforeReplaceCheck->isChecked());
+  settings->endGroup();
+  
+  settings->beginGroup("TrayArea");
+  settings->setValue("Show", trayIconCheck->isChecked());
+  settings->setValue("StartMinimized", startMinimizedCheck->isChecked());
+  settings->setValue("MinimizeOnClose", minimizeTrayCheck->isChecked());
+  settings->endGroup();
+  
+  settings->beginGroup("Misc");
+  settings->setValue("ShowPopupNotifications", popupNotificationsCheck->isChecked());
+  settings->setValue("StartOnLogin", startOnLoginCheck->isChecked());
+  // FIXME: Make this actually set the logging level in the program
+  if ( showDebugMessagesCheck->isChecked() ) {
+    settings->setValue("AlwaysShowDebug", LEVEL_DEBUG);
+  } else {
+    settings->setValue("AlwaysShowDebug", LEVEL_INFO);
+  }
+  settings->endGroup();
   this->accept();
 }

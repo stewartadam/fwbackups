@@ -34,9 +34,16 @@ public slots:
   void cleanup();
   void refreshSets();
   // Menu
+  //   |-- File
+  void on_actionImport_Sets_activated();
+  void on_actionExport_Sets_activated();
   void on_actionQuit_activated();
-  void show_preferences();
+  //   |-- Edit
+  void on_actionPreferences_activated();
+  //   |-- Help
   void on_actionAbout_activated();
+  void on_actionHelp_activated();
+  void on_actionCheck_for_Updates_activated();
   // Toolbar
   void switch_overview();
   void switch_backupsets();
@@ -52,6 +59,18 @@ public slots:
   void on_saveLogButton_clicked();
   void on_clearLogButton_clicked();
   void on_refreshLogButton_clicked();
+};
+
+class exportSetsWindow: public QDialog, private Ui::exportSets
+{
+  Q_OBJECT
+    
+public:
+  exportSetsWindow(QDialog *parent = 0);
+  
+public slots:
+  void on_cancelButton_clicked();
+  void on_exportSetsButton_clicked();
 };
 
 class prefsWindow: public QDialog, private Ui::Preferences

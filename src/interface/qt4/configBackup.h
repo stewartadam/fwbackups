@@ -19,6 +19,7 @@
 #define CONFIGBACKUP_H
 
 #include "ui_configBackup.h"
+#include "ui_choosePrograms.h"
 
 #define TYPE_SET 1
 #define TYPE_ONETIME 2
@@ -28,13 +29,9 @@ class configBackupsDialog: public QDialog, private Ui::configBackup
   Q_OBJECT
     
 public:
-  configBackupsDialog(QDialog *parent = 0);
+  configBackupsDialog(int type, QDialog *parent = 0);
   void setGuidedMode(bool isGuided);
   void setAdvancedMode(bool isAdvanced);
-  void setType(int type);
-  void setVisible_remoteGrid(bool isVisible);
-  bool advancedMode;
-  bool guidedMode;
 
 public slots:
   /* Configuration - Bottom Buttons */
@@ -51,6 +48,9 @@ public slots:
   void on_changeKeyButton_clicked();
   void on_locationBrowseButton_clicked();
   /* Configuration - Files and Folders */
+  void on_presetBookmarksProgramsButton_clicked();
+  void on_presetEmailProgramsButton_clicked();
+  void on_presetSettingsProgramsButton_clicked();
   void on_addFilesButton_clicked();
   void on_addFoldersButton_clicked();
   void on_removeItemsButton_clicked();
@@ -61,6 +61,21 @@ public slots:
   void on_timeSimpleFrequencyCombo_currentIndexChanged(int index);
   /* Configuration - Backup Type */
   void on_compressionCheck_toggled(bool checked);
+private:
+  void setVisible_remoteGrid(bool isVisible);
+  void setType(int type);
+  bool advancedMode;
+  bool guidedMode;
 };
 
+class chooseProgramsDialog: public QDialog, private Ui::chooseProgramsDialog
+{
+  Q_OBJECT
+public:
+  chooseProgramsDialog(QDialog *parent = 0);
+  QCheckBox *addCheck(QString label);
+  void setLabel(QString label);
+public slots:
+  void on_okButton_clicked();
+};
 #endif

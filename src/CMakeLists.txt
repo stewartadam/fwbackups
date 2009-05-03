@@ -19,6 +19,7 @@ set(MOC_HDRS
 
 set(UI_FILES
     ../data/ui/fwbackups.ui
+    ../data/ui/choosePrograms.ui
     ../data/ui/configBackup.ui
     ../data/ui/exportSets.ui
     ../data/ui/prefs.ui

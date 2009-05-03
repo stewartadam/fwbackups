@@ -44,7 +44,7 @@ int initialize_configuration() {
   if ( !initialize_configuration_directory() ) {
     return 0;
   }
-  get_settings()->setValue("version", VERSION);
+  get_settings()->setValue("Version", VERSION);
   return 1;
 }
 

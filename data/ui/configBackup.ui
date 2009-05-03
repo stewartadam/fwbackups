@@ -23,6 +23,9 @@
    <iconset resource="../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/document-properties.png</normaloff>:/program-icons/program-icons/document-properties.png</iconset>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
    <property name="sizeConstraint">
     <enum>QLayout::SetFixedSize</enum>
@@ -128,7 +131,7 @@ Choose a profile and click Next to get started.</string>
        <item>
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Each profile has a set of recommended defaults, but if you'd like to furthur customize the backup settings, click the checkbox below.</string>
+          <string>Each profile has a set of recommended defaults, but if you would like to further customize the backup settings, click the checkbox below.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -217,7 +220,7 @@ Choose a profile and click Next to get started.</string>
            <item row="2" column="1">
             <widget class="QPushButton" name="presetSettingsProgramsButton">
              <property name="text">
-              <string>Choose Programs...</string>
+              <string>Choose Items...</string>
              </property>
             </widget>
            </item>
@@ -1428,17 +1431,17 @@ Choose a profile and click Next to get started.</string>
              </property>
              <item>
               <property name="text">
-               <string>GNU Zip</string>
+               <string>Normal (GNU Zip)</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>bzip2</string>
+               <string>High (bzip2)</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>LZMA (7zip)</string>
+               <string>Very High (LZMA)</string>
               </property>
              </item>
             </widget>
@@ -1456,7 +1459,7 @@ Choose a profile and click Next to get started.</string>
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tip: The compression types are listed weakest to strongest. Stronger compression types require more resources and may increase the time it takes to perform a backup, but reduce the size of backups.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tip: Stronger compression types require more resources and will increase the time it takes to perform a backup, but reduce the size of backups.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click &quot;Help&quot; for more information on each compression type.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -1665,9 +1668,23 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>Congratulations! Your backup has been configured and is ready for use.
 
-Click Finish to close this window.</string>
+Enter a name for the set below and then click Finish to close this window.</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Set Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="setNameLineEdit"/>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer_8">

@@ -61,6 +61,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QCheckBox" name="guidedModeCheck">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Use the guided mode</string>
          </property>
@@ -70,7 +73,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox_8">
+        <widget class="QCheckBox" name="warnBeforeReplaceCheck">
          <property name="text">
           <string>Warn me before replacing a set configuration</string>
          </property>
@@ -82,7 +85,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="trayAreaLabel">
        <property name="font">
         <font>
          <weight>75</weight>
@@ -95,19 +98,19 @@
       </widget>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QGridLayout" name="trayAreaGrid">
        <property name="leftMargin">
         <number>12</number>
        </property>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox_6">
+        <widget class="QCheckBox" name="startMinimizedCheck">
          <property name="text">
           <string>Start minimized</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBox_5">
+        <widget class="QCheckBox" name="minimizeTrayCheck">
          <property name="text">
           <string>Minimize to tray on close</string>
          </property>
@@ -117,7 +120,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QCheckBox" name="checkBox_2">
+        <widget class="QCheckBox" name="trayIconCheck">
          <property name="text">
           <string>Show tray icon</string>
          </property>
@@ -147,7 +150,7 @@
         <number>12</number>
        </property>
        <item row="0" column="0">
-        <widget class="QCheckBox" name="checkBox_4">
+        <widget class="QCheckBox" name="popupNotificationsCheck">
          <property name="text">
           <string>Show popup notifcations</string>
          </property>
@@ -157,14 +160,14 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="startOnLoginCheck">
          <property name="text">
           <string>Start fwbackups when I login</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBox_3">
+        <widget class="QCheckBox" name="showDebugMessagesCheck">
          <property name="text">
           <string>Show debug messages in the log</string>
          </property>

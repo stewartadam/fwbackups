@@ -24,4 +24,7 @@ add_subdirectory(src)
 configure_file( ${CMAKE_SOURCE_DIR}/fwbackups.pc.in
                 ${CMAKE_BINARY_DIR}/fwbackups.pc @ONLY IMMEDIATE )
 
+configure_file( ${CMAKE_SOURCE_DIR}/src/common.h.in
+                ${CMAKE_BINARY_DIR}/src/common.h @ONLY IMMEDIATE )
+
 install(FILES "${CMAKE_BINARY_DIR}/fwbackups.pc" DESTINATION lib/pkgconfig)

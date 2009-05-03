@@ -24,16 +24,17 @@
 // Local
 #include "configBackup.h"
 
-configBackupsDialog::configBackupsDialog(QDialog *parent) {
+configBackupsDialog::configBackupsDialog(int type, QDialog *parent) {
   advancedMode = true;
   /* "not" is a workaround for the if check that ensures guidedMode is not true
    * when calling setGuidedMode with a parmeter of true */
-  guidedMode = not get_settings()->value("guidedMode", true).toBool();
+  guidedMode = not get_settings()->value("ConfiguringBackups/GuidedMode", true).toBool();
   setupUi(this); // this sets up GUI
   
   // Double negative makes a positive! Now guidedMode != isGuided
   this->setGuidedMode(not guidedMode);
-  this->setAdvancedMode(true);
+  this->setAdvancedMode(not advancedMode);
+  this->setType(type); // Must be called after all set*Mode functions
   
   timeSimpleFrequencyCombo->setCurrentIndex(2); // default to "Weekly" frequency
   compressionTypeCombo->setEnabled(false); // default to no compression
@@ -44,6 +45,7 @@ configBackupsDialog::configBackupsDialog(QDialog *parent) {
   burnUsingCombo->hide();
   burnUsingLabel->hide();
   
+  // Setup the path list
   QStringList headers;
   headers << tr("Location") << tr("Status");
   TreeModel *pathsTreeModel = new TreeModel(headers);
@@ -56,6 +58,7 @@ configBackupsDialog::configBackupsDialog(QDialog *parent) {
 void configBackupsDialog::setGuidedMode(bool isGuided) {
   QString header;
   if (isGuided && ! guidedMode) {
+    // Add Welcome+Finished tabs
     configurationTabs->insertTab(0, welcomeTab, tr("Welcome"));
     configurationTabs->insertTab(6, finishedTab, tr("Finished!"));
     configurationTabs->setCurrentIndex(0);
@@ -70,6 +73,7 @@ void configBackupsDialog::setGuidedMode(bool isGuided) {
     header = tr("Configure a Backup - Welcome");
     headerLabel->setText(header);
   } else if (! isGuided && guidedMode) {
+    // Remove Welcome+Finished tabs
     configurationTabs->removeTab(0);
     configurationTabs->removeTab(5); // 6 but since we already removed one...
     configurationTabs->tabBar()->show();
@@ -89,15 +93,16 @@ void configBackupsDialog::setGuidedMode(bool isGuided) {
 void configBackupsDialog::setAdvancedMode(bool isAdvanced) {
   if (isAdvanced && ! advancedMode) {
     toggleAdvancedButton->setText(tr("Basic..."));
+    // Add Backup Type and Options tabs
     configurationTabs->insertTab(4, modeFormatTab, tr("Backup Type"));
     configurationTabs->insertTab(5, optionsTab, tr("Options"));
   } else if (! isAdvanced && advancedMode) {
     toggleAdvancedButton->setText(tr("Advanced..."));
     if (guidedMode) {
-      configurationTabs->removeTab(4);
+      configurationTabs->removeTab(4); // Backup type tab
       configurationTabs->removeTab(4); // 5 but since we already removed one...
     } else {
-      configurationTabs->removeTab(3);
+      configurationTabs->removeTab(3); // Backup type tab
       configurationTabs->removeTab(3); // 4 but since we already removed one...
     }
   }
@@ -105,14 +110,22 @@ void configBackupsDialog::setAdvancedMode(bool isAdvanced) {
 }
 
 void configBackupsDialog::setType(int type) {
+  // ***NOTE: This function _must_ be called after any set*Mode functions
   switch (type) {
     case TYPE_SET:
       this->setWindowTitle(tr("Configure a Set Backup"));
       break;
     case TYPE_ONETIME:
       this->setWindowTitle(tr("Configure a One-Time Backup"));
-      saveBackupToCombo->insertSeparator(9999);
+      saveBackupToCombo->insertSeparator(99); // 99 -> separator appears last
       saveBackupToCombo->addItem(tr("Optical media"));
+      if (guidedMode) {
+        // Welcome tab is present
+        configurationTabs->removeTab(3); // Automation tab
+      } else {
+        // Welcome tab has already been removed
+        configurationTabs->removeTab(2); // Automation tab
+      }
       break;
     default:
       this->setWindowTitle(tr("Configure a Backup"));
@@ -139,7 +152,7 @@ void configBackupsDialog::on_finishButton_clicked() {
 
 void configBackupsDialog::on_backButton_clicked() {
   int index = configurationTabs->currentIndex();
-  char buf[1]; // FIXME: do we have to clean this up?
+  int (last) = configurationTabs->count() - 2;
   QString header;
   configurationTabs->setCurrentIndex(index-1);
   nextButton->setEnabled(true);
@@ -147,30 +160,17 @@ void configBackupsDialog::on_backButton_clicked() {
     header = tr("Configure a Backup - Welcome");
     backButton->setEnabled(false);
   } else {
-    header = tr("Configure a Backup - Step ");
-    sprintf(buf, "%i", index-1);
-    header.append(buf);
-    if (advancedMode == true) { 
-      header.append("/5");
-    } else {
-      header.append("/3");
-    }
+    header = tr("Configure a Backup - Step %1/%2").arg(index-1).arg(last);
   }
   headerLabel->setText(header);
 }
 
 void configBackupsDialog::on_nextButton_clicked() {
   int index = configurationTabs->currentIndex();
-  int lastPage;
-  char buf[1]; //fixme: do we have to clean this up?
+  int lastPage = configurationTabs->count() - 2;
   QString header;
   configurationTabs->setCurrentIndex(index+1);
   backButton->setEnabled(true);
-  if (advancedMode == true) {
-    lastPage = 5;
-  } else {
-    lastPage = 3;
-  }
   if (index == lastPage) { // Switching to last page
     backButton->hide();
     cancelButton->hide();
@@ -179,16 +179,7 @@ void configBackupsDialog::on_nextButton_clicked() {
     finishButton->setDefault(true);
     header = tr("Configure a Backup - Finished!");
   } else {
-    header = tr("Configure a Backup - Step ");
-    // +2 because we need to +1 offset
-    sprintf(buf, "%i", index+1);
-    header.append(buf);
-    if (advancedMode == true)
-    {
-      header.append("/5");
-    } else {
-      header.append("/3");
-    }
+    header = tr("Configure a Backup - Step %1/%2").arg(index+1).arg(lastPage);
   }
   headerLabel->setText(header);
 }
@@ -202,6 +193,48 @@ void configBackupsDialog::on_advancedOptionsCheck_toggled(bool checked) {
 
 
 /* Configuration - Files & Folders */
+
+void configBackupsDialog::on_presetBookmarksProgramsButton_clicked() {
+  chooseProgramsDialog *cpwindow = new chooseProgramsDialog();
+  cpwindow->setLabel( tr("Select the browsers whose bookmarks you would like to backup:") );
+  cpwindow->addCheck( tr("Microsoft Windows Explorer") );
+  cpwindow->addCheck( tr("Microsoft Internet Explorer") );
+  cpwindow->addCheck( tr("Mozilla Firefox") );
+  cpwindow->addCheck( tr("Opera") );
+  cpwindow->addCheck( tr("Safari") );
+  cpwindow->show();
+}
+
+void configBackupsDialog::on_presetEmailProgramsButton_clicked() {
+  chooseProgramsDialog *cpwindow = new chooseProgramsDialog();
+  cpwindow->setLabel( tr("All messages stored in the selected E-mail clients below will be backed up.") );
+  cpwindow->addCheck( tr("Evolution") );
+  cpwindow->addCheck( tr("Microsoft Outlook") );
+  cpwindow->addCheck( tr("Mozilla Thunderbird") );
+  cpwindow->addCheck( tr("Outlook Express") );
+  cpwindow->addCheck( tr("Windows Mail") );
+  cpwindow->show();
+}
+
+void configBackupsDialog::on_presetSettingsProgramsButton_clicked() {
+  chooseProgramsDialog *cpwindow = new chooseProgramsDialog();
+  
+# if defined(WIN32)
+  cpwindow->setLabel( tr("Select the Windows Registry hives you would like to backup:") );
+  cpwindow->addCheck( tr("System settings (HKEY_CURRENY_USER)") );
+  cpwindow->addCheck( tr("User settings (HKEY_LOCAL_MACHINE)") );
+# elif defined(__APPLE__)
+  cpwindow->setLabel( tr("Select the items you would like to backup:") );
+  cpwindow->addCheck( tr("System settings (/Library/Preferences)") );
+  cpwindow->addCheck( tr("User settings (~/Library/Preferences)") );
+# elif defined(__linux__)
+  cpwindow->setLabel( tr("Select which configuration folders you would like to backup:") );
+  cpwindow->addCheck( tr("User settings (~/.local)") );
+  cpwindow->addCheck( tr("User settings (~/.config)") );
+#endif
+  cpwindow->show();
+}
+
 void configBackupsDialog::on_addFilesButton_clicked() {
   QStringList filenames = QFileDialog::getOpenFileNames(this,
                                                         tr("Select Files"),
@@ -216,7 +249,7 @@ void configBackupsDialog::on_addFilesButton_clicked() {
     QModelIndex child = model->index(index.row()+1, 0, index.parent());
     model->setData(child, QVariant(filename), Qt::DisplayRole);
     child = model->index(index.row()+1, 1, index.parent());
-    model->setData(child, QVariant("OK"), Qt::DisplayRole);
+    model->setData(child, QVariant( tr("OK") ), Qt::DisplayRole);
   }
 }
 
@@ -546,3 +579,29 @@ void configBackupsDialog::on_timeSimpleFrequencyCombo_currentIndexChanged(int in
 void configBackupsDialog::on_compressionCheck_toggled(bool checked) {
   compressionTypeCombo->setEnabled(checked);
 }
+
+/*******************************************
+ ************* Choose Programs *************
+ *******************************************/
+chooseProgramsDialog::chooseProgramsDialog(QDialog *parent) {
+  setupUi(this); // this sets up GUI
+  prorgamsVerticalLayout->setEnabled(true);
+}
+
+QCheckBox *chooseProgramsDialog::addCheck(QString label) {
+  QCheckBox *check = new QCheckBox(label);
+  prorgamsVerticalLayout->addWidget(check);
+  return check;
+}
+
+void chooseProgramsDialog::setLabel(QString label) {
+  instructionalLabel->setText(label);
+}
+
+
+void chooseProgramsDialog::on_okButton_clicked() {
+  this->accept();
+}
+
+
+
