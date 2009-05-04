@@ -293,7 +293,30 @@ void exportSetsWindow::on_cancelButton_clicked() {
 }
 
 void exportSetsWindow::on_exportSetsButton_clicked() {
-  
+  QString directory = QFileDialog::getExistingDirectory(this,
+                                                        tr("Select a Folder"),
+                                                        QString::null,
+                                                        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+  if (directory.isEmpty()) {
+    return;
+  }
+  QAbstractItemModel *model = exportSetsList->model();
+  QModelIndex root = exportSetsList->rootIndex();
+  int nRows = model->rowCount(root);
+  int nProcessed = 0;
+  while (nRows > nProcessed) {
+    QModelIndex index = model->index(nProcessed, 0, root);
+    QString setName = index.data().toString();
+    if (exportSetsList->item(nProcessed)->checkState() == Qt::Checked) {
+      QString filename = join_path(get_set_configuration_directory(), setName+".conf");
+      // FIXME: Check if exists before copying.
+      // It will not exist/be removed if the filename has no .conf suffix due to ^^
+      // FIXME: What happens if we select the Sets directory?
+      QFile::copy(filename, join_path(directory, setName+".conf"));
+    }
+    nProcessed++;
+  }
+  // finally
   this->accept();
 }
 

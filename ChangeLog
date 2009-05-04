@@ -1,6 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes in the
 # c++ branch (version 1.44.0)
 || Version 1.44.0-prealpha changes ||
+* Mon May 4 2009 Stewart Adam <s.adam at diffingo.com>
+  - Add keyboard shortcuts for menu items
+  - Exporting sets is completely functional
+
 * Thu Apr 30 2009 Stewart Adam <s.adam at diffingo.com>
   - UI work for "Choose Foo..." buttons complete
   - UI callbacks for export & import sets are complete
