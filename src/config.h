@@ -24,7 +24,9 @@
 
 QString get_configuration_directory();
 QString get_set_configuration_directory();
+QString get_set_configuration_path(QString setName);
+QStringList get_all_set_names();
+QSettings* get_set_configuration(QString setName);
+QSettings* get_onetime_configuration();
 QSettings* get_settings();
-QSettings* get_set(QString setName);
-QStringList get_all_sets();
 #endif

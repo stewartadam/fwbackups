@@ -32,6 +32,8 @@ public:
   configBackupsDialog(int type, QDialog *parent = 0);
   void setGuidedMode(bool isGuided);
   void setAdvancedMode(bool isAdvanced);
+  bool saveConfiguration(QString setName = "");
+  bool loadConfiguration(QString setName = "");
 
 public slots:
   /* Configuration - Bottom Buttons */
@@ -63,7 +65,8 @@ public slots:
   void on_compressionCheck_toggled(bool checked);
 private:
   void setVisible_remoteGrid(bool isVisible);
-  void setType(int type);
+  void setType(int configType);
+  int type;
   bool advancedMode;
   bool guidedMode;
 };

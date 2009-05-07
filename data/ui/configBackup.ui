@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
+    <width>688</width>
     <height>522</height>
    </rect>
   </property>
@@ -718,9 +718,9 @@ Choose a profile and click Next to get started.</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="automationTab">
+     <widget class="QWidget" name="schedulingTab">
       <attribute name="title">
-       <string>Automation</string>
+       <string>Scheduling</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -839,7 +839,7 @@ Choose a profile and click Next to get started.</string>
          <item row="1" column="0" colspan="2">
           <widget class="QStackedWidget" name="timeStackedWidget">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1511,7 +1511,7 @@ p, li { white-space: pre-wrap; }
           <number>24</number>
          </property>
          <item row="0" column="0">
-          <widget class="QCheckBox" name="checkBox_22">
+          <widget class="QCheckBox" name="recursiveCheck">
            <property name="text">
             <string>Backup subfolders</string>
            </property>
@@ -1521,14 +1521,14 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QCheckBox" name="checkBox_25">
+          <widget class="QCheckBox" name="includeHiddenCheck">
            <property name="text">
             <string>Include hidden files and folders</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBox_23">
+          <widget class="QCheckBox" name="diskInfoCheck">
            <property name="text">
             <string>Save disk information to a file</string>
            </property>
@@ -1538,7 +1538,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBox_24">
+          <widget class="QCheckBox" name="softwareListCheck">
            <property name="text">
             <string>Save a list of installed software packages</string>
            </property>
@@ -1548,14 +1548,14 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QCheckBox" name="checkBox_26">
+          <widget class="QCheckBox" name="followSymlinksCheck">
            <property name="text">
             <string>Follow symbolic links</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QCheckBox" name="checkBox_27">
+          <widget class="QCheckBox" name="preserveTimestampsCheck">
            <property name="text">
             <string>Preserve timestamps</string>
            </property>
@@ -1799,8 +1799,8 @@ Enter a name for the set below and then click Finish to close this window.</stri
   <tabstop>finishButton</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>saveBackupToCombo</tabstop>
-  <tabstop>checkBox_22</tabstop>
-  <tabstop>checkBox_25</tabstop>
+  <tabstop>recursiveCheck</tabstop>
+  <tabstop>includeHiddenCheck</tabstop>
  </tabstops>
  <resources>
   <include location="../fwbackups.qrc"/>

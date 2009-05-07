@@ -16,15 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Global
-// fwbackups
-#include "config.h"
 // interface - qt4
 #include "custom_widgets.h"
-// Local
 #include "configBackup.h"
 
-configBackupsDialog::configBackupsDialog(int type, QDialog *parent) {
+#include "common.h"
+#include "config.h"
+
+
+configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
+  type = configType;
   advancedMode = true;
   /* "not" is a workaround for the if check that ensures guidedMode is not true
    * when calling setGuidedMode with a parmeter of true */
@@ -133,6 +134,129 @@ void configBackupsDialog::setType(int type) {
   }
 }
 
+bool configBackupsDialog::loadConfiguration(QString setName) {
+  return true;
+}
+
+bool configBackupsDialog::saveConfiguration(QString setName) {
+  QSettings *config;
+  if (type == TYPE_ONETIME) {
+    config = get_onetime_configuration();
+  } else {
+    if (setName.isEmpty()) {
+      return false;
+    }
+    config = get_set_configuration(setName);
+  }
+  int profile;
+  if (profileStandardBackupRadio->isChecked()) { profile = 0; }
+  else if (profileCloneRadio->isChecked()) { profile = 1; }
+  else if (profileTapeRadio->isChecked()) { profile = 2; }
+  else { profile = 0; } // just incase
+  
+  config->beginGroup("General");
+  config->setValue("Version", VERSION);
+  config->setValue("Type", type);
+  config->setValue("Profile", profile);
+  config->endGroup();
+  
+  
+  config->beginGroup("IncludedItems");
+  config->setValue("Desktop", presetDeskopCheck->isChecked());
+  config->setValue("Documents", presetDocumentsCheck->isChecked());
+  config->setValue("Music", presetMusicCheck->isChecked());
+  config->setValue("Pictures", presetPicturesCheck->isChecked());
+  config->setValue("Videos", presetVideosCheck->isChecked());
+  config->setValue("Bookmarks", presetBookmarksCheck->isChecked());
+  config->setValue("Emails", presetEmailCheck->isChecked());
+  config->setValue("Settings", presetSettingsCheck->isChecked());
+  config->endGroup();
+  
+  
+  config->beginGroup("Destination");
+  config->setValue("DestinationType", saveBackupToCombo->currentIndex());
+  
+  config->beginGroup("Remote");
+  config->setValue("Protocol", protocolCombo->currentIndex());
+  config->setValue("Hostname", hostnameLineEdit->text());
+  config->setValue("Port", portSpin->value());
+  config->setValue("Username", usernameLineEdit->text());
+  config->setValue("Password", passwordLineEdit->text());
+  config->setValue("PublicKey", saveBackupToCombo->currentIndex());
+  config->endGroup(); // Remote
+  
+  config->setValue("Destination", locationLineEdit->text());
+  config->setValue("BurnDrive", burnUsingCombo->currentIndex());
+  config->endGroup(); // Destination
+  
+  
+  int trigger;
+  if (startPeriodicallyRadio->isChecked()) { trigger = 0; }
+  else if (startChangedRadio->isChecked()) { trigger = 1; }
+  else if (startManuallyRadio->isChecked()) { trigger = 2; }
+  else { trigger = 0; } // just incase
+  
+  config->beginGroup("Scheduling");
+  config->setValue("BackupTrigger", trigger);
+  config->setValue("Frequency", timeSimpleFrequencyCombo->currentIndex());
+  
+  config->beginGroup("Frequency");
+  config->setValue("Minute", timeSimpleMinuteSpin->value());
+  config->setValue("HourMinute", timeSimpleMinHourTimeEdit->time().toString("h:m"));
+  config->setValue("DayOfWeek", timeSimpleDoWCombo->currentIndex());
+  config->setValue("DayOfMonth", timeSimpleDayCombo->currentIndex());
+  config->setValue("Month", timeSimpleMonthCombo->currentIndex());
+  config->endGroup(); // Frequency
+  
+  config->beginGroup("ManualConfiguration");
+  config->setValue("Minutes", timesManualMinuteLineEdit->text());
+  config->setValue("Hours", timesManualHourLineEdit->text());
+  config->setValue("DaysOfMonth", timesManualDoMLineEdit->text());
+  config->setValue("Months", timesManualMonthLineEdit->text());
+  config->setValue("DaysOfWeek", timesManualDoWLineEdit->text());
+  config->endGroup(); // Manual
+    
+  config->endGroup(); // Scheduling
+  
+  
+  int format;
+  if (formatArchiveRadio->isChecked()) { format = 0; }
+  else if (formatCopyRadio->isChecked()) { format = 1; }
+  else { format = 0; } // just incase
+  
+  int compression;
+  if (compressionCheck->isChecked()) { compression = compressionTypeCombo->currentIndex(); }
+  else { compression = -1; }
+  
+  config->beginGroup("BackupType");
+  config->setValue("Type", typeCombo->currentIndex());
+  config->setValue("Format", format);
+  config->setValue("Compression", compression);
+  config->endGroup(); // BackupType
+  
+  
+  int archiving;
+  if (archivingReplacePreviousRadio->isChecked()) { format = 0; }
+  else if (archivingKeepAllRadio->isChecked()) { format = 1; }
+  else if (archivingKeepOnlyRadio->isChecked()) { format = 1; }
+  else { format = 0; } // just incase
+  
+  config->beginGroup("Options");
+  config->setValue("Recursive", recursiveCheck->isChecked());
+  config->setValue("DiskInformation", diskInfoCheck->isChecked());
+  config->setValue("SoftwareList", softwareListCheck->isChecked());
+  config->setValue("IncludeHidden", includeHiddenCheck->isChecked());
+  config->setValue("FollowSymlinks", followSymlinksCheck->isChecked());
+  config->setValue("PreserveTimestamps", preserveTimestampsCheck->isChecked());
+  
+  config->setValue("Archiving", archiving);
+  config->setValue("ArchiveCount", archiveBackupSpin->value());
+  config->endGroup(); // Options
+  
+  return true;
+  
+}
+
 /* Configuration - Bottom Buttons */
 void configBackupsDialog::on_toggleAdvancedButton_clicked() {
   this->setAdvancedMode(not advancedMode);
@@ -143,11 +267,13 @@ void configBackupsDialog::on_cancelButton_clicked() {
 }
 
 void configBackupsDialog::on_okButton_clicked() {
+  QString name = setNameLineEdit->text();
+  this->saveConfiguration(name);
   this->accept();
 }
 
 void configBackupsDialog::on_finishButton_clicked() {
-  this->accept();
+  this->on_okButton_clicked();
 }
 
 void configBackupsDialog::on_backButton_clicked() {

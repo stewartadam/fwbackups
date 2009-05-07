@@ -15,14 +15,11 @@
  * along with fwbackups; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// Global
 #include <QDir>
 #include <QString>
 #include <QStringList>
 #include <QSettings>
-// fwbackups
 #include "common.h"
-// local
 #include "config.h"
 
 QString get_configuration_directory() {
@@ -34,6 +31,7 @@ QString get_configuration_directory() {
   return join_path(get_home_directory(), ".fwbackups");
 #endif
 }
+
 
 QString get_set_configuration_directory() {
   return join_path(get_configuration_directory(), "Sets");
@@ -50,7 +48,12 @@ QSettings* get_settings() {
 }
 
 
-QStringList get_all_sets() {
+QString get_set_configuration_path(QString setName) {
+  return join_path(get_set_configuration_directory(), setName+".conf");
+}
+
+
+QStringList get_all_set_names() {
   QDir setDirectory(get_set_configuration_directory());
   QStringList sets;
   foreach ( QString set, setDirectory.entryList(QDir::Files, QDir::Name) ) {
@@ -61,6 +64,11 @@ QStringList get_all_sets() {
 }
 
 
-QSettings* get_set(QString setName) {
-  return new QSettings(join_path(get_set_configuration_directory(), setName+".conf"), QSettings::IniFormat);
+QSettings* get_set_configuration(QString setName) {
+  return new QSettings(get_set_configuration_path(setName), QSettings::IniFormat);
+}
+
+QSettings* get_onetime_configuration() {
+  QString onetimeLocation = join_path(get_configuration_directory(), "fwbackups-onetime.conf");
+  return new QSettings(onetimeLocation, QSettings::IniFormat);
 }

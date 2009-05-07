@@ -15,17 +15,17 @@
  * along with fwbackups; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// Global
+
 #include <sys/stat.h>
 #include <qmessagebox.h>
-// fwbackups
+
+#include "configBackup.h"
+#include "restore.h"
+
 #include "common.h"
 #include "config.h"
 #include "logger.h"
-// interface - qt4
-#include "configBackup.h"
-#include "restore.h"
-// Local
+
 #include "fwbackups.h"
 
 
@@ -88,7 +88,7 @@ void fwbackupsApp::refreshSets() {
   }
   // Add the new rows
   QModelIndex index = model->index(0, 0, root);
-  QStringList sets = get_all_sets();
+  QStringList sets = get_all_set_names();
   totalBackupSetsLabel->setText(QString::number( sets.length() ));
   foreach (QString set, sets) {
     if (!model->insertRow(index.row()+1, index.parent())) {
@@ -211,13 +211,17 @@ void fwbackupsApp::on_newSetButton_clicked() {
 }
 
 void fwbackupsApp::on_editSetButton_clicked() {
-  this->refreshSets();
+  QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
+  QString setName = setsListView->model()->data(selected, 0).toString();
+  configBackupsDialog *cwindow = new configBackupsDialog(TYPE_SET);
+  cwindow->loadConfiguration(setName);
+  cwindow->show();
 }
 
 void fwbackupsApp::on_deleteSetButton_clicked() {
   QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
   QString setName = setsListView->model()->data(selected, 0).toString();
-  QString filename = join_path(get_set_configuration_directory(), setName+".conf");
+  QString filename = get_set_configuration_path(setName);
   // FIXME: Check if exists before removing.
   // It will not exist/be removed if the filename has no .conf suffix due to ^^
   QFile set(filename);
@@ -281,7 +285,7 @@ void fwbackupsApp::on_refreshLogButton_clicked() {
 exportSetsWindow::exportSetsWindow(QDialog *parent) {
   setupUi(this); // this sets up GUI
   QListWidgetItem *item;
-  foreach ( QString set, get_all_sets() ) {
+  foreach ( QString set, get_all_set_names() ) {
     item = new QListWidgetItem(set, exportSetsList);
     item->setFlags( Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
     item->setCheckState(Qt::Unchecked);
@@ -308,7 +312,7 @@ void exportSetsWindow::on_exportSetsButton_clicked() {
     QModelIndex index = model->index(nProcessed, 0, root);
     QString setName = index.data().toString();
     if (exportSetsList->item(nProcessed)->checkState() == Qt::Checked) {
-      QString filename = join_path(get_set_configuration_directory(), setName+".conf");
+      QString filename = get_set_configuration_path(setName);
       // FIXME: Check if exists before copying.
       // It will not exist/be removed if the filename has no .conf suffix due to ^^
       // FIXME: What happens if we select the Sets directory?
