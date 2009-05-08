@@ -35,6 +35,7 @@ public slots:
   void refreshSets();
   // Menu
   //   |-- File
+  void on_actionNew_Set_activated();
   void on_actionImport_Sets_activated();
   void on_actionExport_Sets_activated();
   void on_actionQuit_activated();

@@ -22,7 +22,7 @@
 
 #include "common.h"
 #include "config.h"
-
+#include "logger.h"
 
 configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
   type = configType;
@@ -30,6 +30,8 @@ configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
   /* "not" is a workaround for the if check that ensures guidedMode is not true
    * when calling setGuidedMode with a parmeter of true */
   guidedMode = not get_settings()->value("ConfiguringBackups/GuidedMode", true).toBool();
+  keyFile = "";
+  originalSetName = "";
   setupUi(this); // this sets up GUI
   
   // Double negative makes a positive! Now guidedMode != isGuided
@@ -134,7 +136,191 @@ void configBackupsDialog::setType(int type) {
   }
 }
 
+QString configBackupsDialog::getKey() {
+  return keyFile;
+}
+
+void configBackupsDialog::setKey(QString filename) {
+  keyFile = filename;
+  useKeyAuthenticationCheck->setChecked(true);
+  useKeyAuthenticationCheck->setText( tr("Use key authentication: ") );
+  QFileInfo fileinfo(keyFile);
+  keyNameLabel->setText( fileinfo.completeBaseName() );  
+}
+
+void configBackupsDialog::clearKey() {
+  keyFile = "";
+  keyNameLabel->setText(keyFile);
+  useKeyAuthenticationCheck->setText( tr("Use key authentication ") );
+  useKeyAuthenticationCheck->setChecked(false);
+}
+
 bool configBackupsDialog::loadConfiguration(QString setName) {
+  QSettings *config;
+  if (type == TYPE_ONETIME) {
+    config = get_onetime_configuration();
+    setNameDescLabel->hide();
+    setNameLabel->hide();
+    setNameLineEdit->hide();
+  } else {
+    if (setName.isEmpty()) {
+      return false;
+    }
+    setNameDescLabel->show();
+    setNameLabel->show();
+    setNameLineEdit->show();
+    setNameLineEdit->setText(setName);
+    config = get_set_configuration(setName);
+    originalSetName = setName;
+  }
+  
+  config->beginGroup("General");
+  // FIXME: Import older versions here
+  //config->value("Version", VERSION);
+  // FIXME: Check me to determine if config type is correct
+  //config->value("Type", type);
+  switch ( config->value("Profile", 0).toInt() ) {
+    case 0:
+      profileStandardBackupRadio->setChecked(true);
+      break;
+    case 1:
+      profileCloneRadio->setChecked(true);
+      break;
+    case 2:
+      profileTapeRadio->setChecked(true);
+      break;
+    default: // just in case
+      profileStandardBackupRadio->setChecked(true);
+      break;
+  }
+  config->endGroup();
+  
+  
+  config->beginGroup("IncludedItems");
+  presetDeskopCheck->setChecked( config->value("Desktop", false).toBool() );
+  presetDocumentsCheck->setChecked( config->value("Documents", false).toBool() );
+  presetMusicCheck->setChecked( config->value("Music", false).toBool() );
+  presetPicturesCheck->setChecked( config->value("Pictures", false).toBool() );
+  presetVideosCheck->setChecked( config->value("Videos", false).toBool() );
+  presetBookmarksCheck->setChecked( config->value("Bookmarks", false).toBool() );
+  presetEmailCheck->setChecked( config->value("Emails", false).toBool() );
+  presetSettingsCheck->setChecked( config->value("Settings", false).toBool() );
+  config->endGroup();
+    
+  config->beginGroup("Destination");
+  saveBackupToCombo->setCurrentIndex( config->value("DestinationType", 0).toInt() );
+  
+  config->beginGroup("Remote");
+  protocolCombo->setCurrentIndex( config->value("Protocol", 0).toInt() );
+  hostnameLineEdit->setText( config->value("Hostname", "").toString() );
+  portSpin->setValue( config->value("Port", 22).toInt() );
+  usernameLineEdit->setText( config->value("Username", "").toString() );
+  passwordLineEdit->setText( config->value("Password", "").toString() );
+  QString keyName = config->value("PublicKey", "").toString();
+  if ( !keyName.isEmpty() ) {
+    this->setKey(keyName);
+  } else {
+    this->clearKey();
+  }
+  
+  config->endGroup(); // Remote
+  
+  locationLineEdit->setText( config->value("Destination", "").toString() );
+  burnUsingCombo->setCurrentIndex( config->value("BurnDrive", 0).toInt() );
+  config->endGroup(); // Destination
+  
+  config->beginGroup("Scheduling");
+  switch ( config->value("BackupTrigger", 0).toInt() ) {
+    case 0:
+      startPeriodicallyRadio->setChecked(true);
+      break;
+    case 1:
+      startChangedRadio->setChecked(true);
+      break;
+    case 2:
+      startManuallyRadio->setChecked(true);
+      break;
+    default: // just in case
+      startPeriodicallyRadio->setChecked(true);
+      break;
+  }
+  
+  timeSimpleFrequencyCombo->setCurrentIndex( config->value("Frequency", 2).toInt() );
+  config->beginGroup("Frequency");
+  timeSimpleMinuteSpin->setValue( config->value("Minute", 0).toInt() );
+  // Get the value, split it by the ":" marker
+  QStringList timelist = config->value("HourMinute", "0:0").toString().split(":");
+  // Change the two QStrings in the list into ints in order create a QTime
+  // for our string which was originally in "HOUR:MINUTES" format
+  QTime time(timelist[0].toInt(), timelist[1].toInt());
+  timeSimpleMinHourTimeEdit->setTime(time);
+  timeSimpleDoWCombo->setCurrentIndex( config->value("DayOfWeek", 0).toInt() );
+  timeSimpleDayCombo->setCurrentIndex( config->value("DayOfMonth", 0).toInt() );
+  timeSimpleMonthCombo->setCurrentIndex( config->value("Month", 0).toInt() );
+  config->endGroup(); // Frequency
+  
+  config->beginGroup("ManualConfiguration");
+  timesManualMinuteLineEdit->setText( config->value("Minutes", "").toString() );
+  timesManualHourLineEdit->setText( config->value("Hours", "").toString() );
+  timesManualDoMLineEdit->setText( config->value("DaysOfMonth", "").toString() );
+  timesManualMonthLineEdit->setText( config->value("Months", "").toString() );
+  timesManualDoWLineEdit->setText( config->value("DaysOfWeek", "").toString() );
+  config->endGroup(); // ManualConfiguration
+    
+  config->endGroup(); // Scheduling
+  
+  
+  config->beginGroup("BackupType");
+  typeCombo->setCurrentIndex( config->value("Type", 0).toInt() );
+  switch ( config->value("Format", 0).toInt() ) {
+    case 0:
+      formatArchiveRadio->setChecked(true);
+      break;
+    case 1:
+      formatCopyRadio->setChecked(true);
+      break;
+    default: // just in case
+      formatArchiveRadio->setChecked(true);
+      break;
+  }
+  
+  int compression = config->value("Compression", -1).toInt();
+  // -1 means no compression, >= 0 means compression, using this combobox index
+  if (compression == -1) {
+    compressionCheck->setChecked(false);
+    compressionTypeCombo->setCurrentIndex(0);
+  } else {
+    compressionCheck->setChecked(true);
+    compressionTypeCombo->setCurrentIndex(compression);
+  }
+  config->endGroup(); // BackupType
+  
+  
+  config->beginGroup("Options");
+  recursiveCheck->setChecked( config->value("Recursive", 1).toBool() );
+  diskInfoCheck->setChecked( config->value("DiskInformation", 1).toBool() );
+  softwareListCheck->setChecked( config->value("SoftwareList", 1).toBool() );
+  includeHiddenCheck->setChecked( config->value("IncludeHidden", 1).toBool() );
+  followSymlinksCheck->setChecked( config->value("FollowSymlinks", 0).toBool() );
+  preserveTimestampsCheck->setChecked( config->value("PreserveTimestamps", 1).toBool() );
+  switch ( config->value("Archiving", 1).toInt() ) {
+    case 0:
+      archivingReplacePreviousRadio->setChecked(true);
+      break;
+    case 1:
+      archivingKeepAllRadio->setChecked(true);
+      break;
+    case 2:
+      archivingKeepOnlyRadio->setChecked(true);
+      break;
+    default: // just in case
+      archivingReplacePreviousRadio->setChecked(true);
+      break;
+  }
+  archiveBackupSpin->setValue( config->value("ArchiveCount", 3).toInt() );
+  config->endGroup(); // Options
+  
+  log_message(LEVEL_DEBUG, tr("Configuration loaded for set: %1").arg(setName) );
   return true;
 }
 
@@ -152,7 +338,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   if (profileStandardBackupRadio->isChecked()) { profile = 0; }
   else if (profileCloneRadio->isChecked()) { profile = 1; }
   else if (profileTapeRadio->isChecked()) { profile = 2; }
-  else { profile = 0; } // just incase
+  else { profile = 0; } // just in case
   
   config->beginGroup("General");
   config->setValue("Version", VERSION);
@@ -162,6 +348,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   
   
   config->beginGroup("IncludedItems");
+  // FIXME: Need to check "Home" if all of these are true
   config->setValue("Desktop", presetDeskopCheck->isChecked());
   config->setValue("Documents", presetDocumentsCheck->isChecked());
   config->setValue("Music", presetMusicCheck->isChecked());
@@ -182,7 +369,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   config->setValue("Port", portSpin->value());
   config->setValue("Username", usernameLineEdit->text());
   config->setValue("Password", passwordLineEdit->text());
-  config->setValue("PublicKey", saveBackupToCombo->currentIndex());
+  config->setValue("PublicKey", this->getKey());
   config->endGroup(); // Remote
   
   config->setValue("Destination", locationLineEdit->text());
@@ -194,7 +381,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   if (startPeriodicallyRadio->isChecked()) { trigger = 0; }
   else if (startChangedRadio->isChecked()) { trigger = 1; }
   else if (startManuallyRadio->isChecked()) { trigger = 2; }
-  else { trigger = 0; } // just incase
+  else { trigger = 0; } // just in case
   
   config->beginGroup("Scheduling");
   config->setValue("BackupTrigger", trigger);
@@ -214,7 +401,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   config->setValue("DaysOfMonth", timesManualDoMLineEdit->text());
   config->setValue("Months", timesManualMonthLineEdit->text());
   config->setValue("DaysOfWeek", timesManualDoWLineEdit->text());
-  config->endGroup(); // Manual
+  config->endGroup(); // ManualConfiguration
     
   config->endGroup(); // Scheduling
   
@@ -222,7 +409,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   int format;
   if (formatArchiveRadio->isChecked()) { format = 0; }
   else if (formatCopyRadio->isChecked()) { format = 1; }
-  else { format = 0; } // just incase
+  else { format = 0; } // just in case
   
   int compression;
   if (compressionCheck->isChecked()) { compression = compressionTypeCombo->currentIndex(); }
@@ -239,7 +426,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   if (archivingReplacePreviousRadio->isChecked()) { format = 0; }
   else if (archivingKeepAllRadio->isChecked()) { format = 1; }
   else if (archivingKeepOnlyRadio->isChecked()) { format = 1; }
-  else { format = 0; } // just incase
+  else { format = 0; } // just in case
   
   config->beginGroup("Options");
   config->setValue("Recursive", recursiveCheck->isChecked());
@@ -253,6 +440,23 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   config->setValue("ArchiveCount", archiveBackupSpin->value());
   config->endGroup(); // Options
   
+  // Send message to log about changes
+  switch (type) {
+    case TYPE_SET:
+      if ( QFile::exists( config->fileName() ) ) {
+        // File exists: Updating existing set
+        log_message(LEVEL_DEBUG, tr("Creating new set configuration: %1").arg(setName) );
+      } else {
+        // Doesn't exist: Creating new set, or in the process of renaming one
+        log_message(LEVEL_DEBUG, tr("Saving changes to set configuration: %1").arg(setName) );
+      }
+      break;
+    case TYPE_ONETIME:
+      log_message(LEVEL_DEBUG, tr("Creating new one-time backup configuration") );
+      break;
+  }
+  
+  config->sync();
   return true;
   
 }
@@ -268,6 +472,13 @@ void configBackupsDialog::on_cancelButton_clicked() {
 
 void configBackupsDialog::on_okButton_clicked() {
   QString name = setNameLineEdit->text();
+  // If this is true, then user requested to rename set
+  if (originalSetName != name) {
+    // saveConfiguration() will create a new set with the new name, so we must
+    // cleanup by removing the set config file with the old name
+    QFile::remove( get_set_configuration_path(originalSetName) );
+    log_message(LEVEL_INFO, tr("Renaming set %1 to %2").arg(originalSetName).arg(name) );
+  }
   this->saveConfiguration(name);
   this->accept();
 }
@@ -333,7 +544,7 @@ void configBackupsDialog::on_presetBookmarksProgramsButton_clicked() {
 
 void configBackupsDialog::on_presetEmailProgramsButton_clicked() {
   chooseProgramsDialog *cpwindow = new chooseProgramsDialog();
-  cpwindow->setLabel( tr("All messages stored in the selected E-mail clients below will be backed up.") );
+  cpwindow->setLabel( tr("All messages, contact and account settings stored in the selected E-mail clients will be backed up.") );
   cpwindow->addCheck( tr("Evolution") );
   cpwindow->addCheck( tr("Microsoft Outlook") );
   cpwindow->addCheck( tr("Mozilla Thunderbird") );
@@ -424,42 +635,7 @@ void configBackupsDialog::on_presetHomeCheck_toggled(bool checked) {
   presetMusicCheck->setEnabled(not checked);
   presetPicturesCheck->setEnabled(not checked);
   presetVideosCheck->setEnabled(not checked);
-  // This adds the checked items, inactively, to the treeview.
-  // This might confuse users more than help them; keep it disabled for now.
-  /*if (checked) {
-    QAbstractItemModel *model = pathsTreeView->model();
-    // Adds "Home" as first entry
-    if (!model->insertRow(0, QModelIndex())) {
-      return;
-    }
-    QModelIndex index = model->index(0, 0, QModelIndex());
-    // FIXME: Actually check
-    model->setData(index, QVariant("Home"), Qt::DisplayRole);
-    index = model->index(0, 1, index.parent());
-    model->setData(index, QVariant("OK"), Qt::DisplayRole);
-    
-    // Adds each subitem as children
-    // FIXME: Why does this not work when column > 0?
-    // Workaround: Reset index to use column 0
-    index = model->index(0, 0, QModelIndex());
-    QStringList stringList;
-    stringList << "Desktop" << "Documents" << "Music" << "Pictures" << "Videos";
-    foreach (QString string, stringList) {
-      if (!model->insertRow(model->rowCount(index), index)) {
-        return;
-      }
-      QModelIndex child = model->index(model->rowCount(index)-1, 0, index);
-      model->setData(child, QVariant(string), Qt::DisplayRole);
-      child = model->index(model->rowCount(index)-1, 1, index);
-      model->setData(child, QVariant("OK"), Qt::DisplayRole);
-      pathsTreeView->selectionModel()->setCurrentIndex(child,
-                                                       QItemSelectionModel::ClearAndSelect);
-    }
-  } else {
-    QAbstractItemModel *model = pathsTreeView->model();
-    model->removeRow(0, QModelIndex());
-  }*/
-}
+  }
 
 
 /* Configuration - Destination */
@@ -549,32 +725,26 @@ void configBackupsDialog::on_saveBackupToCombo_currentIndexChanged(int index) {
   }
 }
 
-void configBackupsDialog::on_useKeyAuthenticationCheck_toggled(bool checked) {
-  if (checked) {
-    //changeKeyButton->show();
+void configBackupsDialog::on_useKeyAuthenticationCheck_clicked() {
+  if ( useKeyAuthenticationCheck->isChecked() ) {
     on_changeKeyButton_clicked();
   } else {
-    QString string = tr("Use key authentication");
-    useKeyAuthenticationCheck->setText(string);
-    //changeKeyButton->hide();
+    this->clearKey();
   }
 }
 
 void configBackupsDialog::on_changeKeyButton_clicked() {
-  QString string = tr("Use key authentication: ");
   QString filename = QFileDialog::getOpenFileName(this,
                                                   tr("Select a Key"),
                                                   QString::null,
                                                   QString::null);
   if (filename.isEmpty()) {
-    /* FIXME: This unchecks the button on every cancel, not just the first */
-    useKeyAuthenticationCheck->setChecked(false);
+    // if a key was set prior to clicking "Change key", don't erase that filename
+    if ( this->getKey().isEmpty() ) { this->clearKey(); }
     return;
   }
-  /* FIXME: Run file size checks and determine key type */
-  QFileInfo fileinfo(filename);
-  string += fileinfo.baseName();
-  useKeyAuthenticationCheck->setText(string);
+  
+  this->setKey(filename);
 }
 
 void configBackupsDialog::on_locationBrowseButton_clicked() {

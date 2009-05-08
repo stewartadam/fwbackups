@@ -32,6 +32,9 @@ public:
   configBackupsDialog(int type, QDialog *parent = 0);
   void setGuidedMode(bool isGuided);
   void setAdvancedMode(bool isAdvanced);
+  QString getKey();
+  void setKey(QString filename);
+  void clearKey();
   bool saveConfiguration(QString setName = "");
   bool loadConfiguration(QString setName = "");
 
@@ -46,7 +49,7 @@ public slots:
   void on_advancedOptionsCheck_toggled(bool checked);
   /* Configuration - Destination */
   void on_saveBackupToCombo_currentIndexChanged(int index);
-  void on_useKeyAuthenticationCheck_toggled(bool checked);
+  void on_useKeyAuthenticationCheck_clicked();
   void on_changeKeyButton_clicked();
   void on_locationBrowseButton_clicked();
   /* Configuration - Files and Folders */
@@ -69,6 +72,8 @@ private:
   int type;
   bool advancedMode;
   bool guidedMode;
+  QString keyFile;
+  QString originalSetName;
 };
 
 class chooseProgramsDialog: public QDialog, private Ui::chooseProgramsDialog

@@ -623,13 +623,6 @@ Choose a profile and click Next to get started.</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
-             <widget class="QCheckBox" name="useKeyAuthenticationCheck">
-              <property name="text">
-               <string>Use key authentication</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="2">
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
@@ -697,6 +690,30 @@ Choose a profile and click Next to get started.</string>
                 <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
               </property>
              </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QCheckBox" name="useKeyAuthenticationCheck">
+                <property name="text">
+                 <string>Use key authentication</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="keyNameLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -1095,6 +1112,9 @@ Choose a profile and click Next to get started.</string>
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="correctionMode">
+                  <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
                  </property>
                 </widget>
                </item>
@@ -1525,6 +1545,9 @@ p, li { white-space: pre-wrap; }
            <property name="text">
             <string>Include hidden files and folders</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item row="1" column="0">
@@ -1667,15 +1690,21 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>Congratulations! Your backup has been configured and is ready for use.
-
-Enter a name for the set below and then click Finish to close this window.</string>
+</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="setNameDescLabel">
+         <property name="text">
+          <string>Enter a name for the set below and then click Finish to close this window.</string>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="setNameLabel">
            <property name="text">
             <string>Set Name:</string>
            </property>
@@ -1813,12 +1842,12 @@ Enter a name for the set below and then click Finish to close this window.</stri
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>343</x>
-     <y>285</y>
+     <x>336</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>133</x>
-     <y>284</y>
+     <x>37</x>
+     <y>257</y>
     </hint>
    </hints>
   </connection>
@@ -1829,12 +1858,12 @@ Enter a name for the set below and then click Finish to close this window.</stri
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>203</x>
-     <y>209</y>
+     <x>97</x>
+     <y>185</y>
     </hint>
     <hint type="destinationlabel">
-     <x>266</x>
-     <y>217</y>
+     <x>250</x>
+     <y>183</y>
     </hint>
    </hints>
   </connection>
@@ -1845,12 +1874,12 @@ Enter a name for the set below and then click Finish to close this window.</stri
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>264</x>
-     <y>329</y>
+     <x>54</x>
+     <y>304</y>
     </hint>
     <hint type="destinationlabel">
-     <x>579</x>
-     <y>333</y>
+     <x>645</x>
+     <y>305</y>
     </hint>
    </hints>
   </connection>

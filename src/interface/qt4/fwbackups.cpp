@@ -75,6 +75,7 @@ void fwbackupsApp::cleanup() {
 }
 
 void fwbackupsApp::refreshSets() {
+  log_message(LEVEL_DEBUG, tr("Refreshing sets") )
   QAbstractItemModel *model = setsListView->model();
   // Get the root index
   QModelIndex root = setsListView->rootIndex();
@@ -106,6 +107,11 @@ void fwbackupsApp::refreshSets() {
 /***************** Menu ****************/
 
 // File menu
+
+void fwbackupsApp::on_actionNew_Set_activated() {
+  this->switch_backupsets();
+  this->on_newSetButton_clicked();
+}
 
 void fwbackupsApp::on_actionImport_Sets_activated() {
   QStringList filenames = QFileDialog::getOpenFileNames(this,
@@ -182,7 +188,8 @@ void fwbackupsApp::switch_backupsets() {
 
 void fwbackupsApp::show_one_time_backup() {
   configBackupsDialog *cwindow = new configBackupsDialog(TYPE_ONETIME);
-  cwindow->show();
+  cwindow->exec();
+  this->refreshSets();
 }
 
 void fwbackupsApp::show_restore() {
@@ -207,7 +214,8 @@ void fwbackupsApp::switch_logviewer() {
 
 void fwbackupsApp::on_newSetButton_clicked() {
   configBackupsDialog *cwindow = new configBackupsDialog(TYPE_SET);
-  cwindow->show();
+  cwindow->exec();
+  this->refreshSets();
 }
 
 void fwbackupsApp::on_editSetButton_clicked() {
@@ -215,20 +223,16 @@ void fwbackupsApp::on_editSetButton_clicked() {
   QString setName = setsListView->model()->data(selected, 0).toString();
   configBackupsDialog *cwindow = new configBackupsDialog(TYPE_SET);
   cwindow->loadConfiguration(setName);
-  cwindow->show();
+  cwindow->exec();
+  this->refreshSets();
 }
 
 void fwbackupsApp::on_deleteSetButton_clicked() {
   QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
   QString setName = setsListView->model()->data(selected, 0).toString();
   QString filename = get_set_configuration_path(setName);
-  // FIXME: Check if exists before removing.
-  // It will not exist/be removed if the filename has no .conf suffix due to ^^
-  QFile set(filename);
-  set.remove();
-  QString message = tr("Removing set");
-  message += " `" + setName + "'";
-  log_message(LEVEL_INFO, message);
+  log_message(LEVEL_INFO, tr("Removing set: %1").arg(setName));
+  QFile::remove(filename);
   this->refreshSets();
 }
 
