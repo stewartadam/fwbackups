@@ -3,6 +3,7 @@
 || Version 1.44.0-prealpha changes ||
 * Fri May 8 2009 Stewart Adam <s.adam at diffingo.com>
   - Load the backup set configuration when editing
+  - Turn logger into a singleton class
   
 * Wed May 6 2009 Stewart Adam <s.adam at diffingo.com>
   - Add keyboard shortcuts to main window

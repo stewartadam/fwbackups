@@ -27,9 +27,17 @@
 #define LEVEL_ERROR 3
 #define LEVEL_CRITICAL 4
 
-int log_message(int message_level, QString message);
-QString get_log_location();
-QString get_log_directory();
-//void log_connect_function(int (*function_pointer)(QString));
+class fwLogger {
+public:
+  static fwLogger* getInstance();
+  static void deleteInstance();
+  static QString get_log_directory();
+  static QString get_log_location();
+  bool log_message(int message_level, QString message_text);
+private:
+  static fwLogger *loggerInstance;
+  fwLogger() {}; // can only be accessed via getInstance()
+  ~fwLogger() {}; // can only be accessed via deleteInstance()
+};
 
 #endif

@@ -18,6 +18,8 @@
 #ifndef FWBACKUPS_H
 #define FWBACKUPS_H
 
+#include "logger.h"
+
 #include "ui_exportSets.h"
 #include "ui_fwbackups.h"
 #include "ui_prefs.h"
@@ -60,6 +62,8 @@ public slots:
   void on_saveLogButton_clicked();
   void on_clearLogButton_clicked();
   void on_refreshLogButton_clicked();
+private:
+  fwLogger *logger;
 };
 
 class exportSetsWindow: public QDialog, private Ui::exportSets

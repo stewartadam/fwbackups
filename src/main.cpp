@@ -19,16 +19,26 @@
 
 #include "interface/qt4/fwbackups.h"
 #include "initialization.h"
+#include "logger.h"
 
 int main(int argc, char *argv[])
 {
-  Q_INIT_RESOURCE(fwbackups);
+  int retval;
   
+  // Initialize
   initialize_configuration();
   initialize_logger();
-  
+  Q_INIT_RESOURCE(fwbackups);
   QApplication app(argc, argv);
+  
+  // Start the application
   fwbackupsApp *mwindow = new fwbackupsApp;
   mwindow->show();
-  return app.exec();
+  retval = app.exec();
+  
+  // Cleanup
+  fwLogger::deleteInstance();
+  
+  // Exit
+  return retval;
 }

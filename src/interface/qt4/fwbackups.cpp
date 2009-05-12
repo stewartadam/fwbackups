@@ -34,11 +34,10 @@
  *******************************************/
 
 fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
+  fwLogger *logger = fwLogger::getInstance();
+  
   setupUi(this); // this sets up GUI
-  
   this->switch_overview();
-  
-  
   // Action handlers
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(cleanup()));
   // This does the QStackedWidget switching (toolbar & View menu)
@@ -56,11 +55,11 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
   connect(actionRestore_2, SIGNAL(activated()), this, SLOT(show_restore()));
   
   this->on_refreshLogButton_clicked();
-  log_message(LEVEL_INFO, tr("fwbackups administrator started"));
+  logger->log_message(LEVEL_INFO, tr("fwbackups administrator started"));
   // Connecting our own slot to the logger
   // This will enable us to update the GUI when submitting a new log message
   //void (*pointer_function)(QString);
-  //pointer_function = &fwbackupsApp::new_log_message
+  //pointer_function = &fwbackupsApp::new_logger->log_message
   //log_connect_function(pointer_function);
   
   QStringList headers;
@@ -71,11 +70,11 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
 }
 
 void fwbackupsApp::cleanup() {
-  log_message(LEVEL_INFO, tr("fwbackups administrator closed"));
+  logger->log_message(LEVEL_INFO, tr("fwbackups administrator closed"));
 }
 
 void fwbackupsApp::refreshSets() {
-  log_message(LEVEL_DEBUG, tr("Refreshing sets") )
+  logger->log_message(LEVEL_DEBUG, tr("Refreshing sets") );
   QAbstractItemModel *model = setsListView->model();
   // Get the root index
   QModelIndex root = setsListView->rootIndex();
@@ -119,7 +118,7 @@ void fwbackupsApp::on_actionImport_Sets_activated() {
                                                         QString::null,
                                                         "Set configuration files (*.conf)");
   foreach (QString filename, filenames) {
-    qDebug() << filename;
+    
   }
 
 }
@@ -231,7 +230,7 @@ void fwbackupsApp::on_deleteSetButton_clicked() {
   QModelIndex selected = setsListView->selectionModel()->selectedIndexes()[0];
   QString setName = setsListView->model()->data(selected, 0).toString();
   QString filename = get_set_configuration_path(setName);
-  log_message(LEVEL_INFO, tr("Removing set: %1").arg(setName));
+  logger->log_message(LEVEL_INFO, tr("Removing set: %1").arg(setName));
   QFile::remove(filename);
   this->refreshSets();
 }
@@ -257,7 +256,7 @@ void fwbackupsApp::on_saveLogButton_clicked() {
 }
 
 void fwbackupsApp::on_clearLogButton_clicked() {
-  QFile file( get_log_location() );
+  QFile file( fwLogger::get_log_location() );
   file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
   file.close();
   logTextEdit->clear();
@@ -265,7 +264,7 @@ void fwbackupsApp::on_clearLogButton_clicked() {
 
 void fwbackupsApp::on_refreshLogButton_clicked() {
   QFileInfo logInfo;
-  QString logLocation = get_log_location();
+  QString logLocation = fwLogger::get_log_location();
   logTextEdit->clear();
   QFile file(logLocation);
   QString line;

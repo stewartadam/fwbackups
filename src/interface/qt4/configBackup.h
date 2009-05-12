@@ -18,14 +18,15 @@
 #ifndef CONFIGBACKUP_H
 #define CONFIGBACKUP_H
 
+#include "logger.h"
+
 #include "ui_configBackup.h"
 #include "ui_choosePrograms.h"
 
 #define TYPE_SET 1
 #define TYPE_ONETIME 2
 
-class configBackupsDialog: public QDialog, private Ui::configBackup
-{
+class configBackupsDialog: public QDialog, private Ui::configBackup {
   Q_OBJECT
     
 public:
@@ -74,10 +75,10 @@ private:
   bool guidedMode;
   QString keyFile;
   QString originalSetName;
+  fwLogger *logger;
 };
 
-class chooseProgramsDialog: public QDialog, private Ui::chooseProgramsDialog
-{
+class chooseProgramsDialog: public QDialog, private Ui::chooseProgramsDialog {
   Q_OBJECT
 public:
   chooseProgramsDialog(QDialog *parent = 0);

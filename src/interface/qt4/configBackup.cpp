@@ -25,6 +25,8 @@
 #include "logger.h"
 
 configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
+  fwLogger *logger = fwLogger::getInstance();
+  
   type = configType;
   advancedMode = true;
   /* "not" is a workaround for the if check that ensures guidedMode is not true
@@ -320,7 +322,7 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   archiveBackupSpin->setValue( config->value("ArchiveCount", 3).toInt() );
   config->endGroup(); // Options
   
-  log_message(LEVEL_DEBUG, tr("Configuration loaded for set: %1").arg(setName) );
+  logger->log_message(LEVEL_DEBUG, tr("Configuration loaded for set: %1").arg(setName) );
   return true;
 }
 
@@ -445,14 +447,14 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
     case TYPE_SET:
       if ( QFile::exists( config->fileName() ) ) {
         // File exists: Updating existing set
-        log_message(LEVEL_DEBUG, tr("Creating new set configuration: %1").arg(setName) );
+        logger->log_message(LEVEL_DEBUG, tr("Creating new set configuration: %1").arg(setName) );
       } else {
         // Doesn't exist: Creating new set, or in the process of renaming one
-        log_message(LEVEL_DEBUG, tr("Saving changes to set configuration: %1").arg(setName) );
+        logger->log_message(LEVEL_DEBUG, tr("Saving changes to set configuration: %1").arg(setName) );
       }
       break;
     case TYPE_ONETIME:
-      log_message(LEVEL_DEBUG, tr("Creating new one-time backup configuration") );
+      logger->log_message(LEVEL_DEBUG, tr("Creating new one-time backup configuration") );
       break;
   }
   
@@ -477,7 +479,7 @@ void configBackupsDialog::on_okButton_clicked() {
     // saveConfiguration() will create a new set with the new name, so we must
     // cleanup by removing the set config file with the old name
     QFile::remove( get_set_configuration_path(originalSetName) );
-    log_message(LEVEL_INFO, tr("Renaming set %1 to %2").arg(originalSetName).arg(name) );
+    logger->log_message(LEVEL_INFO, tr("Renaming set %1 to %2").arg(originalSetName).arg(name) );
   }
   this->saveConfiguration(name);
   this->accept();

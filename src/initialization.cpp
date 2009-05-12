@@ -49,7 +49,7 @@ int initialize_configuration() {
 }
 
 int initialize_logger() {
-  QFile file( get_log_location() );
+  QFile file( fwLogger::get_log_location() );
   if ( !file.exists() ) { // try to create an empty file
     if ( !file.open(QIODevice::WriteOnly | QIODevice::Text) ) { // it failed
       return 0;

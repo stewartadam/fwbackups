@@ -24,7 +24,6 @@
  * Thanks!
  */
 #include <QString>
-#include <QDebug>
 #include "common.h"
 
 #if defined (WIN32)

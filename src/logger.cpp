@@ -16,30 +16,51 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Global
 #include <QString>
 #include <QFile>
 #include <QTextStream>
 #include <stdio.h>
 #include <time.h>
-// fwbackups
+
 #include "common.h"
 #include "config.h"
-// Local
 #include "logger.h"
 
-QString get_log_directory() {
-/* Keeping this in a separate function gives us the option of moving the log
-   somewhere else later. Until there's a need to do so, just return the
-   configuration directory. */
+/* TODO:
+ * register() - link an output sink to log_message
+ * unregister() - unlink an output sink from log_message
+ */
+
+fwLogger *fwLogger::loggerInstance = NULL;
+
+fwLogger* fwLogger::getInstance() {
+  if (loggerInstance == NULL) {
+    loggerInstance = new fwLogger();
+  }
+    return loggerInstance;
+}
+
+
+void fwLogger::deleteInstance() {
+  // If an instance exists, delete it
+  if (loggerInstance != NULL) {
+    delete loggerInstance;
+    loggerInstance = NULL;
+  }
+}
+
+QString fwLogger::get_log_directory() {
+  /* Keeping this in a separate function gives us the option of moving the log
+     somewhere else later. Until there's a need to do so, just return the
+     configuration directory. */
   return get_configuration_directory();
 }
 
-QString get_log_location() {
+QString fwLogger::get_log_location() {
   return join_path(get_log_directory(), "fwbackups-userlog.txt");
 }
 
-int log_message(int message_level, QString message_text) {
+bool fwLogger::log_message(int message_level, QString message_text) {
   QFile file;
   QString message_prefix;
   time_t rawtime;
@@ -51,19 +72,19 @@ int log_message(int message_level, QString message_text) {
   message_prefix = message_time;
   switch(message_level) {
     case LEVEL_DEBUG:
-      message_prefix += "DEBUG       :  ";
+      message_prefix += "DEBUG: ";
       break;
     case LEVEL_INFO:
-      message_prefix += "INFORMATION :  ";
+      message_prefix += "INFORMATION: ";
       break;
     case LEVEL_WARNING:
-      message_prefix += "WARNING     :  ";
+      message_prefix += "WARNING: ";
       break;
     case LEVEL_ERROR:
-      message_prefix += "ERROR       :  ";
+      message_prefix += "ERROR: ";
       break;
     case LEVEL_CRITICAL:
-      message_prefix += "CRITICAL    :  ";
+      message_prefix += "CRITICAL: ";
       break;
   }
   // Construct the final log message
@@ -80,6 +101,5 @@ int log_message(int message_level, QString message_text) {
   QTextStream textStream(&file);
   textStream << message_text;
   file.close();
-  //(*connected_func_pointer)(message_text);
-  return 1;
+  return true;
 }
