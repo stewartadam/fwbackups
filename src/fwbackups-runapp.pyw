@@ -97,6 +97,11 @@ try:
   import paramiko
 except:
   raise fwbackups.fwbackupsError(_('Please install paramiko'))
+if MSWINDOWS:
+  try:
+    import win32job
+  except:
+    raise fwbackups.fwbackupsError(_('Please install pywin32'))
 
 def usage(error):
   """Print the application usage"""
@@ -315,13 +320,13 @@ class fwbackupsApp(interface.Controller):
                                    'is installed.'))
     try:
       import gnome
-      prog = gnome.program_init('fwbackups', fwbackups.__version__, properties={gnome.PARAM_APP_DATADIR : '/usr/share'})
+      prog = gnome.program_init('fwbackups', fwbackups.__version__, properties={gnome.PARAM_APP_DATADIR : INSTALL_DIR})
     except ImportError:
       pass
     # render icons: about dialog
     if MSWINDOWS:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
-     else:
+    else:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
       self.ui.aboutProgramImage.set_from_file(appIcon)
@@ -683,8 +688,8 @@ class fwbackupsApp(interface.Controller):
     elif thread.retval == False:
       self.displayInfo(self.ui.backupset,
                            _('Incorrect Settings'),
-                           _('The selected file or folder was either not ' + \
-                             'found or the user specified cannot write to it.'))
+                           _('The selected folder was either not found or the ' + \
+                             'the path supplied points to a file.'))
     elif thread.retval[0] == paramiko.AuthenticationException:
       self.displayInfo(self.ui.backupset,
                             _('Authentication failed'),
@@ -1121,7 +1126,7 @@ class fwbackupsApp(interface.Controller):
   ### BACKUPSET WINDOW ###
   ###
 
-       
+    
   def on_backupset2LocalFolderEntry_changed(self, widget):
     """Called when the set destination entry changes.
         Check the permissions when the set destination change."""
@@ -1157,6 +1162,13 @@ class fwbackupsApp(interface.Controller):
     for i in tables:
       i.set_sensitive(False)
     tables[active].set_sensitive(True)
+    
+    # diable incremental for remote
+    if active == 1:
+      self.ui.backupset4IncrementalCheck.set_active(False)
+      self.ui.backupset4IncrementalCheck.set_sensitive(False)
+    else:
+      self.ui.backupset4IncrementalCheck.set_sensitive(True)
       
   def on_backupset2FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
@@ -1228,7 +1240,8 @@ class fwbackupsApp(interface.Controller):
   ### TAB 4: OPTIONS
   def on_backupset4EngineRadio2_toggled(self, widget):
     """Set the sensibility of Incremental"""
-    if self.ui.backupset4EngineRadio2.get_active() and not MSWINDOWS:
+    if self.ui.backupset4EngineRadio2.get_active() and not MSWINDOWS and \
+       self.ui.backupset2DestinationTypeCombobox.get_active() != 1:
       self.ui.backupset4IncrementalCheck.set_sensitive(True)
     else:
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
@@ -1481,6 +1494,13 @@ class fwbackupsApp(interface.Controller):
     for i in tables:
       i.set_sensitive(False)
     tables[active].set_sensitive(True)
+    
+    # diable incremental for remote
+    if active == 1:
+      self.ui.main3IncrementalCheck.set_active(False)
+      self.ui.main3IncrementalCheck.set_sensitive(False)
+    else:
+      self.ui.main3IncrementalCheck.set_sensitive(True)
 
   def on_main3LocalFolderEntry_changed(self, widget):
     """Called when the one-time destination's entry changes.
@@ -1514,7 +1534,8 @@ class fwbackupsApp(interface.Controller):
 
   def on_main3EngineRadio2_toggled(self, widget):
     """Set the sensibility of Incremental"""
-    if self.ui.main3EngineRadio2.get_active():
+    if self.ui.main3EngineRadio2.get_active() and not MSWINDOWS and \
+       self.ui.main3DestinationTypeCombobox.get_active() != 1:
       self.ui.main3IncrementalCheck.set_sensitive(True)
     else:
       self.ui.main3IncrementalCheck.set_sensitive(False)
@@ -1615,8 +1636,9 @@ class fwbackupsApp(interface.Controller):
         port = setConfig.get('Options', 'RemotePort')
         destination = setConfig.get('Options', 'RemoteFolder')
         try:
-          client = sftp.connect(host, username, password, port)
-          listing = sftp.listdir(client, destination)
+          client, sftpClient = sftp.connect(host, username, password, port)
+          listing = sftpClient.listdir(destination)
+          sftpClient.close()
           client.close()
         except paramiko.AuthenticationException:
           self.displayInfo(self.ui.restore,
@@ -2301,8 +2323,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3LocalFolderEntry.set_text(USERHOME)
     self.ui.main3DestinationTypeCombobox.set_active(0)
     self.ui.main3EngineRadio1.set_active(True)
-    
-
+  
   def on_backupsetApplyButton_clicked(self, widget):
     """Apply changes to backupset"""
     active = self.ui.backupset2DestinationTypeCombobox.get_active()
@@ -2412,10 +2433,15 @@ class fwbackupsApp(interface.Controller):
       self.main2BackupProgress.stopPulse()
       updateProgress(self)
       updateTimeout = gobject.timeout_add(250, updateProgress, self)
-      while self.backupThread.isAlive() == True:
+      while self.backupThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()
         time.sleep(0.01)
+      # thread returned
+      self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
+      if self.backupThread.retval == -1:
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('DEBUG', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
@@ -2428,8 +2454,6 @@ class fwbackupsApp(interface.Controller):
       self.ui.main2CancelBackupButton.hide()
       self.ui.main2FinishBackupButton.show()
       return False
-    # thread returned
-    self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
     updateProgress(self)
     self.updateReturn = False
     self.main2BackupProgress.set_fraction(1.0)
@@ -2437,7 +2461,7 @@ class fwbackupsApp(interface.Controller):
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
-    elif self.backupThread.retval == -1 or self.backupThread.retval == None or self.backupThread.retval == False: # error
+    elif self.backupThread.retval == -1 or self.backupThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
@@ -2574,10 +2598,15 @@ class fwbackupsApp(interface.Controller):
       self.main3BackupProgress.stopPulse()
       updateProgress(self)
       updateTimeout = gobject.timeout_add(250, updateProgress, self)
-      while self.backupThread.isAlive() == True:
+      while self.backupThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()
         time.sleep(0.01)
+      # thread returned
+      self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
+      if self.backupThread.retval == -1:
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('DEBUG', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
@@ -2591,8 +2620,6 @@ class fwbackupsApp(interface.Controller):
       self.ui.main3FinishButton.set_sensitive(True)
       self.ui.main3CancelBackupButton.set_sensitive(False)
       return False
-    # thread returned
-    self.logger.logmsg('DEBUG', _('Thread returned with retval %s' qqqqq))
     updateProgress(self)
     self.updateReturn = False
     self.main3BackupProgress.set_fraction(1.0)
@@ -2600,7 +2627,7 @@ class fwbackupsApp(interface.Controller):
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the one-time backup operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
-    elif self.backupThread.retval == -1 or self.backupThread.retval == None or self.backupThread.retval == False: # error
+    elif self.backupThread.retval == -1 or self.backupThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('An error occured while performing the one-time backup operation'), 5)
@@ -2659,10 +2686,15 @@ class fwbackupsApp(interface.Controller):
       self.restore2RestorationProgress.startPulse()
       updateProgress(self)
       updateTimeout = gobject.timeout_add(250, updateProgress, self)
-      while self.restoreThread.isAlive() == True:
+      while self.restoreThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()
         time.sleep(0.01)
+      # thread returned
+      self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.restoreThread.retval))
+      if self.restoreThread.retval == -1:
+        self.logger.logmsg('WARNING', _('There was an error while performing the restore!'))
+        self.logger.logmsg('DEBUG', self.restoreThread.traceback)
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
@@ -2674,8 +2706,6 @@ class fwbackupsApp(interface.Controller):
       self.ui.restoreFinishButton.set_sensitive(True)
       self.ui.restore2CancelRestoreButton.set_sensitive(False)
       return False
-    # thread returned
-    self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.restoreThread.retval))
     updateProgress(self)
     self.updateReturn = False
     self.restore2RestorationProgress.set_text('')
@@ -2686,7 +2716,7 @@ class fwbackupsApp(interface.Controller):
         self.trayNotify(_('Status'), _('Finished the restore operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
       self.restore2RestorationProgress.set_text('')
-    elif self.restoreThread.retval == -1 or self.restoreThread.retval == None or self.restoreThread.retval == False: # error
+    elif self.restoreThread.retval == -1 or self.restoreThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('An error occured while performing the restore operation'), 5)

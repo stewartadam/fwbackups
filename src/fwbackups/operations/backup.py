@@ -49,6 +49,7 @@ class BackupOperation(operations.Common):
     else:
       options['RemotePort'] = int(options['RemotePort'])
     options['Nice'] = int(options['Nice'])
+    options['OldToKeep'] = int(float(options['OldToKeep']))
     options['RemotePassword'] = options['RemotePassword'].decode('base64')
     for option in ['Recursive', 'PkgListsToFile', 'DiskInfoToFile',
                    'BackupHidden', 'FollowLinks', 'Sparse']:
@@ -157,8 +158,8 @@ class BackupOperation(operations.Common):
         command += ' -L'
       else:
         command += ' -l'
-      if excludes != None and excludes != "":
-        for i in excludes.split('\n'):
+      if self.options['Excludes'] != None and self.options['Excludes'] != "":
+        for i in self.options['Excludes'].split('\n'):
           command += ' --exclude="%s"' % i
     elif self.options['Engine'] == 'tar':
       command = 'tar rf \'%s\'' % (self.dest.replace("'", "'\\''"))
@@ -181,7 +182,7 @@ class BackupOperation(operations.Common):
     if self.options['Excludes']:
       for i in self.options['Excludes'].split('\n'):
         command += ' --exclude="%s"' % i
-
+    
     return command
 
   def addListFilesToBackup(self, manager, command, engine, pkglist, diskinfo, paths):
@@ -222,11 +223,9 @@ class BackupOperation(operations.Common):
     if self.options['DiskInfoToFile']:
       os.remove('%s.txt' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
     self.ifCancel()
-
-  def backupPaths(self, paths, command):
-    """Does the actual copying dirty work"""
-    # this is in common
-    wasAnError = False
+  
+  def checkRemoteServer(self):
+    """Checks if a connection to the remote server can be established"""
     if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
       self.logger.logmsg('DEBUG', _('Attempting to connect to server'))
       thread = fwbackups.runFuncAsThread(sftp.testConnection, True,
@@ -239,7 +238,7 @@ class BackupOperation(operations.Common):
       import paramiko
       import socket
       if thread.retval == True:
-        pass
+        return True
       elif thread.retval == False:
         self.logger.logmsg('ERROR', _('The selected file or folder was either not ' + \
                        'found or the user specified cannot write to it.'))
@@ -263,7 +262,15 @@ class BackupOperation(operations.Common):
                         'because an error occurred: %s' % thread.retval[1] + \
                         '\nPlease verify your settings and try again.'))
         return False
+    else: # not remote, just pass
+      return True
+  
+  def backupPaths(self, paths, command):
+    """Does the actual copying dirty work"""
+    # this is in common
+    wasAnError = False
     self._current = 1
+    
     if self.options['Engine'] == 'tar':
       if MSWINDOWS:
         import tarfile
@@ -367,55 +374,50 @@ class BackupOperation(operations.Common):
           wasAnError = True
           self.logger.logmsg('ERROR', 'Error(s) occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
           self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
-          
+    
     elif self.options['Engine'] == 'rsync':
       # in this case, self.{folderdest,dest} both need to be created
-      self.prepareDestinationFolder(self.dest)
-      for i in paths:
-        self.ifCancel()
-        if MSWINDOWS:
-          # let's deal with real paths
-          i = i.strip("'")
-          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-          shutil_modded.copytree_fullpaths(i, self.dest)
-          self._current += 1
-        else:
-          self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.dest.replace("'", "'\\''")}))
-          sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
-          self.pids.append(sub.pid)
-          self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-          # Sleep while not done.
-          while sub.poll() in ["", None]:
-            time.sleep(0.01)
-          self.pids.remove(sub.pid)
-          retval = sub.poll()
-          self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
-          # Something wrong?
-          if retval != EXIT_STATUS_OK and retval != 2:
-            wasAnError = True
-            self.logger.logmsg('ERROR', "Error(s) occurred while backing up path '%s'.\nPlease check the error output below to determine if any files are incomplete or missing." % str(i))
-            self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
-          self._current += 1
-    # finally, we do this
-    self._current = self._total
-    time.sleep(1)
-    self.ifCancel()
-    if self.options['DestinationType'] == 'remote (ssh)':
-      self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
-      self._current += 1
-      try:
-        client = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
-        if os.path.isfile(self.dest):
-          sftp.putFile(client, self.dest, os.path.join(self.options['RemoteFolder'], os.path.split(self.dest)[1]))
-          os.remove(self.dest)
-        elif os.path.isdir(self.dest):
-          sftp.putFolder(client, self.dest, os.path.join(self.options['RemoteFolder'], os.path.split(self.dest)[1]), symlinks=not self.options['FollowLinks'])
-          shutil_modded.rmtree(self.dest)
-        else:
-          wasAnError = True
-          self.logger.logmsg('ERROR', _('Could not send file(s) or folder to server: Item(s) to transfer are not files or folders!'))
-          self.logger.logmsg('DEBUG', _('Attempted to transfer: %s' % self.dest))
+      if self.options['DestinationType'] == 'remote (ssh)':
+        client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+        if not wasAnError:
+          for i in paths:
+            i = i.strip("'")
+            sftp.put(sftpClient, i, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
+        sftpClient.close()
         client.close()
+      else:
+        for i in paths:
+          self.ifCancel()
+          if MSWINDOWS:
+            # let's deal with real paths
+            i = i.strip("'")
+            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
+            shutil_modded.copytree_fullpaths(i, self.dest)
+            self._current += 1
+          else:
+            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.dest.replace("'", "'\\''")}))
+            sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+            self.pids.append(sub.pid)
+            self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
+            # Sleep while not done.
+            while sub.poll() in ["", None]:
+              time.sleep(0.01)
+            self.pids.remove(sub.pid)
+            retval = sub.poll()
+            self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
+            # Something wrong?
+            if retval != EXIT_STATUS_OK and retval != 2:
+              wasAnError = True
+              self.logger.logmsg('ERROR', "Error(s) occurred while backing up path '%s'.\nPlease check the error output below to determine if any files are incomplete or missing." % str(i))
+              self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
+            self._current += 1
+    
+    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)':
+      self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
+      client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+      try:
+        sftp.putFile(sftpClient, self.dest, os.path.join(self.options['RemoteFolder'], os.path.split(self.dest)[1]))
+        os.remove(self.dest)
       except:
         import sys
         import traceback
@@ -423,6 +425,13 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('DEBUG', _('Could not send file(s) or folder to server:'))
         (etype, value, tb) = sys.exc_info()
         self.logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
+      sftpClient.close()
+      client.close()
+    
+    # finally, we do this
+    self._current = self._total
+    time.sleep(1)
+    self.ifCancel()
     return (not wasAnError)
   
   def start(self):
@@ -457,7 +466,9 @@ class OneTimeBackupOperation(BackupOperation):
     self._total = len(paths)
     if not paths:
       return False
-
+    
+    self.checkRemoteServer()
+    
     if self.options['PkgListsToFile']:
       managers = self.createPkgLists()
     else:
@@ -465,7 +476,8 @@ class OneTimeBackupOperation(BackupOperation):
     if self.options['DiskInfoToFile']:
       self.createDiskInfo()
 
-    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']):
+    if not (self.options['Engine'] == 'rsync' and self.options['Incremental'] and \
+       not self.options['DestinationType'] == 'remote (ssh)'):
       if not self.prepareDestinationFolder(self.options['Destination']):
         return False
       if os.path.exists(self.dest):
@@ -514,7 +526,6 @@ class SetBackupOperation(BackupOperation):
     # set-specific options
     self.command_before = self.options['CommandBefore']
     self.command_after = self.options['CommandAfter']
-    self.tokeep = int(float(self.options['OldToKeep']))
     # IF tar || tar.gz, add .tar || tar.gz respectively to the dest since
     # the dest is to be a file, not a folder...
     if self.options['Engine'] == 'tar':
@@ -534,7 +545,12 @@ class SetBackupOperation(BackupOperation):
   
   def removeOldBackups(self):
     """Get list of old backups and remove them"""
-    listing = os.listdir(self.options['Destination'])
+    # get listing, local or remote
+    if self.options['DestinationType'] == 'remote (ssh)':
+      client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+      listing = sftpClient.listdir(self.options['RemoteFolder'])
+    else:
+      listing = os.listdir(self.options['Destination'])
     listing.sort()
     oldbackups = []
     for i in listing:
@@ -542,22 +558,28 @@ class SetBackupOperation(BackupOperation):
         oldbackups.append(i)
     # ...And remove them.
     oldbackups.reverse()
-    if self.options['Engine'] == 'rsync' and self.options['Incremental'] and oldbackups:
-      for i in oldbackups[:-1]:
-        self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-        shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
-      oldIncrementalBackup = ConvertPath('%s/%s' % (self.options['Destination'], oldbackups[-1]))
-      if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
-         not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
-        self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
-        shutil_modded.move(oldIncrementalBackup, self.dest)
-      else: # source = is not a rsync backup - remove it and start fresh
-        self.logger.logmsg('DEBUG', _('`%s\' is not an rsync backup - removing.') % oldIncrementalBackup)
-        shutil_modded.rmtree(path=oldIncrementalBackup, onerror=self.onError)
+    if self.options['DestinationType'] == 'remote (ssh)':
+      for i in oldbackups[self.options['OldToKeep']:]:
+        sftp.remove(sftpClient, os.path.join(self.options['RemoteFolder'], i))
+      sftpClient.close()
+      client.close()
     else:
-      for i in oldbackups[self.tokeep:]:
-        self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-        shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
+      if self.options['Engine'] == 'rsync' and self.options['Incremental'] and oldbackups:
+        for i in oldbackups[:-1]:
+          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
+          shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
+        oldIncrementalBackup = ConvertPath('%s/%s' % (self.options['Destination'], oldbackups[-1]))
+        if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
+            not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
+          self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
+          shutil_modded.move(oldIncrementalBackup, self.dest)
+        else: # source = is not a rsync backup - remove it and start fresh
+          self.logger.logmsg('DEBUG', _('`%s\' is not an rsync backup - removing.') % oldIncrementalBackup)
+          shutil_modded.rmtree(path=oldIncrementalBackup, onerror=self.onError)
+      else:
+        for i in oldbackups[self.options['OldToKeep']:]:
+          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
+          shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
 
   def start(self):
     """Backup a set"""
@@ -568,8 +590,11 @@ class SetBackupOperation(BackupOperation):
     self._total = len(paths)
     if not paths:
       return False
-
-    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']):
+    
+    self.checkRemoteServer()
+    
+    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
+       not self.options['DestinationType'] == 'remote (ssh)':
       if not self.prepareDestinationFolder(self.options['Destination']):
         return False
       if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
@@ -598,7 +623,7 @@ class SetBackupOperation(BackupOperation):
         self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
         self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
       self.ifCancel()
-
+    
     if self.options['PkgListsToFile']:
       managers = self.createPkgLists()
     else:

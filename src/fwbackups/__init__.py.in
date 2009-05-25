@@ -152,16 +152,15 @@ class FuncAsThread(Thread):
       # __raiseOnException, retval will be None. Solution is to use
       # `while thread.retval == None` rather than isAlive().
       if self.__raiseOnException:
-        self.retval = sys.exc_info()[0], sys.exc_info()[1]
-      else:
-        #logger = fwlogger.getLogger()
         (etype, value, tb) = sys.exc_info()
-        #logger.logmsg('ERROR', _('An error occurred while running a subprocess!'))
-        #logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
-        self.exception = etype(evalue)
+        self.retval = etype, value, tb
+      else:
+        (etype, value, tb) = sys.exc_info()
+        self.exception = etype(value)
+        import traceback
+        self.traceback = ''.join(traceback.format_exception(etype, value, tb))
         self.retval = -1
-    finally:
-      return self.retval
+    return self.retval
 
 def runFuncAsThread(functorun, raiseOnException, *kargs):
   """Runs a function as a new thread"""

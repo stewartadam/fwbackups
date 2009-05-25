@@ -47,7 +47,7 @@ class UserInterface(gtk.glade.XML):
     """Look up an as-yet undefined attribute, assuming it's a widget."""
     result = self.get_widget(name)
     if result is None:
-      raise AttributeError("Can't find widget %s in %s.\n" %
+      raise AttributeError("Cannot find widget %s in %s.\n" %
                  (`name`, `self.filename`))
 
     # Cache the widget to speed up future lookups.  If multiple

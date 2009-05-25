@@ -2,11 +2,27 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc2 changes ||
+  * Mon May 25 2009 Stewart Adam <s.adam at diffingo.com>
+    - When applicable, check if pywin32 is installed
+
+  * Tue May 18 2009 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem where old backups on remote hosts were not removed
+    - Upload files directly to remote host if rsync engine is used
+    
+  * Mon May 17 2009 Stewart Adam <s.adam at diffingo.com>
+    - Properly detect folder/file over SFTP
+    - Enable thread error handling: "retval == None" instead of isAlive()
+    
+  * Tue May 12 2009 Stewart Adam <s.adam at diffingo.com>
+    - Replace all instances of /usr/share with INSTALL_DIR
+    - Fix problem where selecting a destination folder, then switching to remote
+      host as a destination could cause the backup to fail
+    
   * Thu Apr 23 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix problem which occurred if /etc/crontab does not exist (RH #496830)
   
   * Wed Apr 15 2009 Stewart Adam <s.adam at diffingo.com>
-    - Don't use finally: to restore Python 2.4 compatibility
+    - Do not use "finally:" in order to restore Python 2.4 compatibility
     - Do not statically declare application icon location in Linux
 
   * Mon Mar 30 2009 Stewart Adam <s.adam at diffingo.com>

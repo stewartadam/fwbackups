@@ -114,8 +114,9 @@ class RestoreOperation(operations.Common):
       self.logger.logmsg('INFO', _('Receiving files from server'))
       try:
         # download file to location where we expect source to be
-        client = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
-        retval = sftp.getFile(client, self.options['RemoteSource'], self.options['Source'])
+        client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+        retval = sftp.getFile(sftpClient, self.options['RemoteSource'], self.options['Source'])
+        sftpClient.close()
         client.close()
         if retval == -1: # folder - not implemented yet
           self.logger.logmsg('ERROR', _('Restoring from a remote folder is not supported yet.'))

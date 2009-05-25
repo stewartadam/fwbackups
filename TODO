@@ -1,3 +1,4 @@
+== In General ==
 - Disk space checks when restoring/backing up
 - File System will restore to their original location... How to do this on Windows?
 - Check permissions in testConnection()
@@ -5,9 +6,13 @@
   have two open at once if an error occurs early on
 - Niceness for restores (requires to set niceness on own process)
 - Real progressbar for operations  (not just pulsing)
-- Support for remote folders (restore)
 - SSH public key authentication
 - CLI restore app
+
+== Before rc2 ==
+- File excludes when uploading directly to SFTP? (can't use os.walk)
+
+== Before rc3 ==
 - Don't crash if we don't have paramiko; just disable the remote features
+- Support for remote folders (restore)
 - Split the overlapping parts of operations/* into engines/*
-- /usr/share/fwbackups: replace with INSTALL_DIR

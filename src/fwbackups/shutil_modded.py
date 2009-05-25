@@ -17,7 +17,7 @@
 #  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 Based on Python's original shutil.py file, modded to continue on errors such
-as sockets.
+as sockets. Original file Copyright (c) 2001 - 2006 Python Software Foundation
 
 Utility functions for copying files and directory trees.
 *** The functions here don't copy the resource fork or other metadata on Mac.
@@ -60,14 +60,13 @@ def copyfile(src, dst):
   """Copy data from src to dst"""
   if _samefile(src, dst):
     raise Error, "`%s` and `%s` are the same file" % (src, dst)
-
   fsrc = None
   fdst = None
   fsrc = open(src, 'rb')
   fdst = open(dst, 'wb')
   copyfileobj(fsrc, fdst)
   fdst.close()
-  fsrc.close()
+  fsrc.close()
 
 def copymode(src, dst):
   """Copy mode bits from src to dst"""
