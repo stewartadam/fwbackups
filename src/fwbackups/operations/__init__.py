@@ -45,6 +45,7 @@ class Common:
     else:
       self.logger = logger
     # Totals: Nothing so far
+    self._status = 0
     self._current = 0
     self._total = 0
     self._currentName = ''
@@ -80,7 +81,7 @@ class Common:
     """Get the progress of the operation. Returns the path number that is
     currently being backed up, the total number of paths and the current file
     name being processed as a list."""
-    return [self._current, self._total, self._currentName]
+    return [self._status, self._current, self._total, self._currentName]
 
   def onError(self, func, path, exc_info):
     """Handles errors when performing file operations. May be subclassed."""

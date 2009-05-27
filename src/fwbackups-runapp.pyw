@@ -39,6 +39,7 @@ if MSWINDOWS:
     print _('You must install the GTK+ Runtime Environment v2.6 or higher to run this program.')
     sys.exit(1)
   gtkdir = _winreg.QueryValueEx(k, "Path")
+  # add gtk paths to our PATH so we can import GTK without DLL errors
   os.environ['PATH'] += ";%s\\lib;%s\\bin;%s" % (gtkdir[0], gtkdir[0], INSTALL_DIR)
   _winreg.CloseKey(k)
 
@@ -191,10 +192,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.main3BackupHiddenCheck.set_sensitive(False)
 
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
-      self.ui.backupset4IncrementalCheck.set_active(False)
-      self.ui.main3IncrementalCheck.set_sensitive(False)
-      self.ui.main3IncrementalCheck.set_active(False)
-
+      
       self.ui.backupset4FollowLinksCheck.set_active(True)
       self.ui.backupset4FollowLinksCheck.set_sensitive(False)
       self.ui.main3FollowLinksCheck.set_active(True)
@@ -222,6 +220,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.restore1SourceTypeNotebook.set_show_tabs(False)
     # Default fields...
     self.ui.backupset4IncrementalCheck.set_active(False)
+    self.ui.main3IncrementalCheck.set_sensitive(False)
     self.ui.main3IncrementalCheck.set_active(False)
     self.ui.restore1SourceTypeCombobox.set_active(0)
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
@@ -634,7 +633,7 @@ class fwbackupsApp(interface.Controller):
     """Wrapper for quitting"""
     if self.operationInProgress:
       response = self.displayConfirm(self.ui.main,
-                                     _('fwbackups Working'),
+                                     _('fwbackups is Working'),
                                      _('An operation is currently in progress. ' + \
                                        'Would you like to cancel them and quit anyways?'))
       if response == gtk.RESPONSE_YES:
@@ -1167,7 +1166,7 @@ class fwbackupsApp(interface.Controller):
     if active == 1:
       self.ui.backupset4IncrementalCheck.set_active(False)
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
-    else:
+    elif not MSWINDOWS:
       self.ui.backupset4IncrementalCheck.set_sensitive(True)
       
   def on_backupset2FolderBrowseButton_clicked(self, widget):
@@ -1494,13 +1493,6 @@ class fwbackupsApp(interface.Controller):
     for i in tables:
       i.set_sensitive(False)
     tables[active].set_sensitive(True)
-    
-    # diable incremental for remote
-    if active == 1:
-      self.ui.main3IncrementalCheck.set_active(False)
-      self.ui.main3IncrementalCheck.set_sensitive(False)
-    else:
-      self.ui.main3IncrementalCheck.set_sensitive(True)
 
   def on_main3LocalFolderEntry_changed(self, widget):
     """Called when the one-time destination's entry changes.
@@ -1531,15 +1523,6 @@ class fwbackupsApp(interface.Controller):
                           'and port fields.'))
       return False
     self.testConnection(self.main3TestSettingsProgress, host, username, password, port, folder)
-
-  def on_main3EngineRadio2_toggled(self, widget):
-    """Set the sensibility of Incremental"""
-    if self.ui.main3EngineRadio2.get_active() and not MSWINDOWS and \
-       self.ui.main3DestinationTypeCombobox.get_active() != 1:
-      self.ui.main3IncrementalCheck.set_sensitive(True)
-    else:
-      self.ui.main3IncrementalCheck.set_sensitive(False)
-      self.ui.main3IncrementalCheck.set_active(False)
     
   ### TAB 4: LOGGER
 
@@ -2394,16 +2377,16 @@ class fwbackupsApp(interface.Controller):
     """Start a set backup"""
     def updateProgress(self):
       """Updates the statusbar"""
-      if self.updateReturn == True:
-          current, total, currentName = self.backupHandle.getProgress()
+      if self.updateReturn:
+          status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if current != 0 and total != 0 and current <= total:
+      if status != status.STATUS_INITIALIZING:
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
-      if current > total:
-        self.main2BackupProgress.set_text(_('Sending files to remote server'))
-      else:
+      if status == backup.STATUS_BACKING_UP:
         self.main2BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+      elif status == backup.STATUS_SENDING_TO_REMOTE:
+        self.main2BackupProgress.set_text(_('Sending files to remote server'))
       return self.updateReturn
       
     try:
@@ -2538,10 +2521,8 @@ class fwbackupsApp(interface.Controller):
       oneTimeConf.set('Options', 'FollowLinks', 1)
     else:
       oneTimeConf.set('Options', 'FollowLinks', 0)
-    if self.ui.main3IncrementalCheck.get_active():
-      oneTimeConf.set('Options', 'Incremental', 1)
-    else:
-      oneTimeConf.set('Options', 'Incremental', 0)
+    # no incremental for one-time
+    oneTimeConf.set('Options', 'Incremental', 0)
     if self.ui.main3EngineRadio1.get_active():
       engine = 'tar'        
     elif self.ui.main3EngineRadio2.get_active():
@@ -2565,17 +2546,18 @@ class fwbackupsApp(interface.Controller):
     """Start a set backup"""
     def updateProgress(self):
       """Updates the statusbar"""
-      if self.updateReturn == True:
-          current, total, currentName = self.backupHandle.getProgress()
+      if self.updateReturn:
+          status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if current != 0 and total != 0 and current <= total:
-        self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
-      if current > total:
-        self.main3BackupProgress.set_text(_('Sending files to remote server'))
-      else:
+      if status != status.STATUS_INITIALIZING:
+        self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
+      if status == backup.STATUS_BACKING_UP:
         self.main3BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+      elif status == backup.STATUS_SENDING_TO_REMOTE:
+        self.main3BackupProgress.set_text(_('Sending files to remote server'))
       return self.updateReturn
+    
     if os.path.exists(ONETIMELOC):
       os.remove(ONETIMELOC)
     oneTimeConfig = config.OneTimeConf(True)
@@ -2656,18 +2638,15 @@ class fwbackupsApp(interface.Controller):
     def updateProgress(self):
       """Updates the statusbar"""
       if self.updateReturn == True:
-          current, total, currentName = self.restoreHandle.getProgress()
+          status, current, total, currentName = self.restoreHandle.getProgress()
       else:
         return
-      if current == 0: # no "current file" yet
-        if total == 1:
-          self.restore2RestorationProgress.set_text(_('Recieving files from remote server'))
-        if total == 2:
-          self.restore2RestorationProgress.set_text(_('Restoring files...'))
-      else:
+      if status == restore.STATUS_RECEIVING_FROM_REMOTE: # no "current file" yet
+        self.restore2RestorationProgress.set_text(_('Receiving files from remote server'))
+      elif status == restore.STATUS_RESTORING: # we have a 'current file'
         self.restore2RestorationProgress.set_text(_('Restoring: %s' % current))
-        
       return self.updateReturn
+    
     self.ui.restoreControlNotebook.set_current_page(1)
     prefs = config.PrefsConf()
     self.operationInProgress = True

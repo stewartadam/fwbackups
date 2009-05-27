@@ -29,6 +29,12 @@ from fwbackups import operations
 from fwbackups import shutil_modded
 from fwbackups import sftp
 
+STATUS_INITIALIZING = 0
+STATUS_CLEANING_OLD = 1
+STATUS_BACKING_UP = 2
+STATUS_SENDING_TO_REMOTE = 3
+STATUS_EXECING_USER_COMMAND = 4
+
 class BackupOperation(operations.Common):
   """A parent class for all backups operations."""
   def __init__(self, logger=None):
@@ -268,8 +274,10 @@ class BackupOperation(operations.Common):
   def backupPaths(self, paths, command):
     """Does the actual copying dirty work"""
     # this is in common
-    wasAnError = False
     self._current = 1
+    self._total = len(paths)
+    self._status = 2
+    wasAnError = False
     
     if self.options['Engine'] == 'tar':
       if MSWINDOWS:
@@ -463,7 +471,6 @@ class OneTimeBackupOperation(BackupOperation):
   def start(self):
     """One-time backup"""
     paths = self.parsePaths(self.config)
-    self._total = len(paths)
     if not paths:
       return False
     
@@ -516,11 +523,9 @@ class SetBackupOperation(BackupOperation):
     BackupOperation.__init__(self, logger)
     self.config = config.BackupSetConf(setname)
     self.options = self.getOptions(self.config)
-    if self.options['Enabled'] == '0':
-      self.logger.logmsg('DEBUG', _('Set \'%s\' is disabled, will not run operation') % self.config.getSetName())
-    else:
+    if self.options['Enabled']:
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
-    # format destination
+    # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
     self.dest = ConvertPath('%s/%s-%s-%s' % (self.options['Destination'], _('Backup'), self.config.getSetName(), date))
     # set-specific options
@@ -540,6 +545,7 @@ class SetBackupOperation(BackupOperation):
     def _bool(value):
       return value in [1, '1', True, 'True']
     options = BackupOperation.getOptions(self, config)
+    options['Enabled'] = int(options['Enabled'])
     options['Incremental'] = _bool(options['Incremental'])
     return options
   
@@ -587,12 +593,12 @@ class SetBackupOperation(BackupOperation):
       return True
     # Get the list of paths...
     paths = self.parsePaths(self.config)
-    self._total = len(paths)
     if not paths:
       return False
     
     self.checkRemoteServer()
     
+    self._status = 1
     if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
        not self.options['DestinationType'] == 'remote (ssh)':
       if not self.prepareDestinationFolder(self.options['Destination']):
@@ -609,6 +615,7 @@ class SetBackupOperation(BackupOperation):
     
     # Before command...
     if self.command_before:
+      self._status = 4
       self.logger.logmsg('INFO', _("Executing 'Before' command"))
       sub = fwbackups.executeSub(self.command_before, env=self.environment, shell=True)
       self.pids.append(sub.pid)
@@ -624,6 +631,7 @@ class SetBackupOperation(BackupOperation):
         self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
       self.ifCancel()
     
+    self._status = 0
     if self.options['PkgListsToFile']:
       managers = self.createPkgLists()
     else:
@@ -647,6 +655,7 @@ class SetBackupOperation(BackupOperation):
     
     # After command
     if self.command_after:
+      self._status = 4
       self.logger.logmsg('INFO', _("Executing 'After' command"))
       sub = fwbackups.executeSub(self.command_after, env=self.environment, shell=True)
       self.pids.append(sub.pid)

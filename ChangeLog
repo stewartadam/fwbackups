@@ -2,6 +2,10 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc2 changes ||
+  * Wed May 27 2009 Stewart Adam <s.adam at diffingo.com>
+    - Properly disable incremental option in UI for one-time backups
+    - Add a status property to better handle operation progress updates
+    
   * Mon May 25 2009 Stewart Adam <s.adam at diffingo.com>
     - When applicable, check if pywin32 is installed
 
