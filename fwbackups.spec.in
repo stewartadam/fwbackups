@@ -2,7 +2,7 @@
 
 Name:              fwbackups
 Version:           1.43.3
-Release:           0.1.rc1%{?dist}
+Release:           0.1.rc2%{?dist}
 Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
 License:           GPLv2+
@@ -38,7 +38,7 @@ or from the contents of an external folder or archive.
 
 
 %prep
-%setup -q -n %{name}-%{version}rc1
+%setup -q -n %{name}-%{version}rc2
 
 %build
 %configure --disable-scrollkeeper
@@ -67,16 +67,17 @@ scrollkeeper-update -q || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-
+%doc AUTHORS ChangeLog COPYING COPYING-DOCS README TODO
 %{_bindir}/*
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/*
 %{_datadir}/applications/fedora-*.desktop
 %{python_sitelib}/%{name}/
 
-%doc AUTHORS README COPYING COPYING-DOCS ChangeLog TODO
-
 %changelog
+* Thu May 28 2009 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc2
+- Update to 1.43.3rc2 (fixes #495604, #495605)
+
 * Sun Mar 22 2009 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc1
 - Update to 1.43.3rc1 (fixes #489034, #489040, #491469, #491472)
 

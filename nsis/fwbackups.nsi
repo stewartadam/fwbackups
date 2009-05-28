@@ -25,8 +25,8 @@
 ;Version resource
 ;Remember the installer name doesn't change when this does
   !define PRODUCT_NAME                    "fwbackups"
-  #!define PRODUCT_PREREL                  "rc3"
-  !define PRODUCT_VERSION                 "1.43.2"
+  !define PRODUCT_PREREL                 "rc2"
+  !define PRODUCT_VERSION                 "1.43.3"
   !define PRODUCT_PUBLISHER               "Stewart Adam"
   !define PRODUCT_WEB_SITE                "http://www.diffingo.com/opensource"
 
@@ -34,7 +34,7 @@
   VIAddVersionKey "ProductName"           "${PRODUCT_NAME}"
   VIAddVersionKey "FileVersion"           "${PRODUCT_VERSION} ${PRODUCT_PREREL}"
   VIAddVersionKey "ProductVersion"        "${PRODUCT_VERSION}"
-  VIAddVersionKey "LegalCopyright"        "(C) 2005 - 2008 Stewart Adam"
+  VIAddVersionKey "LegalCopyright"        "(C) 2005 - 2009 Stewart Adam"
   VIAddVersionKey "FileDescription"       "fwbackups Installer (w/ Requirements)"
 
 ;--------------------------------
@@ -42,7 +42,7 @@
 ;--------------------------------
 ;General
   Name                                    "fwbackups"
-  OutFile                                 "fwbackups-1.43.2-Setup.exe"
+  OutFile                                 "fwbackups-1.43.3rc2-Setup.exe"
   InstallDir                              $PROGRAMFILES\fwbackups
   Var name
   Var GTK_FOLDER
@@ -57,14 +57,14 @@
   !define STARTUP_RUN_KEY                 "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
   !define PRODUCT_UNINST_EXE              "fwbackups-uninst.exe"
   !define GTK_MIN_VERSION                 "2.6.10"
-  !define GTK_INSTALL_VERSION             "2.12.8"
+  !define GTK_INSTALL_VERSION             "2.14.7"
   !define GTK_REG_KEY                     "SOFTWARE\GTK\2.0"
   !define GTK_DEFAULT_INSTALL_PATH        "$COMMONFILES\GTK\2.0"
-  !define GTK_RUNTIME_INSTALLER           "gtk-runtime-2.12.8-rev-a.exe"
-  !define PYTHON_RUNTIME_INSTALLER        "python-2.5.2.msi"
-  !define PYGTK_MODULE_INSTALLER          "pygtk-2.12.1-1.win32-py2.5.exe"
-  !define PYCAIRO_MODULE_INSTALLER        "pycairo-1.4.12-1.win32-py2.5.exe"
-  !define PYGOBJECT_MODULE_INSTALLER      "pygobject-2.12.3-1.win32-py2.5.exe"
+  !define GTK_RUNTIME_INSTALLER           "gtk-runtime-2.14.7-rev-a"
+  !define PYTHON_RUNTIME_INSTALLER        "python-2.6.2.msi"
+  !define PYGTK_MODULE_INSTALLER          "pygtk-2.12.1-3.win32-py2.6.exe"
+  !define PYCAIRO_MODULE_INSTALLER        "pycairo-1.4.12-2.win32-py2.6.exe"
+  !define PYGOBJECT_MODULE_INSTALLER      "pygobject-2.14.2-2.win32-py2.6.exe"
   !define PYCRON_INSTALLER                "pycron-0.5.9.0.exe"
 
 ;--------------------------------
