@@ -13,3 +13,6 @@
 - Don't crash if we don't have paramiko; just disable the remote features
 - Support for remote folders (restore)
 - Split the overlapping parts of operations/* into engines/*
+- Fix the cross-up uploading \ problem
+--> happens on return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
+    in sftp.py

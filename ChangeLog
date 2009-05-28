@@ -2,6 +2,12 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc2 changes ||
+  * Thu May 28 2009 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem where paths ending in an apostrophe could be cause an
+      error while running backup operations
+    - Fix arguments to sftp.put in backup.py so that the backup filename does
+      not have basename() run twice on it
+
   * Wed May 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Properly disable incremental option in UI for one-time backups
     - Add a status property to better handle operation progress updates

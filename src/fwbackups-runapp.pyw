@@ -2381,12 +2381,16 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if status != status.STATUS_INITIALIZING:
+      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
       if status == backup.STATUS_BACKING_UP:
         self.main2BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+      elif status == backup.STATUS_CLEANING_OLD:
+        self.main2BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
         self.main2BackupProgress.set_text(_('Sending files to remote server'))
+      elif status == backup.STATUS_EXECING_USER_COMMAND:
+        self.main2BackupProgress.set_text(_('Executing user command'))
       return self.updateReturn
       
     try:
@@ -2550,12 +2554,16 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if status != status.STATUS_INITIALIZING:
-        self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
+      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
+        self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
       if status == backup.STATUS_BACKING_UP:
         self.main3BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+      elif status == backup.STATUS_CLEANING_OLD:
+        self.main3BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
         self.main3BackupProgress.set_text(_('Sending files to remote server'))
+      elif status == backup.STATUS_EXECING_USER_COMMAND:
+        self.main3BackupProgress.set_text(_('Executing user command'))
       return self.updateReturn
     
     if os.path.exists(ONETIMELOC):

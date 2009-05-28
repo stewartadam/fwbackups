@@ -164,7 +164,7 @@ def putFile(sftp, src, dst, symlinks=False, excludes=[]):
     linkto = os.readlink(src)
     return sftp.symlink(linkto, dst)
   else:
-    return sftp.put(src, os.path.join(dst, os.path.basename(src)))
+    return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
 
 def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
   """Copies src (local) to dst (remote). Folder dst will be created"""
