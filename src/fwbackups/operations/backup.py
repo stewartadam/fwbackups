@@ -19,6 +19,7 @@
 This file contains the logic for the backup operation
 """
 import os
+import tempfile
 import time
 #--
 import fwbackups
@@ -88,9 +89,9 @@ class BackupOperation(operations.Common):
         except ImportError:
           pyrpm = False
         if pyrpm:
-          fullListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('RPM - Package list, names only'))
-          nameListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('RPM - Package list'))
-          nameList = open(fullListFilename, 'w')
+          fullListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list, names only'))
+          nameListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
+          fullList = open(fullListFilename, 'w')
           nameList = open(nameListFilename, 'w')
           ts=rpm.ts()
           # Equivalent to rpm -qa
@@ -102,20 +103,20 @@ class BackupOperation(operations.Common):
           fullList.close()
         else:
           retval, stdout, stderr = fwbackups.execute('rpm -qa --qf "%%{NAME}\n"', env=self.environment, shell=True)
-          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('RPM - Package list, names only'))
+          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list, names only'))
           fh = open(outfile, 'w')
           fh.write(stdout.read())
           fh.close()
           
           retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True)
-          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('RPM - Package list'))
+          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
           fh = open(outfile, 'w')
           fh.write(stdout.read())
           fh.close()
         managers.append('rpm')
       if os.path.exists(os.path.join(path, 'pacman')) and not 'pacman' in managers:
         retval, stdout, stderr = fwbackups.execute('pacman -Q', env=self.environment, shell=True)
-        outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('Pacman - Package list, names only'))
+        outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('pacman - Package list, names only'))
         fh = open(outfile, 'w')
         fh.write(stdout.read())
         fh.close()
@@ -147,7 +148,6 @@ class BackupOperation(operations.Common):
     """Parse options to retrieve the correct command"""
     self.options = self.getOptions(self.config)
     if self.options['DestinationType'] == 'remote (ssh)':
-      import tempfile
       tempDir = tempfile.gettempdir()
       self.dest = os.path.join(tempDir, os.path.split(self.dest.replace("'", "'\\''"))[1])
     if self.options['Engine'] == 'rsync':

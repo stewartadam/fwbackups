@@ -7,6 +7,8 @@
       error while running backup operations
     - Fix arguments to sftp.put in backup.py so that the backup filename does
       not have basename() run twice on it
+    - Fix a problem where outputting a list of installed packages on systems
+      using Pacman or RPM would cause a backup to fail
 
   * Wed May 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Properly disable incremental option in UI for one-time backups

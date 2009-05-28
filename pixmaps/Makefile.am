@@ -8,9 +8,10 @@ EXTRA_DIST = \
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/fwbackups/
 	$(INSTALL) -m 644 fwbackups.svg $(DESTDIR)$(datadir)/pixmaps/fwbackups.svg
-	$(INSTALL) -m 644 fwbackups-32.png $(DESTDIR)$(datadir)/pixmaps/fwbackups.png
+	$(INSTALL) -m 644 fwbackups-32.png $(DESTDIR)$(datadir)/fwbackups/fwbackups.png
 
 uninstall-local:
 	rm -f $(DESTDIR)$(datadir)/pixmaps/fwbackups.svg
-	rm -f $(DESTDIR)$(datadir)/pixmaps/fwbackups.png
+	rm -f $(DESTDIR)$(datadir)/fwbackups/fwbackups.png

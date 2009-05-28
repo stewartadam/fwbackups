@@ -6,7 +6,7 @@ PYTHON_FILES = \
     i18n.py \
     __init__.py \
     interface.py \
-    remote.py \
+    sftp.py \
     shutil_modded.py \
     subprocess_killable.py \
     widgets.py \
