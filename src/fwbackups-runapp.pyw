@@ -77,12 +77,12 @@ def reportBug(etype=None, evalue=None, tb=None):
     if fwbackups.CheckPerms(filename):
       import datetime
       fh = open(filename, 'w')
-      fh.write(_(datetime.datetime.today().strftime('fwbackups bug report written saved at %I:%M %p on %Y-%m-%d\n\n')))
+      fh.write(_(datetime.datetime.today().strftime('fwbackups bug report written saved at %I:%M %p on %Y-%m-%d\n\')))
       fh.write(tracebackText)
       fh.close()
       sys.exit(1)
     else:
-      logger.logmsg('WARNING', _('Couldn\'t write bug report - Insufficient permissions!'))
+      logger.logmsg('WARNING', _("Couldn't write bug report - Insufficient permissions!"))
       sys.exit(1)
   elif response == gtk.RESPONSE_CLOSE:
     sys.exit(1)
@@ -1162,7 +1162,7 @@ class fwbackupsApp(interface.Controller):
       i.set_sensitive(False)
     tables[active].set_sensitive(True)
     
-    # diable incremental for remote
+    # disable incremental for remote
     if active == 1:
       self.ui.backupset4IncrementalCheck.set_active(False)
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
