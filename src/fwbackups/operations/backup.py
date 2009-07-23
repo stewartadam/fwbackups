@@ -56,7 +56,6 @@ class BackupOperation(operations.Common):
     else:
       options['RemotePort'] = int(options['RemotePort'])
     options['Nice'] = int(options['Nice'])
-    options['OldToKeep'] = int(float(options['OldToKeep']))
     options['RemotePassword'] = options['RemotePassword'].decode('base64')
     for option in ['Recursive', 'PkgListsToFile', 'DiskInfoToFile',
                    'BackupHidden', 'FollowLinks', 'Sparse']:
@@ -549,6 +548,7 @@ class SetBackupOperation(BackupOperation):
     options = BackupOperation.getOptions(self, config)
     options['Enabled'] = int(options['Enabled'])
     options['Incremental'] = _bool(options['Incremental'])
+    options['OldToKeep'] = int(float(options['OldToKeep']))
     return options
   
   def removeOldBackups(self):

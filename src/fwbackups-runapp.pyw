@@ -77,7 +77,7 @@ def reportBug(etype=None, evalue=None, tb=None):
     if fwbackups.CheckPerms(filename):
       import datetime
       fh = open(filename, 'w')
-      fh.write(_(datetime.datetime.today().strftime('fwbackups bug report written saved at %I:%M %p on %Y-%m-%d\n\')))
+      fh.write(_(datetime.datetime.today().strftime('fwbackups bug report written saved at %I:%M %p on %Y-%m-%d\n')))
       fh.write(tracebackText)
       fh.close()
       sys.exit(1)
