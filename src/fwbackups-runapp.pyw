@@ -52,18 +52,12 @@ except:
   sys.exit(1)
 #--
 import fwbackups
-from fwbackups.operations import *
-from fwbackups import config
-from fwbackups import cron
-from fwbackups import fwlogger
 from fwbackups import interface
-from fwbackups import shutil_modded
 from fwbackups import widgets
 
 def reportBug(etype=None, evalue=None, tb=None):
   """Report a bug dialog"""
   import traceback
-  logger = fwlogger.getLogger()
   c = interface.Controller('%s/BugReport.glade' % INSTALL_DIR, 'bugreport')
   if not etype and not evalue and not tb:
     (etype, evalue, tb) = sys.exc_info()
@@ -77,12 +71,12 @@ def reportBug(etype=None, evalue=None, tb=None):
     if fwbackups.CheckPerms(filename):
       import datetime
       fh = open(filename, 'w')
-      fh.write(_(datetime.datetime.today().strftime('fwbackups bug report written saved at %I:%M %p on %Y-%m-%d\n')))
+      fh.write(_('fwbackups bug report written saved at %s') % datetime.datetime.today().strftime('%I:%M %p on %Y-%m-%d\n'))
       fh.write(tracebackText)
       fh.close()
       sys.exit(1)
     else:
-      logger.logmsg('WARNING', _("Couldn't write bug report - Insufficient permissions!"))
+      print _('Could not write bug report due to insufficient permissions.')
       sys.exit(1)
   elif response == gtk.RESPONSE_CLOSE:
     sys.exit(1)
@@ -93,16 +87,22 @@ gobject.threads_init()
 try:
   import Crypto
 except:
-  raise fwbackups.fwbackupsError(_('Please install pycrypto'))
+  raise fwbackups.fwbackupsError(_('Please install pycrypto (python-crypto)'))
 try:
   import paramiko
 except:
-  raise fwbackups.fwbackupsError(_('Please install paramiko'))
+  raise fwbackups.fwbackupsError(_('Please install paramiko (python-paramiko)'))
 if MSWINDOWS:
   try:
     import win32job
   except:
     raise fwbackups.fwbackupsError(_('Please install pywin32'))
+
+from fwbackups import fwlogger
+from fwbackups import config
+from fwbackups import cron
+from fwbackups import shutil_modded
+from fwbackups.operations import *
 
 def usage(error):
   """Print the application usage"""

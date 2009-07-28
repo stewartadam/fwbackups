@@ -4,6 +4,8 @@
 || Version 1.43.3rc3 changes ||
   * Tue Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
+    - Import most things after bug reporting system is initialized in order to
+      display dependency errors graphically
 
   * Thu Jul 23 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem which caused one-time backups to fail
