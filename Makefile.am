@@ -32,7 +32,7 @@ SUBDIRS = \
     src/fwbackups/operations
 
 uninstall-local:
-	rm -f $(DESTDIR)$(pkgdatadir)/pixmaps/*.png
+	rm -rf $(DESTDIR)$(datadir)/fwbackups/
 
 maintainer-clean-local:
 	rm -f fwbackups-$(PACKAGE_VERSION).tar.bz2

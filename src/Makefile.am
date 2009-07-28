@@ -9,7 +9,7 @@ EXTRA_DIST = \
     $(FWDATA_FILES) \
     fwbackups.desktop
 
-fwdatadir = $(DESTDIR)$(datadir)
+fwdatadir = $(datadir)/fwbackups
 fwdata_DATA = $(FWDATA_FILES)
 
 install-data-local:
@@ -18,7 +18,6 @@ install-data-local:
 
 uninstall-local:
 	rm -f $(DESTDIR)$(datadir)/applications/fwbackups.desktop
-#	rm -f $(DESTDIR)$(datadir)/fwbackups/
 
 clean-local:
 	rm -f *.bak *.gladep

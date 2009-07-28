@@ -6,6 +6,7 @@
     - Tweaks to better support non-/usr/share install locations
     - Import most things after bug reporting system is initialized in order to
       display dependency errors graphically
+    - Better cleanup when running "make uninstall"
 
   * Thu Jul 23 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem which caused one-time backups to fail

@@ -12,3 +12,7 @@ DOC_FIGURES = \
               figures/notification.png
 
 DOC_LINGUAS = 
+
+uninstall-local:
+	rm -rf $(DESTDIR)$(datadir)/gnome/help/$(DOC_MODULE)/
+	rm -rf $(DESTDIR)$(datadir)/omf/$(DOC_MODULE)/
