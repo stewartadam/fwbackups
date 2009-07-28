@@ -9,7 +9,7 @@ EXTRA_DIST = \
     $(FWDATA_FILES) \
     fwbackups.desktop
 
-fwdatadir = $(pkgdatadir)
+fwdatadir = $(DESTDIR)$(datadir)
 fwdata_DATA = $(FWDATA_FILES)
 
 install-data-local:

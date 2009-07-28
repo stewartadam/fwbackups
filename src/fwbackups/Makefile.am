@@ -16,7 +16,7 @@ EXTRA_DIST = \
     $(PYTHON_FILES) \
     __init__.py.in
 
-pydir = $(pythondir)/fwbackups
+pydir = $(pkgdatadir)/fwbackups
 py_PYTHON = $(PYTHON_FILES)
 
 clean-local:

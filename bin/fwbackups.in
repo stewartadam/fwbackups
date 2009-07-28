@@ -1,5 +1,5 @@
 #!/bin/bash
-#  Copyright (C) 2005, 2006, 2007 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009 Stewart Adam
 #  This file is part of fwbackups.
 
 #  fwbackups is free software; you can redistribute it and/or modify
@@ -15,6 +15,16 @@
 #  You should have received a copy of the GNU General Public License
 #  along with fwbackups; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+# At some point, autotools changed datadir for datarootdir. To remain
+# compatible with both versions, @datadir@ was set to ${datarootdir}. This
+# feature will be taken advantage of below:
+
+# Set the prefix
 prefix="@prefix@"
-a="@datarootdir@"
+
+# Expands to ${prefix}/share
+datarootdir="@datarootdir@"
+
+# Expands to ${prefix}/share OR ${datarootdir}, which is defined above
 python "@datadir@/fwbackups/fwbackups-runapp.pyw" "$@"

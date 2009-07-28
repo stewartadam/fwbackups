@@ -1,6 +1,13 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 
+|| Version 1.43.3rc3 changes ||
+  * Tue Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
+    - Tweaks to better support non-/usr/share install locations
+
+  * Thu Jul 23 2009 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem which caused one-time backups to fail
+
 || Version 1.43.3rc2 changes ||
   * Thu May 28 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where paths ending in an apostrophe could be cause an
@@ -13,26 +20,26 @@
   * Wed May 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Properly disable incremental option in UI for one-time backups
     - Add a status property to better handle operation progress updates
-    
+
   * Mon May 25 2009 Stewart Adam <s.adam at diffingo.com>
     - When applicable, check if pywin32 is installed
 
   * Tue May 18 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where old backups on remote hosts were not removed
     - Upload files directly to remote host if rsync engine is used
-    
+
   * Mon May 17 2009 Stewart Adam <s.adam at diffingo.com>
     - Properly detect folder/file over SFTP
     - Enable thread error handling: "retval == None" instead of isAlive()
-    
+
   * Tue May 12 2009 Stewart Adam <s.adam at diffingo.com>
     - Replace all instances of /usr/share with INSTALL_DIR
     - Fix problem where selecting a destination folder, then switching to remote
       host as a destination could cause the backup to fail
-    
+
   * Thu Apr 23 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix problem which occurred if /etc/crontab does not exist (RH #496830)
-  
+
   * Wed Apr 15 2009 Stewart Adam <s.adam at diffingo.com>
     - Do not use "finally:" in order to restore Python 2.4 compatibility
     - Do not statically declare application icon location in Linux
@@ -40,7 +47,7 @@
   * Mon Mar 30 2009 Stewart Adam <s.adam at diffingo.com>
     - Use require a connection object instead of creatin a new connection each
       time a function from remote.py is called
-  
+
   * Fri Mar 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Initial support for Apple OS X
     - Correct docstrings + other style improvements
@@ -60,12 +67,12 @@
     - Restore feedback & cancel support (Red Hat #491472)
     - Fix a problem where the main window would hide if operations were
       running and the user chose to keep running fwbackups
-    
+
   * Sat Mar 7 2009 Stewart Adam <s.adam at diffingo.com>
     - Support restoring from sets with remote destinations
     - Obscure saved passwords in configuration files
     - Do not permit restoring from remote folders; not implemented yet
-    
+
   * Fri Mar 6 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where createPkgLists would stop a backup if a package
       manager was found many times in $PATH (Red Hat #489034)
@@ -81,41 +88,41 @@
   * Wed Jan 14 2009 Stewart Adam <s.adam at diffingo.com>
     - Interface improvements: Better compliance to Gnome HIG
     - Catch configuration file downgrades and display and error
-    
+
 || Version 1.43.2 changes ||
   * Wed Oct 1 2008 Stewart Adam <s.adam at diffingo.com>
     - Fix traceback on Linux when destination folder includes a single quote
     - Package lists and disk information are no longer excluded from backups
     - Don't fail when chmod on final backup archive fails (ie, NTFS)
-  
+
   * Fri Aug 22 2008 Stewart Adam <s.adam at diffingo.com>
     - [backend] enabled == '0', not 0
-    
+
   * Thu Aug 7 2008 Stewart Adam <s.adam at diffingo.com>
     - Don't bug when saving log file
-    
+
   * Tue Jul 22 2008 Stewart Adam <s.adam at diffingo.com>
     - Do not generate cron job for temporary_config
-    
+
   * Sat Jul 19 2008 Stewart Adam <s.adam at diffingo.com>
     - [backend] Include hour and minute in backup name
     - Close export dialog when clicking Cancel
-    
+
 || Version 1.43.2rc3 changes ||
   * Fri Jul 18 2008 Stewart Adam <s.adam at diffingo.com>
     - [backend] Don't attempt to create a directory that exists
     - [runapp] Don't hide the self.ui.backupset after clicking "Browse"
-    - [runapp] Reset restore defaults when clicking "Restore Set" button 
-      
+    - [runapp] Reset restore defaults when clicking "Restore Set" button
+
   * Tue Jul 15 2008 Stewart Adam <s.adam at diffingo.com>
     - Clean up code a bit
     - New set of documentation
     - Always hide "temporairy_config"
     - Set all windows transient for main
-      
+
   * Tue Jul 15 2008 Stewart Adam <s.adam at diffingo.com>
     - [backend] fix errors with the rsync backend
-        
+
   * Sat Jun 22 2008 Stewart Adam <s.adam at diffingo.com>
     - [config] fix _import() functions for older versions (case sensitivity)
 
@@ -133,18 +140,18 @@
     - Do not log paramiko output as debug
     - Improve and fix the transferF{ile,older} functions
     - [nsis] Do not delete $INSTDIR, but remove specific files
-      
+
   * Thu May 22 2008 Stewart Adam <s.adam at diffingo.com>
     - Regenerate the crontab after changing a set instead of searching for
       old line (which was buggy)
     - Specify path to python.exe for pycron
     - Fix import and duplicate functions
-      
+
   * Wed May 21 2008 Stewart Adam <s.adam at diffingo.com>
     - Some last-minute fixes before release
     - [config] Don't forget some releases, fixes _import() on some old versions
     - Fix SystemError when right-clicking tray icon
-  
+
   * Mon May 12 2008 Stewart Adam <s.adam at diffingo.com>
     - [runonce] Use absolute filenames
     - [runonce] Add options for remote destination
@@ -179,7 +186,7 @@
     - [win*] Use absolute paths where applicable
     - [win*] Fix annoying scrollbars on tray icon menu
     - Implement a GUI bug reporting system
-  
+
   * Thu Apr 10 2008 Stewart Adam <s.adam at diffingo.com>
     - [runapp] Fix bug which prevented file upload when using remote (ssh)
     - [remote] Make testConnection() work on win*
@@ -286,7 +293,7 @@
     - Fix the bugs caused by such a rewrite
     - Fix a bug where the crontab would be overwritten
     - Move many dialogs from gtk.dialogs to gtk.window
-    - Add more options to task icon, make entries clearer... 'Hide' doesn't 
+    - Add more options to task icon, make entries clearer... 'Hide' doesn't
       work to well.
 
   * Thu Aug 2 2007 Stewart Adam <s.adam at diffingo.com>
@@ -314,7 +321,7 @@
     - Sparse should actually change something in backend.py
     - Add "follow links" feature
     - Add copyright notice about gnome-icon-theme
-    - Tray icon's checkbox should change when the window hides 
+    - Tray icon's checkbox should change when the window hides
     - Fix a bug where using tar.gz would result in the backup archiving itself
     - Remove mimetype from .desktop for now
 
@@ -402,7 +409,7 @@
     - Start using dates like this
     - Check permission on restore destination upon administrator startup
     - Fix About dialog version (had to do with __init__.py)
-    - Save current version when converting from older config files so it try 
+    - Save current version when converting from older config files so it try
         doesn't to import over and over and over again.
     - Fix import/export dialogs, they didn't show up at first
     - Rewrite backend to be more effecient

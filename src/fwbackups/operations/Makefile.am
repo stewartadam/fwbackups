@@ -6,7 +6,7 @@ PYTHON_FILES = \
 EXTRA_DIST = \
     $(PYTHON_FILES)
 
-pydir = $(pythondir)/fwbackups/operations
+pydir = $(pkgdatadir)/fwbackups/operations
 py_PYTHON = $(PYTHON_FILES)
 
 clean-local:

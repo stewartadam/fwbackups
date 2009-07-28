@@ -122,10 +122,9 @@ class CronTab:
   """The class for in iterfacing with the crontab"""
   def __init__(self):
     """Initialize it all"""
-    # Set me before using me!
     if LINUX:
-      self.environ = {'EDITOR': 'python /usr/share/fwbackups/cronwriter.py',
-                      'VISUAL': 'python /usr/share/fwbackups/cronwriter.py'}
+      self.environ = {'EDITOR': 'python %s/cronwriter.py' % INSTALL_DIR,
+                      'VISUAL': 'python %s/cronwriter.py' % INSTALL_DIR}
     elif DARWIN:
       self.environ = {'EDITOR': '/fwbackups-cronwriter.py',
                       'VISUAL': '/fwbackups-cronwriter.py'}
