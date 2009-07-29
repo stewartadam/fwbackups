@@ -40,3 +40,5 @@ conf_flags=""
 
 ${AUTORECONF:-autoreconf} --install --verbose && ./configure $conf_flags $@
 
+# This is no longer needed after autotools have run
+rm -rf autom4te.cache

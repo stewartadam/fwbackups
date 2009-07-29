@@ -1,26 +1,21 @@
 # Automake Automagic
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
-
 EXTRA_DIST = \
     intltool-extract.in \
     intltool-merge.in \
     intltool-update.in \
     fwbackups.spec.in \
-    fwbackups.spec \
     AUTHORS \
     ChangeLog \
     COPYING \
     COPYING-DOCS \
     README \
-    TODO \
-    gnome-doc-utils.make
+    TODO
 
 DISTCLEANFILES = \
     intltool-extract \
     intltool-merge \
-    intltool-update \
-    aclocal.m4
+    intltool-update
 
 SUBDIRS = \
     bin \
