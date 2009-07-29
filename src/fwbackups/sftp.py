@@ -219,7 +219,11 @@ def testConnection(host, username, password, port, path):
   """Tests connecting to a SSH/SFTP connection with the supplied arguments.
   Returns True if connection was successful."""
   client, sftp = connect(host, username, password, port, timeout=30)
-  doesExist = isFolder(sftp, path)
-  sftp.close()
+  try:
+    doesExist = isFolder(sftp, path)
+  except IOError: # Not using finally: to remain compatible with python < 2.5
+    sftp.close()
+    client.close()
+    raise
   client.close()
   return doesExist

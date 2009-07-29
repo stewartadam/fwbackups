@@ -647,11 +647,25 @@ class fwbackupsApp(interface.Controller):
             pass
       else:
         return True
-    # glitch in windows, tray icon doesn't quit with program
+    # This will attempt to kill any dead Paramiko threads
+    import threading
+    for thread in threading.enumerate()[1:]:
+      if type(thread) == paramiko.Transport:
+        # Thread is a Paramiko transport -- close it down.
+        thread.close()
+      else:
+        # FIXME: Figure out how to kill other thread types. For now, just log.
+        self.logger.logmsg('CRITICAL', _('fwbackups detected more than one alive threads:'))
+        self.logger.logmsg('CRITICAL', str(thread))
+        self.logger.logmsg('CRITICAL', _('Please submit a bug report and include this message.'))
+    # Bugfix for GTK+ on Win32: A ghost tray icon remains after app exits
+    # Workaround: Hide the tray icon before quitting the GTK mainloop
     self.trayicon.set_visible(False)
+    # Save set configurations schedule
     self.logger.logmsg('DEBUG', _('Regenerating crontab'))
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
     self.regenerateCrontab()
+    # Shutdown logging & quit the GTK mainloop
     self.logger.logmsg('INFO', _('fwbackups administrator closed'))
     try:
       gtk.main_quit()

@@ -5,6 +5,8 @@
   * Wed Jul 29 2009 Stewart Adam <s.adam at diffingo.com>
     - Remove the __raiseOnException property from runFuncAsThread() and instead
       offer a universal way of accessing thread exception information
+    - Fix a problem where paramiko threads were left alive on exit, preventing
+      the program from terminating
   
   * Mon Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
