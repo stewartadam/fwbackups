@@ -7,6 +7,8 @@
       offer a universal way of accessing thread exception information
     - Fix a problem where paramiko threads were left alive on exit, preventing
       the program from terminating
+    - Fix a probem where the autostart function would not work if fwbackups was
+      not configured with --prefix=/usr
   
   * Mon Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
