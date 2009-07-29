@@ -670,7 +670,7 @@ class fwbackupsApp(interface.Controller):
     progress.startPulse()
     progress.set_text(_('Creating thread'))
     self.logger.logmsg('DEBUG', _('testConnection(): Creating thread'))
-    thread = fwbackups.runFuncAsThread(sftp.testConnection, True, host, username, password, port, path)
+    thread = fwbackups.runFuncAsThread(sftp.testConnection, host, username, password, port, path)
     while thread.retval == None:
       progress.set_text(_('Attempting to connect'))
       while gtk.events_pending():
@@ -684,35 +684,38 @@ class fwbackupsApp(interface.Controller):
                            _('Success!'),
                            _('All settings are correct. Remember to ensure that ' + \
                              'you have permissions to write to the selected folder.'))
-    elif thread.retval == False:
+    elif type(thread.exception) == IOError:
       self.displayInfo(self.ui.backupset,
                            _('Incorrect Settings'),
                            _('The selected folder was either not found or the ' + \
                              'the path supplied points to a file.'))
-    elif thread.retval[0] == paramiko.AuthenticationException:
+    elif type(thread.exception) == paramiko.AuthenticationException:
       self.displayInfo(self.ui.backupset,
                             _('Authentication failed'),
                             _('A connection was established, but authentication ' + \
                               'failed. Please verify the username and password ' + \
                               'and try again.'))
-    elif thread.retval[0] == socket.gaierror or thread.retval[0] == socket.error:
+    elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
       self.displayInfo(self.ui.backupset,
                             _('Connection failed'),
                             _('A connection to the server could not be established:\n' + \
-                              'Error %(a)s: %(b)s' % {'a': thread.retval[1][0], 'b': thread.retval[1][1]} + \
+                              'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
                               '\nPlease verify your settings and try again.'))
-    elif thread.retval[0] == socket.timeout:
+    elif type(thread.exception) == socket.timeout:
       self.displayInfo(self.ui.backupset,
                             _('Connection failed'),
                             _('The connection to the server timed out. ' + \
                               'Please verify your settings and try again.'))
-    elif thread.retval[0] == paramiko.SSHException:
+    elif type(thread.exception) == paramiko.SSHException:
       self.displayInfo(self.ui.backupset,
                             _('Connection failed'),
                             _('A connection to the server could not be established ' + \
-                              'because an error occurred: %s' % thread.retval[1] + \
+                              'because an error occurred: %s' % str(thread.exception) + \
                               '\nPlease verify your settings and try again.'))
-
+    else:
+      self.displayInfo(self.ui.backupset,
+                            _('Unhandled error'),
+                            thread.traceback)
   ###
   ### MENUS ###
   ###
@@ -2412,7 +2415,7 @@ class fwbackupsApp(interface.Controller):
     self.main2BackupProgress.set_text(_('Please wait...'))
     try:
       self.backupHandle = backup.SetBackupOperation(name, self.logger)
-      self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start, False)
+      self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
       self.ui.main2CancelBackupButton.show()
       self.ui.main2CancelBackupButton.set_sensitive(True)
       self.setStatus(_('Working'))
@@ -2427,7 +2430,7 @@ class fwbackupsApp(interface.Controller):
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
       if self.backupThread.retval == -1:
-        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup! Enable debug messages for more information.'))
         self.logger.logmsg('DEBUG', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
@@ -2444,7 +2447,7 @@ class fwbackupsApp(interface.Controller):
     updateProgress(self)
     self.updateReturn = False
     self.main2BackupProgress.set_fraction(1.0)
-    if self.backupThread.retval == True or (type(self.backupThread.retval) == types.IntType and self.backupThread.retval == 0):
+    if self.backupThread.retval == True or self.backupThread.retval == 0:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
@@ -2582,7 +2585,7 @@ class fwbackupsApp(interface.Controller):
     self.main3BackupProgress.set_text(_('Please wait...'))
     try:
       self.backupHandle = backup.OneTimeBackupOperation(self.logger)
-      self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start, False)
+      self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
       self.setStatus(_('Working'))
       self.updateReturn = True
       self.main3BackupProgress.stopPulse()
@@ -2595,7 +2598,7 @@ class fwbackupsApp(interface.Controller):
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
       if self.backupThread.retval == -1:
-        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup! Enable debug messages for more inforation.'))
         self.logger.logmsg('DEBUG', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
@@ -2613,7 +2616,7 @@ class fwbackupsApp(interface.Controller):
     updateProgress(self)
     self.updateReturn = False
     self.main3BackupProgress.set_fraction(1.0)
-    if self.backupThread.retval == True or (type(self.backupThread.retval) == types.IntType and self.backupThread.retval == 0):
+    if self.backupThread.retval == True or self.backupThread.retval == 0:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the one-time backup operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
@@ -2666,7 +2669,7 @@ class fwbackupsApp(interface.Controller):
     self.restore2RestorationProgress.set_text(_('Please wait...'))
     try:
       self.restoreHandle = restore.RestoreOperation(self.logger)
-      self.restoreThread = fwbackups.runFuncAsThread(self.restoreHandle.start, False)
+      self.restoreThread = fwbackups.runFuncAsThread(self.restoreHandle.start)
       self.ui.restore2CancelRestoreButton.set_sensitive(True)
       self.setStatus(_('Working'))
       self.updateReturn = True
@@ -2680,7 +2683,7 @@ class fwbackupsApp(interface.Controller):
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.restoreThread.retval))
       if self.restoreThread.retval == -1:
-        self.logger.logmsg('WARNING', _('There was an error while performing the restore!'))
+        self.logger.logmsg('WARNING', _('There was an error while performing the restore! Enable debug messages for more information.'))
         self.logger.logmsg('DEBUG', self.restoreThread.traceback)
     except Exception, error:
       self.operationInProgress = False
@@ -2698,7 +2701,7 @@ class fwbackupsApp(interface.Controller):
     self.restore2RestorationProgress.set_text('')
     self.restore2RestorationProgress.stopPulse()
     self.restore2RestorationProgress.set_fraction(1.0)
-    if self.restoreThread.retval == True or (type(self.restoreThread.retval) == types.IntType and self.restoreThread.retval == 0):
+    if self.restoreThread.retval == True or self.restoreThread.retval == 0:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the restore operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))

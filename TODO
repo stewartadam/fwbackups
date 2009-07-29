@@ -4,19 +4,16 @@
 - Check permissions in testConnection()
 - When performing a backup, close previous notifications. This way, we don't
   have two open at once if an error occurs early on
-- Niceness for restores (requires to set niceness on own process)
 - Real progressbar for operations  (not just pulsing)
 - SSH public key authentication
 - CLI restore app
 
 == Before 1.43.3rc3 ==
-- Don't crash if we don't have paramiko; just disable the remote features
 - Support for remote folders (restore)
 - Split the overlapping parts of operations/* into engines/*
 - Fix the cross-os uploading \ problem
 --> happens on return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
     in sftp.py
-- Better error message if destination doesn't exist on remote systems
 
 == Before 1.43.3 final ==
 - Update documentation

@@ -2,7 +2,11 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc3 changes ||
-  * Tue Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
+  * Wed Jul 29 2009 Stewart Adam <s.adam at diffingo.com>
+    - Remove the __raiseOnException property from runFuncAsThread() and instead
+      offer a universal way of accessing thread exception information
+  
+  * Mon Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
     - Import most things after bug reporting system is initialized in order to
       display dependency errors graphically

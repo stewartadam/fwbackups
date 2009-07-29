@@ -133,12 +133,13 @@ class ClassAsThread(Thread):
   
 class FuncAsThread(Thread):
   """Run a function as a new thread."""
-  def __init__(self, functorun, args, raiseOnException=False):
+  def __init__(self, functorun, args):
     Thread.__init__(self)
     self.__args = args
-    self.__raiseOnException = raiseOnException
     self.__functorun = functorun
     self.retval = None
+    self.traceback = None
+    self.exception = None
     
   def run(self):
     try:
@@ -147,24 +148,20 @@ class FuncAsThread(Thread):
     except exceptions.SystemExit:
       # cancelled
       self.retval = -2
-    except: # catch other exception and write it to the logger.
-      # NOTE: Thread dies as soon as it gets the exception, so in the case of 
-      # __raiseOnException, retval will be None. Solution is to use
-      # `while thread.retval == None` rather than isAlive().
-      if self.__raiseOnException:
-        (etype, value, tb) = sys.exc_info()
-        self.retval = etype, value, tb
-      else:
-        (etype, value, tb) = sys.exc_info()
-        self.exception = etype(value)
-        import traceback
-        self.traceback = ''.join(traceback.format_exception(etype, value, tb))
-        self.retval = -1
+    except: # catch all other (non-request-for-cancel) exceptions
+      # NOTE: Thread dies as soon as it gets the exception, so retval will be
+      # None. Solution is to use "while thread.retval == None" rather than
+      # "isAlive()" while checking for a return value.
+      import traceback
+      (etype, value, tb) = sys.exc_info()
+      self.traceback = ''.join(traceback.format_exception(etype, value, tb))
+      self.exception = etype(value)
+      self.retval = -1
     return self.retval
 
-def runFuncAsThread(functorun, raiseOnException, *kargs):
+def runFuncAsThread(functorun, *kargs):
   """Runs a function as a new thread"""
-  thread = FuncAsThread(functorun, kargs, raiseOnException=raiseOnException)
+  thread = FuncAsThread(functorun, kargs)
   thread.start()
   return thread
 

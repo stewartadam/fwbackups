@@ -71,7 +71,7 @@ class RestoreOperation(operations.Common):
     wasErrors = False
     if self.options['SourceType'] == 'remote archive (SSH)': # check if server settings are OK
       self.logger.logmsg('DEBUG', _('Attempting to connect to server'))
-      thread = fwbackups.runFuncAsThread(sftp.testConnection, True,
+      thread = fwbackups.runFuncAsThread(sftp.testConnection,
                                          self.options['RemoteHost'], self.options['RemoteUsername'],
                                          self.options['RemotePassword'], self.options['RemotePort'],
                                          self.options['RemoteSource'])
@@ -82,27 +82,27 @@ class RestoreOperation(operations.Common):
       import socket
       if thread.retval == True:
         pass
-      elif thread.retval == False:
-        self.logger.logmsg('ERROR', _('The selected file or folder was either not ' + \
-                       'found or the user specified cannot write to it.'))
+      elif type(thread.exception) == IOError:
+        self.logger.logmsg('ERROR', _('The restore source was either not ' + \
+                       'found or it cannot be read due to insufficient permissions.'))
         return False
-      elif thread.retval[0] == paramiko.AuthenticationException:
+      elif type(thread.exception) == paramiko.AuthenticationException:
         self.logger.logmsg('ERROR', _('A connection was established, but authentication ' + \
                         'failed. Please verify the username and password ' + \
                         'and try again.'))
         return False
-      elif thread.retval[0] == socket.gaierror or thread.retval[0] == socket.error:
+      elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
         self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' + \
-                        'Error %(a)s: %(b)s' % {'a': thread.retval[1][0], 'b': thread.retval[1][1]} + \
+                        'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
                         '\nPlease verify your settings and try again.'))
         return False
-      elif thread.retval[0] == socket.timeout:
+      elif type(thread.exception) == socket.timeout:
         self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' + \
                         'Please verify your settings and try again.'))
         return False
-      elif thread.retval[0] == paramiko.SSHException:
+      elif type(thread.exception) == paramiko.SSHException:
         self.logger.logmsg('ERROR', _('A connection to the server could not be established ' + \
-                        'because an error occurred: %s' % thread.retval[1] + \
+                        'because an error occurred: %s' % str(thread.exception) + \
                         '\nPlease verify your settings and try again.'))
         return False
     # source types:     'set' 'local archive' 'local folder'
