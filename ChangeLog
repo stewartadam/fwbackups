@@ -9,6 +9,7 @@
       the program from terminating
     - Fix a probem where the autostart function would not work if fwbackups was
       not configured with --prefix=/usr
+    - Use intltool instead of glib gettext for translations
   
   * Mon Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
