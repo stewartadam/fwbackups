@@ -2,6 +2,11 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc3 changes ||
+  * Thu Jul 30 2009 Stewart Adam <s.adam at diffingo.com>
+    - Remove the names only package lists
+    - Fix a problem where generating package lists on systems with the dpkg
+      package manager caused backup jobs to stall
+
   * Wed Jul 29 2009 Stewart Adam <s.adam at diffingo.com>
     - Remove the __raiseOnException property from runFuncAsThread() and instead
       offer a universal way of accessing thread exception information

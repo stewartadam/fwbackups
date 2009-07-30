@@ -88,50 +88,30 @@ class BackupOperation(operations.Common):
         except ImportError:
           pyrpm = False
         if pyrpm:
-          fullListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list, names only'))
-          nameListFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
-          fullList = open(fullListFilename, 'w')
-          nameList = open(nameListFilename, 'w')
+          listFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
+          listFile = open(listFilename, 'w')
           ts=rpm.ts()
           # Equivalent to rpm -qa
           mi=ts.dbMatch()
           for hdr in mi:
-            fullList.write("%s-%s-%s.%s\n" % (hdr['name'], hdr['version'], hdr['release'], hdr['arch']))
-            nameList.write("%s.%s\n" % (hdr['name'], hdr['arch']))
-          nameList.close()
-          fullList.close()
+            listFile.write("%s-%s-%s.%s\n" % (hdr['name'], hdr['version'], hdr['release'], hdr['arch']))
+          listFile.close()
         else:
-          retval, stdout, stderr = fwbackups.execute('rpm -qa --qf "%%{NAME}\n"', env=self.environment, shell=True)
-          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list, names only'))
-          fh = open(outfile, 'w')
-          fh.write(stdout.read())
-          fh.close()
-          
-          retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True)
           outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
-          fh = open(outfile, 'w')
-          fh.write(stdout.read())
-          fh.close()
+          retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
+          stdout.close()
         managers.append('rpm')
       if os.path.exists(os.path.join(path, 'pacman')) and not 'pacman' in managers:
-        retval, stdout, stderr = fwbackups.execute('pacman -Q', env=self.environment, shell=True)
-        outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('pacman - Package list, names only'))
-        fh = open(outfile, 'w')
-        fh.write(stdout.read())
-        fh.close()
-        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True)
         outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('Pacman - Package list'))
         fh = open(outfile, 'w')
+        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
         fh.write(stdout.read())
         fh.close()
         managers.append('pacman')
       if os.path.exists(os.path.join(path, 'dpkg')) and not 'dpkg' in managers:
-        # FIXME: Package names only?
-        retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True)
         outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('dpkg - Package list'))
-        fh = open(outfile, 'w')
-        fh.write(stdout.read())
-        fh.close()
+        retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
+        stdout.close()
         managers.append('dpkg')
     return managers
   
@@ -196,24 +176,19 @@ class BackupOperation(operations.Common):
     prefix = os.path.join(tempfile.gettempdir(), manager)
     if engine == 'tar':
       if pkglist:
-        fwbackups.execute("%s '%s - %s.txt' '%s - %s.txt' '%s'" % \
-          (command, prefix, _('Package list'), prefix, _('Package list, names only'),
-          self.dest.replace("'", "'\\''")), env=self.environment, shell=True, timeout=-1)
+        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")),
+          env=self.environment, shell=True, timeout=-1)
       if diskinfo:
-        fwbackups.execute("%s '%s - %s.txt' '%s'" % \
-          (command, prefix, _('Disk Information'), self.dest.replace("'", "'\\''")), env=self.environment,
-          shell=True, timeout=-1)
+        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Disk Information'), self.dest.replace("'", "'\\''")),
+          env=self.environment, shell=True, timeout=-1)
     elif engine in ['tar.gz', 'tar.bz2']:
       if pkglist:
-        paths.append('"%s - %s.txt" "%s - %s.txt"' % \
-        (prefix, _('Package list'), prefix, _('Package list, names only')))
+        paths.append('"%s - %s.txt"' % (prefix, _('Package list')))
       if diskinfo:
         paths.append('"%s.txt"' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
     elif engine == 'rsync':
       if pkglist:
-        fwbackups.execute("%s '%s - %s.txt' '%s - %s.txt' '%s'" % \
-          (command, prefix, _('Package list'), prefix, _('Package list, names only'),
-          self.dest.replace("'", "'\\''")), env=self.environment, shell=True, timeout=-1)
+        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")), env=self.environment, shell=True, timeout=-1)
       if diskinfo:
         # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
         diskInfoFile = os.path.join(tempfile.gettempdir(), _('Disk Information'))
@@ -224,7 +199,6 @@ class BackupOperation(operations.Common):
     prefix = os.path.join(tempfile.gettempdir(), manager)
     if self.options['PkgListsToFile']:
       os.remove('%s - %s.txt' % (prefix, _('Package list')) )
-      os.remove('%s - %s.txt' % (prefix, _('Package list, names only')) )
     if self.options['DiskInfoToFile']:
       os.remove('%s.txt' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
     self.ifCancel()
@@ -641,7 +615,6 @@ class SetBackupOperation(BackupOperation):
     if self.options['DiskInfoToFile']:
       self.createDiskInfo()
     self.ifCancel()
-    
     command = self.parseCommand(self.config)
     for manager in managers:
       self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
