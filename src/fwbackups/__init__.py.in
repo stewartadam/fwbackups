@@ -109,27 +109,6 @@ def CheckPermsWrite(path, mustExist=False):
   if not os.path.exists(path) and not mustExist:
     path = os.path.dirname(path)
   return os.access(path, os.W_OK)
-
-class ClassAsThread(Thread):
-  """Run a class as a new thread."""
-  def __init__(self, classtorun, args):
-    Thread.__init__(self)
-    self.__args = args
-    self.classtorun = classtorun
-
-  def run(self):
-    try:
-      retval = self.classtorun(*self.__args)
-      return retval
-    except exceptions.SystemExit:
-      sys.exit(0)
-    except: # catch other exception and write it to the logger.
-      #logger = fwlogger.getLogger()
-      (etype, value, tb) = sys.exc_info()
-      #logger.logmsg('ERROR', _('An error occurred while running a subprocess!'))
-      #logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
-      self.exception = etype(evalue)
-      sys.exit(1)
   
 class FuncAsThread(Thread):
   """Run a function as a new thread."""
@@ -162,12 +141,6 @@ class FuncAsThread(Thread):
 def runFuncAsThread(functorun, *kargs):
   """Runs a function as a new thread"""
   thread = FuncAsThread(functorun, kargs)
-  thread.start()
-  return thread
-
-def runClassAsThread(classtorun, *kargs):
-  """Runs a function as a new thread"""
-  thread = ClassAsThread(classtorun, kargs)
   thread.start()
   return thread
 
