@@ -665,11 +665,7 @@ class PathView(View):
     self.liststore.clear()
 
   def load(self, config):
-    config.read()
-    o = config.options('Paths')
-    o.sort()
-    for i in o:
-      path = config.get('Paths', i)
+    for path in config.getPaths():
       if fwbackups.CheckPermsRead(path, mustExist=True):
         self.liststore.append([gtk.STOCK_YES, path])
       else:

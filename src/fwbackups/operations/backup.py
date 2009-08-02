@@ -48,9 +48,7 @@ class BackupOperation(operations.Common):
     returns them in a dictionary"""
     def _bool(value):
       return value in [1, '1', True, 'True']
-    options = {}
-    for option in conf.options('Options'):
-      options[option] = conf.get('Options', option)
+    options = conf.getOptions()
     if not options['RemotePort']:
       options['RemotePort'] = 22
     else:
@@ -65,8 +63,7 @@ class BackupOperation(operations.Common):
   def parsePaths(self, config):
     """Get the list of paths in the configuration file. Returns a list of paths to backup"""
     paths = []
-    for pathEntry in config.options('Paths'):
-      path = config.get('Paths', pathEntry)
+    for path in config.getPaths():
       # non recursive - Skip dirs
       if self.options['Recursive'] == False and os.path.isdir(path):
         continue # move on to next file
@@ -429,7 +426,7 @@ class OneTimeBackupOperation(BackupOperation):
     will be created. logger will be created if needed."""
     BackupOperation.__init__(self, logger)
     self.logger.logmsg('INFO', _('Starting one-time backup operation'))
-    self.config = config.OneTimeConf()
+    self.config = config.OneTimeConf(ONETIMELOC)
     self.options = self.getOptions(self.config)
     # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
@@ -492,11 +489,11 @@ class OneTimeBackupOperation(BackupOperation):
 ######################
 class SetBackupOperation(BackupOperation):
   """Automated set backup operation"""
-  def __init__(self, setname, logger=None):
+  def __init__(self, setName, logger=None):
     """Initializes the automatic backup operation of setname. If no logger is
     supplied, a new one will be created."""
     BackupOperation.__init__(self, logger)
-    self.config = config.BackupSetConf(setname)
+    self.config = config.BackupSetConf(os.path.join(SETLOC, "%s.conf" % setName))
     self.options = self.getOptions(self.config)
     if self.options['Enabled']:
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())

@@ -23,8 +23,8 @@ import tarfile
 import time
 #--
 import fwbackups
-from fwbackups.const import *
 from fwbackups.i18n import _
+from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
 from fwbackups import shutil_modded
@@ -40,7 +40,7 @@ class RestoreOperation(operations.Common):
     will be created."""
     operations.Common.__init__(self, logger)
     self.logger.logmsg('INFO', _('Starting restore operation'))
-    self.config = config.RestoreConf()
+    self.config = config.RestoreConf(RESTORELOC)
     self.options = self.getOptions(self.config)
     self.options['Engine'] = 'null' # workaround so prepareDestinationFolder doesn't complain
 
@@ -49,9 +49,7 @@ class RestoreOperation(operations.Common):
     returns them in a dictionary"""
     def _bool(value):
       return value in [1, '1', True, 'True']
-    options = {}
-    for option in conf.options('Options'):
-      options[option] = conf.get('Options', option)
+    options = conf.getOptions()
     if not options['RemotePort']:
       options['RemotePort'] = 22
     else:

@@ -2,6 +2,12 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc3 changes ||
+  * Sun Aug 2 2009 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem where set configurations from version 1.43.2beta2 were not
+      imported correctly
+    - Rewrite portions of the configuration classes in config.py to make them
+      faster and more flexible
+
   * Thu Jul 30 2009 Stewart Adam <s.adam at diffingo.com>
     - Remove the names only package lists
     - Fix a problem where generating package lists on systems with the dpkg
