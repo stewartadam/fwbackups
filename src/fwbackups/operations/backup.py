@@ -430,7 +430,7 @@ class OneTimeBackupOperation(BackupOperation):
     self.options = self.getOptions(self.config)
     # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
-    self.dest = ConvertPath('%s/%s-%s-%s' % (self.options['Destination'], _('Backup'), _('OneTime'), date))
+    self.dest = os.path.join(self.options['Destination'], "%s-%s-%s" % (_('Backup'), _('OneTime'), date))
     # IF tar || tar.gz, add .tar || tar.gz respectively to the dest since
     # the dest is to be a file, not a folder...
     if self.options['Engine'] == 'tar':
@@ -461,7 +461,7 @@ class OneTimeBackupOperation(BackupOperation):
         return False
       if os.path.exists(self.dest):
         self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(path=ConvertPath(self.dest), onerror=self.onError)
+        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
     self.ifCancel()
 
     command = self.parseCommand(self.config)
@@ -499,7 +499,7 @@ class SetBackupOperation(BackupOperation):
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
     # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
-    self.dest = ConvertPath('%s/%s-%s-%s' % (self.options['Destination'], _('Backup'), self.config.getSetName(), date))
+    self.dest = os.path.join(self.options['Destination'], "%s-%s-%s" % (_('Backup'), self.config.getSetName(), date))
     # set-specific options
     self.command_before = self.options['CommandBefore']
     self.command_after = self.options['CommandAfter']
@@ -546,8 +546,8 @@ class SetBackupOperation(BackupOperation):
       if self.options['Engine'] == 'rsync' and self.options['Incremental'] and oldbackups:
         for i in oldbackups[:-1]:
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
-        oldIncrementalBackup = ConvertPath('%s/%s' % (self.options['Destination'], oldbackups[-1]))
+          shutil_modded.rmtree(path=os.path.join(self.options['Destination'], i), onerror=self.onError)
+        oldIncrementalBackup = os.path.join(self.options['Destination'], oldbackups[-1])
         if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
             not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
           self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
@@ -558,7 +558,7 @@ class SetBackupOperation(BackupOperation):
       else:
         for i in oldbackups[self.options['OldToKeep']:]:
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          shutil_modded.rmtree(path=ConvertPath('%s/%s' % (self.options['Destination'], i)), onerror=self.onError)
+          shutil_modded.rmtree(path=os.path.join(self.options['Destination'], i), onerror=self.onError)
 
   def start(self):
     """Backup a set"""
@@ -579,7 +579,7 @@ class SetBackupOperation(BackupOperation):
       if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
       and os.path.exists(self.dest):
         self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(path=ConvertPath(self.dest), onerror=self.onError)
+        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
     self.ifCancel()
     
     # Remove old stuff

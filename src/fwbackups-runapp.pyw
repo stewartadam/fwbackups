@@ -802,8 +802,8 @@ class fwbackupsApp(interface.Controller):
    """
     if model.get_value(iter, 0):
       setName = model.get_value(iter, 1)
-      setPath = ConvertPath('%s/%s.conf' % (SETLOC, setName))
-      destSetPath = ConvertPath('%s/%s' % (dest, os.path.split(setPath)[1]))
+      setPath = os.path.join(SETLOC, "%s.conf" % setName)
+      destSetPath = os.path.join(dest, os.path.basename(setPath))
       if os.path.exists(destSetPath):
         response = self.displayConfirm(self.ui.export_dia, _('File Exists'),
                                     _('The file `%s.conf\' already exists in the destination ' % setName + \
@@ -1905,7 +1905,7 @@ class fwbackupsApp(interface.Controller):
     if name == 'temporary_config':
       self.displayInfo(self.ui.backupset, _('Invalid Name'), _('`temporary_name\' is a reserved name. Please choose another name for the set.'))
       return False
-    if os.path.exists(ConvertPath('%s/%s.conf' % (SETLOC, name))):
+    if os.path.exists(os.path.join(SETLOC, "%s.conf" % name)):
       response = self.displayConfirm(self.ui.backupset,
                                          _('Overwrite?'),
                                          _('This will overwrite the current set settings. Are you sure you want to continue?'))
@@ -2347,11 +2347,11 @@ class fwbackupsApp(interface.Controller):
 
   def on_backupsetCancelButton_clicked(self, widget):
     """Cancel - Run and hide!"""
-    tempConfigPath = ConvertPath('%s/.conf' % SETLOC)
+    tempConfigPath = os.path.join(SETLOC, "temporary_config.conf")
     if os.path.exists(tempConfigPath):
       try:
         os.remove(tempConfigPath)
-      except:
+      except IOError:
         pass
     self.ui.backupset.hide()
     self._toggleLocked(False)

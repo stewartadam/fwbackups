@@ -23,7 +23,6 @@ import os
 import paramiko
 import stat
 
-from fwbackups.const import ConvertPath
 from fwbackups.i18n import _
 
 def connect(host, username, password, port=22, timeout=120):
