@@ -127,7 +127,7 @@ class BackupOperation(operations.Common):
       tempDir = tempfile.gettempdir()
       self.dest = os.path.join(tempDir, os.path.split(self.dest.replace("'", "'\\''"))[1])
     if self.options['Engine'] == 'rsync':
-      command = 'rsync -g -o -p -t -R'
+      command = 'rsync -g -o -p -t -R --verbose'
       if self.options['Incremental']:
         command += ' -u --del'
       if self.options['Recursive']:
@@ -360,6 +360,8 @@ class BackupOperation(operations.Common):
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
         if not wasAnError:
           for i in paths:
+            if self.toCancel: # Check if we need to cancel in between paths
+              break
             i = i[1:-1]
             sftp.put(sftpClient, i, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
         sftpClient.close()
@@ -374,14 +376,14 @@ class BackupOperation(operations.Common):
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
             shutil_modded.copytree_fullpaths(i, self.dest)
             self._current += 1
-          else:
+          else: # UNIX/OS X can call rsync binary
             self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.dest.replace("'", "'\\''")}))
             sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
             self.pids.append(sub.pid)
             self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
             # Sleep while not done.
             while sub.poll() in ["", None]:
-              time.sleep(0.01)
+              self._currentName = sub.stdout.readline()
             self.pids.remove(sub.pid)
             retval = sub.poll()
             self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))

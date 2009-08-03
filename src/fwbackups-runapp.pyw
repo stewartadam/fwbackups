@@ -2376,12 +2376,12 @@ class fwbackupsApp(interface.Controller):
         return
       if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
-      # There is no current filename
-      if status == backup.STATUS_BACKING_UP and not currentName:
-        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
       # There is a current filename
-      elif status == backup.STATUS_BACKING_UP and currentName:
+      if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
         self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
+      # There is no current filename
+      elif status == backup.STATUS_BACKING_UP and not currentName:
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
       elif status == backup.STATUS_CLEANING_OLD:
         self.main2BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
@@ -2535,15 +2535,20 @@ class fwbackupsApp(interface.Controller):
       else:
         return
       if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
-        self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
-      if status == backup.STATUS_BACKING_UP:
-        self.main3BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+        self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
+      # There is a current filename
+      if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
+      # There is no current filename
+      elif status == backup.STATUS_BACKING_UP and not currentName:
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
       elif status == backup.STATUS_CLEANING_OLD:
-        self.main3BackupProgress.set_text(_('Cleaning old backups'))
+        self.main2BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
-        self.main3BackupProgress.set_text(_('Sending files to remote server'))
+        self.main2BackupProgress.set_text(_('Sending files to remote server'))
       elif status == backup.STATUS_EXECING_USER_COMMAND:
-        self.main3BackupProgress.set_text(_('Executing user command'))
+        self.main2BackupProgress.set_text(_('Executing user command'))
+      return self.updateReturn 
       return self.updateReturn
 
     oneTimeConfig = config.OneTimeConf(ONETIMELOC, True)
