@@ -5628,7 +5628,8 @@ DEALINGS IN THE SOFTWARE.</property>
 		  <property name="items" translatable="yes">Set backup
 Local archive
 Local folder
-Remote archive (SSH)</property>
+Remote archive (SSH)
+Remote folder (SSH)</property>
 		  <property name="add_tearoffs">False</property>
 		  <property name="focus_on_click">True</property>
 		  <signal name="changed" handler="on_restore1SourceTypeCombobox_changed" last_modification_time="Wed, 08 Aug 2007 18:57:38 GMT"/>

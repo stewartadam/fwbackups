@@ -87,8 +87,7 @@ def rmtree(sftp, folder):
   sftp.rmdir(folder)
 
 def receive(sftp, src, dst):
-  """Calls recieveFile or recieveFolder depending on 'src' (remote).
-  WARNING: receiveFolder isn't implemented yet."""
+  """Calls recieveFile or recieveFolder depending on 'src' (remote)."""
   if not exists(sftp, src):
     return False
   if isFolder(sftp, src):
@@ -106,9 +105,13 @@ def receiveFile(sftp, src, dst):
   return True
 
 def receiveFolder(sftp, src, dst):
-  """Not implemented yet - for a future release"""
-  print 'Warning: receiveFolder() has not been implemented yet.'
-  return -1
+  """Gets src (remote) to dst (local). Ignores file permissions and symbolic
+     links."""
+  if not os.path.exists(dst):
+    os.mkdir(dst)
+  for path in sftp.listdir(src):
+    receive(sftp, os.path.join(src, path), os.path.join(dst, path))
+  return True
 
 def put(sftp, src, dst, symlinks=False, excludes=[]):
   """Transfers the local file or folder src to folder dst on the remote host."""

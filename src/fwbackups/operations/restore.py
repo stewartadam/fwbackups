@@ -67,7 +67,7 @@ class RestoreOperation(operations.Common):
   def start(self):
     """Restores a backup"""
     wasErrors = False
-    if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']): # check if server settings are OK
+    if self.options['RemoteSource']: # check if server settings are OK
       self.logger.logmsg('DEBUG', _('Attempting to connect to server'))
       thread = fwbackups.runFuncAsThread(sftp.testConnection,
                                          self.options['RemoteHost'], self.options['RemoteUsername'],
@@ -104,28 +104,33 @@ class RestoreOperation(operations.Common):
                         '\nPlease verify your settings and try again.'))
         return False
     # source types:     'set' 'local archive' 'local folder'
-    #                   'remote archive (SSH)'
+    #                   'remote archive (SSH)', 'remote folder (SSH)'
 
     # We don't want to raise a hard error, that's already in the log.
     # So we settle for a simple return false.
     # don't need source type logic, /destination/ is always a folder
     if not self.prepareDestinationFolder(self.options['Destination']):
       return False
-    if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):
+    # Receive files from remote server
+    if self.options['RemoteSource']:
       self.logger.logmsg('INFO', _('Receiving files from server'))
       self._status = STATUS_RECEIVING_FROM_REMOTE # receiving files
       try:
         # download file to location where we expect source to be
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
         retval = sftp.receive(sftpClient, self.options['RemoteSource'], self.options['Destination'])
+        # This is used later to terminate the restore operation early
+        remoteSourceIsFolder = sftp.isFolder(sftpClient, self.options['RemoteSource'])
         sftpClient.close()
         client.close()
-        if retval == -1: # folder - not implemented yet
-          self.logger.logmsg('ERROR', _('Restoring from a remote folder is not supported yet.'))
-          return False
       except Exception, error:
-        self.logger.logmsg('DEBUG', _('Could not receive file from server: %s' % error))
+        self.logger.logmsg('ERROR', _('Could not receive file from server: %s' % error))
         wasErrors = True
+      if wasErrors or remoteSourceIsFolder:
+          # We are dealing with a remote folder - our job here is done
+          # Either that or an error was encountered above
+          self.logger.logmsg('INFO', _('Finished restore operation'))
+          return not wasErrors
     self._status = STATUS_RESTORING # restoring
     try:
       if self.options['SourceType'] == 'set': # we don't know the type

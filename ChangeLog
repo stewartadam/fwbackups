@@ -2,6 +2,9 @@
 # various versions dating all the way back from the very beginning.
 
 || Version 1.43.3rc3 changes ||
+  * Mon Aug 3 2009 Stewart Adam <s.adam at diffingo.com>
+    - Implement basic support for restore from remote folders
+
   * Sun Aug 2 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where set configurations from version 1.43.2beta2 were not
       imported correctly

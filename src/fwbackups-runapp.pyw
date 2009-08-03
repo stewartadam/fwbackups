@@ -1777,8 +1777,17 @@ class fwbackupsApp(interface.Controller):
     elif active == 2: # local folder
       sourceType = 'local folder'
       options["Source"] = self.ui.restore1FolderEntry.get_text()
-    elif active == 3: # remote folder
+    elif active == 3: # remote archive
       sourceType = 'remote archive (SSH)'
+      options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
+      options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
+      options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
+      options["RemotePort"] = self.ui.restore1PortEntry.get_text()
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
+      # RemoteSource is transferred to Destination before restoring begins
+      options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
+    elif active == 4: # remote folder
+      sourceType = 'remote folder (SSH)'
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
@@ -1807,12 +1816,6 @@ class fwbackupsApp(interface.Controller):
       if self.ui.restore1SetDateCombobox.get_active_text() == _("No backups found"):
         self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Please choose another set, or alternatively choose a different restore source.") % setName)
         return False
-      if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
-          if setConfig.get('Options', 'Engine') == 'rsync':
-            self.displayError(self.ui.restore, _('Feature not supported'),
-                             _('Sorry, restoring from a remote folder (rsync) is not supported yet.' + \
-                               ' Please select a backup which uses a different backend and try again.'))
-            return False
       self.saveRestoreConfiguration(restoreConfig, setConfig)
     elif active == 1: # Local archive
       filename = self.ui.restore1ArchiveEntry.get_text()
@@ -2438,7 +2441,7 @@ class fwbackupsApp(interface.Controller):
     updateProgress(self)
     self.updateReturn = False
     self.main2BackupProgress.set_fraction(1.0)
-    if self.backupThread.retval == True or self.backupThread.retval == 0:
+    if self.backupThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
@@ -2588,7 +2591,7 @@ class fwbackupsApp(interface.Controller):
     updateProgress(self)
     self.updateReturn = False
     self.main3BackupProgress.set_fraction(1.0)
-    if self.backupThread.retval == True or self.backupThread.retval == 0:
+    if self.backupThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the one-time backup operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
@@ -2673,7 +2676,7 @@ class fwbackupsApp(interface.Controller):
     self.restore2RestorationProgress.set_text('')
     self.restore2RestorationProgress.stopPulse()
     self.restore2RestorationProgress.set_fraction(1.0)
-    if self.restoreThread.retval == True or self.restoreThread.retval == 0:
+    if self.restoreThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('Finished the restore operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
