@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2007 - 2009 Stewart Adam
+#  Copyright (C) 2007, 2008, 2009 Stewart Adam
 #  This file is part of fwbackups.
 
 #  fwbackups is free software; you can redistribute it and/or modify

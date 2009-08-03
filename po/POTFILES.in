@@ -1,4 +1,5 @@
 [encoding: UTF-8]
+test.operations.py
 bin/fwbackups-run.py
 bin/fwbackups-runonce.py
 src/fwbackups-runapp.pyw

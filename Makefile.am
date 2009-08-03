@@ -19,19 +19,17 @@ DISTCLEANFILES = \
 
 SUBDIRS = \
     bin \
-    help \
     po \
     pixmaps \
     src \
     src/fwbackups \
     src/fwbackups/operations
 
+clean-local:
+	rm -rf tests
+
 uninstall-local:
 	rm -rf $(DESTDIR)$(datadir)/fwbackups/
-
-maintainer-clean-local:
-	rm -f fwbackups-$(PACKAGE_VERSION).tar.bz2
-	rm -f configure install-sh missing
 
 rpm: dist
 	@(rpmbuild -ta fwbackups-$(PACKAGE_VERSION).tar.bz2)
