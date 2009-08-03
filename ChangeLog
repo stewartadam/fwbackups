@@ -6,6 +6,8 @@
     - Implement basic support for restore from remote folders
     - Add interactive testbench 'test.operations.py' which tests every type of
       backup and restore operation
+    - Security fix: Change permissions on the fwbackups user directory to 700
+      to prevent unauthorized access to stored passwords
 
   * Sun Aug 2 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where set configurations from version 1.43.2beta2 were not

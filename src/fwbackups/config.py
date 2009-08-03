@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2005 - 2009 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009 Stewart Adam
 #  This file is part of fwbackups.
 
 #  fwbackups is free software; you can redistribute it and/or modify
@@ -34,15 +34,19 @@ class ConfigError(Exception):
 
 def _setupConf():
   """Setup the configuration directory"""
-  for i in [LOC, SETLOC]:
-    if not os.path.exists(i):
+  for directory in [LOC, SETLOC]:
+    if not os.path.exists(directory):
       try:
-        os.mkdir(i, 0755)
+        os.mkdir(directory, 0700)
       except OSError, error:
         raise ConfigError(_("Could not create configuration folder `%s':" % error))
         sys.exit(1)
-    if not fwbackups.CheckPerms(i):
-      raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % i)
+    # Passwords that are base64-encoded are stored, so make sure they are secure
+    if LINUX or DARWIN:
+      if os.stat(LOC).st_mode != 16832:
+        os.chmod(LOC, 0700)
+    if not fwbackups.CheckPerms(directory):
+      raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % directory)
       sys.exit(1)
 
 class ConfigFile(ConfigParser.ConfigParser):
