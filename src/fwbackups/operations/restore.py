@@ -67,7 +67,7 @@ class RestoreOperation(operations.Common):
   def start(self):
     """Restores a backup"""
     wasErrors = False
-    if self.options['SourceType'] == 'remote archive (SSH)': # check if server settings are OK
+    if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']): # check if server settings are OK
       self.logger.logmsg('DEBUG', _('Attempting to connect to server'))
       thread = fwbackups.runFuncAsThread(sftp.testConnection,
                                          self.options['RemoteHost'], self.options['RemoteUsername'],
@@ -117,7 +117,7 @@ class RestoreOperation(operations.Common):
       try:
         # download file to location where we expect source to be
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
-        retval = sftp.getFile(sftpClient, self.options['RemoteSource'], self.options['Source'])
+        retval = sftp.receive(sftpClient, self.options['RemoteSource'], self.options['Destination'])
         sftpClient.close()
         client.close()
         if retval == -1: # folder - not implemented yet

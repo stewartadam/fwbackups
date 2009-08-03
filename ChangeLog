@@ -9,6 +9,8 @@
       faster and more flexible
     - Deprecate const.ConvertPath() in favor of os.path.join()
     - Minor UI bugfixes/enhancements
+    - Show current file when backup up using tar with or without compression
+    - Fix a problem where remote restores may have failed to start
 
   * Thu Jul 30 2009 Stewart Adam <s.adam at diffingo.com>
     - Remove the names only package lists

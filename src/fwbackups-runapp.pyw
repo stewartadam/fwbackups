@@ -1736,13 +1736,16 @@ class fwbackupsApp(interface.Controller):
 
   def saveRestoreConfiguration(self, restoreConf, setConfig=None):
     """Save all the information to a .conf file"""
+    # Generate the options dictionary
+    options = {}
     active = self.ui.restore1SourceTypeCombobox.get_active()
-    destination = self.ui.restore1DestinationEntry.get_text()
-    host = ''
-    username = ''
-    password = ''
-    port = '22'
-    path = ''
+    options["Destination"] = self.ui.restore1DestinationEntry.get_text()
+    # Default remote settings
+    options["RemoteHost"] = ''
+    options["RemotePort"] = 22
+    options["RemoteUsername"] = ''
+    options["RemotePassword"] = ''
+    options["RemoteSource"] = ''
     if active == 0: # set
       sourceType = 'set'
       date = ' - '.join(self.ui.restore1SetDateCombobox.get_active_text().split(' - ')[:-1])
@@ -1752,46 +1755,39 @@ class fwbackupsApp(interface.Controller):
       # this backup
       #engine = setConfig.get('Options', 'Engine')
       this_engine = self.ui.restore1SetDateCombobox.get_active_text().split(' - ')[-1]
-      if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
-        host = setConfig.get('Options', 'RemoteHost')
-        username = setConfig.get('Options', 'RemoteUsername')
-        password = setConfig.get('Options', 'RemotePassword').decode('base64')
-        port = setConfig.get('Options', 'RemotePort')
-        dest = setConfig.get('Options', 'RemoteFolder')
-        # here we use 'dest' exists remotely
-        # because we will transfer the remote file to the 'destination' first -  'dest' exists is only on the remote host
-        source = os.path.join(destination, os.path.basename(path))
-      else:
-        dest = setConfig.get('Options', 'Destination')
-        # here we use 'dest' exists locally
       if this_engine == 'rsync':
-        source = os.path.join(dest, '%s-%s-%s' % (_('Backup'), setConfig.getSetName(), date))
+        backupName = '%s-%s-%s' % (_('Backup'), setConfig.getSetName(), date)
       else:
-        source = os.path.join(dest, '%s-%s-%s.%s' % (_('Backup'), setConfig.getSetName(), date, this_engine))
+        backupName = '%s-%s-%s.%s' % (_('Backup'), setConfig.getSetName(), date, this_engine)
+      if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
+        options["RemoteHost"] = setConfig.get('Options', 'RemoteHost')
+        options["RemoteUsername"] = setConfig.get('Options', 'RemoteUsername')
+        options["RemotePassword"] = setConfig.get('Options', 'RemotePassword')
+        options["RemotePort"] = setConfig.get('Options', 'RemotePort')
+        remoteDestination = setConfig.get('Options', 'RemoteFolder')
+        options["RemoteSource"] = os.path.join(remoteDestination, backupName)
+        # RemoteSource is transferred to Destination before restoring begins
+        options["Source"] = os.path.join(options["Destination"], backupName)
+      else:
+        localDestination = setConfig.get('Options', 'Destination')
+        options["Source"] = os.path.join(localDestination, backupName)
     elif active == 1: # local archive
       sourceType = 'local archive'
-      source = self.ui.restore1ArchiveEntry.get_text()
+      options["Source"] = self.ui.restore1ArchiveEntry.get_text()
     elif active == 2: # local folder
       sourceType = 'local folder'
-      source = self.ui.restore1FolderEntry.get_text()
+      options["Source"] = self.ui.restore1FolderEntry.get_text()
     elif active == 3: # remote folder
       sourceType = 'remote archive (SSH)'
-      host = self.ui.restore1HostEntry.get_text()
-      username = self.ui.restore1UsernameEntry.get_text()
-      password = self.ui.restore1PasswordEntry.get_text()
-      port = self.ui.restore1PortEntry.get_text()
-      path = self.ui.restore1PathEntry.get_text()
-      source = os.path.join(destination, os.path.basename(path))
-    # Generate the options dictionary
-    options = {}
+      options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
+      options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
+      options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
+      options["RemotePort"] = self.ui.restore1PortEntry.get_text()
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
+      # RemoteSource is transferred to Destination before restoring begins
+      options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
+    # Finally, save all information
     options["SourceType"] = sourceType
-    options["Source"] = source
-    options["Destination"] = destination
-    options["RemoteHost"] = host
-    options["RemotePort"] = port
-    options["RemoteUsername"] = username
-    options["RemotePassword"] = password.encode('base64')
-    options["RemoteSource"] = path
     restoreConf.save(options)
 
   def on_restoreStartButton_clicked(self, widget):
@@ -2628,7 +2624,6 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.restoreHandle.getProgress()
       else:
         return
-      print status
       if status == restore.STATUS_RECEIVING_FROM_REMOTE: # no "current file" yet
         self.restore2RestorationProgress.set_text(_('Receiving files from remote server'))
       elif status == restore.STATUS_RESTORING: # we have a 'current file'
