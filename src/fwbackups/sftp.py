@@ -97,8 +97,11 @@ def receive(sftp, src, dst):
     return receiveFile(sftp, src, dst)
 
 def receiveFile(sftp, src, dst):
-  """Gets src (remote) to dest (local)."""
-  # open sftp, download then close
+  """Gets src (remote) to dst (local). dst may be a specific filename or a
+     folder."""
+  if os.path.isdir(dst):
+    # Use same filename
+    dst = os.path.join(dst, os.path.basename(src))
   sftp.get(src, dst)
   return True
 
