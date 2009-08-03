@@ -43,7 +43,7 @@ if MSWINDOWS:
   os.environ['PATH'] += ";%s\\lib;%s\\bin;%s" % (gtkdir[0], gtkdir[0], INSTALL_DIR)
   _winreg.CloseKey(k)
 
-try:        
+try:
   import gtk
   import gobject
 except:
@@ -125,7 +125,7 @@ def busyCursor(mainwin,insensitive=False):
 def normalCursor(mainwin):
   """Set Normal cursor in mainwin and make it sensitive"""
   mainwin.window.set_cursor(None)
-  mainwin.set_sensitive(True)    
+  mainwin.set_sensitive(True)
   doGtkEvents()
 
 def doGtkEvents():
@@ -154,7 +154,7 @@ class fwbackupsApp(interface.Controller):
     interface.Controller.__init__(self, '%s/fwbackups.glade' % os.path.abspath(os.path.dirname(__file__)), 'main')
     self.verbose = verbose
     self.runSetup(minimized=minimized)
-  
+
   def _setDefaults(self):
     """Setup default values"""
     if USER != 'root':
@@ -170,7 +170,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset5NiceScale.set_sensitive(False)
       self.ui.main3NiceScale.set_value(0.0)
       self.ui.main3NiceScale.set_sensitive(False)
-      
+
       self.ui.backupset5ExcludesTextview.get_buffer().set_text('')
       self.ui.backupset5ExcludesTextview.set_sensitive(False)
       self.ui.main3ExcludesTextview.get_buffer().set_text('')
@@ -180,19 +180,19 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4PkgListsToFileCheck.set_sensitive(False)
       self.ui.main3PkgListsToFileCheck.set_active(False)
       self.ui.main3PkgListsToFileCheck.set_sensitive(False)
-      
+
       self.ui.backupset4DiskInfoToFileCheck.set_active(False)
       self.ui.backupset4DiskInfoToFileCheck.set_sensitive(False)
       self.ui.main3DiskInfoToFileCheck.set_active(False)
       self.ui.main3DiskInfoToFileCheck.set_sensitive(False)
-      
+
       self.ui.backupset4BackupHiddenCheck.set_active(True)
       self.ui.backupset4BackupHiddenCheck.set_sensitive(False)
       self.ui.main3BackupHiddenCheck.set_active(True)
       self.ui.main3BackupHiddenCheck.set_sensitive(False)
 
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
-      
+
       self.ui.backupset4FollowLinksCheck.set_active(True)
       self.ui.backupset4FollowLinksCheck.set_sensitive(False)
       self.ui.main3FollowLinksCheck.set_active(True)
@@ -202,7 +202,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4SparseCheck.set_sensitive(False)
       self.ui.main3SparseCheck.set_active(False)
       self.ui.main3SparseCheck.set_sensitive(False)
-      
+
     # Default to page 0..
     self.ui.mainControlNotebook.set_current_page(0)
     self.ui.backupsetControlNotebook.set_current_page(0)
@@ -287,7 +287,7 @@ class fwbackupsApp(interface.Controller):
                        _('An error occured while setting up the configuration folder:\n%s' % error))
       sys.exit(1)
     # Step 2: Setup the logger
-    self.updateSplash(0.2, _('Setting up the logger'))
+    self.updateSplash(0.2, _('Setting up the logger and user preferences'))
     prefs = config.PrefsConf(create=True)
     if self.verbose == True or int(prefs.get('Preferences', 'AlwaysShowDebug')) == 1:
       level = fwlogger.L_DEBUG
@@ -441,7 +441,7 @@ class fwbackupsApp(interface.Controller):
     else:
       self.ui.TrayMenu1.popup(None, None, menu_pos, button, time)
     self.ui.TrayMenu1.show()
-  
+
   def displayInfo(self, parent, headerMessage, message, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
@@ -458,7 +458,7 @@ class fwbackupsApp(interface.Controller):
     else:
       dialog.destroy()
       return
-    
+
 
   def displayError(self, parent, headerMessage, message):
     """Wrapper for displaying the confirm dialog"""
@@ -485,7 +485,7 @@ class fwbackupsApp(interface.Controller):
     else:
       dialog.destroy()
       return
-    
+
   def displayConfirm(self, parent, headerMessage, message, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
@@ -502,7 +502,7 @@ class fwbackupsApp(interface.Controller):
     else:
       dialog.destroy()
       return response
-  
+
   ###
   ### TRAY ICON ###
   ###
@@ -567,12 +567,12 @@ class fwbackupsApp(interface.Controller):
 
   def _toggleLocked(self, bool, keepSensitive=[]):
     """Toggle locking in the UI"""
-    for widget in   [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, 
+    for widget in   [self.ui.BackupSetsRadioTool, self.ui.backup_sets1,
                      self.ui.OneTimeRadioTool, self.ui.one_time_backup1,
                      self.ui.RestoreToolButton, self.ui.restore1,
                      self.ui.backupset, self.ui.restore,
                      self.ui.main2VButtonBox, self.ui.main3VButtonBox,
-                     self.ui.main2Iconview, 
+                     self.ui.main2Iconview,
                      self.ui.new_set1,
                      self.ui.import_sets1,
                      self.ui.export_sets1]:
@@ -583,7 +583,7 @@ class fwbackupsApp(interface.Controller):
                    self.ui.duplicate_set1,
                    self.ui.remove_set1]:
       widget.set_sensitive(False)
-      
+
   def help(self):
     """Display help """
     try:
@@ -605,7 +605,13 @@ class fwbackupsApp(interface.Controller):
     files.sort()
     for file in files:
       if file.endswith('.conf') and file != 'temporary_config.conf':
-        setConf = config.BackupSetConf(os.path.join(SETLOC, file))
+        from ConfigParser import NoOptionError
+        try:
+          setConf = config.BackupSetConf(os.path.join(SETLOC, file))
+        except (config.ConfigError, NoOptionError):
+          self.displayError(self.ui.main, _("Invalid Configuration"),
+            _("The set configuration file `%s' failed to validate, so it may not be scheduled. Other set's configurations are unaffected." % file))
+          continue
         setName = setConf.getSetName()
         entry = setConf.get('Times', 'Entry').split(' ')[:5]
         if MSWINDOWS: # needs an abs path because pycron=system user
@@ -675,10 +681,10 @@ class fwbackupsApp(interface.Controller):
       pass
     fwlogger.shutdown()
     return False # we want it to kill the window
-  
+
 
   # FIXME: When this is run for restore, we should check for write permissions.
-  def testConnection(self, progress, host, username, password, port, path):
+  def testConnection(self, parent, progress, host, username, password, port, path):
     """Test connection settings"""
     from fwbackups import sftp
     import socket
@@ -696,42 +702,40 @@ class fwbackupsApp(interface.Controller):
     progress.set_text('')
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
     if thread.retval == True:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                            _('Success!'),
                            _('All settings are correct. Remember to ensure that ' + \
                              'you have permissions to write to the selected folder.'))
     elif type(thread.exception) == IOError:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                            _('Incorrect Settings'),
                            _('The selected folder was either not found or the ' + \
                              'the path supplied points to a file.'))
     elif type(thread.exception) == paramiko.AuthenticationException:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                             _('Authentication failed'),
                             _('A connection was established, but authentication ' + \
                               'failed. Please verify the username and password ' + \
                               'and try again.'))
     elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                             _('Connection failed'),
                             _('A connection to the server could not be established:\n' + \
                               'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
                               '\nPlease verify your settings and try again.'))
     elif type(thread.exception) == socket.timeout:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                             _('Connection failed'),
                             _('The connection to the server timed out. ' + \
                               'Please verify your settings and try again.'))
     elif type(thread.exception) == paramiko.SSHException:
-      self.displayInfo(self.ui.backupset,
+      self.displayInfo(parent,
                             _('Connection failed'),
                             _('A connection to the server could not be established ' + \
                               'because an error occurred: %s' % str(thread.exception) + \
                               '\nPlease verify your settings and try again.'))
     else:
-      self.displayInfo(self.ui.backupset,
-                            _('Unhandled error'),
-                            thread.traceback)
+      self.displayInfo(parent, _('Unhandled error'), thread.traceback)
   ###
   ### MENUS ###
   ###
@@ -873,7 +877,7 @@ class fwbackupsApp(interface.Controller):
 
   # Switch tabs...  # Switch tabs...  # Switch tabs...
   """It's the same thing over and over so I'll explain here.
-    There are the menu callbacks under the View menu to switch to the 
+    There are the menu callbacks under the View menu to switch to the
     various tabs. Each function is essentially  doing 'When I'm toggled,
     check if I'm sensitive.
      > If yes, switch me to the correct tab.
@@ -927,7 +931,7 @@ class fwbackupsApp(interface.Controller):
   def on_restore1_activate(self, widget):
     """Show restore window"""
     self.on_RestoreToolButton_clicked(widget)
-    
+
   """It's the same thing over and over so I'll explain here.
     There are the toolbar button callbacks to switch to the various tabs.
  """
@@ -960,8 +964,10 @@ class fwbackupsApp(interface.Controller):
         exists = True
       except:
         exists = False
-    else:
+    elif LINUX:
       exists = os.path.exists('%s/.config/autostart/fwbackups-autostart.desktop' % USERHOME)
+    elif DARWIN: # FIXME: Figure out autostart on OS X
+      exists = False
     self.ui.preferencesSessionStartupCheck.set_active(exists)
     self.ui.preferencesAlwaysShowDebugCheck.set_active(prefs.getboolean('Preferences', 'AlwaysShowDebug'))
     self.ui.preferencesMinimizeTrayCloseCheck.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
@@ -1055,7 +1061,7 @@ class fwbackupsApp(interface.Controller):
           os.remove('%s/.config/autostart/fwbackups-autostart.desktop' % USERHOME)
         except Exception, error:
           self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart file: %s' % error))
-      
+
   def on_preferencesAlwaysShowDebugCheck_toggled(self, widget):
     """Set always debug"""
     prefs = config.PrefsConf()
@@ -1094,7 +1100,7 @@ class fwbackupsApp(interface.Controller):
       pycronLoc = self.ui.preferencesPycronEntry.get_text()
       if not pycronLoc:
         self.displayInfo(self.ui.preferences,
-                              _('Invalid input'),
+                              _('Missing information'),
                               _('Please enter a Pycron installation directory.'))
         return
       if not os.path.exists('%s/pycron.cfg' % pycronLoc) and not os.path.exists('%s/pycron.cfg.sample' % pycronLoc):
@@ -1116,11 +1122,11 @@ class fwbackupsApp(interface.Controller):
   ### ABOUT WINDOW ###
   ###
 
-    
+
   def on_aboutCloseButton_clicked(self, widget):
     """Close button for About"""
     self.hide(self.ui.about)
-    
+
   def on_aboutWebsiteButton_clicked(self, widget):
     import webbrowser
     webbrowser.open_new('http://www.diffingo.com/opensource')
@@ -1130,7 +1136,7 @@ class fwbackupsApp(interface.Controller):
   ### BACKUPSET WINDOW ###
   ###
 
-    
+
   def on_backupset2LocalFolderEntry_changed(self, widget):
     """Called when the set destination entry changes.
         Check the permissions when the set destination change."""
@@ -1148,11 +1154,11 @@ class fwbackupsApp(interface.Controller):
   def on_backupset1AddFolderButton_clicked(self, widget):
     """Add path"""
     self.backupset1PathView.addFolder()
-    
+
   def on_backupset1AddFileButton_clicked(self, widget):
     """Add file"""
     self.backupset1PathView.addFile()
-    
+
   def on_backupset1RemoveButton_clicked(self, widget):
     """Remove path"""
     self.backupset1PathView.removePath()
@@ -1166,14 +1172,14 @@ class fwbackupsApp(interface.Controller):
     for i in tables:
       i.set_sensitive(False)
     tables[active].set_sensitive(True)
-    
+
     # disable incremental for remote
     if active == 1:
       self.ui.backupset4IncrementalCheck.set_active(False)
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
     elif not MSWINDOWS:
       self.ui.backupset4IncrementalCheck.set_sensitive(True)
-      
+
   def on_backupset2FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.backupset,
@@ -1193,10 +1199,10 @@ class fwbackupsApp(interface.Controller):
     port = self.ui.backupset2PortEntry.get_text()
     folder = self.ui.backupset2RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
-      self.displayInfo(self.ui.backupset, _('Invalid input'),
+      self.displayInfo(self.ui.backupset, _('Missing information'),
                         _('Please complete all of the host, username, folder ' + \
                           'and port fields.'))
-    self.testConnection(self.backupset2TestSettingsProgress, host, username, password, port, folder)
+    self.testConnection(self.ui.backupset, self.backupset2TestSettingsProgress, host, username, password, port, folder)
 
   ### TAB 3: TIMES
   # Time: Only/At
@@ -1240,7 +1246,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset3ManualConfigTable.set_sensitive(not self.ui.backupset3ManualConfigTable.get_property('sensitive'))
     time.sleep(0.2)
     self.ui.backupset3EasyConfigExpander.set_expanded(not self.ui.backupset3EasyConfigExpander.get_expanded())
-    
+
   ### TAB 4: OPTIONS
   def on_backupset4EngineRadio2_toggled(self, widget):
     """Set the sensibility of Incremental"""
@@ -1250,7 +1256,7 @@ class fwbackupsApp(interface.Controller):
     else:
       self.ui.backupset4IncrementalCheck.set_sensitive(False)
       self.ui.backupset4IncrementalCheck.set_active(False)
-  
+
   def on_backupset4IncrementalCheck_toggled(self, widget):
     """To Keep must be 0"""
     if self.ui.backupset4IncrementalCheck.get_active():
@@ -1283,7 +1289,7 @@ class fwbackupsApp(interface.Controller):
       except:
         pass
     setConf = config.BackupSetConf(tempConfPath, True)
-    self._restoreSet(setConf)
+    self.restoreSetSettingsToUI(setConf)
     self.action = 'editingSet;temporary_config'
     self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, self.ui.backupset])
     self.ui.backupset.show()
@@ -1304,7 +1310,7 @@ class fwbackupsApp(interface.Controller):
     self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, self.ui.backupset])
     self.ui.backupset.show()
     setConf = config.BackupSetConf(setPath)
-    self._restoreSet(setConf)
+    self.restoreSetSettingsToUI(setConf)
 
 
   def on_main2RemoveSetButton_clicked(self, widget):
@@ -1385,11 +1391,11 @@ class fwbackupsApp(interface.Controller):
     self.ui.main2CancelBackupButton.show()
     self.ui.main2CancelBackupButton.set_sensitive(False)
     self.main2IconviewRefresh()
-    
+
   def on_main2CancelBackupButton_clicked(self, widget):
     """Cancel set backup button in main"""
     self.cancelSetBackup()
-    
+
   def on_main2RestoreSetButton_clicked(self, widget):
     """Restore button in main"""
     try:
@@ -1403,7 +1409,7 @@ class fwbackupsApp(interface.Controller):
     self._setRestoreSetName(setName)
 
   ### TAB 3: ONE-TIME BACKUP
-  
+
   def on_main3AddFolderButton_clicked(self, widget):
     """Add path in One-time backup"""
     self.main3PathView.addFolder()
@@ -1425,12 +1431,12 @@ class fwbackupsApp(interface.Controller):
       active = self.ui.main3DestinationTypeCombobox.get_active()
       if active == 0: # local
         if not self.ui.main3LocalFolderEntry.get_text():
-          self.displayInfo(self.ui.main, _('Invalid input'), _('Please fill in the Folder field.'))
+          self.displayInfo(self.ui.main, _('Missing information'), _('Please fill in the Folder field.'))
           return
       elif active == 1: # remote
         if not self.ui.main3HostEntry.get_text() or not self.ui.main3UsernameEntry.get_text()\
         or not self.ui.main3PortEntry.get_text() or not self.ui.main3RemoteFolderEntry.get_text():
-          self.displayInfo(self.ui.main, _('Invalid input'), _('Please fill in the Host, Username, Port and Folder fields.'))
+          self.displayInfo(self.ui.main, _('Missing information'), _('Please fill in the Host, Username, Port and Folder fields.'))
           return
         if not re.compile('^[0-9]*$').search(self.ui.main3PortEntry.get_text()):
           self.displayInfo(self.ui.main, _('Invalid input'), _('The Port field can only contain numbers.'))
@@ -1440,7 +1446,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3ControlNotebook.set_current_page(currentPage + 1)
     self.ui.main3BackButton.show()
     self.ui.main3BackButton.set_sensitive(True)
-    
+
   def on_main3BackButton_clicked(self, widget):
     """Back button on One Time backup"""
     currentPage = self.ui.main3ControlNotebook.get_current_page()
@@ -1471,7 +1477,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3PortEntry.set_text('22')
     self._toggleLocked(False)
     self.setStatus(_('Idle'))
-    
+
   def on_main3StartBackupButton_clicked(self, widget):
     """Start one-time backup on Main"""
     self.ui.main3ControlNotebook.set_current_page(3)
@@ -1524,24 +1530,24 @@ class fwbackupsApp(interface.Controller):
     port = self.ui.main3PortEntry.get_text()
     folder = self.ui.main3RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
-      self.displayInfo(self.ui.main, _('Invalid input'),
+      self.displayInfo(self.ui.main, _('Missing information'),
                         _('Please complete all of the host, username, folder ' + \
                           'and port fields.'))
       return False
-    self.testConnection(self.main3TestSettingsProgress, host, username, password, port, folder)
-    
+    self.testConnection(self.ui.main, self.main3TestSettingsProgress, host, username, password, port, folder)
+
   ### TAB 4: LOGGER
 
   def updateLogViewer(self, severity, message):
     """Add a message to the log viewer"""
     # idle_add because this is called from logger, in ANOTHER THREAD.
     gobject.idle_add(self.logconsole.write_log_line, message)
-    
+
   def on_LogViewerRefreshButton_clicked(self, widget):
     """Refresh log viewer"""
     self.logconsole.clear()
     self.logconsole.goBottom()
-    
+
   def on_LogViewerClearButton_clicked(self, widget):
     """Clear the log"""
     def clearlog():
@@ -1551,7 +1557,7 @@ class fwbackupsApp(interface.Controller):
       overwrite.close()
       self.logconsole.clear()
       self.logger.logmsg('INFO', _('Log cleared'))
-      
+
     prefs = config.PrefsConf()
     if int(prefs.get('Preferences', 'DontShowMe_ClearLog')) == 1:
       return clearlog()
@@ -1564,7 +1570,7 @@ class fwbackupsApp(interface.Controller):
       else:
         prefs.set('Preferences', 'DontShowMe_ClearLog', 0)
       clearlog()
-  
+
   def on_LogViewerSaveToFileButton_clicked(self, widget):
     """Save log to file"""
     saveFilename = widgets.saveFilename(self.ui.main)
@@ -1578,7 +1584,7 @@ class fwbackupsApp(interface.Controller):
 
 
   ### RESTORE WINDOW ###
-      
+
   def on_restore1SourceTypeCombobox_changed(self, widget):
     """Source type changed: Change sensitivity"""
     active = widget.get_active()
@@ -1597,7 +1603,7 @@ class fwbackupsApp(interface.Controller):
       pass
     else:
       image.set_from_stock(gtk.STOCK_NO, gtk.ICON_SIZE_BUTTON)
-  
+
   def _setRestoreSetName(self, setName):
     """Set the box choices based on setname"""
     model = self.ui.restore1SetNameCombobox.get_model()
@@ -1610,7 +1616,24 @@ class fwbackupsApp(interface.Controller):
       offset += 1
     self.ui.restore1SetNameCombobox.set_active_iter(iter)
     self._populateDates(setName)
-    
+
+  def getRemoteBackupDates(self, setConfig):
+    """Retrieves a list of backups for backup set 'setName'"""
+    from fwbackups import sftp
+    import socket
+    host = setConfig.get('Options', 'RemoteHost')
+    username = setConfig.get('Options', 'RemoteUsername')
+    password = setConfig.get('Options', 'RemotePassword').decode('base64')
+    port = setConfig.get('Options', 'RemotePort')
+    destination = setConfig.get('Options', 'RemoteFolder')
+    client, sftpClient = sftp.connect(host, username, password, port)
+    try:
+      listing = sftpClient.listdir(destination)
+      return listing
+    finally:
+      sftpClient.close()
+      client.close()
+
   def _populateDates(self, setName):
     """Populates restore1SetDateCombobox with the appropriate backup date entries"""
     model = self.ui.restore1SetDateCombobox.get_model()
@@ -1618,61 +1641,52 @@ class fwbackupsApp(interface.Controller):
     setPath = os.path.join(SETLOC, "%s.conf" % setName)
     setConfig = config.BackupSetConf(setPath)
     if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
-        from fwbackups import sftp
-        import socket
-        host = setConfig.get('Options', 'RemoteHost')
-        username = setConfig.get('Options', 'RemoteUsername')
-        password = setConfig.get('Options', 'RemotePassword').decode('base64')
-        port = setConfig.get('Options', 'RemotePort')
-        destination = setConfig.get('Options', 'RemoteFolder')
-        try:
-          client, sftpClient = sftp.connect(host, username, password, port)
-          listing = sftpClient.listdir(destination)
-          sftpClient.close()
-          client.close()
-        except paramiko.AuthenticationException:
-          self.displayInfo(self.ui.restore,
-                            _('Could not list files in destination'),
-                            _('A connection was established, but authentication failed. ' + \
-                            "\nPlease verify the set's connection settings and try again."))
-          return
-        except (socket.gaierror, socket.error), error:
-          self.displayInfo(self.ui.restore,
-                            _('Could not list files in destination'),
-                            _('A connection to the server could not be established:\n' + \
-                              '%s' % error + \
-                            "\nPlease verify the set's connection settings and try again."))
-          return
-        except socket.timeout, error:
-          self.displayInfo(self.ui.restore,
-                            _('Could not list files in destination'),
-                            _('The connection to the server timed out. ' + \
-                            "\nPlease verify the set's connection settings and try again."))
-          return
-        except paramiko.SSHException, error:
-          self.displayInfo(self.ui.restore,
-                            _('Could not list files in destination'),
-                            _('A connection to the server could not be established ' + \
-                              'because an error occurred: %s' % error + \
-                            "\nPlease verify the set's connection settings and try again."))
-          return
-        except OSError, error:
-          self.displayError(self.ui.restore,
-                            _('Could not list files in destination'),
-                            _("The  destination folder `%s' does not exist or is not a folder!"  % destination))
-          return
+      self.ui.restore1SourceTypeCombobox.set_sensitive(False)
+      self.ui.restore1SetDateCombobox.set_sensitive(False)
+      model.append(["Connecting to server, please wait..."])
+      self.ui.restore1SetDateCombobox.set_active(0)
+      thread = fwbackups.runFuncAsThread(self.getRemoteBackupDates, setConfig)
+      while thread.retval == None:
+        while gtk.events_pending():
+          gtk.main_iteration()
+        time.sleep(0.01)
+      model.clear()
+      # Default to None (see 'if listing == None' check later)
+      listing = None
+      # Check return value
+      if type(thread.retval) == list:
+        listing = thread.retval
+      elif type(thread.exception) in [IOError, OSError]:
+        self.displayInfo(self.ui.restore, _("Backups not found"),
+          _("The destination folder was not found. Please check the backup set's settings"))
+      elif type(thread.exception) == paramiko.AuthenticationException:
+        self.displayInfo(self.ui.restore, _("Authentication failed"),
+          _("A connection was established, but authentication failed. Please verify the username and password and try again."))
+      elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
+        self.displayInfo(self.ui.restore, _("Connection failed"),
+          _("A connection to the server could not be established:\nError %(a)s: %(b)s\nPlease verify your settings and try again.") % {'a': type(thread.exception), 'b': str(thread.exception)})
+      elif type(thread.exception) == socket.timeout:
+        self.displayInfo(self.ui.restore, _("Connection failed"),
+          _("The connection to the server timed out. Please verify your settings and try again."))
+      elif type(thread.exception) == paramiko.SSHException:
+        self.displayInfo(self.ui.restore, _("Connection failed"),
+          _("A connection to the server could not be established because an error occurred: %s\nPlease verify your settings and try again.") % str(thread.exception))
+      else:
+        self.displayInfo(self.ui.restore, _('Unhandled error'), thread.traceback)
+      # Restore sensitivity to the widgets
+      self.ui.restore1SourceTypeCombobox.set_sensitive(True)
+      self.ui.restore1SetDateCombobox.set_sensitive(True)
+      # If an error occurred and a listing could not be obtained, return
+      if listing == None:
+        return
     else:
       try:
         destination = setConfig.get('Options', 'Destination')
         listing = os.listdir(destination)
       except OSError, error:
-        self.logger.logmsg('WARNING', _('Error obtaining file listing in destination ' + \
-                                '%(a)s:\n%(b)s') % {'a': destination, 'b': error})
-        self.displayError(self.ui.restore,
-                              _('Could not list files in destination'),
-                              _('A list of files in destination folder "%s" could '  % destination + \
-                                'not be determined. If the destination is on removable' + \
-                                ' media, please attach it and try again.'))
+        self.logger.logmsg("WARNING", _("Error obtaining file listing in destination %(a)s:\n%(b)s") % {'a': destination, 'b': error})
+        self.displayError(self.ui.restore, _('Could not list files in destination'),
+          _("A list of files in destination folder '%s' could not be determined. If the destination is on removable media, please attach it and try again.") % destination)
         return
     listing.sort() # [oldest, older, old, new, newest]
     listing.reverse() # make newest first
@@ -1713,14 +1727,14 @@ class fwbackupsApp(interface.Controller):
     port = self.ui.restore1PortEntry.get_text()
     path = self.ui.restore1PathEntry.get_text()
     if not (host and username and port and path):
-      self.displayInfo(self.ui.main, _('Invalid input'), _('Please complete all of the host, username, folder and port fields.'))
+      self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
     if self.ui.restore1SourceTypeCombobox.get_active() == 3:
-      self.testConnection(self.restore1TestSettingsProgress, host, username, password, port, path)
+      self.testConnection(self.ui.restore, self.restore1TestSettingsProgress, host, username, password, port, path)
     else:
-      self.testConnection(self.restore1TestSettingsProgress, host, username, password, port, path)
-  
-  def _saveRestore(self, restoreConf, setConfig=None):
+      self.testConnection(self.ui.restore, self.restore1TestSettingsProgress, host, username, password, port, path)
+
+  def saveRestoreConfiguration(self, restoreConf, setConfig=None):
     """Save all the information to a .conf file"""
     active = self.ui.restore1SourceTypeCombobox.get_active()
     destination = self.ui.restore1DestinationEntry.get_text()
@@ -1756,7 +1770,7 @@ class fwbackupsApp(interface.Controller):
         source = os.path.join(dest, '%s-%s-%s.%s' % (_('Backup'), setConfig.getSetName(), date, this_engine))
     elif active == 1: # local archive
       sourceType = 'local archive'
-      source = self.ui.restore1ArchiveEntry.get_text()      
+      source = self.ui.restore1ArchiveEntry.get_text()
     elif active == 2: # local folder
       sourceType = 'local folder'
       source = self.ui.restore1FolderEntry.get_text()
@@ -1785,49 +1799,51 @@ class fwbackupsApp(interface.Controller):
     active = self.ui.restore1SourceTypeCombobox.get_active()
     restoreConfig = config.RestoreConf(RESTORELOC, True)
     if active == 0: # Set backup
-      # FIXME: load remote settings
-      # FIXME: Fail if using remote destination + rsync
-      if not self.ui.restore1SetDateCombobox.get_active_text():
-        self.displayInfo(self.ui.restore, _('Invalid input'), _('Please select a backup date.'))
+      if self.ui.restore1SetDateCombobox.get_active() == None:
+        self.displayInfo(self.ui.restore, _('Backup date'), _('Please select a backup date.'))
         return False
       setModel = self.ui.restore1SetNameCombobox.get_model()
       setActiveIter = self.ui.restore1SetNameCombobox.get_active_iter()
       setName = setModel.get_value(setActiveIter, 0)
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
       setConfig = config.BackupSetConf(setPath)
+      # We can't start a restore if there are no set dates
+      if self.ui.restore1SetDateCombobox.get_active_text() == _("No backups found"):
+        self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Please choose another set, or alternatively choose a different restore source.") % setName)
+        return False
       if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
           if setConfig.get('Options', 'Engine') == 'rsync':
-            self.displayInfo(self.ui.restore, _('Invalid input'),
+            self.displayError(self.ui.restore, _('Feature not supported'),
                              _('Sorry, restoring from a remote folder (rsync) is not supported yet.' + \
                                ' Please select a backup which uses a different backend and try again.'))
             return False
-      self._saveRestore(restoreConfig, setConfig)
+      self.saveRestoreConfiguration(restoreConfig, setConfig)
     elif active == 1: # Local archive
       filename = self.ui.restore1ArchiveEntry.get_text()
       if not filename:
-        self.displayInfo(self.ui.main, _('Invalid input'), _('Please enter the location of the local archive.'))
+        self.displayInfo(self.ui.main, _('Restore source'), _('Please enter the location of the local archive.'))
         return False
       elif not filename.endswith('.tar') and not filename.endswith('.tar.gz') and not filename.endswith('.tar.bz2'):
         self.displayInfo(self.ui.restore, _('Wrong file type'),
                          _('The file you selected is not a supported archive.\n' + \
                          'Supported archives types are tar with no, gzip or bzip2 compression.'))
         return False
-      self._saveRestore(restoreConfig)
+      self.saveRestoreConfiguration(restoreConfig)
     elif active == 2: # local folder
       if not self.ui.restore1FolderEntry.get_text():
-        self.displayInfo(self.ui.main, _('Invalid input'), _('Please enter the location of the local folder.'))
+        self.displayInfo(self.ui.main, _('Restore source'), _('Please enter the location of the local folder.'))
         return False
-      self._saveRestore(restoreConfig)
+      self.saveRestoreConfiguration(restoreConfig)
     elif active == 3: # remote archive
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
       port = self.ui.restore1PortEntry.get_text()
       path = self.ui.restore1PathEntry.get_text()
       if not (host and username and port and path):
-        self.displayInfo(self.ui.main, _('Invalid input'), _('Please complete all of the host, username, folder and port fields.'))
+        self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
         return False
-      self._saveRestore(restoreConfig)
-    
+      self.saveRestoreConfiguration(restoreConfig)
+
     # finally...
     self.ui.restoreFinishButton.set_sensitive(False)
     self.ui.restoreFinishButton.show()
@@ -1842,7 +1858,7 @@ class fwbackupsApp(interface.Controller):
   def on_restoreCloseButton_clicked(self, widget):
     """Cancel the restore window - Close window"""
     self.on_restoreFinishButton_clicked(widget)
-    
+
   def on_restoreFinishButton_clicked(self, widget):
     """Finish the restore"""
     self._toggleLocked(False, [self.ui.restore])
@@ -1854,7 +1870,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.restoreFinishButton.hide()
     self.ui.restore.hide()
     self.setStatus(_('Idle'))
-    
+
   def on_restore1HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
     self.ui.restore1PasswordEntry.set_visibility(not widget.get_active())
@@ -1920,7 +1936,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.ManualDaysOfMonthEntry.set_text('')
     self.ui.ManualMonthEntry.set_text('')
     self.ui.ManualDaysOfWeekEntry.set_text('')
-    
+
     self.ui.MonthOnlyBox.set_active(0)
     self.ui.MonthFromBox1.set_active(0)
     self.ui.MonthFromBox2.set_active(0)
@@ -1930,7 +1946,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.DaysWeekFromBox2.set_active(0)
 
     self.ui.HoursAtBox.set_active(0)
-    
+
     self.ui.MonthAll.set_active(True)
     self.ui.DaysWeekAll.set_active(True)
     self.ui.MonthAll.set_active(True)
@@ -1949,8 +1965,8 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2DestinationTypeNotebook.set_current_page(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
     self._setDefaultTimes()
-        
-  def _restoreSet(self, setConf):
+
+  def restoreSetSettingsToUI(self, setConf):
     """Restore all the information from a .conf file"""
     self.ui.backupset1NameEntry.set_text(setConf.getSetName())
     # Restore times
@@ -2105,16 +2121,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4DiskInfoToFileCheck.set_active(False)
       self.ui.backupset4DiskInfoToFileCheck.set_sensitive(False)
 
-  def _saveRow(self, model, path, iter, user_data, filePath=False):
-    """Saves one row to the configuration"""
-    setConf = user_data
-    if not filePath:
-      filePath = model.get_value(iter, 1)
-    pathno = 'path' + str(self.pathnumber)
-    setConf.set('Paths', pathno, filePath)
-    self.pathnumber = int(self.pathnumber + 1)
-    
-  def _saveSet(self, setConf, origSetName=None):
+  def saveSetConfiguration(self, setConf, origSetName=None):
     """Save all the information to a .conf file, add to crontab"""
     # Generate a list of paths
     paths = []
@@ -2201,9 +2208,9 @@ class fwbackupsApp(interface.Controller):
     options["FollowLinks"] = int(self.ui.backupset4FollowLinksCheck.get_active())
     options["Incremental"] = int(self.ui.backupset4IncrementalCheck.get_active())
     if self.ui.backupset4EngineRadio1.get_active():
-      engine = 'tar'        
+      engine = 'tar'
     elif self.ui.backupset4EngineRadio2.get_active():
-      engine = 'rsync'        
+      engine = 'rsync'
     elif self.ui.backupset4EngineRadio3.get_active():
       engine = 'tar.gz'
     elif self.ui.backupset4EngineRadio4.get_active():
@@ -2248,7 +2255,7 @@ class fwbackupsApp(interface.Controller):
     self.icon = self.ui.backupset.render_icon(gtk.STOCK_DIRECTORY, gtk.ICON_SIZE_DIALOG)
     # Keep things clean...
     self.main2IconviewRefresh()
-    
+
   def main3TabSetup(self):
     """Setup the OneTime tab for use"""
     self.main3BackupProgress = widgets.ProgressBar(self.ui.main3BackupProgress)
@@ -2292,18 +2299,18 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3LocalFolderEntry.set_text(USERHOME)
     self.ui.main3DestinationTypeCombobox.set_active(0)
     self.ui.main3EngineRadio1.set_active(True)
-  
+
   def on_backupsetApplyButton_clicked(self, widget):
     """Apply changes to backupset"""
     active = self.ui.backupset2DestinationTypeCombobox.get_active()
     if active == 0: # local
       if not self.ui.backupset2LocalFolderEntry.get_text():
-        self.displayInfo(self.ui.main, _('Invalid input'), _('Please fill in the Folder field.'))
+        self.displayInfo(self.ui.main, _('Missing information'), _('Please fill in the Folder field.'))
         return
     elif active == 1: # remote
       if not self.ui.backupset2HostEntry.get_text() or not self.ui.backupset2UsernameEntry.get_text()\
       or not self.ui.backupset2PortEntry.get_text() or not self.ui.backupset2RemoteFolderEntry.get_text():
-        self.displayInfo(self.ui.backupset, _('Invalid input'), _('Please fill in the Host, Username, Port and Folder fields.'))
+        self.displayInfo(self.ui.backupset, _('Missing information'), _('Please fill in the Host, Username, Port and Folder fields.'))
         return
       if not re.compile('^[0-9]*$').search(self.ui.backupset2PortEntry.get_text()):
         self.displayInfo(self.ui.backupset, _('Invalid input'), _('The Port field can only contain numbers.'))
@@ -2316,14 +2323,14 @@ class fwbackupsApp(interface.Controller):
     newPath = os.path.join(SETLOC, "%s.conf" % newName)
     setConf = config.BackupSetConf(newPath, True)
     if self.action == None:
-      self._saveSet(setConf)
+      self.saveSetConfiguration(setConf)
       message = _('Creating set `%s\'' % newName)
       self.statusbar.newmessage(message, 3)
       self.logger.logmsg('DEBUG', message)
     else: # edit
       action, name = self.action.split(';')
       self.action = None
-      self._saveSet(setConf, name)
+      self.saveSetConfiguration(setConf, name)
       if name != newName:
         try:
           namepath = os.path.join(SETLOC, "%s.conf" % name)
@@ -2379,7 +2386,7 @@ class fwbackupsApp(interface.Controller):
       elif status == backup.STATUS_EXECING_USER_COMMAND:
         self.main2BackupProgress.set_text(_('Executing user command'))
       return self.updateReturn
-      
+
     try:
       selected = self.ui.main2Iconview.get_selected_items()[0]
       iterator = self.ui.main2Iconview.get_model().get_iter(selected)
@@ -2465,7 +2472,7 @@ class fwbackupsApp(interface.Controller):
   # ----------------------------------------------------------
 
 
-  def _saveOneTime(self, oneTimeConf):
+  def saveOneTimeConfiguration(self, oneTimeConf):
     """Save all the information to a .conf file"""
     # Generate a list of paths
     paths = []
@@ -2497,9 +2504,9 @@ class fwbackupsApp(interface.Controller):
     # no incremental for one-time
     options["Incremental"] = 0
     if self.ui.main3EngineRadio1.get_active():
-      engine = 'tar'        
+      engine = 'tar'
     elif self.ui.main3EngineRadio2.get_active():
-      engine = 'rsync'        
+      engine = 'rsync'
     elif self.ui.main3EngineRadio3.get_active():
       engine = 'tar.gz'
     elif self.ui.main3EngineRadio4.get_active():
@@ -2535,9 +2542,9 @@ class fwbackupsApp(interface.Controller):
       elif status == backup.STATUS_EXECING_USER_COMMAND:
         self.main3BackupProgress.set_text(_('Executing user command'))
       return self.updateReturn
-    
+
     oneTimeConfig = config.OneTimeConf(ONETIMELOC, True)
-    self._saveOneTime(oneTimeConfig)
+    self.saveOneTimeConfiguration(oneTimeConfig)
     self.ui.main3ControlNotebook.set_current_page(3)
     self.ui.OneTimeRadioTool.set_active(True)
     prefs = config.PrefsConf()
@@ -2608,7 +2615,7 @@ class fwbackupsApp(interface.Controller):
     self.backupHandle.cancelOperation()
     self.main3BackupProgress.set_text(_('Please wait...'))
     self.setStatus(_('Cancelling...'))
-  
+
   def startRestore(self):
     """Start a set backup"""
     def updateProgress(self):
@@ -2622,7 +2629,7 @@ class fwbackupsApp(interface.Controller):
       elif status == restore.STATUS_RESTORING: # we have a 'current file'
         self.restore2RestorationProgress.set_text(_('Restoring: %s' % current))
       return self.updateReturn
-    
+
     self.ui.restoreControlNotebook.set_current_page(1)
     prefs = config.PrefsConf()
     self.operationInProgress = True

@@ -8,6 +8,7 @@
     - Rewrite portions of the configuration classes in config.py to make them
       faster and more flexible
     - Deprecate const.ConvertPath() in favor of os.path.join()
+    - Minor UI bugfixes/enhancements
 
   * Thu Jul 30 2009 Stewart Adam <s.adam at diffingo.com>
     - Remove the names only package lists
