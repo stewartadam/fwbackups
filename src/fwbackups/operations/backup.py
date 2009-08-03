@@ -386,12 +386,15 @@ class BackupOperation(operations.Common):
             retval = sub.poll()
             self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
             # Something wrong?
-            if retval != EXIT_STATUS_OK and retval != 2:
+            if retval not in [EXIT_STATUS_OK, 2]:
               wasAnError = True
               self.logger.logmsg('ERROR', "Error(s) occurred while backing up path '%s'.\nPlease check the error output below to determine if any files are incomplete or missing." % str(i))
               self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
     
-    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)':
+    self.ifCancel()
+    # A test is included to ensure sure the archive actually exists, as if
+    # wasAnError = True the archive might not even exist.
+    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(self.dest):
       self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
       self._status = STATUS_SENDING_TO_REMOTE
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
