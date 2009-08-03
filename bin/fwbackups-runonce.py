@@ -172,7 +172,7 @@ if __name__ == "__main__":
     onetime.set('Paths', pathno, os.path.abspath(i))
     pathnumber = int(pathnumber + 1)
   try:
-    backupHandle = backup.OneTimeBackupOperation(logger=logger)
+    backupHandle = backup.OneTimeBackupOperation(ONETIMELOC, logger=logger)
     backupThread = fwbackups.FuncAsThread(backupHandle.start, {}, raiseOnException=False)
   except:
     import traceback

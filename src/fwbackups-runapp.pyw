@@ -2408,7 +2408,7 @@ class fwbackupsApp(interface.Controller):
     self.main2BackupProgress.startPulse()
     self.main2BackupProgress.set_text(_('Please wait...'))
     try:
-      self.backupHandle = backup.SetBackupOperation(name)
+      self.backupHandle = backup.SetBackupOperation(os.path.join(SETLOC, "%s.conf" % name))
       self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
       self.ui.main2CancelBackupButton.show()
       self.ui.main2CancelBackupButton.set_sensitive(True)
@@ -2564,7 +2564,7 @@ class fwbackupsApp(interface.Controller):
     self.main3BackupProgress.startPulse()
     self.main3BackupProgress.set_text(_('Please wait...'))
     try:
-      self.backupHandle = backup.OneTimeBackupOperation(self.logger)
+      self.backupHandle = backup.OneTimeBackupOperation(ONETIMELOC, self.logger)
       self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
       self.setStatus(_('Working'))
       self.updateReturn = True
@@ -2648,7 +2648,7 @@ class fwbackupsApp(interface.Controller):
     self.restore2RestorationProgress.startPulse()
     self.restore2RestorationProgress.set_text(_('Please wait...'))
     try:
-      self.restoreHandle = restore.RestoreOperation(self.logger)
+      self.restoreHandle = restore.RestoreOperation(RESTORELOC, self.logger)
       self.restoreThread = fwbackups.runFuncAsThread(self.restoreHandle.start)
       self.ui.restore2CancelRestoreButton.set_sensitive(True)
       self.setStatus(_('Working'))

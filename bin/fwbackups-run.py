@@ -95,12 +95,12 @@ if __name__ == "__main__":
   logger.setPrintToo(printToo)
   # handle ctrl + c
   signal.signal(signal.SIGINT, handleStop)
-  for i in sets:
+  for set in sets:
     try:
       if MSWINDOWS:
-        i = i.strip('\'')
-      backupHandle = backup.SetBackupOperation(i, logger=logger)
-      backupThread = fwbackups.FuncAsThread(backupHandle.start, {}, True)
+        set = set.strip('\'')
+      backupHandle = backup.SetBackupOperation(set, logger=logger, os.path.join(SETLOC, "%s.conf" % set))
+      backupThread = fwbackups.FuncAsThread(backupHandle.start)
     except:
       import traceback
       (etype, evalue, tb) = sys.exc_info()

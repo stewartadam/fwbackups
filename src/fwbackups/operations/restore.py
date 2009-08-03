@@ -35,12 +35,12 @@ STATUS_RESTORING = 1
 STATUS_RECEIVING_FROM_REMOTE = 2
 
 class RestoreOperation(operations.Common):
-  def __init__(self, logger=None):
+  def __init__(self, restorePath, logger=None):
     """Initializes a restore operation. If no logger is specified, a new one
     will be created."""
     operations.Common.__init__(self, logger)
     self.logger.logmsg('INFO', _('Starting restore operation'))
-    self.config = config.RestoreConf(RESTORELOC)
+    self.config = config.RestoreConf(restorePath)
     self.options = self.getOptions(self.config)
     self.options['Engine'] = 'null' # workaround so prepareDestinationFolder doesn't complain
 

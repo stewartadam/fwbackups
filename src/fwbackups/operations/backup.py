@@ -426,12 +426,12 @@ class BackupOperation(operations.Common):
 ######################
 ######################
 class OneTimeBackupOperation(BackupOperation):
-  def __init__(self, logger=None):
+  def __init__(self, onetPath, logger=None):
     """Initializes a one-time backup operation. If no logger is specified, a new one
     will be created. logger will be created if needed."""
     BackupOperation.__init__(self, logger)
     self.logger.logmsg('INFO', _('Starting one-time backup operation'))
-    self.config = config.OneTimeConf(ONETIMELOC)
+    self.config = config.OneTimeConf(onetPath)
     self.options = self.getOptions(self.config)
     # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
@@ -494,11 +494,11 @@ class OneTimeBackupOperation(BackupOperation):
 ######################
 class SetBackupOperation(BackupOperation):
   """Automated set backup operation"""
-  def __init__(self, setName, logger=None):
-    """Initializes the automatic backup operation of setname. If no logger is
-    supplied, a new one will be created."""
+  def __init__(self, setPath, logger=None):
+    """Initializes the automatic backup operation of set defined at setPath.
+    If no logger is supplied, a new one will be created."""
     BackupOperation.__init__(self, logger)
-    self.config = config.BackupSetConf(os.path.join(SETLOC, "%s.conf" % setName))
+    self.config = config.BackupSetConf(setPath)
     self.options = self.getOptions(self.config)
     if self.options['Enabled']:
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
