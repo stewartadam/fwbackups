@@ -4,6 +4,8 @@
 || Version 1.43.3rc3 changes ||
   * Mon Aug 3 2009 Stewart Adam <s.adam at diffingo.com>
     - Implement basic support for restore from remote folders
+    - Add interactive testbench 'test.operations.py' which tests every type of
+      backup and restore operation
 
   * Sun Aug 2 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where set configurations from version 1.43.2beta2 were not
