@@ -317,11 +317,6 @@ class fwbackupsApp(interface.Controller):
       self.logger.logmsg('DEBUG', _('pynotify was not found. Notifcations will not ' + \
                                    'be displayed unless notify-python/pynotify' + \
                                    'is installed.'))
-    try:
-      import gnome
-      prog = gnome.program_init('fwbackups', fwbackups.__version__, properties={gnome.PARAM_APP_DATADIR : INSTALL_DIR})
-    except ImportError:
-      pass
     # render icons: about dialog
     if MSWINDOWS:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
@@ -585,13 +580,9 @@ class fwbackupsApp(interface.Controller):
       widget.set_sensitive(False)
 
   def help(self):
-    """Display help """
-    try:
-      import gnome
-      gnome.help_display('fwbackups')
-    except ImportError:
-      import webbrowser
-      webbrowser.open_new('http://www.diffingo.com/downloads/fwbackups/docs/%s-html' % fwbackups.__version__)
+    """Open the online user manual"""
+    import webbrowser
+    webbrowser.open_new('http://downloads.diffingo.com/fwbackups/docs/%s-html' % fwbackups.__version__)
 
   def hide(self, widget, event=None):
     """Wrapper for closing a window non-destructively"""
