@@ -2377,8 +2377,12 @@ class fwbackupsApp(interface.Controller):
         return
       if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
-      if status == backup.STATUS_BACKING_UP:
-        self.main2BackupProgress.set_text(_('Backuping path %(a)i/%(b)i') % {'a': current, 'b': total})
+      # There is no current filename
+      if status == backup.STATUS_BACKING_UP and not currentName:
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
+      # There is a current filename
+      elif status == backup.STATUS_BACKING_UP and currentName:
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
       elif status == backup.STATUS_CLEANING_OLD:
         self.main2BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
@@ -2413,7 +2417,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.main2BackupProgress.stopPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(250, updateProgress, self)
+      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()
@@ -2562,7 +2566,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.main3BackupProgress.stopPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(250, updateProgress, self)
+      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()
@@ -2624,10 +2628,11 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.restoreHandle.getProgress()
       else:
         return
+      print status
       if status == restore.STATUS_RECEIVING_FROM_REMOTE: # no "current file" yet
         self.restore2RestorationProgress.set_text(_('Receiving files from remote server'))
       elif status == restore.STATUS_RESTORING: # we have a 'current file'
-        self.restore2RestorationProgress.set_text(_('Restoring: %s' % current))
+        self.restore2RestorationProgress.set_text(_('Restoring: %s') % os.path.basename(currentName))
       return self.updateReturn
 
     self.ui.restoreControlNotebook.set_current_page(1)
@@ -2647,7 +2652,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.restore2RestorationProgress.startPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(250, updateProgress, self)
+      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.restoreThread.retval == None:
         while gtk.events_pending():
           gtk.main_iteration()

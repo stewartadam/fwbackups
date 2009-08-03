@@ -113,7 +113,7 @@ class RestoreOperation(operations.Common):
       return False
     if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):
       self.logger.logmsg('INFO', _('Receiving files from server'))
-      self._status = 2 # receiving files
+      self._status = STATUS_RECEIVING_FROM_REMOTE # receiving files
       try:
         # download file to location where we expect source to be
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
@@ -126,7 +126,7 @@ class RestoreOperation(operations.Common):
       except Exception, error:
         self.logger.logmsg('DEBUG', _('Could not receive file from server: %s' % error))
         wasErrors = True
-    self.status = 1 # restoring
+    self._status = STATUS_RESTORING # restoring
     try:
       if self.options['SourceType'] == 'set': # we don't know the type
         if os.path.isfile(self.options['Source']):

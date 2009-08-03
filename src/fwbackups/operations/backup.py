@@ -144,13 +144,13 @@ class BackupOperation(operations.Common):
         for i in self.options['Excludes'].split('\n'):
           command += ' --exclude="%s"' % i
     elif self.options['Engine'] == 'tar':
-      command = 'tar rf \'%s\'' % (self.dest.replace("'", "'\\''"))
+      command = "tar rf '%s' -v" % (self.dest.replace("'", "'\\''"))
     elif self.options['Engine'] == 'tar.gz':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = 'tar cfz \'%s\'' % (self.dest.replace("'", "'\\''"))
+      command = "tar cfz '%s' -v" % (self.dest.replace("'", "'\\''"))
     elif self.options['Engine'] == 'tar.bz2':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = 'tar cfj \'%s\'' % (self.dest.replace("'", "'\\''"))
+      command = "tar cfj '%s' -v" % (self.dest.replace("'", "'\\''"))
     # --
     if self.options['Engine'] in ['tar', 'tar.gz', 'tar.bz2']: # they share command options
       if not self.options['Recursive']:
@@ -164,7 +164,7 @@ class BackupOperation(operations.Common):
     if self.options['Excludes']:
       for i in self.options['Excludes'].split('\n'):
         command += ' --exclude="%s"' % i
-    
+    # Finally...
     return command
 
   def addListFilesToBackup(self, manager, command, engine, pkglist, diskinfo, paths):
@@ -274,7 +274,7 @@ class BackupOperation(operations.Common):
           self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
           # Sleep while not done.
           while sub.poll() in ["", None]:
-            time.sleep(0.01)
+            self._currentName = sub.stdout.readline()
           self.pids.remove(sub.pid)
           retval = sub.poll()
           self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
@@ -309,7 +309,7 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # Sleep while not done.
         while sub.poll() in ["", None]:
-          time.sleep(0.01)
+          self._currentName = sub.stdout.readline()
         self.pids.remove(sub.pid)
         retval = sub.poll()
         self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
@@ -344,7 +344,7 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # Sleep while not done.
         while sub.poll() in ["", None]:
-          time.sleep(0.01)
+          self._currentName = sub.stdout.readline()
         self.pids.remove(sub.pid)
         retval = sub.poll()
         self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
