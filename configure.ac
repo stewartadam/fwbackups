@@ -1,4 +1,4 @@
-AC_INIT([fwbackups], 1.43.3rc2)
+AC_INIT([fwbackups], 1.43.3rc3)
 AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip])
 AC_CONFIG_SRCDIR([src/fwbackups/__init__.py.in])
 
@@ -16,7 +16,6 @@ AC_PROG_INTLTOOL
 AC_CONFIG_FILES([
 bin/Makefile
 bin/fwbackups
-help/Makefile
 pixmaps/Makefile
 po/Makefile.in
 src/Makefile

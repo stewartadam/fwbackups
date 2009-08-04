@@ -4,16 +4,14 @@
 - Check permissions in testConnection()
 - When performing a backup, close previous notifications. This way, we don't
   have two open at once if an error occurs early on
-- Real progressbar for operations  (not just pulsing)
 - SSH public key authentication
 - CLI restore app
 
-== Before 1.43.3rc3 ==
-- Support for remote folders (restore)
+== Before 1.43.3 final ==
+- Update documentation
 - Split the overlapping parts of operations/* into engines/*
 - Fix the cross-os uploading \ problem
 --> happens on return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
     in sftp.py
-
-== Before 1.43.3 final ==
-- Update documentation
+- Possibility of interactive mode, when set to False disables -v for speedups
+- Perserve permissions on receive folder?

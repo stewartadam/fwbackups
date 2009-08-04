@@ -2,12 +2,12 @@
 
 Name:              fwbackups
 Version:           1.43.3
-Release:           0.1.rc2%{?dist}
+Release:           0.1.rc3%{?dist}
 Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
 License:           GPLv2+
 URL:               http://www.diffingo.com/oss/fwbackups/
-Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc1.tar.bz2
+Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc3.tar.bz2
 BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:         noarch
 
@@ -15,18 +15,13 @@ BuildRequires:     desktop-file-utils
 # Pulls gettext, autotools
 BuildRequires:     intltool
 BuildRequires:     python-devel >= 2.4
-BuildRequires:     scrollkeeper
-# Pulls libxml2
-BuildRequires:     gnome-doc-utils
 
 Requires:          /usr/bin/crontab
 Requires:          tar, rsync
-Requires:          notify-python, gnome-python2-gnome
+Requires:          notify-python
 Requires:          pygtk2, pygtk2-libglade
 Requires:          python >= 2.4
 Requires:          python-paramiko
-Requires(post):    scrollkeeper
-Requires(postun):  scrollkeeper
 
 %description
 fwbackups is a feature-rich user backup program that allows users (including
@@ -38,10 +33,10 @@ or from the contents of an external folder or archive.
 
 
 %prep
-%setup -q -n %{name}-%{version}rc2
+%setup -q -n %{name}-%{version}rc3
 
 %build
-%configure --disable-scrollkeeper
+%configure
 # We don't implement this yet: make %{?_smp_mflags}
 make
 
@@ -49,25 +44,19 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-desktop-file-install --vendor fedora\
+desktop-file-install
     --dir ${RPM_BUILD_ROOT}%{_datadir}/applications\
     --delete-original \
     ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 
-%find_lang %{name} --with-gnome
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
-
-%postun
-scrollkeeper-update -q || :
-
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING COPYING-DOCS README TODO
+%doc AUTHORS ChangeLog COPYING README TODO
 %{_bindir}/*
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/*
@@ -75,6 +64,9 @@ scrollkeeper-update -q || :
 %{python_sitelib}/%{name}/
 
 %changelog
+* Tue Aug 4 2009 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc3
+- Update to 1.43.3rc3
+
 * Thu May 28 2009 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc2
 - Update to 1.43.3rc2 (fixes #495604, #495605)
 
