@@ -231,7 +231,7 @@ class BackupSetConf:
       self.__config.set('Times', 'entry', ' '.join(tempCron))
       self.__config.set('Options', 'excludes', '')
       self.__config.set('Options', 'nice', 0)
-      self.__config.set('Options', 'sparce', 0)
+      self.__config.set('Options', 'sparse', 0)
       self.__config.set('Options', 'followlinks', '0')
     # Excludes became newline-separated in 1.43.2
     # Support for remote destinations was added
@@ -246,11 +246,11 @@ class BackupSetConf:
       self.__config.set('Options', 'remoteusername', '')
       self.__config.set('Options', 'remotepassword', '')
       self.__config.set('Options', 'remotefolder', '')
-    # Nothing for these versions, but keep doing the below
-    if oldVersion == '1.43.2beta1' or oldVersion == '1.43.2beta2' or fromHereUp == True:
-      fromHereUp = True
     # Configuration file option names became case-sensitive in 1.43.2rc1
-    if oldVersion == '1.43.2beta3' or fromHereUp == True:
+    # Beta 1 accidentally had version as '1.43.2' and there was no 1.43.2beta2
+    # So the '1.43.2' version check below is targeting beta1, not the final.
+    # This is why has_option is used before each option rename
+    if oldVersion in ['1.43.2beta3', '1.43.2'] or fromHereUp == True:
       fromHereUp = True
       # For each option in each section, the lowercase option is read, written
       # to the case-sensitive equivalent, then the lowercase option is removed
@@ -278,7 +278,8 @@ class BackupSetConf:
     # Incremental backups was added in 1.43.2rc2
     if oldVersion == '1.43.2rc1' or fromHereUp == True:
       fromHereUp = True
-      self.__config.set('Options', 'Incremental', 0)
+      if not self.__config.has_option('Options', 'Incremental'):
+        self.__config.set('Options', 'Incremental', 0)
     # Nothing for these versions, but keep doing the below
     if oldVersion in ['1.43.2rc2', '1.43.2rc3'] or fromHereUp == True:
       fromHereUp = True
@@ -728,18 +729,14 @@ class PrefsConf:
     # just do the other stuff
     if oldVersion == '1.43.2beta1' or fromHereUp == True:
       fromHereUp = True
-    # removed network warning since we do threading now
-    # made config case-sensitive
-    if oldVersion == '1.43.2beta2' or fromHereUp == True:
-      self.__config.set('Preferences', 'minimizetrayclose', 0)
-      self.__config.set('Preferences', 'startminimized', 0)
+    # There was no 1.43.2beta2
     if oldVersion == '1.43.2beta3' or fromHereUp == True:
+      fromHereUp = True
       # we forgot to add the 1.43.2beta2 if clause in 1.43.2beta3
       if not self.has_option('Preferences', 'minimizetrayclose'):
         self.__config.set('Preferences', 'minimizetrayclose', 0)
       if not self.has_option('Preferences', 'startminimized'):
         self.__config.set('Preferences', 'startminimized', 0)
-      fromHereUp = True
       for option in ['Version', 'Type']:
         self.__config.set('General', option, self.__config.get('General', option.lower()))
         self.remove_option('General', option.lower())
@@ -752,7 +749,7 @@ class PrefsConf:
       # --
       self.remove_option('Preferences', 'DontShowMe_NetConnectUnresponsive')
     # just do stuff below
-    if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1'] or fromHereUp == True:
+    if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1', '1.43.3rc2'] or fromHereUp == True:
       fromHereUp = True
 
   def get(self, section, option):
