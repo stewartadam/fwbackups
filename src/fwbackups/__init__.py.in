@@ -144,45 +144,6 @@ def runFuncAsThread(functorun, *kargs):
   thread.start()
   return thread
 
-def isNewer(xfull, yfull):
-  """Determines is x is newer than y"""
-  x = map(int, xfull.split('rc')[0].split('.'))
-  y = map(int, yfull.split('rc')[0].split('.'))
-  for index in range(0, len(x)):
-    # this first to ensure we don't get IndexError
-    if index == len(y): # there is no y[index]
-      # x == y, but x has something extra
-      return True
-    elif x[index] > y[index]:
-      return True
-    elif x[index] < y[index]:
-      return False
-    else: # x[index] == y[index], next
-      continue
-  if index+1 < len(y):
-    # if we're this far, then that means x == y, but y has something extra
-    return False
-  else:
-    # equal version - check for rc
-    xrc = -1
-    yrc = -1
-    if len(xfull.split('rc')) >= 2:
-      xrc = int(xfull.split('rc')[1])
-    if len(yfull.split('rc')) >= 2:
-      yrc = int(yfull.split('rc')[1])
-    if xrc == yrc: # really equal
-      return True
-    elif xrc > -1 and yrc == -1: # y is final, x is rc
-      return False
-    elif xrc == -1 and yrc > -1: # x is final, y is rc
-      return True
-    elif xrc > yrc: # newer rc
-      return True
-    elif xrc < yrc: # older rc
-      return False
-    else:
-      raise ValueError('This should never happen - submit a bug')
-
 def getPyCronDir():
   import _winreg
   try:

@@ -211,9 +211,6 @@ class BackupSetConf:
     # Skip further checks if the configuration file matches the current version
     if fwbackups.__version__ == oldVersion:
       return True
-    # Don't support downgrades
-    elif fwbackups.isNewer(oldVersion, fwbackups.__version__):
-      raise ConfigError(_('The set configuration file is from a newer version of fwbackups - downgrade unsupported'))
     # The code below is an effective "else". The configuration file is not newer
     # than the current version and it is not equal to the current version, so
     # therefore it is older and an import needs to be done.
@@ -715,9 +712,6 @@ class PrefsConf:
     # only if it's a version mismatch should we import
     if oldVersion == fwbackups.__version__:
       return True
-    elif fwbackups.isNewer(oldVersion, fwbackups.__version__):
-      # don't support downgrades
-      raise ConfigError(_('The preferences file is from a newer version of fwbackups - downgrade unsupported'))
     # This lets us do what needs to be done for version X and _above_
     fromHereUp = False
     # just make it add stuff from next
