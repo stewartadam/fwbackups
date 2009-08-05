@@ -114,6 +114,24 @@ Section -SecUninstallOldfwbackups
 SectionEnd
 
 ;--------------------------------
+;gtkfiles Install Section
+Section $(lng_GtkRuntime) SecGtk
+  SectionIn 1 RO
+  SetOutPath "$INSTDIR"
+  SetOverwrite on
+  File /r ..\..\..\installers\gtkfiles
+SectionEnd ; end of GTK+ section
+
+;--------------------------------
+;Python Modules Install Section
+Section $(lng_PyModules) SecPyModules
+  SectionIn 1 RO
+  SetOutPath "$INSTDIR"
+  SetOverwrite on
+  File /r ..\..\..\installers\pythonmodules
+SectionEnd
+
+;--------------------------------
 ;fwbackups Install Section
 Section $(lng_fwbackupsPackage) Secfwbackups
   SectionIn 1 RO
@@ -158,8 +176,6 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     SetOutPath "$INSTDIR"
     ; fwbackups files
     SetOverwrite on
-    File ..\..\..\installers\libglade-2.0-0.dll
-    File ..\..\..\installers\libxml2-2.dll
     File ..\AUTHORS
     File ..\ChangeLog
     File ..\COPYING
@@ -238,7 +254,7 @@ Section Uninstall
 
   cont_uninstall:
     Delete $INSTDIR\AUTHORS
-    Delete $INSTDIR\CHANGELOG
+    Delete $INSTDIR\ChangeLog
     Delete $INSTDIR\COPYING
     Delete $INSTDIR\README
     Delete $INSTDIR\TODO
@@ -249,13 +265,19 @@ Section Uninstall
     Delete $INSTDIR\fwbackups.ico
     Delete $INSTDIR\fwbackups-run.py
     Delete $INSTDIR\fwbackups-runonce.py
+    Delete $INSTDIR\*.dll
+    RMDir /r $INSTDIR\pythonmodules
+    RMDir /r $INSTDIR\gtkfiles
     RMDir /r $INSTDIR\fwbackups
+    RMDir /r $INSTDIR\.fwbackups
+    Delete $INSTDIR\${PRODUCT_UNINST_EXE}
+    RMDir $INSTDIR
     ; Shortcuts..
     Delete "$DESKTOP\fwbackups.lnk"
     SetShellVarContext all
     Delete "$SMPROGRAMS\fwbackups.lnk"
     SetShellVarContext current
-
+    
     Goto done
 
   cant_uninstall:
@@ -273,11 +295,13 @@ SectionEnd ; end of uninstall section
 ;Descriptions
   ;Language strings
   ;Assign language strings to sections
-  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT Secfwbackups $(lng_fwbackupsPackageDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecShortcuts $(lng_ShortcutDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecDesktopShortcut $(lng_ShortcutDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecStartMenuShortcut $(lng_ShortcutDesc)
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecGtk} $(lng_GtkRuntimeDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPyModules} $(lng_PyModulesDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Secfwbackups} $(lng_fwbackupsPackageDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecShortcuts} $(lng_ShortcutDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktopShortcut} $(lng_ShortcutDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenuShortcut} $(lng_ShortcutDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------

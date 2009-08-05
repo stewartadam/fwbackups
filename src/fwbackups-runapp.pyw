@@ -26,22 +26,16 @@ import sys
 import time
 import types
 
+if sys.platform.startswith('win'):
+  os.environ["PATH"] += ";%s" % os.path.join(os.getcwd(), "gtkfiles", "bin")
+  os.environ["PATH"] += ";%s" % os.path.join(os.getcwd(), "pythonmodules", "pywin32_system32")
+  sys.path.insert(0, os.path.join(os.getcwd(), "pythonmodules"))
+  sys.path.insert(1, os.path.join(os.getcwd(), "pythonmodules", "gtk-2.0"))
+  sys.path.insert(2, os.path.join(os.getcwd(), "pythonmodules", "win32"))
+  sys.path.insert(3, os.path.join(os.getcwd(), "pythonmodules", "win32", "libs"))
+
 from fwbackups.const import *
 from fwbackups.i18n import _
-
-if MSWINDOWS:
-  # Fetchs gtk2 path from registry
-  import _winreg
-  import msvcrt
-  try:
-    k = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "Software\\GTK\\2.0")
-  except EnvironmentError:
-    print _('You must install the GTK+ Runtime Environment v2.6 or higher to run this program.')
-    sys.exit(1)
-  gtkdir = _winreg.QueryValueEx(k, "Path")
-  # add gtk paths to our PATH so we can import GTK without DLL errors
-  os.environ['PATH'] += ";%s\\lib;%s\\bin;%s" % (gtkdir[0], gtkdir[0], INSTALL_DIR)
-  _winreg.CloseKey(k)
 
 try:
   import gtk

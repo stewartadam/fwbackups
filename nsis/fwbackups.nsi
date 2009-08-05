@@ -19,7 +19,6 @@
   !insertmacro GetParent
 
   !include "WordFunc.nsh"
-  !insertmacro VersionCompare
 
 ;--------------------------------
 ;Version resource
@@ -45,8 +44,6 @@
   OutFile                                 "fwbackups-1.43.3rc3-Setup.exe"
   InstallDir                              $PROGRAMFILES\fwbackups
   Var name
-  Var GTK_FOLDER
-  Var ISSILENT
   SetCompressor /SOLID lzma
   ShowInstDetails show
   ShowUninstDetails show
@@ -56,16 +53,7 @@
   !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.pyw"
   !define STARTUP_RUN_KEY                 "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
   !define PRODUCT_UNINST_EXE              "fwbackups-uninst.exe"
-  !define GTK_MIN_VERSION                 "2.6.10"
-  !define GTK_INSTALL_VERSION             "2.14.7"
-  !define GTK_REG_KEY                     "SOFTWARE\GTK\2.0"
-  !define GTK_DEFAULT_INSTALL_PATH        "$COMMONFILES\GTK\2.0"
-  !define GTK_RUNTIME_INSTALLER           "gtk-runtime-2.14.7-rev-a.exe"
   !define PYTHON_RUNTIME_INSTALLER        "python-2.6.2.msi"
-  !define PYGTK_MODULE_INSTALLER          "pygtk-2.12.1-3.win32-py2.6.exe"
-  !define PYCAIRO_MODULE_INSTALLER        "pycairo-1.4.12-2.win32-py2.6.exe"
-  !define PYGOBJECT_MODULE_INSTALLER      "pygobject-2.14.2-2.win32-py2.6.exe"
-  !define PYWIN32_MODULE_INSTALLER        "pywin32-213.win32-py2.6.exe"
   !define PYCRON_INSTALLER                "pycron-0.5.9.0.exe"
 
 ;--------------------------------
@@ -92,16 +80,9 @@
 
 ;--------------------------------
 ;Pages
-  !define MUI_PAGE_CUSTOMFUNCTION_PRE     preWelcomePage
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE           "copying.rtf"
   !insertmacro MUI_PAGE_COMPONENTS
-  ; gtk installer
-  !define MUI_PAGE_CUSTOMFUNCTION_PRE     preGtkDirPage
-  !define MUI_PAGE_CUSTOMFUNCTION_LEAVE   postGtkDirPage
-  ;!define MUI_DIRECTORYPAGE_VARIABLE     $GTK_FOLDER
-  ;!insertmacro MUI_PAGE_DIRECTORY
-  ; /gtk installer
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
@@ -137,129 +118,19 @@ Section -SecUninstallOldfwbackups
 SectionEnd
 
 ;--------------------------------
-;GTK+ Runtime Install Section
-Section $(lng_GtkRuntime) SecGtk
-
-  Call CheckUserInstallRights
-  Pop $R1
-
-  SetOutPath $TEMP
-  SetOverwrite on
-  File /oname=gtk-runtime.exe "..\..\..\installers\${GTK_RUNTIME_INSTALLER}"
-  SetOverwrite off
-
-  Call DoWeNeedGtk
-  Pop $R0
-  Pop $R6
-
-  StrCmp $R0 "0" have_gtk
-  StrCmp $R0 "1" upgrade_gtk
-  StrCmp $R0 "2" upgrade_gtk
-
-  ;no_gtk:
-    StrCmp $R1 "NONE" gtk_no_install_rights
-
-    ClearErrors
-    ExecWait '"$TEMP\gtk-runtime.exe" /L=$LANGUAGE $ISSILENT /D=$GTK_FOLDER'
-
-    IfErrors gtk_install_error done
-
-  upgrade_gtk:
-    StrCpy $GTK_FOLDER $R6
-    ;!insertmacro install_win32
-    StrCmp $R0 "2" +2 ; Upgrade isn't optional
-    MessageBox MB_YESNO $(lng_PromptUpgradeGtk) /SD IDYES IDNO done
-    ClearErrors
-    ExecWait '"$TEMP\gtk-runtime.exe" /L=$LANGUAGE /S /D=$GTK_FOLDER'
-    IfErrors gtk_install_error done
-
-    gtk_install_error:
-      Delete "$TEMP\gtk-runtime.exe"
-      MessageBox MB_OK $(lng_GtkInstallError) /SD IDOK
-      Quit
-
-  have_gtk:
-    StrCpy $GTK_FOLDER $R6
-    ;!insertmacro install_win32 
-    StrCmp $R1 "NONE" done ; If we have no rights, we can't re-install
-    ; Even if we have a sufficient version of GTK+, we give user choice to re-install.
-    ClearErrors
-    ExecWait '"$TEMP\gtk-runtime.exe" /L=$LANGUAGE $ISSILENT'
-    IfErrors gtk_install_error
-    Goto done
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ; end got_install rights
-
-  gtk_no_install_rights:
-    ; Install GTK+ to fwbackups install dir
-    StrCpy $GTK_FOLDER $INSTDIR
-    ;!insertmacro install_win32 
-    ClearErrors
-    ExecWait '"$TEMP\gtk-runtime.exe" /L=$LANGUAGE $ISSILENT /D=$GTK_FOLDER'
-    IfErrors gtk_install_error
-      SetOverwrite on
-      ClearErrors
-      CopyFiles /FILESONLY "$GTK_FOLDER\bin\*.dll" $GTK_FOLDER
-      SetOverwrite off
-      IfErrors gtk_install_error
-        Delete "$GTK_FOLDER\bin\*.dll"
-        Goto done
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ; end gtk_no_install_rights
-
-  done:
-    Delete "$TEMP\gtk-runtime.exe"
-SectionEnd ; end of GTK+ section
-
-;--------------------------------
 ;Python Install Section
 Section $(lng_Python) SecPython
   ;TODO: Check if already installed; Check upgrade.
   ;TODO: Set the proper Start Menu/Programs target
   ;TODO: Check if msiexec exists and point the user
   ;the Win98/ME, W2K MSI Installer webpage, the links
-  ;are in http://www.python.org/download/releases/2.5/
-
-  SetOutPath "$INSTDIR"
+  ;are in http://www.python.org/download/releases/2.6/
+  SetOutPath "$TEMP"
   File "..\..\..\installers\${PYTHON_RUNTIME_INSTALLER}"
-
   ;Installing
-  ExecWait 'msiexec /i "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}" TARGETDIR="$PROGRAMFILES\Python26" /qb!'
-  delete "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}"
+  ExecWait 'msiexec /i "$TEMP\${PYTHON_RUNTIME_INSTALLER}" TARGETDIR="$PROGRAMFILES\Python26" /qb!'
+  delete "$TEMP\${PYTHON_RUNTIME_INSTALLER}"
 SectionEnd
-
-;--------------------------------
-;Python Modules Install Section
-SectionGroup /e $(lng_PyModules) SecPyModules
-  Section $(lng_PyGTK) SecPyGTK
-  SetOutPath "$INSTDIR"
-  File "..\..\..\installers\${PYGTK_MODULE_INSTALLER}"
-  ExecWait $INSTDIR\${PYGTK_MODULE_INSTALLER}
-  delete $INSTDIR\${PYGTK_MODULE_INSTALLER}
-  SectionEnd
-
-  Section $(lng_PyCairo) SecPyCairo
-  SetOutPath "$INSTDIR"
-  File "..\..\..\installers\${PYCAIRO_MODULE_INSTALLER}"
-  ExecWait $INSTDIR\${PYCAIRO_MODULE_INSTALLER}
-  delete $INSTDIR\${PYCAIRO_MODULE_INSTALLER}
-  SectionEnd
-
-  Section $(lng_PyGObject) SecPyGObject
-  SetOutPath "$INSTDIR"
-  File "..\..\..\installers\${PYGOBJECT_MODULE_INSTALLER}"
-  ExecWait $INSTDIR\${PYGOBJECT_MODULE_INSTALLER}
-  delete $INSTDIR\${PYGOBJECT_MODULE_INSTALLER}
-  SectionEnd
-  
-  Section $(lng_PyWin32) SecPyWin32
-  SetOutPath "$INSTDIR"
-  File "..\..\..\installers\${PYWIN32_MODULE_INSTALLER}"
-  ExecWait $INSTDIR\${PYWIN32_MODULE_INSTALLER}
-  delete $INSTDIR\${PYWIN32_MODULE_INSTALLER}
-  SectionEnd
-SectionGroupEnd
 
 ;--------------------------------
 ;PyCron Install Section
@@ -271,6 +142,24 @@ Section $(lng_PyCron) SecPyCron
 SectionEnd
 
 ;--------------------------------
+;gtkfiles Install Section
+Section $(lng_GtkRuntime) SecGtk
+  SectionIn 1 RO
+  SetOutPath "$INSTDIR"
+  SetOverwrite on
+  File /r ..\..\..\installers\gtkfiles
+SectionEnd ; end of GTK+ section
+
+;--------------------------------
+;Python Modules Install Section
+Section $(lng_PyModules) SecPyModules
+  SectionIn 1 RO
+  SetOutPath "$INSTDIR"
+  SetOverwrite on
+  File /r ..\..\..\installers\pythonmodules
+SectionEnd
+
+;--------------------------------
 ;fwbackups Install Section
 Section $(lng_fwbackupsPackage) Secfwbackups
   SectionIn 1 RO
@@ -279,15 +168,11 @@ Section $(lng_fwbackupsPackage) Secfwbackups
   Call CheckUserInstallRights
   Pop $R0
 
-  ; Get GTK+ lib dir if we have it..
-
   StrCmp $R0 "NONE" fwbackups_none
   StrCmp $R0 "HKLM" fwbackups_hklm fwbackups_hkcu
 
   fwbackups_hklm:
-    ReadRegStr $R1 HKLM ${GTK_REG_KEY} "Path"
     WriteRegStr HKLM "${HKLM_APP_PATHS_KEY}" "" "$INSTDIR\fwbackups-runapp.pyw"
-    WriteRegStr HKLM "${HKLM_APP_PATHS_KEY}" "Path" "$R1\bin"
     WriteRegStr HKLM ${PRODUCT_REG_KEY} "" "$INSTDIR"
     WriteRegStr HKLM ${PRODUCT_REG_KEY} "Version" "${PRODUCT_VERSION}"
     WriteRegStr HKLM "${PRODUCT_UNINSTALL_KEY}" "DisplayName" "fwbackups"
@@ -301,10 +186,6 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     Goto fwbackups_install_files
 
   fwbackups_hkcu:
-    ReadRegStr $R1 HKCU ${GTK_REG_KEY} "Path"
-    StrCmp $R1 "" 0 +2
-      ReadRegStr $R1 HKLM ${GTK_REG_KEY} "Path"
-
     WriteRegStr HKCU ${PRODUCT_REG_KEY} "" "$INSTDIR"
     WriteRegStr HKCU ${PRODUCT_REG_KEY} "Version" "${PRODUCT_VERSION}"
     WriteRegStr HKCU "${PRODUCT_UNINSTALL_KEY}" "DisplayName" "fwbackups"
@@ -316,14 +197,13 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     Goto fwbackups_install_files
 
   fwbackups_none:
-    ReadRegStr $R1 HKLM ${GTK_REG_KEY} "Path"
+    ; FIXME - This does?
+    Goto fwbackups_install_files
 
   fwbackups_install_files:
     SetOutPath "$INSTDIR"
     ; fwbackups files
     SetOverwrite on
-    File ..\..\..\installers\libglade-2.0-0.dll
-    File ..\..\..\installers\libxml2-2.dll
     File ..\AUTHORS
     File ..\ChangeLog
     File ..\COPYING
@@ -381,19 +261,6 @@ Section Uninstall
   Pop $R0
   StrCmp $R0 "NONE" no_rights
   StrCmp $R0 "HKCU" try_hkcu try_hklm
-  Delete $INSTDIR\AUTHORS
-  Delete $INSTDIR\CHANGELOG
-  Delete $INSTDIR\COPYING
-  Delete $INSTDIR\README
-  Delete $INSTDIR\TODO
-  Delete $INSTDIR\BugReport.glade
-  Delete $INSTDIR\fwbackups.glade
-  Delete $INSTDIR\fwbackups-runapp.pyw
-  Delete $INSTDIR\cronwriter.py
-  Delete $INSTDIR\fwbackups.ico
-  Delete $INSTDIR\fwbackups-run.py
-  Delete $INSTDIR\fwbackups-runonce.py
-  RMDir /r $INSTDIR\fwbackups
   try_hkcu:
     ReadRegStr $R0 HKCU ${PRODUCT_REG_KEY} ""
     StrCmp $R0 $INSTDIR 0 cant_uninstall
@@ -413,13 +280,31 @@ Section Uninstall
       SetShellVarContext "all"
 
   cont_uninstall:
-    
+    Delete $INSTDIR\AUTHORS
+    Delete $INSTDIR\ChangeLog
+    Delete $INSTDIR\COPYING
+    Delete $INSTDIR\README
+    Delete $INSTDIR\TODO
+    Delete $INSTDIR\BugReport.glade
+    Delete $INSTDIR\fwbackups.glade
+    Delete $INSTDIR\fwbackups-runapp.pyw
+    Delete $INSTDIR\cronwriter.py
+    Delete $INSTDIR\fwbackups.ico
+    Delete $INSTDIR\fwbackups-run.py
+    Delete $INSTDIR\fwbackups-runonce.py
+    Delete $INSTDIR\*.dll
+    RMDir /r $INSTDIR\pythonmodules
+    RMDir /r $INSTDIR\gtkfiles
+    RMDir /r $INSTDIR\fwbackups
+    RMDir /r $INSTDIR\.fwbackups
+    Delete $INSTDIR\${PRODUCT_UNINST_EXE}
+    RMDir $INSTDIR
     ; Shortcuts..
     Delete "$DESKTOP\fwbackups.lnk"
     SetShellVarContext all
     Delete "$SMPROGRAMS\fwbackups.lnk"
     SetShellVarContext current
-
+    
     Goto done
 
   cant_uninstall:
@@ -437,15 +322,15 @@ SectionEnd ; end of uninstall section
 ;Descriptions
   ;Language strings
   ;Assign language strings to sections
-  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT SecGtk $(lng_GtkRuntimeDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecPython $(lng_PythonDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecPyCron $(lng_PyCronDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecPyModules $(lng_PyModulesDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT Secfwbackups $(lng_fwbackupsPackageDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecShortcuts $(lng_ShortcutDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecDesktopShortcut $(lng_ShortcutDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT SecStartMenuShortcut $(lng_ShortcutDesc)
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPython} $(lng_PythonDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPyCron} $(lng_PyCronDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecGtk} $(lng_GtkRuntimeDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPyModules} $(lng_PyModulesDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Secfwbackups} $(lng_fwbackupsPackageDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecShortcuts} $(lng_ShortcutDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktopShortcut} $(lng_ShortcutDesc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenuShortcut} $(lng_ShortcutDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -566,100 +451,6 @@ Function .onVerifyInstDir
   Pop $0
 FunctionEnd
 
-;
-; Usage:
-; Call DoWeNeedGtk
-; First Pop:
-;   0 - We have the correct version
-;       Second Pop: Key where Version was found
-;   1 - We have an old version that should work, prompt user for optional upgrade
-;       Second Pop: HKLM or HKCU depending on where GTK was found.
-;   2 - We have an old version that needs to be upgraded
-;       Second Pop: HKLM or HKCU depending on where GTK was found.
-;   3 - We don't have Gtk+ at all
-;       Second Pop: "NONE, HKLM or HKCU" depending on our rights..
-;
-Function DoWeNeedGtk
-  ; Logic should be:
-  ; - Check what user rights we have (HKLM or HKCU)
-  ;   - If HKLM rights..
-  ;     - Only check HKLM key for GTK+
-  ;       - If installed to HKLM, check it and return.
-  ;   - If HKCU rights..
-  ;     - First check HKCU key for GTK+
-  ;       - if good or bad exists stop and ret.
-  ;     - If no hkcu gtk+ install, check HKLM
-  ;       - If HKLM ver exists but old, return as if no ver exits.
-  ;   - If no rights
-  ;     - Check HKLM
-  Push $0
-  Push $1
-  Push $2
-  Push $3
-
-  Call CheckUserInstallRights
-  Pop $1
-  StrCmp $1 "HKLM" check_hklm
-  StrCmp $1 "HKCU" check_hkcu check_hklm
-    check_hkcu:
-      ReadRegStr $0 HKCU ${GTK_REG_KEY} "Version"
-      StrCpy $2 "HKCU"
-      StrCmp $0 "" check_hklm have_gtk
-
-    check_hklm:
-      ReadRegStr $0 HKLM ${GTK_REG_KEY} "Version"
-      StrCpy $2 "HKLM"
-      StrCmp $0 "" no_gtk have_gtk
-
-  have_gtk:
-    ; GTK+ is already installed; check version.
-    ; Change this to not even run the GTK installer if this version is already installed.
-    ${VersionCompare} ${GTK_INSTALL_VERSION} $0 $3
-    IntCmp $3 1 +1 good_version good_version
-    ${VersionCompare} ${GTK_MIN_VERSION} $0 $3
-
-      ; Bad version. If hklm ver and we have hkcu or no rights.. return no gtk
-      StrCmp $1 "NONE" no_gtk ; if no rights.. can't upgrade
-      StrCmp $1 "HKCU" 0 +2   ; if HKLM can upgrade..
-      StrCmp $2 "HKLM" no_gtk ; have hkcu rights.. if found hklm ver can't upgrade..
-      Push $2
-      IntCmp $3 1 +3
-        Push "1" ; Optional Upgrade
-        Goto done
-        Push "2" ; Mandatory Upgrade
-        Goto done
-
-  good_version:
-    StrCmp $2 "HKLM" have_hklm_gtk have_hkcu_gtk
-      have_hkcu_gtk:
-        ; Have HKCU version
-        ReadRegStr $0 HKCU ${GTK_REG_KEY} "Path"
-        Goto good_version_cont
-
-      have_hklm_gtk:
-        ReadRegStr $0 HKLM ${GTK_REG_KEY} "Path"
-        Goto good_version_cont
-
-    good_version_cont:
-      Push $0  ; The path to existing GTK+
-      Push "0"
-      Goto done
-
-  no_gtk:
-    Push $1 ; our rights
-    Push "3"
-    Goto done
-
-  done:
-  ; The top two items on the stack are what we want to return
-  Exch 4
-  Pop $1
-  Exch 4
-  Pop $0
-  Pop $3
-  Pop $2
-FunctionEnd
-
 Function .onInit
   Push $R0
   Push $R1
@@ -672,13 +463,6 @@ Function .onInit
   IfErrors 0 +1
   WriteRegStr HKCU "${PRODUCT_REG_KEY}" "Installer Language" "$R0"
   ClearErrors
-  StrCpy $ISSILENT "/NOUI"
-
-  ; GTK installer has two silent states.. one with Message boxes, one without
-  ; If fwbackups installer was run silently, we want to suppress gtk installer msg boxes.
-  IfSilent 0 set_gtk_normal
-      StrCpy $ISSILENT "/S"
-  set_gtk_normal:
 
   ${GetParameters} $R0
   ClearErrors
@@ -694,25 +478,9 @@ Function .onInit
 
   ClearErrors
   ${GetOptions} "$R0" "/DS=" $R1
-  ;IfErrors +7
-  ;SectionGetFlags ${SecDesktopShortcut} $R2
-  ;StrCmp "1" $R1 0 +2
-  ;IntOp $R2 $R2 | ${SF_SELECTED}
-  ;StrCmp "0" $R1 0 +3
-  ;IntOp $R1 ${SF_SELECTED} ~
-  ;IntOp $R2 $R2 & $R1
-  ;SectionSetFlags ${SecDesktopShortcut} $R2
 
   ClearErrors
   ${GetOptions} "$R0" "/SMS=" $R1
-  ;IfErrors +7
-  ;SectionGetFlags ${SecStartMenuShortcut} $R2
-  ;StrCmp "1" $R1 0 +2
-  ;IntOp $R2 $R2 | ${SF_SELECTED}
-  ;StrCmp "0" $R1 0 +3
-  ;IntOp $R1 ${SF_SELECTED} ~
-  ;IntOp $R2 $R2 & $R1
-  ;SectionSetFlags ${SecStartMenuShortcut} $R2
 
   ; If install path was set on the command, use it.
   StrCmp $INSTDIR "" 0 instdir_done
@@ -748,90 +516,6 @@ FunctionEnd
 
 Function un.onInit 
   StrCpy $name "fwbackups ${PRODUCT_VERSION}"
-
   ; Get stored language preference
   !insertmacro MUI_UNGETLANGUAGE
-
-FunctionEnd
-
-Function preWelcomePage
-  Push $R0
-
-  Push $R1
-  Push $R2
-
-  ; Make the GTK+ Section RO if it is required.
-  Call DoWeNeedGtk
-  Pop $R0
-  Pop $R2
-  IntCmp $R0 1 gtk_not_mandatory gtk_not_mandatory
-    !insertmacro SetSectionFlag SecGtk ${SF_RO}
-  gtk_not_mandatory:
-
-  ; If on Win95/98/ME warn them that the GTK+ version wont work
-  ${Unless} ${IsNT}
-    !insertmacro UnselectSection SecGtk
-    !insertmacro SetSectionFlag SecGtk ${SF_RO}
-    MessageBox MB_OK $(lng_GtkWindowsIncompatible) /SD IDOK
-    IntCmp $R0 1 done done ; Upgrade isn't optional - abort if we don't have a suitable version
-    Quit
-  ${EndIf}
-
-  done:
-  Pop $R2
-  Pop $R1
-  Pop $R0
-FunctionEnd
-
-Function preGtkDirPage
-  Push $R0
-  Push $R1
-  Call DoWeNeedGtk
-  Pop $R0
-  Pop $R1
-
-  IntCmp $R0 2 +2 +2 no_gtk
-  StrCmp $R0 "3" no_gtk no_gtk
-
-  ; Don't show dir selector.. Upgrades are done to existing path..
-  Pop $R1
-  Pop $R0
-  Abort
-
-  no_gtk:
-    StrCmp $R1 "NONE" 0 no_gtk_cont
-      ; Got no install rights..
-      Pop $R1
-      Pop $R0
-      Abort
-    no_gtk_cont:
-      ; Suggest path..
-      StrCmp $R1 "HKCU" 0 hklm1
-        ${GetParent} $SMPROGRAMS $R0
-        ${GetParent} $R0 $R0
-        StrCpy $R0 "$R0\GTK\2.0"
-        Goto got_path
-      hklm1:
-        StrCpy $R0 "${GTK_DEFAULT_INSTALL_PATH}"
-
-   got_path:
-     StrCpy $name "GTK+ ${GTK_INSTALL_VERSION}"
-     StrCpy $GTK_FOLDER $R0
-     ;!insertmacro install_win32 
-     Pop $R1
-     Pop $R0
-FunctionEnd
-
-Function postGtkDirPage
-  Push $R0
-  StrCpy $name "fwbackups ${PRODUCT_VERSION}"
-  Push $GTK_FOLDER
-  Call VerifyDir
-  Pop $R0
-  StrCmp $R0 "0" 0 done
-    MessageBox MB_OK $(lng_GtkBadInstallPath) /SD IDOK
-    Pop $R0
-    Abort
-  done:
-  Pop $R0
 FunctionEnd

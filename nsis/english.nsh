@@ -6,13 +6,9 @@
 
 ; Section names
 LangString lng_Python ${LANG_ENGLISH} "Python (Required)"
-LangString lng_GtkRuntime ${LANG_ENGLISH} "GTK+ Runtime (Required)"
+LangString lng_GtkRuntime ${LANG_ENGLISH} "Bundled GTK+ Runtime (Required)"
 LangString lng_PyCron ${LANG_ENGLISH} "PyCron (Required)"
-LangString lng_PyModules ${LANG_ENGLISH} "Python modules (Required)"
-LangString lng_PyGtk ${LANG_ENGLISH} "PyGTK Python module"
-LangString lng_PyCairo ${LANG_ENGLISH} "PyCairo Python module"
-LangString lng_PyGObject ${LANG_ENGLISH} "PyGobject Python module"
-LangString lng_PyWin32 ${LANG_ENGLISH} "PyWin32 Python module"
+LangString lng_PyModules ${LANG_ENGLISH} "Bundled Python modules (Required)"
 LangString lng_fwbackupsPackage ${LANG_ENGLISH} "fwbackups (Required)"
 LangString lng_HelpFiles ${LANG_ENGLISH} "Help files"
 LangString lng_Shortcuts ${LANG_ENGLISH} "Program shortcuts"
@@ -23,36 +19,19 @@ LangString lng_QuickLaunch ${LANG_ENGLISH} "Quick Launch"
 LangString lng_StartMenu ${LANG_ENGLISH} "Start Menu"
 
 ; Descriptions
-LangString lng_PythonDesc ${LANG_ENGLISH} "Python interpreted programming language"
-LangString lng_GtkRuntimeDesc ${LANG_ENGLISH} "GTK+ runtime environment"
-LangString lng_PyCronDesc ${LANG_ENGLISH} "PyCron"
-LangString lng_PyModulesDesc ${LANG_ENGLISH} "Various Python modules required if fwbackups to run correctly"
-LangString lng_PyGtkDesc ${LANG_ENGLISH} "PyGTK uses the GTK+ toolkit to offer a comprehensive set of graphical elements and other useful programming facilities."
-LangString lng_PyCairoDesc ${LANG_ENGLISH} "PyCairo is set of Python bindings for the cairo graphics library."
-LangString lng_PyGObjectDesc ${LANG_ENGLISH} "PyGObject provides a convenient wrapper for the GObject+ library for use in Python programs, and takes care of many of the boring details such as managing memory and type casting."
-LangString lng_PyWin32Desc ${LANG_ENGLISH} "Python extensions for Windows"
-LangString lng_fwbackupsPackageDesc ${LANG_ENGLISH} "fwbackups program files"
-LangString lng_HelpFilesDesc ${LANG_ENGLISH} "Additional help files"
-LangString lng_ShortcutDesc ${LANG_ENGLISH} "Program shortcuts"
+LangString lng_PythonDesc ${LANG_ENGLISH} "The Python interpreted programming language."
+LangString lng_GtkRuntimeDesc ${LANG_ENGLISH} "Installs a bundled GTK+ runtime environment for use with fwbackups."
+LangString lng_PyCronDesc ${LANG_ENGLISH} "The PyCron Windows service is a cron implementation for Windows written in Python."
+LangString lng_PyModulesDesc ${LANG_ENGLISH} "Installs the Python modules (pygtk, pycairo, pygobject, pywin32) required by fwbackups to function correctly."
+LangString lng_fwbackupsPackageDesc ${LANG_ENGLISH} "The fwbackups program files."
+LangString lng_HelpFilesDesc ${LANG_ENGLISH} "Additional help files for fwbackups."
+LangString lng_ShortcutDesc ${LANG_ENGLISH} "Installs the program shortcuts."
 
 ; want to uninstall before install
 LangString lng_AlreadyInstalled ${LANG_ENGLISH} "fwbackups has already been installed. Do you want to remove the previous version before installing fwbackups?"
 
-; Install types
-;LangString lng_FullType $(LANG_ENGLISH) "Full"
-;LangString lng_MinimalType $(LANG_ENGLISH) "Minimal"
-;LangString lng_CustomType $(LANG_ENGLISH) "Custom"
-
 ; Other
 LangString lng_VisitTheWebsite $(LANG_ENGLISH) "Visit the fwbackups website"
-
-;Prompts
-LangString lng_PromptUpgradeGtk $(LANG_ENGLISH) "Would you like to update the existing GTK+ installation?"
-LangString lng_GtkInstallError $(LANG_ENGLISH) "There was an error installing GTK+. Setup will now exit."
-LangString lng_GtkWindowsIncompatible $(LANG_ENGLISH) "Your version of Windows is incompatible with GTK+. Setup will now exit."
-
-LangString lng_GtkBadInstallPath $(LANG_ENGLISH) "The GTK+ install path was invalid. The installation of GTK+ may be incomplete"
- 
 
 ;Uninstall
 LangString lng_un.UninstallCannotUninstall $(LANG_ENGLISH) "Setup could not uninstall fwbackups."
@@ -124,4 +103,3 @@ LangString lng_Languages $(LANG_ENGLISH) "Translations"
 ;LangString lng_vi $(LANG_ENGLISH) "vi  Vietnamese"
 ;LangString lng_zh_CN $(LANG_ENGLISH) "zh_CH  Simplifed Chinese"
 ;LangString lng_zh_TW $(LANG_ENGLISH) "zh_TW  Traditional Chinese"
-
