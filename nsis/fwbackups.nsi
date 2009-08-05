@@ -25,7 +25,7 @@
 ;Version resource
 ;Remember the installer name doesn't change when this does
   !define PRODUCT_NAME                    "fwbackups"
-  !define PRODUCT_PREREL                 "rc2"
+  !define PRODUCT_PREREL                  "rc3"
   !define PRODUCT_VERSION                 "1.43.3"
   !define PRODUCT_PUBLISHER               "Stewart Adam"
   !define PRODUCT_WEB_SITE                "http://www.diffingo.com/opensource"
@@ -42,7 +42,7 @@
 ;--------------------------------
 ;General
   Name                                    "fwbackups"
-  OutFile                                 "fwbackups-1.43.3rc2-Setup.exe"
+  OutFile                                 "fwbackups-1.43.3rc3-Setup.exe"
   InstallDir                              $PROGRAMFILES\fwbackups
   Var name
   Var GTK_FOLDER
@@ -60,11 +60,12 @@
   !define GTK_INSTALL_VERSION             "2.14.7"
   !define GTK_REG_KEY                     "SOFTWARE\GTK\2.0"
   !define GTK_DEFAULT_INSTALL_PATH        "$COMMONFILES\GTK\2.0"
-  !define GTK_RUNTIME_INSTALLER           "gtk-runtime-2.14.7-rev-a"
+  !define GTK_RUNTIME_INSTALLER           "gtk-runtime-2.14.7-rev-a.exe"
   !define PYTHON_RUNTIME_INSTALLER        "python-2.6.2.msi"
   !define PYGTK_MODULE_INSTALLER          "pygtk-2.12.1-3.win32-py2.6.exe"
   !define PYCAIRO_MODULE_INSTALLER        "pycairo-1.4.12-2.win32-py2.6.exe"
   !define PYGOBJECT_MODULE_INSTALLER      "pygobject-2.14.2-2.win32-py2.6.exe"
+  !define PYWIN32_MODULE_INSTALLER        "pywin32-213.win32-py2.6.exe"
   !define PYCRON_INSTALLER                "pycron-0.5.9.0.exe"
 
 ;--------------------------------
@@ -144,7 +145,7 @@ Section $(lng_GtkRuntime) SecGtk
 
   SetOutPath $TEMP
   SetOverwrite on
-  File /oname=gtk-runtime.exe "..\..\..\..\installers\${GTK_RUNTIME_INSTALLER}"
+  File /oname=gtk-runtime.exe "..\..\..\installers\${GTK_RUNTIME_INSTALLER}"
   SetOverwrite off
 
   Call DoWeNeedGtk
@@ -221,10 +222,10 @@ Section $(lng_Python) SecPython
   ;are in http://www.python.org/download/releases/2.5/
 
   SetOutPath "$INSTDIR"
-  File "..\..\..\..\installers\${PYTHON_RUNTIME_INSTALLER}"
+  File "..\..\..\installers\${PYTHON_RUNTIME_INSTALLER}"
 
   ;Installing
-  ExecWait 'msiexec /i "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}" TARGETDIR="$PROGRAMFILES\Python25" /qb!'
+  ExecWait 'msiexec /i "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}" TARGETDIR="$PROGRAMFILES\Python26" /qb!'
   delete "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}"
 SectionEnd
 
@@ -233,23 +234,30 @@ SectionEnd
 SectionGroup /e $(lng_PyModules) SecPyModules
   Section $(lng_PyGTK) SecPyGTK
   SetOutPath "$INSTDIR"
-  File "..\..\..\..\installers\${PYGTK_MODULE_INSTALLER}"
+  File "..\..\..\installers\${PYGTK_MODULE_INSTALLER}"
   ExecWait $INSTDIR\${PYGTK_MODULE_INSTALLER}
   delete $INSTDIR\${PYGTK_MODULE_INSTALLER}
   SectionEnd
 
   Section $(lng_PyCairo) SecPyCairo
   SetOutPath "$INSTDIR"
-  File "..\..\..\..\installers\${PYCAIRO_MODULE_INSTALLER}"
+  File "..\..\..\installers\${PYCAIRO_MODULE_INSTALLER}"
   ExecWait $INSTDIR\${PYCAIRO_MODULE_INSTALLER}
   delete $INSTDIR\${PYCAIRO_MODULE_INSTALLER}
   SectionEnd
 
   Section $(lng_PyGObject) SecPyGObject
   SetOutPath "$INSTDIR"
-  File "..\..\..\..\installers\${PYGOBJECT_MODULE_INSTALLER}"
+  File "..\..\..\installers\${PYGOBJECT_MODULE_INSTALLER}"
   ExecWait $INSTDIR\${PYGOBJECT_MODULE_INSTALLER}
   delete $INSTDIR\${PYGOBJECT_MODULE_INSTALLER}
+  SectionEnd
+  
+  Section $(lng_PyWin32) SecPyWin32
+  SetOutPath "$INSTDIR"
+  File "..\..\..\installers\${PYWIN32_MODULE_INSTALLER}"
+  ExecWait $INSTDIR\${PYWIN32_MODULE_INSTALLER}
+  delete $INSTDIR\${PYWIN32_MODULE_INSTALLER}
   SectionEnd
 SectionGroupEnd
 
@@ -257,7 +265,7 @@ SectionGroupEnd
 ;PyCron Install Section
 Section $(lng_PyCron) SecPyCron
   SetOutPath "$INSTDIR"
-  File "..\..\..\..\installers\${PYCRON_INSTALLER}"
+  File "..\..\..\installers\${PYCRON_INSTALLER}"
   ExecWait $INSTDIR\${PYCRON_INSTALLER}
   delete $INSTDIR\${PYCRON_INSTALLER}
 SectionEnd
@@ -314,10 +322,10 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     SetOutPath "$INSTDIR"
     ; fwbackups files
     SetOverwrite on
-    File ..\..\..\..\installers\libglade-2.0-0.dll
-    File ..\..\..\..\installers\libxml2.dll
+    File ..\..\..\installers\libglade-2.0-0.dll
+    File ..\..\..\installers\libxml2-2.dll
     File ..\AUTHORS
-    File ..\CHANGELOG
+    File ..\ChangeLog
     File ..\COPYING
     File ..\README
     File ..\TODO
@@ -329,7 +337,9 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     File ..\bin\fwbackups-run.py
     File ..\bin\fwbackups-runonce.py
     SetOutPath "$INSTDIR\fwbackups"
-    File /r ..\src\fwbackups\*.py
+    File ..\src\fwbackups\*.py
+    SetOutPath "$INSTDIR\fwbackups\operations"
+    File ..\src\fwbackups\operations\*.py
 
     SetOutPath "$INSTDIR"
 
@@ -384,7 +394,6 @@ Section Uninstall
   Delete $INSTDIR\fwbackups-run.py
   Delete $INSTDIR\fwbackups-runonce.py
   RMDir /r $INSTDIR\fwbackups
-  RMDir /r $INSTDIR\win32
   try_hkcu:
     ReadRegStr $R0 HKCU ${PRODUCT_REG_KEY} ""
     StrCmp $R0 $INSTDIR 0 cant_uninstall

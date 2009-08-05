@@ -24,7 +24,7 @@
 ;Version resource
 ;Remember the installer name doesn't change when this does
   !define PRODUCT_NAME                    "fwbackups"
-  !define PRODUCT_PREREL                  "rc2"
+  !define PRODUCT_PREREL                  "rc3"
   !define PRODUCT_VERSION                 "1.43.3"
   !define PRODUCT_PUBLISHER               "Stewart Adam"
   !define PRODUCT_WEB_SITE                "http://www.diffingo.com/opensource"
@@ -39,7 +39,7 @@
 ;--------------------------------
 ;General
   Name                                    "fwbackups"
-  OutFile                                 "fwbackups-1.43.3rc2-Lite_Setup.exe"
+  OutFile                                 "fwbackups-1.43.3rc3-Lite_Setup.exe"
   InstallDir                              $PROGRAMFILES\fwbackups
   Var name
   SetCompressor /SOLID lzma
@@ -158,11 +158,10 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     SetOutPath "$INSTDIR"
     ; fwbackups files
     SetOverwrite on
-    File ..\..\..\..\installers\libglade-2.0-0.dll
-    File ..\..\..\..\installers\libxml2.dll
-    File ..\win32\*.dll
+    File ..\..\..\installers\libglade-2.0-0.dll
+    File ..\..\..\installers\libxml2-2.dll
     File ..\AUTHORS
-    File ..\CHANGELOG
+    File ..\ChangeLog
     File ..\COPYING
     File ..\README
     File ..\TODO
@@ -174,8 +173,10 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     File ..\bin\fwbackups-run.py
     File ..\bin\fwbackups-runonce.py
     SetOutPath "$INSTDIR\fwbackups"
-    File /r ..\src\fwbackups\*.py
-
+    File ..\src\fwbackups\*.py
+    SetOutPath "$INSTDIR\fwbackups\operations"
+    File ..\src\fwbackups\operations\*.py
+    
     SetOutPath "$INSTDIR"
 
     ; If we don't have install rights we're done
@@ -249,7 +250,6 @@ Section Uninstall
     Delete $INSTDIR\fwbackups-run.py
     Delete $INSTDIR\fwbackups-runonce.py
     RMDir /r $INSTDIR\fwbackups
-    RMDir /r $INSTDIR\win32
     ; Shortcuts..
     Delete "$DESKTOP\fwbackups.lnk"
     SetShellVarContext all

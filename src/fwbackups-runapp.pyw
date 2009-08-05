@@ -92,6 +92,7 @@ try:
   import paramiko
 except:
   raise fwbackups.fwbackupsError(_('Please install paramiko (python-paramiko)'))
+
 if MSWINDOWS:
   try:
     import win32job
@@ -151,7 +152,7 @@ class fwbackupsApp(interface.Controller):
   """The class which contains the interface callbacks"""
   def __init__(self, verbose, minimized):
     """Initialize a new instance."""
-    interface.Controller.__init__(self, '%s/fwbackups.glade' % os.path.abspath(os.path.dirname(__file__)), 'main')
+    interface.Controller.__init__(self, os.path.join(INSTALL_DIR, 'fwbackups.glade'), 'main')
     self.verbose = verbose
     self.runSetup(minimized=minimized)
 
@@ -1074,7 +1075,7 @@ class fwbackupsApp(interface.Controller):
 
   def on_preferencesPycronBrowseButton_clicked(self, widget):
     """Open the file browser"""
-    prefs = config.PrefsConf(logger=self.logger)
+    prefs = config.PrefsConf()
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
                                  gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                  multiple=False)
@@ -1104,7 +1105,7 @@ class fwbackupsApp(interface.Controller):
                                 'or the sample pycron configuration.'))
         return
       else:
-        prefs = config.PrefsConf(logger=self.logger)
+        prefs = config.PrefsConf()
         prefs.set('Preferences', 'pycronLoc', pycronLoc)
     self.ui.preferences.hide()
 
@@ -2526,20 +2527,19 @@ class fwbackupsApp(interface.Controller):
       else:
         return
       if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
-        self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
+        self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
       # There is a current filename
       if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
-        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
+        self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
       # There is no current filename
       elif status == backup.STATUS_BACKING_UP and not currentName:
-        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
+        self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
       elif status == backup.STATUS_CLEANING_OLD:
-        self.main2BackupProgress.set_text(_('Cleaning old backups'))
+        self.main3BackupProgress.set_text(_('Cleaning old backups'))
       elif status == backup.STATUS_SENDING_TO_REMOTE:
-        self.main2BackupProgress.set_text(_('Sending files to remote server'))
+        self.main3BackupProgress.set_text(_('Sending files to remote server'))
       elif status == backup.STATUS_EXECING_USER_COMMAND:
-        self.main2BackupProgress.set_text(_('Executing user command'))
-      return self.updateReturn 
+        self.main3BackupProgress.set_text(_('Executing user command'))
       return self.updateReturn
 
     oneTimeConfig = config.OneTimeConf(ONETIMELOC, True)

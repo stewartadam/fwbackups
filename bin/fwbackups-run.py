@@ -99,8 +99,8 @@ if __name__ == "__main__":
     try:
       if MSWINDOWS:
         set = set.strip('\'')
-      backupHandle = backup.SetBackupOperation(set, logger=logger, os.path.join(SETLOC, "%s.conf" % set))
-      backupThread = fwbackups.FuncAsThread(backupHandle.start)
+      backupHandle = backup.SetBackupOperation(os.path.join(SETLOC, "%s.conf" % set), logger=logger)
+      backupThread = fwbackups.FuncAsThread(backupHandle.start, {})
     except:
       import traceback
       (etype, evalue, tb) = sys.exc_info()
