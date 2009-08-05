@@ -289,13 +289,17 @@ class BackupSetConf:
       encoded = self.__config.get('Options', 'RemotePassword').encode('base64')
       self.__config.set('Options', 'RemotePassword', encoded)
     # Nothing for these versions, but keep doing the below
+    # However, there was a typo ("Sparce" vs "Sparse") in the upgrade procedures
+    # of previous versions, leaving a lowercase "sparce" key in the config
     if oldVersion in ['1.43.3rc1', '1.43.3rc2'] or fromHereUp == True:
       fromHereUp = True
+      if self.__config.has_option("Options", "sparce"):
+        self.__config.remove_option("Options", "sparce")
     # Now that the configuration file been imported, reset the version option
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
 
-  def __validate(self):
+  def __validate(self, strictValidation=False):
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
@@ -325,7 +329,11 @@ class BackupSetConf:
       'RemoteUsername', 'Sparse']
     for option in sorted(config["Options"].keys()):
       if not option in validOptions:
-        raise ConfigError(_("Unknown option key '%s' present in configuration file") % option)
+        # This must be placed in a separate if statement, as if it was placed in
+        # the above statement when strictValidation=False and an invalid option
+        # is present, validOptions.remove(option) is attempted and fails
+        if strictValidation:
+          raise ConfigError(_("Unknown option key '%(a)s' present in set configuration '%(b)s'") % {'a': option, 'b': self.getSetName()})
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
@@ -440,7 +448,7 @@ class OneTimeConf:
     config["Options"]["RemoteFolder"] = ''
     self.__config.importDict(config)
 
-  def __validate(self):
+  def __validate(self, strictValidation=False):
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
@@ -466,7 +474,11 @@ class OneTimeConf:
       'RemotePassword', 'RemotePort', 'RemoteUsername', 'Sparse']
     for option in sorted(config["Options"].keys()):
       if not option in validOptions:
-        raise ConfigError(_("Unknown option key '%s' present in one-time backup configuration file") % option)
+        # This must be placed in a separate if statement, as if it was placed in
+        # the above statement when strictValidation=False and an invalid option
+        # is present, validOptions.remove(option) is attempted and fails
+        if strictValidation:
+          raise ConfigError(_("Unknown option key '%s' present in one-time backup configuration file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
@@ -563,7 +575,7 @@ class RestoreConf:
     config["Options"]["RemoteSource"] = ''
     self.__config.importDict(config)
 
-  def __validate(self):
+  def __validate(self, strictValidation=False):
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
@@ -587,7 +599,11 @@ class RestoreConf:
                     'RemoteSource', 'RemoteUsername', 'Source', 'SourceType']
     for option in sorted(config["Options"].keys()):
       if not option in validOptions:
-        raise ConfigError(_("Unknown option key '%s' present in restore configuration file") % option)
+        # This must be placed in a separate if statement, as if it was placed in
+        # the above statement when strictValidation=False and an invalid option
+        # is present, validOptions.remove(option) is attempted and fails
+        if strictValidation:
+          raise ConfigError(_("Unknown option key '%s' present in restore configuration file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
@@ -634,9 +650,9 @@ class RestoreConf:
 class PrefsConf:
   """Easy way to read and write a preference configuration file"""
   def __init__(self, create=False):
-    """Opens the user preferences at restorePath and ensures that it is valid.
-       If create is True, then a new configuration file will be created,
-       overwriting the previous restore configuration."""
+    """Opens the user preferences file (at PREFSLOC) and ensures that it is
+       valid. If create is True, then a new configuration file will be created
+       if none already exists."""
     self.__config = ConfigFile(PREFSLOC, create)
 
     if not self.__config.sections() and create:
@@ -672,7 +688,7 @@ class PrefsConf:
     config["Preferences"]["AlwaysShowDebug"] = 0
     self.__config.importDict(config)
 
-  def __validate(self):
+  def __validate(self, strictValidation=False):
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
@@ -686,23 +702,27 @@ class PrefsConf:
       raise ConfigError(_("Preferences failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Preferences":
-      raise ConfigError(_("'%(a)s' is not a fwbackups preferences file.") % self.restorePath)
+      raise ConfigError(_("'%(a)s' is not a fwbackups preferences file.") % PREFSLOC)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
     if not sorted(config["General"].keys()) == ["Type", "Version"]:
-      raise ConfigError(_("Configuration section 'General' in the restore configuration file failed to validate"))
+      raise ConfigError(_("Configuration section 'General' in the preferences file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['AlwaysShowDebug', 'DontShowMe_OldVerWarn',
                     'DontShowMe_ClearLog', 'MinimizeTrayClose', 'pycronLoc',
                     'ShowNotifications', 'ShowTrayIcon', 'StartMinimized']
     for option in sorted(config["Preferences"].keys()):
       if not option in validOptions:
-        raise ConfigError(_("Unknown option key '%s' present in restore configuration file") % option)
+        # This must be placed in a separate if statement, as if it was placed in
+        # the above statement when strictValidation=False and an invalid option
+        # is present, validOptions.remove(option) is attempted and fails
+        if strictValidation:
+          raise ConfigError(_("Unknown option key '%s' present in preferences file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
     if validOptions:
-      raise ConfigError(_("Configuration section 'Options' in the restore configuration file failed to validate: Missing options '%s'") % ', '.join(validOptions))
+      raise ConfigError(_("Configuration section 'Options' in the preferences file failed to validate: Missing options '%s'") % ', '.join(validOptions))
 
   def __import(self):
     """Import old configurations. Only runs if not current version"""
