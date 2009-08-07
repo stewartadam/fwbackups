@@ -19,6 +19,7 @@
 Configuration classes for fwbackups
 """
 import ConfigParser
+import locale
 import sys
 
 import fwbackups
@@ -116,6 +117,17 @@ class ConfigFile(ConfigParser.ConfigParser):
     fh = open(self.__conffile, 'w')
     ConfigParser.ConfigParser.write(self, fh)
     fh.close()
+
+  def get(self, section, option):
+    """Returns a Unicode object of the value stored in option of section"""
+    value = ConfigParser.ConfigParser.get(self, section, option)
+    try:
+      return value.decode('utf-8')
+    except:
+      try:
+        return unicode(value, locale.getpreferredencoding())
+      except:
+        return value
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""

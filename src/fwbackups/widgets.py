@@ -119,7 +119,8 @@ class TextViewConsole:
       style: (optional) Predefinded pango style to use.
   """
     #txt = gobject.markup_escape_text(txt)
-    txt = self._toUTF(txt)
+    # FIXME: We may need this once we have translations
+    #txt = self._toUTF(txt)
     start, end = self.buffer.get_bounds()
     if style == None:
       self.buffer.insert_with_tags(end, txt, self.default_style)
@@ -626,7 +627,8 @@ class PathView(View):
                      multiple=True)
     response = fileDialog.run()
     if response == gtk.RESPONSE_OK:
-      self.add(fileDialog.get_filenames(), self._buildListstoreIndex(self.liststore, 1))
+      paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
+      self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
 
   def addFolder(self):
@@ -634,7 +636,8 @@ class PathView(View):
     fileDialog = PathDia(self.ui.path_dia, _('Choose folder(s)'), self.parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, multiple=True)
     response = fileDialog.run()
     if response == gtk.RESPONSE_OK:
-      self.add(fileDialog.get_filenames(), self._buildListstoreIndex(self.liststore, 1))
+      paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
+      self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
 
   def add(self, paths, values):
@@ -716,13 +719,12 @@ class ExportView(View):
     """Load all set .conf files into the view"""
     loaded_count = 0
     self.logger.logmsg('DEBUG', _('Parsing configuration files'))
-    for root, dirs, files in os.walk(SETLOC):
-      files.sort()
-      for name in files:
-        if name.endswith('.conf'):
-          self.liststore.append([True, name.split('.conf')[0]])
-        else:
-          self.logger.logmsg('WARNING', _('Refusing to parse file `%s\': configuration files must end in `.conf\'') % name)
+    files = os.listdir(SETLOC)
+    for file in files:
+      if file.endswith('.conf'):
+        self.liststore.append([True, file.split('.conf')[0]])
+      else:
+        self.logger.logmsg('WARNING', _('Refusing to parse file `%s\': configuration files must end in `.conf\'') % file)
 
   def refresh(self):
     """Clears & reloads the view contents"""

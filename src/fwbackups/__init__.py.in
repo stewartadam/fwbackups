@@ -35,16 +35,12 @@ interface.py            Loads a Glade XML file and returns the 'ui' object
 remote.py:              Deals with remote servers (SSH/SFTP)
 shutil_modded.py        A slightly modified `shutil' so that it can handle special
                         files (links, sockets, fifo, pipes) properly and not die
-subprocess_killable.py  A modified `subprocess' I got online that handles
-                        killing of processes on Win32 and has a timeout
-                        attribute to subprocessHandler.wait()
 widgets.py              Some wrappers to make dealing with GTK+ widgets easier
-winprocess.py           Used internally by subprocess_killable.py, also downloaded.
 """
 
 import os
 import sys
-import subprocess_killable as subprocess
+import subprocess
 import exceptions
 
 from threading import Thread, Event
@@ -62,10 +58,10 @@ class fwbackupsError(Exception):
   def __str__(self):
     return repr(self.value)
 
-def execute(command, env=None, shell=False, timeout=-1):
+def execute(command, env=None, shell=False):
   """Execute a command, wait for it to finish"""
   sub = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell, env=env)
-  return sub.wait(timeout), sub.stdout, sub.stderr
+  return sub.wait(), sub.stdout, sub.stderr
 
 def executeSub(command, env=None, shell=False):
   """Execute a command in the background"""
@@ -134,7 +130,10 @@ class FuncAsThread(Thread):
       import traceback
       (etype, value, tb) = sys.exc_info()
       self.traceback = ''.join(traceback.format_exception(etype, value, tb))
-      self.exception = etype(value)
+      try:
+        self.exception = etype(value)
+      except:
+        self.exception = etype
       self.retval = -1
     return self.retval
 

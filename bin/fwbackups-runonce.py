@@ -24,6 +24,13 @@ import getopt
 
 from fwbackups.i18n import _
 from fwbackups.const import *
+
+if sys.platform.startswith('win'):
+  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "pythonmodules", "pywin32_system32")
+  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
+  sys.path.insert(2, os.path.join(INSTALL_DIR, "pythonmodules", "win32"))
+  sys.path.insert(3, os.path.join(INSTALL_DIR, "pythonmodules", "win32", "libs"))
+
 import fwbackups
 from fwbackups.operations import backup
 from fwbackups import config
@@ -34,7 +41,7 @@ def usage(error=None):
     print _('Error: %s'  % error)
     print _('Run with --help for usage information.')
   else:
-    print _("""Usage: fwbackups-runonce [OPTIONS] Path(s) Destination
+    print _("""Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE [OPTIONS] Path(s) Destination
 Options:
   -v, --verbose  :  Increase verbosity (print debug messages)
   -h, --help  :  Print this message and exit
@@ -66,15 +73,21 @@ def handleStop(arg1, arg2):
 
 # Only if we're in main execution
 if __name__ == "__main__":
-  onetime = config.OneTimeConf(True)
+  onetime = config.OneTimeConf(ONETIMELOC, True)
   # set the defaults
-  onetime.set('Options', 'Recursive', 0)
-  onetime.set('Options', 'BackupHidden', 0)
-  onetime.set('Options', 'PkgListsToFile', 0)
-  onetime.set('Options', 'DiskInfoToFile', 0)
-  onetime.set('Options', 'Sparse', 0)
-  onetime.set('Options', 'RemotePort', 22)
-  onetime.set('Options', 'RemoteUsername', USER)
+  options = {}
+  options["Recursive"] = 0
+  options["BackupHidden"] = 0
+  options["PkgListsToFile"] = 0
+  options["DiskInfoToFile"] = 0
+  options["Sparse"] = 0
+  options["FollowLinks"] = 0
+  options["Incremental"] = 0
+  options["Nice"] = 0
+  options["RemoteHost"] = ''
+  options["RemoteUsername"] = ''
+  options["RemotePassword"] = ''
+  options["RemotePort"] = 22
   verbose = False
   paths = []
   excludes = []
@@ -86,18 +99,10 @@ if __name__ == "__main__":
 
     # letter = plain options
     # letter: = option with arg
-    (opts, rest_args) = getopt.gnu_getopt(sys.argv[1:],"hvripdse:x:n:", avalableOptions)
+    (opts, paths) = getopt.gnu_getopt(sys.argv[1:],"hvripdse:x:n:", avalableOptions)
   except (getopt.GetoptError), e:
     usage(e)
     sys.exit(1)
-  # Remove options from paths
-  paths = sys.argv[1:]
-  for i in opts:
-    for ii in i:
-      try:
-        paths.remove(ii)
-      except:
-        pass
   # Parse args, take action
   if opts == []:
     pass
@@ -109,18 +114,18 @@ if __name__ == "__main__":
       if opt == "-v" or opt == "--verbose":
         verbose = True
       if opt == "-r" or opt == "--recursive":
-        onetime.set('Options', 'Recursive', 1)
+        options["Recursive"] = 1
       if opt == "-i" or opt == "--hidden":
-        onetime.set('Options', 'Hidden', 1)
+        options["BackupHidden"] = 1
       if opt == "-p" or opt == "--packages2file":
-        onetime.set('Options', 'PkgListsToFile', 1)
+        options["PkgListsToFile"] = 1
       if opt == "-d" or opt == "--diskinfo2file":
-        onetime.set('Options', 'DiskInfoToFile', 1)
+        options["DiskInfoToFile"] = 1
       if opt == "-s" or opt == "--sparse":
-        onetime.set('Options', 'Sparse', 1)
+        options["Sparse"] = 1
       if opt == "-e" or opt == "--engine":
         if value in ['tar', 'tar.gz', 'tar.bz2', 'rsync']:
-          onetime.set('Options', 'engine', value)
+          options["Engine"] = value
         else:
           usage(_('No such engine `%s\'' % value))
           sys.exit(1)
@@ -131,27 +136,25 @@ if __name__ == "__main__":
           if UID != 0 and int(value) < 0:
             usage(_('You must be root to set a niceness below 0'))
             sys.exit(1)
-          onetime.set('Options', 'Nice', value)
+          options["Nice"] = value
         else:
           usage(_('Nice value must be an integer between -20 and 19'))
           sys.exit(1)
       if opt == "--destination-type":
-        onetime.set('Options', 'DestinationType', value)
+        options["DestinationType"] = value
       if opt == "--remote-host":
-        onetime.set('Options', 'RemoteHost', value)
+        options["RemoteHost"] = value
       if opt == "--remote-user":
-        onetime.set('Options', 'RemoteUsername', value)
+        options["RemoteUsername"] = value
       if opt == "--remote-password":
-        onetime.set('Options', 'RemotePassword', value)
+        options["RemotePassword"] = value
       if opt == "--remote-port":
-        onetime.set('Options', 'RemotePort', value)
+        options["RemotePort"] = value
   # handle ctrl + c
-  onetime.set('Options', 'Excludes', '\n'.join(excludes))
+  options["Excludes"] = '\n'.join(excludes)
   signal.signal(signal.SIGINT, handleStop)
-  if os.path.exists(ONETIMELOC):
-    os.remove(ONETIMELOC)
   if len(paths) < 2:
-    usage(_('Invalid usage: Requires at least one path and a destination'))
+    usage(_('Requires at least one path to backup and a destination'))
     sys.exit(1)
   prefs = config.PrefsConf(create=True)
   if verbose == True or int(prefs.get('Preferences', 'AlwaysShowDebug')) == 1:
@@ -162,15 +165,15 @@ if __name__ == "__main__":
   logger.setLevel(level)
   logger.setPrintToo(True)
   # FIXME: Why both? Make RemoteDestination == Destination
-  onetime.set('Options', 'Destination', paths[-1])
-  onetime.set('Options', 'RemoteFolder', paths[-1])
-  pathnumber = 0
-  for i in paths[:-1]:
-    if MSWINDOWS:
-      i = i.strip('\'')
-    pathno = 'path' + str(pathnumber)
-    onetime.set('Paths', pathno, os.path.abspath(i))
-    pathnumber = int(pathnumber + 1)
+  options["Destination"] = paths[-1]
+  options["RemoteFolder"] = paths[-1]
+  if not options.has_key("DestinationType"):
+    usage(_('Destination type was not specified'))
+    sys.exit(1)
+  if not options.has_key("Engine"):
+    usage(_('An engine was not specified'))
+    sys.exit(1)
+  onetime.save(paths[:-1], options)
   try:
     backupHandle = backup.OneTimeBackupOperation(ONETIMELOC, logger=logger)
     backupThread = fwbackups.FuncAsThread(backupHandle.start, {})

@@ -104,7 +104,7 @@ class fwLogger(logging.Logger):
       # pull in & execute the appropriate function
       getattr(self, severity.lower())(entry)
       if self.__printToo:
-        print entry
+        print entry.encode('utf-8')
       for i in self.__functions:
         i(severity.lower(), entry)
 

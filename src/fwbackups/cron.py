@@ -139,7 +139,7 @@ class CronTab:
       toRead = fh
     else:
       sub = executeSub(['crontab', '-l'], self.environ)
-      retval = sub.wait(3)
+      retval = sub.wait()
       if retval != os.EX_OK and retval != 1:
         raise CronError('stderr:\n%sstdout:\n%s' % (sub.stderr.readlines(), sub.stdout.readlines()))
       toRead = sub.stdout
@@ -184,7 +184,7 @@ class CronTab:
       sub = executeSub(['crontab', '-e'], self.environ)
       sub.stdin.write(content)
       sub.stdin.close()
-      retval = sub.wait(3)
+      retval = sub.wait()
       if DARWIN:
         os.remove('/fwbackups-cronwriter.py')
       if retval != os.EX_OK:

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with fwbackups; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+import locale
 import os
 import sys
 import time
@@ -24,6 +25,13 @@ import signal
 
 from fwbackups.i18n import _
 from fwbackups.const import *
+
+if sys.platform.startswith('win'):
+  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "pythonmodules", "pywin32_system32")
+  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
+  sys.path.insert(2, os.path.join(INSTALL_DIR, "pythonmodules", "win32"))
+  sys.path.insert(3, os.path.join(INSTALL_DIR, "pythonmodules", "win32", "libs"))
+
 import fwbackups
 from fwbackups.operations import backup
 from fwbackups import config
@@ -62,8 +70,11 @@ if __name__ == "__main__":
   except (getopt.GetoptError), e:
     usage(e)
     sys.exit(1)
-  # Remove options from paths
-  sets = sys.argv[1:]
+  # Decode to UTF-8 objects and Remove options from paths
+  try: # Pycron passes arguments as UTF-8 encoded bytestrings
+    sets = [set.decode('utf-8') for set in sys.argv[1:]]
+  except UnicodeDecodeError: # Command line passes UTF-8 directly
+    sets = [unicode(set, locale.getpreferredencoding()) for set in sys.argv[1:]]
   for i in opts:
     for ii in i:
       try:
@@ -96,15 +107,20 @@ if __name__ == "__main__":
   # handle ctrl + c
   signal.signal(signal.SIGINT, handleStop)
   for set in sets:
+    if MSWINDOWS:
+      set = set.strip("'")
+    setPath = os.path.join(SETLOC, u"%s.conf" % set)
+    if not os.path.exists(setPath):
+      logger.logmsg("ERROR", _("The set configuration for '%s' was not found - skipping." % set))
+      continue
     try:
-      if MSWINDOWS:
-        set = set.strip('\'')
-      backupHandle = backup.SetBackupOperation(os.path.join(SETLOC, "%s.conf" % set), logger=logger)
+      backupHandle = backup.SetBackupOperation(setPath, logger=logger)
       backupThread = fwbackups.FuncAsThread(backupHandle.start, {})
     except:
       import traceback
       (etype, evalue, tb) = sys.exc_info()
       tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
+      logger.setPrintToo(True)
       logger.logmsg('ERROR', _('An error occurred initializing the backup operation:\n%s' % tracebackText))
       sys.exit(1)
     backupThread.start()

@@ -18,8 +18,8 @@
 """
 All constants in the program
 """
+import locale
 import os
-import os.path
 import sys
 import getpass
 
@@ -38,7 +38,7 @@ except ImportError:
   USER = False
 
 # Paths
-INSTALL_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
+INSTALL_DIR = unicode( os.path.abspath(os.path.dirname(sys.argv[0])), locale.getpreferredencoding() )
 
 if MSWINDOWS:
   USERHOME = INSTALL_DIR

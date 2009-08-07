@@ -26,16 +26,16 @@ import sys
 import time
 import types
 
-if sys.platform.startswith('win'):
-  os.environ["PATH"] += ";%s" % os.path.join(os.getcwd(), "gtkfiles", "bin")
-  os.environ["PATH"] += ";%s" % os.path.join(os.getcwd(), "pythonmodules", "pywin32_system32")
-  sys.path.insert(0, os.path.join(os.getcwd(), "pythonmodules"))
-  sys.path.insert(1, os.path.join(os.getcwd(), "pythonmodules", "gtk-2.0"))
-  sys.path.insert(2, os.path.join(os.getcwd(), "pythonmodules", "win32"))
-  sys.path.insert(3, os.path.join(os.getcwd(), "pythonmodules", "win32", "libs"))
-
 from fwbackups.const import *
 from fwbackups.i18n import _
+
+if sys.platform.startswith('win'):
+  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "bin")
+  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "pythonmodules", "pywin32_system32")
+  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
+  sys.path.insert(1, os.path.join(INSTALL_DIR, "pythonmodules", "gtk-2.0"))
+  sys.path.insert(2, os.path.join(INSTALL_DIR, "pythonmodules", "win32"))
+  sys.path.insert(3, os.path.join(INSTALL_DIR, "pythonmodules", "win32", "libs"))
 
 try:
   import gtk
@@ -309,9 +309,7 @@ class fwbackupsApp(interface.Controller):
       self.NOTIFY_AVAIL = True
     except ImportError:
       self.NOTIFY_AVAIL = False
-      self.logger.logmsg('DEBUG', _('pynotify was not found. Notifcations will not ' + \
-                                   'be displayed unless notify-python/pynotify' + \
-                                   'is installed.'))
+      self.logger.logmsg('DEBUG', _('pynotify was not found. Notifcations will not be displayed unless notify-python/pynotify is installed.'))
     # render icons: about dialog
     if MSWINDOWS:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
@@ -738,7 +736,7 @@ class fwbackupsApp(interface.Controller):
                                  multiple=False)
     response = fileDialog.run()
     if response == gtk.RESPONSE_OK:
-      oldSetPaths = fileDialog.get_filenames()
+      oldSetPaths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       for oldSetPath in oldSetPaths:
         # Attempt to use the original set name
         oldSetName = os.path.basename(os.path.splitext(oldsetpath)[0])
@@ -1126,7 +1124,7 @@ class fwbackupsApp(interface.Controller):
   def on_backupset2LocalFolderEntry_changed(self, widget):
     """Called when the set destination entry changes.
         Check the permissions when the set destination change."""
-    self._checkDestPerms(widget.get_text(), self.ui.backupset2FolderPermissionImage)
+    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.backupset2FolderPermissionImage)
 
   def on_backupset2HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
@@ -1495,7 +1493,7 @@ class fwbackupsApp(interface.Controller):
   def on_main3LocalFolderEntry_changed(self, widget):
     """Called when the one-time destination's entry changes.
         Checks the permissions when the onetime destination changed."""
-    self._checkDestPerms(widget.get_text(), self.ui.main3FolderPermissionImage)
+    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.main3FolderPermissionImage)
 
   def on_main3FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
@@ -1861,7 +1859,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.restore1PasswordEntry.set_visibility(not widget.get_active())
 
   def on_restore1DestinationEntry_changed(self, widget):
-    self._checkDestPerms(widget.get_text(), self.ui.restore1DestinationPermissionImage)
+    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.restore1DestinationPermissionImage)
 
   def on_restore1BrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""

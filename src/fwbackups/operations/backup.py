@@ -174,10 +174,10 @@ class BackupOperation(operations.Common):
     if engine == 'tar':
       if pkglist:
         fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")),
-          env=self.environment, shell=True, timeout=-1)
+          env=self.environment, shell=True)
       if diskinfo:
         fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Disk Information'), self.dest.replace("'", "'\\''")),
-          env=self.environment, shell=True, timeout=-1)
+          env=self.environment, shell=True)
     elif engine in ['tar.gz', 'tar.bz2']:
       if pkglist:
         paths.append('"%s - %s.txt"' % (prefix, _('Package list')))
@@ -185,11 +185,11 @@ class BackupOperation(operations.Common):
         paths.append('"%s.txt"' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
     elif engine == 'rsync':
       if pkglist:
-        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")), env=self.environment, shell=True, timeout=-1)
+        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
       if diskinfo:
         # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
         diskInfoFile = os.path.join(tempfile.gettempdir(), _('Disk Information'))
-        fwbackups.execute("%s '%s.txt' '%s'" % (command, diskInfoFile, self.dest.replace("'", "'\\''")), env=self.environment, shell=True, timeout=-1)
+        fwbackups.execute("%s '%s.txt' '%s'" % (command, diskInfoFile, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
 
   def deleteListFiles(self, manager, pkglist, diskinfo):
     """Delete the list files in the tempdir"""
@@ -250,9 +250,9 @@ class BackupOperation(operations.Common):
     self._total = len(paths)
     self._status = STATUS_BACKING_UP
     wasAnError = False
-    
     if self.options['Engine'] == 'tar':
       if MSWINDOWS:
+        self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w')
         for i in paths:
@@ -260,7 +260,6 @@ class BackupOperation(operations.Common):
           self._current += 1
           # let's deal with real paths
           i = i[1:-1]
-          self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
         fh.close()
@@ -288,13 +287,13 @@ class BackupOperation(operations.Common):
       self._total = 1
       self._current = 1
       if MSWINDOWS:
+        self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:gz')
         for i in paths:
           self.ifCancel()
           # let's deal with real paths
           i = i[1:-1]
-          self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
@@ -323,13 +322,13 @@ class BackupOperation(operations.Common):
       self._total = 1
       self._current += 1
       if MSWINDOWS:
+        self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:bz2')
         for i in paths:
           self.ifCancel()
           # let's deal with real paths
           i = i[1:-1]
-          self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
@@ -504,7 +503,7 @@ class SetBackupOperation(BackupOperation):
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
     # Parse backup folder format
     date = time.strftime('%Y-%m-%d_%H-%M')
-    self.dest = os.path.join(self.options['Destination'], "%s-%s-%s" % (_('Backup'), self.config.getSetName(), date))
+    self.dest = os.path.join(self.options['Destination'], u"%s-%s-%s" % (_('Backup'), self.config.getSetName(), date))
     # set-specific options
     self.command_before = self.options['CommandBefore']
     self.command_after = self.options['CommandAfter']
@@ -538,7 +537,7 @@ class SetBackupOperation(BackupOperation):
     listing.sort()
     oldbackups = []
     for i in listing:
-      if i.startswith('%s-%s-' % (_('Backup'), self.config.getSetName())):
+      if i.startswith(u'%s-%s-' % (_('Backup'), self.config.getSetName())):
         oldbackups.append(i)
     # ...And remove them.
     oldbackups.reverse()
