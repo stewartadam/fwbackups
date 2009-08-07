@@ -2362,7 +2362,7 @@ class fwbackupsApp(interface.Controller):
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
       # There is a current filename
       if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
-        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
+        self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
       # There is no current filename
       elif status == backup.STATUS_BACKING_UP and not currentName:
         self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
@@ -2522,7 +2522,7 @@ class fwbackupsApp(interface.Controller):
         self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
       # There is a current filename
       if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
-        self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName)})
+        self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
       # There is no current filename
       elif status == backup.STATUS_BACKING_UP and not currentName:
         self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
