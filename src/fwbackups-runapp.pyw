@@ -31,11 +31,8 @@ from fwbackups.i18n import _
 
 if sys.platform.startswith('win'):
   os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "bin")
-  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "pythonmodules", "pywin32_system32")
   sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
   sys.path.insert(1, os.path.join(INSTALL_DIR, "pythonmodules", "gtk-2.0"))
-  sys.path.insert(2, os.path.join(INSTALL_DIR, "pythonmodules", "win32"))
-  sys.path.insert(3, os.path.join(INSTALL_DIR, "pythonmodules", "win32", "libs"))
 
 try:
   import gtk
@@ -86,12 +83,6 @@ try:
   import paramiko
 except:
   raise fwbackups.fwbackupsError(_('Please install paramiko (python-paramiko)'))
-
-if MSWINDOWS:
-  try:
-    import win32job
-  except:
-    raise fwbackups.fwbackupsError(_('Please install pywin32'))
 
 from fwbackups import fwlogger
 from fwbackups import config
