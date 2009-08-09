@@ -44,8 +44,8 @@ for directory in [TESTDIR, SOURCEDIR, DESTDIR_BACKUP, DESTDIR_RESTORE]:
     shutil_modded.rmtree(directory)
   os.mkdir(directory)
 
-# Initialize 200MB of files
-for num in range(0, 200):
+# Initialize 50MB of files
+for num in range(0, 50):
   fh = open(os.path.join(SOURCEDIR, "file%s" % num), 'w')
   fh.write(random.choice('abcdefghijklmnopqrstuvwxyz1234567890-=+_;"}{[]|<>/?.,`~')*1048576)
   fh.close()
@@ -123,7 +123,12 @@ for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setConfig = config.BackupSetConf(SETPATH)
   restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
   remoteFolder = setConfig.get("Options", "RemoteFolder")
-  listing = os.listdir(DESTDIR_BACKUP)
+  client, sftpClient = sftp.connect(hostname, username, password, port)
+  try:
+    listing = sftpClient.listdir(remoteFolder)
+  finally:
+    sftpClient.close()
+    client.close()
   for backupName in listing:
     if backupName.startswith("%s-%s" % (_("Backup"), setName)):
       options["RemoteSource"] = os.path.join(remoteFolder, backupName)
@@ -231,7 +236,7 @@ options["RemotePort"] = 22
 options["RemoteUsername"] = username
 client, sftpClient = sftp.connect(hostname, username, password, port)
 try:
-  listing = sftpClient.listdir(DESTDIR_BACKUP)
+  listing = sftpClient.listdir(remotefolder)
 finally:
   sftpClient.close()
   client.close()
@@ -262,16 +267,16 @@ options["RemotePort"] = 22
 options["RemoteUsername"] = username
 client, sftpClient = sftp.connect(hostname, username, password, port)
 try:
-  listing = sftpClient.listdir(DESTDIR_BACKUP)
+  listing = sftpClient.listdir(remotefolder)
+  for item in listing:
+    if sftp.isFolder(sftpClient, os.path.join(remotefolder, item)):
+      options["RemoteSource"] = os.path.join(remotefolder, item)
+      options["Source"] = os.path.join(restoreDestination, item)
+      options["SourceType"] = "remote archive (SSH)"
+      break
 finally:
   sftpClient.close()
   client.close()
-for item in listing:
-  if not item.endswith('.tar') and  not item.endswith('.tar.gz') and not item.endswith('.tar.bz2'):
-    options["RemoteSource"] = os.path.join(remotefolder, item)
-    options["Source"] = os.path.join(restoreDestination, item)
-    options["SourceType"] = "remote archive (SSH)"
-    break
 RESTOREPATH = os.path.join(TESTDIR, "%s.conf" % name)
 restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
 restoreConfig.save(options)
