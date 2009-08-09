@@ -108,6 +108,8 @@ class ConfigFile(ConfigParser.ConfigParser):
       else:
         ConfigParser.ConfigParser.add_section(self, section)
       for option, value in dictobject[section].items():
+        if type(value) == unicode:
+          value = value.encode('utf-8')
         ConfigParser.ConfigParser.set(self, section, option, str(value))
     # Write _once_ at the end once all changes are imported
     self.write()
@@ -131,6 +133,8 @@ class ConfigFile(ConfigParser.ConfigParser):
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""
+    if type(value) == unicode:
+      value = value.encode('utf-8')
     ConfigParser.ConfigParser.set(self, section, prop, str(value))
     self.write()
     return True
