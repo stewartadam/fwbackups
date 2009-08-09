@@ -1067,7 +1067,6 @@ class fwbackupsApp(interface.Controller):
       pycronInstallDir = fileDialog.get_filenames()[0]
       self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
     fileDialog.destroy()
-    prefs.set('Preferences' 'pycronLoc', pycronInstallDir)
 
   def on_preferencesCloseButton_clicked(self, widget):
     """Close the preferences window"""
