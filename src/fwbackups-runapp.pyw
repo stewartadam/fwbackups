@@ -41,6 +41,7 @@ except:
   print _("An error occurred while importing gtk/gobject.")
   print _("Please make sure you have a valid GTK+ Runtime Environment.")
   sys.exit(1)
+
 #--
 import fwbackups
 from fwbackups import interface
@@ -233,7 +234,8 @@ class fwbackupsApp(interface.Controller):
     set_text_markup(self.ui.main3StatusLabel, status)
     set_text_markup(self.ui.restore2StatusLabel, status)
     textOnly = self.ui.main2StatusLabel.get_text()
-    self.trayicon.set_tooltip('fwbackups - %s' % textOnly)
+    if hasattr(self, 'trayicon'):
+      self.trayicon.set_tooltip('fwbackups - %s' % textOnly)
 
   def updateSplash(self, fraction, text):
     """Update the splash screen"""
@@ -312,11 +314,22 @@ class fwbackupsApp(interface.Controller):
     self.updateSplash(0.6, 'Loading widgets')
     self.statusbar = widgets.StatusBar(self.ui.statusbar1)
     self.ExportView1 = widgets.ExportView(self.ui.ExportTreeview, self.statusbar, self.ui)
-    self._setupTrayIcon()
-    if prefs.getboolean('Preferences', 'ShowTrayIcon') or minimized:
-      self.trayicon.set_visible(True)
+    # Tray icon - check for PyGTK 2.10+
+    if not hasattr(gtk, 'StatusIcon'):
+      prefs.set('Preferences', 'ShowTrayIcon', 0)
+      prefs.set('Preferences', 'MinimizeTrayClose', 0)
+      prefs.set('Preferences', 'StartMinimized', 0)
+      self.ui.preferencesShowTrayIconCheck.set_active(False)
+      self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
+      self.ui.preferencesMinimizeTrayCloseCheck.set_active(False)
+      self.ui.preferencesMinimizeTrayCloseCheck.set_sensitive(False)
+      self.ui.preferencesStartMinimizedCheck.set_active(False)
+      self.ui.preferencesStartMinimizedCheck.set_sensitive(False)
     else:
-      self.trayicon.set_visible(False)
+      # PyGTK 2.10+ installed, gtk.StatusIcon exists
+      if prefs.getboolean('Preferences', 'ShowTrayIcon') or minimized:
+        self._setupTrayIcon()
+        self.trayicon.set_visible(True)
     self._setDefaults()
     self.updateSplash(0.8, _('Cleaning after previous versions'))
     self.cronTab = cron.CronTab()
@@ -381,6 +394,7 @@ class fwbackupsApp(interface.Controller):
 
   def _setupTrayIcon(self):
     """Sets up the tray icon"""
+    prefs = config.PrefsConf()
     if MSWINDOWS:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
     else:
@@ -393,7 +407,6 @@ class fwbackupsApp(interface.Controller):
     self.trayicon.connect("popup_menu", self._Popup)
     self.trayicon.connect("activate", self._clicked)
     # now set the status of the checkmarks...
-    prefs = config.PrefsConf()
     self.ui.display_notifications1.set_active(prefs.getboolean('Preferences', 'ShowNotifications'))
     self.ui.minimize_to_tray_on_close1.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
 
@@ -532,9 +545,10 @@ class fwbackupsApp(interface.Controller):
       pix = self.ui.main.render_icon(gtk.STOCK_COPY, gtk.ICON_SIZE_DIALOG)
       notify.set_icon_from_pixbuf(pix)
       # location
-      tray = self.trayicon
-      if tray.get_visible():
-        notify.set_property('status-icon', tray)
+      if hasattr(self, 'trayicon'):
+        tray = self.trayicon
+        if tray.get_visible():
+          notify.set_property('status-icon', tray)
       # timeout?
       if timeout != 0:
         notify.set_timeout(int(timeout) * 1000)
@@ -643,7 +657,8 @@ class fwbackupsApp(interface.Controller):
         self.logger.logmsg('CRITICAL', _('Please submit a bug report and include this message.'))
     # Bugfix for GTK+ on Win32: A ghost tray icon remains after app exits
     # Workaround: Hide the tray icon before quitting the GTK mainloop
-    self.trayicon.set_visible(False)
+    if hasattr(self, 'trayicon'):
+      self.trayicon.set_visible(False)
     # Save set configurations schedule
     self.logger.logmsg('DEBUG', _('Regenerating crontab'))
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
@@ -976,10 +991,14 @@ class fwbackupsApp(interface.Controller):
     # Tray icon
     if self.ui.preferencesShowTrayIconCheck.get_active():
       prefs.set('Preferences', 'ShowTrayIcon', 1)
-      self.trayicon.set_visible(True)
+      if hasattr(self, 'trayicon'):
+        self.trayicon.set_visible(True)
+      else:
+        self._setupTrayIcon()
     else:
       prefs.set('Preferences', 'ShowTrayIcon', 0)
-      self.trayicon.set_visible(False)
+      if hasattr(self, 'trayicon'):
+        self.trayicon.set_visible(False)
 
   def on_preferencesMinimizeTrayCloseCheck_toggled(self, widget):
     """Minimize to tray on close?"""
