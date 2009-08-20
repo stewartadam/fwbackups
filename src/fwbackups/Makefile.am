@@ -8,9 +8,7 @@ PYTHON_FILES = \
     interface.py \
     sftp.py \
     shutil_modded.py \
-    subprocess_killable.py \
-    widgets.py \
-    winprocess.py
+    widgets.py
 
 EXTRA_DIST = \
     $(PYTHON_FILES) \
