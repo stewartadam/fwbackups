@@ -95,20 +95,22 @@ class BackupOperation(operations.Common):
           listFile.close()
         else:
           outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
-          retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
-          stdout.close()
+          fh = open(outfile, 'w')
+          retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=fh)
+          fh.close()
         managers.append('rpm')
       if os.path.exists(os.path.join(path, 'pacman')) and not 'pacman' in managers:
         outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('Pacman - Package list'))
         fh = open(outfile, 'w')
-        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
+        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=fh)
         fh.write(stdout.read())
         fh.close()
         managers.append('pacman')
       if os.path.exists(os.path.join(path, 'dpkg')) and not 'dpkg' in managers:
         outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('dpkg - Package list'))
-        retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=open(outfile, 'w'))
-        stdout.close()
+        fh = open(outfile, 'w')
+        retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=fh)
+        fh.close()
         managers.append('dpkg')
     return managers
   
