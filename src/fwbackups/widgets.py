@@ -611,7 +611,7 @@ class PathView(View):
           if i != "" or i != None:
             path = get_local_path(i)
             if path != None:
-              paths.append(path)
+              paths.append(path.decode('utf-8'))
       for i in paths:
         self.add([os.path.normpath(i)], self._buildListstoreIndex(self.liststore, 1))
       context.finish(True, False, time)

@@ -26,12 +26,6 @@ import signal
 from fwbackups.i18n import _
 from fwbackups.const import *
 
-if sys.platform.startswith('win'):
-  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "pythonmodules", "pywin32_system32")
-  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
-  sys.path.insert(2, os.path.join(INSTALL_DIR, "pythonmodules", "win32"))
-  sys.path.insert(3, os.path.join(INSTALL_DIR, "pythonmodules", "win32", "libs"))
-
 import fwbackups
 from fwbackups.operations import backup
 from fwbackups import config

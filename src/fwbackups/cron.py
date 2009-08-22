@@ -21,6 +21,7 @@ Python interface to 'crontab' binary
 
 import os
 import re
+import time
 import types
 
 from i18n import _
@@ -183,6 +184,7 @@ class CronTab:
         os.symlink(os.path.join(INSTALL_DIR, 'cronwriter.py'), '/fwbackups-cronwriter.py')
       sub = executeSub(['crontab', '-e'], self.environ)
       sub.stdin.write(content)
+      time.sleep(1)
       sub.stdin.close()
       retval = sub.wait()
       if DARWIN:

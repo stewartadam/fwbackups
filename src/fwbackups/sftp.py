@@ -172,7 +172,7 @@ def putFile(sftp, src, dst, symlinks=False, excludes=[]):
     return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
 
 def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
-  """Copies src (local) to dst (remote). Folder dst will be created"""
+  """Copies src (local) to dst (remote). Folder dst must exist"""
   # Check if the src itself is an exclude
   # FIXME: This means we check any subdirectory against excludes 2x
   SKIPME = 0
@@ -183,11 +183,10 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
   if SKIPME:
     return
   errors = []
-  sftp.chdir(dst)
   dst = os.path.join(dst, os.path.basename(src))
   if not exists(sftp, dst):
     sftp.mkdir(dst)
-  sftp.chdir(dst)
+  #sftp.chdir(dst)
   for item in os.listdir(src):
     # make absolute paths
     src_abs =  os.path.join(src, item)
@@ -203,13 +202,12 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
       # at this point, excludes have been handled and we're ready to copy.
       if symlinks and os.path.islink(src_abs):
         linkto = os.readlink(src_abs)
-        #sftp.symlink(abs_src, rel_dst)
-        sftp.symlink(linkto, item)
+        sftp.symlink(linkto, dst_abs)
       elif os.path.isdir(src_abs):
         # run this again in the subfolder
-        putFolder(sftp, src_abs, dst, symlinks, excludes)
+        putFolder(sftp, src_abs, dst_abs, symlinks, excludes)
       elif os.path.isfile(src_abs):
-        sftp.put(src_abs, item)
+        sftp.put(src_abs, dst_abs)
       else:
         print _('`%s\' is not a file, folder or link! Skipping.') % src_abs
     except (IOError, os.error), reason:

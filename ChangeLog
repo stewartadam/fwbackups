@@ -1,5 +1,13 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.3 changes ||
+  * Fri Aug 21 2009 Stewart Adam <s.adam at diffingo.com>
+    - Fix a bug on Ubuntu which caused crontab writing to fail
+    - Fix a bug on Ubuntu which caused writing package lists to fail
+
+  * Fri Aug 14 2009 Stewart Adam <s.adam at diffingo.com>
+    - Disable tray options completely gtk.StatusIcon is not available, or in
+      other words for any PyGTK version below 2.10.
 
 || Version 1.43.3rc3 changes ||
   * Mon Aug 3 2009 Stewart Adam <s.adam at diffingo.com>

@@ -108,6 +108,8 @@ class ConfigFile(ConfigParser.ConfigParser):
       else:
         ConfigParser.ConfigParser.add_section(self, section)
       for option, value in dictobject[section].items():
+        if type(value) == unicode:
+          value = value.encode('utf-8')
         ConfigParser.ConfigParser.set(self, section, option, str(value))
     # Write _once_ at the end once all changes are imported
     self.write()
@@ -131,6 +133,8 @@ class ConfigFile(ConfigParser.ConfigParser):
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""
+    if type(value) == unicode:
+      value = value.encode('utf-8')
     ConfigParser.ConfigParser.set(self, section, prop, str(value))
     self.write()
     return True
@@ -794,15 +798,15 @@ class PrefsConf:
 
   def getPreferences(self):
     """Returns a dictionary of all options and their values"""
-    config = self.__config.generateDict(sections=["Options"])
-    return config["Options"]
+    config = self.__config.generateDict(sections=["Preferences"])
+    return config["Preferences"]
 
   def set(self, section, option, value):
     """Sets the value of option in section."""
     return self.__config.set(section, option, value)
 
   def save(self, options, mergeDefaults=False):
-    """Saves a restore configuration file from dict-dump object options. The
+    """Saves a preferences configuration file from dict-dump object options. The
        options passed in options will be validated and if validation fails, the
        previous configuration will be restored and an error is raised. If
        mergeDefaults is True, then the values supplied in paths, options are
@@ -810,26 +814,26 @@ class PrefsConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(self.restorePath)
-    self.__config = ConfigFile(self.restorePath, True)
+    os.remove(PREFSLOC)
+    self.__config = ConfigFile(PREFSLOC, True)
     if mergeDefaults:
       self.__initialize()
     # Generate a new dictionary config dump, then import it
     config = self.__config.generateDict()
-    for section in ["General", "Options"]:
+    for section in ["General", "Preferences"]:
       if section not in config.keys():
         config[section] = {}
-    config["General"] = {"Type": "Restore", "Version": fwbackups.__version__}
+    config["General"] = {"Type": "Preferences", "Version": fwbackups.__version__}
     # A loop is used instead of plain assignment in order to maintain expected
     # behavior when mergeDefaults=True
     for option, value in options.items():
-      config["Options"][option] = value
+      config["Preferences"][option] = value
     self.__config.importDict(config)
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(self.restorePath)
-      self.__config = ConfigFile(self.restorePath, True)
+      os.remove(PREFSLOC)
+      self.__config = ConfigFile(PREFSLOC, True)
       self.__config.importDict(backup)
       raise
 
