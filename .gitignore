@@ -8,7 +8,9 @@ config.log
 config.status
 config.sub
 configure
+install-sh
 fwbackups.pc
+missing
 stamp-h1
 
 # these get generated from .in or .am files
@@ -22,12 +24,13 @@ src/fwbackups/__init__.py
 bin/fwbackups
 
 # po
-POTFILES
-missing
-stamp-it
-*.gmo
-*.mo
+po/POTFILES
+po/missing
+po/stamp-it
+po/*.gmo
+po/*.mo
 
+tests/
 
 # ignore these file types
 *.exe
