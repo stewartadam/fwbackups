@@ -6,8 +6,11 @@ PYTHON_FILES = \
 EXTRA_DIST = \
     $(PYTHON_FILES)
 
-pydir = $(pkgdatadir)/fwbackups/operations
+pydir = $(pkgpythondir)/operations
 py_PYTHON = $(PYTHON_FILES)
+
+uninstall-hook:
+	rmdir $(DESTDIR)$(pkgpythondir)/operations
 
 clean-local:
 	rm -f *.pyc *.pyo

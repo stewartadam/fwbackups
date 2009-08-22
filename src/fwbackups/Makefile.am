@@ -14,8 +14,11 @@ EXTRA_DIST = \
     $(PYTHON_FILES) \
     __init__.py.in
 
-pydir = $(pkgdatadir)/fwbackups
+pydir = $(pkgpythondir)
 py_PYTHON = $(PYTHON_FILES)
+
+uninstall-hook:
+	rmdir $(DESTDIR)$(pkgpythondir)
 
 clean-local:
 	rm -f *.pyc *.pyo

@@ -5,6 +5,7 @@ EXTRA_DIST = \
     intltool-merge.in \
     intltool-update.in \
     fwbackups.spec.in \
+    fwbackups.spec \
     AUTHORS \
     ChangeLog \
     COPYING \
@@ -22,17 +23,18 @@ SUBDIRS = \
     po \
     pixmaps \
     src \
-    src/fwbackups \
-    src/fwbackups/operations
+    src/fwbackups/operations \
+    src/fwbackups
 
 clean-local:
 	rm -rf tests
 
-uninstall-local:
-	rm -rf $(DESTDIR)$(datadir)/fwbackups/
+uninstall-hook:
+	rmdir $(DESTDIR)$(datadir)/fwbackups/
 
 rpm: dist
 	@(rpmbuild -ta fwbackups-$(PACKAGE_VERSION).tar.bz2)
 
 srpm: dist
 	@(rpmbuild -ts fwbackups-$(PACKAGE_VERSION).tar.bz2)
+
