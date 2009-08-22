@@ -589,6 +589,10 @@ class fwbackupsApp(interface.Controller):
 
   def regenerateCrontab(self):
     """Regenerates the crontab"""
+    self.logger.logmsg('DEBUG', _('Regenerating crontab'))
+    self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
+    while gtk.events_pending():
+      gtk.main_iteration()
     self.cronTab.clean()
     files = os.listdir(SETLOC)
     files.sort()
@@ -660,8 +664,6 @@ class fwbackupsApp(interface.Controller):
     if hasattr(self, 'trayicon'):
       self.trayicon.set_visible(False)
     # Save set configurations schedule
-    self.logger.logmsg('DEBUG', _('Regenerating crontab'))
-    self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
     self.regenerateCrontab()
     # Shutdown logging & quit the GTK mainloop
     self.logger.logmsg('INFO', _('fwbackups administrator closed'))

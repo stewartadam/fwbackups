@@ -1,6 +1,12 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Sat Aug 22 2009 Stewart Adam <s.adam at diffingo.com>
+    - Revert fwbackups python package installation to site-packages (fixes RH
+      #518690)
+    - Show a message in the GUI statusbar whenever the crontab is regenerated
+      now that a one second wait has been added each time the crontab is written
+
   * Fri Aug 21 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug on Ubuntu which caused crontab writing to fail
     - Fix a bug on Ubuntu which caused writing package lists to fail
