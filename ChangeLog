@@ -1,6 +1,6 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
-|| Version 1.43.3 changes ||
+|| Version 1.43.3rc4 changes ||
   * Sat Aug 22 2009 Stewart Adam <s.adam at diffingo.com>
     - Revert fwbackups python package installation to site-packages (fixes RH
       #518690)
