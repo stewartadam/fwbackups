@@ -7,7 +7,7 @@ Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
 License:           GPLv2+
 URL:               http://www.diffingo.com/oss/fwbackups/
-Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc3.tar.bz2
+Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc4.tar.bz2
 BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:         noarch
 
@@ -33,7 +33,7 @@ or from the contents of an external folder or archive.
 
 
 %prep
-%setup -q -n %{name}-%{version}rc3
+%setup -q -n %{name}-%{version}rc4
 
 %build
 %configure
