@@ -28,7 +28,7 @@
     <number>6</number>
    </property>
    <property name="bottomMargin">
-    <number>6</number>
+    <number>8</number>
    </property>
    <item>
     <widget class="QLabel" name="label">
@@ -91,10 +91,6 @@
       <widget class="QPushButton" name="exportSetsButton">
        <property name="text">
         <string>Export Sets</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../fwbackups.qrc">
-         <normaloff>:/program-icons/program-icons/document-save.png</normaloff>:/program-icons/program-icons/document-save.png</iconset>
        </property>
        <property name="default">
         <bool>true</bool>

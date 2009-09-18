@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Choose Programs</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -21,7 +21,7 @@
     <number>6</number>
    </property>
    <property name="bottomMargin">
-    <number>6</number>
+    <number>8</number>
    </property>
    <item>
     <widget class="QLabel" name="instructionalLabel">

@@ -22,6 +22,7 @@ set(UI_FILES
     ../data/ui/choosePrograms.ui
     ../data/ui/configBackup.ui
     ../data/ui/exportSets.ui
+    ../data/ui/manageKeys.ui
     ../data/ui/prefs.ui
     ../data/ui/restore.ui
     )

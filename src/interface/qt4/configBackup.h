@@ -48,11 +48,8 @@ public slots:
   void on_okButton_clicked();
   void on_finishButton_clicked();
   void on_advancedOptionsCheck_toggled(bool checked);
-  /* Configuration - Destination */
-  void on_saveBackupToCombo_currentIndexChanged(int index);
-  void on_useKeyAuthenticationCheck_clicked();
-  void on_changeKeyButton_clicked();
-  void on_locationBrowseButton_clicked();
+  /* Configuration - Profiles */
+  void on_profileRecurringRadio_toggled(bool toggled);
   /* Configuration - Files and Folders */
   void on_presetBookmarksProgramsButton_clicked();
   void on_presetEmailProgramsButton_clicked();
@@ -61,14 +58,18 @@ public slots:
   void on_addFoldersButton_clicked();
   void on_removeItemsButton_clicked();
   void on_presetHomeCheck_toggled(bool checked);
-  /* Configuration - Triggers */
-  void on_startPeriodicallyRadio_toggled(bool checked);
-  void on_showPasswordCheck_toggled(bool checked);
-  void on_timeSimpleFrequencyCombo_currentIndexChanged(int index);
-  /* Configuration - Backup Type */
+  /* Configuration - Options */
   void on_compressionCheck_toggled(bool checked);
+  /* Configuration - Advanced Options */
+  /* Configuration - Destination */
+  void on_saveBackupToCombo_currentIndexChanged(int index);
+  void on_showPasswordCheck_toggled(bool checked);
+  void on_useKeyAuthenticationCheck_clicked();
+  void on_changeKeyButton_clicked();
+  void on_locationBrowseButton_clicked();
+  /* Configuration - Scheduling */
+  void on_timeSimpleFrequencyCombo_currentIndexChanged(int index);
 private:
-  void setVisible_remoteGrid(bool isVisible);
   void setType(int configType);
   int type;
   bool advancedMode;

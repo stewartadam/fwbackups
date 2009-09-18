@@ -21,6 +21,7 @@
 #include "logger.h"
 
 #include "ui_exportSets.h"
+#include "ui_manageKeys.h"
 #include "ui_fwbackups.h"
 #include "ui_prefs.h"
 
@@ -42,6 +43,7 @@ public slots:
   void on_actionExport_Sets_activated();
   void on_actionQuit_activated();
   //   |-- Edit
+  void on_actionEncryption_Keys_activated();
   void on_actionPreferences_activated();
   //   |-- Help
   void on_actionAbout_activated();
@@ -88,5 +90,17 @@ public:
 public slots:
   void on_closeButton_clicked();
 };
+
+class ekeyWindow: public QDialog, private Ui::EncryptionKeys
+{
+  Q_OBJECT
+    
+public:
+  ekeyWindow(QDialog *parent = 0);
+  
+public slots:
+  void on_closeButton_clicked();
+};
+
 
 #endif

@@ -133,6 +133,10 @@ void fwbackupsApp::on_actionQuit_activated() {
 }
 
 // Edit menu
+void fwbackupsApp::on_actionEncryption_Keys_activated() {
+  ekeyWindow *ekeywindow = new ekeyWindow;
+  ekeywindow->show();
+}
 
 void fwbackupsApp::on_actionPreferences_activated() {
   prefsWindow *pwindow = new prefsWindow;
@@ -390,5 +394,17 @@ void prefsWindow::on_closeButton_clicked() {
     settings->setValue("AlwaysShowDebug", LEVEL_INFO);
   }
   settings->endGroup();
+  this->accept();
+}
+
+/*******************************************
+ ************* Encryption Keys *************
+ *******************************************/
+
+ekeyWindow::ekeyWindow(QDialog *parent) {
+  setupUi(this); // this sets up GUI
+}
+
+void ekeyWindow::on_closeButton_clicked() {
   this->accept();
 }

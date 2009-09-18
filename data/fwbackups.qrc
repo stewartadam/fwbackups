@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="program-icons" >
+    <file>program-icons/user.png</file>
+    <file>program-icons/lock.png</file>
+    <file>program-icons/network.png</file>
     <file>program-icons/copy.png</file>
     <file>program-icons/drive-removable-media.png</file>
     <file>program-icons/media-flash.png</file>

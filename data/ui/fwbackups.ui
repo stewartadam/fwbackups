@@ -419,6 +419,7 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionEncryption_Keys"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -670,6 +671,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actionEncryption_Keys">
+   <property name="text">
+    <string>Encryption Keys...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
    </property>
   </action>
  </widget>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>688</width>
-    <height>522</height>
+    <width>705</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -77,9 +77,9 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="welcomeTab">
+     <widget class="QWidget" name="profileTab">
       <attribute name="title">
-       <string>Welcome</string>
+       <string>Profile</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -87,7 +87,10 @@
          <property name="text">
           <string>This guide will help you configure the various aspects of your backup.
 
-Choose a profile and click Next to get started.</string>
+Choose a profile from the list below that best matches your needs:</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -96,57 +99,98 @@ Choose a profile and click Next to get started.</string>
          <property name="leftMargin">
           <number>12</number>
          </property>
-         <property name="bottomMargin">
-          <number>24</number>
-         </property>
          <item row="0" column="0">
-          <widget class="QRadioButton" name="profileStandardBackupRadio">
+          <widget class="QRadioButton" name="profileContinuousRadio">
            <property name="text">
-            <string>Standard backup</string>
+            <string>Continuous backup</string>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="profileCloneRadio">
-           <property name="text">
-            <string>Clone backup</string>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="0">
-          <widget class="QRadioButton" name="profileTapeRadio">
+          <widget class="QRadioButton" name="profileRecurringRadio">
            <property name="text">
-            <string>Tape backup</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
+            <string>Recurring backups</string>
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>Each profile has a set of recommended defaults, but if you would like to further customize the backup settings, click the checkbox below.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_13">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <item>
-          <widget class="QCheckBox" name="advancedOptionsCheck">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <italic>true</italic>
+            </font>
+           </property>
            <property name="text">
-            <string>Review additional backup settings before finishing</string>
+            <string>The backup job will run in the background and continuously backup any changes made to files.</string>
+           </property>
+           <property name="indent">
+            <number>12</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <italic>true</italic>
+            </font>
+           </property>
+           <property name="text">
+            <string>The backup job will run periodically at a specified time and date.</string>
+           </property>
+           <property name="indent">
+            <number>12</number>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QRadioButton" name="profileManualRadio">
+           <property name="text">
+            <string>Manual backup</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_19">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <italic>true</italic>
+            </font>
+           </property>
+           <property name="text">
+            <string>The backup job will only run when initiated manually.</string>
+           </property>
+           <property name="indent">
+            <number>12</number>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QRadioButton" name="profileOneTimeRadio">
+           <property name="text">
+            <string>One-time backup</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <italic>true</italic>
+            </font>
+           </property>
+           <property name="text">
+            <string>The backup job will only be run once.</string>
+           </property>
+           <property name="indent">
+            <number>12</number>
            </property>
           </widget>
          </item>
@@ -165,6 +209,27 @@ Choose a profile and click Next to get started.</string>
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="Line" name="advancedOptionsLine">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="advancedOptionsCheck">
+           <property name="text">
+            <string>Show advanced backup settings</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="pathsTab">
@@ -175,7 +240,7 @@ Choose a profile and click Next to get started.</string>
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Please select what files, folders or other digital data you would like to include in the backup.</string>
+          <string>Select what files, folders or other digital data you would like to include in the backup.</string>
          </property>
         </widget>
        </item>
@@ -187,52 +252,6 @@ Choose a profile and click Next to get started.</string>
          <property name="verticalSpacing">
           <number>2</number>
          </property>
-         <item row="0" column="2" rowspan="2">
-          <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="presetBookmarksCheck">
-             <property name="text">
-              <string>Bookmarks/favorites</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="presetBookmarksProgramsButton">
-             <property name="text">
-              <string>Choose Programs...</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="presetEmailProgramsButton">
-             <property name="text">
-              <string>Choose Programs...</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="presetSettingsCheck">
-             <property name="text">
-              <string>Settings</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QPushButton" name="presetSettingsProgramsButton">
-             <property name="text">
-              <string>Choose Items...</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="presetEmailCheck">
-             <property name="text">
-              <string>E-mail messages and contacts</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="0" column="1" rowspan="2">
           <widget class="Line" name="line_2">
            <property name="minimumSize">
@@ -314,6 +333,52 @@ Choose a profile and click Next to get started.</string>
              </property>
              <property name="text">
               <string>Documents</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="2" rowspan="2">
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="presetBookmarksCheck">
+             <property name="text">
+              <string>Bookmarks/favorites</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="presetBookmarksProgramsButton">
+             <property name="text">
+              <string>Choose Programs...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="presetEmailProgramsButton">
+             <property name="text">
+              <string>Choose Programs...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="presetSettingsCheck">
+             <property name="text">
+              <string>Settings</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="presetSettingsProgramsButton">
+             <property name="text">
+              <string>Choose Items...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="presetEmailCheck">
+             <property name="text">
+              <string>E-mail messages and contacts</string>
              </property>
             </widget>
            </item>
@@ -409,6 +474,354 @@ Choose a profile and click Next to get started.</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="optionsTab">
+      <attribute name="title">
+       <string>Options</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Each profile has a set of recommended defaults, preconfigured below. If you would like to customize these settings, you may do so now. Otherwise, click Next to continue.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Backup format:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_18">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QRadioButton" name="formatCopyRadio">
+           <property name="text">
+            <string>Normal copy of files and folders</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="formatArchiveRadio">
+           <property name="text">
+            <string>Archive (tar) of files and folders</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Basic settings:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_21">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="checkBox_2">
+             <property name="text">
+              <string>Encrypt backup contents</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_32">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>Data will be stored securely and encrypted using the Advanced Encryption Standard (AES) algorithm.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="indent">
+              <number>12</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_17">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="checkBox">
+             <property name="text">
+              <string>Incremental backup</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_33">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>Incremental backups increase the speed of the backup operation by only coping the changes since the last backup job.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="indent">
+              <number>12</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <property name="verticalSpacing">
+            <number>6</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="compressionCheck">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Enable compression:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="compressionTypeCombo">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string>Normal (GNU Zip)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>High (bzip2)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="archivingCheck">
+           <property name="text">
+            <string>Keep previous backups</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="archivingKeepOnlyRadio">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Keep previous backups, but store no more than</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="archiveBackupSpin">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>8760</number>
+             </property>
+             <property name="value">
+              <number>3</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_12">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>at a given time</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="3">
+            <widget class="QRadioButton" name="archivingKeepAllRadio">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Keep previous backups until disk space runs low</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="advancedOptionsTab">
+      <attribute name="title">
+       <string>Advanced Options</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>Advanced options:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <property name="bottomMargin">
+          <number>18</number>
+         </property>
+         <property name="horizontalSpacing">
+          <number>24</number>
+         </property>
+         <item row="1" column="0" colspan="2">
+          <widget class="QCheckBox" name="includeHiddenCheck">
+           <property name="text">
+            <string>Include hidden files and folders</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QCheckBox" name="recursiveCheck">
+           <property name="text">
+            <string>Recursive (include subfolders and files inside)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QCheckBox" name="followSymlinksCheck">
+           <property name="text">
+            <string>Follow symbolic links</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>You can enter regular expressions patterns below, one per line, to exclude matching files from the backup:</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="excludeTextEdit"/>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="destinationTab">
       <attribute name="title">
        <string>Destination</string>
@@ -417,7 +830,7 @@ Choose a profile and click Next to get started.</string>
        <item>
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Where would you like to save the completed backups? If you are unsure of which option to pick, click the &quot;Help&quot; button below.</string>
+          <string>Choose where you would like to backup to. For more information, click the Help button.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -445,22 +858,6 @@ Choose a profile and click Next to get started.</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="locationLineEdit"/>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="locationBrowseButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Browse...</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1" colspan="2">
           <widget class="QComboBox" name="saveBackupToCombo">
            <property name="sizePolicy">
@@ -479,259 +876,307 @@ Choose a profile and click Next to get started.</string>
              <string>Another computer (local network/Internet)</string>
             </property>
            </item>
-           <item>
-            <property name="text">
-             <string>Diffingo backup service</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="locationLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Folder:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="burnUsingLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Burn using:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1" colspan="2">
-          <widget class="QComboBox" name="burnUsingCombo">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
           </widget>
          </item>
          <item row="1" column="0" colspan="3">
-          <widget class="QGroupBox" name="remoteGroupBox">
-           <property name="title">
-            <string>Connection Settings</string>
+          <widget class="QStackedWidget" name="destinationStackedWidget">
+           <property name="currentIndex">
+            <number>1</number>
            </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="protocolLabel">
-              <property name="text">
-               <string>Protocol:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="protocolCombo">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text">
-                <string>fwbackups</string>
+           <widget class="QWidget" name="page_5">
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <item>
+              <layout class="QGridLayout" name="gridLayout_4">
+               <item row="0" column="0">
+                <widget class="QLabel" name="locationLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Folder:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="locationLineEdit"/>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="locationBrowseButton">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Browse...</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>SFTP/SSH</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>5</height>
+                </size>
                </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>FTP</string>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_3">
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <layout class="QGridLayout" name="gridLayout_12">
+               <item row="0" column="0">
+                <widget class="QLabel" name="protocolLabel">
+                 <property name="text">
+                  <string>Protocol:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="protocolCombo">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>fwbackups/Box Backup</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>SFTP (SSH File Transfer Protocol)</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="hostnameLabel">
+                 <property name="text">
+                  <string>Hostname:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="usernameLabel">
+                 <property name="text">
+                  <string>Username:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="passwordLabel">
+                 <property name="text">
+                  <string>Password:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="hostnameLineEdit"/>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="usernameLineEdit"/>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="passwordLineEdit">
+                 <property name="echoMode">
+                  <enum>QLineEdit::Password</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="portLabel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Port:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="portSpin">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::UpDownArrows</enum>
+                   </property>
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                   <property name="value">
+                    <number>22</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="4" column="2">
+                <widget class="QPushButton" name="changeKeyButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Change Key...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0" colspan="2">
+                <widget class="QProgressBar" name="testSettingsProgressBar">
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
+                <widget class="QPushButton" name="testSettingsButton">
+                 <property name="text">
+                  <string>Test Settings</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../fwbackups.qrc">
+                   <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="3">
+                <spacer name="verticalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>5</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="encryptionKeyLabel">
+                 <property name="text">
+                  <string>Encryption key:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QComboBox" name="encryptionKeyCombo">
+                 <item>
+                  <property name="text">
+                   <string>Select a key...</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QPushButton" name="encryptionKeyButton">
+                 <property name="text">
+                  <string>Manage keys...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QCheckBox" name="useKeyAuthenticationCheck">
+                   <property name="text">
+                    <string>Use public key authentication</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="keyNameLabel">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="2">
+                <widget class="QCheckBox" name="showPasswordCheck">
+                 <property name="text">
+                  <string>Show password</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_4">
+            <layout class="QVBoxLayout" name="verticalLayout_16">
+             <item>
+              <layout class="QGridLayout" name="gridLayout_13">
+               <item row="0" column="0">
+                <widget class="QLabel" name="burnUsingLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Burn using:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="burnUsingCombo">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_11">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>SMB (Windows FIle Sharing)</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>5</height>
+                </size>
                </property>
-              </item>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="hostnameLabel">
-              <property name="text">
-               <string>Hostname:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="hostnameLineEdit"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="usernameLabel">
-              <property name="text">
-               <string>Username:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="passwordLabel">
-              <property name="text">
-               <string>Password:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="usernameLineEdit"/>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="passwordLineEdit">
-              <property name="echoMode">
-               <enum>QLineEdit::Password</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
-               <widget class="QLabel" name="portLabel">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Port:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="portSpin">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::UpDownArrows</enum>
-                </property>
-                <property name="maximum">
-                 <number>65535</number>
-                </property>
-                <property name="value">
-                 <number>22</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="2">
-             <widget class="QCheckBox" name="showPasswordCheck">
-              <property name="text">
-               <string>Show password</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QPushButton" name="changeKeyButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Change Key...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QProgressBar" name="testSettingsProgressBar">
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QPushButton" name="testSettingsButton">
-              <property name="text">
-               <string>Test Settings</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="QCheckBox" name="useKeyAuthenticationCheck">
-                <property name="text">
-                 <string>Use key authentication</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="keyNameLabel">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_9">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -741,54 +1186,9 @@ Choose a profile and click Next to get started.</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Start the Backup:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_11">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <item>
-          <widget class="QRadioButton" name="startPeriodicallyRadio">
-           <property name="text">
-            <string>Periodically</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="startChangedRadio">
-           <property name="text">
-            <string>When file or folder contents have changed</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="startManuallyRadio">
-           <property name="text">
-            <string>I will start the backup manually</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="timeLine">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="timeDescLabel">
          <property name="text">
-          <string>The backup will run whenever the system time and date matches the criteria below. Please note that the backup cannot run if the computer is turned off at the selected time.</string>
+          <string>The backup will run at the times specified below. Please note that the backup cannot run if the computer is turned off at the selected time.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -843,12 +1243,7 @@ Choose a profile and click Next to get started.</string>
            </item>
            <item>
             <property name="text">
-             <string>Yearly</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Custom (manual configuration)...</string>
+             <string>Custom (crontab configuration)</string>
             </property>
            </item>
           </widget>
@@ -1324,361 +1719,6 @@ Choose a profile and click Next to get started.</string>
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="modeFormatTab">
-      <attribute name="title">
-       <string>Backup Type</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Select the type of backup you would like to perform. For more information on each, press the Help button.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>-1</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_21">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Type:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="typeCombo">
-           <item>
-            <property name="text">
-             <string>Full+Incremental (fastest: recommended for most users)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Full+Differential</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Full</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Clone Copy</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="formatLabel">
-           <property name="text">
-            <string>Format:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <layout class="QGridLayout" name="gridLayout_10">
-           <item row="0" column="0" colspan="2">
-            <widget class="QRadioButton" name="formatArchiveRadio">
-             <property name="text">
-              <string>Archive of files and folders</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QRadioButton" name="formatCopyRadio">
-             <property name="text">
-              <string>Direct copy of files and folders</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="compressionCheck">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Enable compression:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="compressionTypeCombo">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string>Normal (GNU Zip)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>High (bzip2)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Very High (LZMA)</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QLabel" name="label_9">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-               <italic>true</italic>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tip: Stronger compression types require more resources and will increase the time it takes to perform a backup, but reduce the size of backups.&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click &quot;Help&quot; for more information on each compression type.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="optionsTab">
-      <attribute name="title">
-       <string>Options</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Select the options for the backup.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_11">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <property name="horizontalSpacing">
-          <number>24</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="recursiveCheck">
-           <property name="text">
-            <string>Backup subfolders</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="includeHiddenCheck">
-           <property name="text">
-            <string>Include hidden files and folders</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="diskInfoCheck">
-           <property name="text">
-            <string>Save disk information to a file</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="softwareListCheck">
-           <property name="text">
-            <string>Save a list of installed software packages</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="followSymlinksCheck">
-           <property name="text">
-            <string>Follow symbolic links</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="preserveTimestampsCheck">
-           <property name="text">
-            <string>Preserve timestamps</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_6">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>6</height>
-          </size>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Backup Archiving:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <item row="0" column="0" colspan="3">
-          <widget class="QRadioButton" name="archivingReplacePreviousRadio">
-           <property name="text">
-            <string>Always replace the previous backup</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="3">
-          <widget class="QRadioButton" name="archivingKeepAllRadio">
-           <property name="text">
-            <string>Keep all old backups until I run out of disk space</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QRadioButton" name="archivingKeepOnlyRadio">
-           <property name="text">
-            <string>Keep old backups, but store no more than</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="archiveBackupSpin">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>8760</number>
-           </property>
-           <property name="value">
-            <number>3</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>backups at once</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="finishedTab">
@@ -1689,7 +1729,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QLabel" name="label_14">
          <property name="text">
-          <string>Congratulations! Your backup has been configured and is ready for use.
+          <string>Congratulations! Your backup set has been configured.
 </string>
          </property>
         </widget>
@@ -1828,45 +1868,11 @@ p, li { white-space: pre-wrap; }
   <tabstop>finishButton</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>saveBackupToCombo</tabstop>
-  <tabstop>recursiveCheck</tabstop>
-  <tabstop>includeHiddenCheck</tabstop>
  </tabstops>
  <resources>
   <include location="../fwbackups.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>archiveBackupSpin</sender>
-   <signal>valueChanged(QString)</signal>
-   <receiver>archivingKeepOnlyRadio</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>37</x>
-     <y>257</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>compressionCheck</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>compressionTypeCombo</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>97</x>
-     <y>185</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>250</x>
-     <y>183</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>useKeyAuthenticationCheck</sender>
    <signal>toggled(bool)</signal>
@@ -1874,12 +1880,92 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>54</x>
-     <y>304</y>
+     <x>51</x>
+     <y>133</y>
     </hint>
     <hint type="destinationlabel">
-     <x>645</x>
+     <x>123</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>compressionCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>compressionTypeCombo</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>39</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>192</x>
      <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>archivingCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>archivingKeepAllRadio</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>archivingCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>archivingKeepOnlyRadio</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>371</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>371</x>
+     <y>391</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>archivingCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>archiveBackupSpin</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>403</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>archivingCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_12</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>403</x>
+     <y>351</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>528</x>
+     <y>397</y>
     </hint>
    </hints>
   </connection>

@@ -43,12 +43,10 @@ configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
   
   timeSimpleFrequencyCombo->setCurrentIndex(2); // default to "Weekly" frequency
   compressionTypeCombo->setEnabled(false); // default to no compression
-  startPeriodicallyRadio->setChecked(true); // default to periodic backup
   saveBackupToCombo->setCurrentIndex(0); // default to local drive
-  this->on_saveBackupToCombo_currentIndexChanged(0); // force refresh
-  
-  burnUsingCombo->hide();
-  burnUsingLabel->hide();
+  // force refreshes
+  this->on_saveBackupToCombo_currentIndexChanged(0);
+  this->on_profileRecurringRadio_toggled(false);
   
   // Setup the path list
   QStringList headers;
@@ -60,62 +58,93 @@ configBackupsDialog::configBackupsDialog(int configType, QDialog *parent) {
   pathsTreeView->setColumnWidth(0, 415);
 }
 
+/*
+ * Toggles guided mode. Assumes that this function is called before the
+ * configuration window is displayed.
+ */
 void configBackupsDialog::setGuidedMode(bool isGuided) {
   QString header;
   if (isGuided && ! guidedMode) {
-    // Add Welcome+Finished tabs
-    configurationTabs->insertTab(0, welcomeTab, tr("Welcome"));
+    // Add Finished tab
     configurationTabs->insertTab(6, finishedTab, tr("Finished!"));
     configurationTabs->setCurrentIndex(0);
     configurationTabs->tabBar()->hide();
-    finishButton->hide();
-    toggleAdvancedButton->hide();
+    // Disable use of these buttons
     okButton->hide();
+    finishButton->hide();
+    // Enable use of back/next/cancel
+    backButton->setEnabled(false);
     backButton->show();
     cancelButton->show();
     nextButton->show();
-    backButton->setEnabled(false);
+    nextButton->setDefault(true);
+    // Uses the checkbox on Profiles to enable advanced options
+    toggleAdvancedButton->hide();
+    advancedOptionsCheck->show();
+    advancedOptionsLine->show();
+    // Set header
     header = tr("Configure a Backup - Welcome");
     headerLabel->setText(header);
   } else if (! isGuided && guidedMode) {
-    // Remove Welcome+Finished tabs
-    configurationTabs->removeTab(0);
-    configurationTabs->removeTab(5); // 6 but since we already removed one...
+    // Remove Finished tab
+    configurationTabs->removeTab(6);
     configurationTabs->tabBar()->show();
+    // Disable use of these buttons
     finishButton->hide();
     backButton->hide();
-    toggleAdvancedButton->show();
+    nextButton->hide();
+    // Enable use of ok/cancel
     cancelButton->show();
     okButton->show();
     okButton->setDefault(true);
-    nextButton->hide();
+    // Uses button to enable advanced options
+    advancedOptionsCheck->hide();
+    advancedOptionsLine->hide();
+    toggleAdvancedButton->show();
+    // Set header
     header = tr("Configure a Backup");
     headerLabel->setText(header);
   }
   guidedMode = isGuided;
 }
 
+/*
+ * Toggles advanced mode. Assumes that this function is called before the
+ * configuration window is displayed.
+ */
 void configBackupsDialog::setAdvancedMode(bool isAdvanced) {
   if (isAdvanced && ! advancedMode) {
+    // Offer to return to basic mode
     toggleAdvancedButton->setText(tr("Basic..."));
-    // Add Backup Type and Options tabs
-    configurationTabs->insertTab(4, modeFormatTab, tr("Backup Type"));
-    configurationTabs->insertTab(5, optionsTab, tr("Options"));
+    configurationTabs->insertTab(3, advancedOptionsTab, tr("Advanced Options"));
   } else if (! isAdvanced && advancedMode) {
+    // Offer to move to advanced mode
     toggleAdvancedButton->setText(tr("Advanced..."));
-    if (guidedMode) {
-      configurationTabs->removeTab(4); // Backup type tab
-      configurationTabs->removeTab(4); // 5 but since we already removed one...
-    } else {
-      configurationTabs->removeTab(3); // Backup type tab
-      configurationTabs->removeTab(3); // 4 but since we already removed one...
-    }
+    configurationTabs->removeTab(3); // Advanced Options tab
   }
   advancedMode = isAdvanced;
 }
 
+
+void configBackupsDialog::on_profileRecurringRadio_toggled(bool toggled) {
+  int schedTabIndex; // for Scheduling tab
+  if (advancedMode) {
+    schedTabIndex = 5;
+  } else {
+    schedTabIndex = 4;
+  }
+  if (toggled) {
+    configurationTabs->insertTab(schedTabIndex, schedulingTab, tr("Scheduling"));
+  } else {
+    configurationTabs->removeTab(schedTabIndex);
+  }
+}
+
+/*
+ * Configures the window appropriately for the set or one-time backup type.
+ * WARNING: This function must be called after any set*Mode functions
+ */
 void configBackupsDialog::setType(int type) {
-  // ***NOTE: This function _must_ be called after any set*Mode functions
   switch (type) {
     case TYPE_SET:
       this->setWindowTitle(tr("Configure a Set Backup"));
@@ -183,16 +212,19 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   //config->value("Type", type);
   switch ( config->value("Profile", 0).toInt() ) {
     case 0:
-      profileStandardBackupRadio->setChecked(true);
+      profileContinuousRadio->setChecked(true);
       break;
     case 1:
-      profileCloneRadio->setChecked(true);
+      profileRecurringRadio->setChecked(true);
       break;
     case 2:
-      profileTapeRadio->setChecked(true);
+      profileManualRadio->setChecked(true);
+      break;
+    case 3:
+      profileOneTimeRadio->setChecked(true);
       break;
     default: // just in case
-      profileStandardBackupRadio->setChecked(true);
+      profileContinuousRadio->setChecked(true);
       break;
   }
   config->endGroup();
@@ -231,22 +263,6 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   burnUsingCombo->setCurrentIndex( config->value("BurnDrive", 0).toInt() );
   config->endGroup(); // Destination
   
-  config->beginGroup("Scheduling");
-  switch ( config->value("BackupTrigger", 0).toInt() ) {
-    case 0:
-      startPeriodicallyRadio->setChecked(true);
-      break;
-    case 1:
-      startChangedRadio->setChecked(true);
-      break;
-    case 2:
-      startManuallyRadio->setChecked(true);
-      break;
-    default: // just in case
-      startPeriodicallyRadio->setChecked(true);
-      break;
-  }
-  
   timeSimpleFrequencyCombo->setCurrentIndex( config->value("Frequency", 2).toInt() );
   config->beginGroup("Frequency");
   timeSimpleMinuteSpin->setValue( config->value("Minute", 0).toInt() );
@@ -273,7 +289,6 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   
   
   config->beginGroup("BackupType");
-  typeCombo->setCurrentIndex( config->value("Type", 0).toInt() );
   switch ( config->value("Format", 0).toInt() ) {
     case 0:
       formatArchiveRadio->setChecked(true);
@@ -300,23 +315,22 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   
   config->beginGroup("Options");
   recursiveCheck->setChecked( config->value("Recursive", 1).toBool() );
-  diskInfoCheck->setChecked( config->value("DiskInformation", 1).toBool() );
-  softwareListCheck->setChecked( config->value("SoftwareList", 1).toBool() );
   includeHiddenCheck->setChecked( config->value("IncludeHidden", 1).toBool() );
   followSymlinksCheck->setChecked( config->value("FollowSymlinks", 0).toBool() );
-  preserveTimestampsCheck->setChecked( config->value("PreserveTimestamps", 1).toBool() );
   switch ( config->value("Archiving", 1).toInt() ) {
     case 0:
-      archivingReplacePreviousRadio->setChecked(true);
+      archivingCheck->setChecked(false);
       break;
     case 1:
+      archivingCheck->setChecked(true);
       archivingKeepAllRadio->setChecked(true);
       break;
     case 2:
+      archivingCheck->setChecked(true);
       archivingKeepOnlyRadio->setChecked(true);
       break;
     default: // just in case
-      archivingReplacePreviousRadio->setChecked(true);
+      archivingCheck->setChecked(false);
       break;
   }
   archiveBackupSpin->setValue( config->value("ArchiveCount", 3).toInt() );
@@ -337,9 +351,10 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
     config = get_set_configuration(setName);
   }
   int profile;
-  if (profileStandardBackupRadio->isChecked()) { profile = 0; }
-  else if (profileCloneRadio->isChecked()) { profile = 1; }
-  else if (profileTapeRadio->isChecked()) { profile = 2; }
+  if (profileContinuousRadio->isChecked()) { profile = 0; }
+  else if (profileRecurringRadio->isChecked()) { profile = 1; }
+  else if (profileManualRadio->isChecked()) { profile = 2; }
+  else if (profileOneTimeRadio->isChecked()) { profile = 3; }
   else { profile = 0; } // just in case
   
   config->beginGroup("General");
@@ -378,15 +393,7 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   config->setValue("BurnDrive", burnUsingCombo->currentIndex());
   config->endGroup(); // Destination
   
-  
-  int trigger;
-  if (startPeriodicallyRadio->isChecked()) { trigger = 0; }
-  else if (startChangedRadio->isChecked()) { trigger = 1; }
-  else if (startManuallyRadio->isChecked()) { trigger = 2; }
-  else { trigger = 0; } // just in case
-  
   config->beginGroup("Scheduling");
-  config->setValue("BackupTrigger", trigger);
   config->setValue("Frequency", timeSimpleFrequencyCombo->currentIndex());
   
   config->beginGroup("Frequency");
@@ -418,25 +425,21 @@ bool configBackupsDialog::saveConfiguration(QString setName) {
   else { compression = -1; }
   
   config->beginGroup("BackupType");
-  config->setValue("Type", typeCombo->currentIndex());
-  config->setValue("Format", format);
+  config->setValue("Type", format);
   config->setValue("Compression", compression);
   config->endGroup(); // BackupType
   
   
   int archiving;
-  if (archivingReplacePreviousRadio->isChecked()) { format = 0; }
-  else if (archivingKeepAllRadio->isChecked()) { format = 1; }
-  else if (archivingKeepOnlyRadio->isChecked()) { format = 1; }
+  if (not archivingCheck->isChecked()) { format = 0; }
+  else if (archivingCheck->isChecked() && archivingKeepAllRadio->isChecked()) { format = 1; }
+  else if (archivingCheck->isChecked() && archivingKeepOnlyRadio->isChecked()) { format = 1; }
   else { format = 0; } // just in case
   
   config->beginGroup("Options");
   config->setValue("Recursive", recursiveCheck->isChecked());
-  config->setValue("DiskInformation", diskInfoCheck->isChecked());
-  config->setValue("SoftwareList", softwareListCheck->isChecked());
   config->setValue("IncludeHidden", includeHiddenCheck->isChecked());
   config->setValue("FollowSymlinks", followSymlinksCheck->isChecked());
-  config->setValue("PreserveTimestamps", preserveTimestampsCheck->isChecked());
   
   config->setValue("Archiving", archiving);
   config->setValue("ArchiveCount", archiveBackupSpin->value());
@@ -641,15 +644,6 @@ void configBackupsDialog::on_presetHomeCheck_toggled(bool checked) {
 
 
 /* Configuration - Destination */
-void configBackupsDialog::setVisible_remoteGrid(bool isVisible) {
-  if (isVisible == true) {
-    remoteGroupBox->show();
-  } else {
-    remoteGroupBox->hide();
-    showPasswordCheck->setChecked(false);
-  }
-}
-
 void configBackupsDialog::on_saveBackupToCombo_currentIndexChanged(int index) {
   QString location;
   QString hostname;
@@ -658,71 +652,17 @@ void configBackupsDialog::on_saveBackupToCombo_currentIndexChanged(int index) {
   
   switch (index) {
     case 0: // Local disk + removable media
-      this->setVisible_remoteGrid(false);
-      burnUsingCombo->hide();
-      burnUsingLabel->hide();
-      locationLabel->show();
-      locationBrowseButton->setEnabled(true);
-      locationBrowseButton->show();
-      locationLineEdit->setEnabled(true);
-      locationLineEdit->show();
-      protocolCombo->setEnabled(true);
-      hostnameLineEdit->setEnabled(true);
-      portSpin->setEnabled(true);
+      destinationStackedWidget->setCurrentIndex(0);
       break;
     case 1: // Internet
-      this->setVisible_remoteGrid(true);
-      burnUsingCombo->hide();
-      burnUsingLabel->hide();
-      locationLabel->show();
-      locationBrowseButton->setEnabled(false);
-      locationBrowseButton->show();
-      locationLineEdit->setEnabled(true);
-      locationLineEdit->show();
-      protocolCombo->setEnabled(true);
-      hostnameLineEdit->setEnabled(true);
-      portSpin->setEnabled(true);
+      destinationStackedWidget->setCurrentIndex(1);
       break;
-    case 2: // fwbackups server
-      this->setVisible_remoteGrid(true);
-      burnUsingCombo->hide();
-      burnUsingLabel->hide();
-      locationLabel->show();
-      locationBrowseButton->show();
-      locationBrowseButton->setEnabled(false);
-      locationLineEdit->show();
-      locationLineEdit->setEnabled(false);
-      location = tr("<Account Storage>");
-      locationLineEdit->setText(location);
-      hostname = "accounts.fwbackups.com";
-      hostnameLineEdit->setText(hostname);
-      portSpin->setValue(22);
-      protocolCombo->setCurrentIndex(0);
-      protocolCombo->setEnabled(false);
-      hostnameLineEdit->setEnabled(false);
-      portSpin->setEnabled(false);
+    //case 2: separator
+    case 3: // Optical media
+      destinationStackedWidget->setCurrentIndex(2);
       break;
-    //case 3: separator
-    case 4: // Optical media
-      this->setVisible_remoteGrid(false);
-      burnUsingCombo->show();
-      burnUsingLabel->show();
-      locationLabel->hide();
-      locationLineEdit->hide();
-      locationBrowseButton->hide();
-      break;
-    default: // something goes wrong, show all
-      this->setVisible_remoteGrid(true);
-      locationLabel->show();
-      locationLineEdit->setEnabled(true);
-      locationLineEdit->show();
-      locationBrowseButton->setEnabled(true);
-      locationBrowseButton->show();
-      burnUsingCombo->show();
-      burnUsingLabel->show();
-      protocolCombo->setEnabled(true);
-      hostnameLineEdit->setEnabled(true);
-      portSpin->setEnabled(true);
+    default: // something goes wrong, show local
+      destinationStackedWidget->setCurrentIndex(0);
       break;
   }
 }
@@ -771,22 +711,6 @@ void configBackupsDialog::on_showPasswordCheck_toggled(bool checked) {
 
 
 /* Configuration - Triggers */
-void configBackupsDialog::on_startPeriodicallyRadio_toggled(bool checked) {
-  if (checked) {
-    timeLine->setEnabled(true);
-    timeDescLabel->setEnabled(true);
-    timeFrequencyLabel->setEnabled(true);
-    timeSimpleFrequencyCombo->setEnabled(true);
-    timeStackedWidget->setEnabled(true);
-  } else {
-    timeLine->setEnabled(false);
-    timeDescLabel->setEnabled(false);
-    timeFrequencyLabel->setEnabled(false);
-    timeSimpleFrequencyCombo->setEnabled(false);
-    timeStackedWidget->setEnabled(false);
-  }
-}
-
 void configBackupsDialog::on_timeSimpleFrequencyCombo_currentIndexChanged(int index) {
   switch (index) {
     case 0: //Hourly
@@ -841,20 +765,7 @@ void configBackupsDialog::on_timeSimpleFrequencyCombo_currentIndexChanged(int in
       timeSimpleMonthCombo->hide();
       timeSimpleMonthLabel->hide();
       break;
-    case 4: //Yearly
-      timeStackedWidget->setCurrentIndex(0);
-      timeSimpleMinuteSpin->hide();
-      timeSimpleMinuteLabel->hide();
-      timeSimpleMinHourTimeEdit->show();
-      timeSimpleMinHourLabel->show();
-      timeSimpleDoWCombo->hide();
-      timeSimpleDoWLabel->hide();
-      timeSimpleDayCombo->show();
-      timeSimpleDayLabel->show();
-      timeSimpleMonthCombo->show();
-      timeSimpleMonthLabel->show();
-      break;
-    case 5: //Custom
+    case 4: //Custom
       timeStackedWidget->setCurrentIndex(1);
       break;
     default: // something goes wrong, show all

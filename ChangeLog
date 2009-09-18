@@ -1,10 +1,23 @@
 # This is the full fwbackups changelog, with detailed listing of changes in the
 # c++ branch (version 1.44.0)
 || Version 1.44.0-prealpha changes ||
+* Thu Sep 17 2009 Stewart Adam <s.adam at diffingo.com>
+  - Initial UI support for Box Backup
+
+* Sat Jul 25 2009 Stewart Adam <s.adam at diffingo.com>
+  - Adjust bottom spacing to 8 pixels on dialog windows
+  - Add network and lock program icons
+  - Modification to the backup configuration workflow for less redundancy,
+    better defaults and less clutter
+
 * Fri May 8 2009 Stewart Adam <s.adam at diffingo.com>
   - Load the backup set configuration when editing
   - Turn logger into a singleton class
-  
+ 
+* Fri May 8 2009 Stewart Adam <s.adam at diffingo.com>
+  - Load the backup set configuration when editing
+  - Turn logger into a singleton class
+
 * Wed May 6 2009 Stewart Adam <s.adam at diffingo.com>
   - Add keyboard shortcuts to main window
   - Save the backup configuration when finishing
@@ -20,10 +33,10 @@
 * Wed Apr 29 2009 Stewart Adam <s.adam at diffingo.com>
   - Preferences dialog functional
   - Hide irrelevant "Tray Area" section when running on OS X
-  
+
 * Tue Apr 28 2009 Stewart Adam <s.adam at diffingo.com>
   - Honor Qt::DecorationRole in custom_widgets
-  
+
 * Mon Apr 27 2009 Stewart Adam <s.adam at diffingo.com>
   - Store program data in ~/Library/Appliction Support/fwbackups on OS X
   - Use QSettings for program settings
