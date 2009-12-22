@@ -785,8 +785,10 @@ class PrefsConf:
       # --
       self.remove_option('Preferences', 'DontShowMe_NetConnectUnresponsive')
     # just do stuff below
-    if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1', '1.43.3rc2'] or fromHereUp == True:
+    if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1', '1.43.3rc2', '1.43.3rc3'] or fromHereUp == True:
       fromHereUp = True
+    self.__config.set("General", "Version", fwbackups.__version__)
+    return True
 
   def get(self, section, option):
     """Returns the value of option in section."""
