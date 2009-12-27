@@ -24,6 +24,7 @@
  * Thanks!
  */
 #include <QString>
+#include <stdlib.h>
 #include "common.h"
 
 #if defined (WIN32)
