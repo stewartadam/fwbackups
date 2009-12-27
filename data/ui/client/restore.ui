@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>513</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,7 +20,7 @@
    <string>Restore Files</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../fwbackups.qrc">
+   <iconset resource="../../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -108,250 +108,102 @@ Click Next to continue.</string>
          <property name="leftMargin">
           <number>12</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="hostnameLabel">
            <property name="text">
-            <string>Restore from:</string>
+            <string>Hostname:</string>
            </property>
-          </widget>
-         </item>
-         <item row="0" column="1" colspan="3">
-          <widget class="QComboBox" name="restoreFromCombo">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
-           <item>
-            <property name="text">
-             <string>Local disk or removable media</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Another computer (local network/Internet)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Diffingo backup service</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="2" column="3">
-          <widget class="QPushButton" name="folderBrowseButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Browse...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="4">
-          <widget class="QGroupBox" name="remoteGroupBox">
-           <property name="title">
-            <string>Connection Settings</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="protocolLabel">
-              <property name="text">
-               <string>Protocol:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="protocolCombo">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text">
-                <string>fwbackups</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>SFTP/SSH</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>FTP</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>SMB (Windows FIle Sharing)</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="hostnameLabel">
-              <property name="text">
-               <string>Hostname:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="hostnameLineEdit"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="usernameLabel">
-              <property name="text">
-               <string>Username:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="passwordLabel">
-              <property name="text">
-               <string>Password:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="usernameLineEdit"/>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="passwordLineEdit">
-              <property name="echoMode">
-               <enum>QLineEdit::Password</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QCheckBox" name="useKeyAuthenticationCheck">
-              <property name="text">
-               <string>Use key authentication</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
-               <widget class="QLabel" name="portLabel">
-                <property name="text">
-                 <string>Port:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="portSpin">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::UpDownArrows</enum>
-                </property>
-                <property name="maximum">
-                 <number>65535</number>
-                </property>
-                <property name="value">
-                 <number>22</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="2">
-             <widget class="QCheckBox" name="showPasswordCheck">
-              <property name="text">
-               <string>Show password</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QPushButton" name="changeKeyButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Change Key...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QProgressBar" name="testSettingsProgressBar">
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QPushButton" name="testSettingsButton">
-              <property name="text">
-               <string>Test Settings</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../fwbackups.qrc">
-                <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="folderLabel">
+          <widget class="QLabel" name="usernameLabel">
            <property name="text">
-            <string>Backup folder:</string>
+            <string>Account ID:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="1" colspan="2">
-          <widget class="QLineEdit" name="folderLineEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="passwordLabel">
            <property name="text">
-            <string>Backup date:</string>
+            <string>Key:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="1" colspan="3">
-          <widget class="QComboBox" name="backupDateCombo"/>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="encryptionKeyCombo">
+           <item>
+            <property name="text">
+             <string>Select a key...</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="hostnameLineEdit"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="acountIDLineEdit"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="encryptionKeyButton">
+           <property name="text">
+            <string>Manage keys...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="portLabel">
+             <property name="text">
+              <string>Port:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="portSpin">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::UpDownArrows</enum>
+             </property>
+             <property name="maximum">
+              <number>65535</number>
+             </property>
+             <property name="value">
+              <number>22</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="1">
+          <widget class="QProgressBar" name="testSettingsProgressBar">
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="testSettingsButton">
+           <property name="text">
+            <string>Test Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../fwbackups.qrc">
+             <normaloff>:/program-icons/program-icons/network-server.png</normaloff>:/program-icons/program-icons/network-server.png</iconset>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -408,10 +260,10 @@ Click Next to continue.</string>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="folderLocationLineEdit"/>
+          <widget class="QLineEdit" name="destLineEdit"/>
          </item>
          <item row="1" column="2">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="destBrowseButton">
            <property name="text">
             <string>Browse...</string>
            </property>
@@ -427,7 +279,7 @@ Click Next to continue.</string>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>5</height>
           </size>
          </property>
         </spacer>
@@ -456,7 +308,7 @@ Click Start Restore to close this window and start the operation.</string>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>310</height>
+           <height>5</height>
           </size>
          </property>
         </spacer>
@@ -493,7 +345,7 @@ Click Start Restore to close this window and start the operation.</string>
         <string>Back</string>
        </property>
        <property name="icon">
-        <iconset resource="../fwbackups.qrc">
+        <iconset resource="../../fwbackups.qrc">
          <normaloff>:/program-icons/program-icons/back.png</normaloff>:/program-icons/program-icons/back.png</iconset>
        </property>
       </widget>
@@ -511,7 +363,7 @@ Click Start Restore to close this window and start the operation.</string>
         <string>Next</string>
        </property>
        <property name="icon">
-        <iconset resource="../fwbackups.qrc">
+        <iconset resource="../../fwbackups.qrc">
          <normaloff>:/program-icons/program-icons/next.png</normaloff>:/program-icons/program-icons/next.png</iconset>
        </property>
        <property name="default">
@@ -539,7 +391,7 @@ Click Start Restore to close this window and start the operation.</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../fwbackups.qrc"/>
+  <include location="../../fwbackups.qrc"/>
  </resources>
  <connections/>
 </ui>

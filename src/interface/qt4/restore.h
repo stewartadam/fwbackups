@@ -37,12 +37,7 @@ public slots:
   void on_backButton_clicked();
   void on_startRestoreButton_clicked();
   /* Configuration - Source */
-  void on_restoreFromCombo_currentIndexChanged(int index);
-  void on_showPasswordCheck_toggled(bool checked);
-  void on_folderBrowseButton_clicked();
-  void on_changeKeyButton_clicked();
-  void on_useKeyAuthenticationCheck_toggled(bool checked);
-  void setVisible_remoteGrid(bool isVisible);
+  void on_destBrowseButton_clicked();
 };
 
 #endif

@@ -33,9 +33,6 @@ public:
   configBackupsDialog(int type, QDialog *parent = 0);
   void setGuidedMode(bool isGuided);
   void setAdvancedMode(bool isAdvanced);
-  QString getKey();
-  void setKey(QString filename);
-  void clearKey();
   bool saveConfiguration(QString setName = "");
   bool loadConfiguration(QString setName = "");
 
@@ -58,15 +55,8 @@ public slots:
   void on_addFoldersButton_clicked();
   void on_removeItemsButton_clicked();
   void on_presetHomeCheck_toggled(bool checked);
-  /* Configuration - Options */
-  void on_compressionCheck_toggled(bool checked);
   /* Configuration - Advanced Options */
   /* Configuration - Destination */
-  void on_saveBackupToCombo_currentIndexChanged(int index);
-  void on_showPasswordCheck_toggled(bool checked);
-  void on_useKeyAuthenticationCheck_clicked();
-  void on_changeKeyButton_clicked();
-  void on_locationBrowseButton_clicked();
   /* Configuration - Scheduling */
   void on_timeSimpleFrequencyCombo_currentIndexChanged(int index);
 private:
@@ -74,7 +64,6 @@ private:
   int type;
   bool advancedMode;
   bool guidedMode;
-  QString keyFile;
   QString originalSetName;
   fwLogger *logger;
 };

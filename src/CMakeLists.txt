@@ -18,13 +18,16 @@ set(MOC_HDRS
     )
 
 set(UI_FILES
-    ../data/ui/fwbackups.ui
-    ../data/ui/choosePrograms.ui
-    ../data/ui/configBackup.ui
-    ../data/ui/exportSets.ui
-    ../data/ui/manageKeys.ui
-    ../data/ui/prefs.ui
-    ../data/ui/restore.ui
+    ../data/ui/client/fwbackups.ui
+    ../data/ui/client/choosePrograms.ui
+    ../data/ui/client/configBackup.ui
+    ../data/ui/client/exportSets.ui
+    ../data/ui/client/manageKeys.ui
+    ../data/ui/client/prefs.ui
+    ../data/ui/client/restore.ui
+    ../data/ui/server/configure_server.ui
+    ../data/ui/server/serveradmin.ui
+    ../data/ui/server/manage_account.ui
     )
 
 set(RC_FILES ../data/fwbackups.qrc)

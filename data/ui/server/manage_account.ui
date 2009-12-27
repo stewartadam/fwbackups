@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>565</width>
-    <height>512</height>
+    <height>516</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -54,7 +54,7 @@
    <item>
     <widget class="QLabel" name="label_8">
      <property name="text">
-      <string>Enter the backup client's account information below. Use the Certificates tab to authorize or save certificates.</string>
+      <string>Enter the client's account information. Use the Certificates tab to authorize or save certificates.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -268,16 +268,6 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QPushButton" name="pushButton_4">
-              <property name="text">
-               <string>Send account details</string>
-              </property>
-              <property name="autoDefault">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
@@ -368,7 +358,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Ensure the certificate request comes from the intended person. Signing the wrong certificate request can potentially compromise your backup server.</string>
+               <string>Ensure the certificate request comes from the intended person. WARNING: Signing the wrong certificate request can potentially compromise your backup server.</string>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -438,7 +428,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>6</height>
+           <height>5</height>
           </size>
          </property>
         </spacer>
@@ -466,12 +456,29 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="sendUserDetailsButton">
+       <property name="text">
+        <string>Send user details</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="OKButton">
        <property name="text">
         <string>OK</string>
        </property>
        <property name="default">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -479,6 +486,9 @@
       <widget class="QPushButton" name="createAccountButton">
        <property name="text">
         <string>Create Account</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

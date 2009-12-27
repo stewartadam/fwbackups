@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
+    <width>347</width>
     <height>340</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
    <string>Preferences</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../fwbackups.qrc">
+   <iconset resource="../../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/preferences-desktop.png</normaloff>:/program-icons/program-icons/preferences-desktop.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -220,7 +220,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../fwbackups.qrc"/>
+  <include location="../../fwbackups.qrc"/>
  </resources>
  <connections/>
 </ui>

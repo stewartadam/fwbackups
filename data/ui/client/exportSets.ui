@@ -20,7 +20,7 @@
    <string>Export Sets - fwbackups</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../fwbackups.qrc">
+   <iconset resource="../../fwbackups.qrc">
     <normaloff>:/program-icons/program-icons/document-save.png</normaloff>:/program-icons/program-icons/document-save.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -102,7 +102,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../fwbackups.qrc"/>
+  <include location="../../fwbackups.qrc"/>
  </resources>
  <connections/>
 </ui>

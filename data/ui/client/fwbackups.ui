@@ -20,7 +20,7 @@
    <string>fwbackups</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../fwbackups.qrc">
+   <iconset resource="../../fwbackups.qrc">
     <normaloff>:/application-icons/fwbackups-32.png</normaloff>:/application-icons/fwbackups-32.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -143,7 +143,7 @@
              <string>New Set...</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/list-add.png</normaloff>:/program-icons/program-icons/list-add.png</iconset>
             </property>
            </widget>
@@ -154,7 +154,7 @@
              <string>Edit Set...</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/preferences-system.png</normaloff>:/program-icons/program-icons/preferences-system.png</iconset>
             </property>
            </widget>
@@ -171,7 +171,7 @@
              <string>Delete Set</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/delete.png</normaloff>:/program-icons/program-icons/delete.png</iconset>
             </property>
            </widget>
@@ -201,7 +201,7 @@
              <string>Backup Now</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/archive.png</normaloff>:/program-icons/program-icons/archive.png</iconset>
             </property>
            </widget>
@@ -212,7 +212,7 @@
              <string>Restore</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>
             </property>
            </widget>
@@ -230,7 +230,7 @@
              <string>Burn</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/media-optical.png</normaloff>:/program-icons/program-icons/media-optical.png</iconset>
             </property>
            </widget>
@@ -360,7 +360,7 @@
              <string>Save to File</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/document-save.png</normaloff>:/program-icons/program-icons/document-save.png</iconset>
             </property>
            </widget>
@@ -371,7 +371,7 @@
              <string>Clear Log</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/clear.png</normaloff>:/program-icons/program-icons/clear.png</iconset>
             </property>
            </widget>
@@ -382,7 +382,7 @@
              <string>Refresh</string>
             </property>
             <property name="icon">
-             <iconset resource="../fwbackups.qrc">
+             <iconset resource="../../fwbackups.qrc">
               <normaloff>:/program-icons/program-icons/refresh.png</normaloff>:/program-icons/program-icons/refresh.png</iconset>
             </property>
            </widget>
@@ -589,7 +589,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/home.png</normaloff>:/program-icons/program-icons/home.png</iconset>
    </property>
    <property name="text">
@@ -601,7 +601,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/drive-harddisk.png</normaloff>:/program-icons/program-icons/drive-harddisk.png</iconset>
    </property>
    <property name="text">
@@ -613,7 +613,7 @@
   </action>
   <action name="actionOne_Time_Backup_2">
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/drive-optical.png</normaloff>:/program-icons/program-icons/drive-optical.png</iconset>
    </property>
    <property name="text">
@@ -628,7 +628,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/filetype-text.png</normaloff>:/program-icons/program-icons/filetype-text.png</iconset>
    </property>
    <property name="text">
@@ -640,7 +640,7 @@
   </action>
   <action name="actionRestore_2">
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/undo.png</normaloff>:/program-icons/program-icons/undo.png</iconset>
    </property>
    <property name="text">
@@ -655,7 +655,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../fwbackups.qrc">
+    <iconset resource="../../fwbackups.qrc">
      <normaloff>:/program-icons/program-icons/refresh.png</normaloff>:/program-icons/program-icons/refresh.png</iconset>
    </property>
    <property name="text">
@@ -683,7 +683,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../fwbackups.qrc"/>
+  <include location="../../fwbackups.qrc"/>
  </resources>
  <connections/>
 </ui>
