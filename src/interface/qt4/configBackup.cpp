@@ -214,6 +214,8 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   //config->value("Key", keyHostname)
   config->endGroup(); // Destination
   
+  config->beginGroup("Scheduling");
+  
   timeSimpleFrequencyCombo->setCurrentIndex( config->value("Frequency", 2).toInt() );
   config->beginGroup("Frequency");
   timeSimpleMinuteSpin->setValue( config->value("Minute", 0).toInt() );
@@ -235,8 +237,8 @@ bool configBackupsDialog::loadConfiguration(QString setName) {
   timesManualMonthLineEdit->setText( config->value("Months", "").toString() );
   timesManualDoWLineEdit->setText( config->value("DaysOfWeek", "").toString() );
   config->endGroup(); // ManualConfiguration
-    
-  config->endGroup(); // Scheduling  
+  
+  config->endGroup(); // Scheduling
   
   config->beginGroup("Options");
   recursiveCheck->setChecked( config->value("Recursive", 1).toBool() );
