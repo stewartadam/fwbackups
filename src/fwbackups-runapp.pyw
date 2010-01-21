@@ -75,7 +75,8 @@ def reportBug(etype=None, evalue=None, tb=None):
   print '%s: %s' % (etype, evalue)
 
 sys.excepthook = reportBug
-gobject.threads_init()
+# This causes hangs on exit in OS X
+#gobject.threads_init()
 try:
   import Crypto
 except:
@@ -375,6 +376,31 @@ class fwbackupsApp(interface.Controller):
     # Welcome...
     self.operationInProgress = False
     self.logger.logmsg('INFO', _('fwbackups administrator started'))
+    if DARWIN:
+      import igemacintegration
+      # Use OS X dock
+      dock = igemacintegration.MacDock()
+      dock.connect('quit-activate', self.main_close)
+      appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
+      if os.path.exists(appIcon):
+        pix = gtk.gdk.pixbuf_new_from_file(appIcon)
+        dock.set_icon_from_pixbuf(pix)
+      # Use OS X native menubar
+      igemacintegration.ige_mac_menu_set_menu_bar(self.ui.menubar1)
+      self.ui.menubar1.hide()
+      # Connect the key handler
+      igemacintegration.ige_mac_menu_connect_window_key_handler(self.ui.main)
+      # Move the Quit menu button
+      igemacintegration.ige_mac_menu_set_quit_menu_item(self.ui.quit1)
+      self.ui.quit1.hide()
+      # Same for About
+      group = igemacintegration.ige_mac_menu_add_app_menu_group()
+      igemacintegration.ige_mac_menu_add_app_menu_item(group, self.ui.about1, None)
+      #self.gui.get_widget("separator1").hide()
+      # and preferences too
+      group = igemacintegration.ige_mac_menu_add_app_menu_group()
+      igemacintegration.ige_mac_menu_add_app_menu_item(group, self.ui.preferences1, None)
+      self.ui.preferences1.hide()
     # only if both are true, ie both say open normally
     if not prefs.getboolean('Preferences', 'StartMinimized') and not minimized:
       self.ui.main.show()
@@ -650,14 +676,16 @@ class fwbackupsApp(interface.Controller):
         return True
     # This will attempt to kill any dead Paramiko threads
     import threading
+    if len(threading.enumerate()) > 1:
+      self.logger.logmsg('INFO', _('fwbackups detected more than one alive threads!'))
     for thread in threading.enumerate()[1:]:
       if type(thread) == paramiko.Transport:
         # Thread is a Paramiko transport -- close it down.
         thread.close()
+        self.logger.logmsg('INFO', _('Closed dead Paramiko thread: %s') % str(thread))
       else:
         # FIXME: Figure out how to kill other thread types. For now, just log.
-        self.logger.logmsg('CRITICAL', _('fwbackups detected more than one alive threads:'))
-        self.logger.logmsg('CRITICAL', str(thread))
+        self.logger.logmsg('CRITICAL', _('Could not close thread %s!') % str(thread))
         self.logger.logmsg('CRITICAL', _('Please submit a bug report and include this message.'))
     # Bugfix for GTK+ on Win32: A ghost tray icon remains after app exits
     # Workaround: Hide the tray icon before quitting the GTK mainloop
@@ -667,11 +695,11 @@ class fwbackupsApp(interface.Controller):
     self.regenerateCrontab()
     # Shutdown logging & quit the GTK mainloop
     self.logger.logmsg('INFO', _('fwbackups administrator closed'))
+    fwlogger.shutdown()
     try:
       gtk.main_quit()
     except RuntimeError, msg:
       pass
-    fwlogger.shutdown()
     return False # we want it to kill the window
 
 

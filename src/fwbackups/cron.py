@@ -181,6 +181,8 @@ class CronTab:
       fh.close()
     else:
       if DARWIN:
+        if os.path.islink('/fwbackups-cronwriter.py'):
+          os.remove('/fwbackups-cronwriter.py')
         os.symlink(os.path.join(INSTALL_DIR, 'cronwriter.py'), '/fwbackups-cronwriter.py')
       sub = executeSub(['crontab', '-e'], self.environ)
       sub.stdin.write(content)
