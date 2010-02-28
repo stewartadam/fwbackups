@@ -1,6 +1,11 @@
 # This is the full fwbackups changelog, with detailed listing of changes in the
 # c++ branch (version 1.44.0)
 || Version 1.44.0-prealpha changes ||
+* Sun Fe 28 2010 Stewart Adam <s.adam at diffingo.com>
+  - Major restructuring of source tree
+  - Update UI for server administrator and client
+  - Add a bit more code for UI actions
+
 * Thu Sep 17 2009 Stewart Adam <s.adam at diffingo.com>
   - Initial UI support for Box Backup
 

@@ -60,19 +60,6 @@
         <number>12</number>
        </property>
        <item row="0" column="0">
-        <widget class="QCheckBox" name="guidedModeCheck">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Use the guided mode</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
         <widget class="QCheckBox" name="warnBeforeReplaceCheck">
          <property name="text">
           <string>Warn me before replacing a set configuration</string>

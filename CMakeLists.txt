@@ -1,30 +1,24 @@
 project(fwbackups)
-
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "44")
 set(VERSION_PATCH "0")
 
 cmake_minimum_required(VERSION 2.6.0)
+
 if(APPLE)
   set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
 endif(APPLE)
 
-# we need gettext and qt4
+# Find required packages to build from source
 find_package( Qt4 REQUIRED )
 find_package( Gettext REQUIRED )
 
-# enable warnings
+# Enable all compilation warnings
 add_definitions( -Wall )
 
-# process subdirectories
-add_subdirectory(po)
-add_subdirectory(src)
+# Process subdirectories
+add_subdirectory(lib)
+add_subdirectory(gui)
 
-# configure the pkgconfig file
-configure_file( ${CMAKE_SOURCE_DIR}/fwbackups.pc.in
-                ${CMAKE_BINARY_DIR}/fwbackups.pc @ONLY IMMEDIATE )
-
-configure_file( ${CMAKE_SOURCE_DIR}/src/common.h.in
-                ${CMAKE_BINARY_DIR}/src/common.h @ONLY IMMEDIATE )
-
-install(FILES "${CMAKE_BINARY_DIR}/fwbackups.pc" DESTINATION lib/pkgconfig)
+# Create a pkgconfig file
+configure_file(${CMAKE_SOURCE_DIR}/fwbackups.pc.in ${CMAKE_BINARY_DIR}/fwbackups.pc @ONLY IMMEDIATE)

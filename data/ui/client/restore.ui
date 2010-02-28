@@ -386,7 +386,7 @@ Click Start Restore to close this window and start the operation.</string>
   <customwidget>
    <class>TabNTabBarWidget</class>
    <extends>QTabWidget</extends>
-   <header>interface/qt4/custom_widgets.h</header>
+   <header>custom_widgets.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

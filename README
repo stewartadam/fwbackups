@@ -1,9 +1,11 @@
 -- BUILDING --
   To build fwbackups, execute these commands:
     $ cd build/<platform>
-    $ cmake . ../../
+    $ cmake ../../
     $ make
-  <platform> can be any of osx, cygwin, mingw, unix or linux.
+  <platform> can be any of osx, mingw or linux. Note that the name does not
+  actually matter, but different folder are provided for multi-platform
+  testing.
 
 -- INSTALLING --
   Run as root:
