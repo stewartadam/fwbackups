@@ -310,8 +310,7 @@ class fwbackupsApp(interface.Controller):
     else:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
-      self.ui.aboutProgramImage.set_from_file(appIcon)
-      self.ui.main.set_icon_from_file(appIcon)
+      gtk.window_set_default_icon_from_file(appIcon)
     self.updateSplash(0.6, 'Loading widgets')
     self.statusbar = widgets.StatusBar(self.ui.statusbar1)
     self.ExportView1 = widgets.ExportView(self.ui.ExportTreeview, self.statusbar, self.ui)
@@ -378,13 +377,6 @@ class fwbackupsApp(interface.Controller):
     self.logger.logmsg('INFO', _('fwbackups administrator started'))
     if DARWIN:
       import igemacintegration
-      # Use OS X dock
-      dock = igemacintegration.MacDock()
-      dock.connect('quit-activate', self.main_close)
-      appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
-      if os.path.exists(appIcon):
-        pix = gtk.gdk.pixbuf_new_from_file(appIcon)
-        dock.set_icon_from_pixbuf(pix)
       # Use OS X native menubar
       igemacintegration.ige_mac_menu_set_menu_bar(self.ui.menubar1)
       self.ui.menubar1.hide()
@@ -396,11 +388,18 @@ class fwbackupsApp(interface.Controller):
       # Same for About
       group = igemacintegration.ige_mac_menu_add_app_menu_group()
       igemacintegration.ige_mac_menu_add_app_menu_item(group, self.ui.about1, None)
-      #self.gui.get_widget("separator1").hide()
       # and preferences too
       group = igemacintegration.ige_mac_menu_add_app_menu_group()
       igemacintegration.ige_mac_menu_add_app_menu_item(group, self.ui.preferences1, None)
       self.ui.preferences1.hide()
+      self.ui.separator1.hide()
+      # Use OS X dock
+      dock = igemacintegration.MacDock()
+      dock.connect('quit-activate', self.main_close)
+      appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
+      if os.path.exists(appIcon):
+        pix = gtk.gdk.pixbuf_new_from_file(appIcon)
+        dock.set_icon_from_pixbuf(pix)
     # only if both are true, ie both say open normally
     if not prefs.getboolean('Preferences', 'StartMinimized') and not minimized:
       self.ui.main.show()
