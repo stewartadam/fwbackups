@@ -272,8 +272,8 @@ class fwbackupsApp(interface.Controller):
       config._setupConf()
     except config.ConfigError, error:
       self.displayInfo(self.ui.splash,
-                       _('Could not setup your configuration folder'),
-                       _('An error occured while setting up the configuration folder:\n%s' % error))
+                       _("Could not setup the fwbackups configuration folder"),
+                       _("The following error occured: %s" % error))
       sys.exit(1)
     # Step 2: Setup the logger
     self.updateSplash(0.2, _('Setting up the logger and user preferences'))
@@ -292,8 +292,8 @@ class fwbackupsApp(interface.Controller):
       self.logconsole = widgets.TextViewConsole(self.ui.LogViewerTextview)
     except Exception, error:
       self.displayInfo(self.ui.splash,
-                       _('Could not setup the logger'),
-                       _('An error occured while setting up logger:\n%s' % error))
+                       _("Could not setup the logger"),
+                       _("The following error occured: %s" % error))
       sys.exit(1)
     # Step 3: See what's available and what's not
     self.action = None
@@ -339,22 +339,16 @@ class fwbackupsApp(interface.Controller):
       crontab = fh.read()
       if re.search('.*fwbackups.*', crontab):
         if int(prefs.get('Preferences', 'DontShowMe_OldVerWarn')) == 0:
-          dontShowMe = self.displayInfo(self.ui.main,
-                               _('Previous installation detected'),
-                               _('fwbackups has found that you were previously version 1.42.x (or older) ' + \
-                                 'of fwbackups. Because of certain major changes in fwbackups,' + \
-                                 'your configuration must be imported manually. To do this, run fwbackups' + \
-                                 'as the root user and select <i>File > Import</i> from the menu' + \
-                                 'to import your old configuration.\n' + \
-                                 'If this action is not completed, the backups from version 1.42.x ' + \
-                                 '<b>will not run automatically</b>.\n<i>Tip: The 1.42.x ' + \
-                                 'configuration was stored in /etc/fwbackups</i>.'), \
-                               dontShowMe=True)
+          dontShowMe = self.displayInfo(self.ui.main, _("Previous installation of fwbackups 1.42.x or older detected"), _("Because of certain major changes in fwbackups, your configuration must be imported manually. To do this, run fwbackups as the root user and select <i>File > Import</i> from the menu to import your old configuration.\nIf this action is not completed, the backups from version 1.42.x <b>will not run automatically</b>.\n<i>Tip: The 1.42.x configuration was stored in /etc/fwbackups</i>."), dontShowMe=True)
           if dontShowMe:
             prefs.set('Preferences', 'DontShowMe_OldVerWarn', 1)
       if UID == 0:
         try:
           shutil_modded.copy('/etc/crontab', '/etc/crontab.fwbk')
+        except Exception, error:
+          self.displayInfo(self.ui.main, _("A backup of /etc/crontab could not be created"), _("You may wish to edit /etc/crontab manually and remove any fwbackups-related lines."))
+          self.logger.logmsg('ERROR', _("Could not create a backup of /etc/crontab; refusing to clean up."))
+        try:
           if re.search('.*fwbackups.*', crontab):
             self.logger.logmsg('INFO', _('Cleaning up /etc/crontab from previous installation of fwbackups'))
             p = re.compile('.*fwbackups.*')
@@ -363,12 +357,10 @@ class fwbackupsApp(interface.Controller):
             fh = open('/etc/crontab', 'w')
             fh.write(newcrontab)
         except Exception, error:
-          message = _('An error occurred while trying to cleanup the crontab:\n' + \
-                      '%s\n' % error + \
-                      'The system crontab (/etc/crontab) may be left in an ' + \
-                      'inconsitent state. A backup copy of the original crontab ' + \
-                      'has been saved as /etc/crontab.fwbk')
-          self.displayInfo(self.ui.main, _('Could not clean crontab'), message)
+          shutil.copy("/etc/crontab.fwbk", "/etc/crontab")
+          os.remove("/etc/crontab.fwbk")
+          message = _("fwbackups was unable to clean up the system crontab: %s. You may wish to edit /etc/crontab manually and remove any fwbackups-related lines.") % error
+          self.displayInfo(self.ui.main, _("Cleanup of the system crontab failed"), message)
           self.logger.logmsg('ERROR', message)
     self.updateSplash(1, _('Ready!'))
     time.sleep(0.5)
@@ -411,7 +403,7 @@ class fwbackupsApp(interface.Controller):
     if statsize >= 1048577:
       #1048576B is 1MB.
       size = '%s KB' % (statsize / 1024)
-      response = self.displayConfirm(self.ui.splash, _('Log Size'), _('The log file is becoming large (%s). Would you like to clear it?') % size)
+      response = self.displayConfirm(self.ui.splash, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
       if response == gtk.RESPONSE_YES:
         logfh = open(LOGLOC, 'w')
         logfh.write('')
@@ -459,14 +451,11 @@ class fwbackupsApp(interface.Controller):
       self.ui.TrayMenu1.popup(None, None, menu_pos, button, time)
     self.ui.TrayMenu1.show()
 
-  def displayInfo(self, parent, headerMessage, message, dontShowMe=False):
+  def displayInfo(self, parent, primaryText, secondaryText, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
       dontShowMe = self.ui.infoDiaDontShowMeCheck
-    dialog = widgets.InfoDia(self.ui.info_dia, _('Information'), parent,
-                                self.ui.infoDiaHeaderLabel,
-                                self.ui.infoDiaMessageLabel,
-                                headerMessage, message, dontShowMe)
+    dialog = widgets.InfoDia(self.ui.info_dia, parent, self.ui.infoDiaLabel, primaryText, secondaryText, dontShowMe)
     dialog.run()
     if dontShowMe:
       showMe = dontShowMe.get_active()
@@ -477,23 +466,17 @@ class fwbackupsApp(interface.Controller):
       return
 
 
-  def displayError(self, parent, headerMessage, message):
+  def displayError(self, parent, primaryText, secondaryText):
     """Wrapper for displaying the confirm dialog"""
-    dialog = widgets.ErrorDia(self.ui.error_dia, _('Error'), parent,
-                                self.ui.errorDiaHeaderLabel,
-                                self.ui.errorDiaMessageLabel,
-                                headerMessage, message)
+    dialog = widgets.ErrorDia(self.ui.error_dia, parent, self.ui.errorDiaLabel, primaryText, secondaryText)
     dialog.run()
     dialog.destroy()
 
-  def displayWarning(self, parent, headerMessage, message, dontShowMe=False):
+  def displayWarning(self, parent, primaryText, secondaryText, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
       dontShowMe = self.ui.warningDiaDontShowMeCheck
-    dialog = widgets.WarningDia(self.ui.warning_dia, _('Warning'), parent,
-                                self.ui.warningDiaHeaderLabel,
-                                self.ui.warningDiaMessageLabel,
-                                headerMessage, message, dontShowMe)
+    dialog = widgets.WarningDia(self.ui.warning_dia, parent, self.ui.warningDiaLabel, primaryText, secondaryText, dontShowMe)
     dialog.run()
     if dontShowMe:
       showMe = dontShowMe.get_active()
@@ -503,14 +486,11 @@ class fwbackupsApp(interface.Controller):
       dialog.destroy()
       return
 
-  def displayConfirm(self, parent, headerMessage, message, dontShowMe=False):
+  def displayConfirm(self, parent, primaryText, secondaryText, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
       dontShowMe = self.ui.confirmDiaDontShowMeCheck
-    dialog = widgets.ConfirmDia(self.ui.confirm_dia, _('Please Confirm'), parent,
-                                self.ui.confirmDiaHeaderLabel,
-                                self.ui.confirmDiaMessageLabel,
-                                headerMessage, message, dontShowMe)
+    dialog = widgets.ConfirmDia(self.ui.confirm_dia, parent, self.ui.confirmDiaLabel, primaryText, secondaryText, dontShowMe)
     response = dialog.run()
     if dontShowMe:
       showMe = dontShowMe.get_active()
@@ -627,8 +607,8 @@ class fwbackupsApp(interface.Controller):
         try:
           setConf = config.BackupSetConf(os.path.join(SETLOC, file))
         except (config.ConfigError, NoOptionError):
-          self.displayError(self.ui.main, _("Invalid Configuration"),
-            _("The set configuration file `%s' failed to validate, so it may not be scheduled. Other set's configurations are unaffected." % file))
+          self.displayError(self.ui.main, _("Could not parse the configuration for set '%s'") % os.path.splitext(file)[0],
+            _("The set configuration file '%s' failed to validate, so it may not be properly scheduled. Other sets are unaffected by this error." % file))
           continue
         setName = setConf.getSetName()
         entry = setConf.get('Times', 'Entry').split(' ')[:5]
@@ -639,7 +619,7 @@ class fwbackupsApp(interface.Controller):
         try:
           self.cronTab.add(cron.CronLine(entry))
         except Exception, error:
-          self.displayError(self.ui.main, _('Regeneration Error'),
+          self.displayError(self.ui.main, _("Could not schedule automated backups for set '%s'") % setName,
             _("fwbackups could not regenerate a crontab entry because an error occured:\n") + \
             _("%(a)s\n\nThe crontab entry associated with the error was:\n%(b)s") % (error, entry))
           continue
@@ -659,9 +639,8 @@ class fwbackupsApp(interface.Controller):
     """Wrapper for quitting"""
     if self.operationInProgress:
       response = self.displayConfirm(self.ui.main,
-                                     _('fwbackups is Working'),
-                                     _('An operation is currently in progress. ' + \
-                                       'Would you like to cancel them and quit anyways?'))
+                                     _("fwbackups is working"),
+                                     _("An operation is currently in progress. Would you like to cancel it and quit anyways?"))
       if response == gtk.RESPONSE_YES:
         self.statusbar.newmessage(_('Please wait... Canceling operations'), 10)
         try:
@@ -721,40 +700,19 @@ class fwbackupsApp(interface.Controller):
     progress.set_text('')
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
     if thread.retval == True:
-      self.displayInfo(parent,
-                           _('Success!'),
-                           _('All settings are correct. Remember to ensure that ' + \
-                             'you have permissions to write to the selected folder.'))
+      self.displayInfo(parent, _("Success!"), _("fwbackups was able to connect and authenticate on '%s'.") % host)
     elif type(thread.exception) == IOError:
-      self.displayInfo(parent,
-                           _('Incorrect Settings'),
-                           _('The selected folder was either not found or the ' + \
-                             'the path supplied points to a file.'))
+      self.displayInfo(parent, _("Remote destination is not usable"), _("The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. Please verify your settings and try again.") % {'a': path, 'b': host})
     elif type(thread.exception) == paramiko.AuthenticationException:
-      self.displayInfo(parent,
-                            _('Authentication failed'),
-                            _('A connection was established, but authentication ' + \
-                              'failed. Please verify the username and password ' + \
-                              'and try again.'))
+      self.displayInfo(parent, _("Authentication failed"), _("A connection to '%s' was established, but authentication failed. Please verify the username and password and try again.") % host)
     elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
-      self.displayInfo(parent,
-                            _('Connection failed'),
-                            _('A connection to the server could not be established:\n' + \
-                              'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
-                              '\nPlease verify your settings and try again.'))
+      self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error %(a)s: %(b)s") % {'a': type(thread.exception), 'b': str(thread.exception)})
     elif type(thread.exception) == socket.timeout:
-      self.displayInfo(parent,
-                            _('Connection failed'),
-                            _('The connection to the server timed out. ' + \
-                              'Please verify your settings and try again.'))
+      self.displayInfo(parent, _("The server '%s' is not responding") % host, _("Please verify your settings and try again."))
     elif type(thread.exception) == paramiko.SSHException:
-      self.displayInfo(parent,
-                            _('Connection failed'),
-                            _('A connection to the server could not be established ' + \
-                              'because an error occurred: %s' % str(thread.exception) + \
-                              '\nPlease verify your settings and try again.'))
+      self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error: %s. Please verify your settings and try again.") % str(thread.exception))
     else:
-      self.displayInfo(parent, _('Unhandled error'), thread.traceback)
+      self.displayInfo(parent, _("Unexpected error"), thread.traceback)
   ###
   ### MENUS ###
   ###
@@ -828,9 +786,8 @@ class fwbackupsApp(interface.Controller):
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
       destSetPath = os.path.join(dest, os.path.basename(setPath))
       if os.path.exists(destSetPath):
-        response = self.displayConfirm(self.ui.export_dia, _('File Exists'),
-                                    _('The file `%s.conf\' already exists in the destination ' % setName + \
-                                      'directory! Overwrite it?'))
+        response = self.displayConfirm(self.ui.export_dia, _("File Exists"),
+                                    _("'%s.conf' already exists! Would you like to overwrite it?") % setName)
         if response == gtk.RESPONSE_OK:
           os.remove(destSetPath)
         else:
@@ -1099,8 +1056,8 @@ class fwbackupsApp(interface.Controller):
   def on_preferencesResetDontShowMeButton_clicked(self, widget, event=None):
     """Resets all "Don't show me again" messages"""
     prefs = config.PrefsConf()
-    for option in prefs.options('Preferences'):
-      if option.startswith('dontshowme_'):
+    for option in prefs.getPreferences().keys():
+      if option.lower().startswith('dontshowme_'):
         prefs.set('Preferences', option, 0)
         self.logger.logmsg('DEBUG', _('Resetting preference \'%(a)s\' to 0' % {'a' : option}))
 
@@ -1221,9 +1178,7 @@ class fwbackupsApp(interface.Controller):
     port = self.ui.backupset2PortEntry.get_text()
     folder = self.ui.backupset2RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
-      self.displayInfo(self.ui.backupset, _('Missing information'),
-                        _('Please complete all of the host, username, folder ' + \
-                          'and port fields.'))
+      self.displayInfo(self.ui.backupset, _("Missing information"), _("Please complete the host, username, folder and port fields."))
     self.testConnection(self.ui.backupset, self.backupset2TestSettingsProgress, host, username, password, port, folder)
 
   ### TAB 3: TIMES
@@ -1346,7 +1301,7 @@ class fwbackupsApp(interface.Controller):
     except IndexError:
       self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
       return
-    response = self.displayConfirm(self.ui.main, _("Are you sure?"), _("This action will permanently delete the backup set `%s'") % setName)
+    response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files.") % setName)
     if response == gtk.RESPONSE_NO:
       return
     elif response == gtk.RESPONSE_YES:
@@ -1356,7 +1311,7 @@ class fwbackupsApp(interface.Controller):
         os.remove(setPath)
       except OSError, error:
         message = _('An error occured while removing set `%(a)s\':\n%(b)s' % {'a': setName, 'b': error })
-        self.displayError(self.ui.main, _('Error removing set'), message)
+        self.displayError(self.ui.main, _("Could not remove backup set '%s'") % setName, message)
         self.logger.logmsg('ERROR', message)
         self.main2IconviewRefresh()
         return
@@ -1364,7 +1319,7 @@ class fwbackupsApp(interface.Controller):
         self.regenerateCrontab()
       except Exception, error:
         message = _('An error occured while removing set `%(a)s\':\n%(b)s' % {'a': setName, 'b': error })
-        self.displayError(self.ui.main, _('Error removing from crontab'), message)
+        self.displayError(self.ui.main, _("Could not remove the automated backup schedule for set '%s'"), message)
         self.logger.logmsg('ERROR', message)
         self.main2IconviewRefresh()
         return
@@ -1378,9 +1333,7 @@ class fwbackupsApp(interface.Controller):
     try:
       selected = getSelectedItems(widget)
     except Exception, error:
-      self.displayInfo(self.ui.main, _('Unexpected error'),
-                            _('An unexpected error occured while attempting ' + \
-                              'to obtain the selected set:\n%s' % error))
+      self.displayInfo(self.ui.main, _("Unexpected error"), _("An unexpected error occured while attempting to obtain the selected set:\n%s" % error))
       self.main2IconviewRefresh()
       selected = False
     if selected == False or len(selected) <= 0:
@@ -1552,9 +1505,7 @@ class fwbackupsApp(interface.Controller):
     port = self.ui.main3PortEntry.get_text()
     folder = self.ui.main3RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
-      self.displayInfo(self.ui.main, _('Missing information'),
-                        _('Please complete all of the host, username, folder ' + \
-                          'and port fields.'))
+      self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
     self.testConnection(self.ui.main, self.main3TestSettingsProgress, host, username, password, port, folder)
 
@@ -1583,8 +1534,8 @@ class fwbackupsApp(interface.Controller):
     prefs = config.PrefsConf()
     if int(prefs.get('Preferences', 'DontShowMe_ClearLog')) == 1:
       return clearlog()
-    response, dontShowMe = self.displayConfirm(self.ui.main, _('Are you sure?'),
-                                       _('This action will permanently remove all log entries.'),
+    response, dontShowMe = self.displayConfirm(self.ui.main, _("Are you sure you want to clear the log?"),
+                                       _("This action will permanently remove all log entries."),
                                        dontShowMe=True)
     if response == gtk.RESPONSE_YES:
       if dontShowMe:
@@ -1679,22 +1630,22 @@ class fwbackupsApp(interface.Controller):
       if type(thread.retval) == list:
         listing = thread.retval
       elif type(thread.exception) in [IOError, OSError]:
-        self.displayInfo(self.ui.restore, _("Backups not found"),
-          _("The destination folder was not found. Please check the backup set's settings"))
+        self.displayInfo(self.ui.restore, _("Previous backups could not be found"),
+          _("The destination folder for set '%s' was not found.") % setName)
       elif type(thread.exception) == paramiko.AuthenticationException:
         self.displayInfo(self.ui.restore, _("Authentication failed"),
-          _("A connection was established, but authentication failed. Please verify the username and password and try again."))
+          _("fwbackups was unable to authenticate on the remote server. Please verify the username and password for set '%s' and try again.") % setName)
       elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
         self.displayInfo(self.ui.restore, _("Connection failed"),
           _("A connection to the server could not be established:\nError %(a)s: %(b)s\nPlease verify your settings and try again.") % {'a': type(thread.exception), 'b': str(thread.exception)})
       elif type(thread.exception) == socket.timeout:
-        self.displayInfo(self.ui.restore, _("Connection failed"),
-          _("The connection to the server timed out. Please verify your settings and try again."))
+        self.displayInfo(self.ui.restore, _("Remote server is not responding"),
+          _("Please verify your settings and try again."))
       elif type(thread.exception) == paramiko.SSHException:
         self.displayInfo(self.ui.restore, _("Connection failed"),
           _("A connection to the server could not be established because an error occurred: %s\nPlease verify your settings and try again.") % str(thread.exception))
       else:
-        self.displayInfo(self.ui.restore, _('Unhandled error'), thread.traceback)
+        self.displayInfo(self.ui.restore, _('Unexpected error'), thread.traceback)
       # Restore sensitivity to the widgets
       self.ui.restore1SourceTypeCombobox.set_sensitive(True)
       self.ui.restore1SetDateCombobox.set_sensitive(True)
@@ -1707,8 +1658,7 @@ class fwbackupsApp(interface.Controller):
         listing = os.listdir(destination)
       except OSError, error:
         self.logger.logmsg("WARNING", _("Error obtaining file listing in destination %(a)s:\n%(b)s") % {'a': destination, 'b': error})
-        self.displayError(self.ui.restore, _('Could not list files in destination'),
-          _("A list of files in destination folder '%s' could not be determined. If the destination is on removable media, please attach it and try again.") % destination)
+        self.displayError(self.ui.restore, _("Could not get a list of old backups for set '%s'" % setName), _("If the destination is on removable media such as an external hard disk, please attach it and try again.") % destination)
         return
     listing.sort() # [oldest, older, old, new, newest]
     listing.reverse() # make newest first
@@ -1827,7 +1777,7 @@ class fwbackupsApp(interface.Controller):
     restoreConfig = config.RestoreConf(RESTORELOC, True)
     if active == 0: # Set backup
       if self.ui.restore1SetDateCombobox.get_active() == None:
-        self.displayInfo(self.ui.restore, _('Backup date'), _('Please select a backup date.'))
+        self.displayInfo(self.ui.restore, _('Missing information'), _('Please select a backup date.'))
         return False
       setModel = self.ui.restore1SetNameCombobox.get_model()
       setActiveIter = self.ui.restore1SetNameCombobox.get_active_iter()
@@ -1836,7 +1786,7 @@ class fwbackupsApp(interface.Controller):
       setConfig = config.BackupSetConf(setPath)
       # We can't start a restore if there are no set dates
       if self.ui.restore1SetDateCombobox.get_active_text() == _("No backups found"):
-        self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Please choose another set, or alternatively choose a different restore source.") % setName)
+        self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Choose another set, or alternatively choose a different restore source.") % setName)
         return False
       self.saveRestoreConfiguration(restoreConfig, setConfig)
     elif active == 1: # Local archive
@@ -1937,15 +1887,15 @@ class fwbackupsApp(interface.Controller):
   def _checkExistingOrNone(self, name, parent, entry):
     """Check if a filename exists, or if none is set."""
     if name == None or name == '':
-      self.displayInfo(self.ui.backupset, _('Invalid Name'), _('Please enter a set name.'))
+      self.displayInfo(self.ui.backupset, _("Invalid set name"), _("Please enter a set name."))
       return False
     if name == 'temporary_config':
-      self.displayInfo(self.ui.backupset, _('Invalid Name'), _('`temporary_name\' is a reserved name. Please choose another name for the set.'))
+      self.displayInfo(self.ui.backupset, _("Invalid set name"), _("'temporary_name' is a reserved name. Please choose another name for the set."))
       return False
     if os.path.exists(os.path.join(SETLOC, "%s.conf" % name)):
       response = self.displayConfirm(self.ui.backupset,
-                                         _('Overwrite?'),
-                                         _('This will overwrite the current set settings. Are you sure you want to continue?'))
+                                         _("Overwrite settings for set '%s'?") % name,
+                                         _("This will overwrite the stored settings with the current ones. Are you sure you want to continue?"))
       if response == gtk.RESPONSE_NO:
         return False
     return name
@@ -2056,9 +2006,8 @@ class fwbackupsApp(interface.Controller):
         self.ui.ManualDaysOfWeekEntry.set_text(l[4])
       except IndexError: # list isn't long enough - something's gone horrible wrong.
         self.displayInfo(self.ui.backupset,
-                              _('Error parsing configuration file'),
-                              _('The `Custom\' times option has errors.\n' + \
-                                'Using default times instad.'))
+                              _("Error parsing configuration file"),
+                              _("fwbackups will using the default times instead."))
         self._setDefaultTimes()
     # Restore destination
     t = setConf.get('Options', 'DestinationType')
@@ -2254,7 +2203,7 @@ class fwbackupsApp(interface.Controller):
       self.regenerateCrontab()
     except Exception, error:
       self.displayInfo(self.ui.backupset,
-                       _('Error writing to crontab'),
+                       _("Error creating the automated backup schedules"),
                        _('The crontab could not be written because an error occured:\n%s') % error)
       return
 
@@ -2358,12 +2307,8 @@ class fwbackupsApp(interface.Controller):
           os.remove(namepath)
           self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s" % {'a': name, 'b': newName}))
         except IOError, error:
-          self.displayInfo(self.ui.backupset,
-                                _('Cannot rename set'),
-                                _('An error occured while renaming set' + \
-                                  '`%(a)s\' to `%(b)s\':\n%(c)s') % {'a': name,
-                                                                     'b': newName,
-                                                                     'c': error})
+          self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s failed: %(c)s" % {'a': name, 'b': newName, 'c': error}))
+          self.displayInfo(self.ui.backupset, _("Could not rename set '%(a)s' to '%(b)s'") % {'a': name, 'b': newName}, str(error))
       else:
         newName = name
       message = _('Saving changes to set `%s\'' % newName)
@@ -2451,11 +2396,11 @@ class fwbackupsApp(interface.Controller):
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
-      message = _('An error occurred initializing the backup operation:\n%s' % error)
+      message = _("An error occurred while initializing the backup operation: %s" % error)
       self.updateReturn = False
       self.main2BackupProgress.stopPulse()
       self.main2BackupProgress.set_text('')
-      self.displayInfo(self.ui.main, _('Error initializing'), message)
+      self.displayInfo(self.ui.main, _("Error initializing backup"), message)
       self.logger.logmsg('DEBUG', message)
       self.ui.main2CancelBackupButton.hide()
       self.ui.main2FinishBackupButton.show()
@@ -2607,8 +2552,8 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = False
       self.main3BackupProgress.stopPulse()
       self.main3BackupProgress.set_text('')
-      message = _('An error occurred initializing the backup operation:\n%s' % error)
-      self.displayInfo(self.ui.main, _('Error initializing'), message)
+      message = _("An error occurred while initializing the backup operation: %s" % error)
+      self.displayInfo(self.ui.main, _("Error initializing backup"), message)
       self.logger.logmsg('DEBUG', message)
       self.ui.main3FinishButton.show()
       self.ui.main3FinishButton.set_sensitive(True)
@@ -2691,8 +2636,8 @@ class fwbackupsApp(interface.Controller):
       self.setStatus(_('<span color="Red">Error</span>'))
       self.updateReturn = False
       self.restore2RestorationProgress.stopPulse()
-      message = _('An error occurred initializing the restore operation:\n%s' % error)
-      self.displayInfo(self.ui.main, _('Error initializing'), message)
+      message = _("An error occurred while initializing the restore operation: %s" % error)
+      self.displayInfo(self.ui.main, _("Error initializing restore operation"), message)
       self.logger.logmsg('DEBUG', message)
       self.ui.restoreFinishButton.set_sensitive(True)
       self.ui.restore2CancelRestoreButton.set_sensitive(False)

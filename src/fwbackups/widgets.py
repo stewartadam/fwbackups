@@ -28,6 +28,7 @@ import os
 import pango
 import re
 import time
+from xml.sax.saxutils import escape
 
 from fwbackups.i18n import _
 from fwbackups.const import *
@@ -435,13 +436,11 @@ class SaveDia(PathBrowser):
 
 class ConfirmDia(GenericDia):
   """Wrapper for confirmation dialog"""
-  def __init__(self, dialog, title, parent, headerLabel, label, header, message, dontShowMe=False):
+  def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
-    GenericDia.__init__(self, dialog, title, parent)
-    headerLabel.set_text('<span size="larger" weight="bold">%s</span>' % header)
-    headerLabel.set_use_markup(True)
-    label.set_text(message)
-    label.set_use_markup(True)
+    GenericDia.__init__(self, dialog, '', parent)
+    labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
+    labelWidget.set_use_markup(True)
     self.dontShowMe = dontShowMe
     if self.dontShowMe:
       self.dontShowMe.set_active(False)
@@ -455,23 +454,20 @@ class ConfirmDia(GenericDia):
 
 class ErrorDia(GenericDia):
   """Wrapper for error dialog"""
-  def __init__(self, dialog, title, parent, headerLabel, label, header, message, dontShowMe=False):
+  def __init__(self, dialog, title, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
     GenericDia.__init__(self, dialog, title, parent)
-    headerLabel.set_text('<span size="larger" weight="bold">%s</span>' % header)
-    headerLabel.set_use_markup(True)
-    label.set_text(message)
-    label.set_use_markup(True)
+    labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
+    labelWidget.set_use_markup(True)
 
 class InfoDia(GenericDia):
   """Wrapper for error dialog"""
-  def __init__(self, dialog, title, parent, headerLabel, label, header, message, dontShowMe=False):
+  def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
-    GenericDia.__init__(self, dialog, title, parent)
-    headerLabel.set_text('<span size="larger" weight="bold">%s</span>' % header)
-    headerLabel.set_use_markup(True)
-    label.set_text(message)
-    label.set_use_markup(True)
+    GenericDia.__init__(self, dialog, '', parent)
+    
+    labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
+    labelWidget.set_use_markup(True)
     self.dontShowMe = dontShowMe
     if self.dontShowMe:
       self.dontShowMe.set_active(False)
@@ -485,13 +481,11 @@ class InfoDia(GenericDia):
 
 class WarningDia(GenericDia):
   """Wrapper for warning dialog"""
-  def __init__(self, dialog, title, parent, headerLabel, label, header, message, dontShowMe=False):
+  def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
-    GenericDia.__init__(self, dialog, title, parent)
-    headerLabel.set_text('<span size="larger" weight="bold">%s</span>' % header)
-    headerLabel.set_use_markup(True)
-    label.set_text(message)
-    label.set_use_markup(True)
+    GenericDia.__init__(self, dialog, '', parent)
+    labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
+    labelWidget.set_use_markup(True)
     self.dontShowMe = dontShowMe
     if self.dontShowMe:
       self.dontShowMe.set_active(False)
