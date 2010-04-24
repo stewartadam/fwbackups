@@ -1294,7 +1294,7 @@ class fwbackupsApp(interface.Controller):
     except IndexError:
       self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
       return
-    response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files.") % setName)
+    response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files."))
     if response == gtk.RESPONSE_NO:
       return
     elif response == gtk.RESPONSE_YES:
@@ -2071,6 +2071,9 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4EngineRadio3.set_active(True)
     elif t == "tar.bz2":
       self.ui.backupset4EngineRadio4.set_active(True)
+    # This ensures that incremental is at the proper sensitivity even if rsync
+    # wasn't clicked on/off
+    self.ui.backupset4EngineRadio2.emit('toggled')
     self.ui.backupset4OldToKeepSpin.set_value(float(setConf.get('Options', 'OldToKeep')))
     # Advanced entries
     self.ui.backupset5NiceScale.set_value(float(setConf.get('Options', 'Nice')))

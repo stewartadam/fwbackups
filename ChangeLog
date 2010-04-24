@@ -1,6 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Sat Apr 24 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a bug where the sensitivity of the incremental checkbutton was
+      incorrectly set when configuring a new backup set
+  
   * Thu Apr 22 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a regression where calling "fwbackups --help" resulted in a traceback
     - Change behaviour of "--verbosity" option, making it print log messages to
