@@ -1,6 +1,22 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Thu Apr 22 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a regression where calling "fwbackups --help" resulted in a traceback
+    - Change behaviour of "--verbosity" option, making it print log messages to
+      the console. A second use of "--verbosity" will enable debug messages 
+      (the previous behaviour of this option) as well as printing log messages
+      to the console.
+    
+  * Wed Apr 21 2010 Stewart Adam <s.adam at diffingo.com>
+    - HIG changes: Make all dialogs use application icon, better primary texts,
+      make info/confirm/warning/error dialogs have no title
+  
+  * Sun Apr 18 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix crash when resetting "don't show me" messages in preferences (fixes
+      RH #579143)
+    - Make .desktop files confirm to latest Freedesktop standards
+  
   * Tue Dec 22 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the Preferences configuration file's version was not
       bumped past 1.43.3rc2

@@ -92,17 +92,6 @@ from fwbackups import cron
 from fwbackups import shutil_modded
 from fwbackups.operations import *
 
-def usage(error):
-  """Print the application usage"""
-  if error:
-    print _('Error: %s' % error)
-  print _('Usage: fwbackups [OPTIONS]\n\
-  Valid Options:\n\
-  -h, --help  :  Print this message and exit\n\
-  -v, --verbose  :  Increase verbosity (print debug messages)\n\
-  --start-minimized  :  Start minimized in tray\n\
-')
-
 def busyCursor(mainwin,insensitive=False):
   """Set busy cursor in mainwin and make it insensitive if selected"""
   mainwin.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
@@ -137,7 +126,7 @@ def set_text_markup(widget, text):
 
 class fwbackupsApp(interface.Controller):
   """The class which contains the interface callbacks"""
-  def __init__(self, verbose, minimized):
+  def __init__(self, verbose=0, minimized=False):
     """Initialize a new instance."""
     interface.Controller.__init__(self, os.path.join(INSTALL_DIR, 'fwbackups.glade'), 'main')
     self.verbose = verbose
@@ -277,13 +266,17 @@ class fwbackupsApp(interface.Controller):
       sys.exit(1)
     # Step 2: Setup the logger
     self.updateSplash(0.2, _('Setting up the logger and user preferences'))
-    prefs = config.PrefsConf(create=True)
-    if self.verbose == True or int(prefs.get('Preferences', 'AlwaysShowDebug')) == 1:
-      level = fwlogger.L_DEBUG
-    else:
-      level = fwlogger.L_INFO
     try:
       self.logger = fwlogger.getLogger()
+      # default to info log level
+      level = fwlogger.L_INFO
+      prefs = config.PrefsConf(create=True)
+      if self.verbose >= 1:
+        # one -v used: print to console
+        self.logger.setPrintToo(True)
+      if self.verbose >= 2 or int(prefs.get('Preferences', 'AlwaysShowDebug')) == 1:
+        # two -v used: use debug log level instead
+        level = fwlogger.L_DEBUG
       self.logger.setLevel(level)
       self.logger.connect(self.updateLogViewer)
       # Log size...
@@ -2681,33 +2674,19 @@ class fwbackupsApp(interface.Controller):
 if __name__ == "__main__":
   verbose = False
   minimized = False
-  try:
-    avalableOptions = ['help', 'verbose', 'start-minimized']
-    # letter = plain options
-    # letter: = option with arg
-    import getopt
-    (opts, rest_args) = getopt.getopt(sys.argv[1:],"hv", avalableOptions)
-  except (getopt.GetoptError), error:
-    usage(error)
-    sys.exit(1)
-  # Parse args, take action
-  if opts == []:
-    pass
-  else:
-    for (opt, value) in opts:
-      if opt == "-h" or opt == "--help":
-        usage()
-        sys.exit(1)
-      elif opt == "-v" or opt == "--verbose":
-        verbose = True
-      elif opt == "--start-minimized":
-        minimized = True
-      """if opt == "-X" or opt == "--X":
-        dostuffhere(value)"""
+  from optparse import OptionParser
+  parser = OptionParser(prog="fwbackups", version="fwbackups %s" % fwbackups.__version__)
+  # Customize our help text for the pre-created options
+  parser.get_option("--version").help = _("Show this program's version and exit")
+  parser.get_option("--help").help = _("Show this help message and exit")
+  # Add custom options
+  parser.add_option("-v", "--verbose", action="count", dest="verbose", default=0, help=_("print log messages to the terminal. Use this option twice"))
+  parser.add_option("--start-minimized", action="store_true", dest="start_minimized", default=False, help=_("start GUI minimized in the system tray"))
+  (options, rest_args) = parser.parse_args()
 
   try:
     # Startup the application and call the gtk event loop
-    MainApp = fwbackupsApp(verbose, minimized)
+    MainApp = fwbackupsApp(options.verbose, options.start_minimized)
     gtk.main()
   except KeyboardInterrupt:
     # ctrl+c?
