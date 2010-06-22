@@ -2381,7 +2381,7 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
+      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_EXECING_USER_COMMAND, backup.STATUS_CLEANING_OLD]:
         self.main2BackupProgress.set_fraction(float(current - 1)/float(total))
       # There is a current filename
       if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
@@ -2544,7 +2544,7 @@ class fwbackupsApp(interface.Controller):
           status, current, total, currentName = self.backupHandle.getProgress()
       else:
         return
-      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_CLEANING_OLD]:
+      if status not in [backup.STATUS_INITIALIZING, backup.STATUS_EXECING_USER_COMMAND, backup.STATUS_CLEANING_OLD]:
         self.main3BackupProgress.set_fraction(float(current - 1)/float(total))
       # There is a current filename
       if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:

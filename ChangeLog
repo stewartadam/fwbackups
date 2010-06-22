@@ -4,6 +4,8 @@
   * Tue Jun 22 2010 Stewart Adam <s.adam at diffingo.com>
     - Make the backup options tab much easier to use by reworking the engine
       selection.
+    - Run the "before command" prior to the preparation and cleanup steps (fixes
+      RH #604682)
     
   * Sat Apr 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the sensitivity of the incremental checkbutton was

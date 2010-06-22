@@ -575,23 +575,6 @@ class SetBackupOperation(BackupOperation):
     if not paths:
       return False
     
-    self.checkRemoteServer()
-    
-    self._status = STATUS_CLEANING_OLD
-    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
-       not self.options['DestinationType'] == 'remote (ssh)':
-      if not self.prepareDestinationFolder(self.options['Destination']):
-        return False
-      if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
-      and os.path.exists(self.dest):
-        self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
-    self.ifCancel()
-    
-    # Remove old stuff
-    self.removeOldBackups()
-    self.ifCancel()
-    
     # Before command...
     if self.command_before:
       self._status = STATUS_EXECING_USER_COMMAND
@@ -609,6 +592,23 @@ class SetBackupOperation(BackupOperation):
         self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
         self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
       self.ifCancel()
+    
+    self.checkRemoteServer()
+    
+    self._status = STATUS_CLEANING_OLD
+    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
+       not self.options['DestinationType'] == 'remote (ssh)':
+      if not self.prepareDestinationFolder(self.options['Destination']):
+        return False
+      if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
+      and os.path.exists(self.dest):
+        self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
+        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
+    self.ifCancel()
+    
+    # Remove old stuff
+    self.removeOldBackups()
+    self.ifCancel()
     
     self._status = STATUS_INITIALIZING
     if self.options['PkgListsToFile']:
@@ -633,7 +633,7 @@ class SetBackupOperation(BackupOperation):
     
     # After command
     if self.command_after:
-      self._status = 4
+      self._status = STATUS_EXECING_USER_COMMAND
       self.logger.logmsg('INFO', _("Executing 'After' command"))
       sub = fwbackups.executeSub(self.command_after, env=self.environment, shell=True)
       self.pids.append(sub.pid)
