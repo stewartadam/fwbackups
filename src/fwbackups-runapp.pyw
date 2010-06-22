@@ -1,6 +1,6 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2005, 2006, 2007, 2008, 2009 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Stewart Adam
 #  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
 #  This file is part of fwbackups.
 
@@ -197,8 +197,6 @@ class fwbackupsApp(interface.Controller):
     self.ui.restore1SourceTypeNotebook.set_show_tabs(False)
     # Default fields...
     self.ui.backupset4IncrementalCheck.set_active(False)
-    self.ui.main3IncrementalCheck.set_sensitive(False)
-    self.ui.main3IncrementalCheck.set_active(False)
     self.ui.restore1SourceTypeCombobox.set_active(0)
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
@@ -1218,6 +1216,14 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset3EasyConfigExpander.set_expanded(not self.ui.backupset3EasyConfigExpander.get_expanded())
 
   ### TAB 4: OPTIONS
+  def on_backupset4EngineRadio1_toggled(self, widget):
+    if self.ui.backupset4EngineRadio1.get_active():
+      self.ui.backupset4CompressCheck.set_sensitive(True)
+    else:
+      self.ui.backupset4CompressCheck.set_sensitive(False)
+      self.ui.backupset4CompressCheck.set_active(False)
+    
+  
   def on_backupset4EngineRadio2_toggled(self, widget):
     """Set the sensibility of Incremental"""
     if self.ui.backupset4EngineRadio2.get_active() and not MSWINDOWS and \
@@ -1234,7 +1240,15 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4OldToKeepSpin.set_sensitive(False)
     else:
       self.ui.backupset4OldToKeepSpin.set_sensitive(True)
-
+  
+  def on_backupset4CompressCheck_toggled(self, widget):
+    """Unset the compression combo if not selected"""
+    if self.ui.backupset4CompressCheck.get_active():
+      self.ui.backupset4CompressCombo.set_sensitive(True)
+    else:
+      self.ui.backupset4CompressCombo.set_active(-1)
+      self.ui.backupset4CompressCombo.set_sensitive(False)
+  
 
   ###
   ### MAIN WINDOW ###
@@ -1391,6 +1405,22 @@ class fwbackupsApp(interface.Controller):
   def on_main3HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
     self.ui.main3PasswordEntry.set_visibility(not widget.get_active())
+  
+  def on_main3EngineRadio1_toggled(self, widget):
+    if self.ui.main3EngineRadio1.get_active():
+      self.ui.main3CompressCheck.set_sensitive(True)
+    else:
+      self.ui.main3CompressCheck.set_sensitive(False)
+      self.ui.main3CompressCheck.set_active(False)
+  
+  def on_main3CompressCheck_toggled(self, widget):
+    """Unset the compression combo if not selected"""
+    if self.ui.main3CompressCheck.get_active():
+      self.ui.main3CompressCombo.set_sensitive(True)
+    else:
+      self.ui.main3CompressCombo.set_active(-1)
+      self.ui.main3CompressCombo.set_sensitive(False)
+      
 
   def on_main3NextButton_clicked(self, widget):
     """Next button on One Time backup"""
@@ -2058,19 +2088,29 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4FollowLinksCheck.set_active(True)
     else:
       self.ui.backupset4FollowLinksCheck.set_active(False)
-    self.ui.backupset4IncrementalCheck.set_active(False) # incremental part 1/2
+    # The following options may be enabled depending on the engine selection
+    # We don't want any UI leftovers from the last time we opened a set, so
+    # disable them now and re-enable them later if applicable.
+    self.ui.backupset4IncrementalCheck.set_active(False)
+    self.ui.backupset4CompressCheck.set_active(False)
+    self.ui.backupset4CompressCheck.emit('toggled') # unsets the combobox
+    # Check the engine types
     t = setConf.get('Options', 'Engine')
     if t == "tar":
       self.ui.backupset4EngineRadio1.set_active(True)
     elif t == "rsync":
       self.ui.backupset4EngineRadio2.set_active(True)
       y = setConf.get('Options', 'Incremental')
-      if y == '1' and not MSWINDOWS: # incremental part 2/2
+      if y == '1' and not MSWINDOWS:
         self.ui.backupset4IncrementalCheck.set_active(True)
     elif t == "tar.gz":
-      self.ui.backupset4EngineRadio3.set_active(True)
+      self.ui.backupset4EngineRadio1.set_active(True)
+      self.ui.backupset4CompressCheck.set_active(True)
+      self.ui.backupset4CompressCombo.set_active(0);
     elif t == "tar.bz2":
-      self.ui.backupset4EngineRadio4.set_active(True)
+      self.ui.backupset4EngineRadio1.set_active(True)
+      self.ui.backupset4CompressCheck.set_active(True)
+      self.ui.backupset4CompressCombo.set_active(1);
     # This ensures that incremental is at the proper sensitivity even if rsync
     # wasn't clicked on/off
     self.ui.backupset4EngineRadio2.emit('toggled')
@@ -2175,12 +2215,15 @@ class fwbackupsApp(interface.Controller):
     options["Incremental"] = int(self.ui.backupset4IncrementalCheck.get_active())
     if self.ui.backupset4EngineRadio1.get_active():
       engine = 'tar'
+      # did we enable compression?
+      if self.ui.backupset4CompressCheck.get_active():
+        active = self.ui.backupset4CompressCombo.get_active()
+        if active == 0:
+          engine += '.gz'
+        elif active == 1:
+          engine += '.bz2'
     elif self.ui.backupset4EngineRadio2.get_active():
       engine = 'rsync'
-    elif self.ui.backupset4EngineRadio3.get_active():
-      engine = 'tar.gz'
-    elif self.ui.backupset4EngineRadio4.get_active():
-      engine = 'tar.bz2'
     options["Engine"] = engine
     options["CommandBefore"] = self.ui.backupset5CommandBeforeEntry.get_text()
     options["CommandAfter"] = self.ui.backupset5CommandAfterEntry.get_text()
@@ -2265,6 +2308,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3LocalFolderEntry.set_text(USERHOME)
     self.ui.main3DestinationTypeCombobox.set_active(0)
     self.ui.main3EngineRadio1.set_active(True)
+    self.ui.main3CompressCheck.set_active(False)
 
   def on_backupsetApplyButton_clicked(self, widget):
     """Apply changes to backupset"""
@@ -2471,12 +2515,15 @@ class fwbackupsApp(interface.Controller):
     options["Incremental"] = 0
     if self.ui.main3EngineRadio1.get_active():
       engine = 'tar'
+      # did we enable compression?
+      if self.ui.main3CompressCheck.get_active():
+        active = self.ui.main3CompressCombo.get_active()
+        if active == 0:
+          engine += '.gz'
+        elif active == 1:
+          engine += '.bz2'
     elif self.ui.main3EngineRadio2.get_active():
       engine = 'rsync'
-    elif self.ui.main3EngineRadio3.get_active():
-      engine = 'tar.gz'
-    elif self.ui.main3EngineRadio4.get_active():
-      engine = 'tar.bz2'
     options["Engine"] = engine
     start, end = self.ui.main3ExcludesTextview.get_buffer().get_bounds()
     options["Excludes"] = self.ui.main3ExcludesTextview.get_buffer().get_text(start, end)

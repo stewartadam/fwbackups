@@ -1,6 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Tue Jun 22 2010 Stewart Adam <s.adam at diffingo.com>
+    - Make the backup options tab much easier to use by reworking the engine
+      selection.
+    
   * Sat Apr 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the sensitivity of the incremental checkbutton was
       incorrectly set when configuring a new backup set
