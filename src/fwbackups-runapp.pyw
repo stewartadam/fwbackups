@@ -889,7 +889,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.restore1HostEntry.set_text('')
     self.ui.restore1UsernameEntry.set_text('')
     self.ui.restore1PasswordEntry.set_text('')
-    self.ui.restore1PortEntry.set_text('22')
+    self.ui.restore1PortSpin.set_value(22.0)
     self.ui.restore1PathEntry.set_text('')
     self.ui.restore.show()
     self.ui.restore1SetNameCombobox.set_active(0)
@@ -1166,10 +1166,11 @@ class fwbackupsApp(interface.Controller):
     host = self.ui.backupset2HostEntry.get_text()
     username = self.ui.backupset2UsernameEntry.get_text()
     password = self.ui.backupset2PasswordEntry.get_text()
-    port = self.ui.backupset2PortEntry.get_text()
+    port = self.ui.backupset2PortSpin.get_value_as_int()
     folder = self.ui.backupset2RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
       self.displayInfo(self.ui.backupset, _("Missing information"), _("Please complete the host, username, folder and port fields."))
+      return False
     self.testConnection(self.ui.backupset, self.backupset2TestSettingsProgress, host, username, password, port, folder)
 
   ### TAB 3: TIMES
@@ -1433,11 +1434,8 @@ class fwbackupsApp(interface.Controller):
           return
       elif active == 1: # remote
         if not self.ui.main3HostEntry.get_text() or not self.ui.main3UsernameEntry.get_text()\
-        or not self.ui.main3PortEntry.get_text() or not self.ui.main3RemoteFolderEntry.get_text():
+        or not self.ui.main3PortSpin.get_value_as_int() or not self.ui.main3RemoteFolderEntry.get_text():
           self.displayInfo(self.ui.main, _('Missing information'), _('Please fill in the Host, Username, Port and Folder fields.'))
-          return
-        if not re.compile('^[0-9]*$').search(self.ui.main3PortEntry.get_text()):
-          self.displayInfo(self.ui.main, _('Invalid input'), _('The Port field can only contain numbers.'))
           return
       self.ui.main3NextButton.hide()
       self.ui.main3StartBackupButton.show()
@@ -1472,7 +1470,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.main3PkgListsToFileCheck.set_sensitive(False)
     self.ui.main3DiskInfoToFileCheck.set_active(False)
     self.ui.main3DiskInfoToFileCheck.set_sensitive(False)
-    self.ui.main3PortEntry.set_text('22')
+    self.ui.main3PortSpin.set_value(22.0)
     self._toggleLocked(False)
     self.setStatus(_('Idle'))
 
@@ -1525,7 +1523,7 @@ class fwbackupsApp(interface.Controller):
     host = self.ui.main3HostEntry.get_text()
     username = self.ui.main3UsernameEntry.get_text()
     password = self.ui.main3PasswordEntry.get_text()
-    port = self.ui.main3PortEntry.get_text()
+    port = self.ui.main3PortSpin.get_value_as_int()
     folder = self.ui.main3RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
@@ -1557,7 +1555,7 @@ class fwbackupsApp(interface.Controller):
     prefs = config.PrefsConf()
     if int(prefs.get('Preferences', 'DontShowMe_ClearLog')) == 1:
       return clearlog()
-    response, dontShowMe = self.displayConfirm(self.ui.main, _("Are you sure you want to clear the log?"),
+    response, dontShowMe = self.displayConfirm(self.ui.main, _("Clear the old log entries?"),
                                        _("This action will permanently remove all log entries."),
                                        dontShowMe=True)
     if response == gtk.RESPONSE_YES:
@@ -1719,7 +1717,7 @@ class fwbackupsApp(interface.Controller):
     host = self.ui.restore1HostEntry.get_text()
     username = self.ui.restore1UsernameEntry.get_text()
     password = self.ui.restore1PasswordEntry.get_text()
-    port = self.ui.restore1PortEntry.get_text()
+    port = self.ui.restore1PortSpin.get_value_as_int()
     path = self.ui.restore1PathEntry.get_text()
     if not (host and username and port and path):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
@@ -1777,7 +1775,7 @@ class fwbackupsApp(interface.Controller):
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
-      options["RemotePort"] = self.ui.restore1PortEntry.get_text()
+      options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
       options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
@@ -1786,7 +1784,7 @@ class fwbackupsApp(interface.Controller):
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
-      options["RemotePort"] = self.ui.restore1PortEntry.get_text()
+      options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
       options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
@@ -1831,7 +1829,7 @@ class fwbackupsApp(interface.Controller):
     elif active == 3: # remote archive
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
-      port = self.ui.restore1PortEntry.get_text()
+      port = self.ui.restore1PortSpin.get_value_as_int()
       path = self.ui.restore1PathEntry.get_text()
       if not (host and username and port and path):
         self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
@@ -2045,7 +2043,7 @@ class fwbackupsApp(interface.Controller):
     else:
       raise fwbackups.fwbackupsError(_('Unknown destination type `%s\'' % t))
     self.ui.backupset2HostEntry.set_text(setConf.get('Options', 'RemoteHost'))
-    self.ui.backupset2PortEntry.set_text(setConf.get('Options', 'RemotePort'))
+    self.ui.backupset2PortSpin.set_value(float(setConf.get('Options', 'RemotePort') or 22))
     self.ui.backupset2UsernameEntry.set_text(setConf.get('Options', 'RemoteUsername'))
     self.ui.backupset2PasswordEntry.set_text(setConf.get('Options', 'RemotePassword').decode('base64'))
     self.ui.backupset2RemoteFolderEntry.set_text(setConf.get('Options', 'RemoteFolder'))
@@ -2201,7 +2199,7 @@ class fwbackupsApp(interface.Controller):
     options["RemoteHost"] = self.ui.backupset2HostEntry.get_text()
     options["RemoteUsername"] = self.ui.backupset2UsernameEntry.get_text()
     options["RemotePassword"] = self.ui.backupset2PasswordEntry.get_text().encode('base64')
-    options["RemotePort"] = self.ui.backupset2PortEntry.get_text()
+    options["RemotePort"] = self.ui.backupset2PortSpin.get_value_as_int()
     options["RemoteFolder"] = self.ui.backupset2RemoteFolderEntry.get_text()
     options["Destination"] = self.ui.backupset2LocalFolderEntry.get_text()
     # Save options
@@ -2319,11 +2317,8 @@ class fwbackupsApp(interface.Controller):
         return
     elif active == 1: # remote
       if not self.ui.backupset2HostEntry.get_text() or not self.ui.backupset2UsernameEntry.get_text()\
-      or not self.ui.backupset2PortEntry.get_text() or not self.ui.backupset2RemoteFolderEntry.get_text():
+      or not self.ui.backupset2PortSpin.get_value_as_int() or not self.ui.backupset2RemoteFolderEntry.get_text():
         self.displayInfo(self.ui.backupset, _('Missing information'), _('Please fill in the Host, Username, Port and Folder fields.'))
-        return
-      if not re.compile('^[0-9]*$').search(self.ui.backupset2PortEntry.get_text()):
-        self.displayInfo(self.ui.backupset, _('Invalid input'), _('The Port field can only contain numbers.'))
         return
     newName = self._checkExistingOrNone(self.ui.backupset1NameEntry.get_text(),
                                         self.ui.backupset,
@@ -2502,7 +2497,7 @@ class fwbackupsApp(interface.Controller):
     options["RemoteHost"] = self.ui.main3HostEntry.get_text()
     options["RemoteUsername"] = self.ui.main3UsernameEntry.get_text()
     options["RemotePassword"] = self.ui.main3PasswordEntry.get_text().encode('base64')
-    options["RemotePort"] = self.ui.main3PortEntry.get_text()
+    options["RemotePort"] = self.ui.main3PortSpin.get_value_as_int()
     options["RemoteFolder"] = self.ui.main3RemoteFolderEntry.get_text()
     options["Destination"] = self.ui.main3LocalFolderEntry.get_text()
     options["Recursive"] = int(self.ui.main3RecursiveCheck.get_active())

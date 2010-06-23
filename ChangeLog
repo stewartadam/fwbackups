@@ -6,6 +6,7 @@
       selection.
     - Run the "before command" prior to the preparation and cleanup steps (fixes
       RH #604682)
+    - Make the port selection a spinbutton (forces numeric entry only)
     
   * Sat Apr 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the sensitivity of the incremental checkbutton was
