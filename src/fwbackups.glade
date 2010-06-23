@@ -11199,11 +11199,9 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
 		    <widget class="GtkLabel" id="label482">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">&lt;i&gt;Tip: The following tokens may be used in the commands:
+[destination], [backup], [set], [date], [remote_host], [remote_username], [remote_password], [remote_port]
 
-[destination] - the destination folder for backups
-[backupname] - the file or folder name of the new backup (stored in the backup destination)
-[setname] - the set's name
-[date] - the date string at which the backup was initialized&lt;/i&gt;</property>
+For a description of each, see the user manual.&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>

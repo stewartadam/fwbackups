@@ -19,6 +19,7 @@
 This file contains the logic for the backup operation
 """
 import os
+import re
 import tempfile
 import time
 #--
@@ -507,8 +508,8 @@ class SetBackupOperation(BackupOperation):
     date = time.strftime('%Y-%m-%d_%H-%M')
     self.dest = os.path.join(self.options['Destination'], u"%s-%s-%s" % (_('Backup'), self.config.getSetName(), date))
     # set-specific options
-    self.command_before = self.options['CommandBefore']
-    self.command_after = self.options['CommandAfter']
+    self.command_before = self.tokens_replace(self.options['CommandBefore'], date)
+    self.command_after = self.tokens_replace(self.options['CommandAfter'], date)
     # IF tar || tar.gz, add .tar || tar.gz respectively to the dest since
     # the dest is to be a file, not a folder...
     if self.options['Engine'] == 'tar':
@@ -527,6 +528,33 @@ class SetBackupOperation(BackupOperation):
     options['Incremental'] = _bool(options['Incremental'])
     options['OldToKeep'] = int(float(options['OldToKeep']))
     return options
+  
+  def tokens_replace(self, text, date):
+    """Replace tokens in the supplied text"""
+    tokens = {'destination': self.options['Destination'],
+              'backup': os.path.basename(self.dest),
+              'set': self.config.getSetName(),
+              'date': date,
+              'remote_host': self.options['RemoteHost'],
+              'remote_username': self.options['RemoteUsername'],
+              'remote_password': self.options['RemotePassword'],
+              'remote_port': str(self.options['RemotePort']),
+             }
+    
+    def replace_match(m):
+      """Replace non-escaped tokens with values at the beginning of a string"""
+      return r"[%s]" % tokens[m.group(1)]
+    
+    def replace_match_escape(m):
+      """Replace non-escaped tokens with values after the beginning of a string"""
+      return r"%s[%s]" % (m.group(1), tokens[m.group(2)])
+    
+    for token, sub in tokens.items():
+      text = re.sub(r"^\[(%s)\]" % token, replace_match, text)
+      text = re.sub(r"([^\\]+?)\[(%s)\]" % token, replace_match_escape, text)
+      # Replace escaped tokens into their non-escaped form
+      text = text.replace(r"\[%s]" % token, "[%s]" % token)
+    return text
   
   def removeOldBackups(self):
     """Get list of old backups and remove them"""
