@@ -325,7 +325,7 @@ class fwbackupsApp(interface.Controller):
     self.updateSplash(0.8, _('Cleaning after previous versions'))
     self.cronTab = cron.CronTab()
     # Clean up, clean up, everybody do your share...
-    if os.path.exists('/etc/crontab'):
+    if os.path.exists('/etc/crontab') and fwbackups.CheckPermsRead('/etc/crontab'):
       fh = open('/etc/crontab', 'r')
       crontab = fh.read()
       if re.search('.*fwbackups.*', crontab):
