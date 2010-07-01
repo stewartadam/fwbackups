@@ -44,23 +44,25 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-desktop-file-install
+desktop-file-install \
     --dir ${RPM_BUILD_ROOT}%{_datadir}/applications\
     --delete-original \
     ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 
-%find_lang %{name}
+# No translations yet
+#find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %{name}.lang
+#files -f %{name}.lang
+%files
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING README TODO
 %{_bindir}/*
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/*
-%{_datadir}/applications/fedora-*.desktop
+%{_datadir}/applications/*.desktop
 %{python_sitelib}/%{name}/
 
 %changelog

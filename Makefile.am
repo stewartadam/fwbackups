@@ -1,6 +1,7 @@
 # Automake Automagic
 
 EXTRA_DIST = \
+    docs \
     intltool-extract.in \
     intltool-merge.in \
     intltool-update.in \
@@ -9,7 +10,6 @@ EXTRA_DIST = \
     AUTHORS \
     ChangeLog \
     COPYING \
-    COPYING-DOCS \
     README \
     TODO
 

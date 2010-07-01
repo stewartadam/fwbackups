@@ -24,7 +24,7 @@
 ;Version resource
 ;Remember the installer name doesn't change when this does
   !define PRODUCT_NAME                    "fwbackups"
-  !define PRODUCT_PREREL                  "rc4"
+  !define PRODUCT_PREREL                  "rc5"
   !define PRODUCT_VERSION                 "1.43.3"
   !define PRODUCT_PUBLISHER               "Stewart Adam"
   !define PRODUCT_WEB_SITE                "http://www.diffingo.com/opensource"
@@ -33,13 +33,13 @@
   VIAddVersionKey "ProductName"           "${PRODUCT_NAME}"
   VIAddVersionKey "FileVersion"           "${PRODUCT_VERSION} ${PRODUCT_PREREL}"
   VIAddVersionKey "ProductVersion"        "${PRODUCT_VERSION}"
-  VIAddVersionKey "LegalCopyright"        "(C) 2005 - 2009 Stewart Adam"
+  VIAddVersionKey "LegalCopyright"        "(C) 2005 - 2010 Stewart Adam"
   VIAddVersionKey "FileDescription"       "fwbackups Installer (Runtime files only)"
 
 ;--------------------------------
 ;General
   Name                                    "fwbackups"
-  OutFile                                 "fwbackups-1.43.3rc4-Lite_Setup.exe"
+  OutFile                                 "fwbackups-1.43.3rc5-Lite_Setup.exe"
   InstallDir                              $PROGRAMFILES\fwbackups
   Var name
   SetCompressor /SOLID lzma
