@@ -2,12 +2,12 @@
 
 Name:              fwbackups
 Version:           1.43.3
-Release:           0.1.rc4%{?dist}
+Release:           0.1.rc5%{?dist}
 Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
 License:           GPLv2+
 URL:               http://www.diffingo.com/oss/fwbackups/
-Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc4.tar.bz2
+Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}rc5.tar.bz2
 BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:         noarch
 
@@ -33,7 +33,7 @@ or from the contents of an external folder or archive.
 
 
 %prep
-%setup -q -n %{name}-%{version}rc4
+%setup -q -n %{name}-%{version}rc5
 
 %build
 %configure
@@ -64,6 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc5
+- Update to 1.43.3rc5
+
 * Sat Aug 22 2009 Stewart Adam <s.adam at diffingo.com> 1.43.3-0.1.rc4
 - Update to 1.43.3rc4 (fixes #518690)
 
