@@ -531,8 +531,7 @@ class SetBackupOperation(BackupOperation):
   
   def tokens_replace(self, text, date):
     """Replace tokens in the supplied text"""
-    tokens = {'destination': self.options['Destination'],
-              'backup': os.path.basename(self.dest),
+    tokens = {'backup': os.path.basename(self.dest),
               'set': self.config.getSetName(),
               'date': date,
               'remote_host': self.options['RemoteHost'],
@@ -540,6 +539,10 @@ class SetBackupOperation(BackupOperation):
               'remote_password': self.options['RemotePassword'],
               'remote_port': str(self.options['RemotePort']),
              }
+    if self.options['DestinationType'] == 'remote (ssh)':
+      tokens['destination'] = self.options['Destination']
+    else:
+      tokens['destination'] = self.options['RemoteFolder']
     
     def replace_match(m):
       """Replace non-escaped tokens with values at the beginning of a string"""
