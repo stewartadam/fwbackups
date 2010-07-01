@@ -4,6 +4,7 @@
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>
     - Happy Canada day!
     - Update documentation, start using Publican publishing tool
+    - Display popups for some errors instead of showing a statusbar notification
     
   * Thu Jun 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where no world read permissions on /etc/crontab would cause a 

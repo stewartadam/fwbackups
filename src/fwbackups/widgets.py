@@ -454,9 +454,9 @@ class ConfirmDia(GenericDia):
 
 class ErrorDia(GenericDia):
   """Wrapper for error dialog"""
-  def __init__(self, dialog, title, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
+  def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
-    GenericDia.__init__(self, dialog, title, parent)
+    GenericDia.__init__(self, dialog, '', parent)
     labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
     labelWidget.set_use_markup(True)
 

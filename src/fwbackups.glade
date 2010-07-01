@@ -2244,7 +2244,7 @@ bzip2: slower, more efficient</property>
 				  <child>
 				    <widget class="GtkLabel" id="label475">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">&lt;b&gt;Backup Type&lt;/b&gt;</property>
+				      <property name="label" translatable="yes">&lt;b&gt;Backup Format&lt;/b&gt;</property>
 				      <property name="use_underline">False</property>
 				      <property name="use_markup">True</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2326,7 +2326,7 @@ bzip2: slower, more efficient</property>
 					    <widget class="GtkCheckButton" id="main3RecursiveCheck">
 					      <property name="visible">True</property>
 					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">Includes subfolders</property>
+					      <property name="label" translatable="yes">Include subfolders</property>
 					      <property name="use_underline">True</property>
 					      <property name="relief">GTK_RELIEF_NORMAL</property>
 					      <property name="focus_on_click">True</property>
@@ -2392,7 +2392,7 @@ bzip2: slower, more efficient</property>
 					    <widget class="GtkCheckButton" id="main3BackupHiddenCheck">
 					      <property name="visible">True</property>
 					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">Backup hidden files</property>
+					      <property name="label" translatable="yes">Include hidden files</property>
 					      <property name="use_underline">True</property>
 					      <property name="relief">GTK_RELIEF_NORMAL</property>
 					      <property name="focus_on_click">True</property>
@@ -6149,7 +6149,7 @@ Remote folder (SSH)</property>
 			  <child>
 			    <widget class="GtkLabel" id="label445">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;i&gt;Note: fwbackups will copy the remote archive to the disk first, then unpack it.
+			      <property name="label" translatable="yes">&lt;i&gt;Note: fwbackups will copy the remote backup to the disk first, then unpack it.
 Please ensure enough disk space is available.&lt;/i&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
@@ -10514,7 +10514,7 @@ bzip2: slower, more efficient</property>
 		      <child>
 			<widget class="GtkLabel" id="label467">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;Backup Type&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Backup Format&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -11199,7 +11199,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
 		    <widget class="GtkLabel" id="label482">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">&lt;i&gt;Tip: The following tokens may be used in the commands:
-[destination], [backup], [set], [date], [remote_host], [remote_username], [remote_password], [remote_port]
+[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]
 
 For a description of each, see the user manual.&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
@@ -11649,7 +11649,6 @@ Secondary text</property>
 
 	      <child>
 		<widget class="GtkCheckButton" id="warningDiaDontShowMeCheck">
-		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="label" translatable="yes">Don't show me this message again</property>
 		  <property name="use_underline">True</property>

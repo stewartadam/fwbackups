@@ -201,7 +201,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
     self.ui.main3HidePasswordCheck.set_active(True)
-    self.ui.WelcomeLabel.set_text(_('Welcome %s'  % USER))
+    self.ui.WelcomeLabel.set_text(_('Welcome, %s!'  % USER))
     # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
     # Default Labels...
     set_text_markup(self.ui.aboutVersionLabel, '<span size="xx-large" weight="bold">fwbackups %s</span>' % fwbackups.__version__)
@@ -250,6 +250,7 @@ class fwbackupsApp(interface.Controller):
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
       self.ui.splashIconImage.set_from_file(appIcon)
+      self.ui.aboutProgramImage.set_from_file(appIcon)
     self.updateSplash(0.0, _('Checking permissions'))
     self.ui.splash.show()
     while gtk.events_pending():
@@ -799,7 +800,7 @@ class fwbackupsApp(interface.Controller):
       elif response == gtk.RESPONSE_OK:
         destination = self.ui.ExportFileChooserButton.get_filename()
         self.ExportView1.liststore.foreach(self._exportSet, destination)
-        self.statusbar.newmessage(_('The selected sets were exported successfully.'), 3)
+        self.displayInfo(self.ui.export_dia, _('Sets exported'), _('The selected sets were exported successfully.'))
         break
       elif response == gtk.RESPONSE_CANCEL or response == gtk.RESPONSE_DELETE_EVENT:
         break
@@ -827,7 +828,7 @@ class fwbackupsApp(interface.Controller):
       setName = self.ui.main2Iconview.get_model().get_value(iterator, 0)
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
     except IndexError:
-      self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
+      self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to duplicate.'))
       return
     setConf = config.BackupSetConf(setPath)
     newSetName = setName
@@ -1289,7 +1290,7 @@ class fwbackupsApp(interface.Controller):
       setName = model.get_value(iterator, 0)
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
     except:
-      self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
+      self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to edit.'))
       return
     self.action = 'editingSet;%s' % setName
     self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, self.ui.backupset])
@@ -1307,7 +1308,7 @@ class fwbackupsApp(interface.Controller):
       setName = model.get_value(iterator, 0)
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
     except IndexError:
-      self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
+      self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to remove.'))
       return
     response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files."))
     if response == gtk.RESPONSE_NO:
@@ -1386,7 +1387,7 @@ class fwbackupsApp(interface.Controller):
       iterator = self.ui.main2Iconview.get_model().get_iter(selected)
       setName = self.ui.main2Iconview.get_model().get_value(iterator, 0)
     except IndexError:
-      self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
+      self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to restore.'))
       return
     self.on_RestoreToolButton_clicked(None)
     self._setRestoreSetName(setName)
@@ -2397,7 +2398,7 @@ class fwbackupsApp(interface.Controller):
       iterator = self.ui.main2Iconview.get_model().get_iter(selected)
       name = self.ui.main2Iconview.get_model().get_value(iterator, 0)
     except IndexError:
-      self.statusbar.newmessage(_('Please select a set before choosing an action.'), 3)
+      self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select to initiate a manual set backup.'))
       return
     self.ui.mainControlNotebook.set_current_page(1)
     self.ui.BackupSetsRadioTool.set_active(True)
