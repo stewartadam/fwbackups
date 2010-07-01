@@ -1,0 +1,758 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-User_Guide-Using_fwbackups">
+	<title>Using <application>fwbackups</application></title>
+	 <section id="sect-User_Guide-Using_fwbackups-Backup_types">
+		<title>Backup types</title>
+		 <para>
+			<application>fwbackups</application> supports two main types of backups: recurring backups that automatically backup your files on a schedule, and backups that are run once and not scheduled again. These are referred to as as <emphasis>backup sets</emphasis> and <emphasis>one-time backups</emphasis> respectively.
+		</para>
+		 <para>
+			You will be able to configure any number of backup sets, each backing up on a regular schedule at a time of your choice. Each set operates independently, so if you wish you may group files into two or more sets and have them backup at different times or to different destination folders. You may also perform one-time, however in this case the backup will not be scheduled to start again in the future.
+		</para>
+		 <important>
+			<title>When to use set or one-time backups</title>
+			 <para>
+				It is recommended that you create a backup set for your important files in order to ensure that you have a recent backup copy saved at all times. One-time backups are more suitable for making backups of large files, such as a music collection or video that you may not want to include in a backup set that is started daily or weekly.
+			</para>
+
+		</important>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Creating_a_backup_set">
+		<title>Creating a backup set</title>
+		 <figure float="0" id="figu-User_Guide-Creating_a_backup_set-The_Backup_Sets_page">
+			<title>The Backup Sets page</title>
+			 <mediaobject>
+				<imageobject>
+					<imagedata fileref="./images/page-sets.png" format="PNG" scalefit="1" width="444" />
+				</imageobject>
+				 <textobject>
+					<phrase>The Backup Sets page</phrase>
+				</textobject>
+
+			</mediaobject>
+
+		</figure>
+		 <para>
+			To create a new set, click <guibutton>Backup Sets</guibutton> on the toolbar to switch pages and then click the <guibutton>New Set</guibutton> on the left.
+		</para>
+		 <section id="sect-User_Guide-Creating_a_backup_set-Paths">
+			<title>Paths</title>
+			 <para>
+				The paths tab allows you to select which files and folder are to be included in the backup. To add files, click <guibutton>Add File</guibutton> or <guibutton>Add Folder</guibutton>. If you wish to remove a file or folder from the backup, select one or more paths from the list and click <guibutton>Remove</guibutton>.
+			</para>
+			 <para>
+				Each path in the list will have either a green or red icon next to it. A green icon indicates that <application>fwbackups</application> is able to read path, while a red icon indicates that the file is missing or unable to read the path and it may be excluded from future backups.
+			</para>
+			 <note>
+				<title>Drag &#39;n&#39; Drop!</title>
+				 <para>
+					Adding files or folders is as easy as dragging them from your favourite file manager and dropping them onto the path list.
+				</para>
+
+			</note>
+
+		</section>
+		
+		 <section id="sect-User_Guide-Creating_a_backup_set-Destination">
+			<title>Destination</title>
+			 <para>
+				The destination tab controls where your backup will be saved to. You may choose to backup to a local drive, removable storage or a remote computer supporting the SFTP protocol (if your computer runs the OpenSSH server, it most likely supports SFTP).
+			</para>
+			 <figure float="0" id="figu-User_Guide-Destination-Configuring_backup_destinations">
+				<title>Configuring backup destinations</title>
+				 <mediaobject>
+					<imageobject>
+						<imagedata fileref="./images/dialog-config-destination.png" format="PNG" scalefit="1" width="444" />
+					</imageobject>
+					 <textobject>
+						<phrase>Configuring backup destinations</phrase>
+					</textobject>
+
+				</mediaobject>
+
+			</figure>
+			 <important>
+				<title>Remember to test settings for remote destinations</title>
+				 <para>
+					If you choose to backup to a remote host, be sure to click <guibutton>Test Settings</guibutton> before saving your set! A typo in the password (and other fields) can leave <application>fwbackups</application> unable to connect to to the remote host, resulting in a failed backup.
+				</para>
+
+			</important>
+
+		</section>
+		
+		 <section id="sect-User_Guide-Creating_a_backup_set-Times">
+			<title>Times</title>
+			 <para>
+				This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users.
+			</para>
+			 <para>
+				The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example &#34;0&#34; (at the beginning of the hour) or &#34;30&#34; (for half-way through the hour).
+			</para>
+			 <figure float="0" id="figu-User_Guide-Times-Setting_a_backup_schedule_for_a_set">
+				<title>Setting a backup schedule for a set</title>
+				 <mediaobject>
+					<imageobject>
+						<imagedata fileref="./images/dialog-config-times.png" format="PNG" scalefit="1" width="444" />
+					</imageobject>
+					 <textobject>
+						<phrase>Setting a backup schedule for a set</phrase>
+					</textobject>
+
+				</mediaobject>
+
+			</figure>
+			 <para>
+				If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:
+			</para>
+			 
+<literallayout>							+-------------- minute (0 - 59)
+						|	+------------ hour (0 - 23)
+						|	 |	+---------- day of month (1 - 31)
+						|	 |	 |	+-------- month (1 - 12)
+						|	 |	 |	 |	+------ day of week (0 - 7) (Sunday=0 or 7)
+						|	 |	 |	 |	 |		 +-- command to run
+						|	 |	 |	 |	 |			|
+						*	 *	 *	 *	 *	command
+</literallayout>
+			 <para>
+				Simply enter the same values you would into a crontab, as outlined above, into the designated entry boxes. Please note that you cannot enter all five fields onto one line; the four fields are divided among four different entry boxes. As well, it is important to note that in manual configuration mode <emphasis>no validation is performed on user input</emphasis> and you must supply valid values for the first five fields. The sixth field, used for the command, is generated automatically by fwbackups.
+			</para>
+			 <itemizedlist>
+				<listitem>
+					<para>
+						Use a comma (,) to specify a list of values
+					</para>
+					 <example id="exam-User_Guide-Times-Using_a_comma">
+						<title>Using a comma</title>
+						 <para>
+							2,4,5,7,8,9
+						</para>
+
+					</example>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Use a dash (-) to specify a range of values
+					</para>
+					 <example id="exam-User_Guide-Times-Using_a_dash">
+						<title>Using a dash</title>
+						 <para>
+							1-4 is equivalent to 1,2,3,4
+						</para>
+
+					</example>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Use an asterisk (*) to specify all possible values
+					</para>
+					 <example id="exam-User_Guide-Times-Using_an_asterisk">
+						<title>Using an asterisk</title>
+						 <para>
+							* in the hours field is the same as 0-23 or 1,2,3,[...],23
+						</para>
+
+					</example>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Most variants of cron support the forward slash (/) to designate a skip
+					</para>
+					 <example id="exam-User_Guide-Times-Using_a_forward_slash">
+						<title>Using a forward slash</title>
+						 <para>
+							*/2 in the minutes field is equivalent to 0,2,4,6,8,[...],58
+						</para>
+
+					</example>
+
+				</listitem>
+				 <listitem>
+					<para>
+						In the <guilabel>day of the week</guilabel> field, both 0 and 7 are counted as Sunday.
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						If both <guilabel>day of month</guilabel> and <guilabel>day of week</guilabel> are present, the command will be executed when either is true.
+					</para>
+
+				</listitem>
+
+			</itemizedlist>
+
+		</section>
+		
+		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Simple">
+			<title>Options (Simple)</title>
+			 <para>
+				The <guilabel>Options (Simple)</guilabel> tab allows you to set the parameters for your backup. In addition, the options tabs allow you to you select the backup format and the number of old backups to keep at any given time.
+			</para>
+			 <variablelist>
+				<varlistentry>
+					<term>Backup Format</term>
+					 <listitem>
+						<para>
+							Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
+						</para>
+						 <para>
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) &#34;tar&#34; archive file. Unfortunately, Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the &#34;tar&#34; backup engine (&#34;.gz&#34; or &#34;.bz2&#34; was appended if gzip or bzip2 compression was enabled, respectively). 
+							<note>
+								<title>Reducing backup size with compression</title>
+								 <para>
+									Enabling compression will utilize more system resources during the backup, but results in smaller file sizes. <emphasis>gzip</emphasis> is a relatively lightweight compression with a good compression ratio. If you would like to further reduce the size of your backups, consider switching to <emphasis>bzip2</emphasis> compression. Although it is much slower than gzip, bzip2 is able to achieve smaller file sizes.
+								</para>
+
+							</note>
+
+						</para>
+						 <para>
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and their folder structure as-is, similar to a drag-and-drop copy in your file browser. Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the &#34;rsync&#34; backup engine. 
+							<note>
+								<title>Increasing backup speed</title>
+								 <para>
+									Enabling the <guibutton>Backups are incremental</guibutton> option will run an incremental backup instead of a full one, copying only the changes since your last backup. Currently, the incremental backups are only available for set backups on Unix-like platforms (such as Linux and OS X) and cannot be used when backing up to a remote host.
+								</para>
+								 <para>
+									Additionally, running an incremental backup will update the backup folder in-place so no old backups will be kept if you choose to enable incremental backups.
+								</para>
+
+							</note>
+
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Set is enabled</term>
+					 <listitem>
+						<para>
+							If deselected, the set will be unscheduled for automated backups (not available in one-time backups).
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Include subfolders</term>
+					 <listitem>
+						<para>
+							If selected, subfolders will be included in the backup (recommended). If unchecked, fwbackups will only backup files immediately inside any folders supplied in the <xref linkend="sect-User_Guide-Creating_a_backup_set-Paths" /> tab and will not backup any files in subfolders.
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Include hidden files</term>
+					 <listitem>
+						<para>
+							If selected, Unix-style hidden files (files and folders starting with a period character &#34;<filename>.</filename>&#34;) are included in the backup.
+						</para>
+						 <note>
+							<title>Hidden files on the Windows platform are always backed up</title>
+							 <para>
+								Support for detecting Windows-style hidden files will be added in the future. Until then, hidden files and folders on all Windows operating systems will be included in the backup regardless of the state of this checkbutton.
+							</para>
+
+						</note>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Follow links</term>
+					 <listitem>
+						<para>
+							If selected, the backup will follow symbolic links and copy their targets rather than copying the link into the backup. Be wary of link recursion!
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Print disk geometry information to a file</term>
+					 <listitem>
+						<para>
+							If selected, disk geometry (including partition layout) will be saved to a file that will be added to the backup.
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Print installed packages to a text file</term>
+					 <listitem>
+						<para>
+							If selected, a list of installed package names and versions will be saved to a text file that will be added to the backup. This option can be used to ease system reinstallation in the unfortunate event of a crash or data loss.
+						</para>
+						 <para>
+							Currently, the RPM, dpkg and pacman package managers are supported.
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Handle sparse files efficiently</term>
+					 <listitem>
+						<para>
+							If selected, sparse files on the disk will be handled more efficiently.
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+
+			</variablelist>
+
+		</section>
+		
+		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Advanced">
+			<title>Options (Advanced)</title>
+			 <para>
+				The <guilabel>Options (Advanced)</guilabel> tabs include technical or complex options that you can use to customize how your backup functions.
+			</para>
+			 <variablelist>
+				<varlistentry>
+					<term>Command to run before backup</term>
+					 <listitem>
+						<para>
+							Command(s) entered here will run in the default system shell before fwbackups begins to backup files (not available in one-time backups).
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Command to run after backup</term>
+					 <listitem>
+						<para>
+							Command(s) entered here will run in the default system shell after fwbackups has finished backing up (not available in one-time backups).
+						</para>
+						 <note>
+							<title>Tokens</title>
+							 <para>
+								Both the before and after backup commands support token string replacements. <application>fwbackups</application> will replace tokens you use in your commands with their appropriate values:
+							</para>
+							 <variablelist>
+								<varlistentry>
+									<term>[destination]</term>
+									 <listitem>
+										<para>
+											The destination folder (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Destination" />). If a remote host is being used, then this will be token will be the remote folder.
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[set]</term>
+									 <listitem>
+										<para>
+											The set name
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[date]</term>
+									 <listitem>
+										<para>
+											The date string (YYYY-MM-DD_HH-MM) when the backup was started
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[backup]</term>
+									 <listitem>
+										<para>
+											The name of the backup file or folder that will be stored in the backup destination. It is equivalent to <emphasis>Backup-[set]-[date]</emphasis>, plus the archive extension if applicable.
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[remote_host]</term>
+									 <listitem>
+										<para>
+											The hostname of the remote machine where the backup will be store
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[remote_port]</term>
+									 <listitem>
+										<para>
+											The port to connect to the remote hostname on
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[remote_username]</term>
+									 <listitem>
+										<para>
+											The username used to connect to the remote host
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
+									<term>[remote_password]</term>
+									 <listitem>
+										<para>
+											The password used to connect to the remote host
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+
+							</variablelist>
+							 <para>
+								Use <emphasis>[destination]/[backup]</emphasis> if you need the absolute path to the new backup folder or file. If you want to escape one of the tokens (for example, to actually use the text <emphasis>[date]</emphasis> in a command), prefix it by a backslash (<emphasis>\[date]</emphasis>).
+							</para>
+
+						</note>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Nice value of backup process</term>
+					 <listitem>
+						<para>
+							This controls the priority of the backup (a lower nice value indicates a higher priority). This feature is only available on Unix-like platforms. Only the root user may select negative nice values.
+						</para>
+
+					</listitem>
+
+				</varlistentry>
+				 <varlistentry>
+					<term>Exclude from backup</term>
+					 <listitem>
+						<para>
+							Files and folders matching the patterns listed in this text entry will be excluded from the backup. File, folder or patterns for exclusion should be entered one per line. The contents of this text entry will be passed directly to the tar or rsync processes when performing the backup. In the example below, all files in the <filename>/home/username/Exclude</filename> folder, all files with the <filename>png</filename> extension, the file <filename>/home/username/foobar.jpg</filename> and lastly any file named <filename>specificname.txt</filename> are all excluded from the backup.
+						</para>
+						 <example id="exam-User_Guide-Options_Advanced-Excluding_files">
+							<title>Excluding files</title>
+							 
+<literallayout>/home/username/Exclude/*
+*.png
+/home/username/foobar.jpg
+specificname.txt
+</literallayout>
+
+						</example>
+
+					</listitem>
+
+				</varlistentry>
+
+			</variablelist>
+
+		</section>
+		
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Editing_an_existing_set">
+		<title>Editing an existing set</title>
+		 <para>
+			Switch to the <guilabel>Backup Sets</guilabel> page and select the desired set. Click <guilabel>Edit Set</guilabel> to open the backup configuration dialog. You can configure existing sets in the same way you would configure a new set (see <xref linkend="sect-User_Guide-Using_fwbackups-Creating_a_backup_set" /> ).
+		</para>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Running_a_backup_only_once">
+		<title>Running a backup only once</title>
+		 <orderedlist>
+			<listitem>
+				<para>
+					Switch to the <guilabel>One-Time Backup</guilabel> page
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					Add the files and/or folders you would like to backup to the list. Similar to the Paths tab in the backup configuration dialog, you may use the <guibutton>Add File(s)/Folder(s)</guibutton> buttons or simply drag-and-drop the files and folders into the list. When finished, click <guibutton>Next</guibutton>.
+				</para>
+				 <figure float="0" id="figu-User_Guide-Running_a_backup_only_once-Adding_paths_to_a_One_Time_Backup">
+					<title>Adding paths to a One-Time Backup</title>
+					 <mediaobject>
+						<imageobject>
+							<imagedata fileref="./images/page-onetime-paths.png" format="PNG" scalefit="1" width="444" />
+						</imageobject>
+						 <textobject>
+							<phrase>Adding paths to a One-Time Backup</phrase>
+						</textobject>
+
+					</mediaobject>
+
+				</figure>
+
+			</listitem>
+			 <listitem>
+				<para>
+					Choose your backup options (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Options_Simple" />). When finished, click <guibutton>Start Backup</guibutton> to begin the operation.
+				</para>
+
+			</listitem>
+
+		</orderedlist>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Restoring_backups">
+		<title>Restoring backups</title>
+		 <para>
+			<application>fwbackups</application> can restore your files and folders from any set or one-time backup.
+		</para>
+		 <orderedlist>
+			<listitem>
+				<para>
+					To start, click <guibutton>Restore</guibutton> on the toolbar to open the restore dialog.
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					Enter the folder where you wish to restore your files to into the entry labelled <guilabel>Restore to</guilabel>. To the make selection more convenient, you may use the <guibutton>Browse...</guibutton> button to open a file browser dialog. A green icon indicates that the folder entered is writable and a red icon indicates that the folder is unwritable (another must be chosen or the restore operation will fail).
+				</para>
+				 <note>
+					<title>Folder structure</title>
+					 <para>
+						Folder structure is preserved in restore operations, so files will be restored relative to their original location. For example, restoring a backup of of <filename>/home/myusername</filename> to <filename>/tmp</filename> will result in your files being restored to <filename>/tmp/home/myusername</filename>.
+					</para>
+					 <para>
+						Setting the restore location to the root directory (<filename>/</filename> on Linux, Mac OS X and other Unix-based platforms) or the root drive (typically <filename>C:\</filename> on the Windows platform) will restore your files to their original locations.
+					</para>
+
+				</note>
+
+			</listitem>
+			 <listitem>
+				<para>
+					Select where to restore files from. There are several possible options:
+				</para>
+				 <variablelist>
+					<varlistentry>
+						<term>Set backup</term>
+						 <listitem>
+							<para>
+								Drop-down menus will be available for you to select the set name and backup date to use for the restore operation.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>Local archive</term>
+						 <listitem>
+							<para>
+								Use this option to restore <guilabel>Archive</guilabel>/tar format one-time backups available on local storage (such as hard disks or removable media). Click <guibutton>Browse...</guibutton> to select the location of the archive file to restore.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>Local folder</term>
+						 <listitem>
+							<para>
+								Use this option to restore <guilabel>Direct copy</guilabel>/rsync format one-time backups available on local storage (such as hard disks or removable media). Click <guibutton>Browse...</guibutton> to select the backup folder to restore.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>Remote archive (SSH)</term>
+						 <listitem>
+							<para>
+								Same as <guilabel>Local archive</guilabel> with the exception that the archive will be retrieved from a remote machine before restoring its contents.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>Remote folder (SSH)</term>
+						 <listitem>
+							<para>
+								Same as <guilabel>Local folder</guilabel> with the exception that the folder will be retrieved from a remote machine before restoring its contents.
+							</para>
+							 <important>
+								<title>This feature is a work in progress</title>
+								 <para>
+									Restoring from remote folders is a new feature that is supported not speed-optimized yet. This operation may be slow.
+								</para>
+
+							</important>
+
+						</listitem>
+
+					</varlistentry>
+
+				</variablelist>
+				 <para>
+					Once you have configured the restore operation, click <guibutton>Start Restore</guibutton> to begin restoring files. Depending on the size of your backup, restoring files may take some time.
+				</para>
+
+			</listitem>
+
+		</orderedlist>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Importing_or_exporting_sets">
+		<title>Importing or exporting sets</title>
+		 <para>
+			To import set configuration files (<filename>.conf</filename> files), select <menuchoice> <guimenu>File</guimenu> <guimenuitem>Import Sets</guimenuitem> </menuchoice> and then select the .conf file(s) to be imported. All versions of <application>fwbackups</application> configuration files can be imported.
+		</para>
+		 <para>
+			To export a set so that you can import again it later, select <menuchoice> <guimenu>File</guimenu> <guimenuitem>Export Sets</guimenuitem> </menuchoice> and select the sets you would like to export by selecting the checkbox next to the set name. After choosing a folder, click <guibutton>Export Sets</guibutton> to save the selected sets to the chosen folder.
+		</para>
+		 <note>
+			<para>
+				The location at which set configurations are stored is <filename>~/.fwbackups/Sets</filename> on Linux, Mac OS X and other Unix-based platforms and <filename>%APPDATA%\fwbackups\Sets</filename> on the Windows platform.
+			</para>
+
+		</note>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Using_fwbackups-Changing_your_preferences">
+		<title>Changing your preferences</title>
+		 <para>
+			Select <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem> </menuchoice> from the menu to open the preferences dialog:
+		</para>
+		 <figure float="0" id="figu-User_Guide-Changing_your_preferences-The_Preferences_dialog">
+			<title>The Preferences dialog</title>
+			 <mediaobject>
+				<imageobject>
+					<imagedata fileref="./images/dialog-prefs.png" format="PNG" scalefit="1" width="444" />
+				</imageobject>
+				 <textobject>
+					<phrase>The Preferences dialog</phrase>
+				</textobject>
+
+			</mediaobject>
+
+		</figure>
+		 <variablelist>
+			<varlistentry>
+				<term>Show tray icon</term>
+				 <listitem>
+					<para>
+						Toggling this checkbox will show or hide the tray icon.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Show notifications in tray area</term>
+				 <listitem>
+					<para>
+						Select this is you wish to receive notifications like the one below for important events:
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Minimize to tray on close</term>
+				 <listitem>
+					<para>
+						Selecting this checkbox will make <application>fwbackups</application> minimize to the tray icon when closing instead of quitting.
+					</para>
+					 <note>
+						<para>
+							Clicking the tray icon will reopen the main <application>fwbackups</application> window.
+						</para>
+
+					</note>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Start minimized</term>
+				 <listitem>
+					<para>
+						Select to have <application>fwbackups</application> to only show the tray icon and to hide the main window when starting.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Always show debug messages</term>
+				 <listitem>
+					<para>
+						This option enables all debugging messages in the log viewer. Use this if you are trying to troubleshoot a problem.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Start fwbackups (minimized) when I login</term>
+				 <listitem>
+					<para>
+						Select to have fwbackups start minimized, but only when you login.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Pycron installation folder</term>
+				 <listitem>
+					<para>
+						When running on the Windows platform, <application>fwbackups</application> will use pycron to schedule tasks and must know where pycron has been installed. The installation folder will be auto-detected in most cases, but in the event that it isn&#39;t use the <guibutton>Browse</guibutton> button to select the pycron installation folder.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>&#34;Don&#39;t show me again&#34; messages</term>
+				 <listitem>
+					<para>
+						Several messages in <application>fwbackups</application> can be disabled by selecting <guilabel>Don&#39;t show me again</guilabel> when they appear. If you would like to enable these messages again, click the button.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+
+		</variablelist>
+
+	</section>
+	
+
+</chapter>
+

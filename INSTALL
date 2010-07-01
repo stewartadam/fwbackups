@@ -1,4 +1,1 @@
-To install fwbackups, run:
-  ./configure;make;make install
-
-See README for more details.
+Please see the README file for installation instructions.

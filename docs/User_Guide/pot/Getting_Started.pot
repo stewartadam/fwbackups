@@ -1,0 +1,164 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-06-30T16:52:10\n"
+"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Getting Started"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Introduction"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>fwbackups</application> is a feature-rich user backup program that allows you to backup your documents anytime with ease. Its simple, intuitive interface offers the following features:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Each user of the system can configure their own backups"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "On-demand or automated backups for files and folders via backup sets"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A tray icon to monitor the current progress of backups or restore operations"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Several backup engines including compression and incremental backups"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Support for backing up to a remote host via SSH/SFTP"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Support for restoring any of the backups created with <application>fwbackups</application>"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Starting <application>fwbackups</application>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "There are two ways to start the fwbackups:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Graphically (recommended for most users):"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select <menuchoice> <guimenu>Applications</guimenu> <guisubmenu>System Tools</guisubmenu> <guimenuitem>fwbackups</guimenuitem> </menuchoice> from the menu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "From the command line interface:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Start a terminal, type <command>fwbackups</command> and then press the <keycap>Return</keycap> key."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "More options are available! Type <command>fwbackups --help</command> to see all the available options and their descriptions."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The Overview page"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>fwbackups</application> starts on the Overview page. To begin using <application>fwbackups</application>, simply click a one of the toolbar buttons to switch pages."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Backup Sets"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Create, edit or remove backup sets as well as manually start a set backup."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "One-Time Backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Perform \"one-time\" backups (backups that will <emphasis>not</emphasis> be scheduled to run at a future date)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Log Viewer"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Displays the log file, showing information about <application>fwbackups</application>'s activities."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "All log messages are formatted like this: <emphasis>Month DD HH:MM:SS :: severity : message</emphasis>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Messages from previous sessions are displayed as purple text"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Messages from the current session are displayed as blue text"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Errors and warnings are displayed as red and yellow text respectively"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Restore"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Allows you to restore any backup you previously made using <application>fwbackups</application>."
+msgstr ""
+

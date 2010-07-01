@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.2.5. Options (Advanced)</title><link rel="stylesheet" href="Common_Content/css/default.css" type="text/css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 1.6.3" /><meta name="package" content="fwbackups-User_Guide-1.43.3-en-US-1-0" /><meta name="keywords" content="fwbackups, user guide, help, documentation, configuration" /><link rel="home" href="index.html" title="User Guide" /><link rel="up" href="sect-User_Guide-Using_fwbackups-Creating_a_backup_set.html" title="2.2. Creating a backup set" /><link rel="prev" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html" title="2.2.4. Options (Simple)" /><link rel="next" href="sect-User_Guide-Using_fwbackups-Editing_an_existing_set.html" title="2.3. Editing an existing set" /></head><body><p id="title"><a class="left" href="http://www.diffingo.com/oss/fwbackups"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://www.diffingo.com/oss"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-User_Guide-Using_fwbackups-Editing_an_existing_set.html"><strong>Next</strong></a></li></ul><div class="section" title="2.2.5. Options (Advanced)" id="sect-User_Guide-Creating_a_backup_set-Options_Advanced"><div class="titlepage"><div><div><h3 class="title">2.2.5. Options (Advanced)</h3></div></div></div><div class="para">
+				The <span class="guilabel"><strong>Options (Advanced)</strong></span> tabs include technical or complex options that you can use to customize how your backup functions.
+			</div><div class="variablelist"><dl><dt><span class="term">Command to run before backup</span></dt><dd><div class="para">
+							Command(s) entered here will run in the default system shell before fwbackups begins to backup files (not available in one-time backups).
+						</div></dd><dt><span class="term">Command to run after backup</span></dt><dd><div class="para">
+							Command(s) entered here will run in the default system shell after fwbackups has finished backing up (not available in one-time backups).
+						</div><div class="note"><h2>Tokens</h2><div class="para">
+								Both the before and after backup commands support token string replacements. <span class="application"><strong>fwbackups</strong></span> will replace tokens you use in your commands with their appropriate values:
+							</div><div class="variablelist"><dl><dt><span class="term">[destination]</span></dt><dd><div class="para">
+											The destination folder (see <a class="xref" href="sect-User_Guide-Creating_a_backup_set-Destination.html" title="2.2.2. Destination">Section 2.2.2, “Destination”</a>). If a remote host is being used, then this will be token will be the remote folder.
+										</div></dd><dt><span class="term">[set]</span></dt><dd><div class="para">
+											The set name
+										</div></dd><dt><span class="term">[date]</span></dt><dd><div class="para">
+											The date string (YYYY-MM-DD_HH-MM) when the backup was started
+										</div></dd><dt><span class="term">[backup]</span></dt><dd><div class="para">
+											The name of the backup file or folder that will be stored in the backup destination. It is equivalent to <span class="emphasis"><em>Backup-[set]-[date]</em></span>, plus the archive extension if applicable.
+										</div></dd><dt><span class="term">[remote_host]</span></dt><dd><div class="para">
+											The hostname of the remote machine where the backup will be store
+										</div></dd><dt><span class="term">[remote_port]</span></dt><dd><div class="para">
+											The port to connect to the remote hostname on
+										</div></dd><dt><span class="term">[remote_username]</span></dt><dd><div class="para">
+											The username used to connect to the remote host
+										</div></dd><dt><span class="term">[remote_password]</span></dt><dd><div class="para">
+											The password used to connect to the remote host
+										</div></dd></dl></div><div class="para">
+								Use <span class="emphasis"><em>[destination]/[backup]</em></span> if you need the absolute path to the new backup folder or file. If you want to escape one of the tokens (for example, to actually use the text <span class="emphasis"><em>[date]</em></span> in a command), prefix it by a backslash (<span class="emphasis"><em>\[date]</em></span>).
+							</div></div></dd><dt><span class="term">Nice value of backup process</span></dt><dd><div class="para">
+							This controls the priority of the backup (a lower nice value indicates a higher priority). This feature is only available on Unix-like platforms. Only the root user may select negative nice values.
+						</div></dd><dt><span class="term">Exclude from backup</span></dt><dd><div class="para">
+							Files and folders matching the patterns listed in this text entry will be excluded from the backup. File, folder or patterns for exclusion should be entered one per line. The contents of this text entry will be passed directly to the tar or rsync processes when performing the backup. In the example below, all files in the <code class="filename">/home/username/Exclude</code> folder, all files with the <code class="filename">png</code> extension, the file <code class="filename">/home/username/foobar.jpg</code> and lastly any file named <code class="filename">specificname.txt</code> are all excluded from the backup.
+						</div><div class="example"><div class="example-contents"><div class="literallayout"><p>/home/username/Exclude/*<br />
+*.png<br />
+/home/username/foobar.jpg<br />
+specificname.txt<br />
+<br />
+</p></div></div><h6>Example 2.5. Excluding files</h6></div><br class="example-break" /></dd></dl></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html"><strong>Prev</strong>2.2.4. Options (Simple)</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-User_Guide-Using_fwbackups-Editing_an_existing_set.html"><strong>Next</strong>2.3. Editing an existing set</a></li></ul></body></html>

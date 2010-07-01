@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<section id="sect-User_Guide-We_Need_Feedback">
+	<title>We Need Feedback!</title>
+	 <para>
+		If you find a typographical mistake in this user guide or if you have an idea to improve this manual, your comments are appreciated! Please contact the author.
+	</para>
+	 <para>
+		If you are reporting an error, please include the section name that the error is in as well as some surrounding text so that it can be found easily.
+	</para>
+</section>
+
+

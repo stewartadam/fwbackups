@@ -1,0 +1,54 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-06-30T16:52:10\n"
+"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "About fwbackups"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>fwbackups</application> is written by Stewart Adam (<email>s.adam@diffingo.com</email> ), To find more information about <application>fwbackups</application>, please visit the <ulink url=\"http://www.fwbackups.com\">fwbackups homepage</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This program is distributed under the terms of the GNU General Public license as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. A copy of this license can be found in the file COPYING included with the source code of this program."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you would like to offer feedback, help develop or test upcoming versions of <application>fwbackups</application>, please contact the author at the email address above. Any comments are welcome!"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Reporting a problem"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you think you have found a problem or bug in fwbackups, please contact the author at <email>s.adam@diffingo.com</email> ."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you can reliably reproduce the issue you are experiencing, enable debug messages in the preferences and try to reproduce the problem again. If you are able to, attach a copy of the fwbackups log and (if applicable) the set configuration in question to the email message."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Any information sent will be kept confidential and will be used strictly for troubleshooting purposes."
+msgstr ""
+

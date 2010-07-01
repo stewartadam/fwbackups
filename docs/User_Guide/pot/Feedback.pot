@@ -1,0 +1,29 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-06-30T16:52:10\n"
+"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "We Need Feedback!"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you find a typographical mistake in this user guide or if you have an idea to improve this manual, your comments are appreciated! Please contact the author."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you are reporting an error, please include the section name that the error is in as well as some surrounding text so that it can be found easily."
+msgstr ""
+

@@ -1,1 +1,0 @@
-gnome-doc-tool html C/fwbackups.xml --copy-graphics -c=docbook_style.css -o html

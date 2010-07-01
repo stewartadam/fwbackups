@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.2.3. Times</title><link rel="stylesheet" href="Common_Content/css/default.css" type="text/css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 1.6.3" /><meta name="package" content="fwbackups-User_Guide-1.43.3-en-US-1-0" /><meta name="keywords" content="fwbackups, user guide, help, documentation, configuration" /><link rel="home" href="index.html" title="User Guide" /><link rel="up" href="sect-User_Guide-Using_fwbackups-Creating_a_backup_set.html" title="2.2. Creating a backup set" /><link rel="prev" href="sect-User_Guide-Creating_a_backup_set-Destination.html" title="2.2.2. Destination" /><link rel="next" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html" title="2.2.4. Options (Simple)" /></head><body><p id="title"><a class="left" href="http://www.diffingo.com/oss/fwbackups"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://www.diffingo.com/oss"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-User_Guide-Creating_a_backup_set-Destination.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html"><strong>Next</strong></a></li></ul><div class="section" title="2.2.3. Times" id="sect-User_Guide-Creating_a_backup_set-Times"><div class="titlepage"><div><div><h3 class="title">2.2.3. Times</h3></div></div></div><div class="para">
+				This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users.
+			</div><div class="para">
+				The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <span class="guilabel"><strong>Every minute</strong></span> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example "0" (at the beginning of the hour) or "30" (for half-way through the hour).
+			</div><div class="figure"><div class="figure-contents"><div class="mediaobject"><img src="./images/dialog-config-times.png" width="444" alt="Setting a backup schedule for a set" /></div></div><h6>Figure 2.3. Setting a backup schedule for a set</h6></div><br class="figure-break" /><div class="para">
+				If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:
+			</div><div class="literallayout"><p>							+-------------- minute (0 - 59)<br />
+						|	+------------ hour (0 - 23)<br />
+						|	 |	+---------- day of month (1 - 31)<br />
+						|	 |	 |	+-------- month (1 - 12)<br />
+						|	 |	 |	 |	+------ day of week (0 - 7) (Sunday=0 or 7)<br />
+						|	 |	 |	 |	 |		 +-- command to run<br />
+						|	 |	 |	 |	 |			|<br />
+						*	 *	 *	 *	 *	command<br />
+<br />
+</p></div><div class="para">
+				Simply enter the same values you would into a crontab, as outlined above, into the designated entry boxes. Please note that you cannot enter all five fields onto one line; the four fields are divided among four different entry boxes. As well, it is important to note that in manual configuration mode <span class="emphasis"><em>no validation is performed on user input</em></span> and you must supply valid values for the first five fields. The sixth field, used for the command, is generated automatically by fwbackups.
+			</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+						Use a comma (,) to specify a list of values
+					</div><div class="example"><div class="example-contents"><div class="para">
+							2,4,5,7,8,9
+						</div></div><h6>Example 2.1. Using a comma</h6></div><br class="example-break" /></li><li class="listitem"><div class="para">
+						Use a dash (-) to specify a range of values
+					</div><div class="example"><div class="example-contents"><div class="para">
+							1-4 is equivalent to 1,2,3,4
+						</div></div><h6>Example 2.2. Using a dash</h6></div><br class="example-break" /></li><li class="listitem"><div class="para">
+						Use an asterisk (*) to specify all possible values
+					</div><div class="example"><div class="example-contents"><div class="para">
+							* in the hours field is the same as 0-23 or 1,2,3,[...],23
+						</div></div><h6>Example 2.3. Using an asterisk</h6></div><br class="example-break" /></li><li class="listitem"><div class="para">
+						Most variants of cron support the forward slash (/) to designate a skip
+					</div><div class="example"><div class="example-contents"><div class="para">
+							*/2 in the minutes field is equivalent to 0,2,4,6,8,[...],58
+						</div></div><h6>Example 2.4. Using a forward slash</h6></div><br class="example-break" /></li><li class="listitem"><div class="para">
+						In the <span class="guilabel"><strong>day of the week</strong></span> field, both 0 and 7 are counted as Sunday.
+					</div></li><li class="listitem"><div class="para">
+						If both <span class="guilabel"><strong>day of month</strong></span> and <span class="guilabel"><strong>day of week</strong></span> are present, the command will be executed when either is true.
+					</div></li></ul></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-User_Guide-Creating_a_backup_set-Destination.html"><strong>Prev</strong>2.2.2. Destination</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-User_Guide-Creating_a_backup_set-Options_Simple.html"><strong>Next</strong>2.2.4. Options (Simple)</a></li></ul></body></html>

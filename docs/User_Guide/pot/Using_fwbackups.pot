@@ -1,0 +1,781 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-06-30T16:52:10\n"
+"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Using <application>fwbackups</application>"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Backup types"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>fwbackups</application> supports two main types of backups: recurring backups that automatically backup your files on a schedule, and backups that are run once and not scheduled again. These are referred to as as <emphasis>backup sets</emphasis> and <emphasis>one-time backups</emphasis> respectively."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You will be able to configure any number of backup sets, each backing up on a regular schedule at a time of your choice. Each set operates independently, so if you wish you may group files into two or more sets and have them backup at different times or to different destination folders. You may also perform one-time, however in this case the backup will not be scheduled to start again in the future."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "When to use set or one-time backups"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "It is recommended that you create a backup set for your important files in order to ensure that you have a recent backup copy saved at all times. One-time backups are more suitable for making backups of large files, such as a music collection or video that you may not want to include in a backup set that is started daily or weekly."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Creating a backup set"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The Backup Sets page"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To create a new set, click <guibutton>Backup Sets</guibutton> on the toolbar to switch pages and then click the <guibutton>New Set</guibutton> on the left."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Paths"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The paths tab allows you to select which files and folder are to be included in the backup. To add files, click <guibutton>Add File</guibutton> or <guibutton>Add Folder</guibutton>. If you wish to remove a file or folder from the backup, select one or more paths from the list and click <guibutton>Remove</guibutton>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Each path in the list will have either a green or red icon next to it. A green icon indicates that <application>fwbackups</application> is able to read path, while a red icon indicates that the file is missing or unable to read the path and it may be excluded from future backups."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Drag 'n' Drop!"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Adding files or folders is as easy as dragging them from your favourite file manager and dropping them onto the path list."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Destination"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The destination tab controls where your backup will be saved to. You may choose to backup to a local drive, removable storage or a remote computer supporting the SFTP protocol (if your computer runs the OpenSSH server, it most likely supports SFTP)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Configuring backup destinations"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Remember to test settings for remote destinations"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you choose to backup to a remote host, be sure to click <guibutton>Test Settings</guibutton> before saving your set! A typo in the password (and other fields) can leave <application>fwbackups</application> unable to connect to to the remote host, resulting in a failed backup."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Times"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example \"0\" (at the beginning of the hour) or \"30\" (for half-way through the hour)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Setting a backup schedule for a set"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:"
+msgstr ""
+
+#. Tag: literallayout
+#, no-c-format
+msgid "							+-------------- minute (0 - 59)\n"
+"						|	+------------ hour (0 - 23)\n"
+"						|	 |	+---------- day of month (1 - 31)\n"
+"						|	 |	 |	+-------- month (1 - 12)\n"
+"						|	 |	 |	 |	+------ day of week (0 - 7) (Sunday=0 or 7)\n"
+"						|	 |	 |	 |	 |		 +-- command to run\n"
+"						|	 |	 |	 |	 |			|\n"
+"						*	 *	 *	 *	 *	command\n"
+""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Simply enter the same values you would into a crontab, as outlined above, into the designated entry boxes. Please note that you cannot enter all five fields onto one line; the four fields are divided among four different entry boxes. As well, it is important to note that in manual configuration mode <emphasis>no validation is performed on user input</emphasis> and you must supply valid values for the first five fields. The sixth field, used for the command, is generated automatically by fwbackups."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use a comma (,) to specify a list of values"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using a comma"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "2,4,5,7,8,9"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use a dash (-) to specify a range of values"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using a dash"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "1-4 is equivalent to 1,2,3,4"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use an asterisk (*) to specify all possible values"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using an asterisk"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "* in the hours field is the same as 0-23 or 1,2,3,[...],23"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Most variants of cron support the forward slash (/) to designate a skip"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using a forward slash"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "*/2 in the minutes field is equivalent to 0,2,4,6,8,[...],58"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In the <guilabel>day of the week</guilabel> field, both 0 and 7 are counted as Sunday."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If both <guilabel>day of month</guilabel> and <guilabel>day of week</guilabel> are present, the command will be executed when either is true."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Options (Simple)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Options (Simple)</guilabel> tab allows you to set the parameters for your backup. In addition, the options tabs allow you to you select the backup format and the number of old backups to keep at any given time."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Backup Format"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) \"tar\" archive file. Unfortunately, Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the \"tar\" backup engine (\".gz\" or \".bz2\" was appended if gzip or bzip2 compression was enabled, respectively)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Reducing backup size with compression"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Enabling compression will utilize more system resources during the backup, but results in smaller file sizes. <emphasis>gzip</emphasis> is a relatively lightweight compression with a good compression ratio. If you would like to further reduce the size of your backups, consider switching to <emphasis>bzip2</emphasis> compression. Although it is much slower than gzip, bzip2 is able to achieve smaller file sizes."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A <guilabel>Direct copy</guilabel> backup will simply copy your files and their folder structure as-is, similar to a drag-and-drop copy in your file browser. Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the \"rsync\" backup engine."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Increasing backup speed"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Enabling the <guibutton>Backups are incremental</guibutton> option will run an incremental backup instead of a full one, copying only the changes since your last backup. Currently, the incremental backups are only available for set backups on Unix-like platforms (such as Linux and OS X) and cannot be used when backing up to a remote host."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Additionally, running an incremental backup will update the backup folder in-place so no old backups will be kept if you choose to enable incremental backups."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Set is enabled"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If deselected, the set will be unscheduled for automated backups (not available in one-time backups)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Include subfolders"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, subfolders will be included in the backup (recommended). If unchecked, fwbackups will only backup files immediately inside any folders supplied in the <xref linkend=\"sect-User_Guide-Creating_a_backup_set-Paths\" /> tab and will not backup any files in subfolders."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Include hidden files"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, Unix-style hidden files (files and folders starting with a period character \"<filename>.</filename>\") are included in the backup."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Hidden files on the Windows platform are always backed up"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Support for detecting Windows-style hidden files will be added in the future. Until then, hidden files and folders on all Windows operating systems will be included in the backup regardless of the state of this checkbutton."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Follow links"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, the backup will follow symbolic links and copy their targets rather than copying the link into the backup. Be wary of link recursion!"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Print disk geometry information to a file"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, disk geometry (including partition layout) will be saved to a file that will be added to the backup."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Print installed packages to a text file"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, a list of installed package names and versions will be saved to a text file that will be added to the backup. This option can be used to ease system reinstallation in the unfortunate event of a crash or data loss."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Currently, the RPM, dpkg and pacman package managers are supported."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Handle sparse files efficiently"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If selected, sparse files on the disk will be handled more efficiently."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Options (Advanced)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Options (Advanced)</guilabel> tabs include technical or complex options that you can use to customize how your backup functions."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Command to run before backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Command(s) entered here will run in the default system shell before fwbackups begins to backup files (not available in one-time backups)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Command to run after backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Command(s) entered here will run in the default system shell after fwbackups has finished backing up (not available in one-time backups)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Tokens"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Both the before and after backup commands support token string replacements. <application>fwbackups</application> will replace tokens you use in your commands with their appropriate values:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[destination]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The destination folder (see <xref linkend=\"sect-User_Guide-Creating_a_backup_set-Destination\" />). If a remote host is being used, then this will be token will be the remote folder."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[set]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The set name"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[date]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The date string (YYYY-MM-DD_HH-MM) when the backup was started"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[backup]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The name of the backup file or folder that will be stored in the backup destination. It is equivalent to <emphasis>Backup-[set]-[date]</emphasis>, plus the archive extension if applicable."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[remote_host]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The hostname of the remote machine where the backup will be store"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[remote_port]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The port to connect to the remote hostname on"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[remote_username]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The username used to connect to the remote host"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[remote_password]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The password used to connect to the remote host"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use <emphasis>[destination]/[backup]</emphasis> if you need the absolute path to the new backup folder or file. If you want to escape one of the tokens (for example, to actually use the text <emphasis>[date]</emphasis> in a command), prefix it by a backslash (<emphasis>\\[date]</emphasis>)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Nice value of backup process"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This controls the priority of the backup (a lower nice value indicates a higher priority). This feature is only available on Unix-like platforms. Only the root user may select negative nice values."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Exclude from backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Files and folders matching the patterns listed in this text entry will be excluded from the backup. File, folder or patterns for exclusion should be entered one per line. The contents of this text entry will be passed directly to the tar or rsync processes when performing the backup. In the example below, all files in the <filename>/home/username/Exclude</filename> folder, all files with the <filename>png</filename> extension, the file <filename>/home/username/foobar.jpg</filename> and lastly any file named <filename>specificname.txt</filename> are all excluded from the backup."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Excluding files"
+msgstr ""
+
+#. Tag: literallayout
+#, no-c-format
+msgid "/home/username/Exclude/*\n"
+"*.png\n"
+"/home/username/foobar.jpg\n"
+"specificname.txt\n"
+""
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Editing an existing set"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Switch to the <guilabel>Backup Sets</guilabel> page and select the desired set. Click <guilabel>Edit Set</guilabel> to open the backup configuration dialog. You can configure existing sets in the same way you would configure a new set (see <xref linkend=\"sect-User_Guide-Using_fwbackups-Creating_a_backup_set\" /> )."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Running a backup only once"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Switch to the <guilabel>One-Time Backup</guilabel> page"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Add the files and/or folders you would like to backup to the list. Similar to the Paths tab in the backup configuration dialog, you may use the <guibutton>Add File(s)/Folder(s)</guibutton> buttons or simply drag-and-drop the files and folders into the list. When finished, click <guibutton>Next</guibutton>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Adding paths to a One-Time Backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Choose your backup options (see <xref linkend=\"sect-User_Guide-Creating_a_backup_set-Options_Simple\" />). When finished, click <guibutton>Start Backup</guibutton> to begin the operation."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Restoring backups"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>fwbackups</application> can restore your files and folders from any set or one-time backup."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To start, click <guibutton>Restore</guibutton> on the toolbar to open the restore dialog."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Enter the folder where you wish to restore your files to into the entry labelled <guilabel>Restore to</guilabel>. To the make selection more convenient, you may use the <guibutton>Browse...</guibutton> button to open a file browser dialog. A green icon indicates that the folder entered is writable and a red icon indicates that the folder is unwritable (another must be chosen or the restore operation will fail)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Folder structure"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Folder structure is preserved in restore operations, so files will be restored relative to their original location. For example, restoring a backup of of <filename>/home/myusername</filename> to <filename>/tmp</filename> will result in your files being restored to <filename>/tmp/home/myusername</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Setting the restore location to the root directory (<filename>/</filename> on Linux, Mac OS X and other Unix-based platforms) or the root drive (typically <filename>C:\\</filename> on the Windows platform) will restore your files to their original locations."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select where to restore files from. There are several possible options:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Set backup"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Drop-down menus will be available for you to select the set name and backup date to use for the restore operation."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Local archive"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use this option to restore <guilabel>Archive</guilabel>/tar format one-time backups available on local storage (such as hard disks or removable media). Click <guibutton>Browse...</guibutton> to select the location of the archive file to restore."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Local folder"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use this option to restore <guilabel>Direct copy</guilabel>/rsync format one-time backups available on local storage (such as hard disks or removable media). Click <guibutton>Browse...</guibutton> to select the backup folder to restore."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Remote archive (SSH)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Same as <guilabel>Local archive</guilabel> with the exception that the archive will be retrieved from a remote machine before restoring its contents."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Remote folder (SSH)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Same as <guilabel>Local folder</guilabel> with the exception that the folder will be retrieved from a remote machine before restoring its contents."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "This feature is a work in progress"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Restoring from remote folders is a new feature that is supported not speed-optimized yet. This operation may be slow."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Once you have configured the restore operation, click <guibutton>Start Restore</guibutton> to begin restoring files. Depending on the size of your backup, restoring files may take some time."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Importing or exporting sets"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To import set configuration files (<filename>.conf</filename> files), select <menuchoice> <guimenu>File</guimenu> <guimenuitem>Import Sets</guimenuitem> </menuchoice> and then select the .conf file(s) to be imported. All versions of <application>fwbackups</application> configuration files can be imported."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To export a set so that you can import again it later, select <menuchoice> <guimenu>File</guimenu> <guimenuitem>Export Sets</guimenuitem> </menuchoice> and select the sets you would like to export by selecting the checkbox next to the set name. After choosing a folder, click <guibutton>Export Sets</guibutton> to save the selected sets to the chosen folder."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The location at which set configurations are stored is <filename>~/.fwbackups/Sets</filename> on Linux, Mac OS X and other Unix-based platforms and <filename>%APPDATA%\\fwbackups\\Sets</filename> on the Windows platform."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Changing your preferences"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem> </menuchoice> from the menu to open the preferences dialog:"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The Preferences dialog"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Show tray icon"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Toggling this checkbox will show or hide the tray icon."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Show notifications in tray area"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select this is you wish to receive notifications like the one below for important events:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Minimize to tray on close"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Selecting this checkbox will make <application>fwbackups</application> minimize to the tray icon when closing instead of quitting."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Clicking the tray icon will reopen the main <application>fwbackups</application> window."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Start minimized"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select to have <application>fwbackups</application> to only show the tray icon and to hide the main window when starting."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Always show debug messages"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This option enables all debugging messages in the log viewer. Use this if you are trying to troubleshoot a problem."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Start fwbackups (minimized) when I login"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select to have fwbackups start minimized, but only when you login."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "Pycron installation folder"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When running on the Windows platform, <application>fwbackups</application> will use pycron to schedule tasks and must know where pycron has been installed. The installation folder will be auto-detected in most cases, but in the event that it isn't use the <guibutton>Browse</guibutton> button to select the pycron installation folder."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "\"Don't show me again\" messages"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Several messages in <application>fwbackups</application> can be disabled by selecting <guilabel>Don't show me again</guilabel> when they appear. If you would like to enable these messages again, click the button."
+msgstr ""
+

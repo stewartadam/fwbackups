@@ -1,0 +1,80 @@
+a:link {
+	color: #027AC6;
+}
+
+a:visited {
+	color:#6699cc;
+}
+
+h1 {
+	color:#494949;
+}
+
+.producttitle {
+	background: #800 url(../images/h1-bg.png) top left repeat;
+}
+
+.section h1.title {
+	color:#494949;
+}
+
+
+h2,h3,h4,h5,h6 {
+	color:#494949;
+}
+
+table {
+	border:1px solid #aaa;
+}
+
+table th {
+	background-color:#900;
+}
+
+table tr.even td {
+	background-color:#f5f5f5;
+}
+
+#title a {
+	height:54px;
+}
+
+.term{
+	color:#494949;
+}
+
+.revhistory table th {
+	color:#494949;
+}
+
+.edition {
+	color: #494949;
+}
+
+span.remark{
+	background-color: #ffff00;
+}
+
+div.itemizedlist {
+  padding-left: 40px;
+}
+
+div.note ul, div.warning ul, .important ul {
+  padding-left: 30px;
+}
+
+div.note ul li, div.warning ul li, .important ul li {
+  padding-left: 0px;
+}
+
+div.note li p, div.note li div.para, div.warning li p, div.warning li div.para, .important li p, .important li div.para {
+  padding-left: 0px;
+}
+
+div.note div.variablelist, div.warning div.variablelist .important div.variablelist {
+  padding-left: 56px;
+}
+
+div.note div.variablelist p, div.note div.variablelist div.para, div.note div.variablelist div.formalpara {
+  padding-left: 0px;
+}

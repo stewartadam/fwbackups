@@ -30,6 +30,8 @@ clean-local:
 	rm -rf tests
 
 uninstall-hook:
+#	 Removes 1.43.3rc location of fwbackups python package
+	rm -rf $(DESTDIR)$(datadir)/fwbackups/fwbackups
 	rmdir $(DESTDIR)$(datadir)/fwbackups/
 
 rpm: dist

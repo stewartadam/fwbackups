@@ -1,0 +1,39 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-06-30T16:52:10\n"
+"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Revision History"
+msgstr ""
+
+#. Tag: firstname
+#, no-c-format
+msgid "Stewart"
+msgstr ""
+
+#. Tag: surname
+#, no-c-format
+msgid "Adam"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Port user guide to publican publishing tool"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Finish updating user guide for version 1.43.3rc5"
+msgstr ""
+

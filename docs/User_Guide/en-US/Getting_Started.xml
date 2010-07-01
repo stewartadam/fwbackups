@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-User_Guide-Getting_Started">
+	<title>Getting Started</title>
+	 <section id="sect-User_Guide-Getting_Started-Introduction">
+		<title>Introduction</title>
+		 <para>
+			<application>fwbackups</application> is a feature-rich user backup program that allows you to backup your documents anytime with ease. Its simple, intuitive interface offers the following features: 
+			<itemizedlist>
+				<listitem>
+					<para>
+						Each user of the system can configure their own backups
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						On-demand or automated backups for files and folders via backup sets
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						A tray icon to monitor the current progress of backups or restore operations
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Several backup engines including compression and incremental backups
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Support for backing up to a remote host via SSH/SFTP
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Support for restoring any of the backups created with <application>fwbackups</application>
+					</para>
+
+				</listitem>
+
+			</itemizedlist>
+
+		</para>
+
+	</section>
+	
+	 <section id="sect-User_Guide-Getting_Started-Starting_fwbackups">
+		<title>Starting <application>fwbackups</application></title>
+		 <para>
+			There are two ways to start the fwbackups:
+		</para>
+		 <orderedlist>
+			<listitem>
+				<para>
+					Graphically (recommended for most users):
+				</para>
+				 <para>
+					Select <menuchoice> <guimenu>Applications</guimenu> <guisubmenu>System Tools</guisubmenu> <guimenuitem>fwbackups</guimenuitem> </menuchoice> from the menu.
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					From the command line interface:
+				</para>
+				 <para>
+					Start a terminal, type <command>fwbackups</command> and then press the <keycap>Return</keycap> key.
+				</para>
+				 <note>
+					<para>
+						More options are available! Type <command>fwbackups --help</command> to see all the available options and their descriptions.
+					</para>
+
+				</note>
+
+			</listitem>
+
+		</orderedlist>
+		 <figure float="0" id="figu-User_Guide-Starting_fwbackups-The_Overview_page">
+			<title>The Overview page</title>
+			 <mediaobject>
+				<imageobject>
+					<imagedata fileref="./images/page-overview.png" format="PNG" scalefit="1" width="444" />
+				</imageobject>
+				 <textobject>
+					<phrase>The Overview page</phrase>
+				</textobject>
+
+			</mediaobject>
+
+		</figure>
+		 <para>
+			<application>fwbackups</application> starts on the Overview page. To begin using <application>fwbackups</application>, simply click a one of the toolbar buttons to switch pages.
+		</para>
+		 <variablelist>
+			<varlistentry>
+				<term>Backup Sets</term>
+				 <listitem>
+					<para>
+						Create, edit or remove backup sets as well as manually start a set backup.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>One-Time Backup</term>
+				 <listitem>
+					<para>
+						Perform &#34;one-time&#34; backups (backups that will <emphasis>not</emphasis> be scheduled to run at a future date).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Log Viewer</term>
+				 <listitem>
+					<para>
+						Displays the log file, showing information about <application>fwbackups</application>&#39;s activities.
+					</para>
+					 <note>
+						<itemizedlist>
+							<listitem>
+								<para>
+									All log messages are formatted like this: <emphasis>Month DD HH:MM:SS :: severity : message</emphasis>
+								</para>
+
+							</listitem>
+							 <listitem>
+								<para>
+									Messages from previous sessions are displayed as purple text
+								</para>
+
+							</listitem>
+							 <listitem>
+								<para>
+									Messages from the current session are displayed as blue text
+								</para>
+
+							</listitem>
+							 <listitem>
+								<para>
+									Errors and warnings are displayed as red and yellow text respectively
+								</para>
+
+							</listitem>
+
+						</itemizedlist>
+
+					</note>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term>Restore</term>
+				 <listitem>
+					<para>
+						Allows you to restore any backup you previously made using <application>fwbackups</application>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+
+		</variablelist>
+
+	</section>
+	
+
+</chapter>
+
