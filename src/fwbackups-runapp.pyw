@@ -109,6 +109,7 @@ def doGtkEvents():
   """Process gtk events"""
   while gtk.events_pending():
     gtk.main_iteration()
+  time.sleep(0.01)
 
 def getSelectedItems(widget):
   """Get selected items from icon/tree view"""
@@ -253,8 +254,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.aboutProgramImage.set_from_file(appIcon)
     self.updateSplash(0.0, _('Checking permissions'))
     self.ui.splash.show()
-    while gtk.events_pending():
-      gtk.main_iteration()
+    doGtkEvents()
     # Step 1: Setup the configuration directory
     try:
       config._setupConf()
@@ -588,8 +588,7 @@ class fwbackupsApp(interface.Controller):
     """Regenerates the crontab"""
     self.logger.logmsg('DEBUG', _('Regenerating crontab'))
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
-    while gtk.events_pending():
-      gtk.main_iteration()
+    doGtkEvents()
     self.cronTab.clean()
     files = os.listdir(SETLOC)
     files.sort()
@@ -685,9 +684,7 @@ class fwbackupsApp(interface.Controller):
     thread = fwbackups.runFuncAsThread(sftp.testConnection, host, username, password, port, path)
     while thread.retval == None:
       progress.set_text(_('Attempting to connect'))
-      while gtk.events_pending():
-        gtk.main_iteration()
-      time.sleep(0.01)
+      doGtkEvents()
     progress.stopPulse()
     progress.set_text('')
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
@@ -1642,9 +1639,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.restore1SetDateCombobox.set_active(0)
       thread = fwbackups.runFuncAsThread(self.getRemoteBackupDates, setConfig)
       while thread.retval == None:
-        while gtk.events_pending():
-          gtk.main_iteration()
-        time.sleep(0.01)
+        doGtkEvents()
       model.clear()
       # Default to None (see 'if listing == None' check later)
       listing = None
@@ -2421,14 +2416,15 @@ class fwbackupsApp(interface.Controller):
       updateProgress(self)
       updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
-        while gtk.events_pending():
-          gtk.main_iteration()
-        time.sleep(0.01)
+        doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
+      # -1 indicates a syntax error or other bug in the backup code
+      # False indicates a detectable problem during the backup. In this case,
+      # the error has already been logged.
       if self.backupThread.retval == -1:
-        self.logger.logmsg('WARNING', _('There was an error while performing the backup! Enable debug messages for more information.'))
-        self.logger.logmsg('DEBUG', self.backupThread.traceback)
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('ERROR', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
@@ -2452,8 +2448,6 @@ class fwbackupsApp(interface.Controller):
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
-      # just incase we have leftover stuff running
-      self.backupHandle.cancelOperation()
     else:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
         self.trayNotify(_('Status'), _('The automatic backup operation of set `%(a)s\' was cancelled' % {'a': name}), 5)
@@ -2577,14 +2571,15 @@ class fwbackupsApp(interface.Controller):
       updateProgress(self)
       updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
-        while gtk.events_pending():
-          gtk.main_iteration()
-        time.sleep(0.01)
+        doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
+      # -1 indicates a syntax error or other bug in the backup code
+      # False indicates a detectable problem during the backup. In this case,
+      # the error has already been logged.
       if self.backupThread.retval == -1:
-        self.logger.logmsg('WARNING', _('There was an error while performing the backup! Enable debug messages for more inforation.'))
-        self.logger.logmsg('DEBUG', self.backupThread.traceback)
+        self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+        self.logger.logmsg('ERROR', self.backupThread.traceback)
     except Exception, error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
@@ -2662,9 +2657,7 @@ class fwbackupsApp(interface.Controller):
       updateProgress(self)
       updateTimeout = gobject.timeout_add(1000, updateProgress, self)
       while self.restoreThread.retval == None:
-        while gtk.events_pending():
-          gtk.main_iteration()
-        time.sleep(0.01)
+        doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.restoreThread.retval))
       if self.restoreThread.retval == -1:

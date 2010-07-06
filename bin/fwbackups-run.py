@@ -110,12 +110,13 @@ if __name__ == "__main__":
     try:
       backupHandle = backup.SetBackupOperation(setPath, logger=logger)
       backupThread = fwbackups.FuncAsThread(backupHandle.start, {})
-    except:
+    except Exception, error:
       import traceback
       (etype, evalue, tb) = sys.exc_info()
       tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
       logger.setPrintToo(True)
-      logger.logmsg('ERROR', _('An error occurred initializing the backup operation:\n%s' % tracebackText))
+      logger.logmsg('WARNING', _("An error occurred while initializing the backup operation!"))
+      logger.logmsg('ERROR', tracebackText)
       sys.exit(1)
     backupThread.start()
     try:
@@ -123,4 +124,9 @@ if __name__ == "__main__":
         time.sleep(0.1)
     except IOError: # ctrl+c raises this on Win32
       print 'IOError while sleep!'
+    # thread returned
+    logger.logmsg('DEBUG', _('Thread returned with retval %s' % backupThread.retval))
+    if backupThread.retval == -1:
+      logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+      logger.logmsg('ERROR', backupThread.traceback)
 

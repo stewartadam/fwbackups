@@ -1,5 +1,13 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.3 changes ||
+  * Tue Jul 6 2010 Stewart Adam <s.adam at diffingo.com>
+  - Ensure that the after command runs even upon backup failure
+  - Fix minor bugs regarding logging and reporting of backup progress when
+    performing Direct Copy backups to a remote destination
+  - Display tracebacks at log level ERROR instead of DEBUG when an error occurs
+    during a backup or restore
+  
 || Version 1.43.3rc5 changes ||
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>
     - Happy Canada day!
@@ -8,11 +16,11 @@
     
   * Thu Jun 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where no world read permissions on /etc/crontab would cause a 
-      crash on startup.
+      crash on startup
   
   * Tue Jun 22 2010 Stewart Adam <s.adam at diffingo.com>
     - Make the backup options tab much easier to use by reworking the engine
-      selection.
+      selection
     - Run the "before command" prior to the preparation and cleanup steps (fixes
       RH #604682)
     - Make the port selection a spinbutton (forces numeric entry only)

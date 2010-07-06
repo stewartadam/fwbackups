@@ -18,6 +18,7 @@
 """
 This file contains the logic for the backup operation
 """
+import exceptions
 import os
 import re
 import tempfile
@@ -205,42 +206,42 @@ class BackupOperation(operations.Common):
   
   def checkRemoteServer(self):
     """Checks if a connection to the remote server can be established"""
-    if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
-      self.logger.logmsg('DEBUG', _('Attempting to connect to server'))
-      thread = fwbackups.runFuncAsThread(sftp.testConnection,
-                                         self.options['RemoteHost'], self.options['RemoteUsername'],
-                                         self.options['RemotePassword'], self.options['RemotePort'],
-                                         self.options['RemoteFolder'])
-      while thread.retval == None:
-        time.sleep(0.1)
-      # Check for errors, if any
-      import paramiko
-      import socket
-      if thread.retval == True:
-        return True
-      elif type(thread.exception) == IOError:
-        self.logger.logmsg('ERROR', _('The backup destination was either not ' + \
-                       'found or it cannot be written to due to insufficient permissions.'))
-        return False
-      elif type(thread.exception) == paramiko.AuthenticationException:
-        self.logger.logmsg('ERROR', _('A connection was established, but authentication ' + \
-                        'failed. Please verify the username and password ' + \
-                        'and try again.'))
-        return False
-      elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
-        self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' + \
-                        'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
-                        '\nPlease verify your settings and try again.'))
-        return False
-      elif type(thread.exception) == socket.timeout:
-        self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' + \
-                        'Please verify your settings and try again.'))
-        return False
-      elif type(thread.exception) == paramiko.SSHException:
-        self.logger.logmsg('ERROR', _('A connection to the server could not be established ' + \
-                        'because an error occurred: %s' % str(thread.exception) + \
-                        '\nPlease verify your settings and try again.'))
-        return False
+    self.logger.logmsg('DEBUG', _('Attempting to connect to server %s...') % self.options['RemoteHost'])
+    thread = fwbackups.runFuncAsThread(sftp.testConnection,
+                                       self.options['RemoteHost'], self.options['RemoteUsername'],
+                                       self.options['RemotePassword'], self.options['RemotePort'],
+                                       self.options['RemoteFolder'])
+    while thread.retval == None:
+      time.sleep(0.1)
+    # Check for errors, if any
+    import paramiko
+    import socket
+    if thread.retval == True:
+      self.logger.logmsg('DEBUG', _('Attempt to connect succeeded.'))
+      return True
+    elif type(thread.exception) == IOError:
+      self.logger.logmsg('ERROR', _('The backup destination was either not ' + \
+                     'found or it cannot be written to due to insufficient permissions.'))
+      return False
+    elif type(thread.exception) == paramiko.AuthenticationException:
+      self.logger.logmsg('ERROR', _('A connection was established, but authentication ' + \
+                      'failed. Please verify the username and password ' + \
+                      'and try again.'))
+      return False
+    elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
+      self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' + \
+                      'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
+                      '\nPlease verify your settings and try again.'))
+      return False
+    elif type(thread.exception) == socket.timeout:
+      self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' + \
+                      'Please verify your settings and try again.'))
+      return False
+    elif type(thread.exception) == paramiko.SSHException:
+      self.logger.logmsg('ERROR', _('A connection to the server could not be established ' + \
+                      'because an error occurred: %s' % str(thread.exception) + \
+                      '\nPlease verify your settings and try again.'))
+      return False
     else: # not remote, just pass
       return True
   
@@ -362,9 +363,14 @@ class BackupOperation(operations.Common):
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
         if not wasAnError:
           for i in paths:
-            if self.toCancel: # Check if we need to cancel in between paths
+            if self.toCancel:
+              # Check if we need to cancel in between paths
+              # If so, break and close the SFTP session
+              # Immediately after, self.ifCancel() is run.
               break
+            self._current += 1
             i = i[1:-1]
+            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
             sftp.put(sftpClient, i, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
         sftpClient.close()
         client.close()
@@ -452,8 +458,9 @@ class OneTimeBackupOperation(BackupOperation):
     paths = self.parsePaths(self.config)
     if not paths:
       return False
-    
-    self.checkRemoteServer()
+      
+    if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
+      self.checkRemoteServer()
     
     if self.options['PkgListsToFile']:
       managers = self.createPkgLists()
@@ -476,7 +483,7 @@ class OneTimeBackupOperation(BackupOperation):
       self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
 
     # Now that the paths & commands are set up...
-    errorBool = self.backupPaths(paths, command)
+    retval = self.backupPaths(paths, command)
 
     for manager in managers:
       self.deleteListFiles(manager, self.options['PkgListsToFile'], self.options['DiskInfoToFile'])
@@ -490,7 +497,7 @@ class OneTimeBackupOperation(BackupOperation):
 
     # All done!
     self.logger.logmsg('INFO', _('Finished one-time backup'))
-    return errorBool
+    return retval
 
 ######################
 ######################
@@ -505,11 +512,10 @@ class SetBackupOperation(BackupOperation):
     if self.options['Enabled']:
       self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
     # Parse backup folder format
-    date = time.strftime('%Y-%m-%d_%H-%M')
-    self.dest = os.path.join(self.options['Destination'], u"%s-%s-%s" % (_('Backup'), self.config.getSetName(), date))
+    # date stored as class variable due to re-use in user commands later
+    self.date = time.strftime('%Y-%m-%d_%H-%M')
+    self.dest = os.path.join(self.options['Destination'], u"%s-%s-%s" % (_('Backup'), self.config.getSetName(), self.date))
     # set-specific options
-    self.command_before = self.tokens_replace(self.options['CommandBefore'], date)
-    self.command_after = self.tokens_replace(self.options['CommandAfter'], date)
     # IF tar || tar.gz, add .tar || tar.gz respectively to the dest since
     # the dest is to be a file, not a folder...
     if self.options['Engine'] == 'tar':
@@ -539,6 +545,7 @@ class SetBackupOperation(BackupOperation):
               'remote_password': self.options['RemotePassword'],
               'remote_port': str(self.options['RemotePort']),
              }
+    # Adjust destination folder for remote backups
     if self.options['DestinationType'] == 'remote (ssh)':
       tokens['destination'] = self.options['Destination']
     else:
@@ -559,6 +566,30 @@ class SetBackupOperation(BackupOperation):
       text = text.replace(r"\[%s]" % token, "[%s]" % token)
     return text
   
+  def execute_user_command(self, cmd_type, command):
+    """Run the after user command"""
+    # Before or after command?
+    if cmd_type == 1:
+      cmd_type_str = 'Before'
+    elif cmd_type == 2:
+      cmd_type_str = 'After'
+    else:
+      raise ValueError('Unknown command type value "%s"' % cmd_type)
+    # Execute the command
+    self.logger.logmsg('INFO', _("Executing '%s' command") % cmd_type_str)
+    sub = fwbackups.executeSub(command, env=self.environment, shell=True)
+    self.pids.append(sub.pid)
+    self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
+    # Sleep while not done.
+    while sub.poll() in ["", None]:
+      time.sleep(0.01)
+    self.pids.remove(sub.pid)
+    retval = sub.poll()
+    # Something wrong?
+    if retval != EXIT_STATUS_OK:
+      self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
+      self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
+  
   def removeOldBackups(self):
     """Get list of old backups and remove them"""
     # get listing, local or remote
@@ -576,7 +607,9 @@ class SetBackupOperation(BackupOperation):
     oldbackups.reverse()
     if self.options['DestinationType'] == 'remote (ssh)':
       for i in oldbackups[self.options['OldToKeep']:]:
-        sftp.remove(sftpClient, os.path.join(self.options['RemoteFolder'], i))
+        remoteBackup = os.path.join(self.options['RemoteFolder'], i)
+        self.logger.logmsg('DEBUG', _('Removing old backup `%(a)s\' on %(b)s') % {'a': remoteBackup, 'b': self.options['RemoteHost']})
+        sftp.remove(sftpClient, remoteBackup)
       sftpClient.close()
       client.close()
     else:
@@ -598,87 +631,82 @@ class SetBackupOperation(BackupOperation):
           shutil_modded.rmtree(path=os.path.join(self.options['Destination'], i), onerror=self.onError)
 
   def start(self):
-    """Backup a set"""
+    """Start the backup process. Should be called after executing user command."""
     if self.options['Enabled'] == '0': # set is disabled
       return True
-    # Get the list of paths...
-    paths = self.parsePaths(self.config)
-    if not paths:
-      return False
     
-    # Before command...
-    if self.command_before:
+    if self.options["CommandBefore"]:
       self._status = STATUS_EXECING_USER_COMMAND
-      self.logger.logmsg('INFO', _("Executing 'Before' command"))
-      sub = fwbackups.executeSub(self.command_before, env=self.environment, shell=True)
-      self.pids.append(sub.pid)
-      self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-      # Sleep while not done.
-      while sub.poll() in ["", None]:
-        time.sleep(0.01)
-      self.pids.remove(sub.pid)
-      retval = sub.poll()
-      # Something wrong?
-      if retval != EXIT_STATUS_OK:
-        self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
-        self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
-      self.ifCancel()
+      # Find tokens and substitute them
+      tokenized_command = self.tokens_replace(self.options["CommandBefore"], self.date)
+      self.execute_user_command(1, tokenized_command)
     
-    self.checkRemoteServer()
-    
-    self._status = STATUS_CLEANING_OLD
-    if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
-       not self.options['DestinationType'] == 'remote (ssh)':
-      if not self.prepareDestinationFolder(self.options['Destination']):
+    try:
+      # Get the list of paths...
+      paths = self.parsePaths(self.config)
+      if not paths:
         return False
-      if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
-      and os.path.exists(self.dest):
-        self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
-    self.ifCancel()
+      
+      self.ifCancel()
+      
+      if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
+        self.checkRemoteServer()
+      
+      self._status = STATUS_CLEANING_OLD
+      if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
+          not self.options['DestinationType'] == 'remote (ssh)':
+        if not self.prepareDestinationFolder(self.options['Destination']):
+          return False
+        if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
+        and os.path.exists(self.dest):
+          self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
+          shutil_modded.rmtree(path=self.dest, onerror=self.onError)
+      self.ifCancel()
+      
+      # Remove old stuff
+      self.removeOldBackups()
+      self.ifCancel()
+      
+      self._status = STATUS_INITIALIZING
+      if self.options['PkgListsToFile']:
+        managers = self.createPkgLists()
+      else:
+        managers = []
+      if self.options['DiskInfoToFile']:
+        self.createDiskInfo()
+      self.ifCancel()
+      command = self.parseCommand(self.config)
+      for manager in managers:
+        self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
+      # Now that the paths & commands are set up...
+      retval = self.backupPaths(paths, command)
+      for manager in managers:
+        self.deleteListFiles(manager, self.options['PkgListsToFile'], self.options['DiskInfoToFile'])
+      if self.options['DestinationType'] == 'local':
+        try:
+          os.chmod(self.dest, 0711)
+        except:
+          pass
+    # Exception handlers in FuncAsThread() must return retval same values
+    except exceptions.SystemExit:
+      # cancelled; the only time we skip the after command
+      return -2
+    except:
+      retval = False
+      import traceback
+      (etype, value, tb) = sys.exc_info()
+      self.traceback = ''.join(traceback.format_exception(etype, value, tb))
+      self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
+      self.logger.logmsg('ERROR', self.traceback)
+      # just incase we have leftover stuff running
+      self.cancelOperation()
     
-    # Remove old stuff
-    self.removeOldBackups()
-    self.ifCancel()
-    
-    self._status = STATUS_INITIALIZING
-    if self.options['PkgListsToFile']:
-      managers = self.createPkgLists()
-    else:
-      managers = []
-    if self.options['DiskInfoToFile']:
-      self.createDiskInfo()
-    self.ifCancel()
-    command = self.parseCommand(self.config)
-    for manager in managers:
-      self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
-    # Now that the paths & commands are set up...
-    errorBool = self.backupPaths(paths, command)
-    for manager in managers:
-      self.deleteListFiles(manager, self.options['PkgListsToFile'], self.options['DiskInfoToFile'])
-    if self.options['DestinationType'] == 'local':
-      try:
-        os.chmod(self.dest, 0711)
-      except:
-        pass
-    
-    # After command
-    if self.command_after:
+    if self.options["CommandAfter"]:
       self._status = STATUS_EXECING_USER_COMMAND
-      self.logger.logmsg('INFO', _("Executing 'After' command"))
-      sub = fwbackups.executeSub(self.command_after, env=self.environment, shell=True)
-      self.pids.append(sub.pid)
-      self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-      # Sleep while not done.
-      while sub.poll() in ["", None]:
-        time.sleep(0.01)
-      self.pids.remove(sub.pid)
-      retval = sub.poll()
-      # Something wrong?
-      if retval != EXIT_STATUS_OK:
-        self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
-        self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
-
+      # Find tokens and substitute them
+      tokenized_command = self.tokens_replace(self.options["CommandAfter"], self.date)
+      self.execute_user_command(2, tokenized_command)
+    
     # All done!
     self.logger.logmsg('INFO', _("Finished automatic backup operation of set '%s'") % self.config.getSetName())
-    return errorBool
+    return retval
