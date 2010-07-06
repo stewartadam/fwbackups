@@ -23,6 +23,7 @@ import time
 
 sys.path.append(os.path.join(os.getcwd(), 'src'))
 from fwbackups.i18n import _
+from fwbackups.const import USER, USERHOME
 from fwbackups import config
 from fwbackups.operations import backup, restore, OperationError
 from fwbackups import sftp
@@ -38,8 +39,12 @@ paths = [SOURCEDIR]
 print _("*** Initializing files")
 for directory in [TESTDIR, SOURCEDIR, DESTDIR_BACKUP, DESTDIR_RESTORE]:
   if os.path.exists(directory):
-    print _("Folder %s exists and will be emptied. Press <ctrl+c> in the next 3 seconds to cancel...") % directory
-    time.sleep(5)
+    print _("Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> to cancel...") % directory
+    try:
+      raw_input()
+    except KeyboardInterrupt:
+      print
+      sys.exit(0)
     print _("Cleaning folder %s...") % directory
     shutil_modded.rmtree(directory)
   os.mkdir(directory)
@@ -51,17 +56,17 @@ for num in range(0, 50):
   fh.close()
 
 print _("*** Remote settings")
-hostname = raw_input(_("Hostname: "))
+hostname = raw_input(_("Hostname [localhost]:")) or 'localhost'
 while True:
-  port = raw_input(_("Port: "))
+  port = raw_input(_("Port [22]: ")) or '22'
   try:
     int(port)
     break
   except:
     print _("The port field can only contain numbers. Please try again.")
-username = raw_input(_("Username: "))
+username = raw_input(_("Username: [%s]") % USER) or USER
 password = raw_input(_("Password: ")).encode("base64")
-remotefolder = raw_input(_("Remote folder: "))
+remotefolder = raw_input(_("Remote folder [%s]: ") % USERHOME) or USERHOME
 
 options = {}
 options["BackupHidden"] = 1
