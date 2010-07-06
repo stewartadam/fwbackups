@@ -31,11 +31,11 @@ L_WARNING = logging.WARNING
 L_ERROR = logging.ERROR
 L_CRITICAL = logging.CRITICAL
 LOGGERS = {'main': 'fwbackups-main'}
-LEVELS = {'debug': 10,
-          'info': 20,
-          'warning': 30,
-          'error': 40,
-          'critical': 50}
+LEVELS = {'DEBUG': L_DEBUG,
+          'INFO': L_INFO,
+          'WARNING': L_WARNING,
+          'ERROR': L_ERROR,
+          'CRITICAL': L_CRITICAL}
 
 def getLogger():
   """Retrieve the fwbackups logger"""
@@ -99,12 +99,12 @@ class fwLogger(logging.Logger):
     or 'critical'."""
     date = datetime.datetime.now().strftime('%b %d %H:%M:%S')
     level = self.getEffectiveLevel()
-    if level <= LEVELS[severity.lower()]:
-      entry = '%s :: %s : %s' % (date, _(severity.upper()), message)
-      # pull in & execute the appropriate function
-      getattr(self, severity.lower())(entry)
+    if level <= LEVELS[severity]:
+      entry = '%s :: %s : %s' % (date, _(severity), message)
+      self.log(LEVELS[severity], entry)
       if self.__printToo:
         print entry.encode('utf-8')
+      # pull in & execute the appropriate function
       for i in self.__functions:
-        i(severity.lower(), entry)
+        i(severity, entry)
 

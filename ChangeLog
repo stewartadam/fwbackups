@@ -13,6 +13,8 @@
     or directory name
   - Rename "Include subfolders" backup option to "Recursive" due to the name 
     "Include subfolders" being misleading with regards to its actual effect.
+  - Fix a problem that may have cause fwbackups to crash on startup if using a
+    language other than English
   
 || Version 1.43.3rc5 changes ||
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>
