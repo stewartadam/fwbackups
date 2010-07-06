@@ -535,7 +535,7 @@ class SetBackupOperation(BackupOperation):
     options['OldToKeep'] = int(float(options['OldToKeep']))
     return options
   
-  def tokens_replace(self, text, date):
+  def tokens_replace(self, text, date, successful=None):
     """Replace tokens in the supplied text"""
     tokens = {'backup': os.path.basename(self.dest),
               'set': self.config.getSetName(),
@@ -545,6 +545,12 @@ class SetBackupOperation(BackupOperation):
               'remote_password': self.options['RemotePassword'],
               'remote_port': str(self.options['RemotePort']),
              }
+    # Only create the success token if we explicitly set to True/False
+    if successful != None:
+      if successful:
+        tokens['successful'] = 1
+      else:
+        tokens['successful'] = 0
     # Adjust destination folder for remote backups
     if self.options['DestinationType'] == 'remote (ssh)':
       tokens['destination'] = self.options['Destination']
@@ -704,7 +710,7 @@ class SetBackupOperation(BackupOperation):
     if self.options["CommandAfter"]:
       self._status = STATUS_EXECING_USER_COMMAND
       # Find tokens and substitute them
-      tokenized_command = self.tokens_replace(self.options["CommandAfter"], self.date)
+      tokenized_command = self.tokens_replace(self.options["CommandAfter"], self.date, retval)
       self.execute_user_command(2, tokenized_command)
     
     # All done!
