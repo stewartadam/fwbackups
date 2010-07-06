@@ -61,20 +61,19 @@ class BackupOperation(operations.Common):
                    'BackupHidden', 'FollowLinks', 'Sparse']:
       options[option] = _bool(options[option])
     return options
-
+  
+  def escapePath(self, path):
+    """Wrap the supplied path in quotes for command line, and escape any other
+       single quotes"""
+    return "'%s'" % '\'\\\'\''.join(path.split('\''))
+  
   def parsePaths(self, config):
     """Get the list of paths in the configuration file. Returns a list of paths to backup"""
     paths = []
     for path in config.getPaths():
-      # non recursive - Skip dirs
-      if self.options['Recursive'] == False and os.path.isdir(path):
-        continue # move on to next file
-      paths.append("'%s'" % '\'\\\'\''.join(path.split('\''))) # wrap it in quotes for command line, and escape other single quote
-    if paths == []:
-      self.logger.logmsg('WARNING', _('After parsing options, there are no paths to backup!') + ' paths == []')
-      return False, -1
+      paths.append(path)
     return paths
-
+  
   def createPkgLists(self):
     """Create the pkg lists in tempdir"""
     managers = []
@@ -262,13 +261,12 @@ class BackupOperation(operations.Common):
         for i in paths:
           self.ifCancel()
           self._current += 1
-          # let's deal with real paths
-          i = i[1:-1]
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
         fh.close()
       else:
         for i in paths:
+          i = self.escapePath(i)
           self.ifCancel()
           self._current += 1
           self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
@@ -289,21 +287,21 @@ class BackupOperation(operations.Common):
       
     elif self.options['Engine'] == 'tar.gz':
       self._total = 1
-      self._current = 1
       if MSWINDOWS:
         self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:gz')
         for i in paths:
+          self.current += 1
           self.ifCancel()
-          # let's deal with real paths
-          i = i[1:-1]
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
         fh.close()
       else:
-        i = ' '.join(paths)
+        self._current = 1
+        escapedPaths = [self.escapePath(i) for i in paths]
+        i = ' '.join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i.replace("'", '')})
         self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
@@ -324,21 +322,21 @@ class BackupOperation(operations.Common):
           
     elif self.options['Engine'] == 'tar.bz2':
       self._total = 1
-      self._current += 1
       if MSWINDOWS:
         self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:bz2')
         for i in paths:
+          self._current += 1
           self.ifCancel()
-          # let's deal with real paths
-          i = i[1:-1]
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
         fh.close()
       else:
-        i = ' '.join(paths)
+        self._current = 1
+        escapedPaths = [self.escapePath(i) for i in paths]
+        i = ' '.join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
         self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
@@ -369,8 +367,9 @@ class BackupOperation(operations.Common):
               # Immediately after, self.ifCancel() is run.
               break
             self._current += 1
-            i = i[1:-1]
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
+            if not os.path.exists(i):
+              self.logger.logmsg('WARNING', _("Path %s is missing or cannot be read and will be excluded from the backup.") % i)
             sftp.put(sftpClient, i, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
         sftpClient.close()
         client.close()
@@ -380,11 +379,11 @@ class BackupOperation(operations.Common):
           self._current += 1
           if MSWINDOWS:
             # let's deal with real paths
-            i = i[1:-1]
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
             shutil_modded.copytree_fullpaths(i, self.dest)
             self._current += 1
           else: # UNIX/OS X can call rsync binary
+            i = self.escapePath(i)
             self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.dest.replace("'", "'\\''")}))
             sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
             self.pids.append(sub.pid)
@@ -457,6 +456,7 @@ class OneTimeBackupOperation(BackupOperation):
     """One-time backup"""
     paths = self.parsePaths(self.config)
     if not paths:
+      self.logger.logmsg('WARNING', _('There are no paths to backup!'))
       return False
       
     if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
@@ -651,6 +651,7 @@ class SetBackupOperation(BackupOperation):
       # Get the list of paths...
       paths = self.parsePaths(self.config)
       if not paths:
+        self.logger.logmsg('WARNING', _('There are no paths to backup!'))
         return False
       
       self.ifCancel()

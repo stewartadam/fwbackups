@@ -2326,7 +2326,7 @@ bzip2: slower, more efficient</property>
 					    <widget class="GtkCheckButton" id="main3RecursiveCheck">
 					      <property name="visible">True</property>
 					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">Include subfolders</property>
+					      <property name="label" translatable="yes">Recursive</property>
 					      <property name="use_underline">True</property>
 					      <property name="relief">GTK_RELIEF_NORMAL</property>
 					      <property name="focus_on_click">True</property>
@@ -10595,7 +10595,7 @@ bzip2: slower, more efficient</property>
 				<widget class="GtkCheckButton" id="backupset4RecursiveCheck">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Includes subfolders</property>
+				  <property name="label" translatable="yes">Recursive</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>

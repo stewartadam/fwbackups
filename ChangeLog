@@ -8,6 +8,11 @@
   - Display tracebacks at log level ERROR instead of DEBUG when an error occurs
     during a backup or restore
   - Add a "[successful]" backup token
+  - Fix a problem where a Direcy Copy backup with a remote destination or any
+    Windows backup would silently pass over paths with single quotes in the file
+    or directory name
+  - Rename "Include subfolders" backup option to "Recursive" due to the name 
+    "Include subfolders" being misleading with regards to its actual effect.
   
 || Version 1.43.3rc5 changes ||
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>
