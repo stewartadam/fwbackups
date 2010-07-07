@@ -12,10 +12,6 @@ AC_SUBST(GETTEXT_PACKAGE)
 # Use intltool
 AC_PROG_INTLTOOL
 
-# Check for xsltproc
-AC_CHECK_PROG(XSLTPROC,xsltproc,xsltproc,)
-AC_SUBST(XSLTPROC_FLAGS)
-
 # Output files
 AC_CONFIG_FILES([
 bin/Makefile
