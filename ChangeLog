@@ -1,20 +1,24 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Wed Jul 7 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem where all tokens values would be wrapped in square brackets
+      (for example [successful] would return [1] instead of 1)
+  
   * Tue Jul 6 2010 Stewart Adam <s.adam at diffingo.com>
-  - Ensure that the after command runs even upon backup failure
-  - Fix minor bugs regarding logging and reporting of backup progress when
-    performing Direct Copy backups to a remote destination
-  - Display tracebacks at log level ERROR instead of DEBUG when an error occurs
-    during a backup or restore
-  - Add a "[successful]" backup token
-  - Fix a problem where a Direcy Copy backup with a remote destination or any
-    Windows backup would silently pass over paths with single quotes in the file
-    or directory name
-  - Rename "Include subfolders" backup option to "Recursive" due to the name 
-    "Include subfolders" being misleading with regards to its actual effect.
-  - Fix a problem that may have cause fwbackups to crash on startup if using a
-    language other than English
+    - Ensure that the after command runs even upon backup failure
+    - Fix minor bugs regarding logging and reporting of backup progress when
+      performing Direct Copy backups to a remote destination
+    - Display tracebacks at log level ERROR instead of DEBUG when an error occurs
+      during a backup or restore
+    - Add a "[successful]" backup token
+    - Fix a problem where a Direcy Copy backup with a remote destination or any
+      Windows backup would silently pass over paths with single quotes in the file
+      or directory name
+    - Rename "Include subfolders" backup option to "Recursive" due to the name 
+      "Include subfolders" being misleading with regards to its actual effect.
+    - Fix a problem that may have cause fwbackups to crash on startup if using a
+      language other than English
   
 || Version 1.43.3rc5 changes ||
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>

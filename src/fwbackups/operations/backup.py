@@ -559,11 +559,11 @@ class SetBackupOperation(BackupOperation):
     
     def replace_match(m):
       """Replace non-escaped tokens with values at the beginning of a string"""
-      return r"[%s]" % tokens[m.group(1)]
+      return r"%s" % tokens[m.group(1)]
     
     def replace_match_escape(m):
       """Replace non-escaped tokens with values after the beginning of a string"""
-      return r"%s[%s]" % (m.group(1), tokens[m.group(2)])
+      return r"%s%s" % (m.group(1), tokens[m.group(2)])
     
     for token, sub in tokens.items():
       text = re.sub(r"^\[(%s)\]" % token, replace_match, text)
