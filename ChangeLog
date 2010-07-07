@@ -4,6 +4,7 @@
   * Wed Jul 7 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where all tokens values would be wrapped in square brackets
       (for example [successful] would return [1] instead of 1)
+    - Touch po/Makefile before running autoreconf in autogen.sh
   
   * Tue Jul 6 2010 Stewart Adam <s.adam at diffingo.com>
     - Ensure that the after command runs even upon backup failure

@@ -10,7 +10,7 @@ ALL_LINGUAS=""
 GETTEXT_PACKAGE=fwbackups
 AC_SUBST(GETTEXT_PACKAGE)
 # Use intltool
-AC_PROG_INTLTOOL
+IT_PROG_INTLTOOL([0.35.0], [no-xml])
 
 # Output files
 AC_CONFIG_FILES([

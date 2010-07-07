@@ -36,6 +36,10 @@ if test -z "$*"; then
     echo
 fi
 
+# Fix stupidness in old versions of intltool (known to happen in 0.35.0)
+# po/Makefile will not be generated unless it exists, even if it's blank
+touch po/Makefile
+
 conf_flags=""
 
 ${AUTORECONF:-autoreconf} --install --verbose && ./configure $conf_flags $@
