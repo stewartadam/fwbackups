@@ -626,12 +626,17 @@ class fwbackupsApp(interface.Controller):
     try:
       # Write the new crontab
       cron.write(fwbackupCronLines)
+    except cron.ValidationError:
+      raise
     except Exception, error:
       self.logger.logmsg('WARNING', _("Unable to write new crontab: %s" % str(error)))
       self.displayError(self.ui.main, _("Unable to save backup schedule to crontab"), _("There was an error saving the new backup schedule. A backup will be restored, however this may cause a discrepancy between the set settings and the actual backup schedule.\n\nIf you see this message, please report a bug against fwbackups."))
       # Restore backup
-      cron.write(originalCronLines)
-      self.logger.logmsg('INFO', _("A backup of the crontab was restored; the backup schedule may be different than the settings in the GUI."))
+      try:
+        cron.write(originalCronLines)
+        self.logger.logmsg('INFO', _("A backup of the crontab was restored; the backup schedule may be different than the settings in the GUI."))
+      except:
+        self.logger.logmsg('WARNING', _("A backup of the crontab could not be restored"))
       
 
   def main_close_traywrapper(self, widget, event=None):
@@ -678,7 +683,10 @@ class fwbackupsApp(interface.Controller):
     if hasattr(self, 'trayicon'):
       self.trayicon.set_visible(False)
     # Save set configurations schedule
-    self.regenerateCrontab()
+    try:
+      self.regenerateCrontab()
+    except cron.ValidationError:
+      self.displayError(self.ui.backupset, _("Could not save backup schedule"), _("fwbackups was unable to save the backup scheduling information to the crontab. If you are using manual times entry in one of your sets, please verify that all five fields are using the correct syntax."))
     # Shutdown logging & quit the GTK mainloop
     self.logger.logmsg('INFO', _('fwbackups administrator closed'))
     fwlogger.shutdown()
@@ -2137,7 +2145,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4DiskInfoToFileCheck.set_active(False)
       self.ui.backupset4DiskInfoToFileCheck.set_sensitive(False)
 
-  def saveSetConfiguration(self, setConf, origSetName=None):
+  def saveSetConfiguration(self, setConf):
     """Save all the information to a .conf file, add to crontab"""
     # Generate a list of paths
     paths = []
@@ -2250,6 +2258,8 @@ class fwbackupsApp(interface.Controller):
     setConf.save(paths, options, times)
     try:
       self.regenerateCrontab()
+    except cron.ValidationError:
+      raise
     except Exception, error:
       self.displayInfo(self.ui.backupset,
                        _("Error creating the automated backup schedules"),
@@ -2339,28 +2349,38 @@ class fwbackupsApp(interface.Controller):
       return
     newPath = os.path.join(SETLOC, "%s.conf" % newName)
     setConf = config.BackupSetConf(newPath, True)
-    if self.action == None:
-      self.saveSetConfiguration(setConf)
-      message = _('Creating set `%s\'' % newName)
-      self.statusbar.newmessage(message, 3)
-      self.logger.logmsg('DEBUG', message)
-    else: # edit
+    # editing a set - check if we need to rename
+    if self.action != None:
       action, name = self.action.split(';')
-      self.action = None
-      self.saveSetConfiguration(setConf, name)
       if name != newName:
-        try:
-          namepath = os.path.join(SETLOC, "%s.conf" % name)
-          os.remove(namepath)
-          self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s" % {'a': name, 'b': newName}))
-        except IOError, error:
-          self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s failed: %(c)s" % {'a': name, 'b': newName, 'c': error}))
-          self.displayInfo(self.ui.backupset, _("Could not rename set '%(a)s' to '%(b)s'") % {'a': name, 'b': newName}, str(error))
-      else:
-        newName = name
-      message = _('Saving changes to set `%s\'' % newName)
-      self.statusbar.newmessage(message, 3)
-      self.logger.logmsg('DEBUG', message)
+        self.action = '%s;%s' % (action, newName)
+        namepath = os.path.join(SETLOC, "%s.conf" % name)
+        if os.path.isfile(namepath):
+          try:
+            os.remove(namepath)
+            self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s" % {'a': name, 'b': newName}))
+          except IOError, error:
+            self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s failed: %(c)s" % {'a': name, 'b': newName, 'c': error}))
+            self.displayInfo(self.ui.backupset, _("Could not rename set '%(a)s' to '%(b)s'") % {'a': name, 'b': newName}, str(error))
+    # Attempt to save the new set configuration
+    try:
+      self.saveSetConfiguration(setConf)
+      settingsNeedRevision = False
+      if self.action == None: # creating a set
+        message = _('Creating set `%s\'' % newName)
+        self.statusbar.newmessage(message, 3)
+        self.logger.logmsg('DEBUG', message)
+      else: # editing a set
+        message = _('Saving changes to set `%s\'' % newName)
+        self.statusbar.newmessage(message, 3)
+        self.logger.logmsg('DEBUG', message)
+    except cron.ValidationError:
+      self.displayError(self.ui.backupset, _("Could not save backup schedule"), _("Your set configuration changes were saved, but fwbackups was unable to save the backup scheduling information to the crontab. If you are using manual times entry, please verify that all five fields are using the correct syntax."))
+      settingsNeedRevision = True
+    # See if user needs to revise settings first
+    if settingsNeedRevision:
+      return False
+    self.action = None
     self.ui.backupset.hide()
     self._toggleLocked(False)
     self.main2IconviewRefresh()
