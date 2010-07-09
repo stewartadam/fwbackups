@@ -49,7 +49,7 @@ class rawCrontabLine:
   def is_comment_or_whitespace(self):
     """Returns True if the crontab entry is a comment"""
     entry_text = self.get_raw_entry_text()
-    if not entry_text or entry_text.lstrip().startswith("#"):
+    if not entry_text.strip() or entry_text.lstrip().startswith("#"):
       return True
     return False
   
@@ -234,8 +234,14 @@ def clean_fwbackups_entries():
       # Never clean out comments or whitespace
       cleanedLines.append(line)
     else:
-      # if not comment or whitespace, check if the entry is not fwbackups related
-      if re.compile("^(.*)(fwbackups-run)(.*)$").search(line.get_raw_entry_text()) == None:
+      # if not comment or whitespace, try to parse it and see if it has our signature
+      rawtext = line.get_raw_entry_text()
+      match = re.match(r"^([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+(.+?)\s*(#.*)?$", rawtext.strip())
+      if match == None:
+        continue
+      parsedLine = crontabLine(*match.groups())
+      fields = parsedLine.get_all_fields()
+      if not (fields[5].startswith('fwbackups-run') and fields[6].startswith(CRON_SIGNATURE)):
         cleanedLines.append(line)
   return cleanedLines
     

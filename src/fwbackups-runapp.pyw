@@ -265,11 +265,11 @@ class fwbackupsApp(interface.Controller):
       sys.exit(1)
     # Step 2: Setup the logger
     self.updateSplash(0.2, _('Setting up the logger and user preferences'))
+    prefs = config.PrefsConf(create=True)
     try:
       self.logger = fwlogger.getLogger()
       # default to info log level
       level = fwlogger.L_INFO
-      prefs = config.PrefsConf(create=True)
       if self.verbose >= 1:
         # one -v used: print to console
         self.logger.setPrintToo(True)
@@ -609,6 +609,8 @@ class fwbackupsApp(interface.Controller):
           entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, INSTALL_DIR, cron.escape(setName, 2)))
         else:
           entry.append('fwbackups-run -l \'%s\'' % cron.escape(setName, 1))
+        # Add out signature
+        entry.append(CRON_SIGNATURE)
         try:
           crontabLine = cron.crontabLine(*entry)
           if not crontabLine.is_parsable():
