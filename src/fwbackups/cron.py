@@ -252,6 +252,7 @@ def clean_fwbackups_entries():
       rawtext = line.get_raw_entry_text()
       match = re.match(r"^([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+(.+?)\s*(#.*)?$", rawtext.strip())
       if match == None:
+        cleanedLines.append(line)
         continue
       parsedLine = crontabLine(*match.groups())
       fields = parsedLine.get_all_fields()
