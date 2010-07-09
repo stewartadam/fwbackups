@@ -589,6 +589,7 @@ class fwbackupsApp(interface.Controller):
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
     doGtkEvents()
     # Purge existing fwbackups entries from the crontab
+    originalCronLines = cron.read()
     fwbackupCronLines = cron.clean_fwbackups_entries()
     # Generate the new fwbackups entries
     files = os.listdir(SETLOC)
@@ -620,8 +621,16 @@ class fwbackupsApp(interface.Controller):
           continue
         # After all is done, log an message
         self.logger.logmsg('DEBUG', _("Saving set `%s' to the crontab") % setName)
-    # Write the non-fwbackups lines plus the newly generated fwbackups lines to the crontab
-    cron.write(fwbackupCronLines)
+    try:
+      # Write the new crontab
+      cron.write(fwbackupCronLines)
+    except Exception, error:
+      self.logger.logmsg('WARNING', _("Unable to write new crontab: %s" % str(error)))
+      self.displayError(self.ui.main, _("Unable to save backup schedule to crontab"), _("There was an error saving the new backup schedule. A backup will be restored, however this may cause a discrepancy between the set settings and the actual backup schedule.\n\nIf you see this message, please report a bug against fwbackups."))
+      # Restore backup
+      cron.write(originalCronLines)
+      self.logger.logmsg('INFO', _("A backup of the crontab was restored; the backup schedule may be different than the settings in the GUI."))
+      
 
   def main_close_traywrapper(self, widget, event=None):
     """Quit, but check if we should minimize first."""

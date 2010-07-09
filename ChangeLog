@@ -5,6 +5,8 @@
     - Do not attempt to parse and generate the text for crontab entries already
       in the crontab, allowing fwbackups to preserve formatting, spacing,
       comments and variables such as "   HOME=/foobar   # foobar  spaces"
+    - Backup the crontab before making any modifications and restore the
+      original in the event of an error
   
   * Wed Jul 7 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where all tokens values would be wrapped in square brackets

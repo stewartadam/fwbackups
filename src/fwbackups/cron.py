@@ -237,7 +237,5 @@ def clean_fwbackups_entries():
       # if not comment or whitespace, check if the entry is not fwbackups related
       if re.compile("^(.*)(fwbackups-run)(.*)$").search(line.get_raw_entry_text()) == None:
         cleanedLines.append(line)
-  for line in cleanedLines:
-    print [line.get_raw_entry_text()]
   return cleanedLines
     
