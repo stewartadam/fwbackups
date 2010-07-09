@@ -324,7 +324,6 @@ class fwbackupsApp(interface.Controller):
         self.trayicon.set_visible(True)
     self._setDefaults()
     self.updateSplash(0.8, _('Cleaning after previous versions'))
-    self.cronTab = cron.CronTab()
     # Clean up, clean up, everybody do your share...
     if os.path.exists('/etc/crontab') and fwbackups.CheckPermsRead('/etc/crontab'):
       fh = open('/etc/crontab', 'r')
@@ -589,7 +588,9 @@ class fwbackupsApp(interface.Controller):
     self.logger.logmsg('DEBUG', _('Regenerating crontab'))
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
     doGtkEvents()
-    self.cronTab.clean()
+    # Purge existing fwbackups entries from the crontab
+    fwbackupCronLines = cron.clean_fwbackups_entries()
+    # Generate the new fwbackups entries
     files = os.listdir(SETLOC)
     files.sort()
     for file in files:
@@ -608,14 +609,19 @@ class fwbackupsApp(interface.Controller):
         else:
           entry.append('fwbackups-run -l \'%s\'' % cron.escape(setName, 1))
         try:
-          self.cronTab.add(cron.CronLine(entry))
+          crontabLine = cron.crontabLine(*entry)
+          if not crontabLine.is_parsable():
+            raise cron.CronError(_("Internal error: generated entry was not parsable. Please submit a bug report."))
+          fwbackupCronLines.append(crontabLine)
         except Exception, error:
           self.displayError(self.ui.main, _("Could not schedule automated backups for set '%s'") % setName,
             _("fwbackups could not regenerate a crontab entry because an error occured:\n") + \
-            _("%(a)s\n\nThe crontab entry associated with the error was:\n%(b)s") % (error, entry))
+            _("%(a)s\n\nThe crontab entry associated with the error was:\n%(b)s") % {'a': error, 'b': entry})
           continue
         # After all is done, log an message
         self.logger.logmsg('DEBUG', _("Saving set `%s' to the crontab") % setName)
+    # Write the non-fwbackups lines plus the newly generated fwbackups lines to the crontab
+    cron.write(fwbackupCronLines)
 
   def main_close_traywrapper(self, widget, event=None):
     """Quit, but check if we should minimize first."""
@@ -1312,7 +1318,6 @@ class fwbackupsApp(interface.Controller):
       return
     elif response == gtk.RESPONSE_YES:
       setConf = config.BackupSetConf(setPath)
-      l = cron.CronLine(setConf.get('Times', 'Entry').split(' '))
       try:
         os.remove(setPath)
       except OSError, error:

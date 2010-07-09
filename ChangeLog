@@ -1,6 +1,11 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Fri Jul 9 2010 Stewart Adam <s.adam at diffingo.com>
+    - Do not attempt to parse and generate the text for crontab entries already
+      in the crontab, allowing fwbackups to preserve formatting, spacing,
+      comments and variables such as "   HOME=/foobar   # foobar  spaces"
+  
   * Wed Jul 7 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where all tokens values would be wrapped in square brackets
       (for example [successful] would return [1] instead of 1)
