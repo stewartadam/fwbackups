@@ -27,7 +27,7 @@ import types
 from i18n import _
 from const import *
 
-from fwbackups import execute, executeSub
+from fwbackups import execute, executeSub, kill
 from fwbackups import config
 
 class CronError(Exception):
@@ -37,6 +37,12 @@ class CronError(Exception):
   def __str__(self):
     return repr(self.value)
 
+class ValidationError(Exception):
+  """Cron interfacing error."""
+  def __init__(self, value):
+    self.value = value
+  def __str__(self):
+    return repr(self.value)
 
 class rawCrontabLine:
   """Represents a raw, unparsed line in the crontab"""
@@ -200,10 +206,18 @@ def write(crontabEntries=[]):
     time.sleep(1)
     fh.close()
     if not MSWINDOWS:
-      retval = sub.wait()
+      counter = 0.0
+      while sub.poll() in [None, ""] and counter < 5.0: # After waiting for 5 seconds, assume that the crontab could not be installed
+        time.sleep(0.1)
+        counter += 0.1
+      if sub.poll() in [None, ""]:
+        # Soft-terminate the process if it still hasn't finished
+        kill(sub.pid, 15)
+        sub.wait()
+        raise ValidationError(_("The crontab could not be saved"))
       if DARWIN:
         os.remove('/fwbackups-cronwriter.py')
-      if retval != os.EX_OK:
+      if sub.poll() != os.EX_OK:
         stdout = ' '.join(sub.stdout.readlines())
         stderr = ' '.join(sub.stderr.readlines())
         raise CronError(_('Could not write new crontab:\n%(a)s%(b)s') % {'a': stdout, 'b': stderr})
@@ -220,7 +234,7 @@ def remove():
     fh.write('')
     fh.close()
   else:
-    sub, stdout, stderrrr = execute(['crontab', '-r'])
+    sub, stdout, stderr = execute(['crontab', '-r'])
 
 def clean_fwbackups_entries():
   """Reads the crontab and removes any fwbackups entries. Returns the cleaned
@@ -238,6 +252,7 @@ def clean_fwbackups_entries():
       rawtext = line.get_raw_entry_text()
       match = re.match(r"^([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+(.+?)\s*(#.*)?$", rawtext.strip())
       if match == None:
+        cleanedLines.append(line)
         continue
       parsedLine = crontabLine(*match.groups())
       fields = parsedLine.get_all_fields()
