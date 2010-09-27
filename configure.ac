@@ -9,6 +9,8 @@ AM_PATH_PYTHON([2.4])
 ALL_LINGUAS=""
 GETTEXT_PACKAGE=fwbackups
 AC_SUBST(GETTEXT_PACKAGE)
+# I tried hard, but it looks like we can't escape the grasp of glib.
+AM_GLIB_GNU_GETTEXT
 # Use intltool
 IT_PROG_INTLTOOL([0.35.0], [no-xml])
 
