@@ -172,7 +172,7 @@ def putFile(sftp, src, dst, symlinks=False, excludes=[]):
     return sftp.put(src, os.path.join(dst, os.path.basename(src)) )
 
 def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
-  """Copies src (local) to dst (remote). Folder dst must exist"""
+  """Copies src (local) to dst/[src] (remote). Folder dst must exist"""
   # Check if the src itself is an exclude
   # FIXME: This means we check any subdirectory against excludes 2x
   SKIPME = 0
@@ -204,8 +204,8 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
         linkto = os.readlink(src_abs)
         sftp.symlink(linkto, dst_abs)
       elif os.path.isdir(src_abs):
-        # run this again in the subfolder
-        putFolder(sftp, src_abs, dst_abs, symlinks, excludes)
+        # run this again in the subfolder, uploading to the parent folder
+        putFolder(sftp, src_abs, os.path.dirname(dst_abs), symlinks, excludes)
       elif os.path.isfile(src_abs):
         sftp.put(src_abs, dst_abs)
       else:
@@ -215,7 +215,7 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
       errors.append('%s --> %s: %s' % (src_abs, dst_abs, reason))
   if errors:
     print _('Could not copy some files due to errors:')
-    print ''.join(errors)
+    print '\n'.join(errors)
 
 # Remember we wrap this in callbacks.py
 def testConnection(host, username, password, port, path):
