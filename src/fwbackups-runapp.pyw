@@ -1699,7 +1699,7 @@ class fwbackupsApp(interface.Controller):
         listing = os.listdir(destination)
       except OSError, error:
         self.logger.logmsg("WARNING", _("Error obtaining file listing in destination %(a)s:\n%(b)s") % {'a': destination, 'b': error})
-        self.displayError(self.ui.restore, _("Could not get a list of old backups for set '%s'" % setName), _("If the destination is on removable media such as an external hard disk, please attach it and try again.") % destination)
+        self.displayError(self.ui.restore, _("Could not get a list of old backups for set '%s'" % setName), _("If the destination is on removable media such as an external hard disk, please attach it and try again."))
         return
     listing.sort() # [oldest, older, old, new, newest]
     listing.reverse() # make newest first
