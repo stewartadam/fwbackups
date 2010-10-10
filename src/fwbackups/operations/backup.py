@@ -19,6 +19,7 @@
 This file contains the logic for the backup operation
 """
 import exceptions
+import fcntl
 import os
 import re
 import tempfile
@@ -130,7 +131,7 @@ class BackupOperation(operations.Common):
       tempDir = tempfile.gettempdir()
       self.dest = os.path.join(tempDir, os.path.split(self.dest.replace("'", "'\\''"))[1])
     if self.options['Engine'] == 'rsync':
-      command = 'rsync -g -o -p -t -R --verbose'
+      command = 'rsync -g -o -p -t -R'
       if self.options['Incremental']:
         command += ' -u --del'
       if self.options['Recursive']:
@@ -147,13 +148,13 @@ class BackupOperation(operations.Common):
         for i in self.options['Excludes'].split('\n'):
           command += ' --exclude="%s"' % i
     elif self.options['Engine'] == 'tar':
-      command = "tar rf '%s' -v" % (self.dest.replace("'", "'\\''"))
+      command = "tar rf '%s'" % (self.dest.replace("'", "'\\''"))
     elif self.options['Engine'] == 'tar.gz':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = "tar cfz '%s' -v" % (self.dest.replace("'", "'\\''"))
+      command = "tar cfz '%s'" % (self.dest.replace("'", "'\\''"))
     elif self.options['Engine'] == 'tar.bz2':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = "tar cfj '%s' -v" % (self.dest.replace("'", "'\\''"))
+      command = "tar cfj '%s'" % (self.dest.replace("'", "'\\''"))
     # --
     if self.options['Engine'] in ['tar', 'tar.gz', 'tar.bz2']: # they share command options
       if not self.options['Recursive']:
@@ -273,17 +274,25 @@ class BackupOperation(operations.Common):
           sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
           self.pids.append(sub.pid)
           self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-          # Sleep while not done.
+          # track stdout
+          errors = []
+          # use nonblocking I/O
+          fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
+          fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
           while sub.poll() in ["", None]:
-            self._currentName = sub.stdout.readline()
+            time.sleep(0.01)
+            try:
+              errors += sub.stderr.readline()
+            except IOError, description:
+              pass
           self.pids.remove(sub.pid)
           retval = sub.poll()
           self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
           # Something wrong?
           if retval != EXIT_STATUS_OK and retval != 2:
             wasAnError = True
-            self.logger.logmsg('ERROR', 'Error(s) occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-            self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
+            self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
+            self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
       
     elif self.options['Engine'] == 'tar.gz':
       self._total = 1
@@ -308,17 +317,25 @@ class BackupOperation(operations.Common):
         sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-        # Sleep while not done.
+        # track stdout
+        errors = []
+        # use nonblocking I/O
+        fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
+        fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
         while sub.poll() in ["", None]:
-          self._currentName = sub.stdout.readline()
+          time.sleep(0.01)
+          try:
+            errors += sub.stderr.readline()
+          except IOError, description:
+            pass
         self.pids.remove(sub.pid)
         retval = sub.poll()
         self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
         # Something wrong?
         if retval != EXIT_STATUS_OK and retval != 2:
           wasAnError = True
-          self.logger.logmsg('ERROR', 'Error(s) occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-          self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
+          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
+          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
           
     elif self.options['Engine'] == 'tar.bz2':
       self._total = 1
@@ -343,17 +360,25 @@ class BackupOperation(operations.Common):
         sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-        # Sleep while not done.
+        # track stdout
+        errors = []
+        # use nonblocking I/O
+        fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
+        fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
         while sub.poll() in ["", None]:
-          self._currentName = sub.stdout.readline()
+          time.sleep(0.01)
+          try:
+            errors += sub.stderr.readline()
+          except IOError, description:
+            pass
         self.pids.remove(sub.pid)
         retval = sub.poll()
         self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
         # Something wrong?
         if retval != EXIT_STATUS_OK and retval != 2:
           wasAnError = True
-          self.logger.logmsg('ERROR', 'Error(s) occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-          self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
+          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
+          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
     
     elif self.options['Engine'] == 'rsync':
       # in this case, self.{folderdest,dest} both need to be created
@@ -388,17 +413,25 @@ class BackupOperation(operations.Common):
             sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
             self.pids.append(sub.pid)
             self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-            # Sleep while not done.
+            # track stdout
+            errors = []
+            # use nonblocking I/O
+            fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
+            fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
             while sub.poll() in ["", None]:
-              self._currentName = sub.stdout.readline()
+              time.sleep(0.01)
+              try:
+                errors += sub.stderr.readline()
+              except IOError, description:
+                pass
             self.pids.remove(sub.pid)
             retval = sub.poll()
             self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
             # Something wrong?
             if retval not in [EXIT_STATUS_OK, 2]:
               wasAnError = True
-              self.logger.logmsg('ERROR', "Error(s) occurred while backing up path '%s'.\nPlease check the error output below to determine if any files are incomplete or missing." % str(i))
-              self.logger.logmsg('ERROR', _('Output:\n%s') % ('Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) )))
+              self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
+              self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
     
     self.ifCancel()
     # A test is included to ensure sure the archive actually exists, as if
@@ -586,15 +619,23 @@ class SetBackupOperation(BackupOperation):
     sub = fwbackups.executeSub(command, env=self.environment, shell=True)
     self.pids.append(sub.pid)
     self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
-    # Sleep while not done.
+    # track stdout
+    errors = []
+    # use nonblocking I/O
+    fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
+    fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
     while sub.poll() in ["", None]:
       time.sleep(0.01)
+      try:
+        errors += sub.stderr.readline()
+      except IOError, description:
+        pass
     self.pids.remove(sub.pid)
     retval = sub.poll()
     # Something wrong?
     if retval != EXIT_STATUS_OK:
-      self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status:'))
-      self.logger.logmsg('ERROR', 'Return value: %s\nstdout: %s\nstderr: %s' % (retval, ''.join(sub.stdout.readlines()), ''.join(sub.stderr.readlines()) ))
+      self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status!'))
+      self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
   
   def removeOldBackups(self):
     """Get list of old backups and remove them"""

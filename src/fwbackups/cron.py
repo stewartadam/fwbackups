@@ -21,6 +21,7 @@ Python interface to 'crontab' binary
 
 import os
 import re
+import subprocess
 import time
 import types
 
@@ -162,7 +163,7 @@ def read():
     fh = open(crontabLoc, 'r')
   else:
     # Read from the user's crontab
-    sub = executeSub(['crontab', '-l'])
+    sub = executeSub(['crontab', '-l'], stdoutfd=subprocess.PIPE)
     retval = sub.wait()
     if retval != os.EX_OK and retval != 1:
       raise CronError('stderr:\n%sstdout:\n%s' % (sub.stderr.readlines(), sub.stdout.readlines()))
@@ -195,7 +196,7 @@ def write(crontabEntries=[]):
         if os.path.islink('/fwbackups-cronwriter.py'):
           os.remove('/fwbackups-cronwriter.py')
         os.symlink(os.path.join(INSTALL_DIR, 'cronwriter.py'), '/fwbackups-cronwriter.py')
-      sub = executeSub(['crontab', '-e'], environ)
+      sub = executeSub(['crontab', '-e'], environ, stdoutfd=subprocess.PIPE)
       fh = sub.stdin
     # Write the content to the crontab
     for crontabEntry in crontabEntries:
@@ -234,7 +235,7 @@ def remove():
     fh.write('')
     fh.close()
   else:
-    sub, stdout, stderr = execute(['crontab', '-r'])
+    sub, stdout, stderr = execute(['crontab', '-r'], stdoutfd=subprocess.PIPE)
 
 def clean_fwbackups_entries():
   """Reads the crontab and removes any fwbackups entries. Returns the cleaned

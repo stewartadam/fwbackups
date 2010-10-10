@@ -1,6 +1,24 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Sat Oct 9 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem where excessive stderr output in subprocesses would cause
+      fwbackups to hang. The file currently being backed up can no longer be
+      displayed.
+  
+  * Sat Oct 2 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a bug where subdirectories could not be created in a direct copy
+      backup to a remote host over SFTP
+    - Fix a traceback when opening the restore window and the set destination
+      could not be found
+  
+  * Mon Sep 27 2010 Stewart Adam <s.adam at diffingo.com>
+    - Re-enable use of AM_GLIB_GNU_GETTEXT. Leaving it out causes problems on
+      CentOS
+  
+  * Thu Aug 5 2010 Stewart Adam <s.adam at diffingo.com>
+    - Make manual time selection easier to use
+  
   * Fri Jul 9 2010 Stewart Adam <s.adam at diffingo.com>
     - Do not attempt to parse and generate the text for crontab entries already
       in the crontab, allowing fwbackups to preserve formatting, spacing,
@@ -23,12 +41,12 @@
     - Ensure that the after command runs even upon backup failure
     - Fix minor bugs regarding logging and reporting of backup progress when
       performing Direct Copy backups to a remote destination
-    - Display tracebacks at log level ERROR instead of DEBUG when an error occurs
-      during a backup or restore
+    - Display tracebacks at log level ERROR instead of DEBUG when an error
+      occurs during a backup or restore
     - Add a "[successful]" backup token
     - Fix a problem where a Direcy Copy backup with a remote destination or any
-      Windows backup would silently pass over paths with single quotes in the file
-      or directory name
+      Windows backup would silently pass over paths with single quotes in the
+      file or directory name
     - Rename "Include subfolders" backup option to "Recursive" due to the name 
       "Include subfolders" being misleading with regards to its actual effect.
     - Fix a problem that may have cause fwbackups to crash on startup if using a
@@ -400,7 +418,8 @@
     - Run cancel upon errors just to make sure the other thread exits
     - Reimplement the whole 'operation in progress' thing
     - Lock the UI properly when editing a set or starting an operation
-    - Don't literally togglelock the UI, that can get out of hand. Use true, false.
+    - Don't literally togglelock the UI, that can get out of hand. Use true, 
+      false.
 
   * Mon Aug 20 2007 Stewart Adam <s.adam at diffingo.com>
     - Support in backend.py for remote operations and rsync in case of win32
@@ -579,21 +598,22 @@
 
 || Version 1.42.1 changes ||
     - Fix the copyright messages: Some stated FWaudio-convert-mod, and some used
-  caps in the name which is now all lowercase.
+      caps in the name which is now all lowercase.
     - Moved the defaults configuration file to /usr/share/fwbackups
 
 || Version 1.42 changes ||
     - 'backupconfigure' command renamed to 'fwbackups'
     - 'runbackup' command renamed to 'fwbackups-run'
-    - Changed rsync backend to internal python's shutil, more portable & rsync was
-  providing no speed increase
+    - Changed rsync backend to internal python's shutil, more portable & rsync
+      was providing no speed increase
     - Re-coded all callbacks for better portability, functionality and they also
-  now leave more room for future expansion
+      now leave more room for future expansion
     - Added better comments to python sources
     - Now using 100% Glade for the GUI part
     - Added 'On The Spot' backup feature (on-demand backups)
     - Added 'Keep X old backups'  feature
-    - Added additional time selectors for cron: minute, day(s) of week and month(s).
+    - Added additional time selectors for cron: minute, day(s) of week and
+      month(s).
     - Changed the name to all lowercase (from 'FWBackups' to 'fwbackups')
 
 || Version 1.41 changes ||
