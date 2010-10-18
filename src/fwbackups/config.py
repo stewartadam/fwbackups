@@ -769,9 +769,9 @@ class PrefsConf:
     if oldVersion == '1.43.2beta3' or fromHereUp == True:
       fromHereUp = True
       # we forgot to add the 1.43.2beta2 if clause in 1.43.2beta3
-      if not self.has_option('Preferences', 'minimizetrayclose'):
+      if not self.__config.has_option('Preferences', 'minimizetrayclose'):
         self.__config.set('Preferences', 'minimizetrayclose', 0)
-      if not self.has_option('Preferences', 'startminimized'):
+      if not self.__config.has_option('Preferences', 'startminimized'):
         self.__config.set('Preferences', 'startminimized', 0)
       for option in ['Version', 'Type']:
         self.__config.set('General', option, self.__config.get('General', option.lower()))
