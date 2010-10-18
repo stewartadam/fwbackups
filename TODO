@@ -17,5 +17,4 @@
 
 == Before 1.43.3 final ==
 - Update documentation & include only html in dist
-- fwbackups cron fstab class
---> Don't sleep for each add(), only for each write()
+- Temporary package lists when destination is remote (ssh)?

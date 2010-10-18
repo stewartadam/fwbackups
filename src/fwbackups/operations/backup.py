@@ -77,9 +77,12 @@ class BackupOperation(operations.Common):
   
   def createPkgLists(self):
     """Create the pkg lists in tempdir"""
-    managers = []
+    # Start as a dictionary so we can keep track of which items we have already
+    # processed. See comment at retur for more info.
+    pkgListFiles = {}
     for path in os.environ['PATH'].split(':'):
-      if os.path.exists(os.path.join(path, 'rpm')) and not 'rpm' in managers:
+      if os.path.exists(os.path.join(path, 'rpm')) and not pkgListFiles.has_key('rpm'):
+        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('rpm - Package list'), delete=False)
         # try with rpm-python, but if not just execute it like the rest
         try:
           import rpm
@@ -87,42 +90,34 @@ class BackupOperation(operations.Common):
         except ImportError:
           pyrpm = False
         if pyrpm:
-          listFilename = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
-          listFile = open(listFilename, 'w')
           ts=rpm.ts()
           # Equivalent to rpm -qa
           mi=ts.dbMatch()
           for hdr in mi:
-            listFile.write("%s-%s-%s.%s\n" % (hdr['name'], hdr['version'], hdr['release'], hdr['arch']))
-          listFile.close()
+            fh.write("%s-%s-%s.%s\n" % (hdr['name'], hdr['version'], hdr['release'], hdr['arch']))
         else:
-          outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('rpm - Package list'))
-          fh = open(outfile, 'w')
           retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=fh)
-          fh.close()
-        managers.append('rpm')
-      if os.path.exists(os.path.join(path, 'pacman')) and not 'pacman' in managers:
-        outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('Pacman - Package list'))
-        fh = open(outfile, 'w')
-        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=fh)
-        fh.write(stdout.read())
         fh.close()
-        managers.append('pacman')
-      if os.path.exists(os.path.join(path, 'dpkg')) and not 'dpkg' in managers:
-        outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('dpkg - Package list'))
-        fh = open(outfile, 'w')
+        pkgListFiles['rpm'] = fh.name
+      if os.path.exists(os.path.join(path, 'pacman')) and not pkgListFiles.has_key('pacman'):
+        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('Pacman - Package list'), delete=False)
+        retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=fh)
+        fh.close()
+        pkgListFiles['pacman'] = fh.name
+      if os.path.exists(os.path.join(path, 'dpkg')) and not pkgListFiles.has_key('dpkg'):
+        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('dpkg - Package list'), delete=False)
         retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=fh)
         fh.close()
-        managers.append('dpkg')
-    return managers
+        pkgListFiles['dpkg'] = fh.name
+    # We want to return a list of only the filenames
+    return pkgListFiles.values()
   
   def createDiskInfo(self):
     """Print disk info to a file in tempdir"""
-    retval, stdout, stderr = fwbackups.execute('fdisk -l', env=self.environment, shell=True)
-    outfile = os.path.join(tempfile.gettempdir(), '%s.txt' % _('Disk Information'))
-    fh = open(outfile, 'w')
-    fh.write(stdout.read())
+    fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('Disk Information'), delete=False)
+    retval, stdout, stderr = fwbackups.execute('fdisk -l', env=self.environment, shell=True, stdoutfd=fh)
     fh.close()
+    return fh.name
 
   def parseCommand(self, config):
     """Parse options to retrieve the correct command"""
@@ -171,37 +166,22 @@ class BackupOperation(operations.Common):
     # Finally...
     return command
 
-  def addListFilesToBackup(self, manager, command, engine, pkglist, diskinfo, paths):
+  def addListFilesToBackup(self, pkgListfiles, command, engine, paths):
     """Adds the pkglist and diskinfo to the backup"""
     self.ifCancel()
-    prefix = os.path.join(tempfile.gettempdir(), manager)
-    if engine == 'tar':
-      if pkglist:
-        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")),
-          env=self.environment, shell=True)
-      if diskinfo:
-        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Disk Information'), self.dest.replace("'", "'\\''")),
-          env=self.environment, shell=True)
-    elif engine in ['tar.gz', 'tar.bz2']:
-      if pkglist:
-        paths.append('"%s - %s.txt"' % (prefix, _('Package list')))
-      if diskinfo:
-        paths.append('"%s.txt"' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
-    elif engine == 'rsync':
-      if pkglist:
-        fwbackups.execute("%s '%s - %s.txt' '%s'" % (command, prefix, _('Package list'), self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
-      if diskinfo:
-        # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
-        diskInfoFile = os.path.join(tempfile.gettempdir(), _('Disk Information'))
-        fwbackups.execute("%s '%s.txt' '%s'" % (command, diskInfoFile, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+    for file in pkgListfiles:
+      # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
+      if engine == 'tar':
+        fwbackups.execute("%s '%s' '%s'" % (command, file, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+      elif engine in ['tar.gz', 'tar.bz2']:
+        paths.append('"%s"' % file)
+      elif engine == 'rsync':
+        fwbackups.execute("%s '%s' '%s'" % (command, file, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
 
-  def deleteListFiles(self, manager, pkglist, diskinfo):
+  def deleteListFiles(self, pkgListfiles):
     """Delete the list files in the tempdir"""
-    prefix = os.path.join(tempfile.gettempdir(), manager)
-    if self.options['PkgListsToFile']:
-      os.remove('%s - %s.txt' % (prefix, _('Package list')) )
-    if self.options['DiskInfoToFile']:
-      os.remove('%s.txt' % os.path.join(tempfile.gettempdir(), _('Disk Information')))
+    for file in pkgListfiles:
+      os.remove(file)
     self.ifCancel()
   
   def checkRemoteServer(self):
@@ -496,11 +476,11 @@ class OneTimeBackupOperation(BackupOperation):
       self.checkRemoteServer()
     
     if self.options['PkgListsToFile']:
-      managers = self.createPkgLists()
+      pkgListfiles = self.createPkgLists()
     else:
-      managers = []
+      pkgListfiles = []
     if self.options['DiskInfoToFile']:
-      self.createDiskInfo()
+      pkgListfiles.append(self.createDiskInfo())
 
     if not (self.options['Engine'] == 'rsync' and self.options['Incremental'] and \
        not self.options['DestinationType'] == 'remote (ssh)'):
@@ -512,14 +492,12 @@ class OneTimeBackupOperation(BackupOperation):
     self.ifCancel()
 
     command = self.parseCommand(self.config)
-    for manager in managers:
-      self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
+    self.addListFilesToBackup(pkgListfiles, command, self.options['Engine'], paths)
 
     # Now that the paths & commands are set up...
     retval = self.backupPaths(paths, command)
 
-    for manager in managers:
-      self.deleteListFiles(manager, self.options['PkgListsToFile'], self.options['DiskInfoToFile'])
+    self.deleteListFiles(pkgListfiles)
     self.ifCancel()
 
     if self.options['DestinationType'] == 'local':
@@ -717,19 +695,17 @@ class SetBackupOperation(BackupOperation):
       
       self._status = STATUS_INITIALIZING
       if self.options['PkgListsToFile']:
-        managers = self.createPkgLists()
+        pkgListfiles = self.createPkgLists()
       else:
-        managers = []
+        pkgListfiles = []
       if self.options['DiskInfoToFile']:
-        self.createDiskInfo()
+        pkgListfiles.append(self.createDiskInfo())
       self.ifCancel()
       command = self.parseCommand(self.config)
-      for manager in managers:
-        self.addListFilesToBackup(manager, command, self.options['Engine'], self.options['PkgListsToFile'], self.options['DiskInfoToFile'], paths)
+      self.addListFilesToBackup(pkgListfiles, command, self.options['Engine'], paths)
       # Now that the paths & commands are set up...
       retval = self.backupPaths(paths, command)
-      for manager in managers:
-        self.deleteListFiles(manager, self.options['PkgListsToFile'], self.options['DiskInfoToFile'])
+      self.deleteListFiles(pkgListfiles)
       if self.options['DestinationType'] == 'local':
         try:
           os.chmod(self.dest, 0711)
