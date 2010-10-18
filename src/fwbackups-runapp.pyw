@@ -265,7 +265,22 @@ class fwbackupsApp(interface.Controller):
       sys.exit(1)
     # Step 2: Setup the logger
     self.updateSplash(0.2, _('Setting up the logger and user preferences'))
-    prefs = config.PrefsConf(create=True)
+    try:
+      prefs = config.PrefsConf(create=True)
+    except config.ValidationError, error:
+      print _("Validation error: %s") % error
+      response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
+      if response == gtk.RESPONSE_YES:
+        # check if file already exists
+        prefsBack = '%s.bak' % PREFSLOC
+        if os.path.isfile(prefsBack):
+          os.remove(prefsBack)
+        # save a backup copy
+        os.rename(PREFSLOC, prefsBack)
+        # initialize a fresh config
+        prefs = config.PrefsConf(create=True)
+      else:
+        sys.exit(0)
     try:
       self.logger = fwlogger.getLogger()
       # default to info log level

@@ -33,6 +33,13 @@ class ConfigError(Exception):
   def __str__(self):
     return repr(self.value)
 
+class ValidationError(Exception):
+  """Validation errors in the configuration file."""
+  def __init__(self, value):
+    self.value = value
+  def __str__(self):
+    return repr(self.value)
+
 def _setupConf():
   """Setup the configuration directory"""
   for directory in [LOC, SETLOC]:
@@ -326,17 +333,17 @@ class BackupSetConf:
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options", "Paths", "Times"]:
-      raise ConfigError(_("Set '%s' failed to pass section validation") % self.getSetName())
+      raise ValidationError(_("Set '%s' failed to pass section validation") % self.getSetName())
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Set":
-      raise ConfigError(_("'%(a)s' is not a set configuration file.") % self.setPath)
+      raise ValidationError(_("'%(a)s' is not a set configuration file.") % self.setPath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
     if not sorted(config["General"].keys()) == ["Type", "Version"]:
-      raise ConfigError(_("Configuration section 'General' in the set configuration '%s' failed to validate") % self.getSetName())
+      raise ValidationError(_("Configuration section 'General' in the set configuration '%s' failed to validate") % self.getSetName())
     # Validate Times section - remember the list is sorted
     if not sorted(config["Times"].keys()) == ["Custom", "Entry"]:
-      raise ConfigError(_("Configuration section 'Times' in the set configuration '%s' failed to validate") % self.getSetName())
+      raise ValidationError(_("Configuration section 'Times' in the set configuration '%s' failed to validate") % self.getSetName())
     # Validate Options section - remember the list is sorted
     validOptions = ['BackupHidden', 'CommandAfter', 'CommandBefore', "Destination",
       'DestinationType', 'DiskInfoToFile', 'Enabled', 'Engine', 'Excludes',
@@ -349,12 +356,12 @@ class BackupSetConf:
         # the above statement when strictValidation=False and an invalid option
         # is present, validOptions.remove(option) is attempted and fails
         if strictValidation:
-          raise ConfigError(_("Unknown option key '%(a)s' present in set configuration '%(b)s'") % {'a': option, 'b': self.getSetName()})
+          raise ValidationError(_("Unknown option key '%(a)s' present in set configuration '%(b)s'") % {'a': option, 'b': self.getSetName()})
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
     if validOptions:
-      raise ConfigError(_("Configuration section 'Options' in set configuration '%(a)s' failed to validate: Missing options '%(b)s'") % {'a': self.getSetName(), 'b': ', '.join(validOptions)})
+      raise ValidationError(_("Configuration section 'Options' in set configuration '%(a)s' failed to validate: Missing options '%(b)s'") % {'a': self.getSetName(), 'b': ', '.join(validOptions)})
 
   def get(self, section, option):
     """Returns value stored in option of section."""
@@ -475,14 +482,14 @@ class OneTimeConf:
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options", "Paths"]:
-      raise ConfigError(_("One-time configuration failed to pass section validation"))
+      raise ValidationError(_("One-time configuration failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "OneTime":
-      raise ConfigError(_("'%(a)s' is not a one-time configuration file.") % self.onetPath)
+      raise ValidationError(_("'%(a)s' is not a one-time configuration file.") % self.onetPath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
     if not sorted(config["General"].keys()) == ["Type", "Version"]:
-      raise ConfigError(_("Configuration section 'General' in the one-time configuration file failed to validate"))
+      raise ValidationError(_("Configuration section 'General' in the one-time configuration file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['BackupHidden', "Destination", 'DestinationType',
       'DiskInfoToFile', 'Engine', 'Excludes', 'FollowLinks', 'Incremental',
@@ -494,12 +501,12 @@ class OneTimeConf:
         # the above statement when strictValidation=False and an invalid option
         # is present, validOptions.remove(option) is attempted and fails
         if strictValidation:
-          raise ConfigError(_("Unknown option key '%s' present in one-time backup configuration file") % option)
+          raise ValidationError(_("Unknown option key '%s' present in one-time backup configuration file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
     if validOptions:
-      raise ConfigError(_("Configuration section 'Options' in the one-time backup configuration file failed to validate: Missing options '%s'") % ', '.join(validOptions))
+      raise ValidationError(_("Configuration section 'Options' in the one-time backup configuration file failed to validate: Missing options '%s'") % ', '.join(validOptions))
 
   def getPaths(self):
     """Return all the paths, sorted alphabetically, in the set configuration"""
@@ -602,14 +609,14 @@ class RestoreConf:
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options"]:
-      raise ConfigError(_("Restore configuration failed to pass section validation"))
+      raise ValidationError(_("Restore configuration failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Restore":
-      raise ConfigError(_("'%(a)s' is not a restore configuration file.") % self.restorePath)
+      raise ValidationError(_("'%(a)s' is not a restore configuration file.") % self.restorePath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
     if not sorted(config["General"].keys()) == ["Type", "Version"]:
-      raise ConfigError(_("Configuration section 'General' in the restore configuration file failed to validate"))
+      raise ValidationError(_("Configuration section 'General' in the restore configuration file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['Destination', 'RemoteHost', 'RemotePassword', 'RemotePort',
                     'RemoteSource', 'RemoteUsername', 'Source', 'SourceType']
@@ -619,12 +626,12 @@ class RestoreConf:
         # the above statement when strictValidation=False and an invalid option
         # is present, validOptions.remove(option) is attempted and fails
         if strictValidation:
-          raise ConfigError(_("Unknown option key '%s' present in restore configuration file") % option)
+          raise ValidationError(_("Unknown option key '%s' present in restore configuration file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
     if validOptions:
-      raise ConfigError(_("Configuration section 'Options' in the restore configuration file failed to validate: Missing options '%s'") % ', '.join(validOptions))
+      raise ValidationError(_("Configuration section 'Options' in the restore configuration file failed to validate: Missing options '%s'") % ', '.join(validOptions))
 
   def getOptions(self):
     """Returns a dictionary of all options and their values"""
@@ -715,14 +722,14 @@ class PrefsConf:
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Preferences"]:
-      raise ConfigError(_("Preferences failed to pass section validation"))
+      raise ValidationError(_("Preferences failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Preferences":
-      raise ConfigError(_("'%(a)s' is not a fwbackups preferences file.") % PREFSLOC)
+      raise ValidationError(_("'%(a)s' is not a fwbackups preferences file.") % PREFSLOC)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
     if not sorted(config["General"].keys()) == ["Type", "Version"]:
-      raise ConfigError(_("Configuration section 'General' in the preferences file failed to validate"))
+      raise ValidationError(_("Configuration section 'General' in the preferences file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['AlwaysShowDebug', 'DontShowMe_OldVerWarn',
                     'DontShowMe_ClearLog', 'MinimizeTrayClose', 'pycronLoc',
@@ -733,12 +740,12 @@ class PrefsConf:
         # the above statement when strictValidation=False and an invalid option
         # is present, validOptions.remove(option) is attempted and fails
         if strictValidation:
-          raise ConfigError(_("Unknown option key '%s' present in preferences file") % option)
+          raise ValidationError(_("Unknown option key '%s' present in preferences file") % option)
       else:
         validOptions.remove(option)
     # If there are any option names left in validOptions, those were missing
     if validOptions:
-      raise ConfigError(_("Configuration section 'Options' in the preferences file failed to validate: Missing options '%s'") % ', '.join(validOptions))
+      raise ValidationError(_("Configuration section 'Options' in the preferences file failed to validate: Missing options '%s'") % ', '.join(validOptions))
 
   def __import(self):
     """Import old configurations. Only runs if not current version"""

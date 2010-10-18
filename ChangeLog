@@ -7,6 +7,8 @@
       fail
     - Fixed a bug that prevented fwbackups from importing pre-1.43.2beta3
       configuration files
+    - Offer to initialize a new configuration file if the existing one does not
+      pass validation
     
   * Sat Oct 9 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where excessive stderr output in subprocesses would cause
