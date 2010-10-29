@@ -1,5 +1,11 @@
 syntax: glob
 
+# rendered docs
+docs/html
+docs/pdf
+docs/User_Guide/tmp
+docs/publican-diffingo/tmp
+
 # autotool stuff
 aclocal.m4
 autom4te.cache
