@@ -16,5 +16,5 @@
 - SSH public key authentication
 
 == Before 1.43.3 final ==
-- Update documentation & include only html in dist
+- Update documentation
 - Temporary package lists when destination is remote (ssh)?

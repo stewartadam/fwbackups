@@ -1,6 +1,9 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3rc6 changes ||
+  * Thu Oct 28 2010 Stewart Adam <s.adam at diffingo.com>
+    - Update documentation for 1.43.3rc6
+  
   * Sat Oct 18 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a multi-user conflict where several backups could attempt to create
       the package list file(s) simultaneously, causing one of the two backups to
