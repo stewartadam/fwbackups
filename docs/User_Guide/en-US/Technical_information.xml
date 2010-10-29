@@ -49,8 +49,8 @@
 
 	</section>
 	
-	 <section id="sect-User_Guide-Technical_Information-Preservation_of_file_ownership_permission_timestamps_and_other_attributes">
-		<title>Preservation of file ownership, permission, timestamps and other attributes</title>
+	 <section id="sect-User_Guide-Technical_Information-Preservation_of_file_ownership_and_other_attributes">
+		<title>Preservation of file ownership and other attributes</title>
 		 <para>
 			fwbackups uses the internal Python <ulink url="http://docs.python.org/library/tarfile.html">tarfile</ulink> and <ulink url="http://docs.python.org/library/shutil.html">shutil</ulink> modules to restore files (and <ulink url="http://www.lag.net/paramiko/">paramiko</ulink> for interfacing with remote hosts via SFTP). File permissions, modification time and access time are always preserved, as are symbolic links.
 		</para>

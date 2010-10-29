@@ -1,5 +1,5 @@
 AC_INIT([fwbackups], 1.43.3rc6)
-AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip])
+AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip tar-ustar])
 AC_CONFIG_SRCDIR([src/fwbackups/__init__.py.in])
 
 # Search for Python >= 2.4
