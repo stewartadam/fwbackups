@@ -1,13 +1,20 @@
 The documentation for fwbackups is written in DocBook XML and uses the Publican
 publishing tool: https://fedorahosted.org/publican/
 
-Please note that as of 1.43.3rc5, you no longer need to build the documentation
-yourself. Rendered HTML and PDF copies of the user guide can be found in the
-html/, and pdf/ folders respectively (the single-page version of the user guide
-is named index-single.html).
+Please note that you no longer need to build the documentation yourself.
+Rendered HTML and PDF copies of the user guide can be found in the html/, and
+pdf/ folders respectively (the single-page version of the user guide is named
+index-single.html).
 
 If you wish to build the documentation from scratch anyways, you will need to
-obtain Pelican and install the diffingo brand, contained in the
-publican-diffingo/ folder.  Once the diffingo brand has been installed, run
-'build.sh' script in the User_Guide/ folder to build the documentation. The
-rendered HTML and PDF files will be output to the 'User_Guide/tmp" folder.
+obtain Publican and install the diffingo brand:
+  $ cd publican-diffingo
+  $ publican install_brand /usr/share/publican/Common_Content
+
+Systems using the RPM package manager can alternatively generate a RPM package:
+  $ cd publican-diffingo
+  $ publican --package --binary
+
+Once the diffingo brand has been installed, run the 'build.sh' script in the
+User_Guide/ folder to build the documentation. The rendered HTML and PDF files
+will be output to the 'User_Guide/tmp" folder.

@@ -207,7 +207,7 @@
 							Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						 <para>
-							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) &#34;tar&#34; archive file. Unfortunately, Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the &#34;tar&#34; backup engine (&#34;.gz&#34; or &#34;.bz2&#34; was appended if gzip or bzip2 compression was enabled, respectively). 
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) &#34;tar&#34; archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the &#34;tar&#34; backup engine (&#34;.gz&#34; or &#34;.bz2&#34; was appended if gzip or bzip2 compression was enabled, respectively). 
 							<note>
 								<title>Reducing backup size with compression</title>
 								 <para>
@@ -218,7 +218,7 @@
 
 						</para>
 						 <para>
-							A <guilabel>Direct copy</guilabel> backup will simply copy your files and their folder structure as-is, similar to a drag-and-drop copy in your file browser. Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the &#34;rsync&#34; backup engine. 
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the &#34;rsync&#34; backup engine. 
 							<note>
 								<title>Increasing backup speed</title>
 								 <para>
@@ -349,6 +349,16 @@
 							</para>
 							 <variablelist>
 								<varlistentry>
+									<term>[successful]</term>
+									 <listitem>
+										<para>
+											If the backup was completed successfully without errors, this token will be substituted for 1. In the event of a failure or backup error, a 0 will be substituted.
+										</para>
+
+									</listitem>
+
+								</varlistentry>
+								 <varlistentry>
 									<term>[destination]</term>
 									 <listitem>
 										<para>

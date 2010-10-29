@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2010-06-30T16:52:10\n"
-"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"POT-Creation-Date: 2010-10-29T00:36:48\n"
+"PO-Revision-Date: 2010-10-29T00:36:48\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -242,7 +242,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) \"tar\" archive file. Unfortunately, Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the \"tar\" backup engine (\".gz\" or \".bz2\" was appended if gzip or bzip2 compression was enabled, respectively)."
+msgid "An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) \"tar\" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the \"tar\" backup engine (\".gz\" or \".bz2\" was appended if gzip or bzip2 compression was enabled, respectively)."
 msgstr ""
 
 #. Tag: title
@@ -257,7 +257,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "A <guilabel>Direct copy</guilabel> backup will simply copy your files and their folder structure as-is, similar to a drag-and-drop copy in your file browser. Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the \"rsync\" backup engine."
+msgid "A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the \"rsync\" backup engine."
 msgstr ""
 
 #. Tag: title
@@ -398,6 +398,16 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "Both the before and after backup commands support token string replacements. <application>fwbackups</application> will replace tokens you use in your commands with their appropriate values:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "[successful]"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If the backup was completed successfully without errors, this token will be substituted for 1. In the event of a failure or backup error, a 0 will be substituted."
 msgstr ""
 
 #. Tag: term

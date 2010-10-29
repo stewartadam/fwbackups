@@ -8,6 +8,24 @@
 	 <simpara>
 		<revhistory>
 			<revision>
+				<revnumber>2</revnumber>
+				 <date>Thu Oct 28 2010</date>
+				 <author>
+					<firstname>Stewart</firstname>
+					 <surname>Adam</surname>
+					 <email>s.adam@diffingo.com</email>
+
+				</author>
+				 <revdescription>
+					<simplelist>
+						<member>Update documentation for 1.43.3rc6</member>
+
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
+			 <revision>
 				<revnumber>1</revnumber>
 				 <date>Thu July 1 2010</date>
 				 <author>

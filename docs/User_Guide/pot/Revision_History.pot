@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2010-06-30T16:52:10\n"
-"PO-Revision-Date: 2010-06-30T16:52:10\n"
+"POT-Creation-Date: 2010-10-29T00:36:48\n"
+"PO-Revision-Date: 2010-10-29T00:36:48\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,11 @@ msgstr ""
 #. Tag: surname
 #, no-c-format
 msgid "Adam"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Update documentation for 1.43.3rc6"
 msgstr ""
 
 #. Tag: member
