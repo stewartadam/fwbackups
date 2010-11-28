@@ -27,7 +27,7 @@ import time
 import types
 
 from fwbackups.const import *
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode
 
 if sys.platform.startswith('win'):
   os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "bin")
@@ -777,7 +777,7 @@ class fwbackupsApp(interface.Controller):
               os.path.join(SETLOC, "%s.conf" % setname)
         # Load the old set configuration
         oldSetConf = config.ConfigFile(oldSetPath)
-        if "General" not in oldset.sections():
+        if "General" not in oldSetConf.sections():
           # Very old configuration file. New sections/structure will be created
           setConf = config.BackupSetConf(setPath, True)
           paths = []
@@ -794,9 +794,9 @@ class fwbackupsApp(interface.Controller):
           # Save the options to the new/imported backup set configuration
           setConf.save(paths, options, {}, mergeDefaults=True)
         else:
-          # The new, post-1.43 config type. The below is incase .conf is in the
-          # setname, as well as the filename
-          shutil_modded.copy(oldset.conffile, setPath)
+          # The new, post-1.43 config type. The below is in case .conf is in the
+          # set name, as well as the filename
+          shutil_modded.copy(oldSetPath, setPath)
           # This imports and validates the configuration automatically
           setConf = config.BackupSetConf(setPath)
       # Now that all sets have been imported, regenerate the crontab to schedule

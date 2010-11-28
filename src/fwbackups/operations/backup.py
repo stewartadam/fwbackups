@@ -26,7 +26,7 @@ import tempfile
 import time
 #--
 import fwbackups
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode
 from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
@@ -65,8 +65,9 @@ class BackupOperation(operations.Common):
   
   def escapePath(self, path):
     """Wrap the supplied path in quotes for command line, and escape any other
-       single quotes"""
-    return "'%s'" % '\'\\\'\''.join(path.split('\''))
+    single quotes. Returns an 8-bit string."""
+    path = path.replace("'", "'\\''")
+    return path
   
   def parsePaths(self, config):
     """Get the list of paths in the configuration file. Returns a list of paths to backup"""
@@ -124,7 +125,7 @@ class BackupOperation(operations.Common):
     self.options = self.getOptions(self.config)
     if self.options['DestinationType'] == 'remote (ssh)':
       tempDir = tempfile.gettempdir()
-      self.dest = os.path.join(tempDir, os.path.split(self.dest.replace("'", "'\\''"))[1])
+      self.dest = os.path.join(tempDir, os.path.split(self.escapePath(self.dest))[1])
     if self.options['Engine'] == 'rsync':
       command = 'rsync -g -o -p -t -R'
       if self.options['Incremental']:
@@ -143,13 +144,13 @@ class BackupOperation(operations.Common):
         for i in self.options['Excludes'].split('\n'):
           command += ' --exclude="%s"' % i
     elif self.options['Engine'] == 'tar':
-      command = "tar rf '%s'" % (self.dest.replace("'", "'\\''"))
+      command = "tar rf '%s'" % self.escapePath(self.dest)
     elif self.options['Engine'] == 'tar.gz':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = "tar cfz '%s'" % (self.dest.replace("'", "'\\''"))
+      command = "tar cfz '%s'" % self.escapePath(self.dest)
     elif self.options['Engine'] == 'tar.bz2':
-      # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = "tar cfj '%s'" % (self.dest.replace("'", "'\\''"))
+      # DON'T rfz - Can't use r (append) and j (bzip2) together
+      command = "tar cfj '%s'" % self.escapePath(self.dest)
     # --
     if self.options['Engine'] in ['tar', 'tar.gz', 'tar.bz2']: # they share command options
       if not self.options['Recursive']:
@@ -172,11 +173,11 @@ class BackupOperation(operations.Common):
     for file in pkgListfiles:
       # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
       if engine == 'tar':
-        fwbackups.execute("%s '%s' '%s'" % (command, file, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+        fwbackups.execute("%s '%s' '%s'" % (command, file, self.escapePath(self.dest)), env=self.environment, shell=True)
       elif engine in ['tar.gz', 'tar.bz2']:
         paths.append('"%s"' % file)
       elif engine == 'rsync':
-        fwbackups.execute("%s '%s' '%s'" % (command, file, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+        fwbackups.execute("%s '%s' '%s'" % (command, file, self.escapePath(self.dest)), env=self.environment, shell=True)
 
   def deleteListFiles(self, pkgListfiles):
     """Delete the list files in the tempdir"""
@@ -245,13 +246,13 @@ class BackupOperation(operations.Common):
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
         fh.close()
-      else:
+      else: # not MSWINDOWS
         for i in paths:
           i = self.escapePath(i)
           self.ifCancel()
           self._current += 1
-          self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
-          sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
+          self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s '%(c)s'" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+          sub = fwbackups.executeSub("nice -n %i %s '%s'" % (self.options['Nice'], command, i), env=self.environment, shell=True)
           self.pids.append(sub.pid)
           self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
           # track stdout
@@ -287,14 +288,15 @@ class BackupOperation(operations.Common):
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
         fh.close()
-      else:
+      else: # not MSWINDOWS
         self._current = 1
         escapedPaths = [self.escapePath(i) for i in paths]
-        i = ' '.join(escapedPaths)
+        # This is a fancy way for getting i = "'one' 'two' 'three'"
+        i = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i.replace("'", '')})
-        self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
-        sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
+        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # track stdout
@@ -330,14 +332,15 @@ class BackupOperation(operations.Common):
           fh.add(i, recursive=self.options['Recursive'])
           self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
         fh.close()
-      else:
+      else: # not MSWINDOWS
         self._current = 1
         escapedPaths = [self.escapePath(i) for i in paths]
-        i = ' '.join(escapedPaths)
+        # This is a fancy way for getting i = "'one' 'two' 'three'"
+        i = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
-        self.logger.logmsg('DEBUG', _('Running command: nice -n %(a)i %(b)s %(c)s' % {'a': self.options['Nice'], 'b': command, 'c': i}))
-        sub = fwbackups.executeSub('nice -n %i %s %s' % (self.options['Nice'], command, i), env=self.environment, shell=True)
+        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+        sub = fwbackups.executeSub("nice -n %i %s '%s'" % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # track stdout
@@ -373,24 +376,24 @@ class BackupOperation(operations.Common):
               break
             self._current += 1
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
-            if not os.path.exists(i):
+            if not os.path.exists(encode(i)):
               self.logger.logmsg('WARNING', _("Path %s is missing or cannot be read and will be excluded from the backup.") % i)
-            sftp.put(sftpClient, i, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
+            sftp.put(sftpClient, encode(i), encode(os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i))), symlinks=not self.options['FollowLinks'], excludes=encode(self.options['Excludes'].split('\n')))
         sftpClient.close()
         client.close()
-      else:
+      else: # self.options['DestinationType'] != 'remote (ssh)'
         for i in paths:
           self.ifCancel()
           self._current += 1
           if MSWINDOWS:
             # let's deal with real paths
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-            shutil_modded.copytree_fullpaths(i, self.dest)
+            shutil_modded.copytree_fullpaths(encode(i), encode(self.dest))
             self._current += 1
-          else: # UNIX/OS X can call rsync binary
+          else: # not MSWINDOWS; UNIX/OS X can call rsync binary
             i = self.escapePath(i)
-            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.dest.replace("'", "'\\''")}))
-            sub = fwbackups.executeSub("nice -n %i %s %s '%s'" % (self.options['Nice'], command, i, self.dest.replace("'", "'\\''")), env=self.environment, shell=True)
+            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.escapePath(self.dest)}))
+            sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, i, self.escapePath(self.dest)), env=self.environment, shell=True)
             self.pids.append(sub.pid)
             self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
             # track stdout
@@ -416,7 +419,7 @@ class BackupOperation(operations.Common):
     self.ifCancel()
     # A test is included to ensure sure the archive actually exists, as if
     # wasAnError = True the archive might not even exist.
-    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(self.dest):
+    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(encode(self.dest)):
       self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
       self._status = STATUS_SENDING_TO_REMOTE
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
@@ -486,9 +489,9 @@ class OneTimeBackupOperation(BackupOperation):
        not self.options['DestinationType'] == 'remote (ssh)'):
       if not self.prepareDestinationFolder(self.options['Destination']):
         return False
-      if os.path.exists(self.dest):
+      if os.path.exists(encode(self.dest)):
         self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(path=self.dest, onerror=self.onError)
+        shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
     self.ifCancel()
 
     command = self.parseCommand(self.config)
@@ -548,7 +551,7 @@ class SetBackupOperation(BackupOperation):
   
   def tokens_replace(self, text, date, successful=None):
     """Replace tokens in the supplied text"""
-    tokens = {'backup': os.path.basename(self.dest),
+    tokens = {'backup': os.path.basename(encode(self.dest)),
               'set': self.config.getSetName(),
               'date': date,
               'remote_host': self.options['RemoteHost'],
@@ -622,7 +625,7 @@ class SetBackupOperation(BackupOperation):
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
       listing = sftpClient.listdir(self.options['RemoteFolder'])
     else:
-      listing = os.listdir(self.options['Destination'])
+      listing = os.listdir(encode(self.options['Destination']))
     listing.sort()
     oldbackups = []
     for i in listing:
@@ -641,19 +644,21 @@ class SetBackupOperation(BackupOperation):
       if self.options['Engine'] == 'rsync' and self.options['Incremental'] and oldbackups:
         for i in oldbackups[:-1]:
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          shutil_modded.rmtree(path=os.path.join(self.options['Destination'], i), onerror=self.onError)
-        oldIncrementalBackup = os.path.join(self.options['Destination'], oldbackups[-1])
+          path = os.path.join(self.options['Destination'], i)
+          shutil_modded.rmtree(encode(path), onerror=self.onError)
+        oldIncrementalBackup = encode(os.path.join(self.options['Destination'], oldbackups[-1]))
         if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
             not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
           self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
           shutil_modded.move(oldIncrementalBackup, self.dest)
         else: # source = is not a rsync backup - remove it and start fresh
           self.logger.logmsg('DEBUG', _('`%s\' is not an rsync backup - removing.') % oldIncrementalBackup)
-          shutil_modded.rmtree(path=oldIncrementalBackup, onerror=self.onError)
+          shutil_modded.rmtree(oldIncrementalBackup, onerror=self.onError)
       else:
         for i in oldbackups[self.options['OldToKeep']:]:
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          shutil_modded.rmtree(path=os.path.join(self.options['Destination'], i), onerror=self.onError)
+          path = os.path.join(self.options['Destination'], i)
+          shutil_modded.rmtree(encode(path), onerror=self.onError)
 
   def start(self):
     """Start the backup process. Should be called after executing user command."""
@@ -684,9 +689,9 @@ class SetBackupOperation(BackupOperation):
         if not self.prepareDestinationFolder(self.options['Destination']):
           return False
         if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
-        and os.path.exists(self.dest):
+        and os.path.exists(encode(self.dest)):
           self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-          shutil_modded.rmtree(path=self.dest, onerror=self.onError)
+          shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
       self.ifCancel()
       
       # Remove old stuff

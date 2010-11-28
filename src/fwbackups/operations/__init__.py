@@ -24,7 +24,7 @@ import os
 import fwbackups
 #--
 from fwbackups.const import *
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode
 
 class OperationError(Exception):
   """An Operation error"""
@@ -90,12 +90,12 @@ class Common:
 
   def prepareDestinationFolder(self, folder, createNonExistant=True):
     """Prepare a destination folder for an operation"""
-    if os.path.exists(folder):
+    if os.path.exists(encode(folder)):
       self.logger.logmsg('DEBUG', _('Destination folder `%s\' exists') % folder)
     # folder doesn't exist; try to create if specified
     elif createNonExistant:
       try:
-        os.mkdir(folder, 0755)
+        os.mkdir(encode(folder), 0755)
         self.logger.logmsg('DEBUG', _("Created destination folder `%s'") % folder)
       except OSError, error:
         self.logger.logmsg('ERROR', _("The destination folder `%(a)s' could not be created: %(b)s") % {'a': folder, 'b': error})

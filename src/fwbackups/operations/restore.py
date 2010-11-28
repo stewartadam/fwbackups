@@ -23,7 +23,7 @@ import tarfile
 import time
 #--
 import fwbackups
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode
 from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
@@ -134,18 +134,18 @@ class RestoreOperation(operations.Common):
     self._status = STATUS_RESTORING # restoring
     try:
       if self.options['SourceType'] == 'set': # we don't know the type
-        if os.path.isfile(self.options['Source']):
+        if os.path.isfile(encode(self.options['Source'])):
           fh = tarfile.open(self.options['Source'], 'r')
           fh.extractall(self.options['Destination'], members=self.tarfile_generator(fh))
           fh.close()
-        elif os.path.isdir(self.options['Source']): # we are dealing with rsync
-          shutil_modded.copytree(self.options['Source'], self.options['Destination'])
+        elif os.path.isdir(encode(self.options['Source'])): # we are dealing with rsync
+          shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
         else: # oops, something is up
           self.logger.logmsg('ERROR', _('Source `%s\' is not a file or folder!' % self.options['Source']))
           return False
 
       elif self.options['SourceType'] == 'local archive' or self.options['SourceType'] == 'remote archive (SSH)':
-        if os.path.isfile(self.options['Source']):
+        if os.path.isfile(encode(self.options['Source'])):
           fh = tarfile.open(self.options['Source'], 'r')
           fh.extractall(self.options['Destination'])
           fh.close()
@@ -153,12 +153,12 @@ class RestoreOperation(operations.Common):
           self.logger.logmsg('ERROR', _('Source `%s\' is not an archive!' % self.options['Source']))
           return False
       else: # folders
-        if not os.path.isdir(self.options['Source']):
+        if not os.path.isdir(encode(self.options['Source'])):
           self.logger.logmsg('ERROR', _('Source `%s\' is not a folder' % self.options['Source']))
           return False
         if not self.prepareDestinationFolder(self.options['Destination']):
           return False
-        shutil_modded.copytree(self.options['Source'], self.options['Destination'])
+        shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
       
       # Clean up transfered files from remote server
       if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):

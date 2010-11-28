@@ -44,7 +44,7 @@ import subprocess
 import exceptions
 
 from threading import Thread, Event
-from i18n import _
+from i18n import _, encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
 __status__ = "beta"
@@ -60,12 +60,12 @@ class fwbackupsError(Exception):
 
 def execute(command, env=None, shell=False, stdoutfd=None):
   """Execute a command, wait for it to finish"""
-  sub = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
+  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
   return sub.wait(), sub.stdout, sub.stderr
 
 def executeSub(command, env=None, shell=False, stdoutfd=None):
   """Execute a command in the background"""
-  sub = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
+  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
   return sub
 
 def kill(PID, signal):
@@ -96,12 +96,14 @@ def CheckPerms(path, mustExist=False):
 
 def CheckPermsRead(path, mustExist=False):
   """Checks for read permissions."""
+  path = encode(path)
   if not os.path.exists(path) and not mustExist:
     path = os.path.dirname(path)
   return os.access(path, os.R_OK)
 
 def CheckPermsWrite(path, mustExist=False):
   """Checks for write permissions."""
+  path = encode(path)
   if not os.path.exists(path) and not mustExist:
     path = os.path.dirname(path)
   return os.access(path, os.W_OK)

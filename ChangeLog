@@ -1,5 +1,12 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.3 changes ||
+  * Sun Nov 28 2010 Stewart Adam <s.adam at diffingo.com>
+    - Encode strings with the appropriate encoding when dealing with the OS
+      filesystem or shell processes; fixes bug when backing up paths with
+      special characters in them
+    - Fix a bug that would occur when importing old set configurations
+
 || Version 1.43.3rc6 changes ||
   * Thu Oct 28 2010 Stewart Adam <s.adam at diffingo.com>
     - Update documentation for 1.43.3rc6

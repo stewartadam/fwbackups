@@ -20,9 +20,44 @@ This file is a slighlty modified version of the yum i18n.py file. Setups up the
 fwbackups translation domain and makes _() available. Uses ugettext to make
 sure translated strings are in Unicode.
 """
+import gettext
+import locale
+import sys
+
+# Set the locale appropriately
+locale.setlocale(locale.LC_ALL, '')
+
+# NOTE: When run from Cron, some OSs (ie, Ubuntu) don't set $LANG and so we get
+# garbage returned from sys.getfilesystemencoding() and locale.*
+encoding = sys.getfilesystemencoding()
+
+# If there is no locale set after setlocale(), we're probably in this situation;
+# just wild guess UTF-8 and hope it's all OK. Same goes for if autodetection of
+# the filesystem's encoding fails.
+if None in [encoding, locale.getlocale()[1]]:
+  encoding = 'utf-8'
+
+def encode(item):
+  """Encodes item with the appropriate encoding. If item is a list, the
+  operation is performed to each item in the list. If the item is not a string,
+  it is converted to one before applying the encoding."""
+  if type(item) == list:
+    return [encode(i) for i in item]
+  elif type(item) not in [str, unicode]:
+    item = str(item)
+  return item.encode(encoding)
+
+def decode(item):
+  """Decodes item with the appropriate encoding. If item is a list, the
+  operation is performed to each item in the list. If the item is not a string,
+  it is converted to one before applying the encoding."""
+  if type(item) == list:
+    return [decode(i) for i in item]
+  elif type(item) not in [str, unicode]:
+    item = str(item)
+  return item.decode(encoding)
 
 try: 
-  import gettext
   _ = gettext.translation('fwbackups').ugettext
 except:
   # Oops! Better return the string as it is so we don't break things

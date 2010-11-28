@@ -23,7 +23,7 @@ import locale
 import sys
 
 import fwbackups
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode, decode
 from fwbackups.const import *
 
 class ConfigError(Exception):
@@ -116,7 +116,7 @@ class ConfigFile(ConfigParser.ConfigParser):
         ConfigParser.ConfigParser.add_section(self, section)
       for option, value in dictobject[section].items():
         if type(value) == unicode:
-          value = value.encode('utf-8')
+          value = encode(value)
         ConfigParser.ConfigParser.set(self, section, option, str(value))
     # Write _once_ at the end once all changes are imported
     self.write()
@@ -130,19 +130,11 @@ class ConfigFile(ConfigParser.ConfigParser):
   def get(self, section, option):
     """Returns a Unicode object of the value stored in option of section"""
     value = ConfigParser.ConfigParser.get(self, section, option)
-    try:
-      return value.decode('utf-8')
-    except:
-      try:
-        return unicode(value, locale.getpreferredencoding())
-      except:
-        return value
+    return decode(value)
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""
-    if type(value) == unicode:
-      value = value.encode('utf-8')
-    ConfigParser.ConfigParser.set(self, section, prop, str(value))
+    ConfigParser.ConfigParser.set(self, section, prop, encode(value))
     self.write()
     return True
 
