@@ -6,6 +6,7 @@
       filesystem or shell processes; fixes bug when backing up paths with
       special characters in them
     - Fix a bug that would occur when importing old set configurations
+    - Fix a problem where list files where not backed up when using a remote destination
 
 || Version 1.43.3rc6 changes ||
   * Thu Oct 28 2010 Stewart Adam <s.adam at diffingo.com>

@@ -171,19 +171,13 @@ class BackupOperation(operations.Common):
     """Adds the pkglist and diskinfo to the backup"""
     self.ifCancel()
     for file in pkgListfiles:
-      # .replace("'", "'\\''") = wrap it in quotes for command line, and escape other single quote)
-      if engine == 'tar':
-        fwbackups.execute("%s '%s' '%s'" % (command, file, self.escapePath(self.dest)), env=self.environment, shell=True)
-      elif engine in ['tar.gz', 'tar.bz2']:
-        paths.append('"%s"' % file)
-      elif engine == 'rsync':
-        fwbackups.execute("%s '%s' '%s'" % (command, file, self.escapePath(self.dest)), env=self.environment, shell=True)
+      paths.append(file)
 
   def deleteListFiles(self, pkgListfiles):
     """Delete the list files in the tempdir"""
+    self.ifCancel()
     for file in pkgListfiles:
       os.remove(file)
-    self.ifCancel()
   
   def checkRemoteServer(self):
     """Checks if a connection to the remote server can be established"""
