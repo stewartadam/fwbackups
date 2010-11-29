@@ -14,7 +14,3 @@
 - Split the overlapping parts of operations/* into engines/*
 - CLI restore app
 - SSH public key authentication
-
-== Before 1.43.3 final ==
-- Update documentation
-- Temporary package lists when destination is remote (ssh)?

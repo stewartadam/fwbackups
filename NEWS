@@ -1,0 +1,17 @@
+== Summary of major changes for this version ==
+* Tokens have been added for use in the before and after commands
+* Restore from remote folders is now functional
+* The crontab parser and writer has been rewritten from scratch to be more
+  robust and to preserve formatting, spacing, comments and variables
+* More extensive documentation avaliable on the website:
+  http://www.diffingo.com/oss/fwbackups/documentation
+* String encoding is handled much better; fwbackups should be much less buggy
+  when using non-ASCII characters in path names or destinations
+* Performance improvements and many bugfixes
+* UI ease of use improvements, better compliance with the GNOME HIG 2.0
+
+== OS-specific fixes ==
+* Added support for OS X 10.5/10.6
+* Fixed multiple crashes when running on the Ubuntu or Debian Linux OSs
+* Restored Python 2.4 compatability (except for archive backup restores),
+  fwbackups can now be used on CentOS 5.x
