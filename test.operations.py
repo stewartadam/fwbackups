@@ -128,12 +128,10 @@ for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setConfig = config.BackupSetConf(SETPATH)
   restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
   remoteFolder = setConfig.get("Options", "RemoteFolder")
-  client, sftpClient = sftp.connect(hostname, username, password, port)
-  try:
-    listing = sftpClient.listdir(remoteFolder)
-  finally:
-    sftpClient.close()
-    client.close()
+  client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
+  listing = sftpClient.listdir(remoteFolder)
+  sftpClient.close()
+  client.close()
   for backupName in listing:
     if backupName.startswith("%s-%s" % (_("Backup"), setName)):
       options["RemoteSource"] = os.path.join(remoteFolder, backupName)
@@ -239,7 +237,7 @@ options["RemoteHost"] = hostname
 options["RemotePassword"] = password
 options["RemotePort"] = 22
 options["RemoteUsername"] = username
-client, sftpClient = sftp.connect(hostname, username, password, port)
+client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
 try:
   listing = sftpClient.listdir(remotefolder)
 finally:
@@ -270,7 +268,7 @@ options["RemoteHost"] = hostname
 options["RemotePassword"] = password
 options["RemotePort"] = 22
 options["RemoteUsername"] = username
-client, sftpClient = sftp.connect(hostname, username, password, port)
+client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
 try:
   listing = sftpClient.listdir(remotefolder)
   for item in listing:
