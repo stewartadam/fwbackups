@@ -4,6 +4,8 @@
   * Tue Nov 30 2010 Stewart Adam <s.adam at diffingo.com>
     - Further fixes regarding string encoding; fixes backup sets with diacritics
       and/or special characters in their names
+    - Use mkstemp to create temporary package list files for better Python 2.4
+      compatability
   
   * Sun Nov 28 2010 Stewart Adam <s.adam at diffingo.com>
     - Encode strings with the appropriate encoding when dealing with the OS

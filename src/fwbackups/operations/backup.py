@@ -83,7 +83,8 @@ class BackupOperation(operations.Common):
     pkgListFiles = {}
     for path in os.environ['PATH'].split(':'):
       if os.path.exists(os.path.join(path, 'rpm')) and not pkgListFiles.has_key('rpm'):
-        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('rpm - Package list'), delete=False)
+        fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('rpm - Package list'))
+        fh = os.fdopen(fd, "w")
         # try with rpm-python, but if not just execute it like the rest
         try:
           import rpm
@@ -98,24 +99,27 @@ class BackupOperation(operations.Common):
             fh.write("%s-%s-%s.%s\n" % (hdr['name'], hdr['version'], hdr['release'], hdr['arch']))
         else:
           retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=fh)
+        pkgListFiles['rpm'] = path
         fh.close()
-        pkgListFiles['rpm'] = fh.name
       if os.path.exists(os.path.join(path, 'pacman')) and not pkgListFiles.has_key('pacman'):
-        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('Pacman - Package list'), delete=False)
+        fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('Pacman - Package list'))
+        fh = os.fdopen(fd, 'w')
         retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=fh)
+        pkgListFiles['pacman'] = path
         fh.close()
-        pkgListFiles['pacman'] = fh.name
       if os.path.exists(os.path.join(path, 'dpkg')) and not pkgListFiles.has_key('dpkg'):
-        fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('dpkg - Package list'), delete=False)
+        fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('dpkg - Package list'))
+        fh = os.fdopen(fd, 'w')
         retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=fh)
+        pkgListFiles['dpkg'] = path
         fh.close()
-        pkgListFiles['dpkg'] = fh.name
     # We want to return a list of only the filenames
     return pkgListFiles.values()
   
   def createDiskInfo(self):
     """Print disk info to a file in tempdir"""
-    fh = tempfile.NamedTemporaryFile(suffix='.txt', prefix="%s - tmp" % _('Disk Information'), delete=False)
+    fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('Disk Information'))
+    fh = os.fdopen(fd, 'w')
     retval, stdout, stderr = fwbackups.execute('fdisk -l', env=self.environment, shell=True, stdoutfd=fh)
     fh.close()
     return fh.name
