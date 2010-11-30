@@ -23,7 +23,7 @@ import time
 import getopt
 import signal
 
-from fwbackups.i18n import _
+from fwbackups.i18n import _, encode, decode
 from fwbackups.const import *
 
 import fwbackups
@@ -64,9 +64,9 @@ if __name__ == "__main__":
   except (getopt.GetoptError), e:
     usage(e)
     sys.exit(1)
-  # Decode to UTF-8 objects and Remove options from paths
+  # Remove options from paths
   try: # Pycron passes arguments as UTF-8 encoded bytestrings
-    sets = [set.decode('utf-8') for set in sys.argv[1:]]
+    sets = [decode(setPath) for setPath in sys.argv[1:]]
   except UnicodeDecodeError: # Command line passes UTF-8 directly
     sets = [unicode(set, locale.getpreferredencoding()) for set in sys.argv[1:]]
   for i in opts:
@@ -100,12 +100,12 @@ if __name__ == "__main__":
   logger.setPrintToo(printToo)
   # handle ctrl + c
   signal.signal(signal.SIGINT, handleStop)
-  for set in sets:
+  for setPath in sets:
     if MSWINDOWS:
-      set = set.strip("'")
-    setPath = os.path.join(SETLOC, u"%s.conf" % set)
-    if not os.path.exists(setPath):
-      logger.logmsg("ERROR", _("The set configuration for '%s' was not found - skipping." % set))
+      setPath = setPath.strip("'")
+    setPath = os.path.join(SETLOC, "%s.conf" % setPath)
+    if not os.path.exists(encode(setPath)):
+      logger.logmsg("ERROR", _("The set configuration for '%s' was not found - skipping." % setPath))
       continue
     try:
       backupHandle = backup.SetBackupOperation(setPath, logger=logger)

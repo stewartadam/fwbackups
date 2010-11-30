@@ -64,3 +64,4 @@ except:
   def _(str):
     """Wrapper - returns the same string"""
     return str
+

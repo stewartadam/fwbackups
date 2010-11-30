@@ -70,7 +70,7 @@ class ConfigFile(ConfigParser.ConfigParser):
     ConfigParser.ConfigParser.__init__(self)
     # Renders options case-sensitive
     ConfigParser.ConfigParser.optionxform = self.optionxform
-    self.__conffile = conffile
+    self.__conffile = encode(conffile)
     if create and not os.path.exists(self.__conffile):
       fh = open(self.__conffile, 'w')
       fh.close()
