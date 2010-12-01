@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2010-10-29T00:36:48\n"
-"PO-Revision-Date: 2010-10-29T00:36:48\n"
+"POT-Creation-Date: 2010-12-01T01:08:23\n"
+"PO-Revision-Date: 2010-12-01T01:08:23\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -29,16 +29,21 @@ msgstr ""
 
 #. Tag: member
 #, no-c-format
+msgid "Release 1.43.3"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
 msgid "Update documentation for 1.43.3rc6"
 msgstr ""
 
 #. Tag: member
 #, no-c-format
-msgid "Port user guide to publican publishing tool"
+msgid "Finish updating user guide for version 1.43.3rc5"
 msgstr ""
 
 #. Tag: member
 #, no-c-format
-msgid "Finish updating user guide for version 1.43.3rc5"
+msgid "Port user guide to publican publishing tool"
 msgstr ""
 
