@@ -116,7 +116,7 @@
 				<term>One-Time Backup</term>
 				 <listitem>
 					<para>
-						Perform &#34;one-time&#34; backups (backups that will <emphasis>not</emphasis> be scheduled to run at a future date).
+						Perform "one-time" backups (backups that will <emphasis>not</emphasis> be scheduled to run at a future date).
 					</para>
 
 				</listitem>
@@ -126,7 +126,7 @@
 				<term>Log Viewer</term>
 				 <listitem>
 					<para>
-						Displays the log file, showing information about <application>fwbackups</application>&#39;s activities.
+						Displays the log file, showing information about <application>fwbackups</application>'s activities.
 					</para>
 					 <note>
 						<itemizedlist>

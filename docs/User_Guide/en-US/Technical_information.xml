@@ -8,15 +8,15 @@
 	 <section id="sect-User_Guide-Technical_Information-Backup_formats">
 		<title>Backup formats</title>
 		 <para>
-			This section details how fwbackups create backups and each type of backup&#39;s storage requirements.
+			This section details how fwbackups create backups and each type of backup's storage requirements.
 		</para>
 		 <section id="sect-User_Guide-Backup_formats-Archivetar_backups">
 			<title>Archive/tar backups</title>
 			 <para>
-				<guilabel>Archive</guilabel> backups use one of two methods to create the backup archive depending on the operating system. On Unix-like operating systems such as Linux, Unix and OS X, the <command>tar</command> executable is called upon directly to create a standard GNU tar archive, optionally with gzip or bzip2 compression. On Windows, Python&#39;s <ulink url="http://docs.python.org/library/tarfile.html">tarfile</ulink> module is used to create a standard GNU compliant tar archive. In either case, backup compression is applied on-the-fly without the need for the tar archive to be created first.
+				<guilabel>Archive</guilabel> backups use one of two methods to create the backup archive depending on the operating system. On Unix-like operating systems such as Linux, Unix and OS X, the <command>tar</command> executable is called upon directly to create a standard GNU tar archive, optionally with gzip or bzip2 compression. On Windows, Python's <ulink url="http://docs.python.org/library/tarfile.html">tarfile</ulink> module is used to create a standard GNU compliant tar archive. In either case, backup compression is applied on-the-fly without the need for the tar archive to be created first.
 			</para>
 			 <para>
-				Because the backup is in the format of a standard tar archive, should fwbackups ever fail to restore a backup any utility supporting the tar format such as GNOME&#39;s integrated <ulink url="http://library.gnome.org/users/file-roller/stable/">file-roller</ulink> utility or <ulink url="http://www.7-zip.org/">7-zip</ulink> on Windows may be used to extract files from the backup. For those confortable with the command line, a simple <command>tar xfz &#60;backup file&#62;</command> will extract all files from the backup.
+				Because the backup is in the format of a standard tar archive, should fwbackups ever fail to restore a backup any utility supporting the tar format such as GNOME's integrated <ulink url="http://library.gnome.org/users/file-roller/stable/">file-roller</ulink> utility or <ulink url="http://www.7-zip.org/">7-zip</ulink> on Windows may be used to extract files from the backup. For those confortable with the command line, a simple <command>tar xfz &lt;backup file&gt;</command> will extract all files from the backup.
 			</para>
 
 		</section>

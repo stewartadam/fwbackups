@@ -50,7 +50,7 @@
 				Each path in the list will have either a green or red icon next to it. A green icon indicates that <application>fwbackups</application> is able to read path, while a red icon indicates that the file is missing or unable to read the path and it may be excluded from future backups.
 			</para>
 			 <note>
-				<title>Drag &#39;n&#39; Drop!</title>
+				<title>Drag 'n' Drop!</title>
 				 <para>
 					Adding files or folders is as easy as dragging them from your favourite file manager and dropping them onto the path list.
 				</para>
@@ -93,7 +93,7 @@
 				This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users.
 			</para>
 			 <para>
-				The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example &#34;0&#34; (at the beginning of the hour) or &#34;30&#34; (for half-way through the hour).
+				The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example "0" (at the beginning of the hour) or "30" (for half-way through the hour).
 			</para>
 			 <figure float="0" id="figu-User_Guide-Times-Setting_a_backup_schedule_for_a_set">
 				<title>Setting a backup schedule for a set</title>
@@ -207,7 +207,7 @@
 							Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						 <para>
-							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) &#34;tar&#34; archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the &#34;tar&#34; backup engine (&#34;.gz&#34; or &#34;.bz2&#34; was appended if gzip or bzip2 compression was enabled, respectively). 
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively). 
 							<note>
 								<title>Reducing backup size with compression</title>
 								 <para>
@@ -218,7 +218,7 @@
 
 						</para>
 						 <para>
-							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the &#34;rsync&#34; backup engine. 
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine. 
 							<note>
 								<title>Increasing backup speed</title>
 								 <para>
@@ -259,7 +259,7 @@
 					<term>Include hidden files</term>
 					 <listitem>
 						<para>
-							If selected, Unix-style hidden files (files and folders starting with a period character &#34;<filename>.</filename>&#34;) are included in the backup.
+							If selected, Unix-style hidden files (files and folders starting with a period character "<filename>.</filename>") are included in the backup.
 						</para>
 						 <note>
 							<title>Hidden files on the Windows platform are always backed up</title>
@@ -742,17 +742,17 @@ specificname.txt
 				<term>Pycron installation folder</term>
 				 <listitem>
 					<para>
-						When running on the Windows platform, <application>fwbackups</application> will use pycron to schedule tasks and must know where pycron has been installed. The installation folder will be auto-detected in most cases, but in the event that it isn&#39;t use the <guibutton>Browse</guibutton> button to select the pycron installation folder.
+						When running on the Windows platform, <application>fwbackups</application> will use pycron to schedule tasks and must know where pycron has been installed. The installation folder will be auto-detected in most cases, but in the event that it isn't use the <guibutton>Browse</guibutton> button to select the pycron installation folder.
 					</para>
 
 				</listitem>
 
 			</varlistentry>
 			 <varlistentry>
-				<term>&#34;Don&#39;t show me again&#34; messages</term>
+				<term>"Don't show me again" messages</term>
 				 <listitem>
 					<para>
-						Several messages in <application>fwbackups</application> can be disabled by selecting <guilabel>Don&#39;t show me again</guilabel> when they appear. If you would like to enable these messages again, click the button.
+						Several messages in <application>fwbackups</application> can be disabled by selecting <guilabel>Don't show me again</guilabel> when they appear. If you would like to enable these messages again, click the button.
 					</para>
 
 				</listitem>

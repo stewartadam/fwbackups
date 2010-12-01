@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2010-10-29T00:36:47\n"
-"PO-Revision-Date: 2010-10-29T00:36:47\n"
+"POT-Creation-Date: 2010-12-01T01:08:23\n"
+"PO-Revision-Date: 2010-12-01T01:08:23\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -19,17 +19,17 @@ msgstr ""
 
 #. Tag: subtitle
 #, no-c-format
-msgid "Using fwbackups for easy, automated backups<remark> (release candidate 6)</remark>"
+msgid "Using fwbackups for easy, automated backups"
+msgstr ""
+
+#. Tag: productname
+#, no-c-format
+msgid "fwbackups"
 msgstr ""
 
 #. Tag: para
 #, no-c-format
 msgid "This user guide will help you use and configure <application>fwbackups</application>. It provides instructions for creating and configuring backups, as well as documentation for the various configuration options available to you in <application>fwbackups</application>."
-msgstr ""
-
-#. Tag: keyword
-#, no-c-format
-msgid "fwbackups"
 msgstr ""
 
 #. Tag: keyword

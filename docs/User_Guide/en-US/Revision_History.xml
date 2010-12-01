@@ -8,6 +8,24 @@
 	 <simpara>
 		<revhistory>
 			<revision>
+				<revnumber>3</revnumber>
+				 <date>Tue Nov 30 2010</date>
+				 <author>
+					<firstname>Stewart</firstname>
+					 <surname>Adam</surname>
+					 <email>s.adam@diffingo.com</email>
+
+				</author>
+				 <revdescription>
+					<simplelist>
+						<member>Release 1.43.3</member>
+
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
+			 <revision>
 				<revnumber>2</revnumber>
 				 <date>Thu Oct 28 2010</date>
 				 <author>
@@ -36,7 +54,7 @@
 				</author>
 				 <revdescription>
 					<simplelist>
-						<member>Port user guide to publican publishing tool</member>
+						<member>Finish updating user guide for version 1.43.3rc5</member>
 
 					</simplelist>
 
@@ -54,7 +72,7 @@
 				</author>
 				 <revdescription>
 					<simplelist>
-						<member>Finish updating user guide for version 1.43.3rc5</member>
+						<member>Port user guide to publican publishing tool</member>
 
 					</simplelist>
 

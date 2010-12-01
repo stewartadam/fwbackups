@@ -1786,6 +1786,10 @@ class fwbackupsApp(interface.Controller):
       if this_engine == 'rsync':
         backupName = '%s-%s-%s' % (_('Backup'), setConfig.getSetName(), date)
       else:
+        # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
+        if sys.version_info[0] == 2 and sys.version_info[1] == 4:
+          self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
+          return False
         backupName = '%s-%s-%s.%s' % (_('Backup'), setConfig.getSetName(), date, this_engine)
       if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
         options["RemoteHost"] = setConfig.get('Options', 'RemoteHost')
@@ -1800,12 +1804,20 @@ class fwbackupsApp(interface.Controller):
         localDestination = setConfig.get('Options', 'Destination')
         options["Source"] = os.path.join(localDestination, backupName)
     elif active == 1: # local archive
+      # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
+      if sys.version_info[0] == 2 and sys.version_info[1] == 4:
+        self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
+        return False
       sourceType = 'local archive'
       options["Source"] = self.ui.restore1ArchiveEntry.get_text()
     elif active == 2: # local folder
       sourceType = 'local folder'
       options["Source"] = self.ui.restore1FolderEntry.get_text()
     elif active == 3: # remote archive
+      # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
+      if sys.version_info[0] == 2 and sys.version_info[1] == 4:
+        self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
+        return False
       sourceType = 'remote archive (SSH)'
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
@@ -1826,6 +1838,7 @@ class fwbackupsApp(interface.Controller):
     # Finally, save all information
     options["SourceType"] = sourceType
     restoreConf.save(options)
+    return True
 
   def on_restoreStartButton_clicked(self, widget):
     source = ''
@@ -1844,7 +1857,8 @@ class fwbackupsApp(interface.Controller):
       if self.ui.restore1SetDateCombobox.get_active_text() == _("No backups found"):
         self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Choose another set, or alternatively choose a different restore source.") % setName)
         return False
-      self.saveRestoreConfiguration(restoreConfig, setConfig)
+      if not self.saveRestoreConfiguration(restoreConfig, setConfig):
+        return False
     elif active == 1: # Local archive
       filename = self.ui.restore1ArchiveEntry.get_text()
       if not filename:
@@ -1855,12 +1869,14 @@ class fwbackupsApp(interface.Controller):
                          _('The file you selected is not a supported archive.\n' + \
                          'Supported archives types are tar with no, gzip or bzip2 compression.'))
         return False
-      self.saveRestoreConfiguration(restoreConfig)
+      if not self.saveRestoreConfiguration(restoreConfig):
+        return False
     elif active == 2: # local folder
       if not self.ui.restore1FolderEntry.get_text():
         self.displayInfo(self.ui.main, _('Restore source'), _('Please enter the location of the local folder.'))
         return False
-      self.saveRestoreConfiguration(restoreConfig)
+      if not self.saveRestoreConfiguration(restoreConfig):
+        return False
     elif active == 3: # remote archive
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
@@ -1869,7 +1885,8 @@ class fwbackupsApp(interface.Controller):
       if not (host and username and port and path):
         self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
         return False
-      self.saveRestoreConfiguration(restoreConfig)
+      if not self.saveRestoreConfiguration(restoreConfig):
+        return False
 
     # finally...
     self.ui.restoreFinishButton.set_sensitive(False)
