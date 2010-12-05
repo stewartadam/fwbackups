@@ -257,7 +257,7 @@ def clean_fwbackups_entries():
         continue
       parsedLine = crontabLine(*match.groups())
       fields = parsedLine.get_all_fields()
-      if not (fields[5].startswith('fwbackups-run') and fields[6].startswith(CRON_SIGNATURE)):
+      if not fields[6].startswith(CRON_SIGNATURE):
         cleanedLines.append(line)
   return cleanedLines
     

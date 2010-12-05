@@ -4,6 +4,8 @@
   * Sun Dec 5 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a crash that occured when compression was enabled while configuring a
       one-time backup
+    - Correct the crontab cleaning algorithm to work with full paths (as we do
+      with PyCron on Windows)
   
   * Tue Nov 30 2010 Stewart Adam <s.adam at diffingo.com>
     - Further fixes regarding string encoding; fixes backup sets with diacritics
