@@ -31,6 +31,7 @@ from fwbackups.i18n import _, encode
 
 if sys.platform.startswith('win'):
   os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "bin")
+  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "addon")
   sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
   sys.path.insert(1, os.path.join(INSTALL_DIR, "pythonmodules", "gtk-2.0"))
 

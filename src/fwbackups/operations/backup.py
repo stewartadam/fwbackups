@@ -19,7 +19,6 @@
 This file contains the logic for the backup operation
 """
 import exceptions
-import fcntl
 import os
 import re
 import tempfile
@@ -32,6 +31,9 @@ from fwbackups import config
 from fwbackups import operations
 from fwbackups import shutil_modded
 from fwbackups import sftp
+
+if not MSWINDOWS:
+  import fcntl
 
 STATUS_INITIALIZING = 0
 STATUS_CLEANING_OLD = 1
@@ -280,7 +282,7 @@ class BackupOperation(operations.Common):
         import tarfile
         fh = tarfile.open(self.dest, 'w:gz')
         for i in paths:
-          self.current += 1
+          self._current += 1
           self.ifCancel()
           self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
           fh.add(i, recursive=self.options['Recursive'])
@@ -379,7 +381,7 @@ class BackupOperation(operations.Common):
             sftp.put(sftpClient, encode(i), encode(os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i))), symlinks=not self.options['FollowLinks'], excludes=encode(self.options['Excludes'].split('\n')))
         sftpClient.close()
         client.close()
-      else: # self.options['DestinationType'] != 'remote (ssh)'
+      else: # destination is local
         for i in paths:
           self.ifCancel()
           self._current += 1
@@ -387,7 +389,6 @@ class BackupOperation(operations.Common):
             # let's deal with real paths
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
             shutil_modded.copytree_fullpaths(encode(i), encode(self.dest))
-            self._current += 1
           else: # not MSWINDOWS; UNIX/OS X can call rsync binary
             i = self.escapePath(i)
             self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.escapePath(self.dest)}))

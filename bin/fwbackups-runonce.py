@@ -25,6 +25,10 @@ import getopt
 from fwbackups.i18n import _
 from fwbackups.const import *
 
+if sys.platform.startswith('win'):
+  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
+  sys.path.insert(1, os.path.join(INSTALL_DIR, "pythonmodules", "gtk-2.0"))
+
 import fwbackups
 from fwbackups.operations import backup
 from fwbackups import config

@@ -6,6 +6,9 @@
       one-time backup
     - Correct the crontab cleaning algorithm to work with full paths (as we do
       with PyCron on Windows)
+    - When running under Windows, append "pythonmodules" to the system path
+      so run/runonce can import paramiko correctly
+    - Do not import fcntl unless we are running under *nix
   
   * Tue Nov 30 2010 Stewart Adam <s.adam at diffingo.com>
     - Further fixes regarding string encoding; fixes backup sets with diacritics
