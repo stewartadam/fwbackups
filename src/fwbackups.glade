@@ -2212,7 +2212,7 @@ Remote folder (SSH)</property>
 						  </child>
 
 						  <child>
-						    <widget class="GtkComboBox" id="main3CompressionCombo">
+						    <widget class="GtkComboBox" id="main3CompressCombo">
 						      <property name="visible">True</property>
 						      <property name="items" translatable="yes">gzip: fast, lightweight
 bzip2: slower, more efficient</property>

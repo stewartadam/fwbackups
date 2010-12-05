@@ -1,6 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.3 changes ||
+  * Sun Dec 5 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a crash that occured when compression was enabled while configuring a
+      one-time backup
+  
   * Tue Nov 30 2010 Stewart Adam <s.adam at diffingo.com>
     - Further fixes regarding string encoding; fixes backup sets with diacritics
       and/or special characters in their names
