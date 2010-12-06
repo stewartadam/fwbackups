@@ -53,7 +53,7 @@
   !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.pyw"
   !define STARTUP_RUN_KEY                 "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
   !define PRODUCT_UNINST_EXE              "fwbackups-uninst.exe"
-  !define PYTHON_RUNTIME_INSTALLER        "python-2.6.2.msi"
+  !define PYTHON_RUNTIME_INSTALLER        "python-2.6.6.msi"
   !define PYCRON_INSTALLER                "pycron-0.5.9.0.exe"
 
 ;--------------------------------
