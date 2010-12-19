@@ -25,7 +25,7 @@ import tempfile
 import time
 #--
 import fwbackups
-from fwbackups.i18n import _, encode
+from fwbackups.i18n import _, encode, normalize
 from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
@@ -618,11 +618,16 @@ class SetBackupOperation(BackupOperation):
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
       listing = sftpClient.listdir(self.options['RemoteFolder'])
     else:
-      listing = os.listdir(encode(self.options['Destination']))
+      listing = os.listdir(self.options['Destination'])
+    # Normalize the unicode strings storing the filenames. This fixes a problem
+    # on HFS+ filesystems where supplying a set name on the command line
+    # resulted in a different Unicode string than the filename of the set.
+    listing = [normalize(i) for i in listing]
     listing.sort()
     oldbackups = []
     for i in listing:
-      if i.startswith(u'%s-%s-' % (_('Backup'), self.config.getSetName())):
+      backupPrefix = '%s-%s-' % (_('Backup'), self.config.getSetName())
+      if i.startswith(backupPrefix):
         oldbackups.append(i)
     # ...And remove them.
     oldbackups.reverse()

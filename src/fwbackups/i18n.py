@@ -19,12 +19,16 @@
 This file is a slighlty modified version of the yum i18n.py file. Setups up the
 fwbackups translation domain and makes _() available. Uses ugettext to make
 sure translated strings are in Unicode.
+
+New to Unicode strings? Read this page for more info:
+http://boodebr.org/main/python/all-about-python-and-unicode
 """
 import gettext
 import locale
 import sys
+import unicodedata
 
-# Set the locale appropriately
+# Set the locale according to user preference
 locale.setlocale(locale.LC_ALL, '')
 
 # NOTE: When run from Cron, some OSs (ie, Ubuntu) don't set $LANG and so we get
@@ -38,24 +42,40 @@ if None in [encoding, locale.getlocale()[1]]:
   encoding = 'utf-8'
 
 def encode(item):
-  """Encodes item with the appropriate encoding. If item is a list, the
-  operation is performed to each item in the list. If the item is not a string,
-  it is converted to one before applying the encoding."""
+  """Takes a Unicode string and encodes the code points into a byte string using
+  the determined system encoding (see above). If item is a list, the operation
+  is performed to each item in the list. If the item is not a string, it is
+  converted to one before applying the encoding."""
   if type(item) == list:
     return [encode(i) for i in item]
   elif type(item) not in [str, unicode]:
     item = str(item)
   return item.encode(encoding)
 
-def decode(item):
-  """Decodes item with the appropriate encoding. If item is a list, the
-  operation is performed to each item in the list. If the item is not a string,
-  it is converted to one before applying the encoding."""
+def decode(item, filename=False):
+  """Takes a byte string and decodes it into a Unicode string object using the
+  determined system encoding (see above). If item is a list, the operation is
+  performed to each item in the list. If the item is not a string, it is
+  converted to one before applying the encoding. If filename is True, then item
+  will be normalized to NFC form first using the normalize() function below."""
   if type(item) == list:
     return [decode(i) for i in item]
   elif type(item) not in [str, unicode]:
     item = str(item)
-  return item.decode(encoding)
+  item = item.decode(encoding)
+  if filename:
+    item = normalize(item)
+  return item
+
+def normalize(item):
+  """This is primarily for OS X, where HFS+ stores filenames as decomposed UTF-8
+  strings (there are many ways to write the same character in Unicode). This
+  function will normalize Unicode string "item" so that it may be compared
+  internally with other Unicode strings."""
+  if type(item) != unicode:
+    item = decode(item)
+  normalized = unicodedata.normalize('NFC', item)
+  return normalized
 
 try: 
   _ = gettext.translation('fwbackups').ugettext

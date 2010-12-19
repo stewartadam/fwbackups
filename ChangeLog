@@ -5,6 +5,7 @@
     - Fix a problem were upgrading to 1.43.3 could cause the crontab to be
       removed if the backup administrator tool is not run before the next
       scheduled backup
+    - Better handling of Unicode strings when running on HFS+ filesystems
 
 || Version 1.43.3 changes ||
   * Sun Dec 5 2010 Stewart Adam <s.adam at diffingo.com>
