@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:              fwbackups
-Version:           1.43.3
+Version:           @VERSION@
 Release:           1%{?dist}
 Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
@@ -14,6 +14,7 @@ BuildArch:         noarch
 BuildRequires:     desktop-file-utils
 # Pulls gettext, autotools
 BuildRequires:     intltool
+BuildRequires:     glib2-devel
 BuildRequires:     python-devel >= 2.4
 
 Requires:          /usr/bin/crontab
@@ -66,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/%{name}/
 
 %changelog
+* Sun Dec 19 2010 Stewart Adam <s.adam at diffingo.com> 1.43.4-1
+- Update to 1.43.4
+
 * Sun Nov 28 2010 Stewart Adam <s.adam at diffingo.com> 1.43.3-1
 - Update to 1.43.3
 

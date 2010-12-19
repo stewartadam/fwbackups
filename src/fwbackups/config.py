@@ -311,6 +311,8 @@ class BackupSetConf:
       fromHereUp = True
       if self.__config.has_option("Options", "sparce"):
         self.__config.remove_option("Options", "sparce")
+    if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3'] or fromHereUp == True:
+      fromHereUp = True
     # Now that the configuration file been imported, reset the version option
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
@@ -845,6 +847,8 @@ class PrefsConf:
       except: # write backup
         cron.write(crontabLines)
         raise ConfigError(_("Unable to clean user crontab!"))
+    if oldVersion in ['1.43.3rc6', '1.43.3'] or fromHereUp == True:
+      fromHereUp = True
     
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
