@@ -118,17 +118,6 @@ class crontabLine(rawCrontabLine):
     # If we're here then all fields were validated
     return ' '.join(fields).rstrip()+'\n'
 
-def escape(string, noQuotes):
-  """Escapes quotes in string"""
-  if noQuotes == 1:
-    splitString = "'"
-    return ('%s\\%s%s' % (splitString,splitString,splitString)).join(string.split(splitString))
-  elif noQuotes == 2:
-    splitString = '"'
-    return ('\\%s' % splitString).join(string.split(splitString))
-  else:
-    raise ValueError('noQuotes must be and integer of 1 or 2')
-
 def getPyCrontab():
   """Read the PyCron crontab file on Windows"""
   prefConf = config.PrefsConf()

@@ -51,7 +51,7 @@ from fwbackups import widgets
 def reportBug(etype=None, evalue=None, tb=None):
   """Report a bug dialog"""
   import traceback
-  c = interface.Controller('%s/BugReport.glade' % INSTALL_DIR, 'bugreport')
+  c = interface.Controller(os.path.join(INSTALL_DIR, 'BugReport.glade'), 'bugreport')
   if not etype and not evalue and not tb:
     (etype, evalue, tb) = sys.exc_info()
   tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
@@ -620,17 +620,11 @@ class fwbackupsApp(interface.Controller):
             _("The set configuration file '%s' failed to validate, so it may not be properly scheduled. Other sets are unaffected by this error." % file))
           continue
         setName = setConf.getSetName()
-        entry = setConf.get('Times', 'Entry').split(' ')[:5]
-        if MSWINDOWS: # needs an abs path because pycron=system user
-          entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, INSTALL_DIR, cron.escape(setName, 2)))
-        else:
-          entry.append('fwbackups-run -l \'%s\'' % cron.escape(setName, 1))
-        # Add out signature
-        entry.append(CRON_SIGNATURE)
+        entry = setConf.getCronLineText()
         try:
           crontabLine = cron.crontabLine(*entry)
           if not crontabLine.is_parsable():
-            raise cron.CronError(_("Internal error: generated entry was not parsable. Please submit a bug report."))
+            raise cron.CronError(_("Internal error: generated entry for set '%s' was not parsable. Please submit a bug report.") % setName)
           fwbackupCronLines.append(crontabLine)
         except Exception, error:
           self.displayError(self.ui.main, _("Could not schedule automated backups for set '%s'") % setName,
@@ -2799,4 +2793,3 @@ if __name__ == "__main__":
   except KeyboardInterrupt:
     # ctrl+c?
     MainApp.main_close(None)
-

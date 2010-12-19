@@ -175,7 +175,7 @@ class BackupSetConf:
     self.__validate()
 
   def getSetName(self):
-    """Retruns the set name being used"""
+    """Returns the set name being used"""
     return os.path.basename(os.path.splitext(self.setPath)[0])
 
   def __initialize(self):
@@ -371,6 +371,20 @@ class BackupSetConf:
     """Returns a dictionary of all options and their values"""
     config = self.__config.generateDict(sections=["Options"])
     return config["Options"]
+  
+  def getCronLineText(self):
+    """Returns the cron line in text form"""
+    try:
+      entry = self.__config.get('Times', 'Entry').split(' ')[:5]
+      if MSWINDOWS: # needs an abs path because pycron=system user
+        entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, INSTALL_DIR, fwbackups.escapeQuotes(self.getSetName(), 2)))
+      else:
+        entry.append('fwbackups-run -l \'%s\'' % fwbackups.escapeQuotes(self.getSetName(), 1))
+      # Add signature to end
+      entry.append(CRON_SIGNATURE)
+      return entry
+    except Exception, error:
+      return None
 
   def save(self, paths, options, times, mergeDefaults=False):
     """Saves a set configuration file from dict-dump objects options and times,
@@ -811,12 +825,26 @@ class PrefsConf:
           # if not comment or whitespace, check if the entry is not fwbackups related
           if line.get_raw_entry_text().find('fwbackups-run') == -1:
             cleanedLines.append(line)
+      # re-schedule current sets
+      files = os.listdir(SETLOC)
+      files.sort()
+      for file in files:
+        if file.endswith('.conf') and file != 'temporary_config.conf':
+          try:
+            setConf = BackupSetConf(os.path.join(SETLOC, file))
+            entry = setConf.getCronLineText()
+            crontabLine = cron.crontabLine(*entry)
+            if not crontabLine.is_parsable():
+              continue
+            cleanedLines.append(crontabLine)
+          except Exception, error:
+            continue # set or cron entry text is not parsable, just move on
       try: # write cleaned lines
         cron.write(cleanedLines)
       except: # write backup
         cron.write(crontabLines)
         raise ConfigError(_("Unable to clean user crontab!"))
-      
+    
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
 
@@ -868,5 +896,3 @@ class PrefsConf:
       self.__config = ConfigFile(PREFSLOC, True)
       self.__config.importDict(backup)
       raise
-
-

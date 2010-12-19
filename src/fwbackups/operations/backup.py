@@ -65,12 +65,6 @@ class BackupOperation(operations.Common):
       options[option] = _bool(options[option])
     return options
   
-  def escapePath(self, path):
-    """Wrap the supplied path in quotes for command line, and escape any other
-    single quotes. Returns an 8-bit string."""
-    path = path.replace("'", "'\\''")
-    return path
-  
   def parsePaths(self, config):
     """Get the list of paths in the configuration file. Returns a list of paths to backup"""
     paths = []
@@ -131,7 +125,7 @@ class BackupOperation(operations.Common):
     self.options = self.getOptions(self.config)
     if self.options['DestinationType'] == 'remote (ssh)':
       tempDir = tempfile.gettempdir()
-      self.dest = os.path.join(tempDir, os.path.split(self.escapePath(self.dest))[1])
+      self.dest = os.path.join(tempDir, os.path.split(fwbackups.escapeQuotes(self.dest, 1))[1])
     if self.options['Engine'] == 'rsync':
       command = 'rsync -g -o -p -t -R'
       if self.options['Incremental']:
@@ -150,13 +144,13 @@ class BackupOperation(operations.Common):
         for i in self.options['Excludes'].split('\n'):
           command += ' --exclude="%s"' % i
     elif self.options['Engine'] == 'tar':
-      command = "tar rf '%s'" % self.escapePath(self.dest)
+      command = "tar rf '%s'" % fwbackups.escapeQuotes(self.dest, 1)
     elif self.options['Engine'] == 'tar.gz':
       # DON'T rfz - Can't use r (append) and z (gzip) together
-      command = "tar cfz '%s'" % self.escapePath(self.dest)
+      command = "tar cfz '%s'" % fwbackups.escapeQuotes(self.dest, 1)
     elif self.options['Engine'] == 'tar.bz2':
       # DON'T rfz - Can't use r (append) and j (bzip2) together
-      command = "tar cfj '%s'" % self.escapePath(self.dest)
+      command = "tar cfj '%s'" % fwbackups.escapeQuotes(self.dest, 1)
     # --
     if self.options['Engine'] in ['tar', 'tar.gz', 'tar.bz2']: # they share command options
       if not self.options['Recursive']:
@@ -248,7 +242,7 @@ class BackupOperation(operations.Common):
         fh.close()
       else: # not MSWINDOWS
         for i in paths:
-          i = self.escapePath(i)
+          i = fwbackups.escapeQuotes(i, 1)
           self.ifCancel()
           self._current += 1
           self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s '%(c)s'" % {'a': self.options['Nice'], 'b': command, 'c': i}))
@@ -290,7 +284,7 @@ class BackupOperation(operations.Common):
         fh.close()
       else: # not MSWINDOWS
         self._current = 1
-        escapedPaths = [self.escapePath(i) for i in paths]
+        escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
         # This is a fancy way for getting i = "'one' 'two' 'three'"
         i = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
@@ -334,7 +328,7 @@ class BackupOperation(operations.Common):
         fh.close()
       else: # not MSWINDOWS
         self._current = 1
-        escapedPaths = [self.escapePath(i) for i in paths]
+        escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
         # This is a fancy way for getting i = "'one' 'two' 'three'"
         i = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
@@ -390,9 +384,9 @@ class BackupOperation(operations.Common):
             self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
             shutil_modded.copytree_fullpaths(encode(i), encode(self.dest))
           else: # not MSWINDOWS; UNIX/OS X can call rsync binary
-            i = self.escapePath(i)
-            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': self.escapePath(self.dest)}))
-            sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, i, self.escapePath(self.dest)), env=self.environment, shell=True)
+            i = fwbackups.escapeQuotes(i, 1)
+            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': fwbackups.escapeQuotes(self.dest, 1)}))
+            sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, i, fwbackups.escapeQuotes(self.dest, 1)), env=self.environment, shell=True)
             self.pids.append(sub.pid)
             self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
             # track stdout

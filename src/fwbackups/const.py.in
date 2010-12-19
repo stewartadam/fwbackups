@@ -38,11 +38,12 @@ except ImportError:
   USER = False
 
 # Paths
-INSTALL_DIR = unicode( os.path.abspath(os.path.dirname(sys.argv[0])), locale.getpreferredencoding() )
-
 if MSWINDOWS:
+  INSTALL_DIR = unicode( os.path.abspath(os.path.dirname(sys.argv[0])), locale.getpreferredencoding() )
   USERHOME = INSTALL_DIR
 else:
+  # Automake sillyness...
+  INSTALL_DIR = u"@datadir@/fwbackups".replace("${datarootdir}", "@datarootdir@").replace("${prefix}", "@prefix@")
   # Remember me: path, os.sep || newline, os.linesep
   USERHOME = os.path.expanduser('~%s' % USER) # The full path to the user's home
   if USERHOME == '~%s' % USER: # if the OS doesn't support that format

@@ -1,5 +1,11 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.4 changes ||
+  * Sun Dec 19 2010 Stewart Adam <s.adam at diffingo.com>
+    - Fix a problem were upgrading to 1.43.3 could cause the crontab to be
+      removed if the backup administrator tool is not run before the next
+      scheduled backup
+
 || Version 1.43.3 changes ||
   * Sun Dec 5 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a crash that occured when compression was enabled while configuring a

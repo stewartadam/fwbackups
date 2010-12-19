@@ -24,6 +24,7 @@ src/Makefile
 src/fwbackups/Makefile
 src/fwbackups/operations/Makefile
 src/fwbackups/__init__.py
+src/fwbackups/const.py
 Makefile
 fwbackups.spec
 ])

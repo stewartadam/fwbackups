@@ -12,7 +12,8 @@ PYTHON_FILES = \
 
 EXTRA_DIST = \
     $(PYTHON_FILES) \
-    __init__.py.in
+    __init__.py.in \
+    const.py.in
 
 pydir = $(pkgpythondir)
 py_PYTHON = $(PYTHON_FILES)
