@@ -43,16 +43,16 @@ class ValidationError(Exception):
 def _setupConf():
   """Setup the configuration directory"""
   for directory in [LOC, SETLOC]:
-    if not os.path.exists(directory):
+    if not os.path.exists(encode(directory)):
       try:
-        os.mkdir(directory, 0700)
+        os.mkdir(encode(directory), 0700)
       except OSError, error:
         raise ConfigError(_("Could not create configuration folder `%s':" % error))
         sys.exit(1)
     # Passwords that are base64-encoded are stored, so make sure they are secure
     if LINUX or DARWIN:
-      if os.stat(LOC).st_mode != 16832:
-        os.chmod(LOC, 0700)
+      if os.stat(encode(LOC)).st_mode != 16832:
+        os.chmod(encode(LOC), 0700)
     if not fwbackups.CheckPerms(directory):
       raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % directory)
       sys.exit(1)
@@ -177,7 +177,8 @@ class BackupSetConf:
 
   def getSetName(self):
     """Returns the set name being used"""
-    return os.path.basename(os.path.splitext(self.setPath)[0])
+    setName = os.path.basename(os.path.splitext(encode(self.setPath))[0])
+    return decode(setName)
 
   def __initialize(self):
     """Initializes a basic set configuration file with default values"""
@@ -399,7 +400,7 @@ class BackupSetConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(self.setPath)
+    os.remove(encode(self.setPath))
     self.__config = ConfigFile(self.setPath, True)
     if mergeDefaults:
       self.__initialize()
@@ -424,7 +425,7 @@ class BackupSetConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(self.setPath)
+      os.remove(encode(self.setPath))
       self.__config = ConfigFile(self.setPath, True)
       self.__config.importDict(backup)
       raise
@@ -442,8 +443,8 @@ class OneTimeConf:
 
     if not self.__config.sections() or create:
       # Remove existing config if it exists
-      if os.path.exists(self.onetPath):
-        os.remove(self.onetPath)
+      if os.path.exists(encode(self.onetPath)):
+        os.remove(encode(self.onetPath))
         self.__config = ConfigFile(self.onetPath, True)
       # Initialize the defaults from our now-clean config
       self.__initialize()
@@ -540,7 +541,7 @@ class OneTimeConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(self.onetPath)
+    os.remove(encode(self.onetPath))
     self.__config = ConfigFile(self.onetPath, True)
     if mergeDefaults:
       self.__initialize()
@@ -563,7 +564,7 @@ class OneTimeConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(self.onetPath)
+      os.remove(encode(self.onetPath))
       self.__config = ConfigFile(self.onetPath, True)
       self.__config.importDict(backup)
       raise
@@ -580,8 +581,8 @@ class RestoreConf:
 
     if not self.__config.sections() or create:
       # Remove existing config if it exists
-      if os.path.exists(self.restorePath):
-        os.remove(self.restorePath)
+      if os.path.exists(encode(self.restorePath)):
+        os.remove(encode(self.restorePath))
         self.__config = ConfigFile(self.restorePath, True)
       # Initialize the defaults from our now-clean config
       self.__initialize()
@@ -656,7 +657,7 @@ class RestoreConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(self.restorePath)
+    os.remove(encode(self.restorePath))
     self.__config = ConfigFile(self.restorePath, True)
     if mergeDefaults:
       self.__initialize()
@@ -674,7 +675,7 @@ class RestoreConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(self.restorePath)
+      os.remove(encode(self.restorePath))
       self.__config = ConfigFile(self.restorePath, True)
       self.__config.importDict(backup)
       raise
@@ -829,12 +830,14 @@ class PrefsConf:
           if line.get_raw_entry_text().find('fwbackups-run') == -1:
             cleanedLines.append(line)
       # re-schedule current sets
-      files = os.listdir(SETLOC)
+      files = os.listdir(encode(SETLOC))
       files.sort()
       for file in files:
         if file.endswith('.conf') and file != 'temporary_config.conf':
+          print [file]
           try:
-            setConf = BackupSetConf(os.path.join(SETLOC, file))
+            setPath = decode(os.path.join(encode(SETLOC), file))
+            setConf = BackupSetConf(setPath)
             entry = setConf.getCronLineText()
             crontabLine = cron.crontabLine(*entry)
             if not crontabLine.is_parsable():
@@ -846,6 +849,7 @@ class PrefsConf:
         cron.write(cleanedLines)
       except: # write backup
         cron.write(crontabLines)
+        raise
         raise ConfigError(_("Unable to clean user crontab!"))
     if oldVersion in ['1.43.3rc6', '1.43.3'] or fromHereUp == True:
       fromHereUp = True
@@ -879,7 +883,7 @@ class PrefsConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(PREFSLOC)
+    os.remove(encode(PREFSLOC))
     self.__config = ConfigFile(PREFSLOC, True)
     if mergeDefaults:
       self.__initialize()
@@ -897,7 +901,7 @@ class PrefsConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(PREFSLOC)
+      os.remove(encode(PREFSLOC))
       self.__config = ConfigFile(PREFSLOC, True)
       self.__config.importDict(backup)
       raise

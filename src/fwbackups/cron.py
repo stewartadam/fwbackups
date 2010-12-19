@@ -25,7 +25,7 @@ import subprocess
 import time
 import types
 
-from i18n import _
+from i18n import _, encode, decode
 from const import *
 
 from fwbackups import execute, executeSub, kill
@@ -123,12 +123,12 @@ def getPyCrontab():
   prefConf = config.PrefsConf()
   pycronLoc = prefConf.get('Preferences', 'pycronLoc')
   # See if the configuration file exists
-  pycronConfig = os.path.join(pycronLoc, 'pycron.cfg')
+  pycronConfig = os.path.join(encode(pycronLoc), 'pycron.cfg')
   if os.path.exists(pycronConfig):
-    pycronConf = config.ConfigFile(pycronConfig)
+    pycronConf = config.ConfigFile(decode(pycronConfig))
   # If not, does the sample configuation exist?
   elif os.path.exists('%s.sample' % pycronConfig):
-    pycronConf = config.ConfigFile('%s.sample' % pycronConfig)
+    pycronConf = config.ConfigFile(decode('%s.sample' % pycronConfig))
   # No cron file found!
   else:
     raise CronError(_("Could not locate the pycron or the sample pycron configuration in %s" % pycronLoc))
@@ -184,15 +184,15 @@ def write(crontabEntries=[]):
       if DARWIN:
         if os.path.islink('/fwbackups-cronwriter.py'):
           os.remove('/fwbackups-cronwriter.py')
-        os.symlink(os.path.join(INSTALL_DIR, 'cronwriter.py'), '/fwbackups-cronwriter.py')
+        os.symlink(os.path.join(encode(INSTALL_DIR), 'cronwriter.py'), '/fwbackups-cronwriter.py')
       sub = executeSub(['crontab', '-e'], environ, stdoutfd=subprocess.PIPE)
       fh = sub.stdin
     # Write the content to the crontab
     for crontabEntry in crontabEntries:
       if isinstance(crontabEntry, crontabLine): # generate the entry text
-        fh.write(crontabEntry.generate_entry_text())
+        fh.write(encode(crontabEntry.generate_entry_text()))
       else:
-        fh.write(crontabEntry.get_raw_entry_text())
+        fh.write(encode(crontabEntry.get_raw_entry_text()))
     time.sleep(1)
     fh.close()
     if not MSWINDOWS:
@@ -249,4 +249,3 @@ def clean_fwbackups_entries():
       if not fields[6].startswith(CRON_SIGNATURE):
         cleanedLines.append(line)
   return cleanedLines
-    
