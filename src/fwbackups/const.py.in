@@ -22,6 +22,7 @@ import locale
 import os
 import sys
 import getpass
+from fwbackups.i18n import decode
 
 MSWINDOWS = sys.platform.startswith('win')
 LINUX = sys.platform.startswith('linux')
@@ -39,21 +40,25 @@ except ImportError:
 
 # Paths
 if MSWINDOWS:
-  INSTALL_DIR = unicode( os.path.abspath(os.path.dirname(sys.argv[0])), locale.getpreferredencoding() )
+  INSTALL_DIR = decode(os.path.abspath(os.path.dirname(sys.argv[0])))
   USERHOME = INSTALL_DIR
 else:
-  # Automake sillyness...
-  INSTALL_DIR = u"@datadir@/fwbackups".replace("${datarootdir}", "@datarootdir@").replace("${prefix}", "@prefix@")
-  # Remember me: path, os.sep || newline, os.linesep
+  # Work around some automake sillyness...
+  INSTALL_DIR = u"${datarootdir}/fwbackups".replace("${datarootdir}", "${prefix}/share").replace("${prefix}", "/usr")
   USERHOME = os.path.expanduser('~%s' % USER) # The full path to the user's home
   if USERHOME == '~%s' % USER: # if the OS doesn't support that format
     USERHOME = os.path.expanduser('~')
+
 LOC = os.path.join(USERHOME, '.fwbackups') # The fwbackups configuration directory
-SETLOC = os.path.join(LOC, 'Sets') # The location to store set configuration files
-ONETIMELOC = os.path.join(LOC, 'fwbackups-OneTime.conf') # The location to store the one-time backup configuration file
-PREFSLOC = os.path.join(LOC, 'fwbackups-prefs.conf') # The location of the preferences file
-RESTORELOC = os.path.join(LOC, 'fwbackups-Restore.conf') # The location to store the restore configuration file
-LOGLOC = os.path.join(LOC, 'fwbackups-userlog.txt') # The location to store the log file
+SETLOC = decode( os.path.join(LOC, 'Sets') ) # The location to store set configuration files
+ONETIMELOC = decode( os.path.join(LOC, 'fwbackups-OneTime.conf') ) # The location to store the one-time backup configuration file
+PREFSLOC = decode( os.path.join(LOC, 'fwbackups-prefs.conf') ) # The location of the preferences file
+RESTORELOC = decode( os.path.join(LOC, 'fwbackups-Restore.conf') ) # The location to store the restore configuration file
+LOGLOC = decode( os.path.join(LOC, 'fwbackups-userlog.txt') ) # The location to store the log file
+
+# Do these last as os.path.join can't accept Unicode strings
+USERHOME = decode( USERHOME )
+LOC = decode( LOC )
 
 try: # because Windows doesn't do exit codes properly...
   EXIT_STATUS_OK = os.EX_OK

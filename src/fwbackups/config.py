@@ -71,8 +71,8 @@ class ConfigFile(ConfigParser.ConfigParser):
     # Renders options case-sensitive
     ConfigParser.ConfigParser.optionxform = self.optionxform
     # conffile is a unicode string - make sure to encode() when appropriate
-    self.__conffile = conffile
-    if create and not os.path.exists(encode(self.__conffile)):
+    self.__conffile = encode(conffile)
+    if create and not os.path.exists(self.__conffile):
       fh = open(self.__conffile, 'w')
       fh.close()
     self.read()

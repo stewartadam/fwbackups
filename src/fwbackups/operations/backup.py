@@ -618,11 +618,11 @@ class SetBackupOperation(BackupOperation):
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
       listing = sftpClient.listdir(self.options['RemoteFolder'])
     else:
-      listing = os.listdir(self.options['Destination'])
+      listing = os.listdir(encode(self.options['Destination']))
     # Normalize the unicode strings storing the filenames. This fixes a problem
     # on HFS+ filesystems where supplying a set name on the command line
     # resulted in a different Unicode string than the filename of the set.
-    listing = [normalize(i) for i in listing]
+    listing = [decode(i, filename=True) for i in listing]
     listing.sort()
     oldbackups = []
     for i in listing:
@@ -644,14 +644,14 @@ class SetBackupOperation(BackupOperation):
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
           path = os.path.join(self.options['Destination'], i)
           shutil_modded.rmtree(encode(path), onerror=self.onError)
-        oldIncrementalBackup = encode(os.path.join(self.options['Destination'], oldbackups[-1]))
+        oldIncrementalBackup = os.path.join(self.options['Destination'], oldbackups[-1])
         if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
             not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
           self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
-          shutil_modded.move(oldIncrementalBackup, self.dest)
+          shutil_modded.move(encode(oldIncrementalBackup), encode(self.dest))
         else: # source = is not a rsync backup - remove it and start fresh
           self.logger.logmsg('DEBUG', _('`%s\' is not an rsync backup - removing.') % oldIncrementalBackup)
-          shutil_modded.rmtree(oldIncrementalBackup, onerror=self.onError)
+          shutil_modded.rmtree(encode(oldIncrementalBackup), onerror=self.onError)
       else:
         for i in oldbackups[self.options['OldToKeep']:]:
           self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)

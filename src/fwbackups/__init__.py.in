@@ -44,7 +44,7 @@ import subprocess
 import exceptions
 
 from threading import Thread, Event
-from i18n import _, encode
+from i18n import encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
 __status__ = "beta"
