@@ -58,6 +58,8 @@ def decode(item, filename=False):
   performed to each item in the list. If the item is not a string, it is
   converted to one before applying the encoding. If filename is True, then item
   will be normalized to NFC form first using the normalize() function below."""
+  if type(item) == unicode:
+    return item
   if type(item) == list:
     return [decode(i) for i in item]
   elif type(item) not in [str, unicode]:

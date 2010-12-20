@@ -136,7 +136,7 @@ class RestoreOperation(operations.Common):
       if self.options['SourceType'] == 'set': # we don't know the type
         if os.path.isfile(encode(self.options['Source'])):
           fh = tarfile.open(self.options['Source'], 'r')
-          fh.extractall(self.options['Destination'], members=self.tarfile_generator(fh))
+          fh.extractall(encode(self.options['Destination']))
           fh.close()
         elif os.path.isdir(encode(self.options['Source'])): # we are dealing with rsync
           shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
@@ -147,7 +147,7 @@ class RestoreOperation(operations.Common):
       elif self.options['SourceType'] == 'local archive' or self.options['SourceType'] == 'remote archive (SSH)':
         if os.path.isfile(encode(self.options['Source'])):
           fh = tarfile.open(self.options['Source'], 'r')
-          fh.extractall(self.options['Destination'])
+          fh.extractall(encode(self.options['Destination']))
           fh.close()
         else: # oops, something is up
           self.logger.logmsg('ERROR', _('Source `%s\' is not an archive!' % self.options['Source']))
@@ -162,7 +162,7 @@ class RestoreOperation(operations.Common):
       
       # Clean up transfered files from remote server
       if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):
-        os.remove(self.options['Source'])
+        os.remove(encode(self.options['Source']))
       
     except:
       self.logger.logmsg('ERROR', 'Error(s) occurred while restoring certain files or folders.\nPlease check the traceback below to determine if any files are incomplete or missing.')

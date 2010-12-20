@@ -834,7 +834,6 @@ class PrefsConf:
       files.sort()
       for file in files:
         if file.endswith('.conf') and file != 'temporary_config.conf':
-          print [file]
           try:
             setPath = decode(os.path.join(encode(SETLOC), file))
             setConf = BackupSetConf(setPath)

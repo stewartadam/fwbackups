@@ -27,7 +27,6 @@ import logging
 import os
 import pango
 import re
-import time
 from xml.sax.saxutils import escape
 
 from fwbackups.i18n import _
@@ -642,10 +641,13 @@ class PathView(View):
         values.index(i)
       except ValueError:
         # index() fails with ValueError when not found
+        # UI requires we store UTF-8 encoded string. This means we will need to
+        # decode from UTF-8 and then re-encode with the filesystem encoding
+        # before writing out the paths.
         if fwbackups.CheckPermsRead(i, mustExist=True):
-          self.liststore.append([gtk.STOCK_YES, i])
+          self.liststore.append([gtk.STOCK_YES, i.encode('utf-8')])
         else:
-          self.liststore.append([gtk.STOCK_NO, i])
+          self.liststore.append([gtk.STOCK_NO, i.encode('utf-8')])
 
   def removePath(self):
     """Remote a path from the pathview"""
@@ -663,10 +665,11 @@ class PathView(View):
 
   def load(self, config):
     for path in config.getPaths():
+      # Comment note above abote UTF-8 stored strings in the UI
       if fwbackups.CheckPermsRead(path, mustExist=True):
-        self.liststore.append([gtk.STOCK_YES, path])
+        self.liststore.append([gtk.STOCK_YES, path.encode('utf-8')])
       else:
-        self.liststore.append([gtk.STOCK_NO, path])
+        self.liststore.append([gtk.STOCK_NO, path.encode('utf-8')])
 
   def refresh(self, config):
     self.clear()
@@ -751,4 +754,3 @@ def saveFilename(parent):
     filename = fileChooser.get_filename()
   fileChooser.destroy()
   return filename
-  

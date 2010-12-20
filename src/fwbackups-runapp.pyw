@@ -1100,7 +1100,7 @@ class fwbackupsApp(interface.Controller):
   def on_preferencesCloseButton_clicked(self, widget):
     """Close the preferences window"""
     if MSWINDOWS:
-      pycronLoc = self.ui.preferencesPycronEntry.get_text()
+      pycronLoc = self.ui.preferencesPycronEntry.get_text().decode('utf-8')
       if not pycronLoc:
         self.displayInfo(self.ui.preferences,
                               _('Missing information'),
@@ -1200,7 +1200,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.backupset2UsernameEntry.get_text()
     password = self.ui.backupset2PasswordEntry.get_text()
     port = self.ui.backupset2PortSpin.get_value_as_int()
-    folder = self.ui.backupset2RemoteFolderEntry.get_text()
+    folder = self.ui.backupset2RemoteFolderEntry.get_text().decode('utf-8')
     if not (host and username and port and folder):
       self.displayInfo(self.ui.backupset, _("Missing information"), _("Please complete the host, username, folder and port fields."))
       return False
@@ -1556,7 +1556,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.main3UsernameEntry.get_text()
     password = self.ui.main3PasswordEntry.get_text()
     port = self.ui.main3PortSpin.get_value_as_int()
-    folder = self.ui.main3RemoteFolderEntry.get_text()
+    folder = self.ui.main3RemoteFolderEntry.get_text().decode('utf-8')
     if not (host and username and port and folder):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
@@ -1748,7 +1748,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.restore1UsernameEntry.get_text()
     password = self.ui.restore1PasswordEntry.get_text()
     port = self.ui.restore1PortSpin.get_value_as_int()
-    path = self.ui.restore1PathEntry.get_text()
+    path = self.ui.restore1PathEntry.get_text().decode('utf-8')
     if not (host and username and port and path):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
@@ -1762,7 +1762,7 @@ class fwbackupsApp(interface.Controller):
     # Generate the options dictionary
     options = {}
     active = self.ui.restore1SourceTypeCombobox.get_active()
-    options["Destination"] = self.ui.restore1DestinationEntry.get_text()
+    options["Destination"] = self.ui.restore1DestinationEntry.get_text().decode('utf-8')
     # Default remote settings
     options["RemoteHost"] = ''
     options["RemotePort"] = 22
@@ -1804,10 +1804,10 @@ class fwbackupsApp(interface.Controller):
         self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
         return False
       sourceType = 'local archive'
-      options["Source"] = self.ui.restore1ArchiveEntry.get_text()
+      options["Source"] = self.ui.restore1ArchiveEntry.get_text().decode('utf-8')
     elif active == 2: # local folder
       sourceType = 'local folder'
-      options["Source"] = self.ui.restore1FolderEntry.get_text()
+      options["Source"] = self.ui.restore1FolderEntry.get_text().decode('utf-8')
     elif active == 3: # remote archive
       # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
       if sys.version_info[0] == 2 and sys.version_info[1] == 4:
@@ -1818,7 +1818,7 @@ class fwbackupsApp(interface.Controller):
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
       options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
-      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text().decode('utf-8')
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
     elif active == 4: # remote folder
@@ -1827,7 +1827,7 @@ class fwbackupsApp(interface.Controller):
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
       options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
-      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text().decode('utf-8')
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
     # Finally, save all information
@@ -1876,7 +1876,7 @@ class fwbackupsApp(interface.Controller):
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
       port = self.ui.restore1PortSpin.get_value_as_int()
-      path = self.ui.restore1PathEntry.get_text()
+      path = self.ui.restore1PathEntry.get_text().decode('utf-8')
       if not (host and username and port and path):
         self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
         return False
@@ -2178,7 +2178,9 @@ class fwbackupsApp(interface.Controller):
     paths = []
     treeiter = self.backupset1PathView.liststore.get_iter_first()
     while treeiter:
-      paths.append(self.backupset1PathView.liststore.get_value(treeiter, 1))
+      # UI requires we store UTF-8 encoded strings, so we must decode from UTF-8
+      path = self.backupset1PathView.liststore.get_value(treeiter, 1)
+      paths.append(path.decode('utf-8'))
       treeiter = self.backupset1PathView.liststore.iter_next(treeiter)
     # Configure the Times dict
     times = {}
@@ -2247,8 +2249,8 @@ class fwbackupsApp(interface.Controller):
     options["RemoteUsername"] = self.ui.backupset2UsernameEntry.get_text()
     options["RemotePassword"] = self.ui.backupset2PasswordEntry.get_text().encode('base64')
     options["RemotePort"] = self.ui.backupset2PortSpin.get_value_as_int()
-    options["RemoteFolder"] = self.ui.backupset2RemoteFolderEntry.get_text()
-    options["Destination"] = self.ui.backupset2LocalFolderEntry.get_text()
+    options["RemoteFolder"] = self.ui.backupset2RemoteFolderEntry.get_text().decode('utf-8')
+    options["Destination"] = self.ui.backupset2LocalFolderEntry.get_text().decode('utf-8')
     # Save options
     options["Enabled"] = int(self.ui.backupset4EnableCheck.get_active())
     options["Recursive"] = int(self.ui.backupset4RecursiveCheck.get_active())
@@ -2270,8 +2272,8 @@ class fwbackupsApp(interface.Controller):
     elif self.ui.backupset4EngineRadio2.get_active():
       engine = 'rsync'
     options["Engine"] = engine
-    options["CommandBefore"] = self.ui.backupset5CommandBeforeEntry.get_text()
-    options["CommandAfter"] = self.ui.backupset5CommandAfterEntry.get_text()
+    options["CommandBefore"] = self.ui.backupset5CommandBeforeEntry.get_text().decode('utf-8')
+    options["CommandAfter"] = self.ui.backupset5CommandAfterEntry.get_text().decode('utf-8')
     options["OldToKeep"] = self.ui.backupset4OldToKeepSpin.get_value()
     start, end = self.ui.backupset5ExcludesTextview.get_buffer().get_bounds()
     options["Excludes"] = self.ui.backupset5ExcludesTextview.get_buffer().get_text(start, end)
@@ -2541,7 +2543,9 @@ class fwbackupsApp(interface.Controller):
     paths = []
     treeiter = self.main3PathView.liststore.get_iter_first()
     while treeiter:
-      paths.append(self.main3PathView.liststore.get_value(treeiter, 1))
+      # UI requires we store UTF-8 encoded strings, so we must decode from UTF-8
+      path = self.main3PathView.liststore.get_value(treeiter, 1)
+      paths.append(path.decode('utf-8'))
       treeiter = self.main3PathView.liststore.iter_next(treeiter)
     # Configure the Options dict
     options = {}
@@ -2556,8 +2560,8 @@ class fwbackupsApp(interface.Controller):
     options["RemoteUsername"] = self.ui.main3UsernameEntry.get_text()
     options["RemotePassword"] = self.ui.main3PasswordEntry.get_text().encode('base64')
     options["RemotePort"] = self.ui.main3PortSpin.get_value_as_int()
-    options["RemoteFolder"] = self.ui.main3RemoteFolderEntry.get_text()
-    options["Destination"] = self.ui.main3LocalFolderEntry.get_text()
+    options["RemoteFolder"] = self.ui.main3RemoteFolderEntry.get_text().decode('utf-8')
+    options["Destination"] = self.ui.main3LocalFolderEntry.get_text().decode('utf-8')
     options["Recursive"] = int(self.ui.main3RecursiveCheck.get_active())
     options["PkgListsToFile"] = int(self.ui.main3PkgListsToFileCheck.get_active())
     options["DiskInfoToFile"] = int(self.ui.main3DiskInfoToFileCheck.get_active())

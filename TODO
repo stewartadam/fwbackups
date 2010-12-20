@@ -14,3 +14,5 @@
 - Split the overlapping parts of operations/* into engines/*
 - CLI restore app
 - SSH public key authentication
+- Save crontab to a file after reading it incase we cannot write the backup
+  (ie due to a Unicode decode bug or something)
