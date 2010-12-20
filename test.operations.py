@@ -19,7 +19,6 @@
 import os
 import random
 import sys
-import time
 
 sys.path.append(os.path.join(os.getcwd(), 'src'))
 from fwbackups.i18n import _
@@ -56,7 +55,7 @@ for num in range(0, 50):
   fh.close()
 
 print _("*** Remote settings")
-hostname = raw_input(_("Hostname [localhost]:")) or 'localhost'
+hostname = raw_input(_("Hostname [localhost]: ")) or 'localhost'
 while True:
   port = raw_input(_("Port [22]: ")) or '22'
   try:
@@ -64,7 +63,7 @@ while True:
     break
   except:
     print _("The port field can only contain numbers. Please try again.")
-username = raw_input(_("Username: [%s]") % USER) or USER
+username = raw_input(_("Username [%s]: ") % USER) or USER
 password = raw_input(_("Password: ")).encode("base64")
 remotefolder = raw_input(_("Remote folder [%s]: ") % USERHOME) or USERHOME
 
@@ -122,7 +121,7 @@ options["SourceType"] = "set"
 
 for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setName = "backup-remote (ssh)-%s" % engine
-  print _("*** Running restore of test backup %s" % setName)
+  print _("*** Running restore of remote test backup %s" % setName)
   RESTOREPATH = os.path.join(TESTDIR, "restore-remote (ssh)-%s.conf" % engine)
   SETPATH = os.path.join(TESTDIR, "%s.conf" % setName)
   setConfig = config.BackupSetConf(SETPATH)
@@ -158,7 +157,7 @@ options["RemoteSource"] = ''
 options["SourceType"] = "set"
 for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setName = "backup-local-%s" % engine
-  print _("*** Running restore of test backup %s" % setName)
+  print _("*** Running restore of local test backup %s" % setName)
   RESTOREPATH = os.path.join(TESTDIR, "restore-local-%s.conf" % engine)
   restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
   listing = os.listdir(DESTDIR_BACKUP)
@@ -288,5 +287,3 @@ operation.logger.setPrintToo(True)
 if not operation.start() == True:
   raise OperationError(_("Restore failed!"))
 print '\n'
-
-
