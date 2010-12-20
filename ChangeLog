@@ -7,6 +7,8 @@
       scheduled backup
     - Better handling of Unicode strings when running on HFS+ filesystems and
       Windows XP
+    - Fix a problem where paths could be left out of the backup when using
+      the tar.bz2 backup engine
 
 || Version 1.43.3 changes ||
   * Sun Dec 5 2010 Stewart Adam <s.adam at diffingo.com>

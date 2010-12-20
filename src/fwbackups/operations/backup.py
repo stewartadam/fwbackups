@@ -290,6 +290,7 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i.replace("'", '')})
         self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+        # Don't wrap i in quotes; we did this above already when mering the paths
         sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
@@ -334,7 +335,8 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
         self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
-        sub = fwbackups.executeSub("nice -n %i %s '%s'" % (self.options['Nice'], command, i), env=self.environment, shell=True)
+        # Don't wrap i in quotes; we did this above already when mering the paths
+        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, i), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # track stdout
