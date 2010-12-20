@@ -11,7 +11,8 @@ EXTRA_DIST = \
     ChangeLog \
     COPYING \
     README \
-    TODO
+    TODO \
+    test.operations.py
 
 DISTCLEANFILES = \
     intltool-extract \
