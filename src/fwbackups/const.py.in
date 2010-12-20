@@ -44,7 +44,7 @@ if MSWINDOWS:
   USERHOME = INSTALL_DIR
 else:
   # Work around some automake sillyness...
-  INSTALL_DIR = u"${datarootdir}/fwbackups".replace("${datarootdir}", "${prefix}/share").replace("${prefix}", "/usr")
+  INSTALL_DIR = u"@datadir@/fwbackups".replace("${datarootdir}", "@datarootdir@").replace("${prefix}", "@prefix@")
   USERHOME = os.path.expanduser('~%s' % USER) # The full path to the user's home
   if USERHOME == '~%s' % USER: # if the OS doesn't support that format
     USERHOME = os.path.expanduser('~')
