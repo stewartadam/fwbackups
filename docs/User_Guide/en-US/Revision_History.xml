@@ -7,38 +7,42 @@
 	<title>Revision History</title>
 	 <simpara>
 		<revhistory>
-		  <revision>
-				<revnumber>3</revnumber>
-				 <date>Sun Dec 19 2010</date>
+			<revision>
+				<revnumber>4</revnumber>
+				 <date>Mon Dec 20 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-				</author>
 
+				</author>
 				 <revdescription>
 					<simplelist>
 						<member>Release 1.43.4</member>
-					</simplelist>
-				</revdescription>
-			</revision>
 
-			<revision>
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
+			 <revision>
 				<revnumber>3</revnumber>
 				 <date>Tue Nov 30 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-				</author>
 
+				</author>
 				 <revdescription>
 					<simplelist>
 						<member>Release 1.43.3</member>
-					</simplelist>
-				</revdescription>
-			</revision>
 
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
 			 <revision>
 				<revnumber>2</revnumber>
 				 <date>Thu Oct 28 2010</date>
@@ -46,15 +50,17 @@
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-				</author>
 
+				</author>
 				 <revdescription>
 					<simplelist>
 						<member>Update documentation for 1.43.3rc6</member>
-					</simplelist>
-				</revdescription>
-			</revision>
 
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
 			 <revision>
 				<revnumber>1</revnumber>
 				 <date>Thu July 1 2010</date>
@@ -62,15 +68,17 @@
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-				</author>
 
+				</author>
 				 <revdescription>
 					<simplelist>
 						<member>Finish updating user guide for version 1.43.3rc5</member>
-					</simplelist>
-				</revdescription>
-			</revision>
 
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
 			 <revision>
 				<revnumber>0</revnumber>
 				 <date>Thu July 1 2010</date>
@@ -78,13 +86,16 @@
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-				</author>
 
+				</author>
 				 <revdescription>
 					<simplelist>
 						<member>Port user guide to publican publishing tool</member>
+
 					</simplelist>
+
 				</revdescription>
+
 			</revision>
 
 		</revhistory>
