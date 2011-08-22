@@ -118,7 +118,7 @@ class BackupOperation(operations.Common):
     fh = os.fdopen(fd, 'w')
     retval, stdout, stderr = fwbackups.execute('fdisk -l', env=self.environment, shell=True, stdoutfd=fh)
     fh.close()
-    return fh.name
+    return path
 
   def parseCommand(self, config):
     """Parse options to retrieve the correct command"""
