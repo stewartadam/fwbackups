@@ -72,11 +72,11 @@ class fwLogger(logging.Logger):
   def setPrintToo(self, printToo):
     """If printToo is True, print messages to stdout as we log them"""
     self.__printToo = printToo
-    
+
   def getPrintToo(self):
     """Retrieves the printToo property"""
     return self.__printToo
-  
+
   def unconnect(self, function):
     """Disconnects a function from logmsg. Returns true if disconnected, false
         if that function was not connected."""
@@ -100,7 +100,7 @@ class fwLogger(logging.Logger):
     date = datetime.datetime.now().strftime('%b %d %H:%M:%S')
     level = self.getEffectiveLevel()
     if level <= LEVELS[severity]:
-      entry = '%s :: %s : %s' % (date, _(severity), message)
+      entry = '%s :: %s : %s' % (date.encode('utf-8'), _(severity), message)
       self.log(LEVELS[severity], entry)
       if self.__printToo:
         print entry.encode('utf-8')
