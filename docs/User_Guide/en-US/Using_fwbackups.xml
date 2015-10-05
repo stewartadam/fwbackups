@@ -93,7 +93,7 @@
 				This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users.
 			</para>
 			 <para>
-				The easy configuration is uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example "0" (at the beginning of the hour) or "30" (for half-way through the hour).
+				The easy configuration uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example "0" (at the beginning of the hour) or "30" (for half-way through the hour).
 			</para>
 			 <figure float="0" id="figu-User_Guide-Times-Setting_a_backup_schedule_for_a_set">
 				<title>Setting a backup schedule for a set</title>
@@ -204,7 +204,7 @@
 					<term>Backup Format</term>
 					 <listitem>
 						<para>
-							Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
+							Your backup will be stored differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						 <para>
 							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively).
@@ -362,7 +362,7 @@
 									<term>[destination]</term>
 									 <listitem>
 										<para>
-											The destination folder (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Destination" />). If a remote host is being used, then this will be token will be the remote folder.
+											Token will be substituted with the destination folder (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Destination" />). If a remote host is being used, then the remote folder destination will be substituted instead.
 										</para>
 
 									</listitem>
