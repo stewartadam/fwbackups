@@ -6537,7 +6537,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
 	      <child>
 		<widget class="GtkLabel" id="label341">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;i&gt;Tip: &lt;/i&gt;'File System'&lt;i&gt; will restore files to their original locations.&lt;/i&gt;</property>
+		  <property name="label" translatable="yes">&lt;i&gt;Tip: entering '/' or selecting &lt;/i&gt;'File System'&lt;i&gt; will restore files to their original locations.&lt;/i&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>

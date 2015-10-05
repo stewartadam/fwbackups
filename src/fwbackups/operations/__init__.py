@@ -102,6 +102,5 @@ class Common:
         return False
     # make sure the folder is writable
     if not fwbackups.CheckPerms(folder):
-      self.logger.logmsg('ERROR', _("You do not have read and write permissions on the destination `%s") % folder)
-      return False
+      self.logger.logmsg('WARNING', _("You do not have read and write permissions on the destination `%s' - if you backed up system files, this operation may fail.") % folder)
     return True
