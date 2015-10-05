@@ -1,5 +1,20 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.5 changes ||
+  * Sun Oct 4 2015 Stewart Adam <s.adam at diffingo.com>
+    - Update translation framework to use GNU Gettext (removal of dependency on
+      Glib M4 macros)
+    - Fix an issue where diacritics in the month's name would cause a traceback
+    - Fix an issue where crontab entires that included comments or aliases
+      (e.g. @daily) with multiple words could cause an error while saving
+    - Adjust crontab write procedures to pass a crontab file directly (instead
+      of writing the contents to the stdin of a custom wrapper script set to the
+      EDITOR or VISUAL variable)
+    - Remove defunct igemacintegration in favor of gtkosx_application (see
+      https://wiki.gnome.org/Projects/GTK%2B/OSX/Integration)
+    - Customizable temporary folder (for those with tmpfs)
+    - Fix replacement of [destination] token
+
 || Version 1.43.4 changes ||
   * Sun Dec 19 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem were upgrading to 1.43.3 could cause the crontab to be
@@ -19,13 +34,13 @@
     - When running under Windows, append "pythonmodules" to the system path
       so run/runonce can import paramiko correctly
     - Do not import fcntl unless we are running under *nix
-  
+
   * Tue Nov 30 2010 Stewart Adam <s.adam at diffingo.com>
     - Further fixes regarding string encoding; fixes backup sets with diacritics
       and/or special characters in their names
     - Use mkstemp to create temporary package list files for better Python 2.4
       compatability
-  
+
   * Sun Nov 28 2010 Stewart Adam <s.adam at diffingo.com>
     - Encode strings with the appropriate encoding when dealing with the OS
       filesystem or shell processes; fixes bug when backing up paths with
@@ -36,7 +51,7 @@
 || Version 1.43.3rc6 changes ||
   * Thu Oct 28 2010 Stewart Adam <s.adam at diffingo.com>
     - Update documentation for 1.43.3rc6
-  
+
   * Sat Oct 18 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a multi-user conflict where several backups could attempt to create
       the package list file(s) simultaneously, causing one of the two backups to
@@ -45,25 +60,25 @@
       configuration files
     - Offer to initialize a new configuration file if the existing one does not
       pass validation
-    
+
   * Sat Oct 9 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where excessive stderr output in subprocesses would cause
       fwbackups to hang. The file currently being backed up can no longer be
       displayed.
-  
+
   * Sat Oct 2 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where subdirectories could not be created in a direct copy
       backup to a remote host over SFTP
     - Fix a traceback when opening the restore window and the set destination
       could not be found
-  
+
   * Mon Sep 27 2010 Stewart Adam <s.adam at diffingo.com>
     - Re-enable use of AM_GLIB_GNU_GETTEXT. Leaving it out causes problems on
       CentOS
-  
+
   * Thu Aug 5 2010 Stewart Adam <s.adam at diffingo.com>
     - Make manual time selection easier to use
-  
+
   * Fri Jul 9 2010 Stewart Adam <s.adam at diffingo.com>
     - Do not attempt to parse and generate the text for crontab entries already
       in the crontab, allowing fwbackups to preserve formatting, spacing,
@@ -76,12 +91,12 @@
     - Add a timer when saving the crontab, killing the crontab process after 6
       seconds of waiting; fwbackups no longer hangs when the crontab cannot be
       saved due to an error in the manual times entry
-  
+
   * Wed Jul 7 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a problem where all tokens values would be wrapped in square brackets
       (for example [successful] would return [1] instead of 1)
     - Touch po/Makefile before running autoreconf in autogen.sh
-  
+
   * Tue Jul 6 2010 Stewart Adam <s.adam at diffingo.com>
     - Ensure that the after command runs even upon backup failure
     - Fix minor bugs regarding logging and reporting of backup progress when
@@ -92,21 +107,21 @@
     - Fix a problem where a Direcy Copy backup with a remote destination or any
       Windows backup would silently pass over paths with single quotes in the
       file or directory name
-    - Rename "Include subfolders" backup option to "Recursive" due to the name 
+    - Rename "Include subfolders" backup option to "Recursive" due to the name
       "Include subfolders" being misleading with regards to its actual effect.
     - Fix a problem that may have cause fwbackups to crash on startup if using a
       language other than English
-  
+
 || Version 1.43.3rc5 changes ||
   * Thu Jul 1 2010 Stewart Adam <s.adam at diffingo.com>
     - Happy Canada day!
     - Update documentation, start using Publican publishing tool
     - Display popups for some errors instead of showing a statusbar notification
-    
+
   * Thu Jun 24 2010 Stewart Adam <s.adam at diffingo.com>
-    - Fix a bug where no world read permissions on /etc/crontab would cause a 
+    - Fix a bug where no world read permissions on /etc/crontab would cause a
       crash on startup
-  
+
   * Tue Jun 22 2010 Stewart Adam <s.adam at diffingo.com>
     - Make the backup options tab much easier to use by reworking the engine
       selection
@@ -115,27 +130,27 @@
     - Make the port selection a spinbutton (forces numeric entry only)
     - Implement tokens (string replacements) for the user-specified before/after
       backup commands
-    
+
   * Sat Apr 24 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the sensitivity of the incremental checkbutton was
       incorrectly set when configuring a new backup set
-  
+
   * Thu Apr 22 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix a regression where calling "fwbackups --help" resulted in a traceback
     - Change behaviour of "--verbosity" option, making it print log messages to
-      the console. A second use of "--verbosity" will enable debug messages 
+      the console. A second use of "--verbosity" will enable debug messages
       (the previous behaviour of this option) as well as printing log messages
       to the console.
-    
+
   * Wed Apr 21 2010 Stewart Adam <s.adam at diffingo.com>
     - HIG changes: Make all dialogs use application icon, better primary texts,
       make info/confirm/warning/error dialogs have no title
-  
+
   * Sun Apr 18 2010 Stewart Adam <s.adam at diffingo.com>
     - Fix crash when resetting "don't show me" messages in preferences (fixes
       RH #579143)
     - Make .desktop files confirm to latest Freedesktop standards
-  
+
   * Tue Dec 22 2009 Stewart Adam <s.adam at diffingo.com>
     - Fix a bug where the Preferences configuration file's version was not
       bumped past 1.43.3rc2
@@ -190,7 +205,7 @@
     - Fix a probem where the autostart function would not work if fwbackups was
       not configured with --prefix=/usr
     - Use intltool instead of glib gettext for translations
-  
+
   * Mon Jul 27 2009 Stewart Adam <s.adam at diffingo.com>
     - Tweaks to better support non-/usr/share install locations
     - Import most things after bug reporting system is initialized in order to
@@ -463,7 +478,7 @@
     - Run cancel upon errors just to make sure the other thread exits
     - Reimplement the whole 'operation in progress' thing
     - Lock the UI properly when editing a set or starting an operation
-    - Don't literally togglelock the UI, that can get out of hand. Use true, 
+    - Don't literally togglelock the UI, that can get out of hand. Use true,
       false.
 
   * Mon Aug 20 2007 Stewart Adam <s.adam at diffingo.com>
