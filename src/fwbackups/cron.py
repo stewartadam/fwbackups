@@ -221,8 +221,15 @@ def clean_fwbackups_entries():
       if match == None:
         cleanedLines.append(line)
         continue
-      parsedLine = crontabLine(*match.groups())
-      fields = parsedLine.get_all_fields()
-      if not fields[6].startswith(CRON_SIGNATURE):
+      try:
+        parsedLine = crontabLine(*match.groups())
+        if not parsedLine.is_parsable():
+          cleanedLines.append(line)
+          continue
+        fields = parsedLine.get_all_fields()
+        if rawtext.startswith('#') or not fields[6].startswith(CRON_SIGNATURE):
+          cleanedLines.append(line)
+      except ValueError:
         cleanedLines.append(line)
+        continue
   return cleanedLines
