@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015 Stewart Adam
 #  This file is part of fwbackups.
 
 #  fwbackups is free software; you can redistribute it and/or modify
@@ -312,8 +312,9 @@ class BackupSetConf:
       fromHereUp = True
       if self.__config.has_option("Options", "sparce"):
         self.__config.remove_option("Options", "sparce")
-    if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3'] or fromHereUp == True:
+    if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp == True:
       fromHereUp = True
+
     # Now that the configuration file been imported, reset the version option
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
@@ -711,6 +712,7 @@ class PrefsConf:
     config["Preferences"]["ShowNotifications"] = 1
     config["Preferences"]["DontShowMe_OldVerWarn"] = 0
     config["Preferences"]["DontShowMe_ClearLog"] = 0
+    config["Preferences"]["TempDir"] = ''
     pycronLoc = "C:\\Program Files\\pycron"
     if MSWINDOWS:
       try:
@@ -850,9 +852,10 @@ class PrefsConf:
         cron.write(crontabLines)
         raise
         raise ConfigError(_("Unable to clean user crontab!"))
-    if oldVersion in ['1.43.3rc6', '1.43.3'] or fromHereUp == True:
+    if oldVersion in ['1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp == True:
       fromHereUp = True
-    
+      self.__config.set("Preferences", "TempDir", "")
+
     self.__config.set("General", "Version", fwbackups.__version__)
     return True
 

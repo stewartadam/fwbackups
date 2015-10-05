@@ -961,6 +961,16 @@ class fwbackupsApp(interface.Controller):
     self.ui.preferencesSessionStartupCheck.set_active(exists)
     self.ui.preferencesAlwaysShowDebugCheck.set_active(prefs.getboolean('Preferences', 'AlwaysShowDebug'))
     self.ui.preferencesMinimizeTrayCloseCheck.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
+    tempDir = prefs.get('Preferences', 'TempDir')
+    if (tempDir):
+      self.ui.preferencesCustomizeTempDirCheck.set_active(True)
+      self.ui.preferencesCustomizeTempDirEntry.set_text(tempDir)
+    else:
+      self.ui.preferencesCustomizeTempDirCheck.set_active(False)
+      self.ui.preferencesCustomizeTempDirEntry.set_text('')
+      self.ui.preferencesCustomizeTempDirEntry.set_sensitive(False)
+      self.ui.preferencesCustomizeTempDirBrowseButton.set_sensitive(False)
+
     if MSWINDOWS:
       self.ui.preferencesPycronEntry.set_text(prefs.get('Preferences', 'pycronLoc'))
 
@@ -1087,8 +1097,33 @@ class fwbackupsApp(interface.Controller):
       self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
     fileDialog.destroy()
 
+
+  def on_preferencesCustomizeTempDirCheck_clicked(self, widget):
+    active = self.ui.preferencesCustomizeTempDirCheck.get_active()
+    self.ui.preferencesCustomizeTempDirEntry.set_sensitive(active)
+    self.ui.preferencesCustomizeTempDirBrowseButton.set_sensitive(active)
+    if not active:
+      self.ui.preferencesCustomizeTempDirEntry.set_text('')
+
+  def on_preferencesCustomizeTempDirBrowseButton_clicked(self, widget):
+    """Open the file browser"""
+    prefs = config.PrefsConf()
+    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
+                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 multiple=False)
+    response = fileDialog.run()
+    if response == gtk.RESPONSE_OK:
+      tempDir = fileDialog.get_filenames()[0]
+      self.ui.preferencesCustomizeTempDirEntry.set_text(tempDir)
+    fileDialog.destroy()
+
   def on_preferencesCloseButton_clicked(self, widget):
     """Close the preferences window"""
+    prefs = config.PrefsConf()
+
+    tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text().decode('utf-8')
+    prefs.set('Preferences', 'TempDir', tempDir)
+
     if MSWINDOWS:
       pycronLoc = self.ui.preferencesPycronEntry.get_text().decode('utf-8')
       if not pycronLoc:
@@ -1106,7 +1141,6 @@ class fwbackupsApp(interface.Controller):
                                 'or the sample pycron configuration.'))
         return
       else:
-        prefs = config.PrefsConf()
         prefs.set('Preferences', 'pycronLoc', pycronLoc)
     self.ui.preferences.hide()
 

@@ -124,7 +124,7 @@ class BackupOperation(operations.Common):
     """Parse options to retrieve the correct command"""
     self.options = self.getOptions(self.config)
     if self.options['DestinationType'] == 'remote (ssh)':
-      tempDir = tempfile.gettempdir()
+      tempDir = self.options['TempDir']
       self.dest = os.path.join(tempDir, os.path.split(fwbackups.escapeQuotes(self.dest, 1))[1])
     if self.options['Engine'] == 'rsync':
       command = 'rsync -g -o -p -t -R'
