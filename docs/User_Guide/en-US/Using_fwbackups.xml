@@ -3,9 +3,9 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-User_Guide-Using_fwbackups">
+<chapter id="chap-fwbackups-User_Guide-Using_fwbackups">
 	<title>Using <application>fwbackups</application></title>
-	 <section id="sect-User_Guide-Using_fwbackups-Backup_types">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Backup_types">
 		<title>Backup types</title>
 		 <para>
 			<application>fwbackups</application> supports two main types of backups: recurring backups that automatically backup your files on a schedule, and backups that are run once and not scheduled again. These are referred to as as <emphasis>backup sets</emphasis> and <emphasis>one-time backups</emphasis> respectively.
@@ -22,10 +22,9 @@
 		</important>
 
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Creating_a_backup_set">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Creating_a_backup_set">
 		<title>Creating a backup set</title>
-		 <figure float="0" id="figu-User_Guide-Creating_a_backup_set-The_Backup_Sets_page">
+		 <figure float="0" id="figu-fwbackups-User_Guide-Creating_a_backup_set-The_Backup_Sets_page">
 			<title>The Backup Sets page</title>
 			 <mediaobject>
 				<imageobject>
@@ -41,7 +40,7 @@
 		 <para>
 			To create a new set, click <guibutton>Backup Sets</guibutton> on the toolbar to switch pages and then click the <guibutton>New Set</guibutton> on the left.
 		</para>
-		 <section id="sect-User_Guide-Creating_a_backup_set-Paths">
+		 <section id="sect-fwbackups-User_Guide-Creating_a_backup_set-Paths">
 			<title>Paths</title>
 			 <para>
 				The paths tab allows you to select which files and folder are to be included in the backup. To add files, click <guibutton>Add File</guibutton> or <guibutton>Add Folder</guibutton>. If you wish to remove a file or folder from the backup, select one or more paths from the list and click <guibutton>Remove</guibutton>.
@@ -58,13 +57,12 @@
 			</note>
 
 		</section>
-
-		 <section id="sect-User_Guide-Creating_a_backup_set-Destination">
+		 <section id="sect-fwbackups-User_Guide-Creating_a_backup_set-Destination">
 			<title>Destination</title>
 			 <para>
 				The destination tab controls where your backup will be saved to. You may choose to backup to a local drive, removable storage or a remote computer supporting the SFTP protocol (if your computer runs the OpenSSH server, it most likely supports SFTP).
 			</para>
-			 <figure float="0" id="figu-User_Guide-Destination-Configuring_backup_destinations">
+			 <figure float="0" id="figu-fwbackups-User_Guide-Destination-Configuring_backup_destinations">
 				<title>Configuring backup destinations</title>
 				 <mediaobject>
 					<imageobject>
@@ -86,8 +84,7 @@
 			</important>
 
 		</section>
-
-		 <section id="sect-User_Guide-Creating_a_backup_set-Times">
+		 <section id="sect-fwbackups-User_Guide-Creating_a_backup_set-Times">
 			<title>Times</title>
 			 <para>
 				This tab controls the time and date at which the backup should be started at. Both easy configuration and manual configuration (crontab) methods are supported. Using the easy configuration is recommended for most users.
@@ -95,7 +92,7 @@
 			 <para>
 				The easy configuration uses a series of drop-down boxes, and sliders to determine at which time fwbackups should schedule a backup. A backup of the set is run whenever the date matches the chosen parameters. That being said, be careful when selecting the minute for your backup operation! A common user error is choosing <guilabel>Every minute</guilabel> for the backup time, causing a a new backup to start at every minute of the hour. It is recommended instead to choose a specific minute at which the backup will start at, for example "0" (at the beginning of the hour) or "30" (for half-way through the hour).
 			</para>
-			 <figure float="0" id="figu-User_Guide-Times-Setting_a_backup_schedule_for_a_set">
+			 <figure float="0" id="figu-fwbackups-User_Guide-Times-Setting_a_backup_schedule_for_a_set">
 				<title>Setting a backup schedule for a set</title>
 				 <mediaobject>
 					<imageobject>
@@ -111,7 +108,7 @@
 			 <para>
 				If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:
 			</para>
-
+			 
 <literallayout>							+-------------- minute (0 - 59)
 						|	+------------ hour (0 - 23)
 						|	 |	+---------- day of month (1 - 31)
@@ -129,7 +126,7 @@
 					<para>
 						Use a comma (,) to specify a list of values
 					</para>
-					 <example id="exam-User_Guide-Times-Using_a_comma">
+					 <example id="exam-fwbackups-User_Guide-Times-Using_a_comma">
 						<title>Using a comma</title>
 						 <para>
 							2,4,5,7,8,9
@@ -142,7 +139,7 @@
 					<para>
 						Use a dash (-) to specify a range of values
 					</para>
-					 <example id="exam-User_Guide-Times-Using_a_dash">
+					 <example id="exam-fwbackups-User_Guide-Times-Using_a_dash">
 						<title>Using a dash</title>
 						 <para>
 							1-4 is equivalent to 1,2,3,4
@@ -155,7 +152,7 @@
 					<para>
 						Use an asterisk (*) to specify all possible values
 					</para>
-					 <example id="exam-User_Guide-Times-Using_an_asterisk">
+					 <example id="exam-fwbackups-User_Guide-Times-Using_an_asterisk">
 						<title>Using an asterisk</title>
 						 <para>
 							* in the hours field is the same as 0-23 or 1,2,3,[...],23
@@ -168,7 +165,7 @@
 					<para>
 						Most variants of cron support the forward slash (/) to designate a skip
 					</para>
-					 <example id="exam-User_Guide-Times-Using_a_forward_slash">
+					 <example id="exam-fwbackups-User_Guide-Times-Using_a_forward_slash">
 						<title>Using a forward slash</title>
 						 <para>
 							*/2 in the minutes field is equivalent to 0,2,4,6,8,[...],58
@@ -193,21 +190,20 @@
 			</itemizedlist>
 
 		</section>
-
-		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Simple">
+		 <section id="sect-fwbackups-User_Guide-Creating_a_backup_set-Options_Simple">
 			<title>Options (Simple)</title>
 			 <para>
 				The <guilabel>Options (Simple)</guilabel> tab allows you to set the parameters for your backup. In addition, the options tabs allow you to select the backup format and the number of old backups to keep at any given time.
 			</para>
 			 <variablelist>
-				<varlistentry>
+				<varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Backup_Format">
 					<term>Backup Format</term>
 					 <listitem>
 						<para>
 							Your backup will be stored differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						 <para>
-							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively).
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively). 
 							<note>
 								<title>Reducing backup size with compression</title>
 								 <para>
@@ -218,7 +214,7 @@
 
 						</para>
 						 <para>
-							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine.
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine. 
 							<note>
 								<title>Increasing backup speed</title>
 								 <para>
@@ -235,7 +231,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Set_is_enabled">
 					<term>Set is enabled</term>
 					 <listitem>
 						<para>
@@ -245,17 +241,17 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Include_subfolders">
 					<term>Include subfolders</term>
 					 <listitem>
 						<para>
-							If selected, subfolders will be included in the backup (recommended). If unchecked, fwbackups will only backup files immediately inside any folders supplied in the <xref linkend="sect-User_Guide-Creating_a_backup_set-Paths" /> tab and will not backup any files in subfolders.
+							If selected, subfolders will be included in the backup (recommended). If unchecked, fwbackups will only backup files immediately inside any folders supplied in the <xref linkend="sect-fwbackups-User_Guide-Creating_a_backup_set-Paths" /> tab and will not backup any files in subfolders.
 						</para>
 
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Include_hidden_files">
 					<term>Include hidden files</term>
 					 <listitem>
 						<para>
@@ -272,7 +268,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Follow_links">
 					<term>Follow links</term>
 					 <listitem>
 						<para>
@@ -282,7 +278,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Print_disk_geometry_information_to_a_file">
 					<term>Print disk geometry information to a file</term>
 					 <listitem>
 						<para>
@@ -292,7 +288,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Print_installed_packages_to_a_text_file">
 					<term>Print installed packages to a text file</term>
 					 <listitem>
 						<para>
@@ -305,7 +301,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Simple-Handle_sparse_files_efficiently">
 					<term>Handle sparse files efficiently</term>
 					 <listitem>
 						<para>
@@ -319,14 +315,13 @@
 			</variablelist>
 
 		</section>
-
-		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Advanced">
+		 <section id="sect-fwbackups-User_Guide-Creating_a_backup_set-Options_Advanced">
 			<title>Options (Advanced)</title>
 			 <para>
 				The <guilabel>Options (Advanced)</guilabel> tabs include technical or complex options that you can use to customize how your backup functions.
 			</para>
 			 <variablelist>
-				<varlistentry>
+				<varlistentry id="varl-fwbackups-User_Guide-Options_Advanced-Command_to_run_before_backup">
 					<term>Command to run before backup</term>
 					 <listitem>
 						<para>
@@ -336,7 +331,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Advanced-Command_to_run_after_backup">
 					<term>Command to run after backup</term>
 					 <listitem>
 						<para>
@@ -348,7 +343,7 @@
 								Both the before and after backup commands support token string replacements. <application>fwbackups</application> will replace tokens you use in your commands with their appropriate values:
 							</para>
 							 <variablelist>
-								<varlistentry>
+								<varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-successful">
 									<term>[successful]</term>
 									 <listitem>
 										<para>
@@ -358,17 +353,17 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-destination">
 									<term>[destination]</term>
 									 <listitem>
 										<para>
-											Token will be substituted with the destination folder (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Destination" />). If a remote host is being used, then the remote folder destination will be substituted instead.
+											Token will be substituted with the destination folder (see <xref linkend="sect-fwbackups-User_Guide-Creating_a_backup_set-Destination" />). If a remote host is being used, then the remote folder destination will be substituted instead.
 										</para>
 
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-set">
 									<term>[set]</term>
 									 <listitem>
 										<para>
@@ -378,7 +373,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-date">
 									<term>[date]</term>
 									 <listitem>
 										<para>
@@ -388,7 +383,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-backup">
 									<term>[backup]</term>
 									 <listitem>
 										<para>
@@ -398,7 +393,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-remote_host">
 									<term>[remote_host]</term>
 									 <listitem>
 										<para>
@@ -408,7 +403,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-remote_port">
 									<term>[remote_port]</term>
 									 <listitem>
 										<para>
@@ -418,7 +413,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-remote_username">
 									<term>[remote_username]</term>
 									 <listitem>
 										<para>
@@ -428,7 +423,7 @@
 									</listitem>
 
 								</varlistentry>
-								 <varlistentry>
+								 <varlistentry id="varl-fwbackups-User_Guide-Command_to_run_after_backup-remote_password">
 									<term>[remote_password]</term>
 									 <listitem>
 										<para>
@@ -449,7 +444,7 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Advanced-Nice_value_of_backup_process">
 					<term>Nice value of backup process</term>
 					 <listitem>
 						<para>
@@ -459,15 +454,15 @@
 					</listitem>
 
 				</varlistentry>
-				 <varlistentry>
+				 <varlistentry id="varl-fwbackups-User_Guide-Options_Advanced-Exclude_from_backup">
 					<term>Exclude from backup</term>
 					 <listitem>
 						<para>
 							Files and folders matching the patterns listed in this text entry will be excluded from the backup. File, folder or patterns for exclusion should be entered one per line. The contents of this text entry will be passed directly to the tar or rsync processes when performing the backup. In the example below, all files in the <filename>/home/username/Exclude</filename> folder, all files with the <filename>png</filename> extension, the file <filename>/home/username/foobar.jpg</filename> and lastly any file named <filename>specificname.txt</filename> are all excluded from the backup.
 						</para>
-						 <example id="exam-User_Guide-Options_Advanced-Excluding_files">
+						 <example id="exam-fwbackups-User_Guide-Exclude_from_backup-Excluding_files">
 							<title>Excluding files</title>
-
+							 
 <literallayout>/home/username/Exclude/*
 *.png
 /home/username/foobar.jpg
@@ -484,18 +479,15 @@ specificname.txt
 
 		</section>
 
-
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Editing_an_existing_set">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Editing_an_existing_set">
 		<title>Editing an existing set</title>
 		 <para>
-			Switch to the <guilabel>Backup Sets</guilabel> page and select the desired set. Click <guilabel>Edit Set</guilabel> to open the backup configuration dialog. You can configure existing sets in the same way you would configure a new set (see <xref linkend="sect-User_Guide-Using_fwbackups-Creating_a_backup_set" /> ).
+			Switch to the <guilabel>Backup Sets</guilabel> page and select the desired set. Click <guilabel>Edit Set</guilabel> to open the backup configuration dialog. You can configure existing sets in the same way you would configure a new set (see <xref linkend="sect-fwbackups-User_Guide-Using_fwbackups-Creating_a_backup_set" /> ).
 		</para>
 
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Running_a_backup_only_once">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Running_a_backup_only_once">
 		<title>Running a backup only once</title>
 		 <orderedlist>
 			<listitem>
@@ -508,7 +500,7 @@ specificname.txt
 				<para>
 					Add the files and/or folders you would like to backup to the list. Similar to the Paths tab in the backup configuration dialog, you may use the <guibutton>Add File(s)/Folder(s)</guibutton> buttons or simply drag-and-drop the files and folders into the list. When finished, click <guibutton>Next</guibutton>.
 				</para>
-				 <figure float="0" id="figu-User_Guide-Running_a_backup_only_once-Adding_paths_to_a_One_Time_Backup">
+				 <figure float="0" id="figu-fwbackups-User_Guide-Running_a_backup_only_once-Adding_paths_to_a_One_Time_Backup">
 					<title>Adding paths to a One-Time Backup</title>
 					 <mediaobject>
 						<imageobject>
@@ -525,7 +517,7 @@ specificname.txt
 			</listitem>
 			 <listitem>
 				<para>
-					Choose your backup options (see <xref linkend="sect-User_Guide-Creating_a_backup_set-Options_Simple" />). When finished, click <guibutton>Start Backup</guibutton> to begin the operation.
+					Choose your backup options (see <xref linkend="sect-fwbackups-User_Guide-Creating_a_backup_set-Options_Simple" />). When finished, click <guibutton>Start Backup</guibutton> to begin the operation.
 				</para>
 
 			</listitem>
@@ -533,8 +525,7 @@ specificname.txt
 		</orderedlist>
 
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Restoring_backups">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Restoring_backups">
 		<title>Restoring backups</title>
 		 <para>
 			<application>fwbackups</application> can restore your files and folders from any set or one-time backup.
@@ -567,7 +558,7 @@ specificname.txt
 					Select where to restore files from. There are several possible options:
 				</para>
 				 <variablelist>
-					<varlistentry>
+					<varlistentry id="varl-fwbackups-User_Guide-Restoring_backups-Set_backup">
 						<term>Set backup</term>
 						 <listitem>
 							<para>
@@ -577,7 +568,7 @@ specificname.txt
 						</listitem>
 
 					</varlistentry>
-					 <varlistentry>
+					 <varlistentry id="varl-fwbackups-User_Guide-Restoring_backups-Local_archive">
 						<term>Local archive</term>
 						 <listitem>
 							<para>
@@ -587,7 +578,7 @@ specificname.txt
 						</listitem>
 
 					</varlistentry>
-					 <varlistentry>
+					 <varlistentry id="varl-fwbackups-User_Guide-Restoring_backups-Local_folder">
 						<term>Local folder</term>
 						 <listitem>
 							<para>
@@ -597,7 +588,7 @@ specificname.txt
 						</listitem>
 
 					</varlistentry>
-					 <varlistentry>
+					 <varlistentry id="varl-fwbackups-User_Guide-Restoring_backups-Remote_archive_SSH">
 						<term>Remote archive (SSH)</term>
 						 <listitem>
 							<para>
@@ -607,7 +598,7 @@ specificname.txt
 						</listitem>
 
 					</varlistentry>
-					 <varlistentry>
+					 <varlistentry id="varl-fwbackups-User_Guide-Restoring_backups-Remote_folder_SSH">
 						<term>Remote folder (SSH)</term>
 						 <listitem>
 							<para>
@@ -635,8 +626,7 @@ specificname.txt
 		</orderedlist>
 
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Importing_or_exporting_sets">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Importing_or_exporting_sets">
 		<title>Importing or exporting sets</title>
 		 <para>
 			To import set configuration files (<filename>.conf</filename> files), select <menuchoice> <guimenu>File</guimenu> <guimenuitem>Import Sets</guimenuitem> </menuchoice> and then select the .conf file(s) to be imported. All versions of <application>fwbackups</application> configuration files can be imported.
@@ -652,13 +642,12 @@ specificname.txt
 		</note>
 
 	</section>
-
-	 <section id="sect-User_Guide-Using_fwbackups-Changing_your_preferences">
+	 <section id="sect-fwbackups-User_Guide-Using_fwbackups-Changing_your_preferences">
 		<title>Changing your preferences</title>
 		 <para>
 			Select <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem> </menuchoice> from the menu to open the preferences dialog:
 		</para>
-		 <figure float="0" id="figu-User_Guide-Changing_your_preferences-The_Preferences_dialog">
+		 <figure float="0" id="figu-fwbackups-User_Guide-Changing_your_preferences-The_Preferences_dialog">
 			<title>The Preferences dialog</title>
 			 <mediaobject>
 				<imageobject>
@@ -672,7 +661,7 @@ specificname.txt
 
 		</figure>
 		 <variablelist>
-			<varlistentry>
+			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Show_tray_icon">
 				<term>Show tray icon</term>
 				 <listitem>
 					<para>
@@ -682,7 +671,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Show_notifications_in_tray_area">
 				<term>Show notifications in tray area</term>
 				 <listitem>
 					<para>
@@ -692,7 +681,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Minimize_to_tray_on_close">
 				<term>Minimize to tray on close</term>
 				 <listitem>
 					<para>
@@ -708,7 +697,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Start_minimized">
 				<term>Start minimized</term>
 				 <listitem>
 					<para>
@@ -718,7 +707,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Always_show_debug_messages">
 				<term>Always show debug messages</term>
 				 <listitem>
 					<para>
@@ -728,7 +717,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Start_fwbackups_minimized_when_I_login">
 				<term>Start fwbackups (minimized) when I login</term>
 				 <listitem>
 					<para>
@@ -738,7 +727,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Pycron_installation_folder">
 				<term>Pycron installation folder</term>
 				 <listitem>
 					<para>
@@ -748,7 +737,7 @@ specificname.txt
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Dont_show_me_again_messages">
 				<term>"Don't show me again" messages</term>
 				 <listitem>
 					<para>
@@ -762,7 +751,6 @@ specificname.txt
 		</variablelist>
 
 	</section>
-
 
 </chapter>
 

@@ -9,7 +9,7 @@ index-single.html).
 If you wish to build the documentation from scratch anyways, you will need to
 obtain Publican and install the diffingo brand:
   $ cd publican-diffingo
-  $ publican install_brand /usr/share/publican/Common_Content
+  $ publican install_brand --path=/usr/share/publican/Common_Content
 
 Systems using the RPM package manager can alternatively generate a RPM package:
   $ cd publican-diffingo

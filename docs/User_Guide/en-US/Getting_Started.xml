@@ -3,9 +3,9 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-User_Guide-Getting_Started">
+<chapter id="chap-fwbackups-User_Guide-Getting_Started">
 	<title>Getting Started</title>
-	 <section id="sect-User_Guide-Getting_Started-Introduction">
+	 <section id="sect-fwbackups-User_Guide-Getting_Started-Introduction">
 		<title>Introduction</title>
 		 <para>
 			<application>fwbackups</application> is a feature-rich user backup program that allows you to backup your documents anytime with ease. Its simple, intuitive interface offers the following features: 
@@ -52,8 +52,7 @@
 		</para>
 
 	</section>
-	
-	 <section id="sect-User_Guide-Getting_Started-Starting_fwbackups">
+	 <section id="sect-fwbackups-User_Guide-Getting_Started-Starting_fwbackups">
 		<title>Starting <application>fwbackups</application></title>
 		 <para>
 			There are two ways to start the fwbackups:
@@ -85,7 +84,7 @@
 			</listitem>
 
 		</orderedlist>
-		 <figure float="0" id="figu-User_Guide-Starting_fwbackups-The_Overview_page">
+		 <figure float="0" id="figu-fwbackups-User_Guide-Starting_fwbackups-The_Overview_page">
 			<title>The Overview page</title>
 			 <mediaobject>
 				<imageobject>
@@ -102,7 +101,7 @@
 			<application>fwbackups</application> starts on the Overview page. To begin using <application>fwbackups</application>, simply click a one of the toolbar buttons to switch pages.
 		</para>
 		 <variablelist>
-			<varlistentry>
+			<varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Backup_Sets">
 				<term>Backup Sets</term>
 				 <listitem>
 					<para>
@@ -112,7 +111,7 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-One_Time_Backup">
 				<term>One-Time Backup</term>
 				 <listitem>
 					<para>
@@ -122,7 +121,7 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Log_Viewer">
 				<term>Log Viewer</term>
 				 <listitem>
 					<para>
@@ -162,7 +161,7 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Restore">
 				<term>Restore</term>
 				 <listitem>
 					<para>
@@ -176,7 +175,6 @@
 		</variablelist>
 
 	</section>
-	
 
 </chapter>
 

@@ -3,11 +3,11 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<bookinfo id="book-User_Guide-User_Guide">
+<bookinfo id="book-fwbackups-User_Guide-User_Guide">
 	<title>User Guide</title>
 	 <subtitle>Using fwbackups for easy, automated backups</subtitle>
 	 <productname>fwbackups</productname>
-	 <productnumber>1.43.4</productnumber>
+	 <productnumber>1.43.5</productnumber>
 	 <edition>1</edition>
 	 <pubsnumber>0</pubsnumber>
 	 <abstract>

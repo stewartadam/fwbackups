@@ -3,13 +3,12 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-User_Guide-About_fwbackups">
+<chapter id="chap-fwbackups-User_Guide-About_fwbackups">
 	<title>About fwbackups</title>
-	 <section id="sect-User_Guide-About_fwbackups-About_fwbackups">
+	 <section id="sect-fwbackups-User_Guide-About_fwbackups-About_fwbackups">
 		<title>About fwbackups</title>
 		 <para>
-			<application>fwbackups</application> is written by Stewart Adam (<email>s.adam@diffingo.com</email>
-			 ), To find more information about <application>fwbackups</application>, please visit the <ulink url="http://www.fwbackups.com">fwbackups homepage</ulink>.
+			<application>fwbackups</application> is written by Stewart Adam (<email>s.adam@diffingo.com</email> ), To find more information about <application>fwbackups</application>, please visit the <ulink url="http://www.fwbackups.com">fwbackups homepage</ulink>.
 		</para>
 		 <para>
 			This program is distributed under the terms of the GNU General Public license as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. A copy of this license can be found in the file COPYING included with the source code of this program.
@@ -19,12 +18,10 @@
 		</para>
 
 	</section>
-	
-	 <section id="sect-User_Guide-About_fwbackups-Reporting_a_problem">
+	 <section id="sect-fwbackups-User_Guide-About_fwbackups-Reporting_a_problem">
 		<title>Reporting a problem</title>
 		 <para>
-			If you think you have found a problem or bug in fwbackups, please contact the author at <email>s.adam@diffingo.com</email>
-			 .
+			If you think you have found a problem or bug in fwbackups, please contact the author at <email>s.adam@diffingo.com</email> .
 		</para>
 		 <para>
 			If you can reliably reproduce the issue you are experiencing, enable debug messages in the preferences and try to reproduce the problem again. If you are able to, attach a copy of the fwbackups log and (if applicable) the set configuration in question to the email message.
@@ -34,7 +31,6 @@
 		</para>
 
 	</section>
-	
 
 </chapter>
 

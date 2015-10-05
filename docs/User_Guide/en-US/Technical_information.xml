@@ -3,14 +3,14 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-User_Guide-Technical_Information">
+<chapter id="chap-fwbackups-User_Guide-Technical_Information">
 	<title>Technical Information</title>
-	 <section id="sect-User_Guide-Technical_Information-Backup_formats">
+	 <section id="sect-fwbackups-User_Guide-Technical_Information-Backup_formats">
 		<title>Backup formats</title>
 		 <para>
 			This section details how fwbackups create backups and each type of backup's storage requirements.
 		</para>
-		 <section id="sect-User_Guide-Backup_formats-Archivetar_backups">
+		 <section id="sect-fwbackups-User_Guide-Backup_formats-Archivetar_backups">
 			<title>Archive/tar backups</title>
 			 <para>
 				<guilabel>Archive</guilabel> backups use one of two methods to create the backup archive depending on the operating system. On Unix-like operating systems such as Linux, Unix and OS X, the <command>tar</command> executable is called upon directly to create a standard GNU tar archive, optionally with gzip or bzip2 compression. On Windows, Python's <ulink url="http://docs.python.org/library/tarfile.html">tarfile</ulink> module is used to create a standard GNU compliant tar archive. In either case, backup compression is applied on-the-fly without the need for the tar archive to be created first.
@@ -20,8 +20,7 @@
 			</para>
 
 		</section>
-		
-		 <section id="sect-User_Guide-Backup_formats-Direct_Copyrsync_backups">
+		 <section id="sect-fwbackups-User_Guide-Backup_formats-Direct_Copyrsync_backups">
 			<title>Direct Copy/rsync backups</title>
 			 <para>
 				As with <guilabel>Archive</guilabel> backups, <guilabel>Direct copy</guilabel> backups will use one of two methods to copy files depending on the operatng system. On Windows, fwbackups uses a slightly modified version of the Python <ulink url="http://docs.python.org/library/shutil.html">shutil</ulink> library to copy files and folders. On Unix-like operating systems (Linux, Unix and OS X) fwbackups determines the appropriate parameters and then makes a call to <command>rsync</command> to copy the files (rsync is faster than shutil and therefore is used when the OS supports it). Thus, in either case the result is a direct copy of the files and folder structure.
@@ -31,8 +30,7 @@
 			</para>
 
 		</section>
-		
-		 <section id="sect-User_Guide-Backup_formats-Minimum_storage_requirements">
+		 <section id="sect-fwbackups-User_Guide-Backup_formats-Minimum_storage_requirements">
 			<title>Minimum storage requirements</title>
 			 <para>
 				Depending on your backup format and destination, the minimum storage requirements to complete a backup may change.
@@ -45,11 +43,9 @@
 			</para>
 
 		</section>
-		
 
 	</section>
-	
-	 <section id="sect-User_Guide-Technical_Information-Preservation_of_file_ownership_and_other_attributes">
+	 <section id="sect-fwbackups-User_Guide-Technical_Information-Preservation_of_file_ownership_and_other_attributes">
 		<title>Preservation of file ownership and other attributes</title>
 		 <para>
 			fwbackups uses the internal Python <ulink url="http://docs.python.org/library/tarfile.html">tarfile</ulink> and <ulink url="http://docs.python.org/library/shutil.html">shutil</ulink> modules to restore files (and <ulink url="http://www.lag.net/paramiko/">paramiko</ulink> for interfacing with remote hosts via SFTP). File permissions, modification time and access time are always preserved, as are symbolic links.
@@ -62,8 +58,7 @@
 		</para>
 
 	</section>
-	
-	 <section id="sect-User_Guide-Technical_Information-Expected_levels_of_reliability">
+	 <section id="sect-fwbackups-User_Guide-Technical_Information-Expected_levels_of_reliability">
 		<title>Expected levels of reliability</title>
 		 <para>
 			fwbackups is a user backup program and accordingly, should be able to backup your user data without issues. Although it is possible to use fwbackups to backup an entire operating system, this was not its intended purpose and this scenario is as of yet untested. Users should expect fwbackups to successfully backup and restore their data, however (as described above) extra metadata such as file ownership, ACLs and extended attributes that an OS may require to function properly are not guarunteed to be restored along with the actual file data.
@@ -73,7 +68,6 @@
 		</para>
 
 	</section>
-	
 
 </chapter>
 

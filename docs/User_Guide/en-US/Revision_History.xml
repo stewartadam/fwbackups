@@ -3,18 +3,34 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<appendix id="appe-User_Guide-Revision_History">
+<appendix id="appe-fwbackups-User_Guide-Revision_History">
 	<title>Revision History</title>
 	 <simpara>
 		<revhistory>
 			<revision>
-				<revnumber>4</revnumber>
+				<revnumber>4-1</revnumber>
+				 <date>Sun Oct 4 2015</date>
+				 <author>
+					<firstname>Stewart</firstname>
+					 <surname>Adam</surname>
+					 <email>s.adam@diffingo.com</email>
+				</author>
+				 <revdescription>
+					<simplelist>
+						<member>Release 1.43.5 &amp; correction of spelling/typographical errors present in last revision</member>
+
+					</simplelist>
+
+				</revdescription>
+
+			</revision>
+			 <revision>
+				<revnumber>4-0</revnumber>
 				 <date>Mon Dec 20 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-
 				</author>
 				 <revdescription>
 					<simplelist>
@@ -26,13 +42,12 @@
 
 			</revision>
 			 <revision>
-				<revnumber>3</revnumber>
+				<revnumber>3-0</revnumber>
 				 <date>Tue Nov 30 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-
 				</author>
 				 <revdescription>
 					<simplelist>
@@ -44,13 +59,12 @@
 
 			</revision>
 			 <revision>
-				<revnumber>2</revnumber>
+				<revnumber>2-0</revnumber>
 				 <date>Thu Oct 28 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-
 				</author>
 				 <revdescription>
 					<simplelist>
@@ -62,13 +76,12 @@
 
 			</revision>
 			 <revision>
-				<revnumber>1</revnumber>
+				<revnumber>1-0</revnumber>
 				 <date>Thu July 1 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-
 				</author>
 				 <revdescription>
 					<simplelist>
@@ -80,13 +93,12 @@
 
 			</revision>
 			 <revision>
-				<revnumber>0</revnumber>
+				<revnumber>0-0</revnumber>
 				 <date>Thu July 1 2010</date>
 				 <author>
 					<firstname>Stewart</firstname>
 					 <surname>Adam</surname>
 					 <email>s.adam@diffingo.com</email>
-
 				</author>
 				 <revdescription>
 					<simplelist>
