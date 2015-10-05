@@ -22,7 +22,7 @@
 		</important>
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Creating_a_backup_set">
 		<title>Creating a backup set</title>
 		 <figure float="0" id="figu-User_Guide-Creating_a_backup_set-The_Backup_Sets_page">
@@ -58,7 +58,7 @@
 			</note>
 
 		</section>
-		
+
 		 <section id="sect-User_Guide-Creating_a_backup_set-Destination">
 			<title>Destination</title>
 			 <para>
@@ -86,7 +86,7 @@
 			</important>
 
 		</section>
-		
+
 		 <section id="sect-User_Guide-Creating_a_backup_set-Times">
 			<title>Times</title>
 			 <para>
@@ -111,7 +111,7 @@
 			 <para>
 				If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:
 			</para>
-			 
+
 <literallayout>							+-------------- minute (0 - 59)
 						|	+------------ hour (0 - 23)
 						|	 |	+---------- day of month (1 - 31)
@@ -193,11 +193,11 @@
 			</itemizedlist>
 
 		</section>
-		
+
 		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Simple">
 			<title>Options (Simple)</title>
 			 <para>
-				The <guilabel>Options (Simple)</guilabel> tab allows you to set the parameters for your backup. In addition, the options tabs allow you to you select the backup format and the number of old backups to keep at any given time.
+				The <guilabel>Options (Simple)</guilabel> tab allows you to set the parameters for your backup. In addition, the options tabs allow you to select the backup format and the number of old backups to keep at any given time.
 			</para>
 			 <variablelist>
 				<varlistentry>
@@ -207,7 +207,7 @@
 							Your backup will be stored differently differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						 <para>
-							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively). 
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively).
 							<note>
 								<title>Reducing backup size with compression</title>
 								 <para>
@@ -218,7 +218,7 @@
 
 						</para>
 						 <para>
-							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine. 
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine.
 							<note>
 								<title>Increasing backup speed</title>
 								 <para>
@@ -319,7 +319,7 @@
 			</variablelist>
 
 		</section>
-		
+
 		 <section id="sect-User_Guide-Creating_a_backup_set-Options_Advanced">
 			<title>Options (Advanced)</title>
 			 <para>
@@ -467,7 +467,7 @@
 						</para>
 						 <example id="exam-User_Guide-Options_Advanced-Excluding_files">
 							<title>Excluding files</title>
-							 
+
 <literallayout>/home/username/Exclude/*
 *.png
 /home/username/foobar.jpg
@@ -483,10 +483,10 @@ specificname.txt
 			</variablelist>
 
 		</section>
-		
+
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Editing_an_existing_set">
 		<title>Editing an existing set</title>
 		 <para>
@@ -494,7 +494,7 @@ specificname.txt
 		</para>
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Running_a_backup_only_once">
 		<title>Running a backup only once</title>
 		 <orderedlist>
@@ -533,7 +533,7 @@ specificname.txt
 		</orderedlist>
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Restoring_backups">
 		<title>Restoring backups</title>
 		 <para>
@@ -635,7 +635,7 @@ specificname.txt
 		</orderedlist>
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Importing_or_exporting_sets">
 		<title>Importing or exporting sets</title>
 		 <para>
@@ -652,7 +652,7 @@ specificname.txt
 		</note>
 
 	</section>
-	
+
 	 <section id="sect-User_Guide-Using_fwbackups-Changing_your_preferences">
 		<title>Changing your preferences</title>
 		 <para>
@@ -762,7 +762,7 @@ specificname.txt
 		</variablelist>
 
 	</section>
-	
+
 
 </chapter>
 
