@@ -1,6 +1,5 @@
 FWDATA_FILES = \
     BugReport.glade \
-    cronwriter.py \
     fwbackups.glade \
     fwbackups-autostart.desktop \
     fwbackups-runapp.pyw

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2007, 2008, 2009, 2010 Stewart Adam
+#  Copyright (C) 2007, 2008, 2009, 2010, 2015 Stewart Adam
 #  This file is part of fwbackups.
 
 #  fwbackups is free software; you can redistribute it and/or modify
@@ -22,6 +22,7 @@ Python interface to 'crontab' binary
 import os
 import re
 import subprocess
+import tempfile
 import time
 import types
 
@@ -48,22 +49,22 @@ class ValidationError(Exception):
 class rawCrontabLine:
   """Represents a raw, unparsed line in the crontab"""
   __rawtext = ''
-  
+
   def __init__(self, line):
     """Initialize the raw representation of the line"""
     self.__rawtext = line
-  
+
   def is_comment_or_whitespace(self):
     """Returns True if the crontab entry is a comment"""
     entry_text = self.get_raw_entry_text()
     if not entry_text.strip() or entry_text.lstrip().startswith("#"):
       return True
     return False
-  
+
   def get_raw_entry_text(self):
     """Return the raw text for the entry"""
     return self.__rawtext
-  
+
 class crontabLine(rawCrontabLine):
   """Parses an entry in the crontab"""
   # Initialize some variables to their default values
@@ -74,12 +75,12 @@ class crontabLine(rawCrontabLine):
   __dayofweek = None
   __command = None
   __end_comment = ''
-  
+
   def __init__(self, minute, hour, dayofmonth, month, dayofweek, command, end_comment=''):
     """Parses the crontab entry line constructs the object"""
     self.set_all_fields(minute, hour, dayofmonth, month, dayofweek, command, end_comment)
     rawCrontabLine.__init__(self, self.get_raw_entry_text())
-  
+
   def is_parsable(self):
     """Returns True if the crontab entry is parsable (comments count as parsable)"""
     if not self.is_comment_or_whitespace() \
@@ -91,26 +92,26 @@ class crontabLine(rawCrontabLine):
       if re.compile("^[0-9/\-,*]*$").search(field) == None:
         return False
     return True
-  
+
   def get_all_fields(self):
     """Returns the fields for the crontab entry if the line was parsable.
     Otherwise, returns None."""
     if not self.is_parsable():
       raise ValueError("Entry is not parsable")
     return (self.__minute, self.__hour, self.__dayofmonth, self.__month, self.__dayofweek, self.__command, self.__end_comment)
-  
+
   def set_all_fields(self, minute, hour, dayofmonth, month, dayofweek, command, end_comment=''):
     """Sets all fields in the crontab line"""
     self.__minute, self.__hour, self.__dayofmonth, self.__month, \
     self.__dayofweek, self.__command, self.__end_comment = minute, hour, \
       dayofmonth, month, dayofweek, command, end_comment or ''
     self.__rawtext = self.generate_entry_text()
-  
+
   def validate(self):
     """If the entry was not parsable, a ValueError is raised."""
     if not self.is_parsable() and not self.is_comment_or_whitespace():
       raise ValueError("Entry is not parsable - cannot generate entry text")
-  
+
   def generate_entry_text(self):
     """Return the generated text for the entry."""
     fields = [self.__minute, self.__hour, self.__dayofmonth, self.__month,
@@ -167,54 +168,30 @@ def write(crontabEntries=[]):
   """Write a crontab-formatted file from the list of fstabLines. Return values
   of 0 or 1 to indicate a failure writing to the crontab or a success
   respectively."""
-  if LINUX:
-    environ = {'EDITOR': 'python %s/cronwriter.py' % INSTALL_DIR,
-               'VISUAL': 'python %s/cronwriter.py' % INSTALL_DIR}
-  elif DARWIN:
-    environ = {'EDITOR': '/fwbackups-cronwriter.py',
-               'VISUAL': '/fwbackups-cronwriter.py'}
-  else:
-    environ = {}
   remove()
   try:
     if MSWINDOWS:
+      # We'll edit PyCrontab directly
       crontab = getPyCrontab()
       fh = open(crontab, 'w')
     else:
-      if DARWIN:
-        if os.path.islink('/fwbackups-cronwriter.py'):
-          os.remove('/fwbackups-cronwriter.py')
-        os.symlink(os.path.join(encode(INSTALL_DIR), 'cronwriter.py'), '/fwbackups-cronwriter.py')
-      sub = executeSub(['crontab', '-e'], environ, stdoutfd=subprocess.PIPE)
-      fh = sub.stdin
-    # Write the content to the crontab
+      # We'll create a temporary file to pass to crontab as input
+      fd, path = tempfile.mkstemp()
+      fh = os.fdopen(fd, 'wb')
+
     for crontabEntry in crontabEntries:
       if isinstance(crontabEntry, crontabLine): # generate the entry text
         fh.write(encode(crontabEntry.generate_entry_text()))
       else:
         fh.write(encode(crontabEntry.get_raw_entry_text()))
-    time.sleep(1)
+
     fh.close()
     if not MSWINDOWS:
-      counter = 0.0
-      while sub.poll() in [None, ""] and counter < 5.0: # After waiting for 5 seconds, assume that the crontab could not be installed
-        time.sleep(0.1)
-        counter += 0.1
-      if sub.poll() in [None, ""]:
-        # Soft-terminate the process if it still hasn't finished
-        kill(sub.pid, 15)
-        sub.wait()
-        raise ValidationError(_("The crontab could not be saved"))
-      if DARWIN:
-        os.remove('/fwbackups-cronwriter.py')
-      if sub.poll() != os.EX_OK:
-        stdout = ' '.join(sub.stdout.readlines())
-        stderr = ' '.join(sub.stderr.readlines())
-        raise CronError(_('Could not write new crontab:\n%(a)s%(b)s') % {'a': stdout, 'b': stderr})
-    fh.close()
-  except IOError: # can't open crontab file
-    return 0
-  return 1
+      execute(['crontab', path])
+      os.remove(path)
+  except IOError:
+    return False
+  return True
 
 def remove():
   """Removes/empties a user's crontab"""

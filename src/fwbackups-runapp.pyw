@@ -1,6 +1,6 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015 Stewart Adam
 #  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
 #  This file is part of fwbackups.
 
@@ -639,15 +639,18 @@ class fwbackupsApp(interface.Controller):
     except cron.ValidationError:
       raise
     except Exception, error:
-      self.logger.logmsg('WARNING', _("Unable to write new crontab: %s" % str(error)))
-      self.displayError(self.ui.main, _("Unable to save backup schedule to crontab"), _("There was an error saving the new backup schedule. A backup will be restored, however this may cause a discrepancy between the set settings and the actual backup schedule.\n\nIf you see this message, please report a bug against fwbackups."))
+      import traceback
+      (etype, evalue, tb) = sys.exc_info()
+      tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
+      self.logger.logmsg('WARNING', _("Unable to write new crontab: %s" % tracebackText))
+      self.displayError(self.ui.main, _("Unable to save backup schedule to crontab"), _("There was an error saving the new backup schedule. A backup will be restored, however the changes made to the backup schedule may not have been correctly saved.\n\nIf you see this message, please report a bug against fwbackups."))
       # Restore backup
       try:
         cron.write(originalCronLines)
-        self.logger.logmsg('INFO', _("A backup of the crontab was restored; the backup schedule may be different than the settings in the GUI."))
+        self.logger.logmsg('INFO', _("A backup of the crontab was restored; the latest changes to the backup schedule not have been saved."))
       except:
-        self.logger.logmsg('WARNING', _("A backup of the crontab could not be restored"))
-      
+        self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored"))
+
 
   def main_close_traywrapper(self, widget, event=None):
     """Quit, but check if we should minimize first."""
