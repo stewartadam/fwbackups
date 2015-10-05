@@ -562,10 +562,10 @@ class SetBackupOperation(BackupOperation):
         tokens['successful'] = 0
     # Adjust destination folder for remote backups
     if self.options['DestinationType'] == 'remote (ssh)':
-      tokens['destination'] = self.options['Destination']
-    else:
       tokens['destination'] = self.options['RemoteFolder']
-    
+    else:
+      tokens['destination'] = self.options['Destination']
+
     def replace_match(m):
       """Replace non-escaped tokens with values at the beginning of a string"""
       return r"%s" % tokens[m.group(1)]
