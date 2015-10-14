@@ -1,6 +1,6 @@
 /*  Copyright (C) 2009 Stewart Adam
  *  This file is part of fwbackups.
- 
+
  * fwbackups is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- 
+
  * You should have received a copy of the GNU General Public License
  * along with fwbackups; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,27 +28,27 @@
 class fwbackupsApp: public QMainWindow, private Ui::mainWindow
 {
   Q_OBJECT
-    
+
 public:
   fwbackupsApp(QMainWindow *parent = 0);
   void clear_toolbar_status();
 
-public slots:
+private slots:
   void cleanup();
   void refreshSets();
   // Menu
   //   |-- File
-  void on_actionNew_Set_activated();
-  void on_actionImport_Sets_activated();
-  void on_actionExport_Sets_activated();
-  void on_actionQuit_activated();
+  void on_actionNew_Set_triggered();
+  void on_actionImport_Sets_triggered();
+  void on_actionExport_Sets_triggered();
+  void on_actionQuit_triggered();
   //   |-- Edit
-  void on_actionServer_Connections_activated();
-  void on_actionPreferences_activated();
+  void on_actionServer_Connections_triggered();
+  void on_actionPreferences_triggered();
   //   |-- Help
-  void on_actionAbout_activated();
-  void on_actionHelp_activated();
-  void on_actionCheck_for_Updates_activated();
+  void on_actionAbout_triggered();
+  void on_actionHelp_triggered();
+  void on_actionCheck_for_Updates_triggered();
   // Toolbar
   void switch_overview();
   void switch_backupsets();
@@ -71,11 +71,11 @@ private:
 class exportSetsWindow: public QDialog, private Ui::exportSets
 {
   Q_OBJECT
-    
+
 public:
   exportSetsWindow(QWidget *parent);
-  
-public slots:
+
+private slots:
   void on_cancelButton_clicked();
   void on_exportSetsButton_clicked();
 };
@@ -83,22 +83,22 @@ public slots:
 class prefsWindow: public QDialog, private Ui::Preferences
 {
   Q_OBJECT
-    
+
 public:
   prefsWindow(QWidget *parent);
-  
-public slots:
+
+private slots:
   void on_closeButton_clicked();
 };
 
 class serverConnectionsWindow: public QDialog, private Ui::ServerConnections
 {
   Q_OBJECT
-    
+
 public:
   serverConnectionsWindow(QWidget *parent);
-  
-public slots:
+
+private slots:
   void on_closeButton_clicked();
 };
 

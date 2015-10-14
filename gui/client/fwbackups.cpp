@@ -1,6 +1,6 @@
 /*  Copyright (C) 2009, 2010 Stewart Adam
  *  This file is part of fwbackups.
- 
+
  * fwbackups is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- 
+
  * You should have received a copy of the GNU General Public License
  * along with fwbackups; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -32,25 +32,25 @@
  */
 fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
   fwLogger *logger = fwLogger::getInstance();
-  
+
   setupUi(this); // this sets up GUI
   this->switch_overview();
   // Action handlers
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(cleanup()));
   // This does the QStackedWidget switching (toolbar & View menu)
-  connect(actionOverview, SIGNAL(activated()), this, SLOT(switch_overview()));
-  connect(actionOverview_2, SIGNAL(activated()), this, SLOT(switch_overview()));
-  connect(actionBackup_Sets, SIGNAL(activated()), this, SLOT(switch_backupsets()));
-  connect(actionBackup_Sets_2, SIGNAL(activated()), this, SLOT(switch_backupsets()));
-  connect(actionOperations, SIGNAL(activated()), this, SLOT(switch_operations()));
-  connect(actionOperations_2, SIGNAL(activated()), this, SLOT(switch_operations()));
-  connect(actionLog_Viewer, SIGNAL(activated()), this, SLOT(switch_logviewer()));
-  connect(actionLog_Viewer_2, SIGNAL(activated()), this, SLOT(switch_logviewer()));
-  connect(actionOne_Time_Backup, SIGNAL(activated()), this, SLOT(show_one_time_backup()));
-  connect(actionOne_Time_Backup_2, SIGNAL(activated()), this, SLOT(show_one_time_backup()));
-  connect(actionRestore, SIGNAL(activated()), this, SLOT(show_restore()));
-  connect(actionRestore_2, SIGNAL(activated()), this, SLOT(show_restore()));
-  
+  connect(actionOverview, SIGNAL(triggered()), this, SLOT(switch_overview()));
+  connect(actionOverview_2, SIGNAL(triggered()), this, SLOT(switch_overview()));
+  connect(actionBackup_Sets, SIGNAL(triggered()), this, SLOT(switch_backupsets()));
+  connect(actionBackup_Sets_2, SIGNAL(triggered()), this, SLOT(switch_backupsets()));
+  connect(actionOperations, SIGNAL(triggered()), this, SLOT(switch_operations()));
+  connect(actionOperations_2, SIGNAL(triggered()), this, SLOT(switch_operations()));
+  connect(actionLog_Viewer, SIGNAL(triggered()), this, SLOT(switch_logviewer()));
+  connect(actionLog_Viewer_2, SIGNAL(triggered()), this, SLOT(switch_logviewer()));
+  connect(actionOne_Time_Backup, SIGNAL(triggered()), this, SLOT(show_one_time_backup()));
+  connect(actionOne_Time_Backup_2, SIGNAL(triggered()), this, SLOT(show_one_time_backup()));
+  connect(actionRestore, SIGNAL(triggered()), this, SLOT(show_restore()));
+  connect(actionRestore_2, SIGNAL(triggered()), this, SLOT(show_restore()));
+
   this->on_refreshLogButton_clicked();
   logger->log_message(LEVEL_INFO, tr("fwbackups administrator started"));
   // Connecting our own slot to the logger
@@ -58,7 +58,7 @@ fwbackupsApp::fwbackupsApp(QMainWindow *parent) {
   //void (*pointer_function)(QString);
   //pointer_function = &fwbackupsApp::new_logger->log_message
   //log_connect_function(pointer_function);
-  
+
   QStringList headers;
   headers << tr("Name") << tr("Icon");
   TreeModel *setsTreeModel = new TreeModel(headers);
@@ -104,46 +104,46 @@ void fwbackupsApp::refreshSets() {
 
 // File menu
 
-void fwbackupsApp::on_actionNew_Set_activated() {
+void fwbackupsApp::on_actionNew_Set_triggered() {
   this->switch_backupsets();
   this->on_newSetButton_clicked();
 }
 
-void fwbackupsApp::on_actionImport_Sets_activated() {
+void fwbackupsApp::on_actionImport_Sets_triggered() {
   QStringList filenames = QFileDialog::getOpenFileNames(this,
                                                         tr("Select Sets"),
                                                         QString::null,
                                                         "Set configuration files (*.conf)");
   foreach (QString filename, filenames) {
-    
+
   }
 
 }
 
-void fwbackupsApp::on_actionExport_Sets_activated() {
+void fwbackupsApp::on_actionExport_Sets_triggered() {
   exportSetsWindow *ewindow = new exportSetsWindow(this);
   ewindow->show();
 }
 
-void fwbackupsApp::on_actionQuit_activated() {
+void fwbackupsApp::on_actionQuit_triggered() {
   qApp->closeAllWindows();
 }
 
 // Edit menu
 
-void fwbackupsApp::on_actionServer_Connections_activated() {
+void fwbackupsApp::on_actionServer_Connections_triggered() {
   serverConnectionsWindow *connWindow = new serverConnectionsWindow(this);
   connWindow->show();
 }
 
-void fwbackupsApp::on_actionPreferences_activated() {
+void fwbackupsApp::on_actionPreferences_triggered() {
   prefsWindow *pwindow = new prefsWindow(this);
   pwindow->show();
 }
 
 // Help menu
 
-void fwbackupsApp::on_actionAbout_activated() {
+void fwbackupsApp::on_actionAbout_triggered() {
   QMessageBox::about(this, tr("About fwbackups"),
                      tr("<b>fwbackups</b> v%1<br />\n"
                      "<span style=\"font-weight: normal;\">"
@@ -153,12 +153,12 @@ void fwbackupsApp::on_actionAbout_activated() {
                      "for more information and product updates.</i></span>").arg(VERSION));
 }
 
-void fwbackupsApp::on_actionHelp_activated() {
+void fwbackupsApp::on_actionHelp_triggered() {
   QString url = QString("http://downloads.diffingo.com/fwbackups/docs/%1-html").arg(VERSION);
   QDesktopServices::openUrl(url);
 }
 
-void fwbackupsApp::on_actionCheck_for_Updates_activated() {
+void fwbackupsApp::on_actionCheck_for_Updates_triggered() {
   QString url = QString("http://www.diffingo.com/update.php?product=fwbackups&version=%1").arg(VERSION);
   QDesktopServices::openUrl(url);
 }
@@ -338,25 +338,25 @@ void exportSetsWindow::on_exportSetsButton_clicked() {
 prefsWindow::prefsWindow(QWidget *parent) {
   setupUi(this); // this sets up GUI
   QSettings *settings = get_settings();
-  
+
   settings->beginGroup("ConfiguringBackups");
   warnBeforeReplaceCheck->setChecked(settings->value("WarnBeforeReplacing", true).toBool());
   settings->endGroup();
-  
-  
+
+
 # if defined(__APPLE__)
   trayAreaLabel->hide();
   trayIconCheck->hide();
   startMinimizedCheck->hide();
   minimizeTrayCheck->hide();
 # endif
-  
+
   settings->beginGroup("TrayArea");
   trayIconCheck->setChecked(settings->value("Show", true).toBool());
   startMinimizedCheck->setChecked(settings->value("StartMinimized", false).toBool());
   minimizeTrayCheck->setChecked(settings->value("MinimizeOnClose", false).toBool());
   settings->endGroup();
-  
+
   settings->beginGroup("Misc");
   popupNotificationsCheck->setChecked(settings->value("ShowPopupNotifications", true).toBool());
   startOnLoginCheck->setChecked(settings->value("StartOnLogin", false).toBool());
@@ -365,23 +365,23 @@ prefsWindow::prefsWindow(QWidget *parent) {
   } else {
     showDebugMessagesCheck->setChecked(false);
   }
-  
+
   settings->endGroup();
 }
 
 void prefsWindow::on_closeButton_clicked() {
     QSettings *settings = get_settings();
-  
+
   settings->beginGroup("ConfiguringBackups");
   settings->setValue("WarnBeforeReplacing", warnBeforeReplaceCheck->isChecked());
   settings->endGroup();
-  
+
   settings->beginGroup("TrayArea");
   settings->setValue("Show", trayIconCheck->isChecked());
   settings->setValue("StartMinimized", startMinimizedCheck->isChecked());
   settings->setValue("MinimizeOnClose", minimizeTrayCheck->isChecked());
   settings->endGroup();
-  
+
   settings->beginGroup("Misc");
   settings->setValue("ShowPopupNotifications", popupNotificationsCheck->isChecked());
   settings->setValue("StartOnLogin", startOnLoginCheck->isChecked());
