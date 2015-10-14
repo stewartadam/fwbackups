@@ -58,8 +58,9 @@ if(APPLE)
   set(MACOSX_BUNDLE_COPYRIGHT "(C) 2005-2010 Stewart Adam")
   set_target_properties(fwbackups-client PROPERTIES
       OUTPUT_NAME "fwbackups"
+      MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in
       )
-  
+
   # Allows for bundle re-creation just by running "make" and installs the icon file
   add_custom_target(osx_client_bundle_dirs
     COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/fwbackups.app/Contents/Resources"
