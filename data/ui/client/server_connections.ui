@@ -41,14 +41,14 @@
       </font>
      </property>
      <property name="text">
-      <string>Server Connections</string>
+      <string>Backup Servers</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Click any key in the list view its properties.</string>
+      <string>All of the backup servers you have access to are listed below.</string>
      </property>
     </widget>
    </item>

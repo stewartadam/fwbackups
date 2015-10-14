@@ -944,7 +944,7 @@ Choose a profile from the list below that best matches your needs:</string>
          <item row="0" column="0" colspan="2">
           <widget class="QCheckBox" name="recursiveCheck">
            <property name="text">
-            <string>Recursive (include subfolders and files inside)</string>
+            <string>Recursive (include subfolders)</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -956,7 +956,7 @@ Choose a profile from the list below that best matches your needs:</string>
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>You can enter regular expressions patterns below, one per line, to exclude matching files from the backup:</string>
+          <string>You can enter regular expression patterns below, one per line, to exclude matching files from the backup:</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -1043,7 +1043,7 @@ Choose a profile from the list below that best matches your needs:</string>
          <item row="0" column="2">
           <widget class="QPushButton" name="serverConnectionsButton">
            <property name="text">
-            <string>Manage server connections...</string>
+            <string>Manage servers...</string>
            </property>
           </widget>
          </item>

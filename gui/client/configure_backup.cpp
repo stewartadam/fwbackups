@@ -89,12 +89,16 @@ void configBackupsDialog::on_profileRecurringRadio_toggled(bool checked) {
 void configBackupsDialog::setType(int type) {
   switch (type) {
     case TYPE_SET:
+      // FIXME: This does nothing due to the back/forward buttons.
       this->setWindowTitle(tr("Configure a Set Backup"));
       break;
     case TYPE_ONETIME:
+      // FIXME: This does nothing due to the back/forward buttons.
       this->setWindowTitle(tr("Configure a One-Time Backup"));
       configurationTabs->removeTab(1); // Scheduling
+      break;
     default:
+      // FIXME: This does nothing due to the back/forward buttons.
       this->setWindowTitle(tr("Configure a Backup"));
       break;
   }

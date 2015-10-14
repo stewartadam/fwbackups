@@ -191,7 +191,6 @@ void fwbackupsApp::show_one_time_backup() {
   configBackupsDialog *cwindow = new configBackupsDialog(this, TYPE_ONETIME);
   cwindow->exec();
   delete cwindow;
-  this->refreshSets();
 }
 
 void fwbackupsApp::show_restore() {
