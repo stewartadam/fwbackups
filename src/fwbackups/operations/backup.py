@@ -64,14 +64,14 @@ class BackupOperation(operations.Common):
                    'BackupHidden', 'FollowLinks', 'Sparse']:
       options[option] = _bool(options[option])
     return options
-  
+
   def parsePaths(self, config):
     """Get the list of paths in the configuration file. Returns a list of paths to backup"""
     paths = []
     for path in config.getPaths():
       paths.append(path)
     return paths
-  
+
   def createPkgLists(self):
     """Create the pkg lists in tempdir"""
     # Start as a dictionary so we can keep track of which items we have already
@@ -111,7 +111,7 @@ class BackupOperation(operations.Common):
         fh.close()
     # We want to return a list of only the filenames
     return pkgListFiles.values()
-  
+
   def createDiskInfo(self):
     """Print disk info to a file in tempdir"""
     fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('Disk Information'))
@@ -120,11 +120,12 @@ class BackupOperation(operations.Common):
     fh.close()
     return path
 
-  def parseCommand(self, config):
+  def parseCommand(self):
     """Parse options to retrieve the correct command"""
     self.options = self.getOptions(self.config)
     if self.options['DestinationType'] == 'remote (ssh)':
-      tempDir = self.options['TempDir']
+      prefs = config.PrefsConf(create=True)
+      tempDir = prefs.get('Preferences', 'TempDir') or tempfile.gettempdir()
       self.dest = os.path.join(tempDir, os.path.split(fwbackups.escapeQuotes(self.dest, 1))[1])
     if self.options['Engine'] == 'rsync':
       command = 'rsync -g -o -p -t -R'
@@ -178,7 +179,7 @@ class BackupOperation(operations.Common):
     self.ifCancel()
     for file in pkgListfiles:
       os.remove(file)
-  
+
   def checkRemoteServer(self):
     """Checks if a connection to the remote server can be established"""
     self.logger.logmsg('DEBUG', _('Attempting to connect to server %s...') % self.options['RemoteHost'])
@@ -219,7 +220,7 @@ class BackupOperation(operations.Common):
       return False
     else: # not remote, just pass
       return True
-  
+
   def backupPaths(self, paths, command):
     """Does the actual copying dirty work"""
     # this is in common
@@ -268,7 +269,7 @@ class BackupOperation(operations.Common):
             wasAnError = True
             self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
             self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
-      
+
     elif self.options['Engine'] == 'tar.gz':
       self._total = 1
       if MSWINDOWS:
@@ -313,7 +314,7 @@ class BackupOperation(operations.Common):
           wasAnError = True
           self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
           self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
-          
+
     elif self.options['Engine'] == 'tar.bz2':
       self._total = 1
       if MSWINDOWS:
@@ -358,7 +359,7 @@ class BackupOperation(operations.Common):
           wasAnError = True
           self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
           self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
-    
+
     elif self.options['Engine'] == 'rsync':
       # in this case, self.{folderdest,dest} both need to be created
       if self.options['DestinationType'] == 'remote (ssh)':
@@ -410,7 +411,7 @@ class BackupOperation(operations.Common):
               wasAnError = True
               self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
               self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
-    
+
     self.ifCancel()
     # A test is included to ensure sure the archive actually exists, as if
     # wasAnError = True the archive might not even exist.
@@ -430,13 +431,13 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
       sftpClient.close()
       client.close()
-    
+
     # finally, we do this
     self._current = self._total
     time.sleep(1)
     self.ifCancel()
     return (not wasAnError)
-  
+
   def start(self):
     """This must be subclassed"""
     raise NotImplementedError(_('This function is designed to be subclassed'))
@@ -469,10 +470,10 @@ class OneTimeBackupOperation(BackupOperation):
     if not paths:
       self.logger.logmsg('WARNING', _('There are no paths to backup!'))
       return False
-      
+
     if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
       self.checkRemoteServer()
-    
+
     if self.options['PkgListsToFile']:
       pkgListfiles = self.createPkgLists()
     else:
@@ -489,7 +490,7 @@ class OneTimeBackupOperation(BackupOperation):
         shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
     self.ifCancel()
 
-    command = self.parseCommand(self.config)
+    command = self.parseCommand()
     self.addListFilesToBackup(pkgListfiles, command, self.options['Engine'], paths)
 
     # Now that the paths & commands are set up...
@@ -533,7 +534,7 @@ class SetBackupOperation(BackupOperation):
       self.dest += '.tar.gz'
     elif self.options['Engine'] == 'tar.bz2':
       self.dest += '.tar.bz2'
-  
+
   def getOptions(self, config):
     """Subclass getOptions to handle options only in Set configs"""
     def _bool(value):
@@ -543,7 +544,7 @@ class SetBackupOperation(BackupOperation):
     options['Incremental'] = _bool(options['Incremental'])
     options['OldToKeep'] = int(float(options['OldToKeep']))
     return options
-  
+
   def tokens_replace(self, text, date, successful=None):
     """Replace tokens in the supplied text"""
     tokens = {'backup': os.path.basename(encode(self.dest)),
@@ -569,18 +570,18 @@ class SetBackupOperation(BackupOperation):
     def replace_match(m):
       """Replace non-escaped tokens with values at the beginning of a string"""
       return r"%s" % tokens[m.group(1)]
-    
+
     def replace_match_escape(m):
       """Replace non-escaped tokens with values after the beginning of a string"""
       return r"%s%s" % (m.group(1), tokens[m.group(2)])
-    
+
     for token, sub in tokens.items():
       text = re.sub(r"^\[(%s)\]" % token, replace_match, text)
       text = re.sub(r"([^\\]+?)\[(%s)\]" % token, replace_match_escape, text)
       # Replace escaped tokens into their non-escaped form
       text = text.replace(r"\[%s]" % token, "[%s]" % token)
     return text
-  
+
   def execute_user_command(self, cmd_type, command):
     """Run the after user command"""
     # Before or after command?
@@ -612,7 +613,7 @@ class SetBackupOperation(BackupOperation):
     if retval != EXIT_STATUS_OK:
       self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status!'))
       self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
-  
+
   def removeOldBackups(self):
     """Get list of old backups and remove them"""
     # get listing, local or remote
@@ -664,25 +665,25 @@ class SetBackupOperation(BackupOperation):
     """Start the backup process. Should be called after executing user command."""
     if self.options['Enabled'] == '0': # set is disabled
       return True
-    
+
     if self.options["CommandBefore"]:
       self._status = STATUS_EXECING_USER_COMMAND
       # Find tokens and substitute them
       tokenized_command = self.tokens_replace(self.options["CommandBefore"], self.date)
       self.execute_user_command(1, tokenized_command)
-    
+
     try:
       # Get the list of paths...
       paths = self.parsePaths(self.config)
       if not paths:
         self.logger.logmsg('WARNING', _('There are no paths to backup!'))
         return False
-      
+
       self.ifCancel()
-      
+
       if self.options['DestinationType'] == 'remote (ssh)': # check if server settings are OK
         self.checkRemoteServer()
-      
+
       self._status = STATUS_CLEANING_OLD
       if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
           not self.options['DestinationType'] == 'remote (ssh)':
@@ -693,11 +694,11 @@ class SetBackupOperation(BackupOperation):
           self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
           shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
       self.ifCancel()
-      
+
       # Remove old stuff
       self.removeOldBackups()
       self.ifCancel()
-      
+
       self._status = STATUS_INITIALIZING
       if self.options['PkgListsToFile']:
         pkgListfiles = self.createPkgLists()
@@ -706,7 +707,7 @@ class SetBackupOperation(BackupOperation):
       if self.options['DiskInfoToFile']:
         pkgListfiles.append(self.createDiskInfo())
       self.ifCancel()
-      command = self.parseCommand(self.config)
+      command = self.parseCommand()
       self.addListFilesToBackup(pkgListfiles, command, self.options['Engine'], paths)
       # Now that the paths & commands are set up...
       retval = self.backupPaths(paths, command)
@@ -729,13 +730,13 @@ class SetBackupOperation(BackupOperation):
       self.logger.logmsg('ERROR', self.traceback)
       # just incase we have leftover stuff running
       self.cancelOperation()
-    
+
     if self.options["CommandAfter"]:
       self._status = STATUS_EXECING_USER_COMMAND
       # Find tokens and substitute them
       tokenized_command = self.tokens_replace(self.options["CommandAfter"], self.date, retval)
       self.execute_user_command(2, tokenized_command)
-    
+
     # All done!
     self.logger.logmsg('INFO', _("Finished automatic backup operation of set '%s'") % self.config.getSetName())
     return retval
