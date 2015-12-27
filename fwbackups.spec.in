@@ -67,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/%{name}/
 
 %changelog
+* Sat Dec 26 2015 Stewart Adam <s.adam at diffingo.com> - 1.43.5-1
+- Update to 1.43.5
+
 * Sun Dec 19 2010 Stewart Adam <s.adam at diffingo.com> 1.43.4-1
 - Update to 1.43.4
 
