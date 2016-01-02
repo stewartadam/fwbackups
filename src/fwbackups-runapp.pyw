@@ -203,7 +203,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
     self.ui.main3HidePasswordCheck.set_active(True)
-    self.ui.WelcomeLabel.set_text(_('Welcome, %s!'  % USER))
+    self.ui.WelcomeLabel.set_text(_('%s'  % USER))
     # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
     # Default Labels...
     set_text_markup(self.ui.aboutVersionLabel, '<span size="xx-large" weight="bold">fwbackups %s</span>' % fwbackups.__version__)
