@@ -42,7 +42,7 @@ please contact Stewart Adam <s.adam@diffingo.com>.
     $ su -c 'yum install fwbackups'
   Provide the root password when prompted.
 
-== Installing form source ==
+== Installing from source ==
 If no packages are readily available for your distribution, then you will have
 build and install fwbackups from source.
 
@@ -101,4 +101,8 @@ set name by a space.
 
   $ fwbackups-runonce Path1 Path2
 Run a one-time backup, using the argument as paths to backup.
+
+== Translations ==
+Translations are available here: https://www.transifex.com/Magic/fwbackups/
+You're welcome to translate!
 
