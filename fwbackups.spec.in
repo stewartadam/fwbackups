@@ -37,6 +37,7 @@ or from the contents of an external folder or archive.
 %setup -q -n %{name}-%{version}
 
 %build
+autoreconf -fi
 %configure
 # We don't implement this yet: make %{?_smp_mflags}
 make
@@ -50,14 +51,12 @@ desktop-file-install \
     --delete-original \
     ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 
-# No translations yet
-#find_lang %{name}
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-#files -f %{name}.lang
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING README TODO
 %{_bindir}/*
