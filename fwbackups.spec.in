@@ -62,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog COPYING README TODO
 %{_bindir}/*
 %{_datadir}/%{name}/
-%{_datadir}/pixmaps/*
+%{_iconsdir}/hicolor/*/apps/%{name}.*
 %{_datadir}/applications/*.desktop
 %{python_sitelib}/%{name}/
 
