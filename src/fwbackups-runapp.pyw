@@ -739,7 +739,7 @@ class fwbackupsApp(interface.Controller):
   def on_import_sets1_activate(self, widget):
     """Import Set entry in menu"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select file(s)'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_OPEN, ffilter=['*.conf','Configuration files (*.conf)'],
+                                 gtk.FILE_CHOOSER_ACTION_OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
                                  multiple=False)
     response = fileDialog.run()
     if response == gtk.RESPONSE_OK:
