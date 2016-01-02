@@ -1,4 +1,3 @@
-#! /usr/bin/python
 # -*- coding: utf-8 -*-
 #  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015 Stewart Adam
 #  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
