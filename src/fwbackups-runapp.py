@@ -1047,7 +1047,7 @@ class fwbackupsApp(interface.Controller):
       if MSWINDOWS:
         import _winreg
         k = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-        _winreg.SetValueEx(k, 'fwbackups', 0, _winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.pyw'))
+        _winreg.SetValueEx(k, 'fwbackups', 0, _winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.py'))
         _winreg.CloseKey(k)
       else:
         shutil_modded.copy('%s/fwbackups-autostart.desktop' % INSTALL_DIR, '%s/.config/autostart' % USERHOME)

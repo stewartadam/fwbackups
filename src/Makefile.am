@@ -2,7 +2,7 @@ FWDATA_FILES = \
     BugReport.glade \
     fwbackups.glade \
     fwbackups-autostart.desktop \
-    fwbackups-runapp.pyw
+    fwbackups-runapp.py
 
 EXTRA_DIST = \
     $(FWDATA_FILES) \

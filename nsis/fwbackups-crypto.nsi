@@ -41,7 +41,7 @@
   ShowInstDetails show
   !define PRODUCT_REG_KEY                 "SOFTWARE\fwbackups"
 
-  !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.pyw"
+  !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.py"
   !define STARTUP_RUN_KEY                 "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 
 ;--------------------------------
@@ -59,7 +59,7 @@
   !define MUI_ABORTWARNING
 
   !define MUI_FINISHPAGE_NOAUTOCLOSE
-  ;!define MUI_FINISHPAGE_RUN             "$INSTDIR\fwbackups-runapp.pyw"
+  ;!define MUI_FINISHPAGE_RUN             "$INSTDIR\fwbackups-runapp.py"
   ;!define MUI_FINISHPAGE_RUN_NOTCHECKED
   !define MUI_FINISHPAGE_LINK             $(lng_VisitTheWebsite)
   !define MUI_FINISHPAGE_LINK_LOCATION    "${PRODUCT_WEB_SITE}"
