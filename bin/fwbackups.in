@@ -27,4 +27,4 @@ prefix="@prefix@"
 datarootdir="@datarootdir@"
 
 # Expands to ${prefix}/share OR ${datarootdir}, which is defined above
-python "@datadir@/fwbackups/fwbackups-runapp.py" "$@"
+python "@datadir@/fwbackups/fwbackups-runapp.pyw" "$@"

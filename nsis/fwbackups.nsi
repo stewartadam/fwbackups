@@ -50,7 +50,7 @@
   !define PRODUCT_REG_KEY                 "SOFTWARE\fwbackups"
   !define PRODUCT_UNINSTALL_KEY           "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\fwbackups"
 
-  !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.py"
+  !define HKLM_APP_PATHS_KEY              "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\fwbackups-runapp.pyw"
   !define STARTUP_RUN_KEY                 "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
   !define PRODUCT_UNINST_EXE              "fwbackups-uninst.exe"
   !define PYTHON_RUNTIME_INSTALLER        "python-2.6.6.msi"
@@ -71,7 +71,7 @@
   !define MUI_ABORTWARNING
 
   !define MUI_FINISHPAGE_NOAUTOCLOSE
-  ;!define MUI_FINISHPAGE_RUN             "python $INSTDIR\fwbackups-runapp.py"
+  ;!define MUI_FINISHPAGE_RUN             "python $INSTDIR\fwbackups-runapp.pyw"
   ;!define MUI_FINISHPAGE_RUN_NOTCHECKED
   !define MUI_FINISHPAGE_LINK             $(lng_VisitTheWebsite)
   !define MUI_FINISHPAGE_LINK_LOCATION    "${PRODUCT_WEB_SITE}"
@@ -172,7 +172,7 @@ Section $(lng_fwbackupsPackage) Secfwbackups
   StrCmp $R0 "HKLM" fwbackups_hklm fwbackups_hkcu
 
   fwbackups_hklm:
-    WriteRegStr HKLM "${HKLM_APP_PATHS_KEY}" "" "$INSTDIR\fwbackups-runapp.py"
+    WriteRegStr HKLM "${HKLM_APP_PATHS_KEY}" "" "$INSTDIR\fwbackups-runapp.pyw"
     WriteRegStr HKLM ${PRODUCT_REG_KEY} "" "$INSTDIR"
     WriteRegStr HKLM ${PRODUCT_REG_KEY} "Version" "${PRODUCT_VERSION}"
     WriteRegStr HKLM "${PRODUCT_UNINSTALL_KEY}" "DisplayName" "fwbackups"
@@ -211,7 +211,7 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     File ..\TODO
     File ..\src\BugReport.glade
     File ..\src\fwbackups.glade
-    File ..\src\fwbackups-runapp.py
+    File ..\src\fwbackups-runapp.pyw
     File ..\src\cronwriter.py
     File ..\pixmaps\fwbackups.ico
     File ..\bin\fwbackups-run.py
@@ -241,13 +241,13 @@ SectionEnd ; end of default fwbackups section
 SectionGroup /e $(lng_Shortcuts) SecShortcuts
   Section /o $(lng_Desktop) SecDesktopShortcut
     SetOverwrite on
-    CreateShortCut "$DESKTOP\fwbackups.lnk" "$INSTDIR\fwbackups-runapp.py" "" "$INSTDIR\fwbackups.ico" 0
+    CreateShortCut "$DESKTOP\fwbackups.lnk" "$INSTDIR\fwbackups-runapp.pyw" "" "$INSTDIR\fwbackups.ico" 0
     SetOverwrite off
   SectionEnd
   Section $(lng_StartMenu) SecStartMenuShortcut
     SetOverwrite on
     SetShellVarContext all
-    CreateShortCut "$SMPROGRAMS\fwbackups.lnk" "$INSTDIR\fwbackups-runapp.py" "" "$INSTDIR\fwbackups.ico" 0
+    CreateShortCut "$SMPROGRAMS\fwbackups.lnk" "$INSTDIR\fwbackups-runapp.pyw" "" "$INSTDIR\fwbackups.ico" 0
     SetShellVarContext current
     SetOverwrite off
   SectionEnd  
@@ -287,7 +287,7 @@ Section Uninstall
     Delete $INSTDIR\TODO
     Delete $INSTDIR\BugReport.glade
     Delete $INSTDIR\fwbackups.glade
-    Delete $INSTDIR\fwbackups-runapp.py
+    Delete $INSTDIR\fwbackups-runapp.pyw
     Delete $INSTDIR\cronwriter.py
     Delete $INSTDIR\fwbackups.ico
     Delete $INSTDIR\fwbackups-run.py
