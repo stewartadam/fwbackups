@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2015
-# psyca, 2015
+# psyca, 2015-2016
 # psyca, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2015-12-29 23:23+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
+"PO-Revision-Date: 2016-01-01 21:22+0000\n"
+"Last-Translator: psyca\n"
 "Language-Team: German (http://www.transifex.com/Magic/fwbackups/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -232,19 +232,19 @@ msgstr "Bitte vergewissern Sie sich, dass Sie eine funktionierende GTK+ Laufzeit
 #: ../src/fwbackups-runapp.py:67
 #, python-format
 msgid "fwbackups bug report written saved at %s"
-msgstr ""
+msgstr "fwbackups Fehlerbericht wurde gespeichert unter %s"
 
 #: ../src/fwbackups-runapp.py:72
 msgid "Could not write bug report due to insufficient permissions."
-msgstr ""
+msgstr "Konnte den Fehlerbericht aufgrund fehlender Rechte nicht schreiben."
 
 #: ../src/fwbackups-runapp.py:84
 msgid "Please install pycrypto (python-crypto)"
-msgstr ""
+msgstr "Bitte installiere pycrypto (python-crypto) "
 
 #: ../src/fwbackups-runapp.py:88
 msgid "Please install paramiko (python-paramiko)"
-msgstr ""
+msgstr "Bitte installiere paramiko (python-paramiko)"
 
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
@@ -277,7 +277,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:256
 msgid "Checking permissions"
-msgstr ""
+msgstr "Überprüfe Berechtigungen"
 
 #: ../src/fwbackups-runapp.py:264
 msgid "Could not setup the fwbackups configuration folder"
@@ -482,11 +482,11 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:658
 msgid "Please wait... Canceling operations"
-msgstr ""
+msgstr "Bitte warten... Breche Vorgang ab"
 
 #: ../src/fwbackups-runapp.py:671
 msgid "fwbackups detected more than one alive threads!"
-msgstr ""
+msgstr "fwbackups erkannte mehr als einen aktiven Thread!"
 
 #: ../src/fwbackups-runapp.py:676
 #, python-format
@@ -497,11 +497,11 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:679
 #, python-format
 msgid "Could not close thread %s!"
-msgstr ""
+msgstr "Konnte den Thread %s nicht schließen!"
 
 #: ../src/fwbackups-runapp.py:680
 msgid "Please submit a bug report and include this message."
-msgstr ""
+msgstr "Bitte erstelle einen Fehlerbericht und füge diese Meldung hinzu."
 
 #: ../src/fwbackups-runapp.py:689 ../src/fwbackups-runapp.py:2431
 msgid "Could not save backup schedule"
@@ -602,7 +602,7 @@ msgstr "Datei(en) auswählen"
 
 #: ../src/fwbackups-runapp.py:742
 msgid "Configuration files (*.conf)"
-msgstr ""
+msgstr "Konfigurationsdateien (*.conf)"
 
 #: ../src/fwbackups-runapp.py:803
 msgid "File Exists"
@@ -676,7 +676,7 @@ msgstr "Fehlende Information"
 
 #: ../src/fwbackups-runapp.py:1132
 msgid "Please enter a Pycron installation directory."
-msgstr ""
+msgstr "Bitte gebe ein Pycron Installationsverzeichnis ein."
 
 #: ../src/fwbackups-runapp.py:1136
 msgid "Configuration not found"
@@ -718,7 +718,7 @@ msgstr ""
 msgid ""
 "An error occured while removing set `%(a)s':\n"
 "%(b)s"
-msgstr ""
+msgstr "Ein Fehler trat beim entfernen des Satzes `%(a)s' auf:\n%(b)s"
 
 #: ../src/fwbackups-runapp.py:1378
 #, python-format
@@ -967,7 +967,7 @@ msgstr "Erstelle Satz `%s'"
 #: ../src/fwbackups-runapp.py:2427
 #, python-format
 msgid "Saving changes to set `%s'"
-msgstr ""
+msgstr "Speichere Änderungen an Satz `%s'"
 
 #: ../src/fwbackups-runapp.py:2431
 msgid ""
@@ -980,12 +980,12 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2468 ../src/fwbackups-runapp.py:2632
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up: %(c)s"
-msgstr ""
+msgstr "[%(a)i/%(b)i] Sichere: %(c)s"
 
 #: ../src/fwbackups-runapp.py:2471 ../src/fwbackups-runapp.py:2635
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up files... Please wait"
-msgstr ""
+msgstr "[%(a)i/%(b)i] Sichere Dateien... Bitte warten"
 
 #: ../src/fwbackups-runapp.py:2473 ../src/fwbackups-runapp.py:2637
 msgid "Cleaning old backups"
@@ -1264,7 +1264,7 @@ msgstr "Ordner:"
 
 #: ../src/fwbackups.glade.h:29
 msgid "/folder"
-msgstr ""
+msgstr "/verzeichnis"
 
 #: ../src/fwbackups.glade.h:30
 msgid "Host:"
@@ -1416,7 +1416,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:68
 msgid "Import a set from a .conf file"
-msgstr ""
+msgstr "Importiere einen Satz aus einer .conf Datei"
 
 #: ../src/fwbackups.glade.h:69
 msgid "_Import Sets"
@@ -1424,7 +1424,7 @@ msgstr "_Importiere Sätze"
 
 #: ../src/fwbackups.glade.h:70
 msgid "Export one or more sets to .conf files"
-msgstr ""
+msgstr "Exportiere eine oder mehrere Sätze in eine .conf Datei"
 
 #: ../src/fwbackups.glade.h:71
 msgid "E_xport Sets"
@@ -1452,7 +1452,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:77
 msgid "D_uplicate Set"
-msgstr ""
+msgstr "D_upliziere Satz"
 
 #: ../src/fwbackups.glade.h:78
 msgid "_View"
@@ -1619,7 +1619,7 @@ msgstr "_Beenden"
 
 #: ../src/fwbackups.glade.h:142
 msgid "_Export"
-msgstr ""
+msgstr "_Exportieren"
 
 #: ../src/fwbackups.glade.h:143
 msgid "Export to:"
@@ -1740,7 +1740,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:176
 msgid "<b>Misc. Options</b>"
-msgstr ""
+msgstr "<b>Versch. Optionen</b>"
 
 #: ../src/fwbackups.glade.h:177
 msgid "Pycron installation directory:"
@@ -1756,7 +1756,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:180
 msgid "Configure Set"
-msgstr ""
+msgstr "Satz konfigurieren"
 
 #: ../src/fwbackups.glade.h:181
 msgid "Paths"
@@ -1848,7 +1848,7 @@ msgstr "<b>Monate</b>"
 
 #: ../src/fwbackups.glade.h:212
 msgid "Only on:"
-msgstr ""
+msgstr "Nur an:"
 
 #: ../src/fwbackups.glade.h:213
 msgid "All days of the week"
@@ -1874,7 +1874,7 @@ msgid ""
 "Thurdays\n"
 "Fridays\n"
 "Saturdays"
-msgstr "Sonntags\nMontags\nDienstags\nMittwochs\nDonnerstags\nFreitags\nSamstags"
+msgstr "Sonntage\nMontage\nDienstage\nMittwoche\nDonnerstage\nFreitage\nSamstage"
 
 #: ../src/fwbackups.glade.h:228
 msgid "<b>Days of the week</b>"
@@ -1882,7 +1882,7 @@ msgstr "<b>Tage in der Woche</b>"
 
 #: ../src/fwbackups.glade.h:229
 msgid "At:"
-msgstr ""
+msgstr "Um:"
 
 #: ../src/fwbackups.glade.h:230
 msgid "All Hours"
@@ -1956,7 +1956,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:264
 msgid "Include subfolders"
-msgstr ""
+msgstr "Unterverzeichnisse einbeziehen"
 
 #: ../src/fwbackups.glade.h:265
 msgid "Number of old backups to keep:"

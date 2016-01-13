@@ -5,13 +5,14 @@
 # Translators:
 # AlexL <loginov.alex.valer@gmail.com>, 2015
 # Arve Eriksson <031299870@telia.com>, 2015
+# Michael Eklund <willard@null.net>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2015-12-29 23:23+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
+"PO-Revision-Date: 2016-01-13 00:21+0000\n"
+"Last-Translator: Michael Eklund <willard@null.net>\n"
 "Language-Team: Swedish (http://www.transifex.com/Magic/fwbackups/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -457,13 +458,13 @@ msgid ""
 "There was an error saving the new backup schedule. A backup will be restored, however the changes made to the backup schedule may not have been correctly saved.\n"
 "\n"
 "If you see this message, please report a bug against fwbackups."
-msgstr ""
+msgstr "Det gick inte att spara det nya backupschemat. En säkerhetskopiering kommer inte att återställas. Det kan hända att ändringarna för schemat inte sparats korrekt.\n\nOm du ser det här meddelandet, vänligen skicka in en bug-rapport till fwbackups."
 
 #: ../src/fwbackups-runapp.py:637
 msgid ""
 "A backup of the crontab was restored; the latest changes to the backup "
 "schedule not have been saved."
-msgstr ""
+msgstr "En backup av crontab återställdes; de senaste ändringarna för backupschemat har inte sparats."
 
 #: ../src/fwbackups-runapp.py:639
 msgid "A backup of the crontab could not be restored"
@@ -601,7 +602,7 @@ msgstr "Välj fil(er)"
 
 #: ../src/fwbackups-runapp.py:742
 msgid "Configuration files (*.conf)"
-msgstr ""
+msgstr "Konfigurationsfiler (*.conf)"
 
 #: ../src/fwbackups-runapp.py:803
 msgid "File Exists"
@@ -687,7 +688,7 @@ msgid ""
 " ensure that pycron is installed in the selected installation folder and "
 "that it contains either a pycron configuration file or the sample pycron "
 "configuration."
-msgstr ""
+msgstr "Pycrons konfigurationsfil hittades inte i angiven katalog. Säkerställ att pycron är installerat i vald katalog och att den innehåller en konfigurationsfil, eller exempelfil för pycron."
 
 #: ../src/fwbackups-runapp.py:1229
 msgid "Please complete the host, username, folder and port fields."
@@ -878,7 +879,7 @@ msgstr "Fel filtyp"
 msgid ""
 "The file you selected is not a supported archive.\n"
 "Supported archives types are tar with no, gzip or bzip2 compression."
-msgstr ""
+msgstr "Arkivfilen du har valt stöds inte.\nArkivformat som stöds är tar utan gzip eller bzip2-komprimering."
 
 #: ../src/fwbackups-runapp.py:1895
 msgid "Please enter the location of the local folder."
@@ -1618,7 +1619,7 @@ msgstr "A_vsluta"
 
 #: ../src/fwbackups.glade.h:142
 msgid "_Export"
-msgstr ""
+msgstr "_Exportera"
 
 #: ../src/fwbackups.glade.h:143
 msgid "Export to:"
@@ -1691,7 +1692,7 @@ msgstr "Återställ till:"
 msgid ""
 "<i>Tip: entering '/' or selecting </i>'File System'<i> will restore files to"
 " their original locations.</i>"
-msgstr ""
+msgstr "<i>Tips: att ange '/' eller välja </i>'Filsystem'<i> återställer filerna till deras ursprungliga platser.</i>"
 
 #: ../src/fwbackups.glade.h:165
 msgid "Restore Progress:"
@@ -1735,7 +1736,7 @@ msgstr "Starta fwbackups (minimerat) när jag loggar in"
 
 #: ../src/fwbackups.glade.h:175
 msgid "Customize temporary directory"
-msgstr ""
+msgstr "Anpassa temporär katalog"
 
 #: ../src/fwbackups.glade.h:176
 msgid "<b>Misc. Options</b>"
@@ -1955,7 +1956,7 @@ msgstr "Set är aktiverat"
 
 #: ../src/fwbackups.glade.h:264
 msgid "Include subfolders"
-msgstr ""
+msgstr "Inkludera underkataloger"
 
 #: ../src/fwbackups.glade.h:265
 msgid "Number of old backups to keep:"
@@ -2083,7 +2084,7 @@ msgstr "Destinationsmappen '%(a)s' kunde inte skapas: %(b)s"
 msgid ""
 "You do not have read and write permissions on the destination `%s' - if you "
 "backed up system files, this operation may fail."
-msgstr ""
+msgstr "Du har inte läs och skrivrättigheter för destinationen `%s' - Den här åtgärden kan misslyckas om du har säkerhetskopierat systemfiler."
 
 #: ../src/fwbackups/operations/backup.py:82
 msgid "rpm - Package list"
@@ -2114,7 +2115,7 @@ msgstr "Försök att ansluta lyckades."
 msgid ""
 "The backup destination was either not found or it cannot be written to due "
 "to insufficient permissions."
-msgstr ""
+msgstr "Platsen för säkerhetskopieringen hittades inte, eller kan inte skrivas till p.g.a. otillräcklig behörighet."
 
 #: ../src/fwbackups/operations/backup.py:203
 #: ../src/fwbackups/operations/restore.py:88
@@ -2136,7 +2137,7 @@ msgstr "En anslutning till servern kunde inte etableras.\nFel %(a)s: %(b)s"
 msgid ""
 "A connection to the server has timed out. Please verify your settings and "
 "try again."
-msgstr ""
+msgstr "Det gick inte att ansluta till servern. Kontrollera dina inställningar och försök igen."
 
 #: ../src/fwbackups/operations/backup.py:217
 #: ../src/fwbackups/operations/restore.py:102
@@ -2322,7 +2323,7 @@ msgstr "Försöker ansluta till server"
 msgid ""
 "The restore source was either not found or it cannot be read due to "
 "insufficient permissions."
-msgstr ""
+msgstr "Återställningskällan hittades inte, eller kan inte läsas p.g.a. otillräcklig behörighet."
 
 #: ../src/fwbackups/operations/restore.py:116
 msgid "Receiving files from server"
