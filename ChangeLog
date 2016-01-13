@@ -1,5 +1,11 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.6 changes ||
+  * Wed Jan 13 2016 Stewart Adam <s.adam at diffingo.com>
+    - Fix and add localization
+    - Install hicolor icons
+    - Other minor modifications
+
 || Version 1.43.5 changes ||
   * Sun Oct 4 2015 Stewart Adam <s.adam at diffingo.com>
     - Update translation framework to use GNU Gettext (removal of dependency on
