@@ -1279,8 +1279,8 @@ class fwbackupsApp(interface.Controller):
     else:
       self.ui.backupset4CompressCheck.set_sensitive(False)
       self.ui.backupset4CompressCheck.set_active(False)
-    
-  
+
+
   def on_backupset4EngineRadio2_toggled(self, widget):
     """Set the sensibility of Incremental"""
     if self.ui.backupset4EngineRadio2.get_active() and not MSWINDOWS and \
@@ -1297,7 +1297,7 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4OldToKeepSpin.set_sensitive(False)
     else:
       self.ui.backupset4OldToKeepSpin.set_sensitive(True)
-  
+
   def on_backupset4CompressCheck_toggled(self, widget):
     """Unset the compression combo if not selected"""
     if self.ui.backupset4CompressCheck.get_active():
@@ -1305,7 +1305,7 @@ class fwbackupsApp(interface.Controller):
     else:
       self.ui.backupset4CompressCombo.set_active(-1)
       self.ui.backupset4CompressCombo.set_sensitive(False)
-  
+
 
   ###
   ### MAIN WINDOW ###
@@ -1461,14 +1461,14 @@ class fwbackupsApp(interface.Controller):
   def on_main3HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
     self.ui.main3PasswordEntry.set_visibility(not widget.get_active())
-  
+
   def on_main3EngineRadio1_toggled(self, widget):
     if self.ui.main3EngineRadio1.get_active():
       self.ui.main3CompressCheck.set_sensitive(True)
     else:
       self.ui.main3CompressCheck.set_sensitive(False)
       self.ui.main3CompressCheck.set_active(False)
-  
+
   def on_main3CompressCheck_toggled(self, widget):
     """Unset the compression combo if not selected"""
     if self.ui.main3CompressCheck.get_active():
@@ -1476,7 +1476,7 @@ class fwbackupsApp(interface.Controller):
     else:
       self.ui.main3CompressCombo.set_active(-1)
       self.ui.main3CompressCombo.set_sensitive(False)
-      
+
 
   def on_main3NextButton_clicked(self, widget):
     """Next button on One Time backup"""
@@ -1590,7 +1590,7 @@ class fwbackupsApp(interface.Controller):
   def updateLogViewer(self, severity, message):
     """Add a message to the log viewer"""
     # idle_add because this is called from logger, in ANOTHER THREAD.
-    gobject.idle_add(self.logconsole.write_log_line, message)
+    gobject.idle_add(self.logconsole.write_log_line, message.encode('utf-8'))
 
   def on_LogViewerRefreshButton_clicked(self, widget):
     """Refresh log viewer"""

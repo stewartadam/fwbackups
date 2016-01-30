@@ -100,8 +100,8 @@ class fwLogger(logging.Logger):
     date = datetime.datetime.now().strftime('%b %d %H:%M:%S')
     level = self.getEffectiveLevel()
     if level <= LEVELS[severity]:
-      entry = '%s :: %s : %s' % (date.encode('utf-8'), _(severity), message)
-      self.log(LEVELS[severity], entry)
+      entry = u'%s :: %s : %s' % (date.decode('utf-8'), _(severity), message)
+      self.log(LEVELS[severity], entry.encode('utf-8'))
       if self.__printToo:
         print entry.encode('utf-8')
       # pull in & execute the appropriate function
