@@ -61,7 +61,7 @@
 	 <section id="sect-fwbackups-User_Guide-Technical_Information-Expected_levels_of_reliability">
 		<title>Expected levels of reliability</title>
 		 <para>
-			fwbackups is a user backup program and accordingly, should be able to backup your user data without issues. Although it is possible to use fwbackups to backup an entire operating system, this was not its intended purpose and this scenario is as of yet untested. Users should expect fwbackups to successfully backup and restore their data, however (as described above) extra metadata such as file ownership, ACLs and extended attributes that an OS may require to function properly are not guarunteed to be restored along with the actual file data.
+			fwbackups is a user backup program and accordingly, should be able to backup your user data without issues. Although it is possible to use fwbackups to backup an entire operating system, this was not its intended purpose and this scenario is as of yet untested. Users should expect fwbackups to successfully backup and restore their data, however (as described above) extra metadata such as file ownership, ACLs and extended attributes that an OS may require to function properly are not guaranteed to be restored along with the actual file data.
 		</para>
 		 <para>
 			Prior to each release of fwbackups, the code is put through a test suite which automates each possible type of backup and restore operation and verifies that each of those operations completed successfully. Nonetheless, unexpected bugs in software do happen and migitate the risk of unintentional data loss, users are recommended to check the fwbackups log regularly to ensure no errors are occuring, as well as periodically verify backups to ensure that no files are missing.

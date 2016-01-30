@@ -292,7 +292,7 @@
 					<term>Print installed packages to a text file</term>
 					 <listitem>
 						<para>
-							If selected, a list of installed package names and versions will be saved to a text file that will be added to the backup. This option can be used to ease system reinstallation in the unfortunate event of a crash or data loss.
+							If selected, a list of installed package names and versions will be saved to a text file that will be added to the backup. This option can be used to ease system re-installation in the unfortunate event of a crash or data loss.
 						</para>
 						 <para>
 							Currently, the RPM, dpkg and pacman package managers are supported.
@@ -539,7 +539,7 @@ specificname.txt
 			</listitem>
 			 <listitem>
 				<para>
-					Enter the folder where you wish to restore your files to into the entry labelled <guilabel>Restore to</guilabel>. To the make selection more convenient, you may use the <guibutton>Browse...</guibutton> button to open a file browser dialog. A green icon indicates that the folder entered is writable and a red icon indicates that the folder is unwritable (another must be chosen or the restore operation will fail).
+					Enter the folder where you wish to restore your files to into the entry labeled <guilabel>Restore to</guilabel>. To the make selection more convenient, you may use the <guibutton>Browse...</guibutton> button to open a file browser dialog. A green icon indicates that the folder entered is writable and a red icon indicates that the folder is unwritable (another must be chosen or the restore operation will fail).
 				</para>
 				 <note>
 					<title>Folder structure</title>

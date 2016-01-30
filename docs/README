@@ -9,11 +9,12 @@ index-single.html).
 If you wish to build the documentation from scratch anyways, you will need to
 obtain Publican and install the diffingo brand:
   $ cd publican-diffingo
+  $ publican build --formats xml --langs all --publish
   $ publican install_brand --path=/usr/share/publican/Common_Content
 
 Systems using the RPM package manager can alternatively generate a RPM package:
   $ cd publican-diffingo
-  $ publican --package --binary
+  $ publican package --binary
 
 Once the diffingo brand has been installed, run the 'build.sh' script in the
 User_Guide/ folder to build the documentation. The rendered HTML and PDF files
