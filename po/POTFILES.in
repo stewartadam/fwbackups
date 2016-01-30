@@ -2,10 +2,9 @@
 test.operations.py
 bin/fwbackups-run.py
 bin/fwbackups-runonce.py
-src/fwbackups-runapp.pyw
+src/fwbackups-runapp.py
 src/fwbackups.glade
 src/BugReport.glade
-src/fwbackups-runapp.pyw
 src/fwbackups/operations/__init__.py
 src/fwbackups/operations/backup.py
 src/fwbackups/operations/restore.py

@@ -1,4 +1,3 @@
-#! /usr/bin/python
 # -*- coding: utf-8 -*-
 #  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015 Stewart Adam
 #  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
@@ -203,7 +202,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
     self.ui.main3HidePasswordCheck.set_active(True)
-    self.ui.WelcomeLabel.set_text(_('Welcome, %s!'  % USER))
+    self.ui.WelcomeLabel.set_text(_('%s'  % USER))
     # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
     # Default Labels...
     set_text_markup(self.ui.aboutVersionLabel, '<span size="xx-large" weight="bold">fwbackups %s</span>' % fwbackups.__version__)
@@ -739,7 +738,7 @@ class fwbackupsApp(interface.Controller):
   def on_import_sets1_activate(self, widget):
     """Import Set entry in menu"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select file(s)'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_OPEN, ffilter=['*.conf','Configuration files (*.conf)'],
+                                 gtk.FILE_CHOOSER_ACTION_OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
                                  multiple=False)
     response = fileDialog.run()
     if response == gtk.RESPONSE_OK:

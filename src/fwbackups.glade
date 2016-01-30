@@ -580,7 +580,7 @@ errors and/or failed backup runs.</property>
 					  <child>
 					    <widget class="GtkLabel" id="label19">
 					      <property name="visible">True</property>
-					      <property name="label">_New Set</property>
+					      <property name="label" translatable="yes">_New Set</property>
 					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -655,7 +655,7 @@ errors and/or failed backup runs.</property>
 					  <child>
 					    <widget class="GtkLabel" id="label20">
 					      <property name="visible">True</property>
-					      <property name="label">Ed_it Set</property>
+					      <property name="label" translatable="yes">Ed_it Set</property>
 					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -730,7 +730,7 @@ errors and/or failed backup runs.</property>
 					  <child>
 					    <widget class="GtkLabel" id="label21">
 					      <property name="visible">True</property>
-					      <property name="label">_Delete Set</property>
+					      <property name="label" translatable="yes">_Delete Set</property>
 					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -882,7 +882,7 @@ errors and/or failed backup runs.</property>
 				      <child>
 					<widget class="GtkLabel" id="label481">
 					  <property name="visible">True</property>
-					  <property name="label">_Finish</property>
+					  <property name="label" translatable="yes">_Finish</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3502,7 +3502,7 @@ bzip2: slower, more efficient</property>
 	    <widget class="GtkRadioToolButton" id="OverviewRadioTool">
 	      <property name="border_width">2</property>
 	      <property name="visible">True</property>
-	      <property name="label">Overview</property>
+	      <property name="label" translatable="yes">Overview</property>
 	      <property name="use_underline">True</property>
 	      <property name="stock_id">gtk-home</property>
 	      <property name="visible_horizontal">True</property>
@@ -3521,7 +3521,7 @@ bzip2: slower, more efficient</property>
 	    <widget class="GtkRadioToolButton" id="BackupSetsRadioTool">
 	      <property name="border_width">2</property>
 	      <property name="visible">True</property>
-	      <property name="label">Backup Sets</property>
+	      <property name="label" translatable="yes">Backup Sets</property>
 	      <property name="use_underline">True</property>
 	      <property name="stock_id">gtk-harddisk</property>
 	      <property name="visible_horizontal">True</property>
@@ -3540,7 +3540,7 @@ bzip2: slower, more efficient</property>
 	  <child>
 	    <widget class="GtkRadioToolButton" id="OneTimeRadioTool">
 	      <property name="visible">True</property>
-	      <property name="label">One-Time Backup</property>
+	      <property name="label" translatable="yes">One-Time Backup</property>
 	      <property name="use_underline">True</property>
 	      <property name="stock_id">gtk-execute</property>
 	      <property name="visible_horizontal">True</property>
@@ -3560,7 +3560,7 @@ bzip2: slower, more efficient</property>
 	    <widget class="GtkRadioToolButton" id="LogViewRadioTool">
 	      <property name="border_width">2</property>
 	      <property name="visible">True</property>
-	      <property name="label">Log Viewer</property>
+	      <property name="label" translatable="yes">Log Viewer</property>
 	      <property name="use_underline">True</property>
 	      <property name="stock_id">gtk-file</property>
 	      <property name="visible_horizontal">True</property>
@@ -3592,7 +3592,7 @@ bzip2: slower, more efficient</property>
 	  <child>
 	    <widget class="GtkToolButton" id="RestoreToolButton">
 	      <property name="visible">True</property>
-	      <property name="label">Restore</property>
+	      <property name="label" translatable="yes">Restore</property>
 	      <property name="use_underline">True</property>
 	      <property name="stock_id">gtk-undo</property>
 	      <property name="visible_horizontal">True</property>
@@ -4085,7 +4085,7 @@ bzip2: slower, more efficient</property>
       <child>
 	<widget class="GtkLabel" id="label249">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">&lt;span size=&quot;small&quot;&gt;(C) 2005 - 2010 Stewart Adam&lt;/span&gt;</property>
+	  <property name="label" translatable="yes">&lt;span size=&quot;small&quot;&gt;(C) 2005 - 2016 Stewart Adam&lt;/span&gt;</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">True</property>
 	  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -4954,7 +4954,7 @@ Secondary text</property>
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label">_Export</property>
+	      <property name="label" translatable="yes">_Export</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -8081,7 +8081,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
 				      <child>
 					<widget class="GtkLabel" id="label31">
 					  <property name="visible">True</property>
-					  <property name="label">_Add Folder(s)</property>
+					  <property name="label" translatable="yes">_Add Folder(s)</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>

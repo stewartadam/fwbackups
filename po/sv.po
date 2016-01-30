@@ -1,0 +1,2585 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AlexL <loginov.alex.valer@gmail.com>, 2015
+# Arve Eriksson <031299870@telia.com>, 2015
+# Michael Eklund <willard@null.net>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: fwbackups\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-30 02:23+0300\n"
+"PO-Revision-Date: 2016-01-13 00:21+0000\n"
+"Last-Translator: Michael Eklund <willard@null.net>\n"
+"Language-Team: Swedish (http://www.transifex.com/Magic/fwbackups/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../test.operations.py:38
+msgid "*** Initializing files"
+msgstr "*** Initierar filer"
+
+#: ../test.operations.py:41
+#, python-format
+msgid ""
+"Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> "
+"to cancel..."
+msgstr "Mappen %s finns och kommer tömmas. Tryck <Retur> för att bekräfta eller <ctrl+c> för att avbryta..."
+
+#: ../test.operations.py:47
+#, python-format
+msgid "Cleaning folder %s..."
+msgstr "Rensar mappen %s..."
+
+#: ../test.operations.py:57
+msgid "*** Remote settings"
+msgstr "*** Fjärrinställningar"
+
+#: ../test.operations.py:58
+msgid "Hostname [localhost]: "
+msgstr "Värdnamn [lokal värd]:"
+
+#: ../test.operations.py:60
+msgid "Port [22]: "
+msgstr "Port [22]:"
+
+#: ../test.operations.py:65
+msgid "The port field can only contain numbers. Please try again."
+msgstr "Portfältet får bara innehålla siffror. Försök igen."
+
+#: ../test.operations.py:66
+#, python-format
+msgid "Username [%s]: "
+msgstr "Användarnamn [%s]:"
+
+#: ../test.operations.py:67
+msgid "Password: "
+msgstr "Lösenord:"
+
+#: ../test.operations.py:68
+#, python-format
+msgid "Remote folder [%s]: "
+msgstr "Fjärrmapp [%s]:"
+
+#: ../test.operations.py:96
+#, python-format
+msgid "*** Running %(a)s backup with engine %(b)s"
+msgstr "*** Kör %(a)s säkerhetskopia med motorn %(b)s"
+
+#: ../test.operations.py:107
+msgid "Backup failed!"
+msgstr "Säkerhetskopiering misslyckades!"
+
+#: ../test.operations.py:124
+#, python-format
+msgid "*** Running restore of remote test backup %s"
+msgstr "*** Kör återställning av fjärrlagrad provkopia %s"
+
+#. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
+#: ../test.operations.py:135 ../test.operations.py:165
+#: ../src/fwbackups-runapp.py:1743 ../src/fwbackups-runapp.py:1806
+#: ../src/fwbackups-runapp.py:1812 ../src/fwbackups/operations/backup.py:457
+#: ../src/fwbackups/operations/backup.py:527
+#: ../src/fwbackups/operations/backup.py:632
+msgid "Backup"
+msgstr "Säkerhetskopiera"
+
+#: ../test.operations.py:147 ../test.operations.py:176
+#: ../test.operations.py:201 ../test.operations.py:226
+#: ../test.operations.py:257 ../test.operations.py:288
+msgid "Restore failed!"
+msgstr "Återställning misslyckades!"
+
+#: ../test.operations.py:160
+#, python-format
+msgid "*** Running restore of local test backup %s"
+msgstr "*** Kör återställning av lokal provkopia %s"
+
+#. Local archive
+#: ../test.operations.py:180
+msgid "*** Running restore of a local archive"
+msgstr "*** Kör återställning av ett lokalt arkiv"
+
+#. Local folder
+#: ../test.operations.py:205
+msgid "*** Running restore of a local folder"
+msgstr "*** Kör återställning av en lokal mapp"
+
+#. Remote archive (SSH)
+#: ../test.operations.py:230
+msgid "*** Running restore of a remote archive (SSH)"
+msgstr "*** Kör återställning av ett fjärrarkiv (SSH)"
+
+#. Remote folder (SSH)
+#: ../test.operations.py:261
+msgid "*** Running restore of a remote folder (SSH)"
+msgstr "*** Kör återställning av en fjärrmapp (SSH)"
+
+#: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
+#, python-format
+msgid "Error: %s"
+msgstr "Fel: %s"
+
+#: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
+msgid "Run with --help for usage information."
+msgstr "Kör med --help för information om användning."
+
+#: ../bin/fwbackups-run.py:43
+msgid ""
+"Usage: fwbackups-run [OPTIONS] Set_Name(s)\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -l, --silent  :  Print messages to log file only\n"
+"\n"
+"Set_Name(s) is space-seperated list of set names to run backups of."
+msgstr "Användning: fwbackups-run [VÄLJARE] Set_Namn()\nVäljare:\n-v, --verbose : Öka utförlighet (skriv felsökningsmeddelanden)\n-h, --help : Skriv detta meddelande och avsluta\n-l, --silent : Skriv endast meddelanden till loggfil\n\nSet_Namn() är en blankstegsseparerad lista över set-namn att göra säkerhetskopior av."
+
+#: ../bin/fwbackups-run.py:95
+msgid "Invalid usage: Requires at least one set name to backup"
+msgstr "Ogiltig användning: Kräver minst ett set-namn att säkerhetskopiera"
+
+#: ../bin/fwbackups-run.py:112
+#, python-format
+msgid "The set configuration for '%s' was not found - skipping."
+msgstr "Set-konfigurationen för '%s' hittades inte - hoppar över."
+
+#: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
+msgid "An error occurred while initializing the backup operation!"
+msgstr "Ett fel uppstod när säkerhetskopieringen initialiserades!"
+
+#. thread returned
+#: ../bin/fwbackups-run.py:132 ../bin/fwbackups-runonce.py:192
+#: ../src/fwbackups-runapp.py:2510 ../src/fwbackups-runapp.py:2667
+#: ../src/fwbackups-runapp.py:2753
+#, python-format
+msgid "Thread returned with retval %s"
+msgstr "Tråden returnerade retval %s"
+
+#: ../bin/fwbackups-run.py:134 ../bin/fwbackups-runonce.py:194
+#: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
+#: ../src/fwbackups/operations/backup.py:729
+msgid "There was an error while performing the backup!"
+msgstr "Ett fel inträffade under säkerhetskopieringen!"
+
+#: ../bin/fwbackups-runonce.py:42
+msgid ""
+"Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE [OPTIONS] Path(s) Destination\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -r, --recursive  :  Perform a recursive backup\n"
+"  -i, --hidden  :  Include hidden files in the backup\n"
+"  -p, --packages2file  :  Print installed package list to a text file\n"
+"  -d, --diskinfo2file  :  Print disk geometry to a file (must be root)\n"
+"  -s, --sparse  :  Handle sparse files efficiently\n"
+"  -e, --engine=ENGINE  :  Use specified backup engine.\n"
+"              Valid engines are tar, tar.gz, tar.bz2 and rsync.\n"
+"  -x, --exclude='PATTERN'  :  Skip files matching PATTERN.\n"
+"  -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to 19)\n"
+"  --destination-type=TYPE  :  Destination type (`local' or `remote (ssh)')\n"
+"  --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'\n"
+"  --remote-user=USERNAME  :  Connect as specified username\n"
+"  --remote-password=PASSWORD  :  Connect using password `PASSWORD'\n"
+"  --remote-port=PORT  :  Connect on specified port (default 22)\n"
+"\n"
+"Path(s) is space-seperated list of paths to include in the backup.\n"
+"Destination is the directory where the OneTime backup should be placed within.\n"
+"\n"
+"Defaults to tar engine and local destination unless specified otherwise.\n"
+"Supplying --remote* will have no effect unless thedestination type is\n"
+"`remote (ssh)'."
+msgstr "Användning: fwbackups-runonce --destination-type=TYP --engine=MOTOR [VÄLJARE] Sökväg(ar) Destination\nVäljare:\n-v, --verbose : Öka utförlighet (skriv felsökningsmeddelanden)\n-h, --help : Skriv detta meddelande och avsluta\n-r, --recursive : Utför en rekursiv säkerhetskopiering\n-i, --hidden : Inkludera dolda filer i säkerhetskopian\n-p, --packages2file : Skriv lista över installerade paket till en textfil\n-d, --diskinfo2file : Skriv diskgeometri till en fil (måste vara root)\n-s, --sparse : Hantera spridda filer effektivt\n-e, --engine=MOTOR : Använd angiven säkerhetskopieringsmotor.\nGiltiga motorer är tar, tar.gz, tar.bz2 och rsync.\n-x, --exclude='MÖNSTER' : Hoppa över filer som matchar MÖNSTER.\n-n, --nice=NICE : Bestämmer nice-nivån för säkerhetskopieringsprocessen (-20 till 19)\n--destination-type=TYP : Destinationstyp ('local' eller 'remote (ssh)')\n--remote-host=VÄRDNAMN : Anslut till fjärrvärd 'VÄRDNAMN'\n--remote-user=ANVÄNDARE : Anvslut som angiven användare\n--remote-password=LÖSENORD : Anslut med lösenordet 'LÖSENORD'\n--remote-port=PORT : Anslut på angiven port (förval 22)\n\nSökväg(ar) är en blankstegsseparerad lista över sökvägar att inkludera i säkerhetskopian.\nDestinationen är mappen där OneTime-säkerhetskopian bör placeras.\n\nFörval är motorn tar och en lokal destination om inte annat anges.\nAtt använda --remote* kommer inte ha någon effekt om inte destinationstypen är\n'remote (ssh)'."
+
+#: ../bin/fwbackups-runonce.py:128
+#, python-format
+msgid "No such engine `%s'"
+msgstr "Motorn '%s' finns inte"
+
+#: ../bin/fwbackups-runonce.py:135
+msgid "You must be root to set a niceness below 0"
+msgstr "Du måste vara root för att ange nice-nivå lägre än 0"
+
+#: ../bin/fwbackups-runonce.py:139
+msgid "Nice value must be an integer between -20 and 19"
+msgstr "Nice-värdet måste vara ett heltal mellan -20 och 19"
+
+#: ../bin/fwbackups-runonce.py:155
+msgid "Requires at least one path to backup and a destination"
+msgstr "Kräver minst en sökväg att säkerhetskopiera och en destination"
+
+#: ../bin/fwbackups-runonce.py:169
+msgid "Destination type was not specified"
+msgstr "Destinationstyp angavs inte"
+
+#: ../bin/fwbackups-runonce.py:172
+msgid "An engine was not specified"
+msgstr "Motor angavs inte"
+
+#: ../src/fwbackups-runapp.py:42
+msgid "An error occurred while importing gtk/gobject."
+msgstr "Ett fel uppstod under import av gtk/gobject."
+
+#: ../src/fwbackups-runapp.py:43
+msgid "Please make sure you have a valid GTK+ Runtime Environment."
+msgstr "Kontrollera att du har en giltig GTK+ körtidsmiljö."
+
+#: ../src/fwbackups-runapp.py:67
+#, python-format
+msgid "fwbackups bug report written saved at %s"
+msgstr "fwbackups felrapport skriven sparades den %s"
+
+#: ../src/fwbackups-runapp.py:72
+msgid "Could not write bug report due to insufficient permissions."
+msgstr "Kunde inte skriva felrapport på grund av otillräckliga tillstånd."
+
+#: ../src/fwbackups-runapp.py:84
+msgid "Please install pycrypto (python-crypto)"
+msgstr "Installera pycrypto (python-crypto)"
+
+#: ../src/fwbackups-runapp.py:88
+msgid "Please install paramiko (python-paramiko)"
+msgstr "Installera paramiko (python-paramiko)"
+
+#: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
+#, no-c-format, python-format
+msgid "%s"
+msgstr "%s"
+
+#: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
+#: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
+msgid "Idle"
+msgstr "Vilar"
+
+#. Default progressbars...
+#: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
+msgid "Click 'Backup Set Now' to begin"
+msgstr "Klicka på \"Säkerhetskopiera set nu\" för att börja"
+
+#: ../src/fwbackups-runapp.py:216
+msgid "Click 'Start Backup' to begin"
+msgstr "Klicka på \"Starta säkerhetskopiering\" för att börja"
+
+#: ../src/fwbackups-runapp.py:217
+msgid "Click 'Start Restore' to begin"
+msgstr "Klicka på \"Starta återställning\" för att börja"
+
+#. self.ui.splashProgress.set_text('%s%% complete: %s' % (percent, text))
+#: ../src/fwbackups-runapp.py:235
+#, python-format
+msgid "<span size=\"small\">%s%% complete: %s</span>"
+msgstr "<span size=\"small\">%s%% färdigt: %s</span>"
+
+#: ../src/fwbackups-runapp.py:256
+msgid "Checking permissions"
+msgstr "Kontrollerar tillstånd"
+
+#: ../src/fwbackups-runapp.py:264
+msgid "Could not setup the fwbackups configuration folder"
+msgstr "Kunde inte ställa in fwbackups inställningsmapp"
+
+#: ../src/fwbackups-runapp.py:265 ../src/fwbackups-runapp.py:304
+#, python-format
+msgid "The following error occured: %s"
+msgstr "Följande fel uppstod: %s"
+
+#. Step 2: Setup the logger
+#: ../src/fwbackups-runapp.py:268
+msgid "Setting up the logger and user preferences"
+msgstr "Ställer in loggaren och användarinställningar"
+
+#: ../src/fwbackups-runapp.py:272
+#, python-format
+msgid "Validation error: %s"
+msgstr "Valideringsfel: %s"
+
+#: ../src/fwbackups-runapp.py:273
+msgid "Preferences could not be read"
+msgstr "Inställningar kunde inte läsas"
+
+#: ../src/fwbackups-runapp.py:273
+msgid ""
+"The preferences file may be corrupted and could not be read by fwbackups. "
+"Would you like to initialize a new one from the default values? If not, "
+"fwbackups will exit."
+msgstr "Inställningsfilen kan vara trasig och kunde inte läsas av fwbackups. Vill du initiera en ny från förvalda värden? Om inte kommer fwbackups avslutas."
+
+#. Log size...
+#: ../src/fwbackups-runapp.py:298
+msgid "Populating the log viewer"
+msgstr "Befolkar loggvisaren"
+
+#: ../src/fwbackups-runapp.py:303
+msgid "Could not setup the logger"
+msgstr "Kunde inte ställa in loggaren"
+
+#: ../src/fwbackups-runapp.py:314
+msgid ""
+"pynotify was not found. Notifcations will not be displayed unless notify-"
+"python/pynotify is installed."
+msgstr "pynotify hittades inte. Aviseringar kommer inte visas om inte notify-python/pynotify har installerats."
+
+#: ../src/fwbackups-runapp.py:342
+msgid "Cleaning after previous versions"
+msgstr "Rensar efter tidigare versioner"
+
+#: ../src/fwbackups-runapp.py:349
+msgid "Previous installation of fwbackups 1.42.x or older detected"
+msgstr "Tidigare installation av fwbackups 1.42.x eller äldre hittades"
+
+#: ../src/fwbackups-runapp.py:349
+msgid ""
+"Because of certain major changes in fwbackups, your configuration must be imported manually. To do this, run fwbackups as the root user and select <i>File > Import</i> from the menu to import your old configuration.\n"
+"If this action is not completed, the backups from version 1.42.x <b>will not run automatically</b>.\n"
+"<i>Tip: The 1.42.x configuration was stored in /etc/fwbackups</i>."
+msgstr "På grund av vissa större förändringar i fwbackups måste dina inställningar importeras manuellt. För att göra det, kör fwbackups som root-användare och välj <i>Fil > Import</i> från menyn för att importera dina gamla inställningar.\nOm åtgärden inte genomförs kommer säkerhetskopiorna från version 1.42.x <b>inte köras automatiskt</b>.\n<i>Tips: Inställningarna från 1.42.x lagrades i /etc/fwbackups</i>."
+
+#: ../src/fwbackups-runapp.py:356
+msgid "A backup of /etc/crontab could not be created"
+msgstr "Kunde inte skapa säkerhetskopia av /etc/crontab"
+
+#: ../src/fwbackups-runapp.py:356
+msgid ""
+"You may wish to edit /etc/crontab manually and remove any fwbackups-related "
+"lines."
+msgstr "Du bör kanske redigera /etc/crontab manuellt och ta bort alla rader som berör fwbackups."
+
+#: ../src/fwbackups-runapp.py:357
+msgid "Could not create a backup of /etc/crontab; refusing to clean up."
+msgstr "Kunde inte skapa säkerhetskopia av /etc/crontab; rensar inte."
+
+#: ../src/fwbackups-runapp.py:360
+msgid "Cleaning up /etc/crontab from previous installation of fwbackups"
+msgstr "Städar /etc/crontab från tidigare installation av fwbackups"
+
+#: ../src/fwbackups-runapp.py:369
+#, python-format
+msgid ""
+"fwbackups was unable to clean up the system crontab: %s. You may wish to "
+"edit /etc/crontab manually and remove any fwbackups-related lines."
+msgstr "fwbackups kunde inte rensa systemets crontab: %s. Du bör kanske redigera /etc/crontab manuellt och ta bort alla rader som beror fwbackups."
+
+#: ../src/fwbackups-runapp.py:370
+msgid "Cleanup of the system crontab failed"
+msgstr "Kunde inte rensa systemets crontab"
+
+#: ../src/fwbackups-runapp.py:372
+msgid "Ready!"
+msgstr "Redo!"
+
+#: ../src/fwbackups-runapp.py:376
+msgid "fwbackups administrator started"
+msgstr "fwbackups administratör startade"
+
+#: ../src/fwbackups-runapp.py:400
+msgid "Would you like to clean up the log file?"
+msgstr "Vill du rensa loggfilen?"
+
+#: ../src/fwbackups-runapp.py:400
+#, python-format
+msgid ""
+"The log file is becoming large (%s). Would you like to clear it? This will "
+"permanently remove all entries from the log."
+msgstr "Loggfilen har blivit stor (%s). Vill du rensa den? Detta kommer permanent ta bort alla poster från loggen."
+
+#: ../src/fwbackups-runapp.py:558
+#, python-format
+msgid "Could not create notification: %s"
+msgstr "Kunde inte skapa avisering: %s"
+
+#: ../src/fwbackups-runapp.py:591
+msgid "Regenerating crontab"
+msgstr "Återskapar crontab"
+
+#: ../src/fwbackups-runapp.py:592
+msgid "Please wait... Regenerating crontab"
+msgstr "Vänta... Återskapar crontab"
+
+#: ../src/fwbackups-runapp.py:606
+#, python-format
+msgid "Could not parse the configuration for set '%s'"
+msgstr "Kunde inte tolka konfigurationen för set '%s'"
+
+#: ../src/fwbackups-runapp.py:607
+#, python-format
+msgid ""
+"The set configuration file '%s' failed to validate, so it may not be "
+"properly scheduled. Other sets are unaffected by this error."
+msgstr "Setkonfigurationsfilen '%s' gick inte att validera, så den kanske inte är korrekt schemalagd. Övriga set påverkas inte av det här felet."
+
+#: ../src/fwbackups-runapp.py:614
+#, python-format
+msgid ""
+"Internal error: generated entry for set '%s' was not parsable. Please submit"
+" a bug report."
+msgstr "Internt fel: genererad post för set '%s' kunde inte tolkas. Skicka gärna in en felrapport."
+
+#: ../src/fwbackups-runapp.py:617
+#, python-format
+msgid "Could not schedule automated backups for set '%s'"
+msgstr "Kunde inte schemalägga automatiska säkerhetskopior för set '%s'"
+
+#: ../src/fwbackups-runapp.py:618
+msgid ""
+"fwbackups could not regenerate a crontab entry because an error occured:\n"
+msgstr "fwbackups kunde inte generera en crontab-post eftersom ett fel inträffade.\n"
+
+#: ../src/fwbackups-runapp.py:619
+#, python-format
+msgid ""
+"%(a)s\n"
+"\n"
+"The crontab entry associated with the error was:\n"
+"%(b)s"
+msgstr "%(a)s\n\ncrontab-posten som berördes av felet var:\n%(b)s"
+
+#. After all is done, log an message
+#: ../src/fwbackups-runapp.py:622
+#, python-format
+msgid "Saving set `%s' to the crontab"
+msgstr "Sparar set '%s' till crontab"
+
+#: ../src/fwbackups-runapp.py:632
+#, python-format
+msgid "Unable to write new crontab: %s"
+msgstr "Kunde inte skriva ny crontab: %s"
+
+#: ../src/fwbackups-runapp.py:633
+msgid "Unable to save backup schedule to crontab"
+msgstr "Kunde inte spara säkerhetskopieringsschema till crontab"
+
+#: ../src/fwbackups-runapp.py:633
+msgid ""
+"There was an error saving the new backup schedule. A backup will be restored, however the changes made to the backup schedule may not have been correctly saved.\n"
+"\n"
+"If you see this message, please report a bug against fwbackups."
+msgstr "Det gick inte att spara det nya backupschemat. En säkerhetskopiering kommer inte att återställas. Det kan hända att ändringarna för schemat inte sparats korrekt.\n\nOm du ser det här meddelandet, vänligen skicka in en bug-rapport till fwbackups."
+
+#: ../src/fwbackups-runapp.py:637
+msgid ""
+"A backup of the crontab was restored; the latest changes to the backup "
+"schedule not have been saved."
+msgstr "En backup av crontab återställdes; de senaste ändringarna för backupschemat har inte sparats."
+
+#: ../src/fwbackups-runapp.py:639
+msgid "A backup of the crontab could not be restored"
+msgstr "En säkerhetskopia av crontab kunde inte återställas"
+
+#: ../src/fwbackups-runapp.py:655
+msgid "fwbackups is working"
+msgstr "fwbackups arbetar"
+
+#: ../src/fwbackups-runapp.py:656
+msgid ""
+"An operation is currently in progress. Would you like to cancel it and quit "
+"anyways?"
+msgstr "En åtgärd pågår. Vill du avbryta den och avsluta oavsett?"
+
+#: ../src/fwbackups-runapp.py:658
+msgid "Please wait... Canceling operations"
+msgstr "Vänta... Avbryter åtgärder"
+
+#: ../src/fwbackups-runapp.py:671
+msgid "fwbackups detected more than one alive threads!"
+msgstr "fwbackups hittade fler än en aktiv tråd!"
+
+#: ../src/fwbackups-runapp.py:676
+#, python-format
+msgid "Closed dead Paramiko thread: %s"
+msgstr "Stängde död Paramiko-tråd: %s"
+
+#. FIXME: Figure out how to kill other thread types. For now, just log.
+#: ../src/fwbackups-runapp.py:679
+#, python-format
+msgid "Could not close thread %s!"
+msgstr "Kunde inte stänga tråden %s!"
+
+#: ../src/fwbackups-runapp.py:680
+msgid "Please submit a bug report and include this message."
+msgstr "Skicka en felrapport och inkludera detta meddelande."
+
+#: ../src/fwbackups-runapp.py:689 ../src/fwbackups-runapp.py:2431
+msgid "Could not save backup schedule"
+msgstr "Kunde inte spara kopieringsschema"
+
+#: ../src/fwbackups-runapp.py:689
+msgid ""
+"fwbackups was unable to save the backup scheduling information to the "
+"crontab. If you are using manual times entry in one of your sets, please "
+"verify that all five fields are using the correct syntax."
+msgstr "fwbackups kunde inte spara information om kopieringsschemat till crontab. Om du använder manuell tidsinmatning i ett av dina set, kontrollera att alla fem fält använder korrekt syntax."
+
+#. Shutdown logging & quit the GTK mainloop
+#: ../src/fwbackups-runapp.py:691
+msgid "fwbackups administrator closed"
+msgstr "fwbackups administratör stängde"
+
+#: ../src/fwbackups-runapp.py:707
+msgid "Creating thread"
+msgstr "Skapar tråd"
+
+#: ../src/fwbackups-runapp.py:708
+msgid "testConnection(): Creating thread"
+msgstr "testConnection(): Skapar tråd"
+
+#: ../src/fwbackups-runapp.py:711
+msgid "Attempting to connect"
+msgstr "Försöker ansluta"
+
+#: ../src/fwbackups-runapp.py:715
+#, python-format
+msgid "testConnection(): Thread returning with retval %s"
+msgstr "testConnection(): Tråd returnerade retval %s"
+
+#: ../src/fwbackups-runapp.py:717
+msgid "Success!"
+msgstr "Lyckades!"
+
+#: ../src/fwbackups-runapp.py:717
+#, python-format
+msgid "fwbackups was able to connect and authenticate on '%s'."
+msgstr "fwbackups kunde ansluta och autentisera på '%s'."
+
+#: ../src/fwbackups-runapp.py:719
+msgid "Remote destination is not usable"
+msgstr "Fjärrdestinationen kan inte användas"
+
+#: ../src/fwbackups-runapp.py:719
+#, python-format
+msgid ""
+"The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. "
+"Please verify your settings and try again."
+msgstr "Mappen '%(a)s' på '%(b)s' antingen saknas eller är inte en mapp. Kontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups-runapp.py:721 ../src/fwbackups-runapp.py:1711
+msgid "Authentication failed"
+msgstr "Autentisering misslyckades"
+
+#: ../src/fwbackups-runapp.py:721
+#, python-format
+msgid ""
+"A connection to '%s' was established, but authentication failed. Please "
+"verify the username and password and try again."
+msgstr "En anslutning till '%s' etablerades, men autentisering misslyckades. Kontrollera användarnamn och lösenord och försök igen."
+
+#: ../src/fwbackups-runapp.py:723 ../src/fwbackups-runapp.py:727
+#, python-format
+msgid "A connection to '%s' could not be established"
+msgstr "En anslutning till '%s' kunde inte etableras"
+
+#: ../src/fwbackups-runapp.py:723
+#, python-format
+msgid "Error %(a)s: %(b)s"
+msgstr "Fel %(a)s: %(b)s"
+
+#: ../src/fwbackups-runapp.py:725
+#, python-format
+msgid "The server '%s' is not responding"
+msgstr "Servern '%s' svarar inte"
+
+#: ../src/fwbackups-runapp.py:725 ../src/fwbackups-runapp.py:1718
+msgid "Please verify your settings and try again."
+msgstr "Kontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups-runapp.py:727
+#, python-format
+msgid "Error: %s. Please verify your settings and try again."
+msgstr "Fel: %s. Kontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups-runapp.py:729 ../src/fwbackups-runapp.py:1400
+#: ../src/fwbackups-runapp.py:1723
+msgid "Unexpected error"
+msgstr "Oväntat fel"
+
+#: ../src/fwbackups-runapp.py:741
+msgid "Select file(s)"
+msgstr "Välj fil(er)"
+
+#: ../src/fwbackups-runapp.py:742
+msgid "Configuration files (*.conf)"
+msgstr "Konfigurationsfiler (*.conf)"
+
+#: ../src/fwbackups-runapp.py:803
+msgid "File Exists"
+msgstr "Filen finns"
+
+#: ../src/fwbackups-runapp.py:804
+#, python-format
+msgid "'%s.conf' already exists! Would you like to overwrite it?"
+msgstr "'%s.conf' finns redan! Vill du skriva över den?"
+
+#: ../src/fwbackups-runapp.py:810
+#, python-format
+msgid "Exported set `%(a)s' to `%(b)s'"
+msgstr "Exporterade set '%(a)s' till '%(b)s'"
+
+#: ../src/fwbackups-runapp.py:815 ../src/fwbackups.glade.h:141
+msgid "Export Sets"
+msgstr "Exportera set"
+
+#: ../src/fwbackups-runapp.py:825
+msgid "Sets exported"
+msgstr "Set exporterade"
+
+#: ../src/fwbackups-runapp.py:825
+msgid "The selected sets were exported successfully."
+msgstr "De valda setten exporterades."
+
+#: ../src/fwbackups-runapp.py:853 ../src/fwbackups-runapp.py:1349
+#: ../src/fwbackups-runapp.py:1367 ../src/fwbackups-runapp.py:1445
+#: ../src/fwbackups-runapp.py:2485
+msgid "No set has been selected"
+msgstr "Inget set har valts"
+
+#: ../src/fwbackups-runapp.py:853
+msgid "You must select a set to duplicate."
+msgstr "Du måste välja ett set att duplicera."
+
+#: ../src/fwbackups-runapp.py:858
+msgid "_copy"
+msgstr "_kopiera"
+
+#: ../src/fwbackups-runapp.py:1062
+#, python-format
+msgid "Could not remove fwbackup's session autostart regkey: %s"
+msgstr "Kunde inte ta bort fwbackups autostartsregisterpost för sessionen: %s"
+
+#: ../src/fwbackups-runapp.py:1067
+#, python-format
+msgid "Could not remove fwbackup's session autostart file: %s"
+msgstr "Kunde inte ta bort fwbackups autostartfil för sessionen: %s"
+
+#: ../src/fwbackups-runapp.py:1086
+#, python-format
+msgid "Resetting preference '%(a)s' to 0"
+msgstr "Återställer inställning '%(a)s' till 0"
+
+#: ../src/fwbackups-runapp.py:1091 ../src/fwbackups-runapp.py:1111
+#: ../src/fwbackups-runapp.py:1212 ../src/fwbackups-runapp.py:1568
+#: ../src/fwbackups-runapp.py:1946 ../src/fwbackups-runapp.py:1957
+#: ../src/fwbackups-runapp.py:1968 ../src/fwbackups.glade.h:146
+msgid "Select a Folder"
+msgstr "Välj en map"
+
+#: ../src/fwbackups-runapp.py:1131 ../src/fwbackups-runapp.py:1229
+#: ../src/fwbackups-runapp.py:1489 ../src/fwbackups-runapp.py:1494
+#: ../src/fwbackups-runapp.py:1585 ../src/fwbackups-runapp.py:1777
+#: ../src/fwbackups-runapp.py:1868 ../src/fwbackups-runapp.py:1905
+#: ../src/fwbackups-runapp.py:2391 ../src/fwbackups-runapp.py:2396
+msgid "Missing information"
+msgstr "Saknar information"
+
+#: ../src/fwbackups-runapp.py:1132
+msgid "Please enter a Pycron installation directory."
+msgstr "Ange en installationsmapp för Pycron."
+
+#: ../src/fwbackups-runapp.py:1136
+msgid "Configuration not found"
+msgstr "Inställningar hittades inte"
+
+#: ../src/fwbackups-runapp.py:1137
+msgid ""
+"The pycron configuration file was not found in the directory entered. Please"
+" ensure that pycron is installed in the selected installation folder and "
+"that it contains either a pycron configuration file or the sample pycron "
+"configuration."
+msgstr "Pycrons konfigurationsfil hittades inte i angiven katalog. Säkerställ att pycron är installerat i vald katalog och att den innehåller en konfigurationsfil, eller exempelfil för pycron."
+
+#: ../src/fwbackups-runapp.py:1229
+msgid "Please complete the host, username, folder and port fields."
+msgstr "Komplettera fälten värd, användarnamn, mapp, och port."
+
+#: ../src/fwbackups-runapp.py:1349
+msgid "You must select a set to edit."
+msgstr "Du måste välja ett set att redigera."
+
+#: ../src/fwbackups-runapp.py:1367
+msgid "You must select a set to remove."
+msgstr "Du måste välja ett set att ta bort."
+
+#: ../src/fwbackups-runapp.py:1369
+#, python-format
+msgid "Delete backup set '%s'?"
+msgstr "Ta bort säkerhetskopia set '%s'?"
+
+#: ../src/fwbackups-runapp.py:1369
+msgid ""
+"This action will permanently delete the backup set configuration. This "
+"action does not delete any existing backups or files."
+msgstr "Den här åtgärden kommer ta bort säkerhetskopieringsinställningarna för settet permanent. Åtgärden tar inte bort befintliga kopior eller filer."
+
+#: ../src/fwbackups-runapp.py:1377 ../src/fwbackups-runapp.py:1385
+#, python-format
+msgid ""
+"An error occured while removing set `%(a)s':\n"
+"%(b)s"
+msgstr "Ett fel inträffade när set '%(a)s' togs bort:\n%(b)s"
+
+#: ../src/fwbackups-runapp.py:1378
+#, python-format
+msgid "Could not remove backup set '%s'"
+msgstr "Kunde inte ta bort säkerhetskopia set '%s'"
+
+#: ../src/fwbackups-runapp.py:1386
+#, python-format
+msgid "Could not remove the automated backup schedule for set '%s'"
+msgstr "Kunde inte ta bort det automatiska kopieringsschemat för set '%s'"
+
+#: ../src/fwbackups-runapp.py:1390
+#, python-format
+msgid "Removing set `%s'"
+msgstr "Tar bort set '%s'"
+
+#: ../src/fwbackups-runapp.py:1400
+#, python-format
+msgid ""
+"An unexpected error occured while attempting to obtain the selected set:\n"
+"%s"
+msgstr "Ett oväntat fel inträffade när det markerade settet skulle hämtas:\n%s"
+
+#: ../src/fwbackups-runapp.py:1445
+msgid "You must select a set to restore."
+msgstr "Du måste välja ett set att återställa."
+
+#: ../src/fwbackups-runapp.py:1489 ../src/fwbackups-runapp.py:2391
+msgid "Please fill in the Folder field."
+msgstr "Fyll i mappfältet."
+
+#: ../src/fwbackups-runapp.py:1494 ../src/fwbackups-runapp.py:2396
+msgid "Please fill in the Host, Username, Port and Folder fields."
+msgstr "Fyll i fälten Värd, Användarnamn, Port, och Mapp."
+
+#: ../src/fwbackups-runapp.py:1585 ../src/fwbackups-runapp.py:1777
+#: ../src/fwbackups-runapp.py:1905
+msgid "Please complete all of the host, username, folder and port fields."
+msgstr "Komplettera alla fälten värd, användarnamn, mapp och port."
+
+#: ../src/fwbackups-runapp.py:1609
+msgid "Log cleared"
+msgstr "Logg rensad"
+
+#: ../src/fwbackups-runapp.py:1614
+msgid "Clear the old log entries?"
+msgstr "Rensa gamla loggposter?"
+
+#: ../src/fwbackups-runapp.py:1615
+msgid "This action will permanently remove all log entries."
+msgstr "Åtgärden kommer ta bort alla loggposter permanent."
+
+#: ../src/fwbackups-runapp.py:1633
+#, python-format
+msgid "Log saved to file `%s'"
+msgstr "Logg sparad till filen '%s'"
+
+#: ../src/fwbackups-runapp.py:1708
+msgid "Previous backups could not be found"
+msgstr "Tidigare säkerhetskopior kunde inte hittas"
+
+#: ../src/fwbackups-runapp.py:1709
+#, python-format
+msgid "The destination folder for set '%s' was not found."
+msgstr "Destinationsmappen för set '%s' hittades inte."
+
+#: ../src/fwbackups-runapp.py:1712
+#, python-format
+msgid ""
+"fwbackups was unable to authenticate on the remote server. Please verify the"
+" username and password for set '%s' and try again."
+msgstr "fwbackups kunde inte autentisera mot fjärrservern. Kontrollera användarnamn och lösenord för set '%s' och försök igen."
+
+#: ../src/fwbackups-runapp.py:1714 ../src/fwbackups-runapp.py:1720
+msgid "Connection failed"
+msgstr "Anslutning misslyckades"
+
+#: ../src/fwbackups-runapp.py:1715
+#, python-format
+msgid ""
+"A connection to the server could not be established:\n"
+"Error %(a)s: %(b)s\n"
+"Please verify your settings and try again."
+msgstr "Kunde inte etablera en anslutning till servern:\nFel %(a)s: %(b)s\nKontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups-runapp.py:1717
+msgid "Remote server is not responding"
+msgstr "Fjärrservern svarar inte"
+
+#: ../src/fwbackups-runapp.py:1721
+#, python-format
+msgid ""
+"A connection to the server could not be established because an error occurred: %s\n"
+"Please verify your settings and try again."
+msgstr "Kunde inte etablera en anslutning till servern på grund av ett fel: %s\nKontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups-runapp.py:1735
+#, python-format
+msgid ""
+"Error obtaining file listing in destination %(a)s:\n"
+"%(b)s"
+msgstr "Fel vid hämtning av fillistor i destination %(a)s:\n%(b)s"
+
+#: ../src/fwbackups-runapp.py:1736
+#, python-format
+msgid "Could not get a list of old backups for set '%s'"
+msgstr "Kunde inte hämta en lista över gamla säkerhetskopior för set '%s'"
+
+#: ../src/fwbackups-runapp.py:1736
+msgid ""
+"If the destination is on removable media such as an external hard disk, "
+"please attach it and try again."
+msgstr "Om destinationen finns på flyttbar media, t.ex. en extern hårddisk, anslut den och försök igen."
+
+#. We can't start a restore if there are no set dates
+#: ../src/fwbackups-runapp.py:1746 ../src/fwbackups-runapp.py:1876
+#: ../src/fwbackups-runapp.py:1877
+msgid "No backups found"
+msgstr "Inga säkerhetskopior hittades"
+
+#: ../src/fwbackups-runapp.py:1810 ../src/fwbackups-runapp.py:1828
+#: ../src/fwbackups-runapp.py:1838
+msgid "Automated restore not supported"
+msgstr "Automatisk återställning stöds inte"
+
+#: ../src/fwbackups-runapp.py:1810 ../src/fwbackups-runapp.py:1828
+#: ../src/fwbackups-runapp.py:1838
+msgid ""
+"This backup set cannot be automatically restored because restoration of "
+"Archive backups has not been implemented for systems with Python 2.4. Please"
+" see the user guide for details on manual restoration."
+msgstr "Det här kopiesettet kan inte återställas automatiskt, eftersom återställning av arkivkopior inte har implementerats för system med Python 2.4. Se användarguiden för vidare detaljer om manuell återställning."
+
+#: ../src/fwbackups-runapp.py:1868
+msgid "Please select a backup date."
+msgstr "Välj ett datum för säkerhetskopiering."
+
+#: ../src/fwbackups-runapp.py:1877
+#, python-format
+msgid ""
+"The backup set '%s' does not have any stored backups yet! Choose another "
+"set, or alternatively choose a different restore source."
+msgstr "Kopiesettet '%s' har inga sparade säkerhetskopior än! Välj ett annat set, eller välj en annan källa för återställning."
+
+#: ../src/fwbackups-runapp.py:1884 ../src/fwbackups-runapp.py:1895
+msgid "Restore source"
+msgstr "Återställ källa"
+
+#: ../src/fwbackups-runapp.py:1884
+msgid "Please enter the location of the local archive."
+msgstr "Ange plats för det lokala arkivet."
+
+#: ../src/fwbackups-runapp.py:1887
+msgid "Wrong file type"
+msgstr "Fel filtyp"
+
+#: ../src/fwbackups-runapp.py:1888
+msgid ""
+"The file you selected is not a supported archive.\n"
+"Supported archives types are tar with no, gzip or bzip2 compression."
+msgstr "Arkivfilen du har valt stöds inte.\nArkivformat som stöds är tar utan gzip eller bzip2-komprimering."
+
+#: ../src/fwbackups-runapp.py:1895
+msgid "Please enter the location of the local folder."
+msgstr "Ange plats för den lokala mappen."
+
+#: ../src/fwbackups-runapp.py:1982 ../src/fwbackups-runapp.py:1985
+msgid "Invalid set name"
+msgstr "Ogiltigt setnamn"
+
+#: ../src/fwbackups-runapp.py:1982
+msgid "Please enter a set name."
+msgstr "Ange ett setnamn."
+
+#: ../src/fwbackups-runapp.py:1985
+msgid ""
+"'temporary_name' is a reserved name. Please choose another name for the set."
+msgstr "'temporary_name' är ett reserverat namn. Välj ett annat namn för settet."
+
+#: ../src/fwbackups-runapp.py:1989
+#, python-format
+msgid "Overwrite settings for set '%s'?"
+msgstr "Skriv över inställningar för set '%s'?"
+
+#: ../src/fwbackups-runapp.py:1990
+msgid ""
+"This will overwrite the stored settings with the current ones. Are you sure "
+"you want to continue?"
+msgstr "Detta kommer skriva över de lagrade inställningarna med nuvarande inställningar. Är du säker på att du vill fortsätta?"
+
+#: ../src/fwbackups-runapp.py:2101
+msgid "Error parsing configuration file"
+msgstr "Fel vid tolkning av konfigurationsfil"
+
+#: ../src/fwbackups-runapp.py:2102
+msgid "fwbackups will using the default times instead."
+msgstr "fwbackups kommer använda förvalda tider istället."
+
+#: ../src/fwbackups-runapp.py:2115
+#, python-format
+msgid "Unknown destination type `%s'"
+msgstr "Okänd destinationstyp '%s'"
+
+#: ../src/fwbackups-runapp.py:2318
+msgid "Error creating the automated backup schedules"
+msgstr "Fel vid skapande av automatiska kopieringsscheman"
+
+#: ../src/fwbackups-runapp.py:2319
+#, python-format
+msgid ""
+"The crontab could not be written because an error occured:\n"
+"%s"
+msgstr "Crontab kunde inte skrivas eftersom ett fel inträffade:\n%s"
+
+#: ../src/fwbackups-runapp.py:2355 ../src/fwbackups/widgets.py:718
+msgid "Parsing configuration files"
+msgstr "Tolkar konfigurationsfiler"
+
+#: ../src/fwbackups-runapp.py:2364 ../src/fwbackups/widgets.py:724
+#, python-format
+msgid "Refusing to parse file `%s': configuration files must end in `.conf'"
+msgstr "Vägrar att tolka filen '%s': konfigurationsfiler måste sluta med '.conf'"
+
+#: ../src/fwbackups-runapp.py:2414
+#, python-format
+msgid "Renaming set `%(a)s' to `%(b)s"
+msgstr "Döper om set '%(a)s' till '%(b)s"
+
+#: ../src/fwbackups-runapp.py:2416
+#, python-format
+msgid "Renaming set `%(a)s' to `%(b)s failed: %(c)s"
+msgstr "Kunde inte döpa om set '%(a)s' till '%(b)s: %(c)s"
+
+#: ../src/fwbackups-runapp.py:2417
+#, python-format
+msgid "Could not rename set '%(a)s' to '%(b)s'"
+msgstr "Kunde inte döpa om set '%(a)s' till '%(b)s'"
+
+#. creating a set
+#: ../src/fwbackups-runapp.py:2423
+#, python-format
+msgid "Creating set `%s'"
+msgstr "Skapar set '%s'"
+
+#. editing a set
+#: ../src/fwbackups-runapp.py:2427
+#, python-format
+msgid "Saving changes to set `%s'"
+msgstr "Sparar ändringar av set '%s'"
+
+#: ../src/fwbackups-runapp.py:2431
+msgid ""
+"Your set configuration changes were saved, but fwbackups was unable to save "
+"the backup scheduling information to the crontab. If you are using manual "
+"times entry, please verify that all five fields are using the correct "
+"syntax."
+msgstr "Dina ändrade inställningar för set sparades, men fwbackups kunde inte spara kopieringsschemainformationen till crontab. Om du använder manuell tidsinmatning, kontrollera att alla fem fält använder korrekt syntax."
+
+#: ../src/fwbackups-runapp.py:2468 ../src/fwbackups-runapp.py:2632
+#, python-format
+msgid "[%(a)i/%(b)i] Backing up: %(c)s"
+msgstr "[%(a)i/%(b)i] Tar säkerhetskopia: %(c)s"
+
+#: ../src/fwbackups-runapp.py:2471 ../src/fwbackups-runapp.py:2635
+#, python-format
+msgid "[%(a)i/%(b)i] Backing up files... Please wait"
+msgstr "[%(a)i/%(b)i] Säkerhetskopierar filer... Vänta"
+
+#: ../src/fwbackups-runapp.py:2473 ../src/fwbackups-runapp.py:2637
+msgid "Cleaning old backups"
+msgstr "Rensar gamla säkerhetskopior"
+
+#: ../src/fwbackups-runapp.py:2475 ../src/fwbackups-runapp.py:2639
+msgid "Sending files to remote server"
+msgstr "Skickar filer till fjärrserver"
+
+#: ../src/fwbackups-runapp.py:2477 ../src/fwbackups-runapp.py:2641
+msgid "Executing user command"
+msgstr "Exekverar användarkommando"
+
+#: ../src/fwbackups-runapp.py:2485
+msgid "You must select to initiate a manual set backup."
+msgstr "Du måste välja att starta en manuell säkerhetskopiering av settet."
+
+#: ../src/fwbackups-runapp.py:2491 ../src/fwbackups-runapp.py:2650
+#: ../src/fwbackups-runapp.py:2735
+msgid "Initializing"
+msgstr "Startar"
+
+#: ../src/fwbackups-runapp.py:2493 ../src/fwbackups-runapp.py:2534
+#: ../src/fwbackups-runapp.py:2539 ../src/fwbackups-runapp.py:2542
+#: ../src/fwbackups-runapp.py:2652 ../src/fwbackups-runapp.py:2692
+#: ../src/fwbackups-runapp.py:2697 ../src/fwbackups-runapp.py:2702
+#: ../src/fwbackups-runapp.py:2737 ../src/fwbackups-runapp.py:2775
+#: ../src/fwbackups-runapp.py:2781 ../src/fwbackups-runapp.py:2786
+msgid "Status"
+msgstr "Status"
+
+#: ../src/fwbackups-runapp.py:2493
+#, python-format
+msgid "Starting a set backup operation of '%(a)s'"
+msgstr "Startar en set-säkerhetskopiering av '%(a)s'"
+
+#: ../src/fwbackups-runapp.py:2496 ../src/fwbackups-runapp.py:2555
+#: ../src/fwbackups-runapp.py:2655 ../src/fwbackups-runapp.py:2715
+#: ../src/fwbackups-runapp.py:2740 ../src/fwbackups-runapp.py:2798
+msgid "Please wait..."
+msgstr "Vänta..."
+
+#: ../src/fwbackups-runapp.py:2502 ../src/fwbackups-runapp.py:2659
+#: ../src/fwbackups-runapp.py:2745
+msgid "Working"
+msgstr "Arbetar"
+
+#. error
+#: ../src/fwbackups-runapp.py:2519 ../src/fwbackups-runapp.py:2537
+#: ../src/fwbackups-runapp.py:2676 ../src/fwbackups-runapp.py:2695
+#: ../src/fwbackups-runapp.py:2759 ../src/fwbackups-runapp.py:2779
+msgid "<span color=\"Red\">Error</span>"
+msgstr "<span color=\"Red\">Fel</span>"
+
+#: ../src/fwbackups-runapp.py:2520 ../src/fwbackups-runapp.py:2680
+#, python-format
+msgid "An error occurred while initializing the backup operation: %s"
+msgstr "Ett fel inträffade när säkerhetskopieringsåtgärden initialiserades: %s"
+
+#: ../src/fwbackups-runapp.py:2524 ../src/fwbackups-runapp.py:2681
+msgid "Error initializing backup"
+msgstr "Fel vid initialisering av säkerhetskopiering"
+
+#: ../src/fwbackups-runapp.py:2534
+#, python-format
+msgid "Finished the automatic backup operation of set `%(a)s'"
+msgstr "Slutförde den automatiska säkerhetskopieringen av set '%(a)s'"
+
+#: ../src/fwbackups-runapp.py:2535 ../src/fwbackups-runapp.py:2693
+#: ../src/fwbackups-runapp.py:2776
+msgid "<span color=\"dark green\">Operation complete</span>"
+msgstr "<span color=\"dark green\">Åtgärd slutförd</span>"
+
+#: ../src/fwbackups-runapp.py:2539
+#, python-format
+msgid ""
+"An error occured while performing the automatic backup operation of set "
+"`%(a)s'"
+msgstr "Ett fel inträffade vid automatisk säkerhetskopiering av set '%(a)s'"
+
+#: ../src/fwbackups-runapp.py:2542
+#, python-format
+msgid "The automatic backup operation of set `%(a)s' was cancelled"
+msgstr "Den automatiska säkerhetskopieringen av set '%(a)s' avbröts"
+
+#: ../src/fwbackups-runapp.py:2543 ../src/fwbackups-runapp.py:2703
+#: ../src/fwbackups-runapp.py:2787
+msgid "<span color=\"red\">Operation cancelled</span>"
+msgstr "<span color=\"red\">Åtgärd avbruten</span>"
+
+#: ../src/fwbackups-runapp.py:2544 ../src/fwbackups-runapp.py:2704
+#: ../src/fwbackups-runapp.py:2788
+msgid "Operation cancelled"
+msgstr "Åtgärd avbruten"
+
+#: ../src/fwbackups-runapp.py:2556 ../src/fwbackups-runapp.py:2716
+#: ../src/fwbackups-runapp.py:2799
+msgid "Cancelling..."
+msgstr "Avbryter..."
+
+#: ../src/fwbackups-runapp.py:2652
+msgid "Starting a one-time backup operation"
+msgstr "Startar en one-time säkerhetskopiering"
+
+#: ../src/fwbackups-runapp.py:2692
+msgid "Finished the one-time backup operation"
+msgstr "Slutförde one-time säkerhetskopiering"
+
+#: ../src/fwbackups-runapp.py:2697
+msgid "An error occured while performing the one-time backup operation"
+msgstr "Ett fel inträffade vid one-time säkerhetskopiering"
+
+#: ../src/fwbackups-runapp.py:2702
+msgid "The one-time backup operation was cancelled"
+msgstr "One-time säkerhetskopiering avbröts"
+
+#. no "current file" yet
+#: ../src/fwbackups-runapp.py:2727
+msgid "Receiving files from remote server"
+msgstr "Tar emot filer från fjärrserver"
+
+#. we have a 'current file'
+#: ../src/fwbackups-runapp.py:2729
+#, python-format
+msgid "Restoring: %s"
+msgstr "Återställer: %s"
+
+#: ../src/fwbackups-runapp.py:2737
+msgid "Starting a restore operation"
+msgstr "Startar en återställning"
+
+#: ../src/fwbackups-runapp.py:2755
+msgid ""
+"There was an error while performing the restore! Enable debug messages for "
+"more information."
+msgstr "Ett fel inträffade vid återställningen! Aktivrea felsökningsmeddelanden för mer information."
+
+#: ../src/fwbackups-runapp.py:2762
+#, python-format
+msgid "An error occurred while initializing the restore operation: %s"
+msgstr "Ett fel inträffade vid initialisering av återställningsåtgärden: %s"
+
+#: ../src/fwbackups-runapp.py:2763
+msgid "Error initializing restore operation"
+msgstr "Fel vid initialisering av återställning"
+
+#: ../src/fwbackups-runapp.py:2775
+msgid "Finished the restore operation"
+msgstr "Slutförde återställningen"
+
+#: ../src/fwbackups-runapp.py:2781
+msgid "An error occured while performing the restore operation"
+msgstr "Ett fel inträffade under återställningen"
+
+#: ../src/fwbackups-runapp.py:2786
+msgid "The restore operation was cancelled"
+msgstr "Återställningen avbröts"
+
+#. Customize our help text for the pre-created options
+#: ../src/fwbackups-runapp.py:2810
+msgid "Show this program's version and exit"
+msgstr "Visa programmets version och avsluta"
+
+#: ../src/fwbackups-runapp.py:2811
+msgid "Show this help message and exit"
+msgstr "Visa detta hjälpmeddelande och avsluta"
+
+#. Add custom options
+#: ../src/fwbackups-runapp.py:2813
+msgid "print log messages to the terminal. Use this option twice"
+msgstr "skriv loggmeddelanden till terminalen. Använd väljaren två gånger"
+
+#: ../src/fwbackups-runapp.py:2814
+msgid "start GUI minimized in the system tray"
+msgstr "starta gränssnitt minimerat i systemfältet"
+
+#: ../src/fwbackups.glade.h:1
+msgid "fwbackups"
+msgstr "fwbackups"
+
+#: ../src/fwbackups.glade.h:2
+msgid "To start, click one of the buttons on the above or use the menus."
+msgstr "För att starta, klicka på en av knapparna ovanför, eller använd menyerna."
+
+#: ../src/fwbackups.glade.h:3
+msgid ""
+"Please do not forget to check your fwbackups log regularly to be informed about any\n"
+"errors and/or failed backup runs."
+msgstr "Glöm inte att kontrollera dina fwbackups-loggar med jämna mellanrum för att hålla dig informerad om eventuella fel\noch/eller misslyckade kopieringskörningar."
+
+#: ../src/fwbackups.glade.h:5
+msgid "[ set by runapp.py ]"
+msgstr "[ satt av runapp.py ]"
+
+#: ../src/fwbackups.glade.h:6
+msgid "<b>Welcome</b>"
+msgstr "<b>Välkommen</b>"
+
+#: ../src/fwbackups.glade.h:7
+msgid "<i>Not Loaded</i>"
+msgstr "<i>Inte inläst</i>"
+
+#: ../src/fwbackups.glade.h:8
+msgid "Total backup sets:"
+msgstr "Totalt kopieset:"
+
+#: ../src/fwbackups.glade.h:9
+msgid "Failed backup runs:"
+msgstr "Misslyckade kopieringar:"
+
+#: ../src/fwbackups.glade.h:10
+msgid "<b>Status</b>"
+msgstr "<b>Status</b>"
+
+#: ../src/fwbackups.glade.h:11
+msgid "<span size=\"large\" weight=\"bold\">Overview</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Överblick</span>"
+
+#: ../src/fwbackups.glade.h:12
+msgid "_New Set"
+msgstr "_Nytt set"
+
+#: ../src/fwbackups.glade.h:13
+msgid "Ed_it Set"
+msgstr "Red_igera set"
+
+#: ../src/fwbackups.glade.h:14
+msgid "_Delete Set"
+msgstr "_Ta bort set"
+
+#: ../src/fwbackups.glade.h:15
+msgid "_Backup Set Now"
+msgstr "_Säkerhetskopiera set nu"
+
+#: ../src/fwbackups.glade.h:16
+msgid "Re_store Set"
+msgstr "Åter_ställ set"
+
+#: ../src/fwbackups.glade.h:17
+msgid "_Finish"
+msgstr "A_vsluta"
+
+#: ../src/fwbackups.glade.h:20
+msgid "Status:"
+msgstr "Status:"
+
+#: ../src/fwbackups.glade.h:21
+msgid "Backup progress:"
+msgstr "Kopieringsförlopp:"
+
+#: ../src/fwbackups.glade.h:22
+msgid "<span size=\"large\" weight=\"bold\">Backups Sets</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Kopieset</span>"
+
+#: ../src/fwbackups.glade.h:23
+msgid "_Add File(s)"
+msgstr "_Lägg till fil(er)"
+
+#: ../src/fwbackups.glade.h:24
+msgid "_Add Folder(s)"
+msgstr "_Lägg till mapp(ar)"
+
+#: ../src/fwbackups.glade.h:25
+msgid ""
+"Local folder\n"
+"Remote folder (SSH)"
+msgstr "Lokal mapp\nFjärrmapp (SSH)"
+
+#: ../src/fwbackups.glade.h:27
+msgid "_Browse..."
+msgstr "_Bläddra..."
+
+#: ../src/fwbackups.glade.h:28
+msgid "Folder:"
+msgstr "Mapp:"
+
+#: ../src/fwbackups.glade.h:29
+msgid "/folder"
+msgstr "/mapp"
+
+#: ../src/fwbackups.glade.h:30
+msgid "Host:"
+msgstr "Värd:"
+
+#: ../src/fwbackups.glade.h:31
+msgid "Username:"
+msgstr "Användarnamn:"
+
+#: ../src/fwbackups.glade.h:32
+msgid "Password:"
+msgstr "Lösenord:"
+
+#: ../src/fwbackups.glade.h:33
+msgid "_Test Settings"
+msgstr "_Testa inställningar"
+
+#: ../src/fwbackups.glade.h:34
+msgid "Hide password"
+msgstr "Dölj lösenord"
+
+#: ../src/fwbackups.glade.h:35
+msgid "Port:"
+msgstr "Port:"
+
+#: ../src/fwbackups.glade.h:36
+msgid "Destination type:"
+msgstr "Destinationstyp:"
+
+#: ../src/fwbackups.glade.h:37
+msgid "Archive (files and folders are packed into a tar archive)"
+msgstr "Arkivera (filer och mappar packas i ett tar-arkiv)"
+
+#: ../src/fwbackups.glade.h:38
+msgid "Direct copy of the files and folders"
+msgstr "Direkt kopia av filer och mappar"
+
+#: ../src/fwbackups.glade.h:39
+msgid "Compress archive using"
+msgstr "Komprimera arkiv med"
+
+#: ../src/fwbackups.glade.h:40
+msgid ""
+"gzip: fast, lightweight\n"
+"bzip2: slower, more efficient"
+msgstr "gzip: snabbt, resurssnålt\nbzip2: långsammare, mer effektivt"
+
+#: ../src/fwbackups.glade.h:42
+msgid "<b>Backup Format</b>"
+msgstr "<b>Kopieringsformat</b>"
+
+#: ../src/fwbackups.glade.h:43
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: ../src/fwbackups.glade.h:44
+msgid "Recursive"
+msgstr "Rekursiv"
+
+#: ../src/fwbackups.glade.h:45
+msgid "Print installed packages to a text file"
+msgstr "Skriv installerade paket till en textfil"
+
+#: ../src/fwbackups.glade.h:46
+msgid "Print disk geometry information to a file"
+msgstr "Skriv information om diskgeometri till en fil"
+
+#: ../src/fwbackups.glade.h:47
+msgid "Include hidden files"
+msgstr "Inkludera dolda filer"
+
+#: ../src/fwbackups.glade.h:48
+msgid "Handle sparse files efficiently"
+msgstr "Hantera spridda filer effektivt"
+
+#: ../src/fwbackups.glade.h:49
+msgid "Follow links"
+msgstr "Följ länkar"
+
+#: ../src/fwbackups.glade.h:50
+msgid "<b>Backup Options</b>"
+msgstr "<b>Kopieringsalternativ</b>"
+
+#: ../src/fwbackups.glade.h:51
+msgid ""
+"Exclude from backup:\n"
+" (newline separated)"
+msgstr "Exkludera från säkerhetskopia:\n(separera med radbrytning)"
+
+#: ../src/fwbackups.glade.h:53
+msgid "Nice value of backup process:"
+msgstr "Nice-värde för kopieringsprocess:"
+
+#: ../src/fwbackups.glade.h:54
+msgid "<b>Advanced Options</b>"
+msgstr "<b>Avancerade alternativ</b>"
+
+#: ../src/fwbackups.glade.h:55
+msgid "_Back"
+msgstr "_Bakåt"
+
+#: ../src/fwbackups.glade.h:56
+msgid "_Next"
+msgstr "_Nästa"
+
+#: ../src/fwbackups.glade.h:57
+msgid "_Start Backup"
+msgstr "_Starta säkerhetskopiering"
+
+#: ../src/fwbackups.glade.h:58
+msgid "<span size=\"large\" weight=\"bold\">One-Time Backup</span>"
+msgstr "<span size=\"large\" weight=\"bold\">One-Time säkerhetskopiering</span>"
+
+#: ../src/fwbackups.glade.h:59
+msgid "_Save to File"
+msgstr "_Spara till fil"
+
+#: ../src/fwbackups.glade.h:60
+msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Loggvisare</span>"
+
+#: ../src/fwbackups.glade.h:61
+msgid "Overview"
+msgstr "Översikt"
+
+#: ../src/fwbackups.glade.h:62
+msgid "Backup Sets"
+msgstr "Säkerhetskopiera set"
+
+#: ../src/fwbackups.glade.h:63
+msgid "One-Time Backup"
+msgstr "One-time säkerhetskopiering"
+
+#: ../src/fwbackups.glade.h:64
+msgid "Log Viewer"
+msgstr "Loggvisare"
+
+#: ../src/fwbackups.glade.h:65
+msgid "Restore"
+msgstr "Återställ"
+
+#: ../src/fwbackups.glade.h:66
+msgid "_File"
+msgstr "_Fil"
+
+#: ../src/fwbackups.glade.h:67
+msgid "Create a new backup set"
+msgstr "Skapa ett nytt kopieringsset"
+
+#: ../src/fwbackups.glade.h:68
+msgid "Import a set from a .conf file"
+msgstr "Importera ett set från en .conf-fil"
+
+#: ../src/fwbackups.glade.h:69
+msgid "_Import Sets"
+msgstr "_Importera set"
+
+#: ../src/fwbackups.glade.h:70
+msgid "Export one or more sets to .conf files"
+msgstr "Exportera ett eller fler set till .conf-filer"
+
+#: ../src/fwbackups.glade.h:71
+msgid "E_xport Sets"
+msgstr "E_xportera set"
+
+#: ../src/fwbackups.glade.h:72
+msgid "_Edit"
+msgstr "R_edigera"
+
+#: ../src/fwbackups.glade.h:73
+msgid "Edit the selected backup set"
+msgstr "Redigera det markerade kopiesettet"
+
+#: ../src/fwbackups.glade.h:74
+msgid "_Edit Set"
+msgstr "R_edigera set"
+
+#: ../src/fwbackups.glade.h:75
+msgid "Remove the selected backup set"
+msgstr "Ta bort det markerade kopiesettet"
+
+#: ../src/fwbackups.glade.h:76
+msgid "Duplicate the selected backup set"
+msgstr "Dubblera det markerade kopiesettet"
+
+#: ../src/fwbackups.glade.h:77
+msgid "D_uplicate Set"
+msgstr "D_ubblera set"
+
+#: ../src/fwbackups.glade.h:78
+msgid "_View"
+msgstr "_Visa"
+
+#: ../src/fwbackups.glade.h:79
+msgid "Switch to Overview"
+msgstr "Växla till översikt"
+
+#: ../src/fwbackups.glade.h:80
+msgid "_Overview"
+msgstr "_Översikt"
+
+#: ../src/fwbackups.glade.h:81
+msgid "Switch to User Backup Sets"
+msgstr "Växla till användares säkerhetskopieset"
+
+#: ../src/fwbackups.glade.h:82
+msgid "_Backup Sets"
+msgstr "_Säkerhetskopiera set"
+
+#: ../src/fwbackups.glade.h:83
+msgid "Switch to One-Time Backup"
+msgstr "Växla till One-Time säkerhetskopiering"
+
+#: ../src/fwbackups.glade.h:84
+msgid "O_ne-Time Backup"
+msgstr "O_ne-Time säkerhetskopia"
+
+#: ../src/fwbackups.glade.h:85
+msgid "Switch to Log Viewer"
+msgstr "Växla till loggvisare"
+
+#: ../src/fwbackups.glade.h:86
+msgid "_Log"
+msgstr "_Logg"
+
+#: ../src/fwbackups.glade.h:87
+msgid "Switch to Restore"
+msgstr "Växla till återställning"
+
+#: ../src/fwbackups.glade.h:88
+msgid "_Restore"
+msgstr "Åte_rställ"
+
+#: ../src/fwbackups.glade.h:89
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../src/fwbackups.glade.h:90
+msgid "Check for _Updates"
+msgstr "Sök efter _uppdateringar"
+
+#: ../src/fwbackups.glade.h:91
+msgid "About fwbackups"
+msgstr "Om fwbackups"
+
+#: ../src/fwbackups.glade.h:92
+msgid "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
+msgstr "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
+
+#: ../src/fwbackups.glade.h:93
+msgid "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
+msgstr "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
+
+#: ../src/fwbackups.glade.h:95
+#, no-c-format
+msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
+
+#: ../src/fwbackups.glade.h:96
+msgid "<span size=\"large\"> A feature-rich user backup program</span>"
+msgstr "<span size=\"large\"> Ett mångsidigt säkerhetskopieringsprogram för användare</span>"
+
+#: ../src/fwbackups.glade.h:97
+msgid ""
+"    This program is free software; you can redistribute it and/or modify\n"
+"    it under the terms of the GNU General Public License as published by\n"
+"    the Free Software Foundation; either version 2 of the License, or\n"
+"    (at your option) any later version.\n"
+"\n"
+"    This program is distributed in the hope that it will be useful,\n"
+"    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"    See the GNU General Public License for more details.\n"
+"\n"
+"    You should have received a copy of the GNU General Public License\n"
+"    along with this program; if not, write to the\n"
+"    Free Software Foundation, Inc.,\n"
+"    51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n"
+msgstr "Programmet är fri mjukvara; du kan omdistribuera den och/eller ändra\nden enligt villkoren i GNU General Public License som publiceras av\nFree Software Foundation; antingen version 2 av licensen eller (om du\nså önskar) en senare version.\n\nProgrammet distribueras med förhoppning om att göra nytta,\nmen UTAN NÅGRA GARANTIER; utan ens en antydd garanti om\nMARKNADSVÄRDE eller DUGLIGHET FÖR ETT SÄRSKILT SYFTE. \nSe GNU General Public License för fler detaljer.\n\nDu bör ha mottagit en kopia av GNU General Public License\ntillsammans med programmet; skriv annars till\nFree Software Foundation, Inc.,\n51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA\n"
+
+#: ../src/fwbackups.glade.h:112
+msgid "License"
+msgstr "Licens"
+
+#: ../src/fwbackups.glade.h:113
+msgid ""
+"\n"
+"Developers:\n"
+"          Stewart Adam < s.adam@diffingo.com >\n"
+"\n"
+"Documenters:\n"
+"          Stewart Adam < s.adam@diffingo.com >\n"
+"\n"
+"Translators:\n"
+"\tN/A\n"
+"\n"
+"Graphic Designers:\n"
+"\tStewart Adam < s.adam@diffingo.com >\n"
+"        * Based on gnome-icon-theme icons\n"
+msgstr "\nUtvecklare:\n          Stewart Adam < s.adam@diffingo.com >\n\nDokumentation:\n          Stewart Adam < s.adam@diffingo.com >\n\nÖversättning:\n\tTransifex-gemenskapen\n\nGrafisk design:\n\tStewart Adam < s.adam@diffingo.com >\n        * Baserat på ikonerna i gnome-icon-theme\n"
+
+#: ../src/fwbackups.glade.h:127
+msgid "Credits"
+msgstr "Tack till"
+
+#: ../src/fwbackups.glade.h:128
+msgid "Select a file or folder"
+msgstr "Välj en fil eller map"
+
+#: ../src/fwbackups.glade.h:129
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
+"\n"
+"Secondary text"
+msgstr "<span size=\"larger\" weight=\"bold\">Primär text</span>\n\nSekundär text"
+
+#: ../src/fwbackups.glade.h:132
+msgid "Don't show me this message again"
+msgstr "Visa inte det här meddelandet igen"
+
+#: ../src/fwbackups.glade.h:133
+msgid "Save to..."
+msgstr "Spara till..."
+
+#: ../src/fwbackups.glade.h:134
+msgid "Status: fwbackups is running"
+msgstr "Status: fwbackups kör"
+
+#: ../src/fwbackups.glade.h:135
+msgid "_Show Administrator"
+msgstr "Vi_sa administratör"
+
+#: ../src/fwbackups.glade.h:136
+msgid "_Minimize to tray on close"
+msgstr "_Minimera till systemfält vid stängning"
+
+#: ../src/fwbackups.glade.h:137
+msgid "Display _Notifications"
+msgstr "Visa aviseri_ngar"
+
+#: ../src/fwbackups.glade.h:138
+msgid "Edit preferences"
+msgstr "Redigera inställningar"
+
+#: ../src/fwbackups.glade.h:139
+msgid "_Preferences"
+msgstr "I_nställningar"
+
+#: ../src/fwbackups.glade.h:140
+msgid "_Quit"
+msgstr "A_vsluta"
+
+#: ../src/fwbackups.glade.h:142
+msgid "_Export"
+msgstr "_Exportera"
+
+#: ../src/fwbackups.glade.h:143
+msgid "Export to:"
+msgstr "Exportera till:"
+
+#: ../src/fwbackups.glade.h:144
+msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
+msgstr "<span size=\"larger\" weight=\"bold\">Exportera set</span>"
+
+#: ../src/fwbackups.glade.h:145
+msgid "Select the set you would like to export."
+msgstr "Välj det set du vill exportera."
+
+#: ../src/fwbackups.glade.h:147
+msgid "Restore Files"
+msgstr "Återställ filer"
+
+#: ../src/fwbackups.glade.h:148
+msgid ""
+"Set backup\n"
+"Local archive\n"
+"Local folder\n"
+"Remote archive (SSH)\n"
+"Remote folder (SSH)"
+msgstr "Säkerhetskopiera set\nLokalt arkiv\nLokal mapp\nFjärrarkiv (SSH)\nFjärrmapp (SSH)"
+
+#: ../src/fwbackups.glade.h:153
+msgid "Set:"
+msgstr "Set:"
+
+#: ../src/fwbackups.glade.h:154
+msgid "Date:"
+msgstr "Datum:"
+
+#: ../src/fwbackups.glade.h:155
+msgid "Browse..."
+msgstr "Bläddra..."
+
+#: ../src/fwbackups.glade.h:156
+msgid "Archive:"
+msgstr "Arkiv:"
+
+#: ../src/fwbackups.glade.h:157
+msgid "/"
+msgstr "/"
+
+#: ../src/fwbackups.glade.h:158
+msgid "Location:"
+msgstr "Plats:"
+
+#: ../src/fwbackups.glade.h:159
+msgid "Test Settings"
+msgstr "Testa inställningar"
+
+#: ../src/fwbackups.glade.h:160
+msgid ""
+"<i>Note: fwbackups will copy the remote backup to the disk first, then unpack it.\n"
+"Please ensure enough disk space is available.</i>"
+msgstr "<i>OBS: fwbackups kommer kopiera hela fjärrkopian till disken först, sedan packa upp den.\nKontrollera att tillräckligt mycket diskutrymme finns tillgängligt.</i>"
+
+#: ../src/fwbackups.glade.h:162
+msgid "Source type:"
+msgstr "Källtyp:"
+
+#: ../src/fwbackups.glade.h:163
+msgid "Restore to:"
+msgstr "Återställ till:"
+
+#: ../src/fwbackups.glade.h:164
+msgid ""
+"<i>Tip: entering '/' or selecting </i>'File System'<i> will restore files to"
+" their original locations.</i>"
+msgstr "<i>Tips: att ange '/' eller välja </i>'Filsystem'<i> återställer filerna till deras ursprungliga platser.</i>"
+
+#: ../src/fwbackups.glade.h:165
+msgid "Restore Progress:"
+msgstr "Återställningsförlopp:"
+
+#: ../src/fwbackups.glade.h:166
+msgid "Start _Restore"
+msgstr "Starta åte_rställning"
+
+#: ../src/fwbackups.glade.h:167
+msgid "Preferences"
+msgstr "Inställningar"
+
+#: ../src/fwbackups.glade.h:168
+msgid "Minimize to tray on close"
+msgstr "Minimera till systemfält vid stängning"
+
+#: ../src/fwbackups.glade.h:169
+msgid "Show notifications in tray area"
+msgstr "Visa aviseringar i fältområdet"
+
+#: ../src/fwbackups.glade.h:170
+msgid "Show tray icon"
+msgstr "Visa fältikon"
+
+#: ../src/fwbackups.glade.h:171
+msgid "Start minimized"
+msgstr "Starta minimerat"
+
+#: ../src/fwbackups.glade.h:172
+msgid "<b>Tray Options</b>"
+msgstr "<b>Fältalternativ</b>"
+
+#: ../src/fwbackups.glade.h:173
+msgid "Always show debug messages in the log"
+msgstr "Visa alltid felsökningsmeddelanden i loggen"
+
+#: ../src/fwbackups.glade.h:174
+msgid "Start fwbackups (minimized) when I login"
+msgstr "Starta fwbackups (minimerat) när jag loggar in"
+
+#: ../src/fwbackups.glade.h:175
+msgid "Customize temporary directory"
+msgstr "Anpassa temporär katalog"
+
+#: ../src/fwbackups.glade.h:176
+msgid "<b>Misc. Options</b>"
+msgstr "<b>Övr. alternativ</b>"
+
+#: ../src/fwbackups.glade.h:177
+msgid "Pycron installation directory:"
+msgstr "Pycron installationskatalog:"
+
+#: ../src/fwbackups.glade.h:178
+msgid "<b>Windows-specific options</b>"
+msgstr "<b>Windows-specifika alternativ</b>"
+
+#: ../src/fwbackups.glade.h:179
+msgid "Click to reset \"Don't show me again\" messages"
+msgstr "Klicka för att återställa \"Visa inte igen\"-meddelanden"
+
+#: ../src/fwbackups.glade.h:180
+msgid "Configure Set"
+msgstr "Anpassa set"
+
+#: ../src/fwbackups.glade.h:181
+msgid "Paths"
+msgstr "Sökvägar"
+
+#: ../src/fwbackups.glade.h:182
+msgid "Destination Type:"
+msgstr "Destinationstyp:"
+
+#: ../src/fwbackups.glade.h:183
+msgid "Destination"
+msgstr "Destination"
+
+#: ../src/fwbackups.glade.h:184
+msgid "<b>Day(s) of the Week</b>"
+msgstr "<b>Dag(ar) i veckan</b>"
+
+#: ../src/fwbackups.glade.h:185
+msgid "<b>Month(s)</b>"
+msgstr "<b>Månad(er)</b>"
+
+#: ../src/fwbackups.glade.h:186
+msgid ""
+"Please use the same syntax a crontab does to enter your settings.\n"
+"<i>To obtain examples and more information on crontab syntax, click 'Help'.</i>"
+msgstr "Använd samma syntax som crontab gör när du anger dina inställningar.\n<i>För att se exempel och mer information om crontabs syntax, klicka på 'Hjälp'.</i>"
+
+#: ../src/fwbackups.glade.h:188
+msgid ""
+"No field verification is performed on a manual field to test if the input is valid.\n"
+"Please make sure there are no errors."
+msgstr "Ingen fältverifiering utförs på ett manuellt fält för att testa om indatan är giltig.\nKontrollera att det inte finns några fel."
+
+#: ../src/fwbackups.glade.h:190
+msgid " "
+msgstr " "
+
+#: ../src/fwbackups.glade.h:191
+msgid "<b>Day(s) of Month</b>"
+msgstr "<b>Dag(ar) i månaden</b>"
+
+#: ../src/fwbackups.glade.h:192
+msgid "<b>Hour(s)</b>"
+msgstr "<b>Timme(-ar)</b>"
+
+#: ../src/fwbackups.glade.h:193
+msgid "<b>Minute(s)</b>"
+msgstr "<b>Minut(er)</b>"
+
+#: ../src/fwbackups.glade.h:194
+msgid "Manual Configuration"
+msgstr "Manuell konfiguration"
+
+#: ../src/fwbackups.glade.h:195
+msgid "All Months"
+msgstr "Alla månader"
+
+#: ../src/fwbackups.glade.h:196
+msgid "Only during:"
+msgstr "Bara under:"
+
+#: ../src/fwbackups.glade.h:197
+msgid "From:"
+msgstr "Från:"
+
+#: ../src/fwbackups.glade.h:198
+msgid ""
+"January\n"
+"February\n"
+"March\n"
+"April\n"
+"May\n"
+"June\n"
+"July\n"
+"August\n"
+"September\n"
+"October\n"
+"November\n"
+"December"
+msgstr "Januari\nFebruari\nMars\nApril\nMaj\nJuni\nJuli\nAugusti\nSeptember\nOktober\nNovember\nDecember"
+
+#: ../src/fwbackups.glade.h:210
+msgid "To:"
+msgstr "Till:"
+
+#: ../src/fwbackups.glade.h:211
+msgid "<b>Months</b>"
+msgstr "<b>Månader</b>"
+
+#: ../src/fwbackups.glade.h:212
+msgid "Only on:"
+msgstr "Bara den:"
+
+#: ../src/fwbackups.glade.h:213
+msgid "All days of the week"
+msgstr "Alla dagar i veckan"
+
+#: ../src/fwbackups.glade.h:214
+msgid ""
+"Sunday\n"
+"Monday\n"
+"Tuesday\n"
+"Wednesday\n"
+"Thurday\n"
+"Friday\n"
+"Saturday"
+msgstr "Söndag\nMåndag\nTisdag\nOnsdag\nTorsdag\nFredag\nLördag"
+
+#: ../src/fwbackups.glade.h:221
+msgid ""
+"Sundays\n"
+"Mondays\n"
+"Tuesdays\n"
+"Wednesdays\n"
+"Thurdays\n"
+"Fridays\n"
+"Saturdays"
+msgstr "Söndagar\nMåndagar\nTisdagar\nOnsdagar\nTorsdagar\nFredagar\nLördagar"
+
+#: ../src/fwbackups.glade.h:228
+msgid "<b>Days of the week</b>"
+msgstr "<b>Dagar i veckan</b>"
+
+#: ../src/fwbackups.glade.h:229
+msgid "At:"
+msgstr "Plats:"
+
+#: ../src/fwbackups.glade.h:230
+msgid "All Hours"
+msgstr "Alla timmar"
+
+#: ../src/fwbackups.glade.h:231
+msgid ""
+"0 (12am)\n"
+"1 (1am)\n"
+"2 (2am)\n"
+"3 (3am)\n"
+"4 (4am)\n"
+"5 (5am)\n"
+"6 (6am)\n"
+"7 (7am)\n"
+"8 (8am)\n"
+"9 (9am)\n"
+"10 (10am)\n"
+"11 (11am)\n"
+"12 (Noon)\n"
+"13 (1pm)\n"
+"14 (2pm)\n"
+"15 (3pm)\n"
+"16 (4pm)\n"
+"17 (5pm)\n"
+"18 (6pm)\n"
+"19 (7pm)\n"
+"20 (8pm)\n"
+"21 (9pm)\n"
+"22 (10pm)\n"
+"23 (11pm)"
+msgstr "0 (12am)\n1 (1am)\n2 (2am)\n3 (3am)\n4 (4am)\n5 (5am)\n6 (6am)\n7 (7am)\n8 (8am)\n9 (9am)\n10 (10am)\n11 (11am)\n12 (Mitt på dagen)\n13 (1pm)\n14 (2pm)\n15 (3pm)\n16 (4pm)\n17 (5pm)\n18 (6pm)\n19 (7pm)\n20 (8pm)\n21 (9pm)\n22 (10pm)\n23 (11pm)"
+
+#: ../src/fwbackups.glade.h:255
+msgid "<b>Hours</b>"
+msgstr "<b>Timmar</b>"
+
+#: ../src/fwbackups.glade.h:256
+msgid "Only at:"
+msgstr "Bara på:"
+
+#: ../src/fwbackups.glade.h:257
+msgid "All Minutes"
+msgstr "Alla minuter"
+
+#: ../src/fwbackups.glade.h:258
+msgid "<b>Minute</b>"
+msgstr "<b>Minut</b>"
+
+#: ../src/fwbackups.glade.h:259
+msgid "Easy Configuration"
+msgstr "Enkel konfiguration"
+
+#: ../src/fwbackups.glade.h:260
+msgid ""
+"<i>Tip: Your backup will run whenever <b>all</b> of the criteria below match"
+" the system time and date.</i>"
+msgstr "<i>Tips: Din säkerhetskopia körs när <b>alla</b> kriterier nedanför matchar systemets datum och tid.</i>"
+
+#: ../src/fwbackups.glade.h:261
+msgid "Times"
+msgstr "Tider"
+
+#: ../src/fwbackups.glade.h:262
+msgid "Backups are incremental"
+msgstr "Säkerhetskopior är successiva"
+
+#: ../src/fwbackups.glade.h:263
+msgid "Set is enabled"
+msgstr "Set är aktiverat"
+
+#: ../src/fwbackups.glade.h:264
+msgid "Include subfolders"
+msgstr "Inkludera underkataloger"
+
+#: ../src/fwbackups.glade.h:265
+msgid "Number of old backups to keep:"
+msgstr "Antal äldre säkerhetskopior att behålla:"
+
+#: ../src/fwbackups.glade.h:266
+msgid ""
+"<i>Tip: </i>0<i> makes a new backup always replace an older one.\n"
+"This option is unavailable with incremental backups.</i>"
+msgstr "<i>Tips: </i>0<i> gör att en ny säkerhetskopia alltid ersätter en äldre.\nDetta alternativet är otillgängligt vid successiva säkerhetskopior.</i>"
+
+#: ../src/fwbackups.glade.h:268
+msgid "Options (Simple)"
+msgstr "Alternativ (Enkelt)"
+
+#: ../src/fwbackups.glade.h:269
+msgid "Command to run before backup:"
+msgstr "Kommando att köra före säkerhetskopiering:"
+
+#: ../src/fwbackups.glade.h:270
+msgid "Command to run after backup:"
+msgstr "Kommando att köra efter kopiering:"
+
+#: ../src/fwbackups.glade.h:271
+msgid ""
+"<i>Tip: The following tokens may be used in the commands:\n"
+"[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]\n"
+"\n"
+"For a description of each, see the user manual.</i>"
+msgstr "<i>Tips: Följande märken kan användas i kommandona:\n[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]\n\nFör beskrivningar av dem, se användarmanualen.</i>"
+
+#: ../src/fwbackups.glade.h:275
+msgid "Options (Advanced)"
+msgstr "Alternativ (Avancerat)"
+
+#: ../src/fwbackups.glade.h:276
+msgid "<b>Name:</b>"
+msgstr "<b>Namn:</b>"
+
+#: ../src/fwbackups.glade.h:277
+msgid "fwbackups Initializing..."
+msgstr "fwbackups startar..."
+
+#: ../src/fwbackups.glade.h:278
+msgid " A feature-rich user backup program"
+msgstr "Ett mångsidigt säkerhetskopieringsprogram för användare"
+
+#: ../src/fwbackups.glade.h:279
+msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
+
+#: ../src/fwbackups.glade.h:280
+msgid "<span size=\"small\">Please wait while fwbackups initializes.</span>"
+msgstr "<span size=\"small\">Vänta medan fwbackups startar.</span>"
+
+#: ../src/BugReport.glade.h:1 ../src/fwbackups/widgets.py:738
+msgid "Bug Report"
+msgstr "Felrapport"
+
+#: ../src/BugReport.glade.h:2
+msgid "<span size=\"larger\" weight=\"bold\">Sorry!</span>"
+msgstr "<span size=\"larger\" weight=\"bold\">Tyvärr!</span>"
+
+#: ../src/BugReport.glade.h:3
+msgid ""
+"fwbackups has run into an unexpected error. You may continue using the "
+"program, however it is recommended you quit and open fwbackups again."
+msgstr "fwbackups har påträffat ett oväntat fel. Du kan fortsätta att använda programmet, men vi rekommenderar att du stänger och öppnar fwbackups igen."
+
+#: ../src/BugReport.glade.h:4
+msgid "Traceback Here"
+msgstr "Bakåtspårning här"
+
+#: ../src/BugReport.glade.h:5
+msgid "_Details"
+msgstr "_Detaljer"
+
+#: ../src/fwbackups/operations/__init__.py:60
+msgid "Canceling the current operation!"
+msgstr "Avbryter pågående åtgärd!"
+
+#: ../src/fwbackups/operations/__init__.py:64
+#, python-format
+msgid "Stopping process with ID %s"
+msgstr "Stoppar process med ID %s"
+
+#: ../src/fwbackups/operations/__init__.py:67
+#, python-format
+msgid "Could not stop process %(a)s: %(b)s"
+msgstr "Kunde inte stoppa process %(a)s: %(b)s"
+
+#: ../src/fwbackups/operations/__init__.py:75
+msgid "The operation has been cancelled."
+msgstr "Åtgärden avbröts."
+
+#: ../src/fwbackups/operations/__init__.py:88
+#, python-format
+msgid "Error handling file `%s'"
+msgstr "Fel vid hantering av filen '%s'"
+
+#: ../src/fwbackups/operations/__init__.py:89
+#, python-format
+msgid ""
+"Output:\n"
+"%s"
+msgstr "Utdata:\n%s"
+
+#: ../src/fwbackups/operations/__init__.py:94
+#, python-format
+msgid "Destination folder `%s' exists"
+msgstr "Destinationsmappen '%s' finns"
+
+#: ../src/fwbackups/operations/__init__.py:99
+#, python-format
+msgid "Created destination folder `%s'"
+msgstr "Skapade destinationsmapp '%s'"
+
+#: ../src/fwbackups/operations/__init__.py:101
+#, python-format
+msgid "The destination folder `%(a)s' could not be created: %(b)s"
+msgstr "Destinationsmappen '%(a)s' kunde inte skapas: %(b)s"
+
+#: ../src/fwbackups/operations/__init__.py:105
+#, python-format
+msgid ""
+"You do not have read and write permissions on the destination `%s' - if you "
+"backed up system files, this operation may fail."
+msgstr "Du har inte läs och skrivrättigheter för destinationen `%s' - Den här åtgärden kan misslyckas om du har säkerhetskopierat systemfiler."
+
+#: ../src/fwbackups/operations/backup.py:82
+msgid "rpm - Package list"
+msgstr "rpm - Paketlista"
+
+#: ../src/fwbackups/operations/backup.py:101
+msgid "Pacman - Package list"
+msgstr "Pacman - Paketlista"
+
+#: ../src/fwbackups/operations/backup.py:107
+msgid "dpkg - Package list"
+msgstr "dpkg - Paketlista"
+
+#: ../src/fwbackups/operations/backup.py:117
+msgid "Disk Information"
+msgstr "Diskinformation"
+
+#: ../src/fwbackups/operations/backup.py:185
+#, python-format
+msgid "Attempting to connect to server %s..."
+msgstr "Försöker ansluta till servern %s..."
+
+#: ../src/fwbackups/operations/backup.py:196
+msgid "Attempt to connect succeeded."
+msgstr "Försök att ansluta lyckades."
+
+#: ../src/fwbackups/operations/backup.py:199
+msgid ""
+"The backup destination was either not found or it cannot be written to due "
+"to insufficient permissions."
+msgstr "Platsen för säkerhetskopieringen hittades inte, eller kan inte skrivas till p.g.a. otillräcklig behörighet."
+
+#: ../src/fwbackups/operations/backup.py:203
+#: ../src/fwbackups/operations/restore.py:88
+msgid ""
+"A connection was established, but authentication failed. Please verify the "
+"username and password and try again."
+msgstr "En anslutning etablerades, men autentisering misslyckades. Kontrollera användarnamn och lösenord och försök igen."
+
+#: ../src/fwbackups/operations/backup.py:208
+#: ../src/fwbackups/operations/restore.py:93
+#, python-format
+msgid ""
+"A connection to the server could not be established.\n"
+"Error %(a)s: %(b)s"
+msgstr "En anslutning till servern kunde inte etableras.\nFel %(a)s: %(b)s"
+
+#: ../src/fwbackups/operations/backup.py:213
+#: ../src/fwbackups/operations/restore.py:98
+msgid ""
+"A connection to the server has timed out. Please verify your settings and "
+"try again."
+msgstr "Det gick inte att ansluta till servern. Kontrollera dina inställningar och försök igen."
+
+#: ../src/fwbackups/operations/backup.py:217
+#: ../src/fwbackups/operations/restore.py:102
+#, python-format
+msgid ""
+"A connection to the server could not be established because an error "
+"occurred: %s"
+msgstr "Kunde inte etablera en anslutning till servern på grund av ett fel: %s"
+
+#: ../src/fwbackups/operations/backup.py:235
+#: ../src/fwbackups/operations/backup.py:276
+#: ../src/fwbackups/operations/backup.py:321
+#, python-format
+msgid ""
+"Using %s on Windows: Cancel function will only take effect after a path has "
+"been completed."
+msgstr "Använder %s i Windows: Avbrottsfunktionen verkställs först när en sökväg har slutförts."
+
+#. let's deal with real paths
+#: ../src/fwbackups/operations/backup.py:241
+#: ../src/fwbackups/operations/backup.py:282
+#: ../src/fwbackups/operations/backup.py:292
+#: ../src/fwbackups/operations/backup.py:327
+#: ../src/fwbackups/operations/backup.py:337
+#: ../src/fwbackups/operations/backup.py:375
+#: ../src/fwbackups/operations/backup.py:387
+#, python-format
+msgid "Backing up path %(a)i/%(b)i: %(c)s"
+msgstr "Tar säkerhetskopia av sökväg %(a)i/%(b)i: %(c)s"
+
+#: ../src/fwbackups/operations/backup.py:249
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
+msgstr "Kör kommando: nice -n %(a)i %(b)s '%(c)s'"
+
+#: ../src/fwbackups/operations/backup.py:252
+#: ../src/fwbackups/operations/backup.py:297
+#: ../src/fwbackups/operations/backup.py:342
+#: ../src/fwbackups/operations/backup.py:394
+#: ../src/fwbackups/operations/backup.py:598
+#, python-format
+msgid "Starting subprocess with PID %s"
+msgstr "Startar subprocess med PID %s"
+
+#: ../src/fwbackups/operations/backup.py:266
+#: ../src/fwbackups/operations/backup.py:311
+#: ../src/fwbackups/operations/backup.py:356
+#: ../src/fwbackups/operations/backup.py:408
+#, python-format
+msgid "Subprocess with PID %(a)s exited with status %(b)s"
+msgstr "Subprocess med PID %(a)s avslutade med status %(b)s"
+
+#: ../src/fwbackups/operations/backup.py:271
+#: ../src/fwbackups/operations/backup.py:316
+#: ../src/fwbackups/operations/backup.py:361
+#: ../src/fwbackups/operations/backup.py:413
+#: ../src/fwbackups/operations/backup.py:615
+#, python-format
+msgid "Process exited with status %(a)s. Errors: %(b)s"
+msgstr "Process avslutade med status %(a)s. Fel: %(b)s"
+
+#: ../src/fwbackups/operations/backup.py:284
+#: ../src/fwbackups/operations/backup.py:329
+#, python-format
+msgid "Adding path `%s' to the archive"
+msgstr "Lägger till sökväg '%s' till arkivet"
+
+#: ../src/fwbackups/operations/backup.py:291
+#: ../src/fwbackups/operations/backup.py:336
+#, python-format
+msgid ""
+"Using %s: Must backup all paths at once - Progress notification will be "
+"disabled."
+msgstr "Använder %s: Måste ta säkerhetskopia på alla sökvägar samtidigt - Förloppsavisering kommer avaktiveras."
+
+#: ../src/fwbackups/operations/backup.py:293
+#: ../src/fwbackups/operations/backup.py:338
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s"
+msgstr "Kör kommando: nice -n %(a)i %(b)s %(c)s"
+
+#: ../src/fwbackups/operations/backup.py:377
+#, python-format
+msgid ""
+"Path %s is missing or cannot be read and will be excluded from the backup."
+msgstr "Sökvägen %s saknas eller kan inte läsas, och kommer hoppas över vid säkerhetskopiering."
+
+#: ../src/fwbackups/operations/backup.py:391
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
+msgstr "Kör kommando: nice -n %(a)i %(b)s %(c)s '%(d)s'"
+
+#: ../src/fwbackups/operations/backup.py:419
+msgid "Sending files to server via SFTP"
+msgstr "Skickar filer till server via SFTP"
+
+#: ../src/fwbackups/operations/backup.py:429
+msgid "Could not send file(s) or folder to server:"
+msgstr "Kunde inte skicka fil(er) eller mapp till server:"
+
+#: ../src/fwbackups/operations/backup.py:443
+msgid "This function is designed to be subclassed"
+msgstr "Den här funktionen utformades för att vara en delklass"
+
+#: ../src/fwbackups/operations/backup.py:452
+msgid "Starting one-time backup operation"
+msgstr "Startar one-time säkerhetskopiering"
+
+#: ../src/fwbackups/operations/backup.py:457
+msgid "OneTime"
+msgstr "OneTime"
+
+#: ../src/fwbackups/operations/backup.py:471
+#: ../src/fwbackups/operations/backup.py:679
+msgid "There are no paths to backup!"
+msgstr "Det finns inga sökvägar att säkerhetskopiera!"
+
+#: ../src/fwbackups/operations/backup.py:489
+#: ../src/fwbackups/operations/backup.py:694
+#, python-format
+msgid "`%s' exists and will be overwritten."
+msgstr "'%s' finns och kommer skrivas över."
+
+#. All done!
+#: ../src/fwbackups/operations/backup.py:509
+msgid "Finished one-time backup"
+msgstr "Slutförde one-time säkerhetskopiering"
+
+#: ../src/fwbackups/operations/backup.py:523
+#, python-format
+msgid "Starting automatic backup operation of set `%s'"
+msgstr "Startar automatisk säkerhetskopiering av set '%s'"
+
+#. Execute the command
+#: ../src/fwbackups/operations/backup.py:595
+#, python-format
+msgid "Executing '%s' command"
+msgstr "Kör kommandot '%s'"
+
+#: ../src/fwbackups/operations/backup.py:614
+msgid "Command returned with a non-zero exit status!"
+msgstr "Kommandot returnerade en avslutningsstatus annan än 0!"
+
+#: ../src/fwbackups/operations/backup.py:640
+#, python-format
+msgid "Removing old backup `%(a)s' on %(b)s"
+msgstr "Tar bort gammal säkerhetskopia '%(a)s' på %(b)s"
+
+#: ../src/fwbackups/operations/backup.py:647
+#: ../src/fwbackups/operations/backup.py:660
+#, python-format
+msgid "Removing old backup `%s'"
+msgstr "Tar bort gammal säkerhetskopia '%s'"
+
+#. oldIncrementalBackup = rsync
+#: ../src/fwbackups/operations/backup.py:653
+#, python-format
+msgid "Moving  `%s' to `%s'"
+msgstr "Flyttar '%s' till '%s'"
+
+#. source = is not a rsync backup - remove it and start fresh
+#: ../src/fwbackups/operations/backup.py:656
+#, python-format
+msgid "`%s' is not an rsync backup - removing."
+msgstr "'%s' är inte en rsync-kopia - tar bort."
+
+#. All done!
+#: ../src/fwbackups/operations/backup.py:741
+#, python-format
+msgid "Finished automatic backup operation of set '%s'"
+msgstr "Slutförde automatisk säkerhetskopiering av set '%s'"
+
+#: ../src/fwbackups/operations/restore.py:42
+msgid "Starting restore operation"
+msgstr "Startar återställning"
+
+#. check if server settings are OK
+#: ../src/fwbackups/operations/restore.py:71
+msgid "Attempting to connect to server"
+msgstr "Försöker ansluta till server"
+
+#: ../src/fwbackups/operations/restore.py:84
+msgid ""
+"The restore source was either not found or it cannot be read due to "
+"insufficient permissions."
+msgstr "Återställningskällan hittades inte, eller kan inte läsas p.g.a. otillräcklig behörighet."
+
+#: ../src/fwbackups/operations/restore.py:116
+msgid "Receiving files from server"
+msgstr "Tar emot filer från server"
+
+#: ../src/fwbackups/operations/restore.py:127
+#, python-format
+msgid "Could not receive file from server: %s"
+msgstr "Kunde inte ta emot fil från server: %s"
+
+#. We are dealing with a remote folder - our job here is done
+#. Either that or an error was encountered above
+#. All done!
+#: ../src/fwbackups/operations/restore.py:132
+#: ../src/fwbackups/operations/restore.py:177
+msgid "Finished restore operation"
+msgstr "Slutförde återställning"
+
+#. oops, something is up
+#: ../src/fwbackups/operations/restore.py:144
+#, python-format
+msgid "Source `%s' is not a file or folder!"
+msgstr "Källan '%s' är inte en fil eller mapp!"
+
+#. oops, something is up
+#: ../src/fwbackups/operations/restore.py:153
+#, python-format
+msgid "Source `%s' is not an archive!"
+msgstr "Källan '%s' är inte ett arkiv!"
+
+#: ../src/fwbackups/operations/restore.py:157
+#, python-format
+msgid "Source `%s' is not a folder"
+msgstr "Källan '%s' är inte en mapp"
+
+#: ../src/fwbackups/operations/restore.py:173
+#, python-format
+msgid "Traceback: %s"
+msgstr "Bakåtspårning: %s"
+
+#: ../src/fwbackups/config.py:50
+#, python-format
+msgid "Could not create configuration folder `%s':"
+msgstr "Kunde inte skapa konfigurationsmapp '%s':"
+
+#: ../src/fwbackups/config.py:57
+#, python-format
+msgid "You do not have read and write permissions on folder `%s'."
+msgstr "Du har inte läs- och skrivrättigheter för mappen '%s'."
+
+#: ../src/fwbackups/config.py:115
+#, python-format
+msgid "Key %s of is not a dictionary of options"
+msgstr "Nyckel %s av är inte en ordbok för alternativ"
+
+#: ../src/fwbackups/config.py:333
+#, python-format
+msgid "Set '%s' failed to pass section validation"
+msgstr "Set '%s' passerade inte sektionsvalidering"
+
+#: ../src/fwbackups/config.py:336
+#, python-format
+msgid "'%(a)s' is not a set configuration file."
+msgstr "'%(a)s' är inte en set-konfigurationsfil."
+
+#: ../src/fwbackups/config.py:340
+#, python-format
+msgid ""
+"Configuration section 'General' in the set configuration '%s' failed to "
+"validate"
+msgstr "Konfigurationsavsnitt 'Allmänt' i set-konfiguration '%s' kunde inte valideras"
+
+#: ../src/fwbackups/config.py:343
+#, python-format
+msgid ""
+"Configuration section 'Times' in the set configuration '%s' failed to "
+"validate"
+msgstr "Konfigurationsavsnitt 'Tider' i Set-konfiguration '%s' kunde inte valideras"
+
+#: ../src/fwbackups/config.py:356
+#, python-format
+msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
+msgstr "Okänd alternativnyckel '%(a)s' hittad i set-konfiguration '%(b)s'"
+
+#: ../src/fwbackups/config.py:361
+#, python-format
+msgid ""
+"Configuration section 'Options' in set configuration '%(a)s' failed to "
+"validate: Missing options '%(b)s'"
+msgstr "Konfigurationsavsnitt 'Alternativ' i set-konfiguration '%(a)s' kunde inte valideras: Saknar alternativ '%(b)s'"
+
+#: ../src/fwbackups/config.py:496
+msgid "One-time configuration failed to pass section validation"
+msgstr "One-time-konfiguration passerade inte sektionsvalidering"
+
+#: ../src/fwbackups/config.py:499
+#, python-format
+msgid "'%(a)s' is not a one-time configuration file."
+msgstr "'%(a)s' är inte en one-time-konfigurationsfil."
+
+#: ../src/fwbackups/config.py:503
+msgid ""
+"Configuration section 'General' in the one-time configuration file failed to"
+" validate"
+msgstr "Konfigurationsavsnitt 'Allmänt' i one-time-konfigurationsfilen kunde inte valideras"
+
+#: ../src/fwbackups/config.py:515
+#, python-format
+msgid "Unknown option key '%s' present in one-time backup configuration file"
+msgstr "Okänd alternativnyckel '%s' finns i one-time säkerhetskopieringskonfigurationsfil"
+
+#: ../src/fwbackups/config.py:520
+#, python-format
+msgid ""
+"Configuration section 'Options' in the one-time backup configuration file "
+"failed to validate: Missing options '%s'"
+msgstr "Konfigurationsavsnitt 'Alternativ' i one-time-säkerhetskopieringskonfigurationsfilen kunde inte valideras: Saknar alternativ '%s'"
+
+#: ../src/fwbackups/config.py:623
+msgid "Restore configuration failed to pass section validation"
+msgstr "Återställningskonfiguration passerade inte sektionsvalidering"
+
+#: ../src/fwbackups/config.py:626
+#, python-format
+msgid "'%(a)s' is not a restore configuration file."
+msgstr "'%(a)s' är inte en återställningskonfigurationsfil."
+
+#: ../src/fwbackups/config.py:630
+msgid ""
+"Configuration section 'General' in the restore configuration file failed to "
+"validate"
+msgstr "Konfigurationsavsnitt 'Allmänt' i återställningskonfigurationsfilen kunde inte valideras"
+
+#: ../src/fwbackups/config.py:640
+#, python-format
+msgid "Unknown option key '%s' present in restore configuration file"
+msgstr "Okänd alternativnyckel '%s' hittades i återställningskonfigurationsfil"
+
+#: ../src/fwbackups/config.py:645
+#, python-format
+msgid ""
+"Configuration section 'Options' in the restore configuration file failed to "
+"validate: Missing options '%s'"
+msgstr "Konfigurationsavsnitt 'Alternativ' i återställningskonfigurationsfilen kunde inte valideras: Saknar alternativ '%s'"
+
+#: ../src/fwbackups/config.py:737
+msgid "Preferences failed to pass section validation"
+msgstr "Inställningar passerade inte sektionsvalidering"
+
+#: ../src/fwbackups/config.py:740
+#, python-format
+msgid "'%(a)s' is not a fwbackups preferences file."
+msgstr "'%(a)s' är inte en fwbackups-inställningsfil."
+
+#: ../src/fwbackups/config.py:744
+msgid ""
+"Configuration section 'General' in the preferences file failed to validate"
+msgstr "Konfigurationsavsnitt 'Allmänt' i inställningsfilen kunde inte valideras"
+
+#: ../src/fwbackups/config.py:755
+#, python-format
+msgid "Unknown option key '%s' present in preferences file"
+msgstr "Okänd alternativnyckel '%s' hittades i inställningsfil"
+
+#: ../src/fwbackups/config.py:760
+#, python-format
+msgid ""
+"Configuration section 'Options' in the preferences file failed to validate: "
+"Missing options '%s'"
+msgstr "Konfigurationsavsnitt 'Alternativ' i inställningsfilen kunde inte valideras: Saknar alternativ '%s'"
+
+#: ../src/fwbackups/config.py:854
+msgid "Unable to clean user crontab!"
+msgstr "Kan inte rensa användarens crontab!"
+
+#: ../src/fwbackups/cron.py:135
+#, python-format
+msgid "Could not locate the pycron or the sample pycron configuration in %s"
+msgstr "Kunde inte hitta pycron eller testkonfiguration för pycron i %s"
+
+#: ../src/fwbackups/cron.py:144
+#, python-format
+msgid "Could not locate the pycron or the sample pycron crontab file in %s"
+msgstr "Kunde inte hitta pycron eller testkonfiguration för pycrons crontab-fil i %s"
+
+#: ../src/fwbackups/fwlogger.py:70
+#, python-format
+msgid "Could not set up the logger: %s"
+msgstr "Kunde inte ställa in loggaren: %s"
+
+#: ../src/fwbackups/sftp.py:212
+#, python-format
+msgid "`%s' is not a file, folder or link! Skipping."
+msgstr "'%s' är inte en fil, mapp eller länk! Hoppar över."
+
+#: ../src/fwbackups/sftp.py:217
+msgid "Could not copy some files due to errors:"
+msgstr "Kunde inte kopiera vissa filer på grund av fel:"
+
+#: ../src/fwbackups/shutil_modded.py:131
+#, python-format
+msgid "`%s' isn't a file, folder or link! Skipping."
+msgstr "'%s' är inte en fil, mapp eller länk! Hoppar över."
+
+#: ../src/fwbackups/shutil_modded.py:142
+msgid "Couldn't copy some files due to errors:"
+msgstr "Kunde inte kopiera vissa filer på grund av fel:"
+
+#: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
+msgid "CRITICAL"
+msgstr "KRITISKT"
+
+#: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
+msgid "ERROR"
+msgstr "FEL"
+
+#: ../src/fwbackups/widgets.py:155 ../src/fwbackups/widgets.py:200
+msgid "WARNING"
+msgstr "VARNING"
+
+#: ../src/fwbackups/widgets.py:168 ../src/fwbackups/widgets.py:193
+msgid "Previous log messages"
+msgstr "Föregående loggmeddelanden"
+
+#: ../src/fwbackups/widgets.py:172 ../src/fwbackups/widgets.py:207
+msgid "No previous log messages to display"
+msgstr "Inga tidigare loggmeddelanden att visa"
+
+#: ../src/fwbackups/widgets.py:174 ../src/fwbackups/widgets.py:184
+msgid "Current session's log messages"
+msgstr "Nuvarande sessions loggmeddelanden"
+
+#: ../src/fwbackups/widgets.py:536
+msgid "Access"
+msgstr "Åtkomst"
+
+#: ../src/fwbackups/widgets.py:542
+msgid "Path"
+msgstr "Sökväg"
+
+#: ../src/fwbackups/widgets.py:618
+msgid "Choose file(s)"
+msgstr "Välj fil(er)"
+
+#: ../src/fwbackups/widgets.py:629
+msgid "Choose folder(s)"
+msgstr "Välj mapp(ar)"
+
+#: ../src/fwbackups/widgets.py:660
+msgid "Please select a path before choosing an action."
+msgstr "Välj en sökväg innan du väljer en åtgärd."
+
+#: ../src/fwbackups/widgets.py:696
+msgid "Export"
+msgstr "Exportera"
+
+#: ../src/fwbackups/widgets.py:702
+msgid "Set"
+msgstr "Set"
