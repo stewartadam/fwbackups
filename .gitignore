@@ -36,6 +36,7 @@ po/missing
 po/stamp-it
 po/*.gmo
 po/*.mo
+po/*.pot
 
 tests/
 
