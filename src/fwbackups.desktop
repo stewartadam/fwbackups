@@ -6,7 +6,8 @@ Exec=fwbackups
 Icon=fwbackups
 Terminal=false
 Type=Application
-Categories=GTK;System;
+Categories=GTK;System;Archiving;Utility;
+Keywords=backup;archive;archiving;
 #MimeType=text/plain
 Version=1.0
 
