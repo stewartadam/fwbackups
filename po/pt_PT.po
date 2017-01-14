@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Manuela Silva <manuela.silva@sky.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-23 12:26+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
-"Language-Team: Icelandic (http://www.transifex.com/Magic/fwbackups/language/is/)\n"
+"PO-Revision-Date: 2016-05-28 19:29+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/Magic/fwbackups/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+"Language: pt_PT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
@@ -43,7 +44,7 @@ msgstr ""
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
-msgstr ""
+msgstr "Porta [22]: "
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
@@ -52,11 +53,11 @@ msgstr ""
 #: ../test.operations.py:66
 #, python-format
 msgid "Username [%s]: "
-msgstr ""
+msgstr "Nome de utilizador [%s]: "
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr ""
+msgstr "Palavra-passe: "
 
 #: ../test.operations.py:68
 #, python-format
@@ -84,7 +85,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:527
 #: ../src/fwbackups/operations/backup.py:632
 msgid "Backup"
-msgstr ""
+msgstr "Cópia de Segurança"
 
 #: ../test.operations.py:147 ../test.operations.py:176
 #: ../test.operations.py:201 ../test.operations.py:226
@@ -120,7 +121,7 @@ msgstr ""
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Erro: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
@@ -246,12 +247,12 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Hvíld"
+msgstr "Inativo"
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
@@ -572,7 +573,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:723
 #, python-format
 msgid "Error %(a)s: %(b)s"
-msgstr ""
+msgstr "Erro %(a)s: %(b)s"
 
 #: ../src/fwbackups-runapp.py:725
 #, python-format
@@ -639,7 +640,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:858
 msgid "_copy"
-msgstr ""
+msgstr "_copiar"
 
 #: ../src/fwbackups-runapp.py:1062
 #, python-format
@@ -1195,11 +1196,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:10
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Estado</b>"
 
 #: ../src/fwbackups.glade.h:11
 msgid "<span size=\"large\" weight=\"bold\">Overview</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Sinopse</span>"
 
 #: ../src/fwbackups.glade.h:12
 msgid "_New Set"
@@ -1223,11 +1224,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:17
 msgid "_Finish"
-msgstr ""
+msgstr "_Terminar"
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr "Staða:"
+msgstr "Estado:"
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1253,27 +1254,27 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:27
 msgid "_Browse..."
-msgstr ""
+msgstr "_Explorar..."
 
 #: ../src/fwbackups.glade.h:28
 msgid "Folder:"
-msgstr ""
+msgstr "Pasta:"
 
 #: ../src/fwbackups.glade.h:29
 msgid "/folder"
-msgstr ""
+msgstr "/pasta"
 
 #: ../src/fwbackups.glade.h:30
 msgid "Host:"
-msgstr ""
+msgstr "Hospedeiro:"
 
 #: ../src/fwbackups.glade.h:31
 msgid "Username:"
-msgstr ""
+msgstr "Nome de utilizador: "
 
 #: ../src/fwbackups.glade.h:32
 msgid "Password:"
-msgstr ""
+msgstr "Palavra-passe: "
 
 #: ../src/fwbackups.glade.h:33
 msgid "_Test Settings"
@@ -1285,7 +1286,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:35
 msgid "Port:"
-msgstr ""
+msgstr "Porta: "
 
 #: ../src/fwbackups.glade.h:36
 msgid "Destination type:"
@@ -1361,15 +1362,15 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:55
 msgid "_Back"
-msgstr ""
+msgstr "_Voltar"
 
 #: ../src/fwbackups.glade.h:56
 msgid "_Next"
-msgstr ""
+msgstr "_Seguinte"
 
 #: ../src/fwbackups.glade.h:57
 msgid "_Start Backup"
-msgstr ""
+msgstr "_Iniciar Cópia"
 
 #: ../src/fwbackups.glade.h:58
 msgid "<span size=\"large\" weight=\"bold\">One-Time Backup</span>"
@@ -1377,7 +1378,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:59
 msgid "_Save to File"
-msgstr ""
+msgstr "_Guardar para Ficheiro"
 
 #: ../src/fwbackups.glade.h:60
 msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
@@ -1385,7 +1386,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:61
 msgid "Overview"
-msgstr ""
+msgstr "Sinopse"
 
 #: ../src/fwbackups.glade.h:62
 msgid "Backup Sets"
@@ -1401,11 +1402,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:65
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: ../src/fwbackups.glade.h:66
 msgid "_File"
-msgstr ""
+msgstr "_Ficheiro"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
@@ -1429,7 +1430,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:72
 msgid "_Edit"
-msgstr ""
+msgstr "_Editar"
 
 #: ../src/fwbackups.glade.h:73
 msgid "Edit the selected backup set"
@@ -1453,7 +1454,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:78
 msgid "_View"
-msgstr ""
+msgstr "_Ver"
 
 #: ../src/fwbackups.glade.h:79
 msgid "Switch to Overview"
@@ -1461,7 +1462,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:80
 msgid "_Overview"
-msgstr ""
+msgstr "_Sinopse"
 
 #: ../src/fwbackups.glade.h:81
 msgid "Switch to User Backup Sets"
@@ -1485,7 +1486,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr "_Kladdi"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
@@ -1493,32 +1494,32 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:88
 msgid "_Restore"
-msgstr ""
+msgstr "_Restaurar"
 
 #: ../src/fwbackups.glade.h:89
 msgid "_Help"
-msgstr ""
+msgstr "_Ajuda"
 
 #: ../src/fwbackups.glade.h:90
 msgid "Check for _Updates"
-msgstr ""
+msgstr "_Atualizar Programa"
 
 #: ../src/fwbackups.glade.h:91
 msgid "About fwbackups"
-msgstr ""
+msgstr "Sobre fwbackups"
 
 #: ../src/fwbackups.glade.h:92
 msgid "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
-msgstr ""
+msgstr "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
 
 #: ../src/fwbackups.glade.h:93
 msgid "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
-msgstr ""
+msgstr "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
 
 #: ../src/fwbackups.glade.h:95
 #, no-c-format
 msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
-msgstr ""
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
 
 #: ../src/fwbackups.glade.h:96
 msgid "<span size=\"large\"> A feature-rich user backup program</span>"
@@ -1544,7 +1545,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:112
 msgid "License"
-msgstr ""
+msgstr "Licença"
 
 #: ../src/fwbackups.glade.h:113
 msgid ""
@@ -1565,7 +1566,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:127
 msgid "Credits"
-msgstr ""
+msgstr "Creditos"
 
 #: ../src/fwbackups.glade.h:128
 msgid "Select a file or folder"
@@ -1584,15 +1585,15 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:133
 msgid "Save to..."
-msgstr ""
+msgstr "Guardar para..."
 
 #: ../src/fwbackups.glade.h:134
 msgid "Status: fwbackups is running"
-msgstr ""
+msgstr "Estado: fwbackups está em execução"
 
 #: ../src/fwbackups.glade.h:135
 msgid "_Show Administrator"
-msgstr ""
+msgstr "_Mostrar Administrador"
 
 #: ../src/fwbackups.glade.h:136
 msgid "_Minimize to tray on close"
@@ -1608,15 +1609,15 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:139
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferências"
 
 #: ../src/fwbackups.glade.h:140
 msgid "_Quit"
-msgstr ""
+msgstr "_Fechar"
 
 #: ../src/fwbackups.glade.h:142
 msgid "_Export"
-msgstr ""
+msgstr "_Exportar"
 
 #: ../src/fwbackups.glade.h:143
 msgid "Export to:"
@@ -1649,11 +1650,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:154
 msgid "Date:"
-msgstr ""
+msgstr "Data:"
 
 #: ../src/fwbackups.glade.h:155
 msgid "Browse..."
-msgstr ""
+msgstr "Explorar..."
 
 #: ../src/fwbackups.glade.h:156
 msgid "Archive:"
@@ -1661,11 +1662,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:157
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: ../src/fwbackups.glade.h:158
 msgid "Location:"
-msgstr ""
+msgstr "Localização:"
 
 #: ../src/fwbackups.glade.h:159
 msgid "Test Settings"
@@ -1701,7 +1702,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:167
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 #: ../src/fwbackups.glade.h:168
 msgid "Minimize to tray on close"
@@ -1757,7 +1758,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:181
 msgid "Paths"
-msgstr ""
+msgstr "Caminhos"
 
 #: ../src/fwbackups.glade.h:182
 msgid "Destination Type:"
@@ -1765,7 +1766,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:183
 msgid "Destination"
-msgstr ""
+msgstr "Destino"
 
 #: ../src/fwbackups.glade.h:184
 msgid "<b>Day(s) of the Week</b>"
@@ -1817,7 +1818,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:197
 msgid "From:"
-msgstr ""
+msgstr "De:"
 
 #: ../src/fwbackups.glade.h:198
 msgid ""
@@ -1837,11 +1838,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:210
 msgid "To:"
-msgstr ""
+msgstr "Para:"
 
 #: ../src/fwbackups.glade.h:211
 msgid "<b>Months</b>"
-msgstr ""
+msgstr "<b>Meses</b>"
 
 #: ../src/fwbackups.glade.h:212
 msgid "Only on:"

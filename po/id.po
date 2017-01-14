@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# wantoyo <wantoyo@yahoo.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-23 12:26+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
-"Language-Team: Icelandic (http://www.transifex.com/Magic/fwbackups/language/is/)\n"
+"PO-Revision-Date: 2016-05-29 03:36+0000\n"
+"Last-Translator: wantoyo <wantoyo@yahoo.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/Magic/fwbackups/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
@@ -70,7 +71,7 @@ msgstr ""
 
 #: ../test.operations.py:107
 msgid "Backup failed!"
-msgstr ""
+msgstr "Gagal mencadangkan!"
 
 #: ../test.operations.py:124
 #, python-format
@@ -84,7 +85,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:527
 #: ../src/fwbackups/operations/backup.py:632
 msgid "Backup"
-msgstr ""
+msgstr "Cadangkan"
 
 #: ../test.operations.py:147 ../test.operations.py:176
 #: ../test.operations.py:201 ../test.operations.py:226
@@ -251,7 +252,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Hvíld"
+msgstr ""
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
@@ -1227,7 +1228,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr "Staða:"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1405,7 +1406,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:66
 msgid "_File"
-msgstr ""
+msgstr "_File"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
@@ -1485,7 +1486,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr "_Kladdi"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
@@ -1497,7 +1498,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:89
 msgid "_Help"
-msgstr ""
+msgstr "_Bantuan"
 
 #: ../src/fwbackups.glade.h:90
 msgid "Check for _Updates"

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # abuyop <abuyop@gmail.com>, 2015
-# abuyop <abuyop@gmail.com>, 2015
+# abuyop <abuyop@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2015-12-29 23:23+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
+"PO-Revision-Date: 2016-11-27 23:59+0000\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (http://www.transifex.com/Magic/fwbackups/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,26 +107,26 @@ msgstr "*** Menjalankan pemulihan arkib setempat"
 #. Local folder
 #: ../test.operations.py:205
 msgid "*** Running restore of a local folder"
-msgstr ""
+msgstr "*** Menjalankan pemulihan folder setempat"
 
 #. Remote archive (SSH)
 #: ../test.operations.py:230
 msgid "*** Running restore of a remote archive (SSH)"
-msgstr ""
+msgstr "*** Menjalankan pemulihan arkib jauh (SSH)"
 
 #. Remote folder (SSH)
 #: ../test.operations.py:261
 msgid "*** Running restore of a remote folder (SSH)"
-msgstr ""
+msgstr "*** Menjalankan pemulihan folder jauh (SSH)"
 
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Ralat: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
-msgstr ""
+msgstr "Jalankan dengan --help untuk maklumat penggunaan."
 
 #: ../bin/fwbackups-run.py:43
 msgid ""
@@ -137,20 +137,20 @@ msgid ""
 "  -l, --silent  :  Print messages to log file only\n"
 "\n"
 "Set_Name(s) is space-seperated list of set names to run backups of."
-msgstr ""
+msgstr "Penggunaan: fwbackups-run [OPTIONS] Set_Name(s)\nPilihan:\n  -v, --verbose  :  Tingkatkan kejelaanm(cetak mesej nyahpepijat)\n  -h, --help  :  Cetak mesej ini kemudian keluar\n  -l, --silent  :  Cetak mesej ke fail log sahaja\n\nSet_Name(s) adalah senarai diasing-jarak bagi set nama untuk jalankan sandar."
 
 #: ../bin/fwbackups-run.py:95
 msgid "Invalid usage: Requires at least one set name to backup"
-msgstr ""
+msgstr "Penggunaan tidak sah: Memerlukan sekurang-kurangnya satu set nama sebagai sandar"
 
 #: ../bin/fwbackups-run.py:112
 #, python-format
 msgid "The set configuration for '%s' was not found - skipping."
-msgstr ""
+msgstr "Set konfigurasi untuk '%s' tidak ditemui - melangkau."
 
 #: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
 msgid "An error occurred while initializing the backup operation!"
-msgstr ""
+msgstr "Ralat berlaku ketika mengawalkan operasi sandar!"
 
 #. thread returned
 #: ../bin/fwbackups-run.py:132 ../bin/fwbackups-runonce.py:192
@@ -158,13 +158,13 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2753
 #, python-format
 msgid "Thread returned with retval %s"
-msgstr ""
+msgstr "Bebenang dikembalikan dengan retval %s"
 
 #: ../bin/fwbackups-run.py:134 ../bin/fwbackups-runonce.py:194
 #: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
 #: ../src/fwbackups/operations/backup.py:729
 msgid "There was an error while performing the backup!"
-msgstr ""
+msgstr "Terdapat ralat ketika membuat sandar!"
 
 #: ../bin/fwbackups-runonce.py:42
 msgid ""
@@ -193,143 +193,143 @@ msgid ""
 "Defaults to tar engine and local destination unless specified otherwise.\n"
 "Supplying --remote* will have no effect unless thedestination type is\n"
 "`remote (ssh)'."
-msgstr ""
+msgstr "Penggunaan: fwbackups-runonce --destination-type=TYPE --engine=ENGINE [OPTIONS] Path(s) Destination\nPilihan:\n  -v, --verbose  :  Tingkatkan kejelaan (cetak mesej nyahpepijat)\n  -h, --help  :  Cetak mesej ini kemudian keluar\n  -r, --recursive  :  Buar sandar rekursif\n  -i, --hidden  :  Sertakan fail tersembunyi dalam sandar\n  -p, --packages2file  :  Cetak senarai pakej terpasang ke dalam fail teks\n  -d, --diskinfo2file  :  Cetak geometri cakera ke dalam fail (mesti dalam root)\n  -s, --sparse  :  Kendali fail sparse secara efisyen\n  -e, --engine=ENGINE  :  Guna enjin sandar yang dinyatakan.\n              Enjin yang sah adalah tar, tar.gz, tar.bz2 dan rsync.\n  -x, --exclude='PATTERN'  :  Langkau fail sepadan dengan PATTERN.\n  -n, --nice=NICE  :  Tunjukkan keelokan proses sandar (-20 hingga 19)\n  --destination-type=TYPE  :  Jenis destinasi (`local' atau `remote (ssh)')\n  --remote-host=HOSTNAME  :  Sambung ke hos jauh `HOSTNAME'\n  --remote-user=USERNAME  :  Sambung sebagai nama pengguna yang dinyatakan\n  --remote-password=PASSWORD  :  Sambung menggunakan kata laluan `PASSWORD'\n  --remote-port=PORT  :  Sambung pada port yang dinyatakan (lalai 22)\n\nPath(s) adalah senarai diasing-jarak bagi laluan yang disertakan dalam sandar.\nDestinasi ialah direktori yang mana sandar OneTime patut diletak di dalamnya.\n\nLalai pada enjin tar dan destinasi setempat melainkan dinyatakan.\nDengan memasukkan --remote* tidak memberikan kesan melainkan jenis destinasi ialah\n`remote (ssh)'."
 
 #: ../bin/fwbackups-runonce.py:128
 #, python-format
 msgid "No such engine `%s'"
-msgstr ""
+msgstr "Tiada enjin '%s' sebegitu"
 
 #: ../bin/fwbackups-runonce.py:135
 msgid "You must be root to set a niceness below 0"
-msgstr ""
+msgstr "Anda mesti dalam root untuk tetapkan keelokan di bawah 0"
 
 #: ../bin/fwbackups-runonce.py:139
 msgid "Nice value must be an integer between -20 and 19"
-msgstr ""
+msgstr "Nilai elok mestilah integer diantara -20 hingga 19"
 
 #: ../bin/fwbackups-runonce.py:155
 msgid "Requires at least one path to backup and a destination"
-msgstr ""
+msgstr "Memerlukan sekurang-kurangnya satu laluan untuk sandar dan destinasi"
 
 #: ../bin/fwbackups-runonce.py:169
 msgid "Destination type was not specified"
-msgstr ""
+msgstr "Jenis destinasi tidak dinyatakan"
 
 #: ../bin/fwbackups-runonce.py:172
 msgid "An engine was not specified"
-msgstr ""
+msgstr "Satu enjin tidak dinyatakan"
 
 #: ../src/fwbackups-runapp.py:42
 msgid "An error occurred while importing gtk/gobject."
-msgstr ""
+msgstr "Satu ralat berlaku ketika mengimport gtk/gobject."
 
 #: ../src/fwbackups-runapp.py:43
 msgid "Please make sure you have a valid GTK+ Runtime Environment."
-msgstr ""
+msgstr "Sila pastikan anda mempunyai Persekitaran Masa Jalan GTK+ yang sah."
 
 #: ../src/fwbackups-runapp.py:67
 #, python-format
 msgid "fwbackups bug report written saved at %s"
-msgstr ""
+msgstr "laporan pepijat fwbackups bertulis disimpan di %s"
 
 #: ../src/fwbackups-runapp.py:72
 msgid "Could not write bug report due to insufficient permissions."
-msgstr ""
+msgstr "Tidak dapat tulis laporan pepijat kerana keizinan terhad."
 
 #: ../src/fwbackups-runapp.py:84
 msgid "Please install pycrypto (python-crypto)"
-msgstr ""
+msgstr "Sila pasang pycrypto (python-crypto)"
 
 #: ../src/fwbackups-runapp.py:88
 msgid "Please install paramiko (python-paramiko)"
-msgstr ""
+msgstr "Sila pasang paramiko (python-paramiko)"
 
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr ""
+msgstr "Melahu"
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
 msgid "Click 'Backup Set Now' to begin"
-msgstr ""
+msgstr "Klik 'Sandar Set Sekarang' untuk mula"
 
 #: ../src/fwbackups-runapp.py:216
 msgid "Click 'Start Backup' to begin"
-msgstr ""
+msgstr "Klik 'Mula Sandar' untuk mula"
 
 #: ../src/fwbackups-runapp.py:217
 msgid "Click 'Start Restore' to begin"
-msgstr ""
+msgstr "Klik 'Mula Pulih' untuk mula"
 
 #. self.ui.splashProgress.set_text('%s%% complete: %s' % (percent, text))
 #: ../src/fwbackups-runapp.py:235
 #, python-format
 msgid "<span size=\"small\">%s%% complete: %s</span>"
-msgstr ""
+msgstr "<span size=\"small\">%s%% selesai: %s</span>"
 
 #: ../src/fwbackups-runapp.py:256
 msgid "Checking permissions"
-msgstr ""
+msgstr "Memeriksa keizinan"
 
 #: ../src/fwbackups-runapp.py:264
 msgid "Could not setup the fwbackups configuration folder"
-msgstr ""
+msgstr "Tidak dapat pasang folder konfigurasi fwbackups"
 
 #: ../src/fwbackups-runapp.py:265 ../src/fwbackups-runapp.py:304
 #, python-format
 msgid "The following error occured: %s"
-msgstr ""
+msgstr "Ralat berikut berlaku: %s"
 
 #. Step 2: Setup the logger
 #: ../src/fwbackups-runapp.py:268
 msgid "Setting up the logger and user preferences"
-msgstr ""
+msgstr "Menetapkan pengelof dan keutamaan pengguna"
 
 #: ../src/fwbackups-runapp.py:272
 #, python-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "Ralat pengesahan: %s"
 
 #: ../src/fwbackups-runapp.py:273
 msgid "Preferences could not be read"
-msgstr ""
+msgstr "Keutamaan tidak dapat dibaca"
 
 #: ../src/fwbackups-runapp.py:273
 msgid ""
 "The preferences file may be corrupted and could not be read by fwbackups. "
 "Would you like to initialize a new one from the default values? If not, "
 "fwbackups will exit."
-msgstr ""
+msgstr "Fail keutamaan mungkin menjadi rosak dan tidak dapat disediakan oleh fwbackups. Anda mahu awalkan yang baharu menggunakan nilai lalai? Jika sebaliknya, fwbackups akan keluar."
 
 #. Log size...
 #: ../src/fwbackups-runapp.py:298
 msgid "Populating the log viewer"
-msgstr ""
+msgstr "Mengisi pelihat log"
 
 #: ../src/fwbackups-runapp.py:303
 msgid "Could not setup the logger"
-msgstr ""
+msgstr "Tidak dapat pasang pengelog"
 
 #: ../src/fwbackups-runapp.py:314
 msgid ""
 "pynotify was not found. Notifcations will not be displayed unless notify-"
 "python/pynotify is installed."
-msgstr ""
+msgstr "pynotify tidak ditemui. Pemberitahuan tidak dipaparkan melainkan notify-python/pynotify telah dipasangkan."
 
 #: ../src/fwbackups-runapp.py:342
 msgid "Cleaning after previous versions"
-msgstr ""
+msgstr "Membersihkan selepas versi terdahulu"
 
 #: ../src/fwbackups-runapp.py:349
 msgid "Previous installation of fwbackups 1.42.x or older detected"
-msgstr ""
+msgstr "Pemasangan terdahulu fwbackups 1.42.x atau lebih lama dikesan"
 
 #: ../src/fwbackups-runapp.py:349
 msgid ""
@@ -340,21 +340,21 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:356
 msgid "A backup of /etc/crontab could not be created"
-msgstr ""
+msgstr "Satu sandar /etc/crontab tidak dapat dicipta"
 
 #: ../src/fwbackups-runapp.py:356
 msgid ""
 "You may wish to edit /etc/crontab manually and remove any fwbackups-related "
 "lines."
-msgstr ""
+msgstr "Anda mahu sunting /etc/crontab secara manual dan buang mana-mana baris berkaitan-fwbackups."
 
 #: ../src/fwbackups-runapp.py:357
 msgid "Could not create a backup of /etc/crontab; refusing to clean up."
-msgstr ""
+msgstr "Tidak dapat cipta sandar /etc/crontab; dinafikan pembersihan."
 
 #: ../src/fwbackups-runapp.py:360
 msgid "Cleaning up /etc/crontab from previous installation of fwbackups"
-msgstr ""
+msgstr "Membersihkan /etc/crontab dari pemasangan terdahulu fwbackups"
 
 #: ../src/fwbackups-runapp.py:369
 #, python-format
@@ -365,19 +365,19 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:370
 msgid "Cleanup of the system crontab failed"
-msgstr ""
+msgstr "Pembersihan crontab sistem mengalami kegagalan"
 
 #: ../src/fwbackups-runapp.py:372
 msgid "Ready!"
-msgstr ""
+msgstr "Sedia!"
 
 #: ../src/fwbackups-runapp.py:376
 msgid "fwbackups administrator started"
-msgstr ""
+msgstr "pentadbir fwbackups bermula"
 
 #: ../src/fwbackups-runapp.py:400
 msgid "Would you like to clean up the log file?"
-msgstr ""
+msgstr "Anda mahu bersihkan fail log?"
 
 #: ../src/fwbackups-runapp.py:400
 #, python-format
@@ -389,20 +389,20 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:558
 #, python-format
 msgid "Could not create notification: %s"
-msgstr ""
+msgstr "Tidak dapat cipta pemberitahuan: %s"
 
 #: ../src/fwbackups-runapp.py:591
 msgid "Regenerating crontab"
-msgstr ""
+msgstr "Menjana semula crontab"
 
 #: ../src/fwbackups-runapp.py:592
 msgid "Please wait... Regenerating crontab"
-msgstr ""
+msgstr "Tunggu sebentar... Menjana semula crontab"
 
 #: ../src/fwbackups-runapp.py:606
 #, python-format
 msgid "Could not parse the configuration for set '%s'"
-msgstr ""
+msgstr "Tidak dapat hurai konfigurasi untuk set '%s'"
 
 #: ../src/fwbackups-runapp.py:607
 #, python-format
@@ -441,16 +441,16 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:622
 #, python-format
 msgid "Saving set `%s' to the crontab"
-msgstr ""
+msgstr "Menyimpan set '%s' ke crontab"
 
 #: ../src/fwbackups-runapp.py:632
 #, python-format
 msgid "Unable to write new crontab: %s"
-msgstr ""
+msgstr "Tidak boleh tulis crontab baharu: %s"
 
 #: ../src/fwbackups-runapp.py:633
 msgid "Unable to save backup schedule to crontab"
-msgstr ""
+msgstr "Tidak boleh simpan jadual sandar ke crontab"
 
 #: ../src/fwbackups-runapp.py:633
 msgid ""
@@ -471,17 +471,17 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:655
 msgid "fwbackups is working"
-msgstr ""
+msgstr "fwbackups telah berjalan"
 
 #: ../src/fwbackups-runapp.py:656
 msgid ""
 "An operation is currently in progress. Would you like to cancel it and quit "
 "anyways?"
-msgstr ""
+msgstr "Satu operasi sedang berjalan. Anda mahu batalkannya dan keluar jua?"
 
 #: ../src/fwbackups-runapp.py:658
 msgid "Please wait... Canceling operations"
-msgstr ""
+msgstr "Tunggu sebentar... Membatalkan operasi"
 
 #: ../src/fwbackups-runapp.py:671
 msgid "fwbackups detected more than one alive threads!"
@@ -500,11 +500,11 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:680
 msgid "Please submit a bug report and include this message."
-msgstr ""
+msgstr "Sila serahkan laporan pepijat dan sertakan mesej ini."
 
 #: ../src/fwbackups-runapp.py:689 ../src/fwbackups-runapp.py:2431
 msgid "Could not save backup schedule"
-msgstr ""
+msgstr "Tidak dapat simpan jadual sandar"
 
 #: ../src/fwbackups-runapp.py:689
 msgid ""
@@ -516,37 +516,37 @@ msgstr ""
 #. Shutdown logging & quit the GTK mainloop
 #: ../src/fwbackups-runapp.py:691
 msgid "fwbackups administrator closed"
-msgstr ""
+msgstr "pentadbir fwbackups ditutup"
 
 #: ../src/fwbackups-runapp.py:707
 msgid "Creating thread"
-msgstr ""
+msgstr "Mencipta bebenang"
 
 #: ../src/fwbackups-runapp.py:708
 msgid "testConnection(): Creating thread"
-msgstr ""
+msgstr "testConnection(): Mencipta bebenang"
 
 #: ../src/fwbackups-runapp.py:711
 msgid "Attempting to connect"
-msgstr ""
+msgstr "Percubaan untuk menyambung"
 
 #: ../src/fwbackups-runapp.py:715
 #, python-format
 msgid "testConnection(): Thread returning with retval %s"
-msgstr ""
+msgstr "testConnection(): Bebenang dikembalikan dengan retval %s"
 
 #: ../src/fwbackups-runapp.py:717
 msgid "Success!"
-msgstr ""
+msgstr "Berjaya!"
 
 #: ../src/fwbackups-runapp.py:717
 #, python-format
 msgid "fwbackups was able to connect and authenticate on '%s'."
-msgstr ""
+msgstr "fwbackups dapat disambungkan dan disahihkan pada '%s'."
 
 #: ../src/fwbackups-runapp.py:719
 msgid "Remote destination is not usable"
-msgstr ""
+msgstr "Destiansi jauh tidak boleh digunakan"
 
 #: ../src/fwbackups-runapp.py:719
 #, python-format
@@ -557,7 +557,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:721 ../src/fwbackups-runapp.py:1711
 msgid "Authentication failed"
-msgstr ""
+msgstr "Pengesahihan gagal"
 
 #: ../src/fwbackups-runapp.py:721
 #, python-format
@@ -574,38 +574,38 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:723
 #, python-format
 msgid "Error %(a)s: %(b)s"
-msgstr ""
+msgstr "Ralat %(a)s: %(b)s"
 
 #: ../src/fwbackups-runapp.py:725
 #, python-format
 msgid "The server '%s' is not responding"
-msgstr ""
+msgstr "Pelayan '%s' tidak memberi respon"
 
 #: ../src/fwbackups-runapp.py:725 ../src/fwbackups-runapp.py:1718
 msgid "Please verify your settings and try again."
-msgstr ""
+msgstr "Sila sahkan tetapan anda dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:727
 #, python-format
 msgid "Error: %s. Please verify your settings and try again."
-msgstr ""
+msgstr "Ralat: %s. Sila sahkan tetapan anda dan cuba lagi."
 
 #: ../src/fwbackups-runapp.py:729 ../src/fwbackups-runapp.py:1400
 #: ../src/fwbackups-runapp.py:1723
 msgid "Unexpected error"
-msgstr ""
+msgstr "Ralat tidak dijangka"
 
 #: ../src/fwbackups-runapp.py:741
 msgid "Select file(s)"
-msgstr ""
+msgstr "Pilih fail(s)"
 
 #: ../src/fwbackups-runapp.py:742
 msgid "Configuration files (*.conf)"
-msgstr ""
+msgstr "Fail konfigurasi (*.conf)"
 
 #: ../src/fwbackups-runapp.py:803
 msgid "File Exists"
-msgstr ""
+msgstr "Fail Wujud"
 
 #: ../src/fwbackups-runapp.py:804
 #, python-format
@@ -619,25 +619,25 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:815 ../src/fwbackups.glade.h:141
 msgid "Export Sets"
-msgstr ""
+msgstr "Eksport Set"
 
 #: ../src/fwbackups-runapp.py:825
 msgid "Sets exported"
-msgstr ""
+msgstr "Set dieksport"
 
 #: ../src/fwbackups-runapp.py:825
 msgid "The selected sets were exported successfully."
-msgstr ""
+msgstr "Set terpilih telah berjaya dieskportkan."
 
 #: ../src/fwbackups-runapp.py:853 ../src/fwbackups-runapp.py:1349
 #: ../src/fwbackups-runapp.py:1367 ../src/fwbackups-runapp.py:1445
 #: ../src/fwbackups-runapp.py:2485
 msgid "No set has been selected"
-msgstr ""
+msgstr "Tiada set telah dipilih"
 
 #: ../src/fwbackups-runapp.py:853
 msgid "You must select a set to duplicate."
-msgstr ""
+msgstr "Anda mesti pilih satu set untuk diduplikasikan."
 
 #: ../src/fwbackups-runapp.py:858
 msgid "_copy"
@@ -1229,7 +1229,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1407,7 +1407,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:66
 msgid "_File"
-msgstr ""
+msgstr "_Fail"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
@@ -1455,7 +1455,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:78
 msgid "_View"
-msgstr ""
+msgstr "_Lihat"
 
 #: ../src/fwbackups.glade.h:79
 msgid "Switch to Overview"
@@ -1487,7 +1487,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr ""
+msgstr "_Log"
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
@@ -1499,7 +1499,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:89
 msgid "_Help"
-msgstr ""
+msgstr "_Bantuan"
 
 #: ../src/fwbackups.glade.h:90
 msgid "Check for _Updates"
@@ -1567,7 +1567,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:127
 msgid "Credits"
-msgstr ""
+msgstr "Penghargaan"
 
 #: ../src/fwbackups.glade.h:128
 msgid "Select a file or folder"
@@ -1819,7 +1819,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:197
 msgid "From:"
-msgstr ""
+msgstr "Dari:"
 
 #: ../src/fwbackups.glade.h:198
 msgid ""
@@ -1839,7 +1839,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:210
 msgid "To:"
-msgstr ""
+msgstr "Hingga:"
 
 #: ../src/fwbackups.glade.h:211
 msgid "<b>Months</b>"
@@ -2557,28 +2557,28 @@ msgstr ""
 
 #: ../src/fwbackups/widgets.py:536
 msgid "Access"
-msgstr ""
+msgstr "Capai"
 
 #: ../src/fwbackups/widgets.py:542
 msgid "Path"
-msgstr ""
+msgstr "Laluan"
 
 #: ../src/fwbackups/widgets.py:618
 msgid "Choose file(s)"
-msgstr ""
+msgstr "Pilih fail(s)"
 
 #: ../src/fwbackups/widgets.py:629
 msgid "Choose folder(s)"
-msgstr ""
+msgstr "Pilih folder(s)"
 
 #: ../src/fwbackups/widgets.py:660
 msgid "Please select a path before choosing an action."
-msgstr ""
+msgstr "Sila pilih satu laluan sebelum memilih satu tindakan."
 
 #: ../src/fwbackups/widgets.py:696
 msgid "Export"
-msgstr ""
+msgstr "Eksport"
 
 #: ../src/fwbackups/widgets.py:702
 msgid "Set"
-msgstr ""
+msgstr "Set"

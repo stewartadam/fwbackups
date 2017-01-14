@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ardit Dani <ardit.dani@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-23 12:26+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
-"Language-Team: Icelandic (http://www.transifex.com/Magic/fwbackups/language/is/)\n"
+"PO-Revision-Date: 2016-03-17 22:20+0000\n"
+"Last-Translator: Ardit Dani <ardit.dani@gmail.com>\n"
+"Language-Team: Albanian (http://www.transifex.com/Magic/fwbackups/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
@@ -43,7 +44,7 @@ msgstr ""
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
-msgstr ""
+msgstr "Port [22]: "
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
@@ -52,11 +53,11 @@ msgstr ""
 #: ../test.operations.py:66
 #, python-format
 msgid "Username [%s]: "
-msgstr ""
+msgstr "Përdorues [%s]: "
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr ""
+msgstr "Fjalëkalim:"
 
 #: ../test.operations.py:68
 #, python-format
@@ -120,7 +121,7 @@ msgstr ""
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Gabim: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
@@ -246,12 +247,12 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Hvíld"
+msgstr ""
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
@@ -367,7 +368,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:372
 msgid "Ready!"
-msgstr ""
+msgstr "Gati!"
 
 #: ../src/fwbackups-runapp.py:376
 msgid "fwbackups administrator started"
@@ -1161,7 +1162,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:1
 msgid "fwbackups"
-msgstr ""
+msgstr "fwbackups"
 
 #: ../src/fwbackups.glade.h:2
 msgid "To start, click one of the buttons on the above or use the menus."
@@ -1227,7 +1228,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr "Staða:"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1485,7 +1486,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr "_Kladdi"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"

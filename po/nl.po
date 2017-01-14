@@ -3,79 +3,80 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Antonius32, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-23 12:26+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
-"Language-Team: Icelandic (http://www.transifex.com/Magic/fwbackups/language/is/)\n"
+"PO-Revision-Date: 2016-08-10 13:40+0000\n"
+"Last-Translator: Antonius32\n"
+"Language-Team: Dutch (http://www.transifex.com/Magic/fwbackups/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
-msgstr ""
+msgstr "*** Bestanden worden geïnitialiseerd"
 
 #: ../test.operations.py:41
 #, python-format
 msgid ""
 "Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> "
 "to cancel..."
-msgstr ""
+msgstr "Map %s bestaat en zal worden leeggemaakt. Druk op <Enter> om te bevestigen of op <ctrl+c> om te annuleren..."
 
 #: ../test.operations.py:47
 #, python-format
 msgid "Cleaning folder %s..."
-msgstr ""
+msgstr "Map %s wordt opgeschoond..."
 
 #: ../test.operations.py:57
 msgid "*** Remote settings"
-msgstr ""
+msgstr "*** Instellingen voor externe back-up"
 
 #: ../test.operations.py:58
 msgid "Hostname [localhost]: "
-msgstr ""
+msgstr "Hostnaam [localhost]:"
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
-msgstr ""
+msgstr "Poort [22]:"
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
-msgstr ""
+msgstr "Het veld \"Poort\" mag alleen cijfers bevatten. Probeer het alstublieft opnieuw."
 
 #: ../test.operations.py:66
 #, python-format
 msgid "Username [%s]: "
-msgstr ""
+msgstr "Gebruikersnaam [%s]:"
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr ""
+msgstr "Wachtwoord:"
 
 #: ../test.operations.py:68
 #, python-format
 msgid "Remote folder [%s]: "
-msgstr ""
+msgstr "Externe map [%s]:"
 
 #: ../test.operations.py:96
 #, python-format
 msgid "*** Running %(a)s backup with engine %(b)s"
-msgstr ""
+msgstr "*** Back-up %(a)s wordt uitgevoerd met engine %(b)s"
 
 #: ../test.operations.py:107
 msgid "Backup failed!"
-msgstr ""
+msgstr "Back-up mislukt!"
 
 #: ../test.operations.py:124
 #, python-format
 msgid "*** Running restore of remote test backup %s"
-msgstr ""
+msgstr "*** Herstel van externe testback-up %s wordt uitgevoerd"
 
 #. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
 #: ../test.operations.py:135 ../test.operations.py:165
@@ -84,47 +85,47 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:527
 #: ../src/fwbackups/operations/backup.py:632
 msgid "Backup"
-msgstr ""
+msgstr "Back-up"
 
 #: ../test.operations.py:147 ../test.operations.py:176
 #: ../test.operations.py:201 ../test.operations.py:226
 #: ../test.operations.py:257 ../test.operations.py:288
 msgid "Restore failed!"
-msgstr ""
+msgstr "Herstel mislukt!"
 
 #: ../test.operations.py:160
 #, python-format
 msgid "*** Running restore of local test backup %s"
-msgstr ""
+msgstr "*** Herstel van lokale testback-up %s wordt uitgevoerd"
 
 #. Local archive
 #: ../test.operations.py:180
 msgid "*** Running restore of a local archive"
-msgstr ""
+msgstr "*** Herstel van lokaal back-uparchief wordt uitgevoerd"
 
 #. Local folder
 #: ../test.operations.py:205
 msgid "*** Running restore of a local folder"
-msgstr ""
+msgstr "*** Herstel van lokale back-upmap wordt uitgevoerd"
 
 #. Remote archive (SSH)
 #: ../test.operations.py:230
 msgid "*** Running restore of a remote archive (SSH)"
-msgstr ""
+msgstr "*** Herstel van extern back-uparchief wordt uitgevoerd (SSH)"
 
 #. Remote folder (SSH)
 #: ../test.operations.py:261
 msgid "*** Running restore of a remote folder (SSH)"
-msgstr ""
+msgstr "*** Herstel van externe back-upmap wordt uitgevoerd (SSH)"
 
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Fout: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
-msgstr ""
+msgstr "Voer uit met --help voor informatie over het gebruik"
 
 #: ../bin/fwbackups-run.py:43
 msgid ""
@@ -135,20 +136,20 @@ msgid ""
 "  -l, --silent  :  Print messages to log file only\n"
 "\n"
 "Set_Name(s) is space-seperated list of set names to run backups of."
-msgstr ""
+msgstr "Gebruik: fwbackups-run [OPTIONS] Set_Name(s)\nOpties:\n-v, --verbose : Uitvoeriger loggen (log debug-meldingen)\n-h, --help : Dit bericht afdrukken naar logbestand en afsluiten\n-l, --silent : Alleen berichten naar logbestand afdrukken\n\nSet_Name(s) is een kommagescheiden lijst met namen van uit te voeren back-upsets."
 
 #: ../bin/fwbackups-run.py:95
 msgid "Invalid usage: Requires at least one set name to backup"
-msgstr ""
+msgstr "Ongeldig gebruik: vereist tenminste een naam van een uit te voeren back-upset"
 
 #: ../bin/fwbackups-run.py:112
 #, python-format
 msgid "The set configuration for '%s' was not found - skipping."
-msgstr ""
+msgstr "De instellingen voor back-upset %s werden niet gevonden - set wordt overgeslagen"
 
 #: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
 msgid "An error occurred while initializing the backup operation!"
-msgstr ""
+msgstr "Er is een fout opgetreden tijdens het initialiseren van de back-up!"
 
 #. thread returned
 #: ../bin/fwbackups-run.py:132 ../bin/fwbackups-runonce.py:192
@@ -156,13 +157,13 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2753
 #, python-format
 msgid "Thread returned with retval %s"
-msgstr ""
+msgstr "Thread returned with retval %s"
 
 #: ../bin/fwbackups-run.py:134 ../bin/fwbackups-runonce.py:194
 #: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
 #: ../src/fwbackups/operations/backup.py:729
 msgid "There was an error while performing the backup!"
-msgstr ""
+msgstr "Er is een fout opgetreden tijdens het uitvoeren van de back-up!"
 
 #: ../bin/fwbackups-runonce.py:42
 msgid ""
@@ -251,7 +252,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Hvíld"
+msgstr ""
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
@@ -1227,7 +1228,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr "Staða:"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1485,7 +1486,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr "_Kladdi"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
@@ -2575,7 +2576,7 @@ msgstr ""
 
 #: ../src/fwbackups/widgets.py:696
 msgid "Export"
-msgstr ""
+msgstr "Exporteren"
 
 #: ../src/fwbackups/widgets.py:702
 msgid "Set"
