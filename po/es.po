@@ -3,23 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Miguel de Dios Matias <tres.14159@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-23 12:26+0000\n"
-"Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
-"Language-Team: Icelandic (http://www.transifex.com/Magic/fwbackups/language/is/)\n"
+"PO-Revision-Date: 2016-10-25 00:08+0000\n"
+"Last-Translator: Miguel de Dios Matias <tres.14159@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/Magic/fwbackups/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
-msgstr ""
+msgstr "*** Inicializando ficheros"
 
 #: ../test.operations.py:41
 #, python-format
@@ -31,7 +32,7 @@ msgstr ""
 #: ../test.operations.py:47
 #, python-format
 msgid "Cleaning folder %s..."
-msgstr ""
+msgstr "Limpiando directorio %s..."
 
 #: ../test.operations.py:57
 msgid "*** Remote settings"
@@ -43,25 +44,25 @@ msgstr ""
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
-msgstr ""
+msgstr "Puerto [22]:"
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
-msgstr ""
+msgstr "El campo de puerto solo puede contener números. Por favor inténtalo otra vez."
 
 #: ../test.operations.py:66
 #, python-format
 msgid "Username [%s]: "
-msgstr ""
+msgstr "Usuario [%s]: "
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr ""
+msgstr "Contraseña: "
 
 #: ../test.operations.py:68
 #, python-format
 msgid "Remote folder [%s]: "
-msgstr ""
+msgstr "Directorio remoto [%s]: "
 
 #: ../test.operations.py:96
 #, python-format
@@ -84,7 +85,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:527
 #: ../src/fwbackups/operations/backup.py:632
 msgid "Backup"
-msgstr ""
+msgstr "Copia de seguridad"
 
 #: ../test.operations.py:147 ../test.operations.py:176
 #: ../test.operations.py:201 ../test.operations.py:226
@@ -120,11 +121,11 @@ msgstr ""
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Error: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
-msgstr ""
+msgstr "Ejecutalo con --help para tener información de uso."
 
 #: ../bin/fwbackups-run.py:43
 msgid ""
@@ -156,7 +157,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2753
 #, python-format
 msgid "Thread returned with retval %s"
-msgstr ""
+msgstr "El hilo ha retornado el valor %s"
 
 #: ../bin/fwbackups-run.py:134 ../bin/fwbackups-runonce.py:194
 #: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
@@ -196,7 +197,7 @@ msgstr ""
 #: ../bin/fwbackups-runonce.py:128
 #, python-format
 msgid "No such engine `%s'"
-msgstr ""
+msgstr "Ningún motor `%s'"
 
 #: ../bin/fwbackups-runonce.py:135
 msgid "You must be root to set a niceness below 0"
@@ -246,12 +247,12 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Hvíld"
+msgstr ""
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
@@ -274,7 +275,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:256
 msgid "Checking permissions"
-msgstr ""
+msgstr "Probando permisos"
 
 #: ../src/fwbackups-runapp.py:264
 msgid "Could not setup the fwbackups configuration folder"
@@ -367,7 +368,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:372
 msgid "Ready!"
-msgstr ""
+msgstr "¡Listo!"
 
 #: ../src/fwbackups-runapp.py:376
 msgid "fwbackups administrator started"
@@ -469,7 +470,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:655
 msgid "fwbackups is working"
-msgstr ""
+msgstr "fwbackups esta funcionando"
 
 #: ../src/fwbackups-runapp.py:656
 msgid ""
@@ -518,7 +519,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:707
 msgid "Creating thread"
-msgstr ""
+msgstr "Creando hilo"
 
 #: ../src/fwbackups-runapp.py:708
 msgid "testConnection(): Creating thread"
@@ -535,7 +536,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:717
 msgid "Success!"
-msgstr ""
+msgstr "¡Exitoso!"
 
 #: ../src/fwbackups-runapp.py:717
 #, python-format
@@ -555,7 +556,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:721 ../src/fwbackups-runapp.py:1711
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autenticación fallida"
 
 #: ../src/fwbackups-runapp.py:721
 #, python-format
@@ -572,38 +573,38 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:723
 #, python-format
 msgid "Error %(a)s: %(b)s"
-msgstr ""
+msgstr "Error %(a)s: %(b)s"
 
 #: ../src/fwbackups-runapp.py:725
 #, python-format
 msgid "The server '%s' is not responding"
-msgstr ""
+msgstr "El servidor '%s' no esta respondiendo"
 
 #: ../src/fwbackups-runapp.py:725 ../src/fwbackups-runapp.py:1718
 msgid "Please verify your settings and try again."
-msgstr ""
+msgstr "Por favor verifica tus configuraciones y vuélvelo a intentar."
 
 #: ../src/fwbackups-runapp.py:727
 #, python-format
 msgid "Error: %s. Please verify your settings and try again."
-msgstr ""
+msgstr "Error: %s. Por favor verifica tus configuraciones y vuélvelo a intentar."
 
 #: ../src/fwbackups-runapp.py:729 ../src/fwbackups-runapp.py:1400
 #: ../src/fwbackups-runapp.py:1723
 msgid "Unexpected error"
-msgstr ""
+msgstr "Error inesperado"
 
 #: ../src/fwbackups-runapp.py:741
 msgid "Select file(s)"
-msgstr ""
+msgstr "Seleccionar Fichero(s)"
 
 #: ../src/fwbackups-runapp.py:742
 msgid "Configuration files (*.conf)"
-msgstr ""
+msgstr "Ficheros de configuración (*.conf)"
 
 #: ../src/fwbackups-runapp.py:803
 msgid "File Exists"
-msgstr ""
+msgstr "Fichero Existe"
 
 #: ../src/fwbackups-runapp.py:804
 #, python-format
@@ -639,7 +640,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:858
 msgid "_copy"
-msgstr ""
+msgstr "_copia"
 
 #: ../src/fwbackups-runapp.py:1062
 #, python-format
@@ -661,7 +662,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:1946 ../src/fwbackups-runapp.py:1957
 #: ../src/fwbackups-runapp.py:1968 ../src/fwbackups.glade.h:146
 msgid "Select a Folder"
-msgstr ""
+msgstr "Seleccionar directorio"
 
 #: ../src/fwbackups-runapp.py:1131 ../src/fwbackups-runapp.py:1229
 #: ../src/fwbackups-runapp.py:1489 ../src/fwbackups-runapp.py:1494
@@ -677,7 +678,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:1136
 msgid "Configuration not found"
-msgstr ""
+msgstr "Configuración no encontrada"
 
 #: ../src/fwbackups-runapp.py:1137
 msgid ""
@@ -834,7 +835,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:1746 ../src/fwbackups-runapp.py:1876
 #: ../src/fwbackups-runapp.py:1877
 msgid "No backups found"
-msgstr ""
+msgstr "No se han encontrado copias de seguridad"
 
 #: ../src/fwbackups-runapp.py:1810 ../src/fwbackups-runapp.py:1828
 #: ../src/fwbackups-runapp.py:1838
@@ -1003,7 +1004,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2491 ../src/fwbackups-runapp.py:2650
 #: ../src/fwbackups-runapp.py:2735
 msgid "Initializing"
-msgstr ""
+msgstr "Inicializando"
 
 #: ../src/fwbackups-runapp.py:2493 ../src/fwbackups-runapp.py:2534
 #: ../src/fwbackups-runapp.py:2539 ../src/fwbackups-runapp.py:2542
@@ -1012,7 +1013,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2737 ../src/fwbackups-runapp.py:2775
 #: ../src/fwbackups-runapp.py:2781 ../src/fwbackups-runapp.py:2786
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: ../src/fwbackups-runapp.py:2493
 #, python-format
@@ -1023,19 +1024,19 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2655 ../src/fwbackups-runapp.py:2715
 #: ../src/fwbackups-runapp.py:2740 ../src/fwbackups-runapp.py:2798
 msgid "Please wait..."
-msgstr ""
+msgstr "Por favor espera..."
 
 #: ../src/fwbackups-runapp.py:2502 ../src/fwbackups-runapp.py:2659
 #: ../src/fwbackups-runapp.py:2745
 msgid "Working"
-msgstr ""
+msgstr "Trabajando"
 
 #. error
 #: ../src/fwbackups-runapp.py:2519 ../src/fwbackups-runapp.py:2537
 #: ../src/fwbackups-runapp.py:2676 ../src/fwbackups-runapp.py:2695
 #: ../src/fwbackups-runapp.py:2759 ../src/fwbackups-runapp.py:2779
 msgid "<span color=\"Red\">Error</span>"
-msgstr ""
+msgstr "<span color=\"Red\">Error</span>"
 
 #: ../src/fwbackups-runapp.py:2520 ../src/fwbackups-runapp.py:2680
 #, python-format
@@ -1054,7 +1055,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2535 ../src/fwbackups-runapp.py:2693
 #: ../src/fwbackups-runapp.py:2776
 msgid "<span color=\"dark green\">Operation complete</span>"
-msgstr ""
+msgstr "<span color=\"dark green\">Operación completada</span>"
 
 #: ../src/fwbackups-runapp.py:2539
 #, python-format
@@ -1076,12 +1077,12 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2544 ../src/fwbackups-runapp.py:2704
 #: ../src/fwbackups-runapp.py:2788
 msgid "Operation cancelled"
-msgstr ""
+msgstr "Operación cancelada"
 
 #: ../src/fwbackups-runapp.py:2556 ../src/fwbackups-runapp.py:2716
 #: ../src/fwbackups-runapp.py:2799
 msgid "Cancelling..."
-msgstr ""
+msgstr "Cancelando..."
 
 #: ../src/fwbackups-runapp.py:2652
 msgid "Starting a one-time backup operation"
@@ -1108,7 +1109,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2729
 #, python-format
 msgid "Restoring: %s"
-msgstr ""
+msgstr "Restaurando: %s"
 
 #: ../src/fwbackups-runapp.py:2737
 msgid "Starting a restore operation"
@@ -1144,11 +1145,11 @@ msgstr ""
 #. Customize our help text for the pre-created options
 #: ../src/fwbackups-runapp.py:2810
 msgid "Show this program's version and exit"
-msgstr ""
+msgstr "Muestra la versión del programa y sale"
 
 #: ../src/fwbackups-runapp.py:2811
 msgid "Show this help message and exit"
-msgstr ""
+msgstr "Muestra este mensaje de ayuda y sale"
 
 #. Add custom options
 #: ../src/fwbackups-runapp.py:2813
@@ -1161,7 +1162,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:1
 msgid "fwbackups"
-msgstr ""
+msgstr "fwbackups"
 
 #: ../src/fwbackups.glade.h:2
 msgid "To start, click one of the buttons on the above or use the menus."
@@ -1179,11 +1180,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:6
 msgid "<b>Welcome</b>"
-msgstr ""
+msgstr "<b>Bienvenido</b>"
 
 #: ../src/fwbackups.glade.h:7
 msgid "<i>Not Loaded</i>"
-msgstr ""
+msgstr "<i>No cargado</i>"
 
 #: ../src/fwbackups.glade.h:8
 msgid "Total backup sets:"
@@ -1195,7 +1196,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:10
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Estado</b>"
 
 #: ../src/fwbackups.glade.h:11
 msgid "<span size=\"large\" weight=\"bold\">Overview</span>"
@@ -1227,7 +1228,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
-msgstr "Staða:"
+msgstr "Estado:"
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
@@ -1257,11 +1258,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:28
 msgid "Folder:"
-msgstr ""
+msgstr "Directorio:"
 
 #: ../src/fwbackups.glade.h:29
 msgid "/folder"
-msgstr ""
+msgstr "/directorio"
 
 #: ../src/fwbackups.glade.h:30
 msgid "Host:"
@@ -1269,11 +1270,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:31
 msgid "Username:"
-msgstr ""
+msgstr "Usuario:"
 
 #: ../src/fwbackups.glade.h:32
 msgid "Password:"
-msgstr ""
+msgstr "Contraseña:"
 
 #: ../src/fwbackups.glade.h:33
 msgid "_Test Settings"
@@ -1285,7 +1286,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:35
 msgid "Port:"
-msgstr ""
+msgstr "Puerto:"
 
 #: ../src/fwbackups.glade.h:36
 msgid "Destination type:"
@@ -1315,11 +1316,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:43
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: ../src/fwbackups.glade.h:44
 msgid "Recursive"
-msgstr ""
+msgstr "Recursivo"
 
 #: ../src/fwbackups.glade.h:45
 msgid "Print installed packages to a text file"
@@ -1361,11 +1362,11 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:55
 msgid "_Back"
-msgstr ""
+msgstr "_Atrás"
 
 #: ../src/fwbackups.glade.h:56
 msgid "_Next"
-msgstr ""
+msgstr "_Siguiente"
 
 #: ../src/fwbackups.glade.h:57
 msgid "_Start Backup"
@@ -1377,7 +1378,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:59
 msgid "_Save to File"
-msgstr ""
+msgstr "_Guardar en Fichero"
 
 #: ../src/fwbackups.glade.h:60
 msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
@@ -1405,7 +1406,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:66
 msgid "_File"
-msgstr ""
+msgstr "_Fichero"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
@@ -1429,7 +1430,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:72
 msgid "_Edit"
-msgstr ""
+msgstr "_Editar"
 
 #: ../src/fwbackups.glade.h:73
 msgid "Edit the selected backup set"
@@ -1453,7 +1454,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:78
 msgid "_View"
-msgstr ""
+msgstr "_Ver"
 
 #: ../src/fwbackups.glade.h:79
 msgid "Switch to Overview"
@@ -1485,7 +1486,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
-msgstr "_Kladdi"
+msgstr ""
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
@@ -1497,7 +1498,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:89
 msgid "_Help"
-msgstr ""
+msgstr "_Ayuda"
 
 #: ../src/fwbackups.glade.h:90
 msgid "Check for _Updates"
@@ -1505,20 +1506,20 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:91
 msgid "About fwbackups"
-msgstr ""
+msgstr "Sobre fwbackups"
 
 #: ../src/fwbackups.glade.h:92
 msgid "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
-msgstr ""
+msgstr "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
 
 #: ../src/fwbackups.glade.h:93
 msgid "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
-msgstr ""
+msgstr "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
 
 #: ../src/fwbackups.glade.h:95
 #, no-c-format
 msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
-msgstr ""
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
 
 #: ../src/fwbackups.glade.h:96
 msgid "<span size=\"large\"> A feature-rich user backup program</span>"
@@ -1544,7 +1545,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:112
 msgid "License"
-msgstr ""
+msgstr "Licencia"
 
 #: ../src/fwbackups.glade.h:113
 msgid ""
@@ -1608,15 +1609,15 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:139
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferencias"
 
 #: ../src/fwbackups.glade.h:140
 msgid "_Quit"
-msgstr ""
+msgstr "_Salir"
 
 #: ../src/fwbackups.glade.h:142
 msgid "_Export"
-msgstr ""
+msgstr "_Exportar"
 
 #: ../src/fwbackups.glade.h:143
 msgid "Export to:"
@@ -1649,7 +1650,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:154
 msgid "Date:"
-msgstr ""
+msgstr "Fecha:"
 
 #: ../src/fwbackups.glade.h:155
 msgid "Browse..."
@@ -1661,7 +1662,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:157
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: ../src/fwbackups.glade.h:158
 msgid "Location:"

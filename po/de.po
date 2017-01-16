@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-01-01 21:22+0000\n"
+"PO-Revision-Date: 2016-01-30 21:52+0000\n"
 "Last-Translator: psyca\n"
 "Language-Team: German (http://www.transifex.com/Magic/fwbackups/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Verzeichnis %s existiert und wird geleert. Drücke <Enter> zum bestätig
 #: ../test.operations.py:47
 #, python-format
 msgid "Cleaning folder %s..."
-msgstr "Ordner %s wird bereinigt..."
+msgstr "Verzeichnis %s wird bereinigt..."
 
 #: ../test.operations.py:57
 msgid "*** Remote settings"
@@ -147,7 +147,7 @@ msgstr ""
 #: ../bin/fwbackups-run.py:112
 #, python-format
 msgid "The set configuration for '%s' was not found - skipping."
-msgstr ""
+msgstr "Die Satzkonfiguration für '%s' wurde nicht gefunden - überspringe."
 
 #: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
 msgid "An error occurred while initializing the backup operation!"
@@ -236,7 +236,7 @@ msgstr "fwbackups Fehlerbericht wurde gespeichert unter %s"
 
 #: ../src/fwbackups-runapp.py:72
 msgid "Could not write bug report due to insufficient permissions."
-msgstr "Konnte den Fehlerbericht aufgrund fehlender Rechte nicht schreiben."
+msgstr "Konnte den Fehlerbericht aufgrund fehlender Berechtigungen nicht schreiben."
 
 #: ../src/fwbackups-runapp.py:84
 msgid "Please install pycrypto (python-crypto)"
@@ -281,7 +281,7 @@ msgstr "Überprüfe Berechtigungen"
 
 #: ../src/fwbackups-runapp.py:264
 msgid "Could not setup the fwbackups configuration folder"
-msgstr ""
+msgstr "Konnte das fwbackups Konfigurationsverzeichnis nicht einstellen"
 
 #: ../src/fwbackups-runapp.py:265 ../src/fwbackups-runapp.py:304
 #, python-format
@@ -355,7 +355,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:360
 msgid "Cleaning up /etc/crontab from previous installation of fwbackups"
-msgstr ""
+msgstr "Bereinige /etc/crontab von einer früheren Installation von fwbackups"
 
 #: ../src/fwbackups-runapp.py:369
 #, python-format
@@ -529,7 +529,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:711
 msgid "Attempting to connect"
-msgstr ""
+msgstr "Versuche zu verbinden"
 
 #: ../src/fwbackups-runapp.py:715
 #, python-format
@@ -543,7 +543,7 @@ msgstr "Erfolg!"
 #: ../src/fwbackups-runapp.py:717
 #, python-format
 msgid "fwbackups was able to connect and authenticate on '%s'."
-msgstr ""
+msgstr "fwbackups konnte sich mit '%s' verbinden und authentifizieren."
 
 #: ../src/fwbackups-runapp.py:719
 msgid "Remote destination is not usable"
@@ -616,19 +616,19 @@ msgstr "'%s.conf' ist bereits vorhanden! Möchten Sie sie überschreiben?"
 #: ../src/fwbackups-runapp.py:810
 #, python-format
 msgid "Exported set `%(a)s' to `%(b)s'"
-msgstr ""
+msgstr "Exportiere den Satz `%(a)s' nach `%(b)s'"
 
 #: ../src/fwbackups-runapp.py:815 ../src/fwbackups.glade.h:141
 msgid "Export Sets"
-msgstr ""
+msgstr "Exportiere Sätze"
 
 #: ../src/fwbackups-runapp.py:825
 msgid "Sets exported"
-msgstr ""
+msgstr "Sätze exportiert"
 
 #: ../src/fwbackups-runapp.py:825
 msgid "The selected sets were exported successfully."
-msgstr ""
+msgstr "Die ausgewählten Sätze wurden erfolgreich exportiert."
 
 #: ../src/fwbackups-runapp.py:853 ../src/fwbackups-runapp.py:1349
 #: ../src/fwbackups-runapp.py:1367 ../src/fwbackups-runapp.py:1445
@@ -790,7 +790,7 @@ msgstr "Das Zielverzeichnis für Satz '%s' wurde nicht gefunden."
 msgid ""
 "fwbackups was unable to authenticate on the remote server. Please verify the"
 " username and password for set '%s' and try again."
-msgstr ""
+msgstr "fwbackups konnte sich nicht auf dem entfernten Server authentifizieren. Bitte überprüfe den Benutzernamen und das Passwort für den Satz '%s' und versuche es erneut."
 
 #: ../src/fwbackups-runapp.py:1714 ../src/fwbackups-runapp.py:1720
 msgid "Connection failed"
@@ -1069,7 +1069,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2542
 #, python-format
 msgid "The automatic backup operation of set `%(a)s' was cancelled"
-msgstr ""
+msgstr "Der automatische Sicherungsvorgang für den Satz `%(a)s' wurde abgebrochen"
 
 #: ../src/fwbackups-runapp.py:2543 ../src/fwbackups-runapp.py:2703
 #: ../src/fwbackups-runapp.py:2787
@@ -1115,7 +1115,7 @@ msgstr "Wiederherstellung: %s"
 
 #: ../src/fwbackups-runapp.py:2737
 msgid "Starting a restore operation"
-msgstr "Starte einen Wiederherstellungvorgang"
+msgstr "Starte einen Wiederherstellungsvorgang"
 
 #: ../src/fwbackups-runapp.py:2755
 msgid ""
@@ -1147,7 +1147,7 @@ msgstr "Der Wiederherstellungsvorgang wurde abgebrochen"
 #. Customize our help text for the pre-created options
 #: ../src/fwbackups-runapp.py:2810
 msgid "Show this program's version and exit"
-msgstr ""
+msgstr "Programmversion anzeigen und beenden"
 
 #: ../src/fwbackups-runapp.py:2811
 msgid "Show this help message and exit"
@@ -1222,11 +1222,11 @@ msgstr "Satz jetzt sichern"
 
 #: ../src/fwbackups.glade.h:16
 msgid "Re_store Set"
-msgstr ""
+msgstr "_Satz wiederherstellen"
 
 #: ../src/fwbackups.glade.h:17
 msgid "_Finish"
-msgstr ""
+msgstr "_Fertig"
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
@@ -1380,7 +1380,7 @@ msgstr "<span size=\"large\" weight=\"bold\">Einmalige Sicherung</span>"
 
 #: ../src/fwbackups.glade.h:59
 msgid "_Save to File"
-msgstr ""
+msgstr "In Datei _speichern"
 
 #: ../src/fwbackups.glade.h:60
 msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
@@ -1412,7 +1412,7 @@ msgstr "_Datei"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
-msgstr ""
+msgstr "Erstelle einen neuen Sicherungssatz"
 
 #: ../src/fwbackups.glade.h:68
 msgid "Import a set from a .conf file"
@@ -1444,11 +1444,11 @@ msgstr "Satz b_earbeiten"
 
 #: ../src/fwbackups.glade.h:75
 msgid "Remove the selected backup set"
-msgstr ""
+msgstr "Entferne den ausgewählten Sicherungssatz"
 
 #: ../src/fwbackups.glade.h:76
 msgid "Duplicate the selected backup set"
-msgstr ""
+msgstr "Dupliziere den ausgewählten Sicherungssatz"
 
 #: ../src/fwbackups.glade.h:77
 msgid "D_uplicate Set"
@@ -1627,11 +1627,11 @@ msgstr "Exportieren nach:"
 
 #: ../src/fwbackups.glade.h:144
 msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
-msgstr ""
+msgstr "<span size=\"larger\" weight=\"bold\">Sätze exportieren</span>"
 
 #: ../src/fwbackups.glade.h:145
 msgid "Select the set you would like to export."
-msgstr ""
+msgstr "Wähle den Satz, den Sie exportieren möchten."
 
 #: ../src/fwbackups.glade.h:147
 msgid "Restore Files"
@@ -1952,7 +1952,7 @@ msgstr ""
 
 #: ../src/fwbackups.glade.h:263
 msgid "Set is enabled"
-msgstr ""
+msgstr "Satz ist aktiviert"
 
 #: ../src/fwbackups.glade.h:264
 msgid "Include subfolders"
@@ -2041,7 +2041,7 @@ msgstr "Den aktuellen Vorgang abbrechen!"
 #: ../src/fwbackups/operations/__init__.py:64
 #, python-format
 msgid "Stopping process with ID %s"
-msgstr ""
+msgstr "Stoppe Prozess mit der ID %s"
 
 #: ../src/fwbackups/operations/__init__.py:67
 #, python-format
@@ -2105,24 +2105,24 @@ msgstr "Laufwerksinformationen"
 #: ../src/fwbackups/operations/backup.py:185
 #, python-format
 msgid "Attempting to connect to server %s..."
-msgstr ""
+msgstr "Versuche mit dem Server %s zu verbinden..."
 
 #: ../src/fwbackups/operations/backup.py:196
 msgid "Attempt to connect succeeded."
-msgstr ""
+msgstr "Der Verbindungsversuch war erfolgreich."
 
 #: ../src/fwbackups/operations/backup.py:199
 msgid ""
 "The backup destination was either not found or it cannot be written to due "
 "to insufficient permissions."
-msgstr ""
+msgstr "Das Sicherungsziel wurde nicht gefunden oder es kann aufgrund von fehlenden Berechtigungen nicht beschrieben werden."
 
 #: ../src/fwbackups/operations/backup.py:203
 #: ../src/fwbackups/operations/restore.py:88
 msgid ""
 "A connection was established, but authentication failed. Please verify the "
 "username and password and try again."
-msgstr ""
+msgstr "Eine Verbindung wurde hergestellt, jedoch ist die Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den Benutzernamen und das Passwort und versuchen es erneut."
 
 #: ../src/fwbackups/operations/backup.py:208
 #: ../src/fwbackups/operations/restore.py:93
@@ -2130,14 +2130,14 @@ msgstr ""
 msgid ""
 "A connection to the server could not be established.\n"
 "Error %(a)s: %(b)s"
-msgstr ""
+msgstr "Eine Verbindung zum Server konnte nicht hergestellt werden.\nFehler %(a)s: %(b)s"
 
 #: ../src/fwbackups/operations/backup.py:213
 #: ../src/fwbackups/operations/restore.py:98
 msgid ""
 "A connection to the server has timed out. Please verify your settings and "
 "try again."
-msgstr ""
+msgstr "Zeitüberschreitung bei der Verbindung zum Server. Bitte überprüfen Sie die Einstellungen und versche es erneut."
 
 #: ../src/fwbackups/operations/backup.py:217
 #: ../src/fwbackups/operations/restore.py:102
@@ -2145,7 +2145,7 @@ msgstr ""
 msgid ""
 "A connection to the server could not be established because an error "
 "occurred: %s"
-msgstr ""
+msgstr "Eine Verbindung zum Server konnte aufgrund eines Fehlers nicht aufgebaut werden: %s"
 
 #: ../src/fwbackups/operations/backup.py:235
 #: ../src/fwbackups/operations/backup.py:276
@@ -2223,7 +2223,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Path %s is missing or cannot be read and will be excluded from the backup."
-msgstr ""
+msgstr "Der Pfad %s fehlt oder kann nicht gelesen werden und wird von der Sicherung ausgenommen."
 
 #: ../src/fwbackups/operations/backup.py:391
 #, python-format
@@ -2232,11 +2232,11 @@ msgstr ""
 
 #: ../src/fwbackups/operations/backup.py:419
 msgid "Sending files to server via SFTP"
-msgstr ""
+msgstr "Übertrage Dateien zum Server via SFTP"
 
 #: ../src/fwbackups/operations/backup.py:429
 msgid "Could not send file(s) or folder to server:"
-msgstr ""
+msgstr "Konnte Datei(en) oder Verzeichnis nicht zum Server übertragen:"
 
 #: ../src/fwbackups/operations/backup.py:443
 msgid "This function is designed to be subclassed"
@@ -2259,7 +2259,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:694
 #, python-format
 msgid "`%s' exists and will be overwritten."
-msgstr ""
+msgstr "`%s' existiert bereits und wird überschrieben."
 
 #. All done!
 #: ../src/fwbackups/operations/backup.py:509
@@ -2269,7 +2269,7 @@ msgstr "Einmalige Sicherung abgeschlossen"
 #: ../src/fwbackups/operations/backup.py:523
 #, python-format
 msgid "Starting automatic backup operation of set `%s'"
-msgstr ""
+msgstr "Starte automatisierte Sicherungsvorgang für den Satz `%s'"
 
 #. Execute the command
 #: ../src/fwbackups/operations/backup.py:595
@@ -2284,13 +2284,13 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:640
 #, python-format
 msgid "Removing old backup `%(a)s' on %(b)s"
-msgstr ""
+msgstr "Lösche alte Sicherung `%(a)s' auf %(b)s"
 
 #: ../src/fwbackups/operations/backup.py:647
 #: ../src/fwbackups/operations/backup.py:660
 #, python-format
 msgid "Removing old backup `%s'"
-msgstr ""
+msgstr "Lösche alte Sicherung `%s'"
 
 #. oldIncrementalBackup = rsync
 #: ../src/fwbackups/operations/backup.py:653
@@ -2312,12 +2312,12 @@ msgstr ""
 
 #: ../src/fwbackups/operations/restore.py:42
 msgid "Starting restore operation"
-msgstr ""
+msgstr "Starte Wiederherstellungsvorgang"
 
 #. check if server settings are OK
 #: ../src/fwbackups/operations/restore.py:71
 msgid "Attempting to connect to server"
-msgstr ""
+msgstr "Versuche eine Verbindung zum Server aufzubauen"
 
 #: ../src/fwbackups/operations/restore.py:84
 msgid ""
@@ -2327,12 +2327,12 @@ msgstr ""
 
 #: ../src/fwbackups/operations/restore.py:116
 msgid "Receiving files from server"
-msgstr ""
+msgstr "Empfange Dateien vom Server"
 
 #: ../src/fwbackups/operations/restore.py:127
 #, python-format
 msgid "Could not receive file from server: %s"
-msgstr ""
+msgstr "Konnte Datei von folgendem Server nicht empfangen: %s"
 
 #. We are dealing with a remote folder - our job here is done
 #. Either that or an error was encountered above
@@ -2340,7 +2340,7 @@ msgstr ""
 #: ../src/fwbackups/operations/restore.py:132
 #: ../src/fwbackups/operations/restore.py:177
 msgid "Finished restore operation"
-msgstr ""
+msgstr "Wiederherstellungsvorgang wurde abgeschlossen"
 
 #. oops, something is up
 #: ../src/fwbackups/operations/restore.py:144
@@ -2367,12 +2367,12 @@ msgstr ""
 #: ../src/fwbackups/config.py:50
 #, python-format
 msgid "Could not create configuration folder `%s':"
-msgstr ""
+msgstr "Konnte das Konfigurationsverzeichnis `%s' nicht erstellen:"
 
 #: ../src/fwbackups/config.py:57
 #, python-format
 msgid "You do not have read and write permissions on folder `%s'."
-msgstr ""
+msgstr "Sie haben keine Lese- und Schreibrechte auf das Verzeichnis `%s'."
 
 #: ../src/fwbackups/config.py:115
 #, python-format
@@ -2521,7 +2521,7 @@ msgstr ""
 
 #: ../src/fwbackups/sftp.py:217
 msgid "Could not copy some files due to errors:"
-msgstr ""
+msgstr "Konnte einige Dateien aufgrund von Fehlern nicht kopieren:"
 
 #: ../src/fwbackups/shutil_modded.py:131
 #, python-format
@@ -2530,7 +2530,7 @@ msgstr "`%s' ist keine Datei, Verzeichnis oder Verknüpfung! Überspringe."
 
 #: ../src/fwbackups/shutil_modded.py:142
 msgid "Couldn't copy some files due to errors:"
-msgstr ""
+msgstr "Konnte einige Dateien aufgrund von Fehlern nicht kopieren:"
 
 #: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
 msgid "CRITICAL"
@@ -2574,7 +2574,7 @@ msgstr "Ordner auswählen"
 
 #: ../src/fwbackups/widgets.py:660
 msgid "Please select a path before choosing an action."
-msgstr ""
+msgstr "Bitte wähle einen Pfad, bevor Sie eine Aktion auswählen."
 
 #: ../src/fwbackups/widgets.py:696
 msgid "Export"
