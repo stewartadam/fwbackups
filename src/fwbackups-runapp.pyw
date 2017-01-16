@@ -745,7 +745,7 @@ class fwbackupsApp(interface.Controller):
       oldSetPaths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       for oldSetPath in oldSetPaths:
         # Attempt to use the original set name
-        oldSetName = os.path.basename(os.path.splitext(oldsetpath)[0])
+        oldSetName = os.path.basename(os.path.splitext(oldSetPath)[0])
         setName = oldSetName
         setPath = os.path.join(SETLOC, "%s.conf" % setName)
         # If original set name exists, append a number
