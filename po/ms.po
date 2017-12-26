@@ -4,13 +4,13 @@
 # 
 # Translators:
 # abuyop <abuyop@gmail.com>, 2015
-# abuyop <abuyop@gmail.com>, 2015-2016
+# abuyop <abuyop@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-11-27 23:59+0000\n"
+"PO-Revision-Date: 2017-09-22 11:45+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (http://www.transifex.com/Magic/fwbackups/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,7 @@ msgid ""
 "Because of certain major changes in fwbackups, your configuration must be imported manually. To do this, run fwbackups as the root user and select <i>File > Import</i> from the menu to import your old configuration.\n"
 "If this action is not completed, the backups from version 1.42.x <b>will not run automatically</b>.\n"
 "<i>Tip: The 1.42.x configuration was stored in /etc/fwbackups</i>."
-msgstr ""
+msgstr "Oleh kerana terdapat perubahan besar dalam fwbackups, konfigurasi anda mesti diimport secara manual. Untuk membuatnya, jalankan fwbackups sebagai pengguna root kemudian pilih <i>Fail > Import</i> dari menu untuk mengimport konfigurasi lama anda.\nJika tindakan ini tidak selesai, sandar daripada versi 1.42.x <b>tidak dapat dijalankan secara automatik</b>.\n<i>Petua: Konfigurasi 1.42.x telah dipulihkan ke dalam /etc/fwbackups</i>."
 
 #: ../src/fwbackups-runapp.py:356
 msgid "A backup of /etc/crontab could not be created"
@@ -361,7 +361,7 @@ msgstr "Membersihkan /etc/crontab dari pemasangan terdahulu fwbackups"
 msgid ""
 "fwbackups was unable to clean up the system crontab: %s. You may wish to "
 "edit /etc/crontab manually and remove any fwbackups-related lines."
-msgstr ""
+msgstr "fwbackup tidak berupaya membersihkan crontab sistem: %s. Anda boleh sunting /etc/crontab secara manual dan buang mana-mana baris berkaitan-fwbackups."
 
 #: ../src/fwbackups-runapp.py:370
 msgid "Cleanup of the system crontab failed"
@@ -384,7 +384,7 @@ msgstr "Anda mahu bersihkan fail log?"
 msgid ""
 "The log file is becoming large (%s). Would you like to clear it? This will "
 "permanently remove all entries from the log."
-msgstr ""
+msgstr "Fail log menjadi terlalu besar (%s). Anda mahu mengosongkannya? Tindakan ini akan membuang semua masukan secara kekal daripada log."
 
 #: ../src/fwbackups-runapp.py:558
 #, python-format
@@ -409,24 +409,24 @@ msgstr "Tidak dapat hurai konfigurasi untuk set '%s'"
 msgid ""
 "The set configuration file '%s' failed to validate, so it may not be "
 "properly scheduled. Other sets are unaffected by this error."
-msgstr ""
+msgstr "Fail konfigurasi set '%s' gagal disahkan, oleh itu ia tidak dapat dijadualkan dengan baik. Set-set lain tidak dipengaruhi oleh ralat ini."
 
 #: ../src/fwbackups-runapp.py:614
 #, python-format
 msgid ""
 "Internal error: generated entry for set '%s' was not parsable. Please submit"
 " a bug report."
-msgstr ""
+msgstr "Ralat dalaman: masukan dijana untuk set '%s' yang tidak boleh dihurai. Sila serahkan laporan pepijat."
 
 #: ../src/fwbackups-runapp.py:617
 #, python-format
 msgid "Could not schedule automated backups for set '%s'"
-msgstr ""
+msgstr "Tidak dapat jadualkan sandar berautomatik bagi set '%s'"
 
 #: ../src/fwbackups-runapp.py:618
 msgid ""
 "fwbackups could not regenerate a crontab entry because an error occured:\n"
-msgstr ""
+msgstr "fwbackups tidak dapat jana semulakan masukan crontab kerana satu ralat berlaku:\n"
 
 #: ../src/fwbackups-runapp.py:619
 #, python-format
@@ -435,7 +435,7 @@ msgid ""
 "\n"
 "The crontab entry associated with the error was:\n"
 "%(b)s"
-msgstr ""
+msgstr "%(a)s\n\nMasukan crontab berkaitan dengan ralat adalah:\n%(b)s"
 
 #. After all is done, log an message
 #: ../src/fwbackups-runapp.py:622
@@ -457,17 +457,17 @@ msgid ""
 "There was an error saving the new backup schedule. A backup will be restored, however the changes made to the backup schedule may not have been correctly saved.\n"
 "\n"
 "If you see this message, please report a bug against fwbackups."
-msgstr ""
+msgstr "Terdapat ralat ketika menyimpan jadual sandar baharu. Satu sandar akan dipulihkan, tetapi perubahan yang telah dilakukan terhadap jadual sandar mungkin tidak dapat disimpan dengan betul.\n\nJika anda lihat mesej ini, sila laporkan pepijat berkenaan fwbackups ini."
 
 #: ../src/fwbackups-runapp.py:637
 msgid ""
 "A backup of the crontab was restored; the latest changes to the backup "
 "schedule not have been saved."
-msgstr ""
+msgstr "Satu sandar dengan crontab telah dipulihkan; perubahan terakhir jadual sandar tidak dapat disimpan."
 
 #: ../src/fwbackups-runapp.py:639
 msgid "A backup of the crontab could not be restored"
-msgstr ""
+msgstr "Satu sandar crontab tidak dapat dipulihkan"
 
 #: ../src/fwbackups-runapp.py:655
 msgid "fwbackups is working"
@@ -485,18 +485,18 @@ msgstr "Tunggu sebentar... Membatalkan operasi"
 
 #: ../src/fwbackups-runapp.py:671
 msgid "fwbackups detected more than one alive threads!"
-msgstr ""
+msgstr "fwbackups mengesan lebih dari satu bebenang hidup!"
 
 #: ../src/fwbackups-runapp.py:676
 #, python-format
 msgid "Closed dead Paramiko thread: %s"
-msgstr ""
+msgstr "Bebenang Paramiko mati telah ditutup: %s"
 
 #. FIXME: Figure out how to kill other thread types. For now, just log.
 #: ../src/fwbackups-runapp.py:679
 #, python-format
 msgid "Could not close thread %s!"
-msgstr ""
+msgstr "Tidak dapat menutup bebenang %s!"
 
 #: ../src/fwbackups-runapp.py:680
 msgid "Please submit a bug report and include this message."
@@ -511,7 +511,7 @@ msgid ""
 "fwbackups was unable to save the backup scheduling information to the "
 "crontab. If you are using manual times entry in one of your sets, please "
 "verify that all five fields are using the correct syntax."
-msgstr ""
+msgstr "fwbackups tidak berupaya menyimpan maklumat penjadualan sandar ke dalam crontab. Jika masih menggunakan masukan waktu secara manual dalam salah satu set anda, sila sahkan kesemua lima medan menggunakan sintaks yang betul."
 
 #. Shutdown logging & quit the GTK mainloop
 #: ../src/fwbackups-runapp.py:691
@@ -553,7 +553,7 @@ msgstr "Destiansi jauh tidak boleh digunakan"
 msgid ""
 "The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. "
 "Please verify your settings and try again."
-msgstr ""
+msgstr "Folder '%(a)s' pada '%(b)s' sama ada tidak wujud atau bukan sebuah folder. Sila sahkan tetapan anda dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:721 ../src/fwbackups-runapp.py:1711
 msgid "Authentication failed"
@@ -564,12 +564,12 @@ msgstr "Pengesahihan gagal"
 msgid ""
 "A connection to '%s' was established, but authentication failed. Please "
 "verify the username and password and try again."
-msgstr ""
+msgstr "Satu sambungan ke '%s' telah dijalinkan, tetapi pengesahihan gagal. Sila sahkan nama pengguna dan kata laluan dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:723 ../src/fwbackups-runapp.py:727
 #, python-format
 msgid "A connection to '%s' could not be established"
-msgstr ""
+msgstr "Satu sambungan ke '%s' tidak dapat dijalinkan"
 
 #: ../src/fwbackups-runapp.py:723
 #, python-format
@@ -610,12 +610,12 @@ msgstr "Fail Wujud"
 #: ../src/fwbackups-runapp.py:804
 #, python-format
 msgid "'%s.conf' already exists! Would you like to overwrite it?"
-msgstr ""
+msgstr "'%s.conf' telah wujud! Anda mahu menulis-ganti ia?"
 
 #: ../src/fwbackups-runapp.py:810
 #, python-format
 msgid "Exported set `%(a)s' to `%(b)s'"
-msgstr ""
+msgstr "Set dieksport `%(a)s' ke `%(b)s'"
 
 #: ../src/fwbackups-runapp.py:815 ../src/fwbackups.glade.h:141
 msgid "Export Sets"
@@ -641,29 +641,29 @@ msgstr "Anda mesti pilih satu set untuk diduplikasikan."
 
 #: ../src/fwbackups-runapp.py:858
 msgid "_copy"
-msgstr ""
+msgstr "_salin"
 
 #: ../src/fwbackups-runapp.py:1062
 #, python-format
 msgid "Could not remove fwbackup's session autostart regkey: %s"
-msgstr ""
+msgstr "Tidak dapat buang regkey automula sesi fwbackup: %s"
 
 #: ../src/fwbackups-runapp.py:1067
 #, python-format
 msgid "Could not remove fwbackup's session autostart file: %s"
-msgstr ""
+msgstr "Tidak dapat buang fail automula sesi fwbackup: %s"
 
 #: ../src/fwbackups-runapp.py:1086
 #, python-format
 msgid "Resetting preference '%(a)s' to 0"
-msgstr ""
+msgstr "Menetap semula keutamaan '%(a)s' ke 0"
 
 #: ../src/fwbackups-runapp.py:1091 ../src/fwbackups-runapp.py:1111
 #: ../src/fwbackups-runapp.py:1212 ../src/fwbackups-runapp.py:1568
 #: ../src/fwbackups-runapp.py:1946 ../src/fwbackups-runapp.py:1957
 #: ../src/fwbackups-runapp.py:1968 ../src/fwbackups.glade.h:146
 msgid "Select a Folder"
-msgstr ""
+msgstr "Pilih satu Folder"
 
 #: ../src/fwbackups-runapp.py:1131 ../src/fwbackups-runapp.py:1229
 #: ../src/fwbackups-runapp.py:1489 ../src/fwbackups-runapp.py:1494
@@ -671,15 +671,15 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:1868 ../src/fwbackups-runapp.py:1905
 #: ../src/fwbackups-runapp.py:2391 ../src/fwbackups-runapp.py:2396
 msgid "Missing information"
-msgstr ""
+msgstr "Maklumat hilang"
 
 #: ../src/fwbackups-runapp.py:1132
 msgid "Please enter a Pycron installation directory."
-msgstr ""
+msgstr "Sila masukkan direktori pemasangan Pycron."
 
 #: ../src/fwbackups-runapp.py:1136
 msgid "Configuration not found"
-msgstr ""
+msgstr "Konfigurasi tidak ditemui"
 
 #: ../src/fwbackups-runapp.py:1137
 msgid ""
@@ -687,113 +687,113 @@ msgid ""
 " ensure that pycron is installed in the selected installation folder and "
 "that it contains either a pycron configuration file or the sample pycron "
 "configuration."
-msgstr ""
+msgstr "Fail konfigurasi pycron tidak ditemui dalam direktori yang dimasukkan. Sila pastikan pycron tersebut dipasang dalam folder pemasangan terpilih dan ia mengandungi sama ada fail konfigurasi pycron atau sampel konfigurasi pycron."
 
 #: ../src/fwbackups-runapp.py:1229
 msgid "Please complete the host, username, folder and port fields."
-msgstr ""
+msgstr "Sila lengkapkan medan hos, nama pengguna, folder dan port."
 
 #: ../src/fwbackups-runapp.py:1349
 msgid "You must select a set to edit."
-msgstr ""
+msgstr "Anda mesti pilih satu set untuk disunting."
 
 #: ../src/fwbackups-runapp.py:1367
 msgid "You must select a set to remove."
-msgstr ""
+msgstr "Anda mesti pilih satu set untuk dibuang."
 
 #: ../src/fwbackups-runapp.py:1369
 #, python-format
 msgid "Delete backup set '%s'?"
-msgstr ""
+msgstr "Padam set sandar '%s'?"
 
 #: ../src/fwbackups-runapp.py:1369
 msgid ""
 "This action will permanently delete the backup set configuration. This "
 "action does not delete any existing backups or files."
-msgstr ""
+msgstr "Tindakan ini akan memadam konfigurasi set sandar secara kekal. Sebaliknya tindakan ini tidak memadam mana-mana sandar atau fail."
 
 #: ../src/fwbackups-runapp.py:1377 ../src/fwbackups-runapp.py:1385
 #, python-format
 msgid ""
 "An error occured while removing set `%(a)s':\n"
 "%(b)s"
-msgstr ""
+msgstr "Satu ralat berlaku ketika membuang set '%(a)s':\n%(b)s"
 
 #: ../src/fwbackups-runapp.py:1378
 #, python-format
 msgid "Could not remove backup set '%s'"
-msgstr ""
+msgstr "Tidak dapat buang set sandar '%s'"
 
 #: ../src/fwbackups-runapp.py:1386
 #, python-format
 msgid "Could not remove the automated backup schedule for set '%s'"
-msgstr ""
+msgstr "Tidak dapat buang jadual sandar berautomatik bagi set '%s'"
 
 #: ../src/fwbackups-runapp.py:1390
 #, python-format
 msgid "Removing set `%s'"
-msgstr ""
+msgstr "Membuang set '%s'"
 
 #: ../src/fwbackups-runapp.py:1400
 #, python-format
 msgid ""
 "An unexpected error occured while attempting to obtain the selected set:\n"
 "%s"
-msgstr ""
+msgstr "Satu ralat tidak dijangka berlaku ketika cuba mendapatkan set terpilih:\n%s"
 
 #: ../src/fwbackups-runapp.py:1445
 msgid "You must select a set to restore."
-msgstr ""
+msgstr "Anda mesti pilih satu setu untuk dipulihkan."
 
 #: ../src/fwbackups-runapp.py:1489 ../src/fwbackups-runapp.py:2391
 msgid "Please fill in the Folder field."
-msgstr ""
+msgstr "Sila isi medan Folder."
 
 #: ../src/fwbackups-runapp.py:1494 ../src/fwbackups-runapp.py:2396
 msgid "Please fill in the Host, Username, Port and Folder fields."
-msgstr ""
+msgstr "Sila isi medan Hos, Nama Pengguna, Port dan Folder."
 
 #: ../src/fwbackups-runapp.py:1585 ../src/fwbackups-runapp.py:1777
 #: ../src/fwbackups-runapp.py:1905
 msgid "Please complete all of the host, username, folder and port fields."
-msgstr ""
+msgstr "Sila lengkapkan semua medan hos, nama pengguna, folder dan port."
 
 #: ../src/fwbackups-runapp.py:1609
 msgid "Log cleared"
-msgstr ""
+msgstr "Log dikosongkan"
 
 #: ../src/fwbackups-runapp.py:1614
 msgid "Clear the old log entries?"
-msgstr ""
+msgstr "Kosongkan masukan log lama?"
 
 #: ../src/fwbackups-runapp.py:1615
 msgid "This action will permanently remove all log entries."
-msgstr ""
+msgstr "Tindakan ini akan membuang semua masukan log secara kekal."
 
 #: ../src/fwbackups-runapp.py:1633
 #, python-format
 msgid "Log saved to file `%s'"
-msgstr ""
+msgstr "Log disimpan ke dalam fail '%s'"
 
 #: ../src/fwbackups-runapp.py:1708
 msgid "Previous backups could not be found"
-msgstr ""
+msgstr "Sandar terdahulu tidak ditemui"
 
 #: ../src/fwbackups-runapp.py:1709
 #, python-format
 msgid "The destination folder for set '%s' was not found."
-msgstr ""
+msgstr "Folder destinasi untuk set '%s' tidak ditemui."
 
 #: ../src/fwbackups-runapp.py:1712
 #, python-format
 msgid ""
 "fwbackups was unable to authenticate on the remote server. Please verify the"
 " username and password for set '%s' and try again."
-msgstr ""
+msgstr "fwbackups tidak berupaya disahihkan pada pelayan jauh. Sila sahkan nama pengguna dan kata laluan dan untuk set '%s' dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:1714 ../src/fwbackups-runapp.py:1720
 msgid "Connection failed"
-msgstr ""
+msgstr "Sambungan gagal"
 
 #: ../src/fwbackups-runapp.py:1715
 #, python-format
@@ -801,47 +801,47 @@ msgid ""
 "A connection to the server could not be established:\n"
 "Error %(a)s: %(b)s\n"
 "Please verify your settings and try again."
-msgstr ""
+msgstr "Satu sambungan dengan pelayan tidak dapat dijalinkan:\nRalat %(a)s: %(b)s\nSila sahkan tetapan anda dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:1717
 msgid "Remote server is not responding"
-msgstr ""
+msgstr "Pelayan jauh tidak memberi respon"
 
 #: ../src/fwbackups-runapp.py:1721
 #, python-format
 msgid ""
 "A connection to the server could not be established because an error occurred: %s\n"
 "Please verify your settings and try again."
-msgstr ""
+msgstr "Satu sambungan dengan pelayan tidak dapat dijalinkan kerana ada ralat berlaku: %s\nSila sahkan tetapan anda dan cuba sekali lagi."
 
 #: ../src/fwbackups-runapp.py:1735
 #, python-format
 msgid ""
 "Error obtaining file listing in destination %(a)s:\n"
 "%(b)s"
-msgstr ""
+msgstr "Ralat mendapatkan senarai fail dalam destinasi %(a)s:\n%(b)s"
 
 #: ../src/fwbackups-runapp.py:1736
 #, python-format
 msgid "Could not get a list of old backups for set '%s'"
-msgstr ""
+msgstr "Tidak memperoleh satu senarai sandar lama bagi set '%s'"
 
 #: ../src/fwbackups-runapp.py:1736
 msgid ""
 "If the destination is on removable media such as an external hard disk, "
 "please attach it and try again."
-msgstr ""
+msgstr "Jika destinasi berada pada media mudah alih seperti cakera keras luar, sila palamkannya semula dan cuba lagi sekali."
 
 #. We can't start a restore if there are no set dates
 #: ../src/fwbackups-runapp.py:1746 ../src/fwbackups-runapp.py:1876
 #: ../src/fwbackups-runapp.py:1877
 msgid "No backups found"
-msgstr ""
+msgstr "Tiada sandar ditemui"
 
 #: ../src/fwbackups-runapp.py:1810 ../src/fwbackups-runapp.py:1828
 #: ../src/fwbackups-runapp.py:1838
 msgid "Automated restore not supported"
-msgstr ""
+msgstr "Pemulihan automatik tidak disokong"
 
 #: ../src/fwbackups-runapp.py:1810 ../src/fwbackups-runapp.py:1828
 #: ../src/fwbackups-runapp.py:1838
@@ -849,124 +849,124 @@ msgid ""
 "This backup set cannot be automatically restored because restoration of "
 "Archive backups has not been implemented for systems with Python 2.4. Please"
 " see the user guide for details on manual restoration."
-msgstr ""
+msgstr "Set sandar ini tidak dapat dipulihkan secara automatik kerana pemulihan sandar Arkib tidak dapat dilaksanakan untuk sistem yang mempunyai Python 2.4. Sila rujuk panduan pengguna untuk perincian pemulihan secara manual."
 
 #: ../src/fwbackups-runapp.py:1868
 msgid "Please select a backup date."
-msgstr ""
+msgstr "Sila pilih satu tarikh sandar."
 
 #: ../src/fwbackups-runapp.py:1877
 #, python-format
 msgid ""
 "The backup set '%s' does not have any stored backups yet! Choose another "
 "set, or alternatively choose a different restore source."
-msgstr ""
+msgstr "Set sandar '%s' tidak mempunyai apa-apa sandar tersimpan lagi! Pilih set lain, atau sebagai pengganti pilih satu sumber pulih yang lain."
 
 #: ../src/fwbackups-runapp.py:1884 ../src/fwbackups-runapp.py:1895
 msgid "Restore source"
-msgstr ""
+msgstr "Pulih sumber"
 
 #: ../src/fwbackups-runapp.py:1884
 msgid "Please enter the location of the local archive."
-msgstr ""
+msgstr "Sila masukkan lokasi bagi arkib setempat."
 
 #: ../src/fwbackups-runapp.py:1887
 msgid "Wrong file type"
-msgstr ""
+msgstr "Jenis fail salah"
 
 #: ../src/fwbackups-runapp.py:1888
 msgid ""
 "The file you selected is not a supported archive.\n"
 "Supported archives types are tar with no, gzip or bzip2 compression."
-msgstr ""
+msgstr "Fail yang anda pilih bukan arkib yang disokong.\nJenis arkib yang disokong adalah tar tanpa pemampatan, gzip atau bzip2."
 
 #: ../src/fwbackups-runapp.py:1895
 msgid "Please enter the location of the local folder."
-msgstr ""
+msgstr "Sila masukkan lokasi bagi folder setempat."
 
 #: ../src/fwbackups-runapp.py:1982 ../src/fwbackups-runapp.py:1985
 msgid "Invalid set name"
-msgstr ""
+msgstr "Nama set tidak sah"
 
 #: ../src/fwbackups-runapp.py:1982
 msgid "Please enter a set name."
-msgstr ""
+msgstr "Sila masukkan satu nama set."
 
 #: ../src/fwbackups-runapp.py:1985
 msgid ""
 "'temporary_name' is a reserved name. Please choose another name for the set."
-msgstr ""
+msgstr "'temporary_name' adalah nama simpanan. Sila pilih nama lain untuk set ini."
 
 #: ../src/fwbackups-runapp.py:1989
 #, python-format
 msgid "Overwrite settings for set '%s'?"
-msgstr ""
+msgstr "Tulis ganti tetapan untuk set '%s'?"
 
 #: ../src/fwbackups-runapp.py:1990
 msgid ""
 "This will overwrite the stored settings with the current ones. Are you sure "
 "you want to continue?"
-msgstr ""
+msgstr "Tindakan ini akan menulis-ganti tetapan tersimpan dengan yang semasa. Anda pasti mahu teruskan?"
 
 #: ../src/fwbackups-runapp.py:2101
 msgid "Error parsing configuration file"
-msgstr ""
+msgstr "Ralat menghurai fail konfigurasi"
 
 #: ../src/fwbackups-runapp.py:2102
 msgid "fwbackups will using the default times instead."
-msgstr ""
+msgstr "fwbackups akan menggunakan masa lalai sebagai ganti."
 
 #: ../src/fwbackups-runapp.py:2115
 #, python-format
 msgid "Unknown destination type `%s'"
-msgstr ""
+msgstr "Jenis destinasi '%s' tidak diketahui"
 
 #: ../src/fwbackups-runapp.py:2318
 msgid "Error creating the automated backup schedules"
-msgstr ""
+msgstr "Ralat mencipta jadual sandar berautomatik"
 
 #: ../src/fwbackups-runapp.py:2319
 #, python-format
 msgid ""
 "The crontab could not be written because an error occured:\n"
 "%s"
-msgstr ""
+msgstr "Crontab tidak dapat ditulis kerana ralat berlaku:\n%s"
 
 #: ../src/fwbackups-runapp.py:2355 ../src/fwbackups/widgets.py:718
 msgid "Parsing configuration files"
-msgstr ""
+msgstr "Menghurai fail konfigurasi"
 
 #: ../src/fwbackups-runapp.py:2364 ../src/fwbackups/widgets.py:724
 #, python-format
 msgid "Refusing to parse file `%s': configuration files must end in `.conf'"
-msgstr ""
+msgstr "Menafikan penghuraian fail '%s': Fail konfigurasi mesti berakhir dengan '.conf'"
 
 #: ../src/fwbackups-runapp.py:2414
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s"
-msgstr ""
+msgstr "Menamakan semula set `%(a)s' menjadi `%(b)s"
 
 #: ../src/fwbackups-runapp.py:2416
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s failed: %(c)s"
-msgstr ""
+msgstr "Penamaan semula set `%(a)s' ke `%(b)s telah gagal: %(c)s"
 
 #: ../src/fwbackups-runapp.py:2417
 #, python-format
 msgid "Could not rename set '%(a)s' to '%(b)s'"
-msgstr ""
+msgstr "Tidak dapat menamakan semula set '%(a)s' ke '%(b)s'"
 
 #. creating a set
 #: ../src/fwbackups-runapp.py:2423
 #, python-format
 msgid "Creating set `%s'"
-msgstr ""
+msgstr "Mencipta set `%s'"
 
 #. editing a set
 #: ../src/fwbackups-runapp.py:2427
 #, python-format
 msgid "Saving changes to set `%s'"
-msgstr ""
+msgstr "Menyimpan perubahan bagi set `%s'"
 
 #: ../src/fwbackups-runapp.py:2431
 msgid ""
@@ -974,38 +974,38 @@ msgid ""
 "the backup scheduling information to the crontab. If you are using manual "
 "times entry, please verify that all five fields are using the correct "
 "syntax."
-msgstr ""
+msgstr "Perubahan konfigurasi set anda telah disimpan, tetapi fwbackups tidak berupaya menyimpan maklumat penjadualan sandar ke dalam crontab. Jika masih menggunakan masukan waktu secara manual dalam salah satu set anda, sila sahkan kesemua lima medan menggunakan sintaks yang betul."
 
 #: ../src/fwbackups-runapp.py:2468 ../src/fwbackups-runapp.py:2632
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up: %(c)s"
-msgstr ""
+msgstr "[%(a)i/%(b)i] Menyandar: %(c)s"
 
 #: ../src/fwbackups-runapp.py:2471 ../src/fwbackups-runapp.py:2635
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up files... Please wait"
-msgstr ""
+msgstr "[%(a)i/%(b)i] Menyandar fail... Tunggu sebentar"
 
 #: ../src/fwbackups-runapp.py:2473 ../src/fwbackups-runapp.py:2637
 msgid "Cleaning old backups"
-msgstr ""
+msgstr "Membersihkan sandar lama"
 
 #: ../src/fwbackups-runapp.py:2475 ../src/fwbackups-runapp.py:2639
 msgid "Sending files to remote server"
-msgstr ""
+msgstr "Menghantar fail ke pelayan jauh"
 
 #: ../src/fwbackups-runapp.py:2477 ../src/fwbackups-runapp.py:2641
 msgid "Executing user command"
-msgstr ""
+msgstr "Melakukan perintah pengguna"
 
 #: ../src/fwbackups-runapp.py:2485
 msgid "You must select to initiate a manual set backup."
-msgstr ""
+msgstr "Anda mesti pilih untuk awalkan sandar set manual."
 
 #: ../src/fwbackups-runapp.py:2491 ../src/fwbackups-runapp.py:2650
 #: ../src/fwbackups-runapp.py:2735
 msgid "Initializing"
-msgstr ""
+msgstr "Mengawalkan"
 
 #: ../src/fwbackups-runapp.py:2493 ../src/fwbackups-runapp.py:2534
 #: ../src/fwbackups-runapp.py:2539 ../src/fwbackups-runapp.py:2542
@@ -1014,152 +1014,152 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2737 ../src/fwbackups-runapp.py:2775
 #: ../src/fwbackups-runapp.py:2781 ../src/fwbackups-runapp.py:2786
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../src/fwbackups-runapp.py:2493
 #, python-format
 msgid "Starting a set backup operation of '%(a)s'"
-msgstr ""
+msgstr "Memulakan operasi sandar set bagi '%(a)s'"
 
 #: ../src/fwbackups-runapp.py:2496 ../src/fwbackups-runapp.py:2555
 #: ../src/fwbackups-runapp.py:2655 ../src/fwbackups-runapp.py:2715
 #: ../src/fwbackups-runapp.py:2740 ../src/fwbackups-runapp.py:2798
 msgid "Please wait..."
-msgstr ""
+msgstr "Tunggu sebentar..."
 
 #: ../src/fwbackups-runapp.py:2502 ../src/fwbackups-runapp.py:2659
 #: ../src/fwbackups-runapp.py:2745
 msgid "Working"
-msgstr ""
+msgstr "Bekerja"
 
 #. error
 #: ../src/fwbackups-runapp.py:2519 ../src/fwbackups-runapp.py:2537
 #: ../src/fwbackups-runapp.py:2676 ../src/fwbackups-runapp.py:2695
 #: ../src/fwbackups-runapp.py:2759 ../src/fwbackups-runapp.py:2779
 msgid "<span color=\"Red\">Error</span>"
-msgstr ""
+msgstr "<span color=\"Red\">Ralat</span>"
 
 #: ../src/fwbackups-runapp.py:2520 ../src/fwbackups-runapp.py:2680
 #, python-format
 msgid "An error occurred while initializing the backup operation: %s"
-msgstr ""
+msgstr "Satu ralat berlaku ketika mengawalkan operasi sandar: %s"
 
 #: ../src/fwbackups-runapp.py:2524 ../src/fwbackups-runapp.py:2681
 msgid "Error initializing backup"
-msgstr ""
+msgstr "Ralat mengawalkan sandar"
 
 #: ../src/fwbackups-runapp.py:2534
 #, python-format
 msgid "Finished the automatic backup operation of set `%(a)s'"
-msgstr ""
+msgstr "Selesai operasi sandar berautomatik bagi set `%(a)s'"
 
 #: ../src/fwbackups-runapp.py:2535 ../src/fwbackups-runapp.py:2693
 #: ../src/fwbackups-runapp.py:2776
 msgid "<span color=\"dark green\">Operation complete</span>"
-msgstr ""
+msgstr "<span color=\"dark green\">Operasi selesai</span>"
 
 #: ../src/fwbackups-runapp.py:2539
 #, python-format
 msgid ""
 "An error occured while performing the automatic backup operation of set "
 "`%(a)s'"
-msgstr ""
+msgstr "Satu ralat berlaku ketika melakukan operasi sandar berautomatik bagi set `%(a)s'"
 
 #: ../src/fwbackups-runapp.py:2542
 #, python-format
 msgid "The automatic backup operation of set `%(a)s' was cancelled"
-msgstr ""
+msgstr "Operasi sandar berautomatik bagi set `%(a)s' telah dibatalkan"
 
 #: ../src/fwbackups-runapp.py:2543 ../src/fwbackups-runapp.py:2703
 #: ../src/fwbackups-runapp.py:2787
 msgid "<span color=\"red\">Operation cancelled</span>"
-msgstr ""
+msgstr "<span color=\"red\">Operasi dibatalkan</span>"
 
 #: ../src/fwbackups-runapp.py:2544 ../src/fwbackups-runapp.py:2704
 #: ../src/fwbackups-runapp.py:2788
 msgid "Operation cancelled"
-msgstr ""
+msgstr "Operasi dibatalkan"
 
 #: ../src/fwbackups-runapp.py:2556 ../src/fwbackups-runapp.py:2716
 #: ../src/fwbackups-runapp.py:2799
 msgid "Cancelling..."
-msgstr ""
+msgstr "Membatalkan..."
 
 #: ../src/fwbackups-runapp.py:2652
 msgid "Starting a one-time backup operation"
-msgstr ""
+msgstr "Mulakan operasi sandar sekali-sahaja"
 
 #: ../src/fwbackups-runapp.py:2692
 msgid "Finished the one-time backup operation"
-msgstr ""
+msgstr "Selesai operasi sandar sekali-sahaja"
 
 #: ../src/fwbackups-runapp.py:2697
 msgid "An error occured while performing the one-time backup operation"
-msgstr ""
+msgstr "Satu ralat berlaku ketika melakukan operasi sandar sekali-sahaja"
 
 #: ../src/fwbackups-runapp.py:2702
 msgid "The one-time backup operation was cancelled"
-msgstr ""
+msgstr "Operasi sandar sekali-sahaja telah dibatalkan"
 
 #. no "current file" yet
 #: ../src/fwbackups-runapp.py:2727
 msgid "Receiving files from remote server"
-msgstr ""
+msgstr "Menerima fail dari pelayan jauh"
 
 #. we have a 'current file'
 #: ../src/fwbackups-runapp.py:2729
 #, python-format
 msgid "Restoring: %s"
-msgstr ""
+msgstr "Memulihkan: %s"
 
 #: ../src/fwbackups-runapp.py:2737
 msgid "Starting a restore operation"
-msgstr ""
+msgstr "Memulakan satu operasi pemulihan"
 
 #: ../src/fwbackups-runapp.py:2755
 msgid ""
 "There was an error while performing the restore! Enable debug messages for "
 "more information."
-msgstr ""
+msgstr "Terdapat ralat ketika memulakan pemulihan! Benarkan mesej nyahpepijat untuk maklumat lanjut."
 
 #: ../src/fwbackups-runapp.py:2762
 #, python-format
 msgid "An error occurred while initializing the restore operation: %s"
-msgstr ""
+msgstr "Satu ralat berlaku ketika mengawalkan operasi pulih: %s"
 
 #: ../src/fwbackups-runapp.py:2763
 msgid "Error initializing restore operation"
-msgstr ""
+msgstr "Ralat mengawalkan operasi pulih"
 
 #: ../src/fwbackups-runapp.py:2775
 msgid "Finished the restore operation"
-msgstr ""
+msgstr "Selesai operasi pulih"
 
 #: ../src/fwbackups-runapp.py:2781
 msgid "An error occured while performing the restore operation"
-msgstr ""
+msgstr "Satu ralat berlaku ketika melakukan operasi pulih"
 
 #: ../src/fwbackups-runapp.py:2786
 msgid "The restore operation was cancelled"
-msgstr ""
+msgstr "Operasi pulih telah dibatalkan"
 
 #. Customize our help text for the pre-created options
 #: ../src/fwbackups-runapp.py:2810
 msgid "Show this program's version and exit"
-msgstr ""
+msgstr "Tunjuk versi program kemudian keluar"
 
 #: ../src/fwbackups-runapp.py:2811
 msgid "Show this help message and exit"
-msgstr ""
+msgstr "Tunjuk mesej bantuan ini kemudian keluar"
 
 #. Add custom options
 #: ../src/fwbackups-runapp.py:2813
 msgid "print log messages to the terminal. Use this option twice"
-msgstr ""
+msgstr "cetak mesej log ke terminal. Guna pilihan ini dua kali"
 
 #: ../src/fwbackups-runapp.py:2814
 msgid "start GUI minimized in the system tray"
-msgstr ""
+msgstr "GUI mula diminimumkan dalam talam sistem"
 
 #: ../src/fwbackups.glade.h:1
 msgid "fwbackups"
@@ -1167,65 +1167,65 @@ msgstr "fwbackups"
 
 #: ../src/fwbackups.glade.h:2
 msgid "To start, click one of the buttons on the above or use the menus."
-msgstr ""
+msgstr "Untuk mula, klik pada salah satu butang di ata atau guna menu."
 
 #: ../src/fwbackups.glade.h:3
 msgid ""
 "Please do not forget to check your fwbackups log regularly to be informed about any\n"
 "errors and/or failed backup runs."
-msgstr ""
+msgstr "Jangan lupa periksa log fwbackups secara tetap untuk mengetahui apa-apa ralat dan\n/atau sandar dijalankan yang gagal."
 
 #: ../src/fwbackups.glade.h:5
 msgid "[ set by runapp.py ]"
-msgstr ""
+msgstr "[ ditetapkan oleh runapp.py ]"
 
 #: ../src/fwbackups.glade.h:6
 msgid "<b>Welcome</b>"
-msgstr ""
+msgstr "<b>Selamat Datang</b>"
 
 #: ../src/fwbackups.glade.h:7
 msgid "<i>Not Loaded</i>"
-msgstr ""
+msgstr "<i>Tidak Dimuatkan</i>"
 
 #: ../src/fwbackups.glade.h:8
 msgid "Total backup sets:"
-msgstr ""
+msgstr "Jumlah set sandar:"
 
 #: ../src/fwbackups.glade.h:9
 msgid "Failed backup runs:"
-msgstr ""
+msgstr "Sandar dijalankan gagal:"
 
 #: ../src/fwbackups.glade.h:10
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Status</b>"
 
 #: ../src/fwbackups.glade.h:11
 msgid "<span size=\"large\" weight=\"bold\">Overview</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Selayang Pandang</span>"
 
 #: ../src/fwbackups.glade.h:12
 msgid "_New Set"
-msgstr ""
+msgstr "Set _Baharu"
 
 #: ../src/fwbackups.glade.h:13
 msgid "Ed_it Set"
-msgstr ""
+msgstr "Sunt_ing Set"
 
 #: ../src/fwbackups.glade.h:14
 msgid "_Delete Set"
-msgstr ""
+msgstr "Pa_dam Set"
 
 #: ../src/fwbackups.glade.h:15
 msgid "_Backup Set Now"
-msgstr ""
+msgstr "_Sandar Set Sekarang"
 
 #: ../src/fwbackups.glade.h:16
 msgid "Re_store Set"
-msgstr ""
+msgstr "P_ulih Set"
 
 #: ../src/fwbackups.glade.h:17
 msgid "_Finish"
-msgstr ""
+msgstr "_Selesai"
 
 #: ../src/fwbackups.glade.h:20
 msgid "Status:"
@@ -1233,177 +1233,177 @@ msgstr "Status:"
 
 #: ../src/fwbackups.glade.h:21
 msgid "Backup progress:"
-msgstr ""
+msgstr "Kemajuan sandar:"
 
 #: ../src/fwbackups.glade.h:22
 msgid "<span size=\"large\" weight=\"bold\">Backups Sets</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Sandar Set</span>"
 
 #: ../src/fwbackups.glade.h:23
 msgid "_Add File(s)"
-msgstr ""
+msgstr "T_ambah Fail(s)"
 
 #: ../src/fwbackups.glade.h:24
 msgid "_Add Folder(s)"
-msgstr ""
+msgstr "T_ambah Folder(s)"
 
 #: ../src/fwbackups.glade.h:25
 msgid ""
 "Local folder\n"
 "Remote folder (SSH)"
-msgstr ""
+msgstr "Folder setempat\nFolder jauh (SSH)"
 
 #: ../src/fwbackups.glade.h:27
 msgid "_Browse..."
-msgstr ""
+msgstr "_Layar..."
 
 #: ../src/fwbackups.glade.h:28
 msgid "Folder:"
-msgstr ""
+msgstr "Folder:"
 
 #: ../src/fwbackups.glade.h:29
 msgid "/folder"
-msgstr ""
+msgstr "/folder"
 
 #: ../src/fwbackups.glade.h:30
 msgid "Host:"
-msgstr ""
+msgstr "Hos:"
 
 #: ../src/fwbackups.glade.h:31
 msgid "Username:"
-msgstr ""
+msgstr "Nama pengguna:"
 
 #: ../src/fwbackups.glade.h:32
 msgid "Password:"
-msgstr ""
+msgstr "Kata laluan:"
 
 #: ../src/fwbackups.glade.h:33
 msgid "_Test Settings"
-msgstr ""
+msgstr "Tetapan _Uji"
 
 #: ../src/fwbackups.glade.h:34
 msgid "Hide password"
-msgstr ""
+msgstr "Sembunyi kata laluan"
 
 #: ../src/fwbackups.glade.h:35
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: ../src/fwbackups.glade.h:36
 msgid "Destination type:"
-msgstr ""
+msgstr "Jenis destinasi:"
 
 #: ../src/fwbackups.glade.h:37
 msgid "Archive (files and folders are packed into a tar archive)"
-msgstr ""
+msgstr "Arkib (fail dan folder dipek dalam satu arkib tar)"
 
 #: ../src/fwbackups.glade.h:38
 msgid "Direct copy of the files and folders"
-msgstr ""
+msgstr "Salin terus fail dan folder"
 
 #: ../src/fwbackups.glade.h:39
 msgid "Compress archive using"
-msgstr ""
+msgstr "Mampat arkib menggunakan"
 
 #: ../src/fwbackups.glade.h:40
 msgid ""
 "gzip: fast, lightweight\n"
 "bzip2: slower, more efficient"
-msgstr ""
+msgstr "gzip: pantas, ringan\nbzip2: lebih perlahan, lebih efisyen"
 
 #: ../src/fwbackups.glade.h:42
 msgid "<b>Backup Format</b>"
-msgstr ""
+msgstr "<b>Format Sandar</b>"
 
 #: ../src/fwbackups.glade.h:43
 msgid "Enabled"
-msgstr ""
+msgstr "Dibenarkan"
 
 #: ../src/fwbackups.glade.h:44
 msgid "Recursive"
-msgstr ""
+msgstr "Rekursif"
 
 #: ../src/fwbackups.glade.h:45
 msgid "Print installed packages to a text file"
-msgstr ""
+msgstr "Cetak pakej terpasang ke fail teks"
 
 #: ../src/fwbackups.glade.h:46
 msgid "Print disk geometry information to a file"
-msgstr ""
+msgstr "Cetak maklumat geometri cakera ke fail"
 
 #: ../src/fwbackups.glade.h:47
 msgid "Include hidden files"
-msgstr ""
+msgstr "Sertakan fail tersembunyi"
 
 #: ../src/fwbackups.glade.h:48
 msgid "Handle sparse files efficiently"
-msgstr ""
+msgstr "Kendali fail jarang secara efisyen"
 
 #: ../src/fwbackups.glade.h:49
 msgid "Follow links"
-msgstr ""
+msgstr "Ikuti pautan"
 
 #: ../src/fwbackups.glade.h:50
 msgid "<b>Backup Options</b>"
-msgstr ""
+msgstr "<b>Pilihan Sandar</b>"
 
 #: ../src/fwbackups.glade.h:51
 msgid ""
 "Exclude from backup:\n"
 " (newline separated)"
-msgstr ""
+msgstr "Diasing dari sandar:\n(baris baharu dipisahkan)"
 
 #: ../src/fwbackups.glade.h:53
 msgid "Nice value of backup process:"
-msgstr ""
+msgstr "Nilai elok dari proses sandar:"
 
 #: ../src/fwbackups.glade.h:54
 msgid "<b>Advanced Options</b>"
-msgstr ""
+msgstr "<b>Pilihan Lanjutan</b>"
 
 #: ../src/fwbackups.glade.h:55
 msgid "_Back"
-msgstr ""
+msgstr "_Undur"
 
 #: ../src/fwbackups.glade.h:56
 msgid "_Next"
-msgstr ""
+msgstr "_Berikutnya"
 
 #: ../src/fwbackups.glade.h:57
 msgid "_Start Backup"
-msgstr ""
+msgstr "_Mula Sandar"
 
 #: ../src/fwbackups.glade.h:58
 msgid "<span size=\"large\" weight=\"bold\">One-Time Backup</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Sandar Sekali-Sahaja</span>"
 
 #: ../src/fwbackups.glade.h:59
 msgid "_Save to File"
-msgstr ""
+msgstr "_Simpan ke Fail"
 
 #: ../src/fwbackups.glade.h:60
 msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Pelihat Log</span>"
 
 #: ../src/fwbackups.glade.h:61
 msgid "Overview"
-msgstr ""
+msgstr "Selayang Pandang"
 
 #: ../src/fwbackups.glade.h:62
 msgid "Backup Sets"
-msgstr ""
+msgstr "Sandar Set"
 
 #: ../src/fwbackups.glade.h:63
 msgid "One-Time Backup"
-msgstr ""
+msgstr "Sandar Sekali-Sahaja"
 
 #: ../src/fwbackups.glade.h:64
 msgid "Log Viewer"
-msgstr ""
+msgstr "Pelihat Log"
 
 #: ../src/fwbackups.glade.h:65
 msgid "Restore"
-msgstr ""
+msgstr "Pulih"
 
 #: ../src/fwbackups.glade.h:66
 msgid "_File"
@@ -1411,47 +1411,47 @@ msgstr "_Fail"
 
 #: ../src/fwbackups.glade.h:67
 msgid "Create a new backup set"
-msgstr ""
+msgstr "Cipta satu set sandar baharu"
 
 #: ../src/fwbackups.glade.h:68
 msgid "Import a set from a .conf file"
-msgstr ""
+msgstr "Import satu set dari fail .conf"
 
 #: ../src/fwbackups.glade.h:69
 msgid "_Import Sets"
-msgstr ""
+msgstr "_Import Set"
 
 #: ../src/fwbackups.glade.h:70
 msgid "Export one or more sets to .conf files"
-msgstr ""
+msgstr "Eksport satu atau lebih set ke fail .conf"
 
 #: ../src/fwbackups.glade.h:71
 msgid "E_xport Sets"
-msgstr ""
+msgstr "E_ksport Set"
 
 #: ../src/fwbackups.glade.h:72
 msgid "_Edit"
-msgstr ""
+msgstr "Su_nting"
 
 #: ../src/fwbackups.glade.h:73
 msgid "Edit the selected backup set"
-msgstr ""
+msgstr "Sunting set sandar terpilih"
 
 #: ../src/fwbackups.glade.h:74
 msgid "_Edit Set"
-msgstr ""
+msgstr "S_unting Set"
 
 #: ../src/fwbackups.glade.h:75
 msgid "Remove the selected backup set"
-msgstr ""
+msgstr "Buang set sandar terpilih"
 
 #: ../src/fwbackups.glade.h:76
 msgid "Duplicate the selected backup set"
-msgstr ""
+msgstr "Ganda duakan set sandar terpilih"
 
 #: ../src/fwbackups.glade.h:77
 msgid "D_uplicate Set"
-msgstr ""
+msgstr "D_uplikasi Set"
 
 #: ../src/fwbackups.glade.h:78
 msgid "_View"
@@ -1459,31 +1459,31 @@ msgstr "_Lihat"
 
 #: ../src/fwbackups.glade.h:79
 msgid "Switch to Overview"
-msgstr ""
+msgstr "Tukar ke Selayang Pandang"
 
 #: ../src/fwbackups.glade.h:80
 msgid "_Overview"
-msgstr ""
+msgstr "_Selayang Pandang"
 
 #: ../src/fwbackups.glade.h:81
 msgid "Switch to User Backup Sets"
-msgstr ""
+msgstr "Tukar ke Set Sandar Pengguna"
 
 #: ../src/fwbackups.glade.h:82
 msgid "_Backup Sets"
-msgstr ""
+msgstr "_Sandar Set"
 
 #: ../src/fwbackups.glade.h:83
 msgid "Switch to One-Time Backup"
-msgstr ""
+msgstr "Tukar ke Sandar Sekali-Sahaja"
 
 #: ../src/fwbackups.glade.h:84
 msgid "O_ne-Time Backup"
-msgstr ""
+msgstr "Sandar Sek_ali-Sahaja"
 
 #: ../src/fwbackups.glade.h:85
 msgid "Switch to Log Viewer"
-msgstr ""
+msgstr "Tukar ke Pelihat Log"
 
 #: ../src/fwbackups.glade.h:86
 msgid "_Log"
@@ -1491,11 +1491,11 @@ msgstr "_Log"
 
 #: ../src/fwbackups.glade.h:87
 msgid "Switch to Restore"
-msgstr ""
+msgstr "Tukar ke Pemulihan"
 
 #: ../src/fwbackups.glade.h:88
 msgid "_Restore"
-msgstr ""
+msgstr "_Pulih"
 
 #: ../src/fwbackups.glade.h:89
 msgid "_Help"
@@ -1503,28 +1503,28 @@ msgstr "_Bantuan"
 
 #: ../src/fwbackups.glade.h:90
 msgid "Check for _Updates"
-msgstr ""
+msgstr "Periksa _Kemaskini"
 
 #: ../src/fwbackups.glade.h:91
 msgid "About fwbackups"
-msgstr ""
+msgstr "Perihal fwbackups"
 
 #: ../src/fwbackups.glade.h:92
 msgid "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
-msgstr ""
+msgstr "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
 
 #: ../src/fwbackups.glade.h:93
 msgid "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
-msgstr ""
+msgstr "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
 
 #: ../src/fwbackups.glade.h:95
 #, no-c-format
 msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
-msgstr ""
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
 
 #: ../src/fwbackups.glade.h:96
 msgid "<span size=\"large\"> A feature-rich user backup program</span>"
-msgstr ""
+msgstr "<span size=\"large\"> Sebuah program sandar pengguna banyak fiturnya</span>"
 
 #: ../src/fwbackups.glade.h:97
 msgid ""
@@ -1542,11 +1542,11 @@ msgid ""
 "    along with this program; if not, write to the\n"
 "    Free Software Foundation, Inc.,\n"
 "    51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n"
-msgstr ""
+msgstr "Program ini adalah perisian bebas; anda boleh edar semula ia dan ubahsuai ia\ndibawah terma Lesen Awam Am GNU sepertimana yang diterbitkan oleh\nFree Software Foundation; sama ada Lesen versi 2 atau (ikut pilihan anda)\nmana-mana versi terkemudian.\n\nProgram ini diedar dengan harapan ia akan berguna, tetapi TANPA\nAPA-APA JAMINAN; begitu juga jaminan berkenaan KEBOLEHPASARAN\natau KESESUAIAN APA JUA TUJUAN. Sila rujuk Lesem Awam AM GNU\nuntuk perincian lanjut.\n\nAnda seharusnya menerima satu salinan Lesen Awam Am GNU bersama-\nsama dengan program ini; jika tidak disertakan, sila tulis perihal ini kepada\nFree Software Foundation, Inc., 51Franklin Street, Fifth Floor, Boston, \nMA 02110-1301 USA\n"
 
 #: ../src/fwbackups.glade.h:112
 msgid "License"
-msgstr ""
+msgstr "Lesen"
 
 #: ../src/fwbackups.glade.h:113
 msgid ""
@@ -1563,7 +1563,7 @@ msgid ""
 "Graphic Designers:\n"
 "\tStewart Adam < s.adam@diffingo.com >\n"
 "        * Based on gnome-icon-theme icons\n"
-msgstr ""
+msgstr "\nPembangun:\n          Stewart Adam < s.adam@diffingo.com >\n\nPendokumen:\n          Stewart Adam < s.adam@diffingo.com >\n\nPenterjemah:\n\tN/A\n\nPereka Grafik:\n\tStewart Adam < s.adam@diffingo.com >\n        * Based on gnome-icon-theme icons\n"
 
 #: ../src/fwbackups.glade.h:127
 msgid "Credits"
@@ -1571,70 +1571,70 @@ msgstr "Penghargaan"
 
 #: ../src/fwbackups.glade.h:128
 msgid "Select a file or folder"
-msgstr ""
+msgstr "Pilih satu fail atau folder"
 
 #: ../src/fwbackups.glade.h:129
 msgid ""
 "<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
 "\n"
 "Secondary text"
-msgstr ""
+msgstr "<span size=\"larger\" weight=\"bold\">Teks utama</span>\n\nTeks sekunder"
 
 #: ../src/fwbackups.glade.h:132
 msgid "Don't show me this message again"
-msgstr ""
+msgstr "Jangan tunjuk mesej ini lagi"
 
 #: ../src/fwbackups.glade.h:133
 msgid "Save to..."
-msgstr ""
+msgstr "Simpan ke..."
 
 #: ../src/fwbackups.glade.h:134
 msgid "Status: fwbackups is running"
-msgstr ""
+msgstr "Status: fwbackups berjalan"
 
 #: ../src/fwbackups.glade.h:135
 msgid "_Show Administrator"
-msgstr ""
+msgstr "_Tunjkuk Pentadbir"
 
 #: ../src/fwbackups.glade.h:136
 msgid "_Minimize to tray on close"
-msgstr ""
+msgstr "_Mininum ke dalam talam bila ditutup"
 
 #: ../src/fwbackups.glade.h:137
 msgid "Display _Notifications"
-msgstr ""
+msgstr "Papar P_emberitahuan"
 
 #: ../src/fwbackups.glade.h:138
 msgid "Edit preferences"
-msgstr ""
+msgstr "Sunting keutamaan"
 
 #: ../src/fwbackups.glade.h:139
 msgid "_Preferences"
-msgstr ""
+msgstr "_Keutamaan"
 
 #: ../src/fwbackups.glade.h:140
 msgid "_Quit"
-msgstr ""
+msgstr "K_eluar"
 
 #: ../src/fwbackups.glade.h:142
 msgid "_Export"
-msgstr ""
+msgstr "_Eksport"
 
 #: ../src/fwbackups.glade.h:143
 msgid "Export to:"
-msgstr ""
+msgstr "Eksport ke:"
 
 #: ../src/fwbackups.glade.h:144
 msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
-msgstr ""
+msgstr "<span size=\"larger\" weight=\"bold\">Eksport Set</span>"
 
 #: ../src/fwbackups.glade.h:145
 msgid "Select the set you would like to export."
-msgstr ""
+msgstr "Pilih set yang anda mahu eksportkan."
 
 #: ../src/fwbackups.glade.h:147
 msgid "Restore Files"
-msgstr ""
+msgstr "Pulih Fail"
 
 #: ../src/fwbackups.glade.h:148
 msgid ""
@@ -1643,179 +1643,179 @@ msgid ""
 "Local folder\n"
 "Remote archive (SSH)\n"
 "Remote folder (SSH)"
-msgstr ""
+msgstr "Set sandar\nArkib setempat\nFolder setempat\nArkib jauh (SSH)\nFolder jauh (SSH)"
 
 #: ../src/fwbackups.glade.h:153
 msgid "Set:"
-msgstr ""
+msgstr "Set:"
 
 #: ../src/fwbackups.glade.h:154
 msgid "Date:"
-msgstr ""
+msgstr "Tarikh:"
 
 #: ../src/fwbackups.glade.h:155
 msgid "Browse..."
-msgstr ""
+msgstr "Layar..."
 
 #: ../src/fwbackups.glade.h:156
 msgid "Archive:"
-msgstr ""
+msgstr "Arkib:"
 
 #: ../src/fwbackups.glade.h:157
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: ../src/fwbackups.glade.h:158
 msgid "Location:"
-msgstr ""
+msgstr "Lokasi:"
 
 #: ../src/fwbackups.glade.h:159
 msgid "Test Settings"
-msgstr ""
+msgstr "Tetapan Uji"
 
 #: ../src/fwbackups.glade.h:160
 msgid ""
 "<i>Note: fwbackups will copy the remote backup to the disk first, then unpack it.\n"
 "Please ensure enough disk space is available.</i>"
-msgstr ""
+msgstr "<i>Perhatian: fwbackups akan menyalin sandar jauh ke dalam cakere dahulu, kemudian menyahpadatkannya.\nSila pastikan ruang cakera bebas mencukupi.</i>"
 
 #: ../src/fwbackups.glade.h:162
 msgid "Source type:"
-msgstr ""
+msgstr "Jenis sumber:"
 
 #: ../src/fwbackups.glade.h:163
 msgid "Restore to:"
-msgstr ""
+msgstr "Pulih ke:"
 
 #: ../src/fwbackups.glade.h:164
 msgid ""
 "<i>Tip: entering '/' or selecting </i>'File System'<i> will restore files to"
 " their original locations.</i>"
-msgstr ""
+msgstr "<i>Petua: memasukkan '/' atau memilih </i>'Sistem Fail'<i> akan pulihkan fail ke lokasi asalnya.</i>"
 
 #: ../src/fwbackups.glade.h:165
 msgid "Restore Progress:"
-msgstr ""
+msgstr "Kemajuan Pemulihan:"
 
 #: ../src/fwbackups.glade.h:166
 msgid "Start _Restore"
-msgstr ""
+msgstr "Mula _Pulih"
 
 #: ../src/fwbackups.glade.h:167
 msgid "Preferences"
-msgstr ""
+msgstr "Keutamaan"
 
 #: ../src/fwbackups.glade.h:168
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Mininum ke dalam talam bila ditutup"
 
 #: ../src/fwbackups.glade.h:169
 msgid "Show notifications in tray area"
-msgstr ""
+msgstr "Tunjuk pemberitahuan dalam kawasan talam"
 
 #: ../src/fwbackups.glade.h:170
 msgid "Show tray icon"
-msgstr ""
+msgstr "Tunjuk ikon talam"
 
 #: ../src/fwbackups.glade.h:171
 msgid "Start minimized"
-msgstr ""
+msgstr "Mula diminimumkan"
 
 #: ../src/fwbackups.glade.h:172
 msgid "<b>Tray Options</b>"
-msgstr ""
+msgstr "<b>Pilihan Talam</b>"
 
 #: ../src/fwbackups.glade.h:173
 msgid "Always show debug messages in the log"
-msgstr ""
+msgstr "Sentiasa tunjuk mesej nyahpepijat dalam log"
 
 #: ../src/fwbackups.glade.h:174
 msgid "Start fwbackups (minimized) when I login"
-msgstr ""
+msgstr "Mulakan fwbackups (diminimumkan) ketika Saya daftar masuk"
 
 #: ../src/fwbackups.glade.h:175
 msgid "Customize temporary directory"
-msgstr ""
+msgstr "Suaikan direktori sementara"
 
 #: ../src/fwbackups.glade.h:176
 msgid "<b>Misc. Options</b>"
-msgstr ""
+msgstr "<b>Pilihan Pelbagai</b>"
 
 #: ../src/fwbackups.glade.h:177
 msgid "Pycron installation directory:"
-msgstr ""
+msgstr "Direktpri pemasangan Pycron:"
 
 #: ../src/fwbackups.glade.h:178
 msgid "<b>Windows-specific options</b>"
-msgstr ""
+msgstr "<b>Pilihan khusus-Windows</b>"
 
 #: ../src/fwbackups.glade.h:179
 msgid "Click to reset \"Don't show me again\" messages"
-msgstr ""
+msgstr "Klik untuk tetapkan semula mesej \"Jangan tunjuk lagi\""
 
 #: ../src/fwbackups.glade.h:180
 msgid "Configure Set"
-msgstr ""
+msgstr "Konfigur Set"
 
 #: ../src/fwbackups.glade.h:181
 msgid "Paths"
-msgstr ""
+msgstr "Laluan"
 
 #: ../src/fwbackups.glade.h:182
 msgid "Destination Type:"
-msgstr ""
+msgstr "Jenis Destinasi:"
 
 #: ../src/fwbackups.glade.h:183
 msgid "Destination"
-msgstr ""
+msgstr "Destinasi"
 
 #: ../src/fwbackups.glade.h:184
 msgid "<b>Day(s) of the Week</b>"
-msgstr ""
+msgstr "<b>Hari(s) dalam Seminggu</b>"
 
 #: ../src/fwbackups.glade.h:185
 msgid "<b>Month(s)</b>"
-msgstr ""
+msgstr "<b>Bulan(s)</b>"
 
 #: ../src/fwbackups.glade.h:186
 msgid ""
 "Please use the same syntax a crontab does to enter your settings.\n"
 "<i>To obtain examples and more information on crontab syntax, click 'Help'.</i>"
-msgstr ""
+msgstr "Sila guna sintaks yang mana crontab lakukan untuk masukkan tetapan anda.\n<i>Untuk maklumat lanjut berkenaan sintaks crontab, klik 'Bantuan'.</i>"
 
 #: ../src/fwbackups.glade.h:188
 msgid ""
 "No field verification is performed on a manual field to test if the input is valid.\n"
 "Please make sure there are no errors."
-msgstr ""
+msgstr "Tiada pengesahan medan dibuat pada medan manual untuk pengujian jika input tidak sah.\nSila pastikan tidak terdapat ralat."
 
 #: ../src/fwbackups.glade.h:190
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../src/fwbackups.glade.h:191
 msgid "<b>Day(s) of Month</b>"
-msgstr ""
+msgstr "<b>Hari(s) dalam Sebulan</b>"
 
 #: ../src/fwbackups.glade.h:192
 msgid "<b>Hour(s)</b>"
-msgstr ""
+msgstr "<b>Jam(s)</b>"
 
 #: ../src/fwbackups.glade.h:193
 msgid "<b>Minute(s)</b>"
-msgstr ""
+msgstr "<b>Minit(s)</b>"
 
 #: ../src/fwbackups.glade.h:194
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Konfigurasi Manual"
 
 #: ../src/fwbackups.glade.h:195
 msgid "All Months"
-msgstr ""
+msgstr "Semua Bulan"
 
 #: ../src/fwbackups.glade.h:196
 msgid "Only during:"
-msgstr ""
+msgstr "Hanya semasa:"
 
 #: ../src/fwbackups.glade.h:197
 msgid "From:"
@@ -1835,7 +1835,7 @@ msgid ""
 "October\n"
 "November\n"
 "December"
-msgstr ""
+msgstr "Januari\nFebruari\nMac\nApril\nMei\nJun\nJulai\nOgos\nSeptember\nOktober\nNovember\nDisember"
 
 #: ../src/fwbackups.glade.h:210
 msgid "To:"
@@ -1843,15 +1843,15 @@ msgstr "Hingga:"
 
 #: ../src/fwbackups.glade.h:211
 msgid "<b>Months</b>"
-msgstr ""
+msgstr "<b>Bulan</b>"
 
 #: ../src/fwbackups.glade.h:212
 msgid "Only on:"
-msgstr ""
+msgstr "Hanya pada:"
 
 #: ../src/fwbackups.glade.h:213
 msgid "All days of the week"
-msgstr ""
+msgstr "Semua hari dalam seminggu"
 
 #: ../src/fwbackups.glade.h:214
 msgid ""
@@ -1862,7 +1862,7 @@ msgid ""
 "Thurday\n"
 "Friday\n"
 "Saturday"
-msgstr ""
+msgstr "Ahad\nIsnin\nSelasa\nRabu\nKhamis\nJumaat\nSabtu"
 
 #: ../src/fwbackups.glade.h:221
 msgid ""
@@ -1873,19 +1873,19 @@ msgid ""
 "Thurdays\n"
 "Fridays\n"
 "Saturdays"
-msgstr ""
+msgstr "Ahad\nIsnin\nSelasa\nRabu\nKhamis\nJumaat\nSabtu"
 
 #: ../src/fwbackups.glade.h:228
 msgid "<b>Days of the week</b>"
-msgstr ""
+msgstr "<b>Hari dalam Seminggu</b>"
 
 #: ../src/fwbackups.glade.h:229
 msgid "At:"
-msgstr ""
+msgstr "Pada:"
 
 #: ../src/fwbackups.glade.h:230
 msgid "All Hours"
-msgstr ""
+msgstr "Semua Jam"
 
 #: ../src/fwbackups.glade.h:231
 msgid ""
@@ -1913,71 +1913,71 @@ msgid ""
 "21 (9pm)\n"
 "22 (10pm)\n"
 "23 (11pm)"
-msgstr ""
+msgstr "0 (12am)\n1 (1am)\n2 (2am)\n3 (3am)\n4 (4am)\n5 (5am)\n6 (6am)\n7 (7am)\n8 (8am)\n9 (9am)\n10 (10am)\n11 (11am)\n12 (Noon)\n13 (1pm)\n14 (2pm)\n15 (3pm)\n16 (4pm)\n17 (5pm)\n18 (6pm)\n19 (7pm)\n20 (8pm)\n21 (9pm)\n22 (10pm)\n23 (11pm)"
 
 #: ../src/fwbackups.glade.h:255
 msgid "<b>Hours</b>"
-msgstr ""
+msgstr "<b>Jam</b>"
 
 #: ../src/fwbackups.glade.h:256
 msgid "Only at:"
-msgstr ""
+msgstr "Hanya pada:"
 
 #: ../src/fwbackups.glade.h:257
 msgid "All Minutes"
-msgstr ""
+msgstr "Semua Minit"
 
 #: ../src/fwbackups.glade.h:258
 msgid "<b>Minute</b>"
-msgstr ""
+msgstr "<b>Minit</b>"
 
 #: ../src/fwbackups.glade.h:259
 msgid "Easy Configuration"
-msgstr ""
+msgstr "Konfigurasi Mudah"
 
 #: ../src/fwbackups.glade.h:260
 msgid ""
 "<i>Tip: Your backup will run whenever <b>all</b> of the criteria below match"
 " the system time and date.</i>"
-msgstr ""
+msgstr "<i>Petua: Sandar anda akan dijalankan bila <b>semua</b> kriteria di bawah menepati waktu dan tarikh sistem.</i>"
 
 #: ../src/fwbackups.glade.h:261
 msgid "Times"
-msgstr ""
+msgstr "Waktu"
 
 #: ../src/fwbackups.glade.h:262
 msgid "Backups are incremental"
-msgstr ""
+msgstr "Sandar boleh ditokok tambah"
 
 #: ../src/fwbackups.glade.h:263
 msgid "Set is enabled"
-msgstr ""
+msgstr "Set dibenarkan"
 
 #: ../src/fwbackups.glade.h:264
 msgid "Include subfolders"
-msgstr ""
+msgstr "Termasuk subfolder"
 
 #: ../src/fwbackups.glade.h:265
 msgid "Number of old backups to keep:"
-msgstr ""
+msgstr "Bilangan sandar lama dikekalkan:"
 
 #: ../src/fwbackups.glade.h:266
 msgid ""
 "<i>Tip: </i>0<i> makes a new backup always replace an older one.\n"
 "This option is unavailable with incremental backups.</i>"
-msgstr ""
+msgstr "<i>Petua: </i>0<i> Jadikan sandar baharu menggantikan yang lama.\nPilihan ini tidak tersedia untuk sandar tokokan.</i>"
 
 #: ../src/fwbackups.glade.h:268
 msgid "Options (Simple)"
-msgstr ""
+msgstr "Pilihan (Mudah)"
 
 #: ../src/fwbackups.glade.h:269
 msgid "Command to run before backup:"
-msgstr ""
+msgstr "Perintah dijalankan sebelum sandar:"
 
 #: ../src/fwbackups.glade.h:270
 msgid "Command to run after backup:"
-msgstr ""
+msgstr "Perintah dijalankan selepas sandar:"
 
 #: ../src/fwbackups.glade.h:271
 msgid ""
@@ -1985,143 +1985,143 @@ msgid ""
 "[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]\n"
 "\n"
 "For a description of each, see the user manual.</i>"
-msgstr ""
+msgstr "<i>Petua: Token berikut boleh digunakan dalam perintah:\n[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]\n\nKeterangannya boleh rujuk didalam panduan pengguna.</i>"
 
 #: ../src/fwbackups.glade.h:275
 msgid "Options (Advanced)"
-msgstr ""
+msgstr "Pilihan (Lanjutan)"
 
 #: ../src/fwbackups.glade.h:276
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nama:</b>"
 
 #: ../src/fwbackups.glade.h:277
 msgid "fwbackups Initializing..."
-msgstr ""
+msgstr "fwbackups Mengawalkan..."
 
 #: ../src/fwbackups.glade.h:278
 msgid " A feature-rich user backup program"
-msgstr ""
+msgstr "Sebuah program sandar pengguna banyak fiturnya"
 
 #: ../src/fwbackups.glade.h:279
 msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
-msgstr ""
+msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
 
 #: ../src/fwbackups.glade.h:280
 msgid "<span size=\"small\">Please wait while fwbackups initializes.</span>"
-msgstr ""
+msgstr "<span size=\"small\">Tunggu sebentar ketika fwbackups diawalkan.</span>"
 
 #: ../src/BugReport.glade.h:1 ../src/fwbackups/widgets.py:738
 msgid "Bug Report"
-msgstr ""
+msgstr "Laporan Pepijat"
 
 #: ../src/BugReport.glade.h:2
 msgid "<span size=\"larger\" weight=\"bold\">Sorry!</span>"
-msgstr ""
+msgstr "<span size=\"larger\" weight=\"bold\">Maaf!</span>"
 
 #: ../src/BugReport.glade.h:3
 msgid ""
 "fwbackups has run into an unexpected error. You may continue using the "
 "program, however it is recommended you quit and open fwbackups again."
-msgstr ""
+msgstr "fwbakcup telah mengalami ralat tidak dijangka. Anda boleh terus guna program, tetapi adalah baik anda tutup dahulu kemudian buka fwbackup sekali lagi."
 
 #: ../src/BugReport.glade.h:4
 msgid "Traceback Here"
-msgstr ""
+msgstr "Surih Balik Di Sini"
 
 #: ../src/BugReport.glade.h:5
 msgid "_Details"
-msgstr ""
+msgstr "Per_incian"
 
 #: ../src/fwbackups/operations/__init__.py:60
 msgid "Canceling the current operation!"
-msgstr ""
+msgstr "Membatalkan operasi semasa!"
 
 #: ../src/fwbackups/operations/__init__.py:64
 #, python-format
 msgid "Stopping process with ID %s"
-msgstr ""
+msgstr "Menghentikan proses dengan ID %s"
 
 #: ../src/fwbackups/operations/__init__.py:67
 #, python-format
 msgid "Could not stop process %(a)s: %(b)s"
-msgstr ""
+msgstr "Tidak dapat hentikan proses %(a)s: %(b)s"
 
 #: ../src/fwbackups/operations/__init__.py:75
 msgid "The operation has been cancelled."
-msgstr ""
+msgstr "Operasi telah dibatalkan."
 
 #: ../src/fwbackups/operations/__init__.py:88
 #, python-format
 msgid "Error handling file `%s'"
-msgstr ""
+msgstr "Ralat mengendali fail '%s'"
 
 #: ../src/fwbackups/operations/__init__.py:89
 #, python-format
 msgid ""
 "Output:\n"
 "%s"
-msgstr ""
+msgstr "Output:\n%s"
 
 #: ../src/fwbackups/operations/__init__.py:94
 #, python-format
 msgid "Destination folder `%s' exists"
-msgstr ""
+msgstr "Folder destination `%s' wujud"
 
 #: ../src/fwbackups/operations/__init__.py:99
 #, python-format
 msgid "Created destination folder `%s'"
-msgstr ""
+msgstr "Folder destination `%s' dicipta"
 
 #: ../src/fwbackups/operations/__init__.py:101
 #, python-format
 msgid "The destination folder `%(a)s' could not be created: %(b)s"
-msgstr ""
+msgstr "Folder destinasi '%(a)s' tidak dapat dicipta: %(b)s"
 
 #: ../src/fwbackups/operations/__init__.py:105
 #, python-format
 msgid ""
 "You do not have read and write permissions on the destination `%s' - if you "
 "backed up system files, this operation may fail."
-msgstr ""
+msgstr "Anda tidak mempunyai keizinan baca dan tulis pada destinasi '%s' - jika anda menyandar fail sistem, operasi ini akan gagal."
 
 #: ../src/fwbackups/operations/backup.py:82
 msgid "rpm - Package list"
-msgstr ""
+msgstr "rpm - Senarai pakej"
 
 #: ../src/fwbackups/operations/backup.py:101
 msgid "Pacman - Package list"
-msgstr ""
+msgstr "Pacman - Senarai pakej"
 
 #: ../src/fwbackups/operations/backup.py:107
 msgid "dpkg - Package list"
-msgstr ""
+msgstr "dpkg - Senarai pakej"
 
 #: ../src/fwbackups/operations/backup.py:117
 msgid "Disk Information"
-msgstr ""
+msgstr "Maklumat Cakera"
 
 #: ../src/fwbackups/operations/backup.py:185
 #, python-format
 msgid "Attempting to connect to server %s..."
-msgstr ""
+msgstr "Cuba menyambung dengan pelayan %s..."
 
 #: ../src/fwbackups/operations/backup.py:196
 msgid "Attempt to connect succeeded."
-msgstr ""
+msgstr "Percubaan untuk menyambung berjaya."
 
 #: ../src/fwbackups/operations/backup.py:199
 msgid ""
 "The backup destination was either not found or it cannot be written to due "
 "to insufficient permissions."
-msgstr ""
+msgstr "Destinasi sandar sama ada tidak ditemui atau tidak dapat ditulis atas sebab keizinan tidak mencukupi."
 
 #: ../src/fwbackups/operations/backup.py:203
 #: ../src/fwbackups/operations/restore.py:88
 msgid ""
 "A connection was established, but authentication failed. Please verify the "
 "username and password and try again."
-msgstr ""
+msgstr "Satu sambungan telah dijalinkan, tetapi pengesahihan gagal. Sila sahkan nama pengguna dan kata laluan dan cuba sekali lagi."
 
 #: ../src/fwbackups/operations/backup.py:208
 #: ../src/fwbackups/operations/restore.py:93
@@ -2129,14 +2129,14 @@ msgstr ""
 msgid ""
 "A connection to the server could not be established.\n"
 "Error %(a)s: %(b)s"
-msgstr ""
+msgstr "Satu sambungan ke pelayan tidak dapat dijalinkan.\nRalat %(a)s: %(b)s"
 
 #: ../src/fwbackups/operations/backup.py:213
 #: ../src/fwbackups/operations/restore.py:98
 msgid ""
 "A connection to the server has timed out. Please verify your settings and "
 "try again."
-msgstr ""
+msgstr "Satu sambungan dengan pelayan telah tamat masa. Sila sahkan tetapan anda dan cuba sekali lagi."
 
 #: ../src/fwbackups/operations/backup.py:217
 #: ../src/fwbackups/operations/restore.py:102
@@ -2144,7 +2144,7 @@ msgstr ""
 msgid ""
 "A connection to the server could not be established because an error "
 "occurred: %s"
-msgstr ""
+msgstr "Satu sambungan ke pelayan tidak dapat dijalinkan kerana ralat berlaku: %s"
 
 #: ../src/fwbackups/operations/backup.py:235
 #: ../src/fwbackups/operations/backup.py:276
@@ -2153,7 +2153,7 @@ msgstr ""
 msgid ""
 "Using %s on Windows: Cancel function will only take effect after a path has "
 "been completed."
-msgstr ""
+msgstr "Penggunaan %s pada Windows: Fungsi batal hanya berkesan selepas laluan diselesaikan."
 
 #. let's deal with real paths
 #: ../src/fwbackups/operations/backup.py:241
@@ -2165,12 +2165,12 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:387
 #, python-format
 msgid "Backing up path %(a)i/%(b)i: %(c)s"
-msgstr ""
+msgstr "Menyandar laluan %(a)i/%(b)i: %(c)s"
 
 #: ../src/fwbackups/operations/backup.py:249
 #, python-format
 msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
-msgstr ""
+msgstr "Perintah dijalankan: nice -n %(a)i %(b)s '%(c)s'"
 
 #: ../src/fwbackups/operations/backup.py:252
 #: ../src/fwbackups/operations/backup.py:297
@@ -2179,7 +2179,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:598
 #, python-format
 msgid "Starting subprocess with PID %s"
-msgstr ""
+msgstr "Memulakan subproses dengan PID %s"
 
 #: ../src/fwbackups/operations/backup.py:266
 #: ../src/fwbackups/operations/backup.py:311
@@ -2187,7 +2187,7 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:408
 #, python-format
 msgid "Subprocess with PID %(a)s exited with status %(b)s"
-msgstr ""
+msgstr "Subproses dengan PID %(a)s wujud dengan status %(b)s"
 
 #: ../src/fwbackups/operations/backup.py:271
 #: ../src/fwbackups/operations/backup.py:316
@@ -2196,13 +2196,13 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:615
 #, python-format
 msgid "Process exited with status %(a)s. Errors: %(b)s"
-msgstr ""
+msgstr "Proses tamat dengan status %(a)s. Ralat: %(b)s"
 
 #: ../src/fwbackups/operations/backup.py:284
 #: ../src/fwbackups/operations/backup.py:329
 #, python-format
 msgid "Adding path `%s' to the archive"
-msgstr ""
+msgstr "Menambah laluan '%s' ke arkib"
 
 #: ../src/fwbackups/operations/backup.py:291
 #: ../src/fwbackups/operations/backup.py:336
@@ -2210,128 +2210,128 @@ msgstr ""
 msgid ""
 "Using %s: Must backup all paths at once - Progress notification will be "
 "disabled."
-msgstr ""
+msgstr "Penggunaan %s: Mesti sandar semua laluan serentak - Pemberitahuan kemajuan akan dilumpuhkan."
 
 #: ../src/fwbackups/operations/backup.py:293
 #: ../src/fwbackups/operations/backup.py:338
 #, python-format
 msgid "Running command: nice -n %(a)i %(b)s %(c)s"
-msgstr ""
+msgstr "Perintah dijalankan: nice -n %(a)i %(b)s %(c)s"
 
 #: ../src/fwbackups/operations/backup.py:377
 #, python-format
 msgid ""
 "Path %s is missing or cannot be read and will be excluded from the backup."
-msgstr ""
+msgstr "Laluan %s hilang atau tidak dapat dibaca dan akan diasingkan dari sandar."
 
 #: ../src/fwbackups/operations/backup.py:391
 #, python-format
 msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
-msgstr ""
+msgstr "Perintah dijalankan: nice -n %(a)i %(b)s %(c)s '%(d)s'"
 
 #: ../src/fwbackups/operations/backup.py:419
 msgid "Sending files to server via SFTP"
-msgstr ""
+msgstr "Menghantar fail ke pelayan melalui SFTP"
 
 #: ../src/fwbackups/operations/backup.py:429
 msgid "Could not send file(s) or folder to server:"
-msgstr ""
+msgstr "Tidak dapat hantar fail(s) atau folder ke pelayan:"
 
 #: ../src/fwbackups/operations/backup.py:443
 msgid "This function is designed to be subclassed"
-msgstr ""
+msgstr "Fungsi ini direka sebagai subkelas"
 
 #: ../src/fwbackups/operations/backup.py:452
 msgid "Starting one-time backup operation"
-msgstr ""
+msgstr "Memulakan operasi sandar sekali-sahaja"
 
 #: ../src/fwbackups/operations/backup.py:457
 msgid "OneTime"
-msgstr ""
+msgstr "SekaliSahaja"
 
 #: ../src/fwbackups/operations/backup.py:471
 #: ../src/fwbackups/operations/backup.py:679
 msgid "There are no paths to backup!"
-msgstr ""
+msgstr "Tiada laluan untuk sandar!"
 
 #: ../src/fwbackups/operations/backup.py:489
 #: ../src/fwbackups/operations/backup.py:694
 #, python-format
 msgid "`%s' exists and will be overwritten."
-msgstr ""
+msgstr "`%s' wujud dan akan ditulis-gantikan."
 
 #. All done!
 #: ../src/fwbackups/operations/backup.py:509
 msgid "Finished one-time backup"
-msgstr ""
+msgstr "Sandar sekali-sahaja selesai"
 
 #: ../src/fwbackups/operations/backup.py:523
 #, python-format
 msgid "Starting automatic backup operation of set `%s'"
-msgstr ""
+msgstr "Memulakan operasi sandar automatik untuk set '%s'"
 
 #. Execute the command
 #: ../src/fwbackups/operations/backup.py:595
 #, python-format
 msgid "Executing '%s' command"
-msgstr ""
+msgstr "Melakukan perintah '%s'"
 
 #: ../src/fwbackups/operations/backup.py:614
 msgid "Command returned with a non-zero exit status!"
-msgstr ""
+msgstr "Perintah dikembalikan dengan status keluar bukan-sifar!"
 
 #: ../src/fwbackups/operations/backup.py:640
 #, python-format
 msgid "Removing old backup `%(a)s' on %(b)s"
-msgstr ""
+msgstr "Membuang sandar lama `%(a)s' pada `%(b)s"
 
 #: ../src/fwbackups/operations/backup.py:647
 #: ../src/fwbackups/operations/backup.py:660
 #, python-format
 msgid "Removing old backup `%s'"
-msgstr ""
+msgstr "Membuang sandar lama '%s'"
 
 #. oldIncrementalBackup = rsync
 #: ../src/fwbackups/operations/backup.py:653
 #, python-format
 msgid "Moving  `%s' to `%s'"
-msgstr ""
+msgstr "Mengalih  `%s' ke `%s'"
 
 #. source = is not a rsync backup - remove it and start fresh
 #: ../src/fwbackups/operations/backup.py:656
 #, python-format
 msgid "`%s' is not an rsync backup - removing."
-msgstr ""
+msgstr "`%s' bukanlah sandar rsync - dibuangkan."
 
 #. All done!
 #: ../src/fwbackups/operations/backup.py:741
 #, python-format
 msgid "Finished automatic backup operation of set '%s'"
-msgstr ""
+msgstr "Operasi sandar berautomatik bagi set '%s' selesai"
 
 #: ../src/fwbackups/operations/restore.py:42
 msgid "Starting restore operation"
-msgstr ""
+msgstr "Memulakan operasi pemulihan"
 
 #. check if server settings are OK
 #: ../src/fwbackups/operations/restore.py:71
 msgid "Attempting to connect to server"
-msgstr ""
+msgstr "Cuba menyambung dengan pelayan"
 
 #: ../src/fwbackups/operations/restore.py:84
 msgid ""
 "The restore source was either not found or it cannot be read due to "
 "insufficient permissions."
-msgstr ""
+msgstr "Sumber pemulihan sama ada tidak ditemui atau tidak dapat ditulis atas sebab keizinan tidak mencukupi."
 
 #: ../src/fwbackups/operations/restore.py:116
 msgid "Receiving files from server"
-msgstr ""
+msgstr "Menerima fail dari pelayan"
 
 #: ../src/fwbackups/operations/restore.py:127
 #, python-format
 msgid "Could not receive file from server: %s"
-msgstr ""
+msgstr "Tidak menerima fail dari pelayan: %s"
 
 #. We are dealing with a remote folder - our job here is done
 #. Either that or an error was encountered above
@@ -2339,221 +2339,221 @@ msgstr ""
 #: ../src/fwbackups/operations/restore.py:132
 #: ../src/fwbackups/operations/restore.py:177
 msgid "Finished restore operation"
-msgstr ""
+msgstr "Operasi pemulihan selesai"
 
 #. oops, something is up
 #: ../src/fwbackups/operations/restore.py:144
 #, python-format
 msgid "Source `%s' is not a file or folder!"
-msgstr ""
+msgstr "Sumber '%s' bukanlah sebuah fail atau folder!"
 
 #. oops, something is up
 #: ../src/fwbackups/operations/restore.py:153
 #, python-format
 msgid "Source `%s' is not an archive!"
-msgstr ""
+msgstr "Sumber '%s' bukanlah sebuah arkib!"
 
 #: ../src/fwbackups/operations/restore.py:157
 #, python-format
 msgid "Source `%s' is not a folder"
-msgstr ""
+msgstr "Sumber '%s' bukanlah sebuah folder!"
 
 #: ../src/fwbackups/operations/restore.py:173
 #, python-format
 msgid "Traceback: %s"
-msgstr ""
+msgstr "Surih balik: %s"
 
 #: ../src/fwbackups/config.py:50
 #, python-format
 msgid "Could not create configuration folder `%s':"
-msgstr ""
+msgstr "Tidak dapat cipta folder konfigurasi '%s':"
 
 #: ../src/fwbackups/config.py:57
 #, python-format
 msgid "You do not have read and write permissions on folder `%s'."
-msgstr ""
+msgstr "Anda tidak mempunyai keizinan baca dan tulis pada folder '%s'."
 
 #: ../src/fwbackups/config.py:115
 #, python-format
 msgid "Key %s of is not a dictionary of options"
-msgstr ""
+msgstr "Kunci %s bukanlah kamus pilihan"
 
 #: ../src/fwbackups/config.py:333
 #, python-format
 msgid "Set '%s' failed to pass section validation"
-msgstr ""
+msgstr "Set '%s' gagal melepasi pengesahan seksyen"
 
 #: ../src/fwbackups/config.py:336
 #, python-format
 msgid "'%(a)s' is not a set configuration file."
-msgstr ""
+msgstr "'%(a)s' bukanlah satu fail konfigurasi set."
 
 #: ../src/fwbackups/config.py:340
 #, python-format
 msgid ""
 "Configuration section 'General' in the set configuration '%s' failed to "
 "validate"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Am' dalam konfigurasi set '%s' gagal disahkan"
 
 #: ../src/fwbackups/config.py:343
 #, python-format
 msgid ""
 "Configuration section 'Times' in the set configuration '%s' failed to "
 "validate"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Waktu' dalam konfigurasi set '%s' gagal disahkan"
 
 #: ../src/fwbackups/config.py:356
 #, python-format
 msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
-msgstr ""
+msgstr "Kunci pilihan '%(a)s' tidak diketahui hadir dalam fail konfigurasi set '%(b)s'"
 
 #: ../src/fwbackups/config.py:361
 #, python-format
 msgid ""
 "Configuration section 'Options' in set configuration '%(a)s' failed to "
 "validate: Missing options '%(b)s'"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Pilihan' dalam konfigurasi '%(a)s' gagal disahkan: Pilihan '%(b)s' hilang"
 
 #: ../src/fwbackups/config.py:496
 msgid "One-time configuration failed to pass section validation"
-msgstr ""
+msgstr "Konfigurasi sekali-sahaja gagal melepasi pengesahan seksyen"
 
 #: ../src/fwbackups/config.py:499
 #, python-format
 msgid "'%(a)s' is not a one-time configuration file."
-msgstr ""
+msgstr "'%(a)s' bukanlah satu fail konfigurasi sekali-sahaja."
 
 #: ../src/fwbackups/config.py:503
 msgid ""
 "Configuration section 'General' in the one-time configuration file failed to"
 " validate"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Am' dalam fail konfigurasi sekali-sahaja gagal disahkan"
 
 #: ../src/fwbackups/config.py:515
 #, python-format
 msgid "Unknown option key '%s' present in one-time backup configuration file"
-msgstr ""
+msgstr "Kunci pilihan '%s' tidak diketahui hadir dalam fail konfigurasi sandar sekali-sahaja"
 
 #: ../src/fwbackups/config.py:520
 #, python-format
 msgid ""
 "Configuration section 'Options' in the one-time backup configuration file "
 "failed to validate: Missing options '%s'"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Pilihan' dalam fail konfigurasi sandar sekali-sahaja gagal disahkan: Pilihan '%s' hilang"
 
 #: ../src/fwbackups/config.py:623
 msgid "Restore configuration failed to pass section validation"
-msgstr ""
+msgstr "Konfigurasi pemulihan gagal melepasi pengesahan seksyen"
 
 #: ../src/fwbackups/config.py:626
 #, python-format
 msgid "'%(a)s' is not a restore configuration file."
-msgstr ""
+msgstr "'%(a)s' bukanlah satu fail konfigurasi pulih."
 
 #: ../src/fwbackups/config.py:630
 msgid ""
 "Configuration section 'General' in the restore configuration file failed to "
 "validate"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Am' dalam fail konfigurasi pulih gagal disahkan"
 
 #: ../src/fwbackups/config.py:640
 #, python-format
 msgid "Unknown option key '%s' present in restore configuration file"
-msgstr ""
+msgstr "Kunci pilihan '%s' tidak diketahui hadir dalam fail konfigurasi pemulihan"
 
 #: ../src/fwbackups/config.py:645
 #, python-format
 msgid ""
 "Configuration section 'Options' in the restore configuration file failed to "
 "validate: Missing options '%s'"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Pilihan' dalam fail konfigurasi pulih gagal disahkan: Pilihan '%s' hilang"
 
 #: ../src/fwbackups/config.py:737
 msgid "Preferences failed to pass section validation"
-msgstr ""
+msgstr "Keutamaan gagal melepasi pengesahan seksyen"
 
 #: ../src/fwbackups/config.py:740
 #, python-format
 msgid "'%(a)s' is not a fwbackups preferences file."
-msgstr ""
+msgstr "'%(a)s' bukanlah fail keutamaan fwbackups."
 
 #: ../src/fwbackups/config.py:744
 msgid ""
 "Configuration section 'General' in the preferences file failed to validate"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Am' dalam fail konfigurasi gagal disahkan"
 
 #: ../src/fwbackups/config.py:755
 #, python-format
 msgid "Unknown option key '%s' present in preferences file"
-msgstr ""
+msgstr "Kunci pilihan '%s' tidak diketahui hadir dalam fail keutamaan"
 
 #: ../src/fwbackups/config.py:760
 #, python-format
 msgid ""
 "Configuration section 'Options' in the preferences file failed to validate: "
 "Missing options '%s'"
-msgstr ""
+msgstr "Seksyen konfigurasi 'Pilihan' dalam fail keutamaan gagal disahkan: Pilihan '%s' hilang"
 
 #: ../src/fwbackups/config.py:854
 msgid "Unable to clean user crontab!"
-msgstr ""
+msgstr "Tidak boleh bersihkan crontab pengguna!"
 
 #: ../src/fwbackups/cron.py:135
 #, python-format
 msgid "Could not locate the pycron or the sample pycron configuration in %s"
-msgstr ""
+msgstr "Tidak dapat cari pycron atau konfigurasi pycron sampel dalam %s"
 
 #: ../src/fwbackups/cron.py:144
 #, python-format
 msgid "Could not locate the pycron or the sample pycron crontab file in %s"
-msgstr ""
+msgstr "Tidak dapat cari pycron atau fail crontab pycron sampel dalam %s"
 
 #: ../src/fwbackups/fwlogger.py:70
 #, python-format
 msgid "Could not set up the logger: %s"
-msgstr ""
+msgstr "Tidak dapat pasang pengelog: %s"
 
 #: ../src/fwbackups/sftp.py:212
 #, python-format
 msgid "`%s' is not a file, folder or link! Skipping."
-msgstr ""
+msgstr "'%s' bukanlah sebuah fail, folder atau pautan! Melangkau."
 
 #: ../src/fwbackups/sftp.py:217
 msgid "Could not copy some files due to errors:"
-msgstr ""
+msgstr "Tidak dapat salin beberapa fail atas sebab ralat:"
 
 #: ../src/fwbackups/shutil_modded.py:131
 #, python-format
 msgid "`%s' isn't a file, folder or link! Skipping."
-msgstr ""
+msgstr "'%s' bukanlah sebuah fail, folder atau pautan! Melangkau. "
 
 #: ../src/fwbackups/shutil_modded.py:142
 msgid "Couldn't copy some files due to errors:"
-msgstr ""
+msgstr "Tidak daapt salin beberapa fail atas sebab ralat:"
 
 #: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
 msgid "CRITICAL"
-msgstr ""
+msgstr "KRITIKAL"
 
 #: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
 msgid "ERROR"
-msgstr ""
+msgstr "RALAT"
 
 #: ../src/fwbackups/widgets.py:155 ../src/fwbackups/widgets.py:200
 msgid "WARNING"
-msgstr ""
+msgstr "AMARAN"
 
 #: ../src/fwbackups/widgets.py:168 ../src/fwbackups/widgets.py:193
 msgid "Previous log messages"
-msgstr ""
+msgstr "Mesej log terdahulu"
 
 #: ../src/fwbackups/widgets.py:172 ../src/fwbackups/widgets.py:207
 msgid "No previous log messages to display"
-msgstr ""
+msgstr "Tiada mesej log terdahulu untuk dipaparkan"
 
 #: ../src/fwbackups/widgets.py:174 ../src/fwbackups/widgets.py:184
 msgid "Current session's log messages"
-msgstr ""
+msgstr "Mesej log sesi semasa"
 
 #: ../src/fwbackups/widgets.py:536
 msgid "Access"

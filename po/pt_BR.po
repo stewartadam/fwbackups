@@ -3,81 +3,80 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Gökhan Kalayci <gkmediagokhan@gmail.com>, 2017
-# Kaya Zeren <kayazeren@gmail.com>, 2016
+# Dyefferson Azevedo <gamecanalbrasil@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2017-09-23 21:25+0000\n"
-"Last-Translator: Gökhan Kalayci <gkmediagokhan@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/Magic/fwbackups/language/tr/)\n"
+"PO-Revision-Date: 2017-09-22 11:45+0000\n"
+"Last-Translator: Dyefferson Azevedo <gamecanalbrasil@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/Magic/fwbackups/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
-msgstr "*** Dosyalar hazırlanıyor"
+msgstr "*** Inicializando arquivos"
 
 #: ../test.operations.py:41
 #, python-format
 msgid ""
 "Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> "
 "to cancel..."
-msgstr "Varolan %s klasörü boşaltılacak. Onaylamak için <Enter> vazgeçmek için <ctrl+c> tuşlarına basın..."
+msgstr "Pasta %s existe e vai se esvaziar. Pressione <Enter> para confirmar ou <ctrl+c> para cancelar..."
 
 #: ../test.operations.py:47
 #, python-format
 msgid "Cleaning folder %s..."
-msgstr "%s klasörü boşaltılıyor..."
+msgstr "Limpando pasta %s..."
 
 #: ../test.operations.py:57
 msgid "*** Remote settings"
-msgstr "*** Uzak ayarlar"
+msgstr "*** Configurações remotas"
 
 #: ../test.operations.py:58
 msgid "Hostname [localhost]: "
-msgstr "Sunucu Adı [localhost]: "
+msgstr ""
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
-msgstr "Kapı Numarası [22]: "
+msgstr "Porta [22]:"
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
-msgstr "Kapı numarası yalnız rakam olabilir. Lütfen yeniden deneyin."
+msgstr "O campo de porta pode somente pode conter números. Por favor tente novamente."
 
 #: ../test.operations.py:66
 #, python-format
 msgid "Username [%s]: "
-msgstr "Kullanıcı Adı [%s]: "
+msgstr "Nome de usuário [%s]:"
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr "Parola:"
+msgstr "Senha:"
 
 #: ../test.operations.py:68
 #, python-format
 msgid "Remote folder [%s]: "
-msgstr "Klasörü yönet [%s]:"
+msgstr "Pasta remota [%s]:"
 
 #: ../test.operations.py:96
 #, python-format
 msgid "*** Running %(a)s backup with engine %(b)s"
-msgstr ""
+msgstr "*** Executando backup %(a)s com engine %(b)s"
 
 #: ../test.operations.py:107
 msgid "Backup failed!"
-msgstr "Yedekleme başarısız!"
+msgstr "Backup falhou!"
 
 #: ../test.operations.py:124
 #, python-format
 msgid "*** Running restore of remote test backup %s"
-msgstr ""
+msgstr "*** Executando restauração do teste de backup remoto %s"
 
 #. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
 #: ../test.operations.py:135 ../test.operations.py:165
@@ -86,47 +85,47 @@ msgstr ""
 #: ../src/fwbackups/operations/backup.py:527
 #: ../src/fwbackups/operations/backup.py:632
 msgid "Backup"
-msgstr "Yedekleme"
+msgstr "Backup"
 
 #: ../test.operations.py:147 ../test.operations.py:176
 #: ../test.operations.py:201 ../test.operations.py:226
 #: ../test.operations.py:257 ../test.operations.py:288
 msgid "Restore failed!"
-msgstr "Geri yükleme başarısız!"
+msgstr "Restauração falhou!"
 
 #: ../test.operations.py:160
 #, python-format
 msgid "*** Running restore of local test backup %s"
-msgstr ""
+msgstr "*** Executando restauração do teste de backup local %s"
 
 #. Local archive
 #: ../test.operations.py:180
 msgid "*** Running restore of a local archive"
-msgstr ""
+msgstr "*** Executando restauração de um arquivo local"
 
 #. Local folder
 #: ../test.operations.py:205
 msgid "*** Running restore of a local folder"
-msgstr ""
+msgstr "*** Executando restauração de uma pasta local"
 
 #. Remote archive (SSH)
 #: ../test.operations.py:230
 msgid "*** Running restore of a remote archive (SSH)"
-msgstr ""
+msgstr "*** Executando restauração de um arquivo remoto (SSH)"
 
 #. Remote folder (SSH)
 #: ../test.operations.py:261
 msgid "*** Running restore of a remote folder (SSH)"
-msgstr ""
+msgstr "*** Executando restauração de um arquivo remoto (SSH)"
 
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
 msgid "Error: %s"
-msgstr "Hata: %s"
+msgstr "Erro: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
-msgstr ""
+msgstr "Executando com --help para informações de uso."
 
 #: ../bin/fwbackups-run.py:43
 msgid ""
@@ -141,16 +140,16 @@ msgstr ""
 
 #: ../bin/fwbackups-run.py:95
 msgid "Invalid usage: Requires at least one set name to backup"
-msgstr ""
+msgstr "Uso inválido: Requer no mínimo um para modificar o nome para o backup"
 
 #: ../bin/fwbackups-run.py:112
 #, python-format
 msgid "The set configuration for '%s' was not found - skipping."
-msgstr ""
+msgstr "A configuração ajustada para '%s' não foi encontrada - pulando."
 
 #: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
 msgid "An error occurred while initializing the backup operation!"
-msgstr ""
+msgstr "Um erro ocorreu enquanto inicializando a operação de backup!"
 
 #. thread returned
 #: ../bin/fwbackups-run.py:132 ../bin/fwbackups-runonce.py:192
@@ -164,7 +163,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
 #: ../src/fwbackups/operations/backup.py:729
 msgid "There was an error while performing the backup!"
-msgstr ""
+msgstr "Houve um erro enquanto realizando o backup!"
 
 #: ../bin/fwbackups-runonce.py:42
 msgid ""
@@ -198,89 +197,89 @@ msgstr ""
 #: ../bin/fwbackups-runonce.py:128
 #, python-format
 msgid "No such engine `%s'"
-msgstr "Böyle bir motor yok `%s'"
+msgstr ""
 
 #: ../bin/fwbackups-runonce.py:135
 msgid "You must be root to set a niceness below 0"
-msgstr "0'ın altında güzelliği ayarlamak için root olmalısın"
+msgstr "Você precisa ser root para ajustar um melhor abaixo de 0"
 
 #: ../bin/fwbackups-runonce.py:139
 msgid "Nice value must be an integer between -20 and 19"
-msgstr "Uygun değer -20 ile 19 arasında bir tamsayı olmalıdır"
+msgstr "Um bom valor precisa ser um inteiro entre -20 e 19"
 
 #: ../bin/fwbackups-runonce.py:155
 msgid "Requires at least one path to backup and a destination"
-msgstr "Yedeklemenin ve gidilecek yerin en az bir yolu olması gerekir"
+msgstr "Requer pelo menos um caminho para backup e um destino"
 
 #: ../bin/fwbackups-runonce.py:169
 msgid "Destination type was not specified"
-msgstr "Hedef türü belirtilmedi"
+msgstr "Tipo de destino não foi especificado"
 
 #: ../bin/fwbackups-runonce.py:172
 msgid "An engine was not specified"
-msgstr "Bir motor belirtilmedi"
+msgstr "Uma engine não foi especificada"
 
 #: ../src/fwbackups-runapp.py:42
 msgid "An error occurred while importing gtk/gobject."
-msgstr "Gtk/gobject içe aktarılırken bir hata oluştu."
+msgstr "Um erro ocorreu enquanto importando gtk/gobject."
 
 #: ../src/fwbackups-runapp.py:43
 msgid "Please make sure you have a valid GTK+ Runtime Environment."
-msgstr "Lütfen geçerli bir GTK+ Çalışma Zamanı Ortamına sahip olduğunuzdan emin olun."
+msgstr "Por favor tenha certeza que você tem um ambiente de execução GTK+ válido."
 
 #: ../src/fwbackups-runapp.py:67
 #, python-format
 msgid "fwbackups bug report written saved at %s"
-msgstr "fwbackups yazılmış hata raporu %s'da kaydedildi"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:72
 msgid "Could not write bug report due to insufficient permissions."
-msgstr "Yetersiz izin nedeniyle hata raporu yazamadı."
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:84
 msgid "Please install pycrypto (python-crypto)"
-msgstr "Lütfen pycrypto yükleyin (python-crypto)"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:88
 msgid "Please install paramiko (python-paramiko)"
-msgstr "Lütfen paramiko'yu yükleyin (python-paramiko)"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:206 ../src/fwbackups.glade.h:19
 #, no-c-format, python-format
 msgid "%s"
-msgstr "%s"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:210 ../src/fwbackups-runapp.py:1428
 #: ../src/fwbackups-runapp.py:1531 ../src/fwbackups-runapp.py:1935
 msgid "Idle"
-msgstr "Boşta"
+msgstr ""
 
 #. Default progressbars...
 #: ../src/fwbackups-runapp.py:215 ../src/fwbackups-runapp.py:1427
 msgid "Click 'Backup Set Now' to begin"
-msgstr "Başlamak için 'Yedeklemeyi Şimdi Ayarla'yı tıklayın"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:216
 msgid "Click 'Start Backup' to begin"
-msgstr "Başlamak için 'Yedekleme'yi başlat' ı tıklayın"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:217
 msgid "Click 'Start Restore' to begin"
-msgstr "Başlamak için 'Geri yüklemeyi başlat' ı tıklayın"
+msgstr ""
 
 #. self.ui.splashProgress.set_text('%s%% complete: %s' % (percent, text))
 #: ../src/fwbackups-runapp.py:235
 #, python-format
 msgid "<span size=\"small\">%s%% complete: %s</span>"
-msgstr "<span size=\"small\">%s%% tamamlanan: %s</span>"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:256
 msgid "Checking permissions"
-msgstr "izinleri kontrol ediliyor"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:264
 msgid "Could not setup the fwbackups configuration folder"
-msgstr "Fwbackups yapılandırma klasörü kurulamadı"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:265 ../src/fwbackups-runapp.py:304
 #, python-format
@@ -290,12 +289,12 @@ msgstr ""
 #. Step 2: Setup the logger
 #: ../src/fwbackups-runapp.py:268
 msgid "Setting up the logger and user preferences"
-msgstr "Günlük kaydedici ve kullanıcı tercihlerini ayarlama"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:272
 #, python-format
 msgid "Validation error: %s"
-msgstr "Doğrulama hatası: %s"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:273
 msgid "Preferences could not be read"
@@ -315,7 +314,7 @@ msgstr ""
 
 #: ../src/fwbackups-runapp.py:303
 msgid "Could not setup the logger"
-msgstr "Günlük kaydedici kurulamadı"
+msgstr ""
 
 #: ../src/fwbackups-runapp.py:314
 msgid ""

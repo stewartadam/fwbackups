@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# José Vieira <jvieira33@sapo.pt>, 2017
 # Manuela Silva <manuela.silva@sky.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 02:23+0300\n"
-"PO-Revision-Date: 2016-05-28 19:29+0000\n"
-"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
+"PO-Revision-Date: 2017-09-22 11:45+0000\n"
+"Last-Translator: José Vieira <jvieira33@sapo.pt>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/Magic/fwbackups/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +21,27 @@ msgstr ""
 
 #: ../test.operations.py:38
 msgid "*** Initializing files"
-msgstr ""
+msgstr "*** A iniciar os ficheiros"
 
 #: ../test.operations.py:41
 #, python-format
 msgid ""
 "Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> "
 "to cancel..."
-msgstr ""
+msgstr "A pasta %s existe e será esvaziada. Tecle <Introduzir/Enter> para confirmar or <Ctrl+c> para cancelar..."
 
 #: ../test.operations.py:47
 #, python-format
 msgid "Cleaning folder %s..."
-msgstr ""
+msgstr "A limpar a pasta %s..."
 
 #: ../test.operations.py:57
 msgid "*** Remote settings"
-msgstr ""
+msgstr "*** Definições remotas"
 
 #: ../test.operations.py:58
 msgid "Hostname [localhost]: "
-msgstr ""
+msgstr "Nome do hospedeiro [hospdeiro local]"
 
 #: ../test.operations.py:60
 msgid "Port [22]: "
@@ -48,7 +49,7 @@ msgstr "Porta [22]: "
 
 #: ../test.operations.py:65
 msgid "The port field can only contain numbers. Please try again."
-msgstr ""
+msgstr "O campo de porta só pode conter números. Tente de novo."
 
 #: ../test.operations.py:66
 #, python-format
@@ -57,26 +58,26 @@ msgstr "Nome de utilizador [%s]: "
 
 #: ../test.operations.py:67
 msgid "Password: "
-msgstr "Palavra-passe: "
+msgstr "Senha: "
 
 #: ../test.operations.py:68
 #, python-format
 msgid "Remote folder [%s]: "
-msgstr ""
+msgstr "Pasta remota [%s]:"
 
 #: ../test.operations.py:96
 #, python-format
 msgid "*** Running %(a)s backup with engine %(b)s"
-msgstr ""
+msgstr "*** A executar %(a)s com o motor %(b)s"
 
 #: ../test.operations.py:107
 msgid "Backup failed!"
-msgstr ""
+msgstr "A cópia de segurança falhou!"
 
 #: ../test.operations.py:124
 #, python-format
 msgid "*** Running restore of remote test backup %s"
-msgstr ""
+msgstr "*** A executar a restauração da cópia de segurança remota %s de teste"
 
 #. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
 #: ../test.operations.py:135 ../test.operations.py:165
@@ -91,32 +92,32 @@ msgstr "Cópia de Segurança"
 #: ../test.operations.py:201 ../test.operations.py:226
 #: ../test.operations.py:257 ../test.operations.py:288
 msgid "Restore failed!"
-msgstr ""
+msgstr "A restauração falhou!"
 
 #: ../test.operations.py:160
 #, python-format
 msgid "*** Running restore of local test backup %s"
-msgstr ""
+msgstr "*** A executar a restauração da cópia de segurança local %s de teste"
 
 #. Local archive
 #: ../test.operations.py:180
 msgid "*** Running restore of a local archive"
-msgstr ""
+msgstr "*** A executar a restauração dum arquivo local"
 
 #. Local folder
 #: ../test.operations.py:205
 msgid "*** Running restore of a local folder"
-msgstr ""
+msgstr "*** A executar a restauração duma pasta local"
 
 #. Remote archive (SSH)
 #: ../test.operations.py:230
 msgid "*** Running restore of a remote archive (SSH)"
-msgstr ""
+msgstr "*** A executar a restauração dum arquivo remoto (SSH)"
 
 #. Remote folder (SSH)
 #: ../test.operations.py:261
 msgid "*** Running restore of a remote folder (SSH)"
-msgstr ""
+msgstr "*** A executar a restauração duma pasta remota (SSH)"
 
 #: ../bin/fwbackups-run.py:40 ../bin/fwbackups-runonce.py:39
 #, python-format
@@ -125,7 +126,7 @@ msgstr "Erro: %s"
 
 #: ../bin/fwbackups-run.py:41 ../bin/fwbackups-runonce.py:40
 msgid "Run with --help for usage information."
-msgstr ""
+msgstr "Executar com --help para obter informação de utilização."
 
 #: ../bin/fwbackups-run.py:43
 msgid ""
@@ -136,20 +137,20 @@ msgid ""
 "  -l, --silent  :  Print messages to log file only\n"
 "\n"
 "Set_Name(s) is space-seperated list of set names to run backups of."
-msgstr ""
+msgstr "Utilização: fwbackups-run [OPÇÕES] Definir_Nome(s)\n\nOpções:\n\n-v, --verbose : Dar informação detalhada (exibir mensagens de depuração)\n\n-h, --help : Exibir esta mensagem e sair\n\n-l, --silent : Enviar mensagens apenas para o ficheiro de registo\n\n\nDefinir_Nome(s) dá uma lista separada por espaços dos nomes das cópias de segurança a executar."
 
 #: ../bin/fwbackups-run.py:95
 msgid "Invalid usage: Requires at least one set name to backup"
-msgstr ""
+msgstr "Utilização inválida: Requer pelo menos um nome dfinido para cópia de segurança"
 
 #: ../bin/fwbackups-run.py:112
 #, python-format
 msgid "The set configuration for '%s' was not found - skipping."
-msgstr ""
+msgstr "Não foi encontrada a configuração definida para '%s' - passando à seguinte."
 
 #: ../bin/fwbackups-run.py:122 ../bin/fwbackups-runonce.py:182
 msgid "An error occurred while initializing the backup operation!"
-msgstr ""
+msgstr "Ocorreu um erro ao iniciar a operação de cópia de segurança!"
 
 #. thread returned
 #: ../bin/fwbackups-run.py:132 ../bin/fwbackups-runonce.py:192
@@ -163,7 +164,7 @@ msgstr ""
 #: ../src/fwbackups-runapp.py:2515 ../src/fwbackups-runapp.py:2672
 #: ../src/fwbackups/operations/backup.py:729
 msgid "There was an error while performing the backup!"
-msgstr ""
+msgstr "Ocorreu um erro ao executar a cópia de segurança!"
 
 #: ../bin/fwbackups-runonce.py:42
 msgid ""
@@ -2500,12 +2501,12 @@ msgstr ""
 #: ../src/fwbackups/cron.py:135
 #, python-format
 msgid "Could not locate the pycron or the sample pycron configuration in %s"
-msgstr ""
+msgstr "Não localizou a configuração pycron ou amostra crontab pycron em %s"
 
 #: ../src/fwbackups/cron.py:144
 #, python-format
 msgid "Could not locate the pycron or the sample pycron crontab file in %s"
-msgstr ""
+msgstr "Não localizou o ficheiro pycron ou amostra crontab pycron em %s"
 
 #: ../src/fwbackups/fwlogger.py:70
 #, python-format
@@ -2515,32 +2516,32 @@ msgstr ""
 #: ../src/fwbackups/sftp.py:212
 #, python-format
 msgid "`%s' is not a file, folder or link! Skipping."
-msgstr ""
+msgstr "'%s' não é ficheiro, pasta ou ligação! Saltando para o seguinte."
 
 #: ../src/fwbackups/sftp.py:217
 msgid "Could not copy some files due to errors:"
-msgstr ""
+msgstr "Não copiou alguns ficheiros devido a erros:"
 
 #: ../src/fwbackups/shutil_modded.py:131
 #, python-format
 msgid "`%s' isn't a file, folder or link! Skipping."
-msgstr ""
+msgstr "'%s' não é ficheiro, pasta ou ligação! Saltando para o seguinte."
 
 #: ../src/fwbackups/shutil_modded.py:142
 msgid "Couldn't copy some files due to errors:"
-msgstr ""
+msgstr "Não copiou alguns ficheiros devido a erros:"
 
 #: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
 msgid "CRITICAL"
-msgstr ""
+msgstr "CRÍTICO"
 
 #: ../src/fwbackups/widgets.py:153 ../src/fwbackups/widgets.py:198
 msgid "ERROR"
-msgstr ""
+msgstr "ERRO"
 
 #: ../src/fwbackups/widgets.py:155 ../src/fwbackups/widgets.py:200
 msgid "WARNING"
-msgstr ""
+msgstr "AVISO"
 
 #: ../src/fwbackups/widgets.py:168 ../src/fwbackups/widgets.py:193
 msgid "Previous log messages"
@@ -2556,7 +2557,7 @@ msgstr ""
 
 #: ../src/fwbackups/widgets.py:536
 msgid "Access"
-msgstr ""
+msgstr "Aceder"
 
 #: ../src/fwbackups/widgets.py:542
 msgid "Path"
@@ -2564,11 +2565,11 @@ msgstr ""
 
 #: ../src/fwbackups/widgets.py:618
 msgid "Choose file(s)"
-msgstr ""
+msgstr "Escolher ficheiro(s)"
 
 #: ../src/fwbackups/widgets.py:629
 msgid "Choose folder(s)"
-msgstr ""
+msgstr "Escolher pasta(s)"
 
 #: ../src/fwbackups/widgets.py:660
 msgid "Please select a path before choosing an action."
@@ -2576,8 +2577,8 @@ msgstr ""
 
 #: ../src/fwbackups/widgets.py:696
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: ../src/fwbackups/widgets.py:702
 msgid "Set"
-msgstr ""
+msgstr "Definir"
