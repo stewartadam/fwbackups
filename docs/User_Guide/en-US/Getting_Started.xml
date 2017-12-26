@@ -5,9 +5,9 @@
 ]>
 <chapter id="chap-fwbackups-User_Guide-Getting_Started">
 	<title>Getting Started</title>
-	 <section id="sect-fwbackups-User_Guide-Getting_Started-Introduction">
+	<section id="sect-fwbackups-User_Guide-Getting_Started-Introduction">
 		<title>Introduction</title>
-		 <para>
+		<para>
 			<application>fwbackups</application> is a feature-rich user backup program that allows you to backup your documents anytime with ease. Its simple, intuitive interface offers the following features: 
 			<itemizedlist>
 				<listitem>
@@ -16,31 +16,31 @@
 					</para>
 
 				</listitem>
-				 <listitem>
+				<listitem>
 					<para>
 						On-demand or automated backups for files and folders via backup sets
 					</para>
 
 				</listitem>
-				 <listitem>
+				<listitem>
 					<para>
 						A tray icon to monitor the current progress of backups or restore operations
 					</para>
 
 				</listitem>
-				 <listitem>
+				<listitem>
 					<para>
 						Several backup engines including compression and incremental backups
 					</para>
 
 				</listitem>
-				 <listitem>
+				<listitem>
 					<para>
 						Support for backing up to a remote host via SSH/SFTP
 					</para>
 
 				</listitem>
-				 <listitem>
+				<listitem>
 					<para>
 						Support for restoring any of the backups created with <application>fwbackups</application>
 					</para>
@@ -52,29 +52,29 @@
 		</para>
 
 	</section>
-	 <section id="sect-fwbackups-User_Guide-Getting_Started-Starting_fwbackups">
+	<section id="sect-fwbackups-User_Guide-Getting_Started-Starting_fwbackups">
 		<title>Starting <application>fwbackups</application></title>
-		 <para>
+		<para>
 			There are two ways to start the fwbackups:
 		</para>
-		 <orderedlist>
+		<orderedlist>
 			<listitem>
 				<para>
 					Graphically (recommended for most users):
 				</para>
-				 <para>
+				<para>
 					Select <menuchoice> <guimenu>Applications</guimenu> <guisubmenu>System Tools</guisubmenu> <guimenuitem>fwbackups</guimenuitem> </menuchoice> from the menu.
 				</para>
 
 			</listitem>
-			 <listitem>
+			<listitem>
 				<para>
 					From the command line interface:
 				</para>
-				 <para>
+				<para>
 					Start a terminal, type <command>fwbackups</command> and then press the <keycap>Return</keycap> key.
 				</para>
-				 <note>
+				<note>
 					<para>
 						More options are available! Type <command>fwbackups --help</command> to see all the available options and their descriptions.
 					</para>
@@ -84,26 +84,26 @@
 			</listitem>
 
 		</orderedlist>
-		 <figure float="0" id="figu-fwbackups-User_Guide-Starting_fwbackups-The_Overview_page">
+		<figure float="0" id="figu-fwbackups-User_Guide-Starting_fwbackups-The_Overview_page">
 			<title>The Overview page</title>
-			 <mediaobject>
+			<mediaobject>
 				<imageobject>
 					<imagedata fileref="./images/page-overview.png" format="PNG" scalefit="1" width="444" />
 				</imageobject>
-				 <textobject>
+				<textobject>
 					<phrase>The Overview page</phrase>
 				</textobject>
 
 			</mediaobject>
 
 		</figure>
-		 <para>
+		<para>
 			<application>fwbackups</application> starts on the Overview page. To begin using <application>fwbackups</application>, simply click a one of the toolbar buttons to switch pages.
 		</para>
-		 <variablelist>
+		<variablelist>
 			<varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Backup_Sets">
 				<term>Backup Sets</term>
-				 <listitem>
+				<listitem>
 					<para>
 						Create, edit or remove backup sets as well as manually start a set backup.
 					</para>
@@ -111,9 +111,9 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-One_Time_Backup">
+			<varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-One_Time_Backup">
 				<term>One-Time Backup</term>
-				 <listitem>
+				<listitem>
 					<para>
 						Perform "one-time" backups (backups that will <emphasis>not</emphasis> be scheduled to run at a future date).
 					</para>
@@ -121,13 +121,13 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Log_Viewer">
+			<varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Log_Viewer">
 				<term>Log Viewer</term>
-				 <listitem>
+				<listitem>
 					<para>
 						Displays the log file, showing information about <application>fwbackups</application>'s activities.
 					</para>
-					 <note>
+					<note>
 						<itemizedlist>
 							<listitem>
 								<para>
@@ -135,19 +135,19 @@
 								</para>
 
 							</listitem>
-							 <listitem>
+							<listitem>
 								<para>
 									Messages from previous sessions are displayed as purple text
 								</para>
 
 							</listitem>
-							 <listitem>
+							<listitem>
 								<para>
 									Messages from the current session are displayed as blue text
 								</para>
 
 							</listitem>
-							 <listitem>
+							<listitem>
 								<para>
 									Errors and warnings are displayed as red and yellow text respectively
 								</para>
@@ -161,9 +161,9 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Restore">
+			<varlistentry id="varl-fwbackups-User_Guide-Starting_fwbackups-Restore">
 				<term>Restore</term>
-				 <listitem>
+				<listitem>
 					<para>
 						Allows you to restore any backup you previously made using <application>fwbackups</application>.
 					</para>

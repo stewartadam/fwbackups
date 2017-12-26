@@ -5,26 +5,26 @@
 ]>
 <bookinfo id="book-fwbackups-User_Guide-User_Guide">
 	<title>User Guide</title>
-	 <subtitle>Using fwbackups for easy, automated backups</subtitle>
-	 <productname>fwbackups</productname>
-	 <productnumber>1.43.6</productnumber>
-	 <edition>1</edition>
-	 <pubsnumber>0</pubsnumber>
-	 <abstract>
+	<subtitle>Using fwbackups for easy, automated backups</subtitle>
+	<productname>fwbackups</productname>
+	<productnumber>1.43.6</productnumber>
+	<edition>1</edition>
+	<pubsnumber>0</pubsnumber>
+	<abstract>
 		<para>
 			This user guide will help you use and configure <application>fwbackups</application>. It provides instructions for creating and configuring backups, as well as documentation for the various configuration options available to you in <application>fwbackups</application>.
 		</para>
 
 	</abstract>
-	 <keywordset>
+	<keywordset>
 		<keyword>fwbackups</keyword>
-		 <keyword>user guide</keyword>
-		 <keyword>help</keyword>
-		 <keyword>documentation</keyword>
-		 <keyword>configuration</keyword>
+		<keyword>user guide</keyword>
+		<keyword>help</keyword>
+		<keyword>documentation</keyword>
+		<keyword>configuration</keyword>
 
 	</keywordset>
-	 <corpauthor>
+	<corpauthor>
 		<inlinemediaobject>
 			<imageobject>
 				<imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
@@ -33,7 +33,7 @@
 		</inlinemediaobject>
 
 	</corpauthor>
-	 <xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	 <xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </bookinfo>
 
