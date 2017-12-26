@@ -45,6 +45,7 @@ Options:
   -v, --verbose  :  Increase verbosity (print debug messages)
   -h, --help  :  Print this message and exit
   -l, --silent  :  Print messages to log file only
+  -f, --force :  Run the backup even if the set is disabled.
 
 Set_Name(s) is space-seperated list of set names to run backups of.""")
 
@@ -60,11 +61,12 @@ def handleStop(arg1, arg2):
 if __name__ == "__main__":
   verbose = False
   printToo = True
+  forceRun = False
   try:
-    avalableOptions = ["help", "verbose", "silent"]
+    avalableOptions = ["help", "verbose", "silent", "force"]
     # letter = plain options
     # letter: = option with arg
-    (opts, rest_args) = getopt.gnu_getopt(sys.argv[1:],"hvl", avalableOptions)
+    (opts, rest_args) = getopt.gnu_getopt(sys.argv[1:],"hvlf", avalableOptions)
   except (getopt.GetoptError), e:
     usage(e)
     sys.exit(1)
@@ -89,8 +91,10 @@ if __name__ == "__main__":
         sys.exit(1)
       if opt == "-v" or opt == "--verbose":
         verbose = True
-      if opt == "-l" or opt == "silent":
+      if opt == "-l" or opt == "--silent":
         printToo = False
+      if opt == "-f" or opt == "--force":
+        forceRun = True
   if not len(sets) >= 1:
     usage(_('Invalid usage: Requires at least one set name to backup'))
     sys.exit(1)
@@ -112,7 +116,7 @@ if __name__ == "__main__":
       logger.logmsg("ERROR", _("The set configuration for '%s' was not found - skipping." % setPath))
       continue
     try:
-      backupHandle = backup.SetBackupOperation(setPath, logger=logger)
+      backupHandle = backup.SetBackupOperation(setPath, logger=logger, forceRun=forceRun)
       backupThread = fwbackups.FuncAsThread(backupHandle.start, {})
     except Exception, error:
       import traceback

@@ -513,12 +513,12 @@ class OneTimeBackupOperation(BackupOperation):
 ######################
 class SetBackupOperation(BackupOperation):
   """Automated set backup operation"""
-  def __init__(self, setPath, logger=None):
+  def __init__(self, setPath, logger=None, forceRun=False):
     """Initializes the automatic backup operation of set defined at setPath.
     If no logger is supplied, a new one will be created."""
     BackupOperation.__init__(self, logger)
     self.config = config.BackupSetConf(setPath)
-    self.options = self.getOptions(self.config)
+    self.options = self.getOptions(self.config, forceEnabled=forceRun)
     # Parse backup folder format
     # date stored as class variable due to re-use in user commands later
     self.date = time.strftime('%Y-%m-%d_%H-%M')
@@ -533,12 +533,12 @@ class SetBackupOperation(BackupOperation):
     elif self.options['Engine'] == 'tar.bz2':
       self.dest += '.tar.bz2'
 
-  def getOptions(self, config):
+  def getOptions(self, config, forceEnabled=False):
     """Subclass getOptions to handle options only in Set configs"""
     def _bool(value):
       return value in [1, '1', True, 'True']
     options = BackupOperation.getOptions(self, config)
-    options['Enabled'] = int(options['Enabled'])
+    options['Enabled'] = forceEnabled or _bool(options['Enabled'])
     options['Incremental'] = _bool(options['Incremental'])
     options['OldToKeep'] = int(float(options['OldToKeep']))
     return options
