@@ -519,8 +519,6 @@ class SetBackupOperation(BackupOperation):
     BackupOperation.__init__(self, logger)
     self.config = config.BackupSetConf(setPath)
     self.options = self.getOptions(self.config)
-    if self.options['Enabled']:
-      self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
     # Parse backup folder format
     # date stored as class variable due to re-use in user commands later
     self.date = time.strftime('%Y-%m-%d_%H-%M')
@@ -663,8 +661,10 @@ class SetBackupOperation(BackupOperation):
 
   def start(self):
     """Start the backup process. Should be called after executing user command."""
-    if self.options['Enabled'] == '0': # set is disabled
+    if not self.options['Enabled']: # set is disabled
       return True
+
+    self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
 
     if self.options["CommandBefore"]:
       self._status = STATUS_EXECING_USER_COMMAND
