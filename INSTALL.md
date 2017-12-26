@@ -17,6 +17,9 @@ make
 ```
 Then run `make install` as root (or use sudo) to permanently install it on your system.
 
+## Uninstalling
+If you have installed fwbackups from source, you may uninstall it by running `make uninstall` from the original source directory you built fwbackups in.
+
 ## Platform-specific notes
 ### Windows
 *Note: fwbackups is no longer compatible with modern versions of Windows due to incompatibility with UAC and the unavailability of a dependency for Windows Vista+. **The Windows port of fwbackups is now unmaintained**. The text below refers was indended for use with Windows XP and will remain for archival purposes.*
