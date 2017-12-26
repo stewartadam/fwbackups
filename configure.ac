@@ -1,4 +1,4 @@
-AC_INIT([fwbackups], 1.43.6)
+AC_INIT([fwbackups], 1.43.7)
 AC_CONFIG_SRCDIR([src/fwbackups/__init__.py.in])
 AM_INIT_AUTOMAKE([foreign dist-bzip2 no-dist-gzip tar-ustar])
 

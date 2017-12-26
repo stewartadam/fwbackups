@@ -1,5 +1,14 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
+|| Version 1.43.7 changes ||
+  * Tue Dec 26 2017 Stewart Adam <s.adam at diffingo.com>
+    - Fix issue where exported sets could crash on import
+    - Fix issue where disabled sets still ran from cron
+    - Add -f/--force flag to fwbackups-run to run disabled sets
+    - Update translations from upstream
+    - Migrate documentation to Markdown
+    - Add technical documentation on application data and CLI
+
 || Version 1.43.6 changes ||
   * Wed Jan 13 2016 Stewart Adam <s.adam at diffingo.com>
     - Fix and add localization
