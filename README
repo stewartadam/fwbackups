@@ -1,108 +1,89 @@
-== Preface ==
-A copy of the user guide is available in HTML and PDF form in the docs/ folder
-included with this download of fwbackups.
+fwbackups
+======
+A feature-rich user backup program that allows you to backup your documents on a
+one-off or recurring scheduled basis.
 
-The most recent documentation, both user guides and installation tutorials, are
-available at the following URL:
+***Note: fwbackups is in maintenance only mode.** Development of new features
+are on hold, and only bugfixes are applied. See below for details.*
+
+## Features
+* Simple interface for configuring new backups or restoring documents from a
+  previous backup
+* Multiple backup formats: directory copy or tar archive
+  * Incremental backup support (directory copy only)
+  * Compression (archive format only)
+  * Exclude files or folders
+* Send backups to remote hosts with SFTP/SSH
+* Automatic backup organization and cleanup
+* Restore existing backup sets
+
+## Platform compatibility
+Linux, OS X (lightly tested) and Windows (rarely tested)
+
+## User guide
+Note: a copy of the user guide is available in HTML and PDF form in the `docs/`
+folder included with a release download of fwbackups.
+
+You can also always view the most recent user guides at the following URL:
 http://www.diffingo.com/oss/fwbackups/documentation
 
-If possible it is recommended that you follow the instructions there since they
-will be the most up-to-date and will contain any corrections necessary.
-
-== Binary Packages ==
+## Building & Installation
 Most distributions offer package management systems that make it extremely easy
 to install additional software packages. If your distribution offers fwbackups
 in its software repositories, it is recommended you install fwbackups that way
 instead.
 
-At the time of writing, fwbackups is known to have deb packages available for
-Ubuntu Linux as well as RPM packages for Fedora Linux and Red Hat Enterprise
-Linux. If a distribution that has packages for fwbackups is not listed here,
-please contact Stewart Adam <s.adam@diffingo.com>.
+If a package is unavailable for your distribution or if you would like to build
+from source, please review the [INSTALL.md](installation guide).
 
-  === Ubuntu Linux ===
-  fwbackups has been submitted for review at REVU and will hopefully be included
-  in the main Ubuntu repositories soon. When it becomes available, it can be
-  installed through the "Synaptics Package Manager" tool under the "System >
-  Administration" menu.
-  
-  In the mean time, please obtain the packages directly from Magne Nordtveit's PPA
-  on Launchpad.net: https://launchpad.net/~magne-nordtveit/+archive/ppa/+packages
-  
-  32bit: Download & open 'fwbackups_1.43.3rc4-0ubuntu1~ppa5_i386.deb'
-  64bit: Download & open 'fwbackups_1.43.3rc4-0ubuntu1~ppa5_amd64.deb'
+## Usage
+fwbackups installs a menu entry under *Applications > System Tools* to start the
+backup administrator, a GUI tool to manage sets or perform one-time backups
+and restore operations. It can also be started from the CLI:
+```
+fwbackups
+```
 
+An existing backup set can be run manually by executing:
+```
+fwbackups-run SetName1 SetName2 [...]
+```
 
-  === Fedora Linux ===
-  fwbackups is available from the Fedora repositories. From the "System" menu
-  select "Administration > Add/Remove Software" tool and search for "fwbackups".
-  Selecting the checkbox next to its name and clicking "Apply" will install it.
-  
-  Alternatively, you may type in a terminal:
-    $ su -c 'yum install fwbackups'
-  Provide the root password when prompted.
+To start a one-time backup without an existing set configuration, use:
+```
+fwbackups-runonce Path1 Path2
+```
 
-== Installing from source ==
-If no packages are readily available for your distribution, then you will have
-build and install fwbackups from source.
+## Translations
+Translations are available [here](https://www.transifex.com/Magic/fwbackups/) - you're welcome to add or correct translations!
 
-Be prepared to use a terminal - in most Gnome-based distributions, a terminal
-application can be found in the "Applications > System Tools" menu.
+## Known Issues
+### Linux-specific
+* If you previously installed fwbackups a 1.43.3 release candidate from source
+  (for example on Ubuntu), please remove the `/usr/share/fwbackups/fwbackups`
+  directory manually before installing 1.43.4.
+* An issue was identified in the previous version of fwbackups (1.43.3) where
+  after upgrading, the backup schedule may have been erased. If you have been
+  affected by this problem, simply open the administrator utility and then close
+  it to reschedule all backups.
 
-  === Dependencies ===
-  Before starting, please ensure you have installed the following dependencies:
-  - automake
-  - autoconf
-  - gettext
-  - python
-  - any cron service (dcron, vixie-cron or cronie for example)
-  - pygtk (including libglade support)
-  - pycrypto (often callled python-crypto)
-  - paramiko (often called python-paramiko)
-  - Optional: libnotify bindings for Python (often called python-notify)
-  
-  Note: For most distributions, it is safe to assume that Python and a cron
-  service are installed by default.
-  
-  
-  === Building & installing fwbackups ===
-  To build a stable or testing release, run the following in a terminal:
-    $ cd fwbackups-VERSIONHERE
-    $ ./configure --prefix=/usr
-    $ make
-    $ su -c 'make install'
-  Provide the root password when prompted, and replace VERSIONHERE with the
-  version of fwbackups you have downloaded.
-  
-  Note: if you are installing a development version of fwbackups (directly from
-  the git repository), then you will need to run "./autogen.sh" before executing
-  any of the commands above. If you're not sure what this means, it's safe to
-  ignore it.
-  
-  === Running fwbackups ===
-  fwbackups should now appear in the "Applications > System Tools" menu.
-  Alternatively, you may start it directly from a terminal session by running:
-    $ fwbackups
+### Windows-specific
+* If you have previously installed an older version of fwbackups (ie 1.43.2) and
+  have not upgraded to Python 2.6, it is recommended that you uninstall Python,
+  PyCron and fwbackups and then use the full installer to install fwbackups
+  1.43.4 from scratch.
 
-  === UNINSTALLING ===
-  (If you have installed fwbackups from source, uninstalling it requires that you
-  keep the original source directory you built fwbackups in)
-    $ cd fwbackups-VERSIONHERE
-    $ su -c "make uninstall"
+## Maintenance status
+fwbackups is in maintenance mode, and releases will be published for only major
+bugfixes (or if a new feature is added **and tested** with a pull request).
 
-== Advanced usage ==
-  $ fwbackups
-The administor, a GUI tool to manage sets or perform one-time backups
-and restore operations.
+Although I would love to keep working on fwbackups, I unfortunately no longer
+have the free time to give fwbackups the attention that it deserves. I have
+learned a lot through maintaining fwbackups and want to thank all the users for
+the support, feature requests, pull requests. I hope that you still find the
+software useful.
 
-  $ fwbackups-run SetName(s)
-Run a manual backup of the set SetName. In the case of SetNames, separate each
-set name by a space.
-
-  $ fwbackups-runonce Path1 Path2
-Run a one-time backup, using the argument as paths to backup.
-
-== Translations ==
-Translations are available here: https://www.transifex.com/Magic/fwbackups/
-You're welcome to translate!
-
+Given the above, the plans around the 1.44 C++ rewrite of fwbackups are also on
+hold. The `cplusplus` branch of this repo has a functional, cross-platform
+Qt4-based UI and cmake build system with limited bindings to boxbackup, but
+should be considered as abandoned/for reference only.
