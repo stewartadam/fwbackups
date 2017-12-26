@@ -51,8 +51,11 @@ fwbackups-run SetName1 SetName2 [...]
 
 To start a one-time backup without an existing set configuration, use:
 ```
-fwbackups-runonce Path1 Path2
+fwbackups-runonce /src/Path1 /src/Path2 [...] /destination
 ```
+
+Execute either command with the `--help` parameter for full options and usage
+details.
 
 ## Translations
 Translations are available [here](https://www.transifex.com/Magic/fwbackups/) - you're welcome to add or correct translations!

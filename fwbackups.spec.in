@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING README TODO
+%doc AUTHORS ChangeLog COPYING README.md TODO.md
 %{_bindir}/*
 %{_datadir}/%{name}/
 %{_iconsdir}/hicolor/*/apps/%{name}.*

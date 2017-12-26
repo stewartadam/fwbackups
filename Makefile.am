@@ -10,8 +10,8 @@ EXTRA_DIST = \
     AUTHORS \
     ChangeLog \
     COPYING \
-    README \
-    TODO \
+    README.md \
+    TODO.md \
     test.operations.py
 
 DISTCLEANFILES = \

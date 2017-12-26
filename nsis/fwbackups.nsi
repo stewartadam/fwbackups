@@ -207,8 +207,8 @@ Section $(lng_fwbackupsPackage) Secfwbackups
     File ..\AUTHORS
     File ..\ChangeLog
     File ..\COPYING
-    File ..\README
-    File ..\TODO
+    File ..\README.md
+    File ..\TODO.md
     File ..\src\BugReport.glade
     File ..\src\fwbackups.glade
     File ..\src\fwbackups-runapp.pyw
@@ -283,8 +283,8 @@ Section Uninstall
     Delete $INSTDIR\AUTHORS
     Delete $INSTDIR\ChangeLog
     Delete $INSTDIR\COPYING
-    Delete $INSTDIR\README
-    Delete $INSTDIR\TODO
+    Delete $INSTDIR\README.md
+    Delete $INSTDIR\TODO.md
     Delete $INSTDIR\BugReport.glade
     Delete $INSTDIR\fwbackups.glade
     Delete $INSTDIR\fwbackups-runapp.pyw
