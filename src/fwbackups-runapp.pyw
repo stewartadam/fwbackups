@@ -78,10 +78,6 @@ sys.excepthook = reportBug
 # This causes hangs on exit in OS X
 #gobject.threads_init()
 try:
-  import Crypto
-except:
-  raise fwbackups.fwbackupsError(_('Please install pycrypto (python-crypto)'))
-try:
   import paramiko
 except:
   raise fwbackups.fwbackupsError(_('Please install paramiko (python-paramiko)'))
