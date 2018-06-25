@@ -20,7 +20,7 @@ import os
 import random
 import sys
 
-sys.path.append(os.path.join(os.getcwd(), 'src'))
+sys.path.append(os.path.join(os.getcwd(), '..', 'src'))
 from fwbackups.i18n import _
 from fwbackups.const import USER, USERHOME
 from fwbackups import config
