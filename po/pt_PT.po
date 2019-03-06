@@ -4,7 +4,7 @@
 # 
 # Translators:
 # José Vieira <jvieira33@sapo.pt>, 2017
-# Manuela Silva <manuela.silva@sky.com>, 2016
+# MS <manuelarodsilva@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
