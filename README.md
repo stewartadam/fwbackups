@@ -4,7 +4,7 @@ A feature-rich user backup program that allows you to backup your documents on a
 one-off or recurring scheduled basis.
 
 ***Note: fwbackups is in maintenance only mode.** Development of new features
-are on hold, and only bugfixes are applied. See below for details.*
+are on hold, and only bugfixes are applied. It requires Python 2 and PyGTK 2 to launch, which recent distributions may no longer include by default. See below for details.*
 
 ## Features
 * Simple interface for configuring new backups or restoring documents from a
