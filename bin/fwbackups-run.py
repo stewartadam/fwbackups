@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 #  Copyright (C) 2005, 2006, 2007, 2008, 2009 Stewart Adam
 #  This file is part of fwbackups.
@@ -137,4 +137,3 @@ if __name__ == "__main__":
     if backupThread.retval == -1:
       logger.logmsg('WARNING', _('There was an error while performing the backup!'))
       logger.logmsg('ERROR', backupThread.traceback)
-

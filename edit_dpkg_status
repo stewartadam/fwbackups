@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+
+import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('packages', type=str, nargs='*',
+                    help='space separated list of python packages to remove dependencies in /var/lib/dpkg/status')
+parser.add_argument('--debug', action='store_true', default=False)
+args = parser.parse_args()
+
+exclude_depends = ['python', 'python:any', 'python-is-python2']
+
+def remove_specific_depends(depends_line):
+    dependencies = depends_line.replace('Depends: ', '').replace('\n', '').split(',')
+    new_dependencies = [d for d in dependencies if d.split()[0] not in exclude_depends]
+    if new_dependencies:
+        return 'Depends: ' + ', '.join(new_dependencies) + '\n'
+    else:
+        return None
+
+with open('/var/lib/dpkg/status' if not args.debug else 'status', 'r') as f:
+    with open('status_new', 'w') as f_new:
+        remove_depends = False
+        for line in f:
+            if line.startswith('Package:'):
+                # start new package block
+                package = line.split()[1]
+                remove_depends = package in args.packages
+            if line.startswith('Depends') and remove_depends:
+                new_line = remove_specific_depends(line)
+                if new_line is not None:
+                    f_new.write(new_line)
+            else:
+                f_new.write(line)
