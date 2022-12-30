@@ -131,9 +131,9 @@ class TextViewConsole:
   def _toUTF(self, txt):
     rc=""
     try:
-      rc = unicode(txt, 'utf-8')
-    except UnicodeDecodeError, e:
-      rc = unicode(txt, 'iso-8859-1')
+      rc = str(txt, 'utf-8')
+    except UnicodeDecodeError as e:
+      rc = str(txt, 'iso-8859-1')
     return rc
 
   def clear(self):

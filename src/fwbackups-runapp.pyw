@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015 Stewart Adam
+#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015, 2023 Stewart Adam
 #  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
 #  This file is part of fwbackups.
 
@@ -23,26 +24,14 @@ import os
 import re
 import sys
 import time
-import types
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
 from fwbackups.const import *
 from fwbackups.i18n import _, encode
 
-if sys.platform.startswith('win'):
-  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "bin")
-  os.environ["PATH"] += ";%s" % os.path.join(INSTALL_DIR, "gtkfiles", "addon")
-  sys.path.insert(0, os.path.join(INSTALL_DIR, "pythonmodules"))
-  sys.path.insert(1, os.path.join(INSTALL_DIR, "pythonmodules", "gtk-2.0"))
-
-try:
-  import gtk
-  import gobject
-except:
-  print _("An error occurred while importing gtk/gobject.")
-  print _("Please make sure you have a valid GTK+ Runtime Environment.")
-  sys.exit(1)
-
-#--
 import fwbackups
 from fwbackups import interface
 from fwbackups import widgets
@@ -68,11 +57,11 @@ def reportBug(etype=None, evalue=None, tb=None):
       fh.close()
       sys.exit(1)
     else:
-      print _('Could not write bug report due to insufficient permissions.')
+      print(_('Could not write bug report due to insufficient permissions.'))
       sys.exit(1)
   elif response == gtk.RESPONSE_CLOSE:
     sys.exit(1)
-  print '%s: %s' % (etype, evalue)
+  print('%s: %s' % (etype, evalue))
 
 sys.excepthook = reportBug
 # This causes hangs on exit in OS X
@@ -254,7 +243,7 @@ class fwbackupsApp(interface.Controller):
     # Step 1: Setup the configuration directory
     try:
       config._setupConf()
-    except config.ConfigError, error:
+    except config.ConfigError as error:
       self.displayInfo(self.ui.splash,
                        _("Could not setup the fwbackups configuration folder"),
                        _("The following error occured: %s" % error))
@@ -263,8 +252,8 @@ class fwbackupsApp(interface.Controller):
     self.updateSplash(0.2, _('Setting up the logger and user preferences'))
     try:
       prefs = config.PrefsConf(create=True)
-    except config.ValidationError, error:
-      print _("Validation error: %s") % error
+    except config.ValidationError as error:
+      print(_("Validation error: %s") % error)
       response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
       if response == gtk.RESPONSE_YES:
         # check if file already exists
@@ -293,7 +282,7 @@ class fwbackupsApp(interface.Controller):
       self.updateSplash(0.4, _('Populating the log viewer'))
       self._checkLogSize()
       self.logconsole = widgets.TextViewConsole(self.ui.LogViewerTextview)
-    except Exception, error:
+    except Exception as error:
       self.displayInfo(self.ui.splash,
                        _("Could not setup the logger"),
                        _("The following error occured: %s" % error))
@@ -347,7 +336,7 @@ class fwbackupsApp(interface.Controller):
       if UID == 0:
         try:
           shutil_modded.copy('/etc/crontab', '/etc/crontab.fwbk')
-        except Exception, error:
+        except Exception as error:
           self.displayInfo(self.ui.main, _("A backup of /etc/crontab could not be created"), _("You may wish to edit /etc/crontab manually and remove any fwbackups-related lines."))
           self.logger.logmsg('ERROR', _("Could not create a backup of /etc/crontab; refusing to clean up."))
         try:
@@ -358,7 +347,7 @@ class fwbackupsApp(interface.Controller):
             fh.close()
             fh = open('/etc/crontab', 'w')
             fh.write(newcrontab)
-        except Exception, error:
+        except Exception as error:
           shutil.copy("/etc/crontab.fwbk", "/etc/crontab")
           os.remove("/etc/crontab.fwbk")
           message = _("fwbackups was unable to clean up the system crontab: %s. You may wish to edit /etc/crontab manually and remove any fwbackups-related lines.") % error
@@ -549,7 +538,7 @@ class fwbackupsApp(interface.Controller):
 
       # finally, show it
       notify.show()
-    except Exception, error:
+    except Exception as error:
       self.logger.logmsg('DEBUG', _('Could not create notification: %s' % error))
 
   def _toggleLocked(self, bool, keepSensitive=[]):
@@ -590,11 +579,10 @@ class fwbackupsApp(interface.Controller):
     originalCronLines = cron.read()
     fwbackupCronLines = cron.clean_fwbackups_entries()
     # Generate the new fwbackups entries
-    files = os.listdir(SETLOC)
-    files.sort()
+    files = sorted(os.listdir(SETLOC))
     for file in files:
       if file.endswith('.conf') and file != 'temporary_config.conf':
-        from ConfigParser import NoOptionError
+        from configparser import NoOptionError
         try:
           setConf = config.BackupSetConf(os.path.join(SETLOC, file))
         except (config.ConfigError, NoOptionError):
@@ -608,7 +596,7 @@ class fwbackupsApp(interface.Controller):
           if not crontabLine.is_parsable():
             raise cron.CronError(_("Internal error: generated entry for set '%s' was not parsable. Please submit a bug report.") % setName)
           fwbackupCronLines.append(crontabLine)
-        except Exception, error:
+        except Exception as error:
           self.displayError(self.ui.main, _("Could not schedule automated backups for set '%s'") % setName,
             _("fwbackups could not regenerate a crontab entry because an error occured:\n") + \
             _("%(a)s\n\nThe crontab entry associated with the error was:\n%(b)s") % {'a': error, 'b': entry})
@@ -620,7 +608,7 @@ class fwbackupsApp(interface.Controller):
       cron.write(fwbackupCronLines)
     except cron.ValidationError:
       raise
-    except Exception, error:
+    except Exception as error:
       import traceback
       (etype, evalue, tb) = sys.exc_info()
       tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
@@ -665,7 +653,7 @@ class fwbackupsApp(interface.Controller):
     if len(threading.enumerate()) > 1:
       self.logger.logmsg('INFO', _('fwbackups detected more than one alive threads!'))
     for thread in threading.enumerate()[1:]:
-      if type(thread) == paramiko.Transport:
+      if isinstance(thread, paramiko.Transport):
         # Thread is a Paramiko transport -- close it down.
         thread.close()
         self.logger.logmsg('INFO', _('Closed dead Paramiko thread: %s') % str(thread))
@@ -687,7 +675,7 @@ class fwbackupsApp(interface.Controller):
     fwlogger.shutdown()
     try:
       gtk.main_quit()
-    except RuntimeError, msg:
+    except RuntimeError as msg:
       pass
     return False # we want it to kill the window
 
@@ -710,15 +698,15 @@ class fwbackupsApp(interface.Controller):
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
     if thread.retval == True:
       self.displayInfo(parent, _("Success!"), _("fwbackups was able to connect and authenticate on '%s'.") % host)
-    elif type(thread.exception) == IOError:
+    elif isinstance(thread.exception, IOError):
       self.displayInfo(parent, _("Remote destination is not usable"), _("The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. Please verify your settings and try again.") % {'a': path, 'b': host})
-    elif type(thread.exception) == paramiko.AuthenticationException:
+    elif isinstance(thread.exception, paramiko.AuthenticationException):
       self.displayInfo(parent, _("Authentication failed"), _("A connection to '%s' was established, but authentication failed. Please verify the username and password and try again.") % host)
-    elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
+    elif isinstance(thread.exception, socket.gaierror) or isinstance(thread.exception, socket.error):
       self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error %(a)s: %(b)s") % {'a': type(thread.exception), 'b': str(thread.exception)})
-    elif type(thread.exception) == socket.timeout:
+    elif isinstance(thread.exception, socket.timeout):
       self.displayInfo(parent, _("The server '%s' is not responding") % host, _("Please verify your settings and try again."))
-    elif type(thread.exception) == paramiko.SSHException:
+    elif isinstance(thread.exception, paramiko.SSHException):
       self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error: %s. Please verify your settings and try again.") % str(thread.exception))
     else:
       self.displayInfo(parent, _("Unexpected error"), thread.traceback)
@@ -942,10 +930,10 @@ class fwbackupsApp(interface.Controller):
     self.ui.preferencesStartMinimizedCheck.set_active(prefs.getboolean('Preferences', 'StartMinimized'))
     self.ui.preferencesShowNotificationsCheck.set_active(prefs.getboolean('Preferences', 'ShowNotifications'))
     if MSWINDOWS:
-      import _winreg
-      k = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+      import winreg
+      k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
       try:
-        _winreg.QueryValueEx(k, 'fwbackups')
+        winreg.QueryValueEx(k, 'fwbackups')
         exists = True
       except:
         exists = False
@@ -1040,25 +1028,25 @@ class fwbackupsApp(interface.Controller):
     """Start fwbackups when we login"""
     if self.ui.preferencesSessionStartupCheck.get_active(): #add
       if MSWINDOWS:
-        import _winreg
-        k = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-        _winreg.SetValueEx(k, 'fwbackups', 0, _winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.pyw'))
-        _winreg.CloseKey(k)
+        import winreg
+        k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+        winreg.SetValueEx(k, 'fwbackups', 0, winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.pyw'))
+        winreg.CloseKey(k)
       else:
         shutil_modded.copy('%s/fwbackups-autostart.desktop' % INSTALL_DIR, '%s/.config/autostart' % USERHOME)
     else: #remove
       if MSWINDOWS:
-        import _winreg
+        import winreg
         try:
-          k = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-          _winreg.DeleteValue(k, 'fwbackups')
-          _winreg.CloseKey(k)
+          k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+          winreg.DeleteValue(k, 'fwbackups')
+          winreg.CloseKey(k)
         except:
           self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart regkey: %s' % error))
       else:
         try:
           os.remove('%s/.config/autostart/fwbackups-autostart.desktop' % USERHOME)
-        except Exception, error:
+        except Exception as error:
           self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart file: %s' % error))
 
   def on_preferencesAlwaysShowDebugCheck_toggled(self, widget):
@@ -1075,7 +1063,7 @@ class fwbackupsApp(interface.Controller):
   def on_preferencesResetDontShowMeButton_clicked(self, widget, event=None):
     """Resets all "Don't show me again" messages"""
     prefs = config.PrefsConf()
-    for option in prefs.getPreferences().keys():
+    for option in list(prefs.getPreferences().keys()):
       if option.lower().startswith('dontshowme_'):
         prefs.set('Preferences', option, 0)
         self.logger.logmsg('DEBUG', _('Resetting preference \'%(a)s\' to 0' % {'a' : option}))
@@ -1368,7 +1356,7 @@ class fwbackupsApp(interface.Controller):
       setConf = config.BackupSetConf(setPath)
       try:
         os.remove(setPath)
-      except OSError, error:
+      except OSError as error:
         message = _('An error occured while removing set `%(a)s\':\n%(b)s' % {'a': setName, 'b': error })
         self.displayError(self.ui.main, _("Could not remove backup set '%s'") % setName, message)
         self.logger.logmsg('ERROR', message)
@@ -1376,7 +1364,7 @@ class fwbackupsApp(interface.Controller):
         return
       try:
         self.regenerateCrontab()
-      except Exception, error:
+      except Exception as error:
         message = _('An error occured while removing set `%(a)s\':\n%(b)s' % {'a': setName, 'b': error })
         self.displayError(self.ui.main, _("Could not remove the automated backup schedule for set '%s'"), message)
         self.logger.logmsg('ERROR', message)
@@ -1391,7 +1379,7 @@ class fwbackupsApp(interface.Controller):
     """Selection changed, update sensitive widgets!"""
     try:
       selected = getSelectedItems(widget)
-    except Exception, error:
+    except Exception as error:
       self.displayInfo(self.ui.main, _("Unexpected error"), _("An unexpected error occured while attempting to obtain the selected set:\n%s" % error))
       self.main2IconviewRefresh()
       selected = False
@@ -1697,21 +1685,21 @@ class fwbackupsApp(interface.Controller):
       # Default to None (see 'if listing == None' check later)
       listing = None
       # Check return value
-      if type(thread.retval) == list:
+      if isinstance(thread.retval, list):
         listing = thread.retval
       elif type(thread.exception) in [IOError, OSError]:
         self.displayInfo(self.ui.restore, _("Previous backups could not be found"),
           _("The destination folder for set '%s' was not found.") % setName)
-      elif type(thread.exception) == paramiko.AuthenticationException:
+      elif isinstance(thread.exception, paramiko.AuthenticationException):
         self.displayInfo(self.ui.restore, _("Authentication failed"),
           _("fwbackups was unable to authenticate on the remote server. Please verify the username and password for set '%s' and try again.") % setName)
-      elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
+      elif isinstance(thread.exception, socket.gaierror) or isinstance(thread.exception, socket.error):
         self.displayInfo(self.ui.restore, _("Connection failed"),
           _("A connection to the server could not be established:\nError %(a)s: %(b)s\nPlease verify your settings and try again.") % {'a': type(thread.exception), 'b': str(thread.exception)})
-      elif type(thread.exception) == socket.timeout:
+      elif isinstance(thread.exception, socket.timeout):
         self.displayInfo(self.ui.restore, _("Remote server is not responding"),
           _("Please verify your settings and try again."))
-      elif type(thread.exception) == paramiko.SSHException:
+      elif isinstance(thread.exception, paramiko.SSHException):
         self.displayInfo(self.ui.restore, _("Connection failed"),
           _("A connection to the server could not be established because an error occurred: %s\nPlease verify your settings and try again.") % str(thread.exception))
       else:
@@ -1726,7 +1714,7 @@ class fwbackupsApp(interface.Controller):
       try:
         destination = setConfig.get('Options', 'Destination')
         listing = os.listdir(destination)
-      except OSError, error:
+      except OSError as error:
         self.logger.logmsg("WARNING", _("Error obtaining file listing in destination %(a)s:\n%(b)s") % {'a': destination, 'b': error})
         self.displayError(self.ui.restore, _("Could not get a list of old backups for set '%s'" % setName), _("If the destination is on removable media such as an external hard disk, please attach it and try again."))
         return
@@ -2308,7 +2296,7 @@ class fwbackupsApp(interface.Controller):
       self.regenerateCrontab()
     except cron.ValidationError:
       raise
-    except Exception, error:
+    except Exception as error:
       self.displayInfo(self.ui.backupset,
                        _("Error creating the automated backup schedules"),
                        _('The crontab could not be written because an error occured:\n%s') % error)
@@ -2407,7 +2395,7 @@ class fwbackupsApp(interface.Controller):
           try:
             os.remove(namepath)
             self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s" % {'a': name, 'b': newName}))
-          except IOError, error:
+          except IOError as error:
             self.logger.logmsg('DEBUG', _("Renaming set `%(a)s' to `%(b)s failed: %(c)s" % {'a': name, 'b': newName, 'c': error}))
             self.displayInfo(self.ui.backupset, _("Could not rename set '%(a)s' to '%(b)s'") % {'a': name, 'b': newName}, str(error))
     # Attempt to save the new set configuration
@@ -2509,7 +2497,7 @@ class fwbackupsApp(interface.Controller):
       if self.backupThread.retval == -1:
         self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
         self.logger.logmsg('ERROR', self.backupThread.traceback)
-    except Exception, error:
+    except Exception as error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
       message = _("An error occurred while initializing the backup operation: %s" % error)
@@ -2666,7 +2654,7 @@ class fwbackupsApp(interface.Controller):
       if self.backupThread.retval == -1:
         self.logger.logmsg('WARNING', _('There was an error while performing the backup!'))
         self.logger.logmsg('ERROR', self.backupThread.traceback)
-    except Exception, error:
+    except Exception as error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
       self.updateReturn = False
@@ -2749,7 +2737,7 @@ class fwbackupsApp(interface.Controller):
       if self.restoreThread.retval == -1:
         self.logger.logmsg('WARNING', _('There was an error while performing the restore! Enable debug messages for more information.'))
         self.logger.logmsg('DEBUG', self.restoreThread.traceback)
-    except Exception, error:
+    except Exception as error:
       self.operationInProgress = False
       self.setStatus(_('<span color="Red">Error</span>'))
       self.updateReturn = False

@@ -18,7 +18,7 @@
 """
 Configuration classes for fwbackups
 """
-import ConfigParser
+import configparser
 import locale
 import sys
 
@@ -45,19 +45,19 @@ def _setupConf():
   for directory in [LOC, SETLOC]:
     if not os.path.exists(encode(directory)):
       try:
-        os.mkdir(encode(directory), 0700)
-      except OSError, error:
+        os.mkdir(encode(directory), 0o700)
+      except OSError as error:
         raise ConfigError(_("Could not create configuration folder `%s':" % error))
         sys.exit(1)
     # Passwords that are base64-encoded are stored, so make sure they are secure
     if LINUX or DARWIN:
       if os.stat(encode(LOC)).st_mode != 16832:
-        os.chmod(encode(LOC), 0700)
+        os.chmod(encode(LOC), 0o700)
     if not fwbackups.CheckPerms(directory):
       raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % directory)
       sys.exit(1)
 
-class ConfigFile(ConfigParser.ConfigParser):
+class ConfigFile(configparser.ConfigParser):
   """A more sane implementation of the ConfigParser objects. It commits any
      changes to files immediately, and ensures that write() is not called more
      than once (avoiding duplication of the config file's contents).
@@ -67,9 +67,9 @@ class ConfigFile(ConfigParser.ConfigParser):
      If create is True and the configuration file does not exist, an empty file
      will be created."""
   def __init__(self, conffile, create=False):
-    ConfigParser.ConfigParser.__init__(self)
+    configparser.ConfigParser.__init__(self)
     # Renders options case-sensitive
-    ConfigParser.ConfigParser.optionxform = self.optionxform
+    configparser.ConfigParser.optionxform = self.optionxform
     # conffile is a unicode string - make sure to encode() when appropriate
     self.__conffile = encode(conffile)
     if create and not os.path.exists(self.__conffile):
@@ -89,7 +89,7 @@ class ConfigFile(ConfigParser.ConfigParser):
   def read(self):
     """Read and parse the configuration file's data."""
     fh = open(self.__conffile, 'r')
-    ConfigParser.ConfigParser.readfp(self, fh)
+    configparser.ConfigParser.readfp(self, fh)
     fh.close()
 
   def generateDict(self, sections=None):
@@ -110,50 +110,50 @@ class ConfigFile(ConfigParser.ConfigParser):
     # In the loops, the set() method from parent class ConfigParser should be
     # used to avoid doing many consecutive writes. A final write() operation
     # is performed at the end to commit the changes.
-    for section in dictobject.keys():
-      if type(dictobject[section]) != dict:
+    for section in list(dictobject.keys()):
+      if not isinstance(dictobject[section], dict):
         raise ValueError(_("Key %s of is not a dictionary of options") % section)
       else:
-        ConfigParser.ConfigParser.add_section(self, section)
-      for option, value in dictobject[section].items():
-        if type(value) == unicode:
+        configparser.ConfigParser.add_section(self, section)
+      for option, value in list(dictobject[section].items()):
+        if isinstance(value, str):
           value = encode(value)
-        ConfigParser.ConfigParser.set(self, section, option, str(value))
+        configparser.ConfigParser.set(self, section, option, str(value))
     # Write _once_ at the end once all changes are imported
     self.write()
 
   def write(self):
     """Write the text representation to the configuration file."""
     fh = open(self.__conffile, 'w')
-    ConfigParser.ConfigParser.write(self, fh)
+    configparser.ConfigParser.write(self, fh)
     fh.close()
 
   def get(self, section, option):
     """Returns a Unicode object of the value stored in option of section"""
-    value = ConfigParser.ConfigParser.get(self, section, option)
+    value = configparser.ConfigParser.get(self, section, option)
     return decode(value)
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""
-    ConfigParser.ConfigParser.set(self, section, prop, encode(value))
+    configparser.ConfigParser.set(self, section, prop, encode(value))
     self.write()
     return True
 
   def remove_option(self, sectname, optionname):
     """Remove a property & it's value, then save."""
-    ConfigParser.ConfigParser.remove_option(self, sectname, optionname)
+    configparser.ConfigParser.remove_option(self, sectname, optionname)
     self.write()
     return True
 
   def add_section(self, sectname):
     """Add a section and save."""
-    ConfigParser.ConfigParser.add_section(self, sectname)
+    configparser.ConfigParser.add_section(self, sectname)
     self.write()
     return True
 
   def remove_section(self, sectname):
     """Remove a section and save."""
-    ConfigParser.ConfigParser.remove_section(self, sectname)
+    configparser.ConfigParser.remove_section(self, sectname)
     self.write()
     return True
 
@@ -325,8 +325,7 @@ class BackupSetConf:
     config = self.__config.generateDict()
     def sorted(alist):
       """Sorts a list and returns it"""
-      copy = alist
-      copy.sort()
+      copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options", "Paths", "Times"]:
@@ -388,7 +387,7 @@ class BackupSetConf:
       # Add signature to end
       entry.append(CRON_SIGNATURE)
       return entry
-    except Exception, error:
+    except Exception as error:
       return None
 
   def save(self, paths, options, times, mergeDefaults=False):
@@ -408,14 +407,14 @@ class BackupSetConf:
     # Generate a new dictionary config dump, then import it
     config = self.__config.generateDict()
     for section in ["General", "Paths", "Options", "Times"]:
-      if section not in config.keys():
+      if section not in list(config.keys()):
         config[section] = {}
     config["General"] = {"Type": "Set", "Version": fwbackups.__version__}
     # A loop is used instead of plain assignment in order to maintain expected
     # behavior when mergeDefaults=True
-    for option, value in times.items():
+    for option, value in list(times.items()):
       config["Times"][option] = value
-    for option, value in options.items():
+    for option, value in list(options.items()):
       config["Options"][option] = value
     paths.sort()
     counter = 0
@@ -488,8 +487,7 @@ class OneTimeConf:
     config = self.__config.generateDict()
     def sorted(alist):
       """Sorts a list and returns it"""
-      copy = alist
-      copy.sort()
+      copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options", "Paths"]:
@@ -549,12 +547,12 @@ class OneTimeConf:
     # Generate a new dictionary config dump, then import it
     config = self.__config.generateDict()
     for section in ["General", "Paths", "Options"]:
-      if section not in config.keys():
+      if section not in list(config.keys()):
         config[section] = {}
     config["General"] = {"Type": "OneTime", "Version": fwbackups.__version__}
     # A loop is used instead of plain assignment in order to maintain expected
     # behavior when mergeDefaults=True
-    for option, value in options.items():
+    for option, value in list(options.items()):
       config["Options"][option] = value
     paths.sort()
     counter = 0
@@ -615,8 +613,7 @@ class RestoreConf:
     config = self.__config.generateDict()
     def sorted(alist):
       """Sorts a list and returns it"""
-      copy = alist
-      copy.sort()
+      copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Options"]:
@@ -665,12 +662,12 @@ class RestoreConf:
     # Generate a new dictionary config dump, then import it
     config = self.__config.generateDict()
     for section in ["General", "Options"]:
-      if section not in config.keys():
+      if section not in list(config.keys()):
         config[section] = {}
     config["General"] = {"Type": "Restore", "Version": fwbackups.__version__}
     # A loop is used instead of plain assignment in order to maintain expected
     # behavior when mergeDefaults=True
-    for option, value in options.items():
+    for option, value in list(options.items()):
       config["Options"][option] = value
     self.__config.importDict(config)
     try: # Attempt to validate the file
@@ -729,8 +726,7 @@ class PrefsConf:
     config = self.__config.generateDict()
     def sorted(alist):
       """Sorts a list and returns it"""
-      copy = alist
-      copy.sort()
+      copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
     if sorted(config.keys()) != ["General", "Preferences"]:
@@ -832,8 +828,7 @@ class PrefsConf:
           if line.get_raw_entry_text().find('fwbackups-run') == -1:
             cleanedLines.append(line)
       # re-schedule current sets
-      files = os.listdir(encode(SETLOC))
-      files.sort()
+      files = sorted(os.listdir(encode(SETLOC)))
       for file in files:
         if file.endswith('.conf') and file != 'temporary_config.conf':
           try:
@@ -844,7 +839,7 @@ class PrefsConf:
             if not crontabLine.is_parsable():
               continue
             cleanedLines.append(crontabLine)
-          except Exception, error:
+          except Exception as error:
             continue # set or cron entry text is not parsable, just move on
       try: # write cleaned lines
         cron.write(cleanedLines)
@@ -892,12 +887,12 @@ class PrefsConf:
     # Generate a new dictionary config dump, then import it
     config = self.__config.generateDict()
     for section in ["General", "Preferences"]:
-      if section not in config.keys():
+      if section not in list(config.keys()):
         config[section] = {}
     config["General"] = {"Type": "Preferences", "Version": fwbackups.__version__}
     # A loop is used instead of plain assignment in order to maintain expected
     # behavior when mergeDefaults=True
-    for option, value in options.items():
+    for option, value in list(options.items()):
       config["Preferences"][option] = value
     self.__config.importDict(config)
     try: # Attempt to validate the file

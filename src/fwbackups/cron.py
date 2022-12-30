@@ -26,8 +26,8 @@ import tempfile
 import time
 import types
 
-from i18n import _, encode, decode
-from const import *
+from .i18n import _, encode, decode
+from .const import *
 
 from fwbackups import execute, executeSub, kill
 from fwbackups import config

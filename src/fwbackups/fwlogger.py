@@ -65,7 +65,7 @@ class fwLogger(logging.Logger):
       loghandler.setFormatter(logformatter)
       # add handler to logger
       self.addHandler(loghandler)
-    except Exception, error:
+    except Exception as error:
       from fwbackups import fwbackupsError
       raise fwbackupsError(_('Could not set up the logger: %s' % str(error)))
 
@@ -100,10 +100,10 @@ class fwLogger(logging.Logger):
     date = datetime.datetime.now().strftime('%b %d %H:%M:%S')
     level = self.getEffectiveLevel()
     if level <= LEVELS[severity]:
-      entry = u'%s :: %s : %s' % (date.decode('utf-8'), _(severity), message)
+      entry = '%s :: %s : %s' % (date.decode('utf-8'), _(severity), message)
       self.log(LEVELS[severity], entry.encode('utf-8'))
       if self.__printToo:
-        print entry.encode('utf-8')
+        print(entry.encode('utf-8'))
       # pull in & execute the appropriate function
       for i in self.__functions:
         i(severity, entry)

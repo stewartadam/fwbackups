@@ -48,7 +48,7 @@ class UserInterface(gtk.glade.XML):
     result = self.get_widget(name)
     if result is None:
       raise AttributeError("Cannot find widget %s in %s.\n" %
-                 (`name`, `self.filename`))
+                 (repr(name), repr(self.filename)))
 
     # Cache the widget to speed up future lookups.  If multiple
     # widgets in a hierarchy have the same name, the lookup
@@ -73,7 +73,7 @@ class Controller:
     # attributes which are "interpreted" via __getattr__.  By
     # convention such attributes should be listed in
     # self.__methods__.
-    allAttrNames = self.__dict__.keys() + self._getAllClassAttributes()
+    allAttrNames = list(self.__dict__.keys()) + self._getAllClassAttributes()
     for name in allAttrNames:
       value = getattr(self, name)
       if callable(value):
@@ -87,7 +87,7 @@ class Controller:
     nameSet = {}
     for currClass in self._getAllClasses():
       nameSet.update(currClass.__dict__)
-    result = nameSet.keys()
+    result = list(nameSet.keys())
     return result
 
   # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*

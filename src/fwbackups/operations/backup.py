@@ -78,7 +78,7 @@ class BackupOperation(operations.Common):
     # processed. See comment at retur for more info.
     pkgListFiles = {}
     for path in os.environ['PATH'].split(':'):
-      if os.path.exists(os.path.join(path, 'rpm')) and not pkgListFiles.has_key('rpm'):
+      if os.path.exists(os.path.join(path, 'rpm')) and 'rpm' not in pkgListFiles:
         fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('rpm - Package list'))
         fh = os.fdopen(fd, "w")
         # try with rpm-python, but if not just execute it like the rest
@@ -97,20 +97,20 @@ class BackupOperation(operations.Common):
           retval, stdout, stderr = fwbackups.execute('rpm -qa', env=self.environment, shell=True, stdoutfd=fh)
         pkgListFiles['rpm'] = path
         fh.close()
-      if os.path.exists(os.path.join(path, 'pacman')) and not pkgListFiles.has_key('pacman'):
+      if os.path.exists(os.path.join(path, 'pacman')) and 'pacman' not in pkgListFiles:
         fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('Pacman - Package list'))
         fh = os.fdopen(fd, 'w')
         retval, stdout, stderr = fwbackups.execute('pacman -Qq', env=self.environment, shell=True, stdoutfd=fh)
         pkgListFiles['pacman'] = path
         fh.close()
-      if os.path.exists(os.path.join(path, 'dpkg')) and not pkgListFiles.has_key('dpkg'):
+      if os.path.exists(os.path.join(path, 'dpkg')) and 'dpkg' not in pkgListFiles:
         fd, path = tempfile.mkstemp(suffix='.txt', prefix="%s - tmp" % _('dpkg - Package list'))
         fh = os.fdopen(fd, 'w')
         retval, stdout, stderr = fwbackups.execute('dpkg -l', env=self.environment, shell=True, stdoutfd=fh)
         pkgListFiles['dpkg'] = path
         fh.close()
     # We want to return a list of only the filenames
-    return pkgListFiles.values()
+    return list(pkgListFiles.values())
 
   def createDiskInfo(self):
     """Print disk info to a file in tempdir"""
@@ -195,25 +195,25 @@ class BackupOperation(operations.Common):
     if thread.retval == True:
       self.logger.logmsg('DEBUG', _('Attempt to connect succeeded.'))
       return True
-    elif type(thread.exception) == IOError:
+    elif isinstance(thread.exception, IOError):
       self.logger.logmsg('ERROR', _('The backup destination was either not ' + \
                      'found or it cannot be written to due to insufficient permissions.'))
       return False
-    elif type(thread.exception) == paramiko.AuthenticationException:
+    elif isinstance(thread.exception, paramiko.AuthenticationException):
       self.logger.logmsg('ERROR', _('A connection was established, but authentication ' + \
                       'failed. Please verify the username and password ' + \
                       'and try again.'))
       return False
-    elif type(thread.exception) == socket.gaierror or type(thread.exception) == socket.error:
+    elif isinstance(thread.exception, socket.gaierror) or isinstance(thread.exception, socket.error):
       self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' + \
                       'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} + \
                       '\nPlease verify your settings and try again.'))
       return False
-    elif type(thread.exception) == socket.timeout:
+    elif isinstance(thread.exception, socket.timeout):
       self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' + \
                       'Please verify your settings and try again.'))
       return False
-    elif type(thread.exception) == paramiko.SSHException:
+    elif isinstance(thread.exception, paramiko.SSHException):
       self.logger.logmsg('ERROR', _('A connection to the server could not be established ' + \
                       'because an error occurred: %s' % str(thread.exception) + \
                       '\nPlease verify your settings and try again.'))
@@ -259,7 +259,7 @@ class BackupOperation(operations.Common):
             time.sleep(0.01)
             try:
               errors += sub.stderr.readline()
-            except IOError, description:
+            except IOError as description:
               pass
           self.pids.remove(sub.pid)
           retval = sub.poll()
@@ -304,7 +304,7 @@ class BackupOperation(operations.Common):
           time.sleep(0.01)
           try:
             errors += sub.stderr.readline()
-          except IOError, description:
+          except IOError as description:
             pass
         self.pids.remove(sub.pid)
         retval = sub.poll()
@@ -349,7 +349,7 @@ class BackupOperation(operations.Common):
           time.sleep(0.01)
           try:
             errors += sub.stderr.readline()
-          except IOError, description:
+          except IOError as description:
             pass
         self.pids.remove(sub.pid)
         retval = sub.poll()
@@ -401,7 +401,7 @@ class BackupOperation(operations.Common):
               time.sleep(0.01)
               try:
                 errors += sub.stderr.readline()
-              except IOError, description:
+              except IOError as description:
                 pass
             self.pids.remove(sub.pid)
             retval = sub.poll()
@@ -501,7 +501,7 @@ class OneTimeBackupOperation(BackupOperation):
 
     if self.options['DestinationType'] == 'local':
       try:
-        os.chmod(self.dest, 0711)
+        os.chmod(self.dest, 0o711)
       except:
         pass
 
@@ -522,7 +522,7 @@ class SetBackupOperation(BackupOperation):
     # Parse backup folder format
     # date stored as class variable due to re-use in user commands later
     self.date = time.strftime('%Y-%m-%d_%H-%M')
-    self.dest = os.path.join(self.options['Destination'], u"%s-%s-%s" % (_('Backup'), self.config.getSetName(), self.date))
+    self.dest = os.path.join(self.options['Destination'], "%s-%s-%s" % (_('Backup'), self.config.getSetName(), self.date))
     # set-specific options
     # IF tar || tar.gz, add .tar || tar.gz respectively to the dest since
     # the dest is to be a file, not a folder...
@@ -573,7 +573,7 @@ class SetBackupOperation(BackupOperation):
       """Replace non-escaped tokens with values after the beginning of a string"""
       return r"%s%s" % (m.group(1), tokens[m.group(2)])
 
-    for token, sub in tokens.items():
+    for token, sub in list(tokens.items()):
       text = re.sub(r"^\[(%s)\]" % token, replace_match, text)
       text = re.sub(r"([^\\]+?)\[(%s)\]" % token, replace_match_escape, text)
       # Replace escaped tokens into their non-escaped form
@@ -603,7 +603,7 @@ class SetBackupOperation(BackupOperation):
       time.sleep(0.01)
       try:
         errors += sub.stderr.readline()
-      except IOError, description:
+      except IOError as description:
         pass
     self.pids.remove(sub.pid)
     retval = sub.poll()
@@ -623,8 +623,7 @@ class SetBackupOperation(BackupOperation):
     # Normalize the unicode strings storing the filenames. This fixes a problem
     # on HFS+ filesystems where supplying a set name on the command line
     # resulted in a different Unicode string than the filename of the set.
-    listing = [decode(i, filename=True) for i in listing]
-    listing.sort()
+    listing = sorted([decode(i, filename=True) for i in listing])
     oldbackups = []
     for i in listing:
       backupPrefix = '%s-%s-' % (_('Backup'), self.config.getSetName())
@@ -714,7 +713,7 @@ class SetBackupOperation(BackupOperation):
       self.deleteListFiles(pkgListfiles)
       if self.options['DestinationType'] == 'local':
         try:
-          os.chmod(self.dest, 0711)
+          os.chmod(self.dest, 0o711)
         except:
           pass
     # Exception handlers in FuncAsThread() must return retval same values

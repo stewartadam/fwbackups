@@ -63,7 +63,7 @@ class Common:
         try:
           self.logger.logmsg('DEBUG', _('Stopping process with ID %s') % process)
           fwbackups.kill(process, 9)
-        except Exception, error:
+        except Exception as error:
           self.logger.logmsg('WARNING', _('Could not stop process %(a)s: %(b)s' % (process, error)))
           continue
     self.toCancel = True
@@ -95,9 +95,9 @@ class Common:
     # folder doesn't exist; try to create if specified
     elif createNonExistant:
       try:
-        os.mkdir(encode(folder), 0755)
+        os.mkdir(encode(folder), 0o755)
         self.logger.logmsg('DEBUG', _("Created destination folder `%s'") % folder)
-      except OSError, error:
+      except OSError as error:
         self.logger.logmsg('ERROR', _("The destination folder `%(a)s' could not be created: %(b)s") % {'a': folder, 'b': error})
         return False
     # make sure the folder is writable

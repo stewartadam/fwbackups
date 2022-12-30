@@ -45,7 +45,7 @@ def exists(sftp, path):
   try:
     sftp.stat(path)
     return True
-  except IOError, errorDesc:
+  except IOError as errorDesc:
     return False
 
 def isFolder(sftp, path):
@@ -209,13 +209,13 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
       elif os.path.isfile(src_abs):
         sftp.put(src_abs, dst_abs)
       else:
-        print _('`%s\' is not a file, folder or link! Skipping.') % src_abs
-    except (IOError, os.error), reason:
+        print(_('`%s\' is not a file, folder or link! Skipping.') % src_abs)
+    except (IOError, os.error) as reason:
       # don't halt the entire copy, just print the errors at the end
       errors.append('%s --> %s: %s' % (src_abs, dst_abs, reason))
   if errors:
-    print _('Could not copy some files due to errors:')
-    print '\n'.join(errors)
+    print(_('Could not copy some files due to errors:'))
+    print('\n'.join(errors))
 
 # Remember we wrap this in callbacks.py
 def testConnection(host, username, password, port, path):
