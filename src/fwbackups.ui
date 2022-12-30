@@ -441,213 +441,119 @@ Graphic Designers:
         * Based on gnome-icon-theme icons
 </property>
   </object>
-  <object class="GtkUIManager" id="uimanager1">
-    <child>
-      <object class="GtkActionGroup" id="actiongroup1">
-        <child>
-          <object class="GtkAction" id="menuitem1">
-            <property name="label" translatable="1">_File</property>
-            <property name="name">menuitem1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="new_set1">
-            <property name="stock_id">gtk-new</property>
-            <property name="label" translatable="1">_New Set</property>
-            <property name="tooltip" translatable="1">Create a new backup set</property>
-            <property name="name">new_set1</property>
-            <signal name="activate" handler="on_new_set1_activate"/>
-          </object>
-          <accelerator key="N" modifiers="GDK_CONTROL_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="import_sets1">
-            <property name="stock_id">gtk-convert</property>
-            <property name="label" translatable="1">_Import Sets</property>
-            <property name="tooltip" translatable="1">Import a set from a .conf file</property>
-            <property name="name">import_sets1</property>
-            <signal name="activate" handler="on_import_sets1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="export_sets1">
-            <property name="stock_id">gtk-save-as</property>
-            <property name="label" translatable="1">E_xport Sets</property>
-            <property name="tooltip" translatable="1">Export one or more sets to .conf files</property>
-            <property name="name">export_sets1</property>
-            <signal name="activate" handler="on_export_sets1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="quit1">
-            <property name="stock_id">gtk-quit</property>
-            <property name="name">quit1</property>
-            <signal name="activate" handler="on_quit1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem3">
-            <property name="label" translatable="1">_Edit</property>
-            <property name="name">menuitem3</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="edit_set1">
-            <property name="stock_id">gtk-edit</property>
-            <property name="label" translatable="1">_Edit Set</property>
-            <property name="tooltip" translatable="1">Edit the selected backup set</property>
-            <property name="name">edit_set1</property>
-            <signal name="activate" handler="on_edit_set1_activate"/>
-          </object>
-          <accelerator key="E" modifiers="GDK_CONTROL_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="remove_set1">
-            <property name="stock_id">gtk-delete</property>
-            <property name="label" translatable="1">_Delete Set</property>
-            <property name="tooltip" translatable="1">Remove the selected backup set</property>
-            <property name="name">remove_set1</property>
-            <signal name="activate" handler="on_remove_set1_activate"/>
-          </object>
-          <accelerator key="D" modifiers="GDK_CONTROL_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="duplicate_set1">
-            <property name="stock_id">gtk-copy</property>
-            <property name="label" translatable="1">D_uplicate Set</property>
-            <property name="tooltip" translatable="1">Duplicate the selected backup set</property>
-            <property name="name">duplicate_set1</property>
-            <signal name="activate" handler="on_duplicate_set1_activate"/>
-          </object>
-          <accelerator key="D" modifiers="GDK_CONTROL_MASK | GDK_SHIFT_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="preferences1">
-            <property name="stock_id">gtk-preferences</property>
-            <property name="name">preferences1</property>
-            <signal name="activate" handler="on_preferences1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem2">
-            <property name="label" translatable="1">_View</property>
-            <property name="name">menuitem2</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="overview1">
-            <property name="stock_id">gtk-home</property>
-            <property name="label" translatable="1">_Overview</property>
-            <property name="tooltip" translatable="1">Switch to Overview</property>
-            <property name="name">overview1</property>
-            <signal name="activate" handler="on_overview1_activate"/>
-          </object>
-          <accelerator key="1" modifiers="GDK_MOD1_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="backup_sets1">
-            <property name="stock_id">gtk-harddisk</property>
-            <property name="label" translatable="1">_Backup Sets</property>
-            <property name="tooltip" translatable="1">Switch to User Backup Sets</property>
-            <property name="name">backup_sets1</property>
-            <signal name="activate" handler="on_user_backup_sets1_activate"/>
-          </object>
-          <accelerator key="2" modifiers="GDK_MOD1_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="one_time_backup1">
-            <property name="stock_id">gtk-execute</property>
-            <property name="label" translatable="1">O_ne-Time Backup</property>
-            <property name="tooltip" translatable="1">Switch to One-Time Backup</property>
-            <property name="name">one_time_backup1</property>
-            <signal name="activate" handler="on_one_time_backup1_activate"/>
-          </object>
-          <accelerator key="3" modifiers="GDK_MOD1_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="log1">
-            <property name="stock_id">gtk-file</property>
-            <property name="label" translatable="1">_Log</property>
-            <property name="tooltip" translatable="1">Switch to Log Viewer</property>
-            <property name="name">log1</property>
-            <signal name="activate" handler="on_log1_activate"/>
-          </object>
-          <accelerator key="4" modifiers="GDK_MOD1_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="restore1">
-            <property name="stock_id">gtk-undo</property>
-            <property name="label" translatable="1">_Restore</property>
-            <property name="tooltip" translatable="1">Switch to Restore</property>
-            <property name="name">restore1</property>
-            <signal name="activate" handler="on_restore1_activate" last_modification_time="Sat, 27 Oct 2007 23:14:46 GMT"/>
-          </object>
-          <accelerator key="5" modifiers="GDK_MOD1_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem3">
-            <property name="label" translatable="1">_Help</property>
-            <property name="name">menuitem3</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="about1">
-            <property name="stock_id">gtk-about</property>
-            <property name="name">about1</property>
-            <signal name="activate" handler="on_about1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="help1">
-            <property name="stock_id">gtk-help</property>
-            <property name="name">help1</property>
-            <signal name="activate" handler="on_help1_activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="check_for_updates1">
-            <property name="label" translatable="1">Check for _Updates</property>
-            <property name="name">check_for_updates1</property>
-            <signal name="activate" handler="on_check_for_updates1_activate" last_modification_time="Thu, 17 Jan 2008 15:49:10 GMT"/>
-          </object>
-        </child>
-      </object>
-    </child>
-    <ui>
-      <menubar name="menubar1">
-        <menu action="menuitem1">
-          <menuitem action="new_set1"/>
-          <separator/>
-          <menuitem action="import_sets1"/>
-          <menuitem action="export_sets1"/>
-          <separator/>
-          <menuitem action="quit1"/>
-        </menu>
-        <menu action="menuitem3">
-          <menuitem action="edit_set1"/>
-          <menuitem action="remove_set1"/>
-          <menuitem action="duplicate_set1"/>
-          <separator/>
-          <menuitem action="preferences1"/>
-        </menu>
-        <menu action="menuitem2">
-          <menuitem action="overview1"/>
-          <menuitem action="backup_sets1"/>
-          <menuitem action="one_time_backup1"/>
-          <menuitem action="log1"/>
-          <separator/>
-          <menuitem action="restore1"/>
-        </menu>
-        <menu action="menuitem3">
-          <menuitem action="about1"/>
-          <menuitem action="help1"/>
-          <separator/>
-          <menuitem action="check_for_updates1"/>
-        </menu>
-      </menubar>
-    </ui>
-  </object>
-  <object class="GtkUIManager" id="uimanager2">
+
+  <menu id="mainmenu">
+    <submenu>
+      <attribute name="label">_File</attribute>
+      <section>
+        <item>
+          <attribute name="label">_New Set</attribute>
+          <attribute name="action">app.new_set1</attribute>
+          <attribute name="accel">&lt;Primary&gt;n</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label">_Import Sets</attribute>
+          <attribute name="action">app.import_sets1</attribute>
+        </item>
+        <item>
+          <attribute name="label">E_xport Sets</attribute>
+          <attribute name="action">app.export_sets1</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label">_Quit</attribute>
+          <attribute name="action">app.quit1</attribute>
+          <attribute name="accel">&lt;Primary&gt;q</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label">Edit</attribute>
+      <section>
+        <item>
+          <attribute name="label">_Edit Set</attribute>
+          <attribute name="action">app.edit_set1</attribute>
+          <attribute name="accel">&lt;Primary&gt;e</attribute>
+        </item>
+        <item>
+          <attribute name="label">_Delete Set</attribute>
+          <attribute name="action">app.remove_set1</attribute>
+          <attribute name="accel">&lt;Primary&gt;d</attribute>
+        </item>
+        <item>
+          <attribute name="label">D_uplicate Set</attribute>
+          <attribute name="action">app.duplicate_set1</attribute>
+          <attribute name="accel">&lt;Primary&gt;&lt;Shift&gt;d</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label">_Preferences</attribute>
+          <attribute name="action">app.preferences1</attribute>
+          <attribute name="accel">&lt;Primary&gt;,</attribute>
+        </item>
+      </section>
+    </submenu>
+
+    <submenu>
+      <attribute name="label">_View</attribute>
+      <section>
+        <item>
+          <attribute name="label">_Overview</attribute>
+          <attribute name="action">overview1</attribute>
+          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;1</attribute>
+        </item>
+        <item>
+          <attribute name="label">_Backup Sets</attribute>
+          <attribute name="action">backup_sets1</attribute>
+          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;2</attribute>
+        </item>
+        <item>
+          <attribute name="label">O_ne-Time Backup</attribute>
+          <attribute name="action">one_time_backup1</attribute>
+          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;3</attribute>
+        </item>
+        <item>
+          <attribute name="label">_Log</attribute>
+          <attribute name="action">log1</attribute>
+          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;4</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label">_Restore</attribute>
+          <attribute name="action">restore1</attribute>
+          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;5</attribute>
+        </item>
+      </section>
+    </submenu>
+
+    <submenu>
+      <attribute name="label">_Help</attribute>
+      <section>
+        <item>
+          <attribute name="label">_About</attribute>
+          <attribute name="action">about1</attribute>
+        </item>
+        <item>
+          <attribute name="label">_Help</attribute>
+          <attribute name="action">help1</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label"></attribute>
+          <attribute name="action">check_for_updates1</attribute>
+        </item>
+      </section>
+    </submenu>
+  </menu>
+
+  <!--
+    <object class="GtkUIManager" id="traymenu">
     <child>
       <object class="GtkActionGroup" id="actiongroup2">
         <child>
@@ -705,20 +611,13 @@ Graphic Designers:
       </popup>
     </ui>
   </object>
+  -->
+
   <object class="GtkWindow" id="main">
     <property name="title" translatable="1">fwbackups</property>
-    <property name="type">GTK_WINDOW_TOPLEVEL</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="default_width">650</property>
     <property name="default_height">515</property>
-    <property name="skip_taskbar_hint">False</property>
-    <property name="skip_pager_hint">False</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-    <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-    <property name="focus_on_map">True</property>
-    <property name="urgency_hint">False</property>
-    <signal name="destroy_event" handler="main_close_traywrapper" last_modification_time="Fri, 07 Mar 2008 19:00:16 GMT"/>
-    <signal name="delete_event" handler="main_close_traywrapper" last_modification_time="Fri, 07 Mar 2008 19:00:19 GMT"/>
+    <signal name="close_request" handler="main_close_traywrapper" last_modification_time="Fri, 07 Mar 2008 19:00:16 GMT"/>
     <child>
       <object class="GtkTable" id="table2">
         <property name="visible">True</property>
