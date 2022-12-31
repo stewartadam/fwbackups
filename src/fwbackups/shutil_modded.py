@@ -153,7 +153,7 @@ def copytree_fullpaths(src, dst, symlinks=False):
   dstDrive, dstPath = os.path.splitdrive(dst)
   if os.path.isfile(src):
     srcPath, srcFile = os.path.split(srcPath)
-  
+
   # we don't want the drive in there - tarfile doesn't do it so we won't
   # dst then append srcPath to it
   dstPath = dst + srcPath
@@ -183,7 +183,7 @@ def rmtree(path, ignore_errors=False, onerror=None):
     except os.error as err:
       onerror(os.listdir, path, sys.exc_info())
       return
-      
+
   names = []
   try:
     names = os.listdir(path)

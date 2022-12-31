@@ -97,13 +97,13 @@ class TextViewConsole:
     self.buffer.get_tag_table().add(self.style_out)
     self.buffer.get_tag_table().add(self.style_err)
     self.buffer.get_tag_table().add(self.style_warn)
-    
+
     if default_style:
       self.default_style=default_style
     else:
       self.default_style=self.style_out
     # fill it with content
-    self.history()  
+    self.history()
 
   def changeStyle(self,color,font,style=None):
     """Change the text style"""
@@ -113,7 +113,7 @@ class TextViewConsole:
     else:
       style.set_property("foreground", color)
       style.set_property("font", font)
-  
+
   def write_line(self, txt, style=None):
     """Write a line to the bottom of textview and scoll to end.
       txt: Text to write
@@ -140,7 +140,7 @@ class TextViewConsole:
   def clear(self):
     self.buffer.set_text('')
     self.history()
-    
+
   def goTop(self):
     self.textview.scroll_to_iter(self.buffer.get_start_iter(), 0.0)
 
@@ -207,12 +207,12 @@ messages'), os.linesep, os.linesep), self.console.style_ps2)
     else:
       self.console.write_line('-- %s --%s' % (_('No previous log messages to display'),\
 os.linesep), self.console.style_ps2)
-    
+
   def emit(self, record):
     """Emit a message"""
     self.stream = open(LOGLOC, 'a')
     msg = self.format(record)
-    
+
     if self.console:
       if record.levelno < 30:
         self.console.write_line("%s\n" % msg)
@@ -286,7 +286,7 @@ class ProgressBar:
   def set_fraction(self, fraction):
     """Wrapper: See GTK+ help"""
     return self.progressbar.set_fraction(fraction)
-    
+
   def _pulse(self):
     """Pulse the progressbar."""
     self.progressbar.pulse()
@@ -308,7 +308,7 @@ class ProgressBar:
     return True
 
   def setMs(self, ms):
-    """Sets the progressbar pulse step interval""" 
+    """Sets the progressbar pulse step interval"""
     self.ms = int(ms)
     if self.pulsing:
       self.stopPulse()
@@ -328,7 +328,7 @@ class GenericDia:
     self.dialog = dialog
     self.dialog.set_title(title)
     self.dialog.set_transient_for(parent)
-    
+
   def run(self):
     """Run the dialog"""
     self.dialog.show()
@@ -337,11 +337,11 @@ class GenericDia:
     except:
       self.destroy()
       raise
-      
+
   def destroy(self):
     """Hide the dialog, don't kill it!"""
     self.dialog.hide()
-    
+
   def runAndDestroy(self):
     """Executes run() and destroy()"""
     response = self.run()
@@ -372,11 +372,11 @@ class PathBrowser(GenericDia):
     GenericDia.destroy(self)
     if self.ffilter:
       self.dialog.remove_filter(self.ffilter)
-      
+
   def set_current_folder(self, path):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_current_folder(path)
-  
+
   def set_select_multiple(self, multipleBool):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_select_multiple(multipleBool)
@@ -384,31 +384,31 @@ class PathBrowser(GenericDia):
   def set_do_overwrite_confirmation(self, overwriteBool):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_do_overwrite_confirmation(overwriteBool)
-    
+
   def set_action(self, action):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_action(action)
-  
+
   def set_title(self, title):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_title(title)
-  
+
   def get_filename(self):
     """Wrapper: See GTK+ help."""
     return self.dialog.get_filenames()
-  
+
   def get_filenames(self):
     """Wrapper: See GTK+ help."""
     return self.dialog.get_filenames()
-  
+
   def set_filename(self, filename):
     """Wrapper: See GTK+ help."""
     return self.dialog.set_filename(filename)
-  
+
   def add_filter(self, ffilter):
     """Wrapper: See GTK+ help."""
     return self.dialog.add_filter(ffilter)
-  
+
   def remove_filter(self, ffilter):
     """Wrapper: See GTK+ help."""
     return self.dialog.remove_filter(ffilter)
@@ -416,7 +416,7 @@ class PathBrowser(GenericDia):
 class PathDia(PathBrowser):
   """Wrapper for path selection dialog"""
   def __init__(self, dialog, title, parent, mode, ffilter=None, multiple=True):
-    """Inititalize. 
+    """Inititalize.
       mode: The gtk filebowser mode (open, save, file, etc)
       ffilter: File filter to use (see PathBrowser)
       multiple: Select multiple files or folders at once? Defaults to True
@@ -465,7 +465,7 @@ class InfoDia(GenericDia):
   def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
     GenericDia.__init__(self, dialog, '', parent)
-    
+
     labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
     labelWidget.set_use_markup(True)
     self.dontShowMe = dontShowMe
@@ -660,7 +660,7 @@ class PathView(View):
     except TypeError:
       self.statusbar.newmessage(_('Please select a path before choosing an action.'), 3)
       return
-  
+
   def clear(self):
     self.liststore.clear()
 
@@ -728,7 +728,7 @@ class ExportView(View):
     """Clears & reloads the view contents"""
     self._clear()
     self._load()
-    
+
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 class bugReport(GenericDia):
