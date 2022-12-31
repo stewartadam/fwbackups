@@ -21,13 +21,14 @@
 Classes used by the GUI, mostly to make callbacks easier
 """
 import codecs
-import gtk
-import gobject
 import logging
 import os
-import pango
 import re
 from xml.sax.saxutils import escape
+
+import gi
+gi.require_version('Gtk', '4.0')
+from gi.repository import Gtk
 
 from fwbackups.i18n import _
 from fwbackups.const import *
@@ -36,7 +37,7 @@ from fwbackups import config
 from fwbackups import fwlogger
 
 class TextViewConsole:
-  """Encapsulate a gtk.TextView"""
+  """Encapsulate a Gtk.TextView"""
   def __init__(self, textview, default_style=None, font=None, color=None):
     """Initialize, define styles"""
     self.textview = textview
@@ -44,13 +45,13 @@ class TextViewConsole:
     self.endMark = self.buffer.create_mark("End", self.buffer.get_end_iter(), False)
     self.startMark = self.buffer.create_mark("Start", self.buffer.get_start_iter(), False)
     #setup styles.
-    self.style_banner = gtk.TextTag("banner")
+    self.style_banner = Gtk.TextTag("banner")
     self.style_banner.set_property("foreground", "saddle brown")
     self.style_banner.set_property("family", "Monospace")
     self.style_banner.set_property("size_points", 8)
-    
-      
-    self.style_ps1 = gtk.TextTag("ps1")
+
+
+    self.style_ps1 = Gtk.TextTag("ps1")
     self.style_ps1.set_property("editable", False)
     if color:
       self.style_ps1.set_property("foreground", color)
@@ -62,18 +63,18 @@ class TextViewConsole:
       self.style_ps1.set_property("family", "Monospace")
       self.style_ps1.set_property("size_points", 8)
 
-    self.style_ps2 = gtk.TextTag("ps2")
+    self.style_ps2 = Gtk.TextTag("ps2")
     self.style_ps2.set_property("foreground", "DarkOliveGreen")
     self.style_ps2.set_property("editable", False)
     self.style_ps2.set_property("font", "Monospace")
 
-    self.style_out = gtk.TextTag("stdout")
+    self.style_out = Gtk.TextTag("stdout")
     self.style_out.set_property("foreground", "midnight blue")
     self.style_out.set_property("family", "Monospace")
     self.style_out.set_property("size_points", 8)
 
 
-    self.style_err = gtk.TextTag("stderr") 
+    self.style_err = Gtk.TextTag("stderr")
     #self.style_err.set_property("style", pango.STYLE_ITALIC)
     self.style_err.set_property("foreground", "red")
     if font:
@@ -82,7 +83,7 @@ class TextViewConsole:
       self.style_err.set_property("family", "Monospace")
       self.style_err.set_property("size_points", 8)
 
-    self.style_warn = gtk.TextTag("warn")
+    self.style_warn = Gtk.TextTag("warn")
     self.style_warn.set_property("foreground", "darkorange")
     if font:
       self.style_warn.set_property("font", font)
@@ -358,7 +359,7 @@ class PathBrowser(GenericDia):
   """
     GenericDia.__init__(self, dialog, title, parent)
     if ffilter:
-      self.ffilter = gtk.FileFilter()
+      self.ffilter = Gtk.FileFilter()
       for pattern in ffilter[:-1]:
         self.ffilter.add_pattern(pattern)
       self.ffilter.set_name(ffilter[-1])
@@ -429,7 +430,7 @@ class SaveDia(PathBrowser):
   def __init__(self, dialog, title, parent, ffilter=None):
     """Inititalize."""
     PathBrowser.__init__(self, dialog, title, parent, ffilter)
-    dialog.set_action(gtk.FILE_CHOOSER_ACTION_SAVE)
+    dialog.set_action(Gtk.FILE_CHOOSER_ACTION_SAVE)
     dialog.set_do_overwrite_confirmation(True)
     dialog.set_select_multiple(False)
 
@@ -516,10 +517,10 @@ class View:
   def _checkDestPerms(self, path, imgwidget):
     """Check perms on a path and set image accordingly"""
     if fwbackups.CheckPerms(path, mustExist=True):
-      imgwidget.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
+      imgwidget.set_from_stock(Gtk.STOCK_YES, Gtk.ICON_SIZE_BUTTON)
       return True
     else:
-      imgwidget.set_from_stock(gtk.STOCK_NO, gtk.ICON_SIZE_BUTTON)
+      imgwidget.set_from_stock(Gtk.STOCK_NO, Gtk.ICON_SIZE_BUTTON)
       return False
 
 class PathView(View):
@@ -532,27 +533,27 @@ class PathView(View):
     self.logger = fwlogger.getLogger()
 
     # Give it columns
-    cell = gtk.CellRendererPixbuf()
-    col = gtk.TreeViewColumn(_('Access'), cell, stock_id=0)
+    cell = Gtk.CellRendererPixbuf()
+    col = Gtk.TreeViewColumn(_('Access'), cell, stock_id=0)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
-    cell = gtk.CellRendererText()
+    cell = Gtk.CellRendererText()
     cell.set_property('ellipsize', pango.ELLIPSIZE_MIDDLE)
-    col = gtk.TreeViewColumn(_('Path'), cell, text=1)
+    col = Gtk.TreeViewColumn(_('Path'), cell, text=1)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
-    self.liststore = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
+    self.liststore = Gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
     self.treeview.set_model(self.liststore)
     self.treeview.set_reorderable(False)
-    self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+    self.treeview.get_selection().set_mode(Gtk.SELECTION_MULTIPLE)
 
     # Allow enable drag and drop of rows including row move
     #self.TARGETS = [('text/plain', 0, 1)]
-    #self.treeview.enable_model_drag_dest(self.TARGETS, gtk.gdk.ACTION_DEFAULT)
+    #self.treeview.enable_model_drag_dest(self.TARGETS, Gtk.gdk.ACTION_DEFAULT)
     target = [('text/uri-list', 0, 0)]
-    self.treeview.drag_dest_set(gtk.DEST_DEFAULT_ALL, target, gtk.gdk.ACTION_COPY)
+    self.treeview.drag_dest_set(Gtk.DEST_DEFAULT_ALL, target, Gtk.gdk.ACTION_COPY)
 
     def escape(uri):
       "Convert each space to %20, etc"
@@ -609,26 +610,26 @@ class PathView(View):
         self.add([os.path.normpath(i)], self._buildListstoreIndex(self.liststore, 1))
       context.finish(True, False, time)
 
-    self.treeview.connect('drag_data_received', drag_data_received)    
+    self.treeview.connect('drag_data_received', drag_data_received)
     # Just to keep things clean.
     self.clear()
-  
+
   def addFile(self):
     """Add a file to the pathview"""
     fileDialog = PathDia(self.ui.path_dia, _('Choose file(s)'),
-                     self.parent, gtk.FILE_CHOOSER_ACTION_OPEN,
+                     self.parent, Gtk.FILE_CHOOSER_ACTION_OPEN,
                      multiple=True)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
 
   def addFolder(self):
     """Add a folder to the pathview"""
-    fileDialog = PathDia(self.ui.path_dia, _('Choose folder(s)'), self.parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, multiple=True)
+    fileDialog = PathDia(self.ui.path_dia, _('Choose folder(s)'), self.parent, Gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, multiple=True)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
@@ -645,9 +646,9 @@ class PathView(View):
         # decode from UTF-8 and then re-encode with the filesystem encoding
         # before writing out the paths.
         if fwbackups.CheckPermsRead(i, mustExist=True):
-          self.liststore.append([gtk.STOCK_YES, i.encode('utf-8')])
+          self.liststore.append([Gtk.STOCK_YES, i.encode('utf-8')])
         else:
-          self.liststore.append([gtk.STOCK_NO, i.encode('utf-8')])
+          self.liststore.append([Gtk.STOCK_NO, i.encode('utf-8')])
 
   def removePath(self):
     """Remote a path from the pathview"""
@@ -667,9 +668,9 @@ class PathView(View):
     for path in config.getPaths():
       # Comment note above abote UTF-8 stored strings in the UI
       if fwbackups.CheckPermsRead(path, mustExist=True):
-        self.liststore.append([gtk.STOCK_YES, path.encode('utf-8')])
+        self.liststore.append([Gtk.STOCK_YES, path.encode('utf-8')])
       else:
-        self.liststore.append([gtk.STOCK_NO, path.encode('utf-8')])
+        self.liststore.append([Gtk.STOCK_NO, path.encode('utf-8')])
 
   def refresh(self, config):
     self.clear()
@@ -688,18 +689,18 @@ class ExportView(View):
     self.logger = fwlogger.getLogger()
     self.statusbar= statusbar
     self.ui = ui
-    self.liststore = gtk.ListStore(gobject.TYPE_BOOLEAN, gobject.TYPE_STRING)
+    self.liststore = Gtk.ListStore(gobject.TYPE_BOOLEAN, gobject.TYPE_STRING)
     # Give it columns
-    cell = gtk.CellRendererToggle()
+    cell = Gtk.CellRendererToggle()
     cell.connect('toggled', self._on_toggled, self.liststore)
     cell.set_property('activatable', True)
-    col = gtk.TreeViewColumn(_('Export'), cell, active=0)
+    col = Gtk.TreeViewColumn(_('Export'), cell, active=0)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
-    cell = gtk.CellRendererText()
+    cell = Gtk.CellRendererText()
     cell.set_property('ellipsize', pango.ELLIPSIZE_MIDDLE)
-    col = gtk.TreeViewColumn(_('Set'), cell, text=1)
+    col = Gtk.TreeViewColumn(_('Set'), cell, text=1)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
@@ -740,15 +741,15 @@ class bugReport(GenericDia):
 
 def saveFilename(parent):
   """Displays a filechooser (save) and returns the chosen filename"""
-  fileChooser = gtk.FileChooserDialog(title='Choose a destination',
+  fileChooser = Gtk.FileChooserDialog(title='Choose a destination',
                                       parent=parent,
-                                      action=gtk.FILE_CHOOSER_ACTION_SAVE,
-                                      buttons=(gtk.STOCK_CANCEL,
-                                                 gtk.RESPONSE_CANCEL,
-                                               gtk.STOCK_SAVE,
-                                                 gtk.RESPONSE_OK))
+                                      action=Gtk.FILE_CHOOSER_ACTION_SAVE,
+                                      buttons=(Gtk.STOCK_CANCEL,
+                                                 Gtk.RESPONSE_CANCEL,
+                                               Gtk.STOCK_SAVE,
+                                                 Gtk.RESPONSE_OK))
   fileChooser.set_do_overwrite_confirmation(True)
-  if fileChooser.run() in [gtk.RESPONSE_CANCEL, gtk.RESPONSE_DELETE_EVENT]:
+  if fileChooser.run() in [Gtk.RESPONSE_CANCEL, Gtk.RESPONSE_DELETE_EVENT]:
     filename = None
   else:
     filename = fileChooser.get_filename()

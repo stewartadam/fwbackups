@@ -20,13 +20,14 @@
 """
 Puts it all together.
 """
+import paramiko
 import os
 import re
 import sys
 import time
 
 import gi
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
 from fwbackups.const import *
@@ -64,18 +65,13 @@ def reportBug(etype=None, evalue=None, tb=None):
   print('%s: %s' % (etype, evalue))
 
 sys.excepthook = reportBug
-# This causes hangs on exit in OS X
-#gobject.threads_init()
-try:
-  import paramiko
-except:
-  raise fwbackups.fwbackupsError(_('Please install paramiko (python-paramiko)'))
 
 from fwbackups import fwlogger
 from fwbackups import config
 from fwbackups import cron
 from fwbackups import shutil_modded
 from fwbackups.operations import *
+
 
 def busyCursor(mainwin,insensitive=False):
   """Set busy cursor in mainwin and make it insensitive if selected"""
@@ -358,17 +354,6 @@ class fwbackupsApp(interface.Controller):
     # Welcome...
     self.operationInProgress = False
     self.logger.logmsg('INFO', _('fwbackups administrator started'))
-    if DARWIN:
-      try:
-        import gtkosx_application
-        macapp = gtkosx_application.Application()
-
-        # Use OS X native menubar
-        macapp.set_menu_bar(self.ui.menubar1)
-        self.ui.menubar1.hide()
-        macapp.ready()
-      except ImportError:
-        pass
 
     # only if both are true, ie both say open normally
     if not prefs.getboolean('Preferences', 'StartMinimized') and not minimized:
@@ -1024,7 +1009,7 @@ class fwbackupsApp(interface.Controller):
       prefs.set('Preferences', 'ShowNotifications', 0)
       self.ui.display_notifications1.set_active(False)
 
-  def on_preferencesSessionStartupCheck_clicked(self, widget):
+  def on_preferencesSessionStartupCheck_toggled(self, widget):
     """Start fwbackups when we login"""
     if self.ui.preferencesSessionStartupCheck.get_active(): #add
       if MSWINDOWS:
@@ -1081,7 +1066,7 @@ class fwbackupsApp(interface.Controller):
     fileDialog.destroy()
 
 
-  def on_preferencesCustomizeTempDirCheck_clicked(self, widget):
+  def on_preferencesCustomizeTempDirCheck_toggled(self, widget):
     active = self.ui.preferencesCustomizeTempDirCheck.get_active()
     self.ui.preferencesCustomizeTempDirEntry.set_sensitive(active)
     self.ui.preferencesCustomizeTempDirBrowseButton.set_sensitive(active)

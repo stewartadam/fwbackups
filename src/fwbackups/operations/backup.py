@@ -18,12 +18,11 @@
 """
 This file contains the logic for the backup operation
 """
-import exceptions
 import os
 import re
 import tempfile
 import time
-#--
+
 import fwbackups
 from fwbackups.i18n import _, encode, normalize
 from fwbackups.const import *
@@ -420,7 +419,7 @@ class BackupOperation(operations.Common):
       self._status = STATUS_SENDING_TO_REMOTE
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
       try:
-        sftp.putFile(sftpClient, self.dest, self.options['RemoteFolder'])
+        sftp.put(sftpClient, self.dest, self.options['RemoteFolder'])
         os.remove(self.dest)
       except:
         import sys
@@ -717,7 +716,7 @@ class SetBackupOperation(BackupOperation):
         except:
           pass
     # Exception handlers in FuncAsThread() must return retval same values
-    except exceptions.SystemExit:
+    except SystemExit:
       # cancelled; the only time we skip the after command
       return -2
     except:

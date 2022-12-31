@@ -26,14 +26,13 @@ import os
 import stat
 from os.path import abspath
 import sys
-import exceptions
 from fwbackups.i18n import _
 
 __all__ = ["copyfileobj", "copyfile", "copymode", "copystat", "copy", "copy2",
            "copytree", "move", "rmtree", "Error"]
 
 
-class Error(exceptions.EnvironmentError):
+class Error(EnvironmentError):
   pass
 
 def copyfileobj(fsrc, fdst, length=16*1024):
