@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<interface>
+  <requires lib="gtk" version="4.0" />
+  <object class="GtkTextBuffer" id="textbuffer1">
+    <property name="text">Traceback Here</property>
+  </object>
+  <object class="GtkDialog" id="bugreport">
+    <property name="visible">1</property>
+    <property name="title" translatable="1">Bug Report</property>
+    <property name="modal">1</property>
+    <property name="resizable">0</property>
+    <property name="icon_name">gtk-dialog-error</property>
+    <child internal-child="content_area">
+      <object class="GtkBox" id="dialog-vbox2">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkBox" id="hbox165">
+            <property name="vexpand">1</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkImage" id="image543">
+                <property name="hexpand">1</property>
+                <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
+                <property name="icon_name">gtk-dialog-error</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="vbox1">
+                <property name="hexpand">1</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <child>
+                  <object class="GtkLabel" id="label682">
+                    <property name="valign">center</property>
+                    <property name="label" translatable="1">&lt;span size="larger" weight="bold"&gt;Sorry!&lt;/span&gt;</property>
+                    <property name="use_markup">1</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label680">
+                    <property name="valign">center</property>
+                    <property name="width_request">475</property>
+                    <property name="label" translatable="1">fwbackups has run into an unexpected error. You may continue using the program, however it is recommended you quit and open fwbackups again.</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkExpander" id="expander1">
+                    <property name="vexpand">1</property>
+                    <property name="focusable">1</property>
+                    <child>
+                      <object class="GtkScrolledWindow" id="scrolledwindow22">
+                        <property name="focusable">1</property>
+                        <property name="vscrollbar_policy">always</property>
+                        <property name="child">
+                          <object class="GtkTextView" id="bugreportTextview">
+                            <property name="focusable">1</property>
+                            <property name="editable">0</property>
+                            <property name="left_margin">4</property>
+                            <property name="right_margin">4</property>
+                            <property name="buffer">textbuffer1</property>
+                          </object>
+                        </property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="margin_top">0</property>
+                        <property name="margin_bottom">0</property>
+                        <property name="margin_start">22</property>
+                        <property name="margin_end">0</property>
+                        <property name="hexpand">false</property>
+                        <property name="vexpand">false</property>
+                        <property name="has_frame">true</property>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label681">
+                        <property name="label" translatable="1">_Details</property>
+                        <property name="use_underline">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-5">button3</action-widget>
+      <action-widget response="-8">button4</action-widget>
+      <action-widget response="-7">button5</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkBox" id="dialog-action_area2">
+        <property name="visible">True</property>
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+        <child>
+          <object class="GtkButton" id="button3">
+            <property name="receives_default">True</property>
+            <property name="focusable">1</property>
+            <child>
+              <object class="GtkBox" id="hbox164">
+                <property name="spacing">2</property>
+                <child>
+                  <object class="GtkImage" id="image542">
+                    <property name="halign">center</property>
+                    <property name="icon_name">save-as</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label435">
+                    <property name="halign">center</property>
+                    <property name="label">_Save Report</property>
+                    <property name="use_underline">1</property>
+                  </object>
+                </child>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin_top">0</property>
+                <property name="margin_bottom">0</property>
+                <property name="margin_start">0</property>
+                <property name="margin_end">0</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="button4">
+            <property name="receives_default">True</property>
+            <property name="focusable">1</property>
+            <property name="label">_Continue</property>
+            <property name="use_underline">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="button5">
+            <property name="receives_default">True</property>
+            <property name="focusable">1</property>
+            <property name="label">_Quit</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

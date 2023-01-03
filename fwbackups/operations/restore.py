@@ -18,6 +18,7 @@
 """
 This file contains the logic for the restore operation
 """
+import base64
 import os
 import tarfile
 import time
@@ -54,7 +55,7 @@ class RestoreOperation(operations.Common):
       options['RemotePort'] = 22
     else:
       options['RemotePort'] = int(options['RemotePort'])
-    options['RemotePassword'] = options['RemotePassword'].decode('base64')
+    options['RemotePassword'] = base64.b64decode(options['RemotePassword'])
     return options
 
   def tarfile_generator(self, members):
@@ -159,11 +160,11 @@ class RestoreOperation(operations.Common):
         if not self.prepareDestinationFolder(self.options['Destination']):
           return False
         shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
-      
+
       # Clean up transfered files from remote server
       if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):
         os.remove(encode(self.options['Source']))
-      
+
     except:
       self.logger.logmsg('ERROR', 'Error(s) occurred while restoring certain files or folders.\nPlease check the traceback below to determine if any files are incomplete or missing.')
       import sys

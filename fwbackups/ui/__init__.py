@@ -1,71 +1,25 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-#  Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2015, 2023 Stewart Adam
-#  Parts Copyright (C) Thomas Leonard (from ROX-lib2)
-#  This file is part of fwbackups.
-
-#  fwbackups is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-
-#  fwbackups is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-
-#  You should have received a copy of the GNU General Public License
-#  along with fwbackups; if not, write to the Free Software
-#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-"""
-Puts it all together.
-"""
+import base64
+import gi
 import paramiko
 import os
 import re
 import sys
 import time
 
-import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk
+from gi.repository import Gtk  # noqa: E402
+from gi.repository import Gdk  # noqa: E402
+from gi.repository import GLib  # noqa: E402
+from gi.repository import Gio  # noqa: E402
+from gi.repository import GdkPixbuf  # noqa: E402
+
+from . import loader
 
 from fwbackups.const import *
-from fwbackups.i18n import _, encode
+from fwbackups.i18n import _
 
 import fwbackups
-from fwbackups import interface
 from fwbackups import widgets
-
-def reportBug(etype=None, evalue=None, tb=None):
-  """Report a bug dialog"""
-  import traceback
-  c = interface.Controller(os.path.join(INSTALL_DIR, 'BugReport.glade'), 'bugreport')
-  if not etype and not evalue and not tb:
-    (etype, evalue, tb) = sys.exc_info()
-  tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
-  reportWindow = widgets.bugReport(c.ui.bugreport, c.ui.bugreportTextview, None, tracebackText)
-  response = reportWindow.runAndDestroy()
-  if response == gtk.RESPONSE_OK:
-    filename = widgets.saveFilename(c.ui.bugreport)
-    if not filename:
-      sys.exit(1)
-    if fwbackups.CheckPerms(filename):
-      import datetime
-      fh = open(filename, 'w')
-      fh.write(_('fwbackups bug report written saved at %s') % datetime.datetime.today().strftime('%I:%M %p on %Y-%m-%d\n'))
-      fh.write(tracebackText)
-      fh.close()
-      sys.exit(1)
-    else:
-      print(_('Could not write bug report due to insufficient permissions.'))
-      sys.exit(1)
-  elif response == gtk.RESPONSE_CLOSE:
-    sys.exit(1)
-  print('%s: %s' % (etype, evalue))
-
-sys.excepthook = reportBug
-
 from fwbackups import fwlogger
 from fwbackups import config
 from fwbackups import cron
@@ -73,9 +27,10 @@ from fwbackups import shutil_modded
 from fwbackups.operations import *
 
 
+
 def busyCursor(mainwin,insensitive=False):
   """Set busy cursor in mainwin and make it insensitive if selected"""
-  mainwin.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
+  mainwin.window.set_cursor(Gtk.gdk.Cursor(Gtk.gdk.WATCH))
   if insensitive:
     mainwin.set_sensitive(False)
   doGtkEvents()
@@ -88,9 +43,9 @@ def normalCursor(mainwin):
 
 def doGtkEvents():
   """Process gtk events"""
-  while gtk.events_pending():
-    gtk.main_iteration()
-  time.sleep(0.01)
+  context = GLib.MainContext.default()
+  while GLib.MainContext.pending(context):
+    GLib.MainContext.iteration(context)
 
 def getSelectedItems(widget):
   """Get selected items from icon/tree view"""
@@ -106,13 +61,57 @@ def set_text_markup(widget, text):
   widget.set_text(text)
   widget.set_use_markup(True)
 
-class fwbackupsApp(interface.Controller):
-  """The class which contains the interface callbacks"""
-  def __init__(self, verbose=0, minimized=False):
-    """Initialize a new instance."""
-    interface.Controller.__init__(self, os.path.join(INSTALL_DIR, 'fwbackups.glade'), 'main')
-    self.verbose = verbose
-    self.runSetup(minimized=minimized)
+class fwbackupsApp(Gtk.Application):
+  """
+  Initialize a new instance.
+  """
+  def __init__(self):
+    super().__init__(application_id='com.diffingo.fwbackups', flags=Gio.ApplicationFlags.FLAGS_NONE)
+    self.ui = loader.UILoader(os.path.join('fwbackups/ui/gtk/fwbackups.ui'), self)
+    GLib.set_application_name(_("fwbackups"))
+    GLib.set_prgname("fwbackups")
+    self.verbose = False  # FIXME
+
+  def do_startup(self):
+    Gtk.Application.do_startup(self)
+    # FIXME /com/diffingo/fwbackups/gtk/menus.ui with widget name 'menubar' (instead of 'mainmenu')
+    self.set_menubar(self.ui.mainmenu)
+
+    accel_map = {
+      "new_set1": "<Primary>n",
+      "quit1": "<Control>q",
+      "edit_set1": "<Control>e",
+      "remove_set1": "<Control>d",
+      "duplicate_set1": "<Control><Shift>d",
+      "preferences1": "<Control>comma",
+      "overview1": "<Alt><Shift>1",
+      "backup_sets1": "<Alt><Shift>2",
+      "one_time_backup1": "<Alt><Shift>3",
+      "log1": "<Alt><Shift>4",
+      "restore1": "<Alt><Shift>5",
+    }
+
+    scope = "app"
+    for action_name, accel in accel_map.items():
+      action = Gio.SimpleAction.new(name=action_name)
+      handler_name = f"on_{action_name}_activate"
+      handler = getattr(self, handler_name, None)
+      self.set_accels_for_action(f"{scope}.{action_name}", [accel])
+      if handler is not None:
+        action.connect("activate", getattr(self, handler_name))
+      else:
+        print(f"skipping connect for signal with missing handler {handler_name}") # FIXME logging
+      self.add_action(action)
+
+  def do_activate(self):
+    win = self.props.active_window
+    if not win:
+      win = self.ui.main
+      win.set_application(self)
+    self.runSetup()
+
+  def do_shutdown(self):
+    Gtk.Application.do_shutdown(self)
 
   def _setDefaults(self):
     """Setup default values"""
@@ -121,8 +120,23 @@ class fwbackupsApp(interface.Controller):
       self.ui.backupset4DiskInfoToFileCheck.set_sensitive(False)
       self.ui.main3DiskInfoToFileCheck.set_active(False)
       self.ui.main3DiskInfoToFileCheck.set_sensitive(False)
-      self.ui.backupset5NiceScale.get_adjustment().set_all(0, 0, 19, 1, 5, 0)
-      self.ui.main3NiceScale.get_adjustment().set_all(0, 0, 19, 1, 5, 0)
+
+      adjustment = self.ui.backupset5NiceScale.get_adjustment()
+      adjustment.set_value(0)
+      adjustment.set_lower(0)
+      adjustment.set_upper(19)
+      adjustment.set_step_increment(1)
+      adjustment.set_page_increment(5)
+      adjustment.set_page_size(0)
+
+      adjustment = self.ui.main3NiceScale.get_adjustment()
+      adjustment.set_value(0)
+      adjustment.set_lower(0)
+      adjustment.set_upper(19)
+      adjustment.set_step_increment(1)
+      adjustment.set_page_increment(5)
+      adjustment.set_page_size(0)
+
     if MSWINDOWS:
       self.ui.preferencesWindowsFrame.set_sensitive(True)
       self.ui.backupset5NiceScale.set_value(0.0)
@@ -183,7 +197,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2DestinationTypeCombobox.set_active(0)
     self.ui.backupset2HidePasswordCheck.set_active(True)
     self.ui.main3HidePasswordCheck.set_active(True)
-    self.ui.WelcomeLabel.set_text(_('%s'  % USER))
+    self.ui.WelcomeLabel.set_markup(_('<b>Welcome</b>, %s') % USER)
     # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
     # Default Labels...
     set_text_markup(self.ui.aboutVersionLabel, '<span size="xx-large" weight="bold">fwbackups %s</span>' % fwbackups.__version__)
@@ -207,18 +221,8 @@ class fwbackupsApp(interface.Controller):
     if hasattr(self, 'trayicon'):
       self.trayicon.set_tooltip('fwbackups - %s' % textOnly)
 
-  def updateSplash(self, fraction, text):
-    """Update the splash screen"""
-    self.ui.splashProgress.set_fraction(float(fraction))
-    percent = int(fraction * 100.0)
-    #self.ui.splashProgress.set_text('%s%% complete: %s' % (percent, text))
-    set_text_markup(self.ui.label444, _('<span size="small">%s%% complete: %s</span>' % (percent, text)))
-    while gtk.events_pending():
-      gtk.main_iteration()
-    time.sleep(0.1)
-
   def runSetup(self, widget=None, event=None, minimized=False):
-    """Runs when splash is shown"""
+    """Runs when main window is to be shown"""
     # let's pretend we're doing something so we can't quit as we start
     self.operationInProgress = True
     # transient windows
@@ -231,11 +235,8 @@ class fwbackupsApp(interface.Controller):
     else:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
-      self.ui.splashIconImage.set_from_file(appIcon)
       self.ui.aboutProgramImage.set_from_file(appIcon)
-    self.updateSplash(0.0, _('Checking permissions'))
-    self.ui.splash.show()
-    doGtkEvents()
+
     # Step 1: Setup the configuration directory
     try:
       config._setupConf()
@@ -244,14 +245,14 @@ class fwbackupsApp(interface.Controller):
                        _("Could not setup the fwbackups configuration folder"),
                        _("The following error occured: %s" % error))
       sys.exit(1)
+
     # Step 2: Setup the logger
-    self.updateSplash(0.2, _('Setting up the logger and user preferences'))
     try:
       prefs = config.PrefsConf(create=True)
     except config.ValidationError as error:
       print(_("Validation error: %s") % error)
       response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
-      if response == gtk.RESPONSE_YES:
+      if response == Gtk.RESPONSE_YES:
         # check if file already exists
         prefsBack = '%s.bak' % PREFSLOC
         if os.path.isfile(prefsBack):
@@ -275,7 +276,6 @@ class fwbackupsApp(interface.Controller):
       self.logger.setLevel(level)
       self.logger.connect(self.updateLogViewer)
       # Log size...
-      self.updateSplash(0.4, _('Populating the log viewer'))
       self._checkLogSize()
       self.logconsole = widgets.TextViewConsole(self.ui.LogViewerTextview)
     except Exception as error:
@@ -298,12 +298,12 @@ class fwbackupsApp(interface.Controller):
     else:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
-      gtk.window_set_default_icon_from_file(appIcon)
-    self.updateSplash(0.6, 'Loading widgets')
+      Gtk.window_set_default_icon_from_file(appIcon)
     self.statusbar = widgets.StatusBar(self.ui.statusbar1)
     self.ExportView1 = widgets.ExportView(self.ui.ExportTreeview, self.statusbar, self.ui)
+    self.ui.restore1SetNameCombobox.set_model(Gtk.ListStore(str))
     # Tray icon - check for PyGTK 2.10+
-    if not hasattr(gtk, 'StatusIcon'):
+    if not hasattr(Gtk, 'StatusIcon'):
       prefs.set('Preferences', 'ShowTrayIcon', 0)
       prefs.set('Preferences', 'MinimizeTrayClose', 0)
       prefs.set('Preferences', 'StartMinimized', 0)
@@ -319,7 +319,6 @@ class fwbackupsApp(interface.Controller):
         self._setupTrayIcon()
         self.trayicon.set_visible(True)
     self._setDefaults()
-    self.updateSplash(0.8, _('Cleaning after previous versions'))
     # Clean up, clean up, everybody do your share...
     if os.path.exists('/etc/crontab') and fwbackups.CheckPermsRead('/etc/crontab'):
       fh = open('/etc/crontab', 'r')
@@ -344,13 +343,12 @@ class fwbackupsApp(interface.Controller):
             fh = open('/etc/crontab', 'w')
             fh.write(newcrontab)
         except Exception as error:
-          shutil.copy("/etc/crontab.fwbk", "/etc/crontab")
+          shutil_modded.copy("/etc/crontab.fwbk", "/etc/crontab")
           os.remove("/etc/crontab.fwbk")
           message = _("fwbackups was unable to clean up the system crontab: %s. You may wish to edit /etc/crontab manually and remove any fwbackups-related lines.") % error
           self.displayInfo(self.ui.main, _("Cleanup of the system crontab failed"), message)
           self.logger.logmsg('ERROR', message)
-    self.updateSplash(1, _('Ready!'))
-    time.sleep(0.5)
+
     # Welcome...
     self.operationInProgress = False
     self.logger.logmsg('INFO', _('fwbackups administrator started'))
@@ -358,7 +356,6 @@ class fwbackupsApp(interface.Controller):
     # only if both are true, ie both say open normally
     if not prefs.getboolean('Preferences', 'StartMinimized') and not minimized:
       self.ui.main.show()
-    self.ui.splash.hide()
 
   def _checkLogSize(self):
     """Check the log size, clear if needed"""
@@ -367,7 +364,7 @@ class fwbackupsApp(interface.Controller):
       #1048576B is 1MB.
       size = '%s KB' % (statsize / 1024)
       response = self.displayConfirm(self.ui.splash, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
-      if response == gtk.RESPONSE_YES:
+      if response == Gtk.RESPONSE_YES:
         logfh = open(LOGLOC, 'w')
         logfh.write('')
         logfh.close()
@@ -380,10 +377,12 @@ class fwbackupsApp(interface.Controller):
     else:
       appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
     if os.path.exists(appIcon):
-      pix = gtk.gdk.pixbuf_new_from_file(appIcon)
-      self.trayicon = gtk.status_icon_new_from_pixbuf(pix)
+      pix = Gdk.Texture.new_for_pixbuf(appIcon)
+      self.trayicon = Gdk.Texture.new_from_file(pix)
     else:
-      self.trayicon = gtk.status_icon_new_from_stock(gtk.STOCK_COPY)
+      display = Gdk.Display.get_default()
+      icon_theme = Gtk.IconTheme.get_for_display(display)
+      self.trayicon = icon_theme.lookup_icon("edit-copy", None, 24, 1, Gtk.TextDirection.NONE, Gtk.IconLookupFlags.FORCE_SYMBOLIC)
     self.trayicon.connect("popup_menu", self._Popup)
     self.trayicon.connect("activate", self._clicked)
     # now set the status of the checkmarks...
@@ -504,13 +503,13 @@ class fwbackupsApp(interface.Controller):
     #  pass
     # -1 == pynotify.EXPIRES_DEFAULT
     # 0 == pynotify.EXPIRES_NEVER
-    if not self.NOTIFY_AVAIL:
+    if True and not self.NOTIFY_AVAIL: # FIXME
       return
     try:
       import pynotify
       notify = pynotify.Notification(summary, body)
       # icon
-      pix = self.ui.main.render_icon(gtk.STOCK_COPY, gtk.ICON_SIZE_DIALOG)
+      pix = Gtk.Widget.render_icon_pixbuf(gtk.STOCK_COPY, gtk.ICON_SIZE_DIALOG)
       notify.set_icon_from_pixbuf(pix)
       # location
       if hasattr(self, 'trayicon'):
@@ -528,27 +527,28 @@ class fwbackupsApp(interface.Controller):
 
   def _toggleLocked(self, bool, keepSensitive=[]):
     """Toggle locking in the UI"""
-    for widget in   [self.ui.BackupSetsRadioTool, self.ui.backup_sets1,
-                     self.ui.OneTimeRadioTool, self.ui.one_time_backup1,
-                     self.ui.RestoreToolButton, self.ui.restore1,
+    for widget in   [self.ui.BackupSetsRadioTool,
+                     self.ui.OneTimeRadioTool,
+                     self.ui.RestoreToolButton,
                      self.ui.backupset, self.ui.restore,
                      self.ui.main2VButtonBox, self.ui.main3VButtonBox,
                      self.ui.main2Iconview,
-                     self.ui.new_set1,
-                     self.ui.import_sets1,
-                     self.ui.export_sets1]:
+                    #  self.ui.new_set1,
+                    #  self.ui.import_sets1,
+                    #  self.ui.export_sets1 FIXME
+                    ]:
       widget.set_sensitive(not bool)
     for widget in keepSensitive:
       widget.set_sensitive(True)
-    for widget in [self.ui.edit_set1,
-                   self.ui.duplicate_set1,
-                   self.ui.remove_set1]:
-      widget.set_sensitive(False)
+    # for widget in [self.ui.edit_set1, FIXME
+    #                self.ui.duplicate_set1,
+    #                self.ui.remove_set1]:
+    #   widget.set_sensitive(False)
 
   def help(self):
     """Open the online user manual"""
     import webbrowser
-    webbrowser.open_new('http://downloads.diffingo.com/fwbackups/docs/%s-html' % fwbackups.__version__)
+    webbrowser.open_new('http://downloads.diffingo.com/fwbackups/docs/%s-html/' % fwbackups.__version__)
 
   def hide(self, widget, event=None):
     """Wrapper for closing a window non-destructively"""
@@ -622,7 +622,7 @@ class fwbackupsApp(interface.Controller):
       response = self.displayConfirm(self.ui.main,
                                      _("fwbackups is working"),
                                      _("An operation is currently in progress. Would you like to cancel it and quit anyways?"))
-      if response == gtk.RESPONSE_YES:
+      if response == Gtk.RESPONSE_YES:
         self.statusbar.newmessage(_('Please wait... Canceling operations'), 10)
         try:
           self.backupHandle.cancelOperation()
@@ -632,7 +632,7 @@ class fwbackupsApp(interface.Controller):
           except:
             pass
       else:
-        return True
+        return
     # This will attempt to kill any dead Paramiko threads
     import threading
     if len(threading.enumerate()) > 1:
@@ -658,11 +658,7 @@ class fwbackupsApp(interface.Controller):
     # Shutdown logging & quit the GTK mainloop
     self.logger.logmsg('INFO', _('fwbackups administrator closed'))
     fwlogger.shutdown()
-    try:
-      gtk.main_quit()
-    except RuntimeError as msg:
-      pass
-    return False # we want it to kill the window
+    self.ui.main.destroy()
 
 
   # FIXME: When this is run for restore, we should check for write permissions.
@@ -700,18 +696,18 @@ class fwbackupsApp(interface.Controller):
   ###
 
   ### FILE MENU
-  def on_new_set1_activate(self, widget):
+  def on_new_set1_activate(self, widget, _): # FIXME
     """New Set entry in menu"""
     self.on_main2NewSetButton_clicked(widget)
 
-  def on_import_sets1_activate(self, widget):
+  def on_import_sets1_activate(self, widget): # FIXME
     """Import Set entry in menu"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select file(s)'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
+                                 Gtk.FileChooserAction.OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
-      oldSetPaths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
+    if response == Gtk.RESPONSE_OK:
+      oldSetPaths = [path for path in fileDialog.get_filenames()]
       for oldSetPath in oldSetPaths:
         # Attempt to use the original set name
         oldSetName = os.path.basename(os.path.splitext(oldSetPath)[0])
@@ -770,7 +766,7 @@ class fwbackupsApp(interface.Controller):
       if os.path.exists(destSetPath):
         response = self.displayConfirm(self.ui.export_dia, _("File Exists"),
                                     _("'%s.conf' already exists! Would you like to overwrite it?") % setName)
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.RESPONSE_OK:
           os.remove(destSetPath)
         else:
           return
@@ -785,32 +781,32 @@ class fwbackupsApp(interface.Controller):
     response = exportDialog.run()
     runLoop = True
     while runLoop:
-      if response == gtk.RESPONSE_HELP:
+      if response == Gtk.RESPONSE_HELP:
         self.help()
-      elif response == gtk.RESPONSE_OK:
+      elif response == Gtk.RESPONSE_OK:
         destination = self.ui.ExportFileChooserButton.get_filename()
         self.ExportView1.liststore.foreach(self._exportSet, destination)
         self.displayInfo(self.ui.export_dia, _('Sets exported'), _('The selected sets were exported successfully.'))
         break
-      elif response == gtk.RESPONSE_CANCEL or response == gtk.RESPONSE_DELETE_EVENT:
+      elif response == Gtk.RESPONSE_CANCEL or response == Gtk.RESPONSE_DELETE_EVENT:
         break
       response = exportDialog.run()
     exportDialog.destroy()
 
-  def on_quit1_activate(self, widget):
+  def on_quit1_activate(self, widget, user_data):
     """Quit entry in menu"""
     return self.main_close(widget)
 
   ### EDIT MENU
-  def on_edit_set1_activate(self, widget):
+  def on_edit_set1_activate(self, widget, user_data):
     """Edit Set entry in menu"""
     self.on_main2EditSetButton_clicked(None)
 
-  def on_remove_set1_activate(self, widget):
+  def on_remove_set1_activate(self, widget, user_data):
     """Remove Set entry in menu"""
     self.on_main2RemoveSetButton_clicked(None)
 
-  def on_duplicate_set1_activate(self, widget):
+  def on_duplicate_set1_activate(self, widget, user_data):
     """Duplicate Set entry in menu"""
     try:
       selected = getSelectedItems(self.ui.main2Iconview)[0]
@@ -890,9 +886,6 @@ class fwbackupsApp(interface.Controller):
     """Show restore window"""
     self.on_RestoreToolButton_clicked(widget)
 
-  """It's the same thing over and over so I'll explain here.
-    There are the toolbar button callbacks to switch to the various tabs.
- """
   def on_OverviewRadioTool_clicked(self, widget):
     self.ui.mainControlNotebook.set_current_page(0)
   def on_BackupSetsRadioTool_clicked(self, widget):
@@ -952,11 +945,6 @@ class fwbackupsApp(interface.Controller):
     """Help > Help"""
     self.help()
 
-  def on_check_for_updates1_activate(self, widget):
-    """Help > Check for Updates"""
-    import webbrowser
-    webbrowser.open_new("http://www.diffingo.com/update.php?product=fwbackups&version=%s" % fwbackups.__version__)
-
 
   ###
   ### PREFERENCES ###
@@ -972,7 +960,8 @@ class fwbackupsApp(interface.Controller):
       if hasattr(self, 'trayicon'):
         self.trayicon.set_visible(True)
       else:
-        self._setupTrayIcon()
+        #self._setupTrayIcon() FIXME
+        pass
     else:
       prefs.set('Preferences', 'ShowTrayIcon', 0)
       if hasattr(self, 'trayicon'):
@@ -1057,10 +1046,10 @@ class fwbackupsApp(interface.Controller):
     """Open the file browser"""
     prefs = config.PrefsConf()
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       pycronInstallDir = fileDialog.get_filenames()[0]
       self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
     fileDialog.destroy()
@@ -1077,10 +1066,10 @@ class fwbackupsApp(interface.Controller):
     """Open the file browser"""
     prefs = config.PrefsConf()
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       tempDir = fileDialog.get_filenames()[0]
       self.ui.preferencesCustomizeTempDirEntry.set_text(tempDir)
     fileDialog.destroy()
@@ -1089,11 +1078,11 @@ class fwbackupsApp(interface.Controller):
     """Close the preferences window"""
     prefs = config.PrefsConf()
 
-    tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text().decode('utf-8')
+    tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text()
     prefs.set('Preferences', 'TempDir', tempDir)
 
     if MSWINDOWS:
-      pycronLoc = self.ui.preferencesPycronEntry.get_text().decode('utf-8')
+      pycronLoc = self.ui.preferencesPycronEntry.get_text()
       if not pycronLoc:
         self.displayInfo(self.ui.preferences,
                               _('Missing information'),
@@ -1135,7 +1124,7 @@ class fwbackupsApp(interface.Controller):
   def on_backupset2LocalFolderEntry_changed(self, widget):
     """Called when the set destination entry changes.
         Check the permissions when the set destination change."""
-    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.backupset2FolderPermissionImage)
+    self._checkDestPerms(widget.get_text(), self.ui.backupset2FolderPermissionImage)
 
   def on_backupset2HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
@@ -1178,10 +1167,10 @@ class fwbackupsApp(interface.Controller):
   def on_backupset2FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.backupset,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.backupset2LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1192,7 +1181,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.backupset2UsernameEntry.get_text()
     password = self.ui.backupset2PasswordEntry.get_text()
     port = self.ui.backupset2PortSpin.get_value_as_int()
-    folder = self.ui.backupset2RemoteFolderEntry.get_text().decode('utf-8')
+    folder = self.ui.backupset2RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
       self.displayInfo(self.ui.backupset, _("Missing information"), _("Please complete the host, username, folder and port fields."))
       return False
@@ -1301,7 +1290,7 @@ class fwbackupsApp(interface.Controller):
     setConf = config.BackupSetConf(tempConfPath, True)
     self.restoreSetSettingsToUI(setConf)
     self.action = 'editingSet;temporary_config'
-    self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, self.ui.backupset])
+    self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backupset])
     self.ui.backupset.show()
     self.ui.backupset1NameEntry.set_text('')
 
@@ -1317,7 +1306,7 @@ class fwbackupsApp(interface.Controller):
       self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to edit.'))
       return
     self.action = 'editingSet;%s' % setName
-    self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1, self.ui.backupset])
+    self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backupset])
     self.ui.backupset.show()
     setConf = config.BackupSetConf(setPath)
     self.restoreSetSettingsToUI(setConf)
@@ -1335,9 +1324,9 @@ class fwbackupsApp(interface.Controller):
       self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to remove.'))
       return
     response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files."))
-    if response == gtk.RESPONSE_NO:
+    if response == Gtk.RESPONSE_NO:
       return
-    elif response == gtk.RESPONSE_YES:
+    elif response == Gtk.RESPONSE_YES:
       setConf = config.BackupSetConf(setPath)
       try:
         os.remove(setPath)
@@ -1368,18 +1357,19 @@ class fwbackupsApp(interface.Controller):
       self.displayInfo(self.ui.main, _("Unexpected error"), _("An unexpected error occured while attempting to obtain the selected set:\n%s" % error))
       self.main2IconviewRefresh()
       selected = False
-    if selected == False or len(selected) <= 0:
-      self.ui.edit_set1.set_sensitive(False)
-      self.ui.remove_set1.set_sensitive(False)
-      self.ui.duplicate_set1.set_sensitive(False)
-    elif selected:
-      self.ui.edit_set1.set_sensitive(True)
-      self.ui.remove_set1.set_sensitive(True)
-      self.ui.duplicate_set1.set_sensitive(True)
-    else:
-      self.ui.edit_set1.set_sensitive(False)
-      self.ui.remove_set1.set_sensitive(False)
-      self.ui.duplicate_set1.set_sensitive(False)
+    # FIXME
+    # if selected == False or len(selected) <= 0:
+    #   self.ui.edit_set1.set_sensitive(False)
+    #   self.ui.remove_set1.set_sensitive(False)
+    #   self.ui.duplicate_set1.set_sensitive(False)
+    # elif selected:
+    #   self.ui.edit_set1.set_sensitive(True)
+    #   self.ui.remove_set1.set_sensitive(True)
+    #   self.ui.duplicate_set1.set_sensitive(True)
+    # else:
+    #   self.ui.edit_set1.set_sensitive(False)
+    #   self.ui.remove_set1.set_sensitive(False)
+    #   self.ui.duplicate_set1.set_sensitive(False)
 
   def on_main2BackupSetNowButton_clicked(self, widget):
     """Backup now button in main"""
@@ -1390,8 +1380,8 @@ class fwbackupsApp(interface.Controller):
     self.operationInProgress = False
     self.main2BackupProgress.set_fraction(0.0)
     self._toggleLocked(False)
-    for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
-      widget.set_sensitive(True)
+    # for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
+    #   widget.set_sensitive(True) FIXME
     self.main2BackupProgress.set_text(_('Click \'Backup Set Now\' to begin'))
     self.setStatus(_('Idle'))
     self.ui.main2FinishBackupButton.hide()
@@ -1529,15 +1519,15 @@ class fwbackupsApp(interface.Controller):
   def on_main3LocalFolderEntry_changed(self, widget):
     """Called when the one-time destination's entry changes.
         Checks the permissions when the onetime destination changed."""
-    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.main3FolderPermissionImage)
+    self._checkDestPerms(widget.get_text(), self.ui.main3FolderPermissionImage)
 
   def on_main3FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.main3LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1548,7 +1538,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.main3UsernameEntry.get_text()
     password = self.ui.main3PasswordEntry.get_text()
     port = self.ui.main3PortSpin.get_value_as_int()
-    folder = self.ui.main3RemoteFolderEntry.get_text().decode('utf-8')
+    folder = self.ui.main3RemoteFolderEntry.get_text()
     if not (host and username and port and folder):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
@@ -1559,7 +1549,7 @@ class fwbackupsApp(interface.Controller):
   def updateLogViewer(self, severity, message):
     """Add a message to the log viewer"""
     # idle_add because this is called from logger, in ANOTHER THREAD.
-    gobject.idle_add(self.logconsole.write_log_line, message.encode('utf-8'))
+    GLib.idle_add(self.logconsole.write_log_line, message)
 
   def on_LogViewerRefreshButton_clicked(self, widget):
     """Refresh log viewer"""
@@ -1582,7 +1572,7 @@ class fwbackupsApp(interface.Controller):
     response, dontShowMe = self.displayConfirm(self.ui.main, _("Clear the old log entries?"),
                                        _("This action will permanently remove all log entries."),
                                        dontShowMe=True)
-    if response == gtk.RESPONSE_YES:
+    if response == Gtk.RESPONSE_YES:
       if dontShowMe:
         prefs.set('Preferences', 'DontShowMe_ClearLog', 1)
       else:
@@ -1617,10 +1607,11 @@ class fwbackupsApp(interface.Controller):
 
   def _checkDestPerms(self, path, image):
     if fwbackups.CheckPerms(path, mustExist=True):
-      image.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
+      #image.set_from_icon_name("yes", Gtk.IconSize.NORMAL) # FIXME icon name?
       pass
     else:
-      image.set_from_stock(gtk.STOCK_NO, gtk.ICON_SIZE_BUTTON)
+      #image.set_from_icon_name("no", Gtk.IconSize.NORMAL) # FIXME icon name?
+      pass
 
   def _setRestoreSetName(self, setName):
     """Set the box choices based on setname"""
@@ -1641,7 +1632,7 @@ class fwbackupsApp(interface.Controller):
     import socket
     host = setConfig.get('Options', 'RemoteHost')
     username = setConfig.get('Options', 'RemoteUsername')
-    password = setConfig.get('Options', 'RemotePassword').decode('base64')
+    password = base64.b64decode(setConfig.get('Options', 'RemotePassword').encode('ascii')).decode('ascii')
     port = setConfig.get('Options', 'RemotePort')
     destination = setConfig.get('Options', 'RemoteFolder')
     client, sftpClient = sftp.connect(host, username, password, port)
@@ -1740,7 +1731,7 @@ class fwbackupsApp(interface.Controller):
     username = self.ui.restore1UsernameEntry.get_text()
     password = self.ui.restore1PasswordEntry.get_text()
     port = self.ui.restore1PortSpin.get_value_as_int()
-    path = self.ui.restore1PathEntry.get_text().decode('utf-8')
+    path = self.ui.restore1PathEntry.get_text()
     if not (host and username and port and path):
       self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
       return False
@@ -1754,7 +1745,7 @@ class fwbackupsApp(interface.Controller):
     # Generate the options dictionary
     options = {}
     active = self.ui.restore1SourceTypeCombobox.get_active()
-    options["Destination"] = self.ui.restore1DestinationEntry.get_text().decode('utf-8')
+    options["Destination"] = self.ui.restore1DestinationEntry.get_text()
     # Default remote settings
     options["RemoteHost"] = ''
     options["RemotePort"] = 22
@@ -1796,10 +1787,10 @@ class fwbackupsApp(interface.Controller):
         self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
         return False
       sourceType = 'local archive'
-      options["Source"] = self.ui.restore1ArchiveEntry.get_text().decode('utf-8')
+      options["Source"] = self.ui.restore1ArchiveEntry.get_text()
     elif active == 2: # local folder
       sourceType = 'local folder'
-      options["Source"] = self.ui.restore1FolderEntry.get_text().decode('utf-8')
+      options["Source"] = self.ui.restore1FolderEntry.get_text()
     elif active == 3: # remote archive
       # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
       if sys.version_info[0] == 2 and sys.version_info[1] == 4:
@@ -1808,18 +1799,18 @@ class fwbackupsApp(interface.Controller):
       sourceType = 'remote archive (SSH)'
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
-      options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
+      options["RemotePassword"] = base64.b64encode(self.ui.restore1PasswordEntry.get_text().encode('ascii')).decode('ascii')
       options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
-      options["RemoteSource"] = self.ui.restore1PathEntry.get_text().decode('utf-8')
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
     elif active == 4: # remote folder
       sourceType = 'remote folder (SSH)'
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
-      options["RemotePassword"] = self.ui.restore1PasswordEntry.get_text().encode("base64")
+      options["RemotePassword"] = base64.b64encode(self.ui.restore1PasswordEntry.get_text().encode('ascii')).decode('ascii')
       options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
-      options["RemoteSource"] = self.ui.restore1PathEntry.get_text().decode('utf-8')
+      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
       # RemoteSource is transferred to Destination before restoring begins
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
     # Finally, save all information
@@ -1868,7 +1859,7 @@ class fwbackupsApp(interface.Controller):
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
       port = self.ui.restore1PortSpin.get_value_as_int()
-      path = self.ui.restore1PathEntry.get_text().decode('utf-8')
+      path = self.ui.restore1PathEntry.get_text()
       if not (host and username and port and path):
         self.displayInfo(self.ui.main, _('Missing information'), _('Please complete all of the host, username, folder and port fields.'))
         return False
@@ -1893,8 +1884,8 @@ class fwbackupsApp(interface.Controller):
   def on_restoreFinishButton_clicked(self, widget):
     """Finish the restore"""
     self._toggleLocked(False, [self.ui.restore])
-    for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
-      widget.set_sensitive(True)
+    # for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
+    #   widget.set_sensitive(True) FIXME
     self.operationInProgress = False
     self.ui.restoreStartButton.show()
     self.ui.restoreCloseButton.show()
@@ -1907,15 +1898,15 @@ class fwbackupsApp(interface.Controller):
     self.ui.restore1PasswordEntry.set_visibility(not widget.get_active())
 
   def on_restore1DestinationEntry_changed(self, widget):
-    self._checkDestPerms(widget.get_text().decode('utf-8'), self.ui.restore1DestinationPermissionImage)
+    self._checkDestPerms(widget.get_text(), self.ui.restore1DestinationPermissionImage)
 
   def on_restore1BrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1DestinationEntry.set_text(destination)
     fileDialog.destroy()
@@ -1923,10 +1914,10 @@ class fwbackupsApp(interface.Controller):
   def on_restore1ArchiveBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
-                                 gtk.FILE_CHOOSER_ACTION_OPEN,
+                                 Gtk.FileChooserAction.OPEN,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1ArchiveEntry.set_text(destination)
     fileDialog.destroy()
@@ -1934,10 +1925,10 @@ class fwbackupsApp(interface.Controller):
   def on_restore1FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
     fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
-                                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                 Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == gtk.RESPONSE_OK:
+    if response == Gtk.RESPONSE_OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1FolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1956,7 +1947,7 @@ class fwbackupsApp(interface.Controller):
       response = self.displayConfirm(self.ui.backupset,
                                          _("Overwrite settings for set '%s'?") % name,
                                          _("This will overwrite the stored settings with the current ones. Are you sure you want to continue?"))
-      if response == gtk.RESPONSE_NO:
+      if response == Gtk.RESPONSE_NO:
         return False
     return name
 
@@ -2084,7 +2075,7 @@ class fwbackupsApp(interface.Controller):
     self.ui.backupset2HostEntry.set_text(setConf.get('Options', 'RemoteHost'))
     self.ui.backupset2PortSpin.set_value(float(setConf.get('Options', 'RemotePort') or 22))
     self.ui.backupset2UsernameEntry.set_text(setConf.get('Options', 'RemoteUsername'))
-    self.ui.backupset2PasswordEntry.set_text(setConf.get('Options', 'RemotePassword').decode('base64'))
+    self.ui.backupset2PasswordEntry.set_text(base64.b64decode(setConf.get('Options', 'RemotePassword').encode('ascii')).decode('ascii'))
     self.ui.backupset2RemoteFolderEntry.set_text(setConf.get('Options', 'RemoteFolder'))
     t = setConf.get('Options', 'Destination')
     self.ui.backupset2LocalFolderEntry.set_text(t)
@@ -2172,7 +2163,7 @@ class fwbackupsApp(interface.Controller):
     while treeiter:
       # UI requires we store UTF-8 encoded strings, so we must decode from UTF-8
       path = self.backupset1PathView.liststore.get_value(treeiter, 1)
-      paths.append(path.decode('utf-8'))
+      paths.append(path)
       treeiter = self.backupset1PathView.liststore.iter_next(treeiter)
     # Configure the Times dict
     times = {}
@@ -2239,10 +2230,10 @@ class fwbackupsApp(interface.Controller):
     options["DestinationType"] = dtype
     options["RemoteHost"] = self.ui.backupset2HostEntry.get_text()
     options["RemoteUsername"] = self.ui.backupset2UsernameEntry.get_text()
-    options["RemotePassword"] = self.ui.backupset2PasswordEntry.get_text().encode('base64')
+    options["RemotePassword"] = base64.b64encode(self.ui.backupset2PasswordEntry.get_text().encode('ascii')).decode('ascii')
     options["RemotePort"] = self.ui.backupset2PortSpin.get_value_as_int()
-    options["RemoteFolder"] = self.ui.backupset2RemoteFolderEntry.get_text().decode('utf-8')
-    options["Destination"] = self.ui.backupset2LocalFolderEntry.get_text().decode('utf-8')
+    options["RemoteFolder"] = self.ui.backupset2RemoteFolderEntry.get_text()
+    options["Destination"] = self.ui.backupset2LocalFolderEntry.get_text()
     # Save options
     options["Enabled"] = int(self.ui.backupset4EnableCheck.get_active())
     options["Recursive"] = int(self.ui.backupset4RecursiveCheck.get_active())
@@ -2264,11 +2255,11 @@ class fwbackupsApp(interface.Controller):
     elif self.ui.backupset4EngineRadio2.get_active():
       engine = 'rsync'
     options["Engine"] = engine
-    options["CommandBefore"] = self.ui.backupset5CommandBeforeEntry.get_text().decode('utf-8')
-    options["CommandAfter"] = self.ui.backupset5CommandAfterEntry.get_text().decode('utf-8')
+    options["CommandBefore"] = self.ui.backupset5CommandBeforeEntry.get_text()
+    options["CommandAfter"] = self.ui.backupset5CommandAfterEntry.get_text()
     options["OldToKeep"] = self.ui.backupset4OldToKeepSpin.get_value()
     start, end = self.ui.backupset5ExcludesTextview.get_buffer().get_bounds()
-    options["Excludes"] = self.ui.backupset5ExcludesTextview.get_buffer().get_text(start, end)
+    options["Excludes"] = self.ui.backupset5ExcludesTextview.get_buffer().get_text(start, end, False)
     nice = int(self.ui.backupset5NiceScale.get_value())
     options["Nice"] = nice
     # Incase they copied configs with a niceness preset, reset it to 0
@@ -2294,7 +2285,7 @@ class fwbackupsApp(interface.Controller):
     self.backupset2TestSettingsProgress = widgets.ProgressBar(self.ui.backupset2TestSettingsProgress)
     self.restore1TestSettingsProgress = widgets.ProgressBar(self.ui.restore1TestSettingsProgress)
     self.backupset1PathView = widgets.PathView(self.ui.backupset1PathsTreeview, self.statusbar, self.ui, self.ui.backupset)
-    self.ui.main2Iconview.set_model(gtk.ListStore(gobject.TYPE_STRING, gtk.gdk.Pixbuf))
+    self.ui.main2Iconview.set_model(Gtk.ListStore(str, GdkPixbuf.Pixbuf))
     # Setup Iconview
     self.ui.main2Iconview.set_reorderable(False)
     self.ui.main2Iconview.set_text_column(0)
@@ -2302,7 +2293,6 @@ class fwbackupsApp(interface.Controller):
     self.ui.main2Iconview.set_item_width(110)
     self.ui.main2Iconview.set_row_spacing(10)
     self.ui.main2Iconview.set_column_spacing(20)
-    self.icon = self.ui.backupset.render_icon(gtk.STOCK_DIRECTORY, gtk.ICON_SIZE_DIALOG)
     # Keep things clean...
     self.main2IconviewRefresh()
 
@@ -2325,7 +2315,13 @@ class fwbackupsApp(interface.Controller):
       files.sort()
       for name in files:
         if name.endswith('.conf') and not name.startswith('.conf') and not name == 'temporary_config.conf':
-          self.ui.main2Iconview.get_model().append([name.split('.conf')[0], self.icon])
+
+          pixbuf = None
+          icon_theme = Gtk.IconTheme.get_for_display(self.ui.main2Iconview.get_display())
+          icon = icon_theme.lookup_icon("folder", None, 24, 1, Gtk.TextDirection.NONE, Gtk.IconLookupFlags.FORCE_SYMBOLIC)
+          if icon.get_file().get_path() is not None:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(icon.get_file().get_path(), 32, 32, True)
+          self.ui.main2Iconview.get_model().append([name.split('.conf')[0], pixbuf])
           self.ui.restore1SetNameCombobox.get_model().append([name.split('.conf')[0]])
           loaded_count += 1
         else:
@@ -2336,7 +2332,9 @@ class fwbackupsApp(interface.Controller):
   def _clearSets(self):
     """Clear all sets from the view"""
     self.ui.main2Iconview.get_model().clear()
-    self.ui.restore1SetNameCombobox.get_model().clear()
+    model = self.ui.restore1SetNameCombobox.get_model()
+    if model is not None:
+      model.clear()
 
   def main2IconviewRefresh(self):
     """Refresh sets"""
@@ -2346,7 +2344,7 @@ class fwbackupsApp(interface.Controller):
   def main3Refresh(self):
     """Clear paths"""
     self.ui.main3Treeview.get_model().clear()
-    self.ui.main3LocalFolderEntry.set_text(USERHOME)
+    self.ui.main3LocalFolderEntry.set_text(str(USERHOME))
     self.ui.main3DestinationTypeCombobox.set_active(0)
     self.ui.main3EngineRadio1.set_active(True)
     self.ui.main3CompressCheck.set_active(False)
@@ -2471,7 +2469,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.main2BackupProgress.stopPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
+      updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
         doGtkEvents()
       # thread returned
@@ -2537,7 +2535,7 @@ class fwbackupsApp(interface.Controller):
     while treeiter:
       # UI requires we store UTF-8 encoded strings, so we must decode from UTF-8
       path = self.main3PathView.liststore.get_value(treeiter, 1)
-      paths.append(path.decode('utf-8'))
+      paths.append(path)
       treeiter = self.main3PathView.liststore.iter_next(treeiter)
     # Configure the Options dict
     options = {}
@@ -2550,10 +2548,10 @@ class fwbackupsApp(interface.Controller):
     options["DestinationType"] = dtype
     options["RemoteHost"] = self.ui.main3HostEntry.get_text()
     options["RemoteUsername"] = self.ui.main3UsernameEntry.get_text()
-    options["RemotePassword"] = self.ui.main3PasswordEntry.get_text().encode('base64')
+    options["RemotePassword"] = base64.b64encode(self.ui.main3PasswordEntry.get_text().encode('ascii')).decode('ascii')
     options["RemotePort"] = self.ui.main3PortSpin.get_value_as_int()
-    options["RemoteFolder"] = self.ui.main3RemoteFolderEntry.get_text().decode('utf-8')
-    options["Destination"] = self.ui.main3LocalFolderEntry.get_text().decode('utf-8')
+    options["RemoteFolder"] = self.ui.main3RemoteFolderEntry.get_text()
+    options["Destination"] = self.ui.main3LocalFolderEntry.get_text()
     options["Recursive"] = int(self.ui.main3RecursiveCheck.get_active())
     options["PkgListsToFile"] = int(self.ui.main3PkgListsToFileCheck.get_active())
     options["DiskInfoToFile"] = int(self.ui.main3DiskInfoToFileCheck.get_active())
@@ -2575,7 +2573,7 @@ class fwbackupsApp(interface.Controller):
       engine = 'rsync'
     options["Engine"] = engine
     start, end = self.ui.main3ExcludesTextview.get_buffer().get_bounds()
-    options["Excludes"] = self.ui.main3ExcludesTextview.get_buffer().get_text(start, end)
+    options["Excludes"] = self.ui.main3ExcludesTextview.get_buffer().get_text(start, end, False)
     nice = int(self.ui.main3NiceScale.get_value())
     options["Nice"] = nice
     # Incase they copied configs with a niceness preset, reset it to 0
@@ -2628,7 +2626,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.main3BackupProgress.stopPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
+      updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
         doGtkEvents()
       # thread returned
@@ -2714,7 +2712,7 @@ class fwbackupsApp(interface.Controller):
       self.updateReturn = True
       self.restore2RestorationProgress.startPulse()
       updateProgress(self)
-      updateTimeout = gobject.timeout_add(1000, updateProgress, self)
+      updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.restoreThread.retval == None:
         doGtkEvents()
       # thread returned
@@ -2766,26 +2764,6 @@ class fwbackupsApp(interface.Controller):
     self.restore2RestorationProgress.set_text(_('Please wait...'))
     self.setStatus(_('Cancelling...'))
 
-  # ***********************************************************************
-
-# Only if we're in main execution
-if __name__ == "__main__":
-  verbose = False
-  minimized = False
-  from optparse import OptionParser
-  parser = OptionParser(prog="fwbackups", version="fwbackups %s" % fwbackups.__version__)
-  # Customize our help text for the pre-created options
-  parser.get_option("--version").help = _("Show this program's version and exit")
-  parser.get_option("--help").help = _("Show this help message and exit")
-  # Add custom options
-  parser.add_option("-v", "--verbose", action="count", dest="verbose", default=0, help=_("print log messages to the terminal. Use this option twice"))
-  parser.add_option("--start-minimized", action="store_true", dest="start_minimized", default=False, help=_("start GUI minimized in the system tray"))
-  (options, rest_args) = parser.parse_args()
-
-  try:
-    # Startup the application and call the gtk event loop
-    MainApp = fwbackupsApp(options.verbose, options.start_minimized)
-    gtk.main()
-  except KeyboardInterrupt:
-    # ctrl+c?
-    MainApp.main_close(None)
+def main(argv):
+  app = fwbackupsApp()
+  return app.run(argv)

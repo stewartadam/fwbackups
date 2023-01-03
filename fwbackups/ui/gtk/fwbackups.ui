@@ -448,7 +448,6 @@ Graphic Designers:
         <item>
           <attribute name="label">_New Set</attribute>
           <attribute name="action">app.new_set1</attribute>
-          <attribute name="accel">&lt;Primary&gt;n</attribute>
         </item>
       </section>
       <section>
@@ -465,7 +464,6 @@ Graphic Designers:
         <item>
           <attribute name="label">_Quit</attribute>
           <attribute name="action">app.quit1</attribute>
-          <attribute name="accel">&lt;Primary&gt;q</attribute>
         </item>
       </section>
     </submenu>
@@ -475,24 +473,20 @@ Graphic Designers:
         <item>
           <attribute name="label">_Edit Set</attribute>
           <attribute name="action">app.edit_set1</attribute>
-          <attribute name="accel">&lt;Primary&gt;e</attribute>
         </item>
         <item>
           <attribute name="label">_Delete Set</attribute>
           <attribute name="action">app.remove_set1</attribute>
-          <attribute name="accel">&lt;Primary&gt;d</attribute>
         </item>
         <item>
           <attribute name="label">D_uplicate Set</attribute>
           <attribute name="action">app.duplicate_set1</attribute>
-          <attribute name="accel">&lt;Primary&gt;&lt;Shift&gt;d</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label">_Preferences</attribute>
           <attribute name="action">app.preferences1</attribute>
-          <attribute name="accel">&lt;Primary&gt;,</attribute>
         </item>
       </section>
     </submenu>
@@ -501,30 +495,25 @@ Graphic Designers:
       <section>
         <item>
           <attribute name="label">_Overview</attribute>
-          <attribute name="action">overview1</attribute>
-          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;1</attribute>
+          <attribute name="action">app.overview1</attribute>
         </item>
         <item>
           <attribute name="label">_Backup Sets</attribute>
-          <attribute name="action">backup_sets1</attribute>
-          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;2</attribute>
+          <attribute name="action">app.backup_sets1</attribute>
         </item>
         <item>
           <attribute name="label">O_ne-Time Backup</attribute>
-          <attribute name="action">one_time_backup1</attribute>
-          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;3</attribute>
+          <attribute name="action">app.one_time_backup1</attribute>
         </item>
         <item>
           <attribute name="label">_Log</attribute>
-          <attribute name="action">log1</attribute>
-          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;4</attribute>
+          <attribute name="action">app.log1</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label">_Restore</attribute>
-          <attribute name="action">restore1</attribute>
-          <attribute name="accel">&lt;Alt&gt;&lt;Shift&gt;5</attribute>
+          <attribute name="action">app.restore1</attribute>
         </item>
       </section>
     </submenu>
@@ -533,28 +522,24 @@ Graphic Designers:
       <section>
         <item>
           <attribute name="label">_About</attribute>
-          <attribute name="action">about1</attribute>
+          <attribute name="action">app.about1</attribute>
         </item>
         <item>
           <attribute name="label">_Help</attribute>
-          <attribute name="action">help1</attribute>
-        </item>
-      </section>
-      <section>
-        <item>
-          <attribute name="label" />
-          <attribute name="action">check_for_updates1</attribute>
+          <attribute name="action">app.help1</attribute>
         </item>
       </section>
     </submenu>
   </menu>
-  <object class="GtkWindow" id="main">
+  <object class="GtkApplicationWindow" id="main">
     <property name="title" translatable="1">fwbackups</property>
     <property name="default_width">650</property>
     <property name="default_height">515</property>
-    <signal name="close-request" handler="main_close_traywrapper" />
+    <signal name="close_request" handler="main_close_traywrapper" />
     <child>
       <object class="GtkGrid" id="table2">
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
         <child>
           <object class="GtkStatusbar" id="statusbar1">
             <layout>
@@ -585,8 +570,8 @@ Graphic Designers:
                               <object id="table17" class="GtkGrid">
                                 <property name="row_spacing">12</property>
                                 <property name="column_spacing">12</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -597,7 +582,7 @@ Graphic Designers:
                                     <property name="ellipsize">end</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -608,26 +593,14 @@ Graphic Designers:
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">0</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="WelcomeLabel">
-                                    <property name="label" translatable="1">[ set by runapp.py ]</property>
-                                    <property name="use_markup">1</property>
-                                    <property name="xalign">0</property>
-                                    <property name="ellipsize">end</property>
-                                    <layout>
-                                      <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
                               </object>
                             </child>
                             <child type="label">
-                              <object class="GtkLabel" id="label58">
+                              <object class="GtkLabel" id="WelcomeLabel">
                                 <property name="label" translatable="1">&lt;b&gt;Welcome&lt;/b&gt;</property>
                                 <property name="use_markup">1</property>
                                 <property name="margin_start">4</property>
@@ -639,7 +612,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -649,8 +622,8 @@ Graphic Designers:
                               <object id="table12" class="GtkGrid">
                                 <property name="row_spacing">12</property>
                                 <property name="column_spacing">50</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -660,7 +633,7 @@ Graphic Designers:
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -672,7 +645,7 @@ Graphic Designers:
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -684,7 +657,7 @@ Graphic Designers:
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -697,7 +670,7 @@ Graphic Designers:
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -716,7 +689,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -750,8 +723,8 @@ Graphic Designers:
                       <object id="table3" class="GtkGrid">
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">12</property>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="hexpand">false</property>
                         <property name="vexpand">false</property>
                         <child>
@@ -770,7 +743,7 @@ Graphic Designers:
                             <property name="has_frame">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -791,8 +764,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image7">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-add</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -802,8 +775,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -822,8 +795,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image8">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-edit</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -833,8 +806,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -853,8 +826,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image9">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-delete</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -864,8 +837,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -890,15 +863,15 @@ Graphic Designers:
                                 <signal name="clicked" handler="on_main2RestoreSetButton_clicked" />
                               </object>
                             </child>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                             <property name="hexpand">false</property>
                             <property name="vexpand">false</property>
                             <property name="hexpand">true</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -936,8 +909,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image1697">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-yes</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -947,8 +920,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -959,7 +932,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">2</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -971,7 +944,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -983,7 +956,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -996,7 +969,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">2</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -1055,7 +1028,7 @@ Graphic Designers:
                                         <property name="has_frame">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1076,8 +1049,8 @@ Graphic Designers:
                                                   <object class="GtkImage" id="image1463">
                                                     <property name="halign">center</property>
                                                     <property name="icon_name">gtk-add</property>
-                                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                                    <property name="halign">center</property>
+                                                    <property name="valign">center</property>
                                                   </object>
                                                 </child>
                                                 <child>
@@ -1087,8 +1060,8 @@ Graphic Designers:
                                                     <property name="use_underline">1</property>
                                                   </object>
                                                 </child>
-                                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
                                                 <property name="hexpand">true</property>
                                                 <property name="vexpand">true</property>
                                               </object>
@@ -1107,8 +1080,8 @@ Graphic Designers:
                                                   <object class="GtkImage" id="image1462">
                                                     <property name="halign">center</property>
                                                     <property name="icon_name">gtk-add</property>
-                                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                                    <property name="halign">center</property>
+                                                    <property name="valign">center</property>
                                                   </object>
                                                 </child>
                                                 <child>
@@ -1118,8 +1091,8 @@ Graphic Designers:
                                                     <property name="use_underline">1</property>
                                                   </object>
                                                 </child>
-                                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
                                                 <property name="hexpand">true</property>
                                                 <property name="vexpand">true</property>
                                               </object>
@@ -1134,15 +1107,15 @@ Graphic Designers:
                                             <signal name="clicked" handler="on_main3RemoveButton_clicked" />
                                           </object>
                                         </child>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <property name="hexpand">true</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1173,7 +1146,7 @@ Graphic Designers:
                                         </child>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1190,11 +1163,11 @@ Graphic Designers:
                                                 <child>
                                                   <object class="GtkImage" id="main3FolderPermissionImage">
                                                     <property name="icon_name">gtk-yes</property>
-                                                    <property name="halign">GTK_ALIGN_END</property>
-                                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">center</property>
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1209,8 +1182,8 @@ Graphic Designers:
                                                           <object class="GtkImage" id="image1467">
                                                             <property name="halign">center</property>
                                                             <property name="icon_name">gtk-open</property>
-                                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
                                                           </object>
                                                         </child>
                                                         <child>
@@ -1220,15 +1193,15 @@ Graphic Designers:
                                                             <property name="use_underline">1</property>
                                                           </object>
                                                         </child>
-                                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                                        <property name="halign">center</property>
+                                                        <property name="valign">center</property>
                                                         <property name="hexpand">true</property>
                                                         <property name="vexpand">true</property>
                                                       </object>
                                                     </child>
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">3</property>
+                                                      <property name="column">3</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1240,7 +1213,7 @@ Graphic Designers:
                                                     <signal name="changed" handler="on_main3LocalFolderEntry_changed" />
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">2</property>
+                                                      <property name="column">2</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1252,7 +1225,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1278,7 +1251,7 @@ Graphic Designers:
                                                     <property name="invisible_char">•</property>
                                                     <layout>
                                                       <property name="row">4</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1289,7 +1262,7 @@ Graphic Designers:
                                                     <property name="invisible_char">•</property>
                                                     <layout>
                                                       <property name="row">1</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1302,7 +1275,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1315,7 +1288,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">1</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1328,7 +1301,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">2</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1340,7 +1313,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">4</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1367,7 +1340,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">5</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1381,7 +1354,7 @@ Graphic Designers:
                                                     <property name="hexpand">true</property>
                                                     <layout>
                                                       <property name="row">3</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1393,7 +1366,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">3</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1404,7 +1377,7 @@ Graphic Designers:
                                                     <property name="text" translatable="1" />
                                                     <layout>
                                                       <property name="row">2</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1417,7 +1390,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">5</property>
-                                                      <property name="col">0</property>
+                                                      <property name="column">0</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1452,7 +1425,7 @@ Graphic Designers:
                                                     <property name="vexpand">true</property>
                                                     <layout>
                                                       <property name="row">0</property>
-                                                      <property name="col">1</property>
+                                                      <property name="column">1</property>
                                                     </layout>
                                                   </object>
                                                 </child>
@@ -1465,15 +1438,15 @@ Graphic Designers:
                                             </property>
                                           </object>
                                         </child>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <property name="hexpand">true</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">1</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                           <property name="column_span">2</property>
                                         </layout>
                                       </object>
@@ -1486,7 +1459,7 @@ Graphic Designers:
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1511,8 +1484,8 @@ Graphic Designers:
                                           <object id="table86" class="GtkGrid">
                                             <property name="row_spacing">2</property>
                                             <property name="column_spacing">12</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <child>
@@ -1525,7 +1498,7 @@ Graphic Designers:
                                                 <property name="vexpand">true</property>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1534,11 +1507,10 @@ Graphic Designers:
                                                 <property name="label" translatable="1">Direct copy of the files and folders</property>
                                                 <property name="use_underline">1</property>
                                                 <property name="group">main3EngineRadio1</property>
-                                                <signal name="toggled" handler="on_main3EngineRadio2_toggled" last_modification_time="Sat, 31 May 2008 16:18:13 GMT" />
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">2</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1566,14 +1538,14 @@ Graphic Designers:
                                                     </child>
                                                   </object>
                                                 </child>
-                                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
                                                 <property name="hexpand">false</property>
                                                 <property name="vexpand">false</property>
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1593,8 +1565,8 @@ Graphic Designers:
                                           <object id="table85" class="GtkGrid">
                                             <property name="row_spacing">6</property>
                                             <property name="column_spacing">12</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <child>
@@ -1607,7 +1579,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1620,7 +1592,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1633,7 +1605,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">1</property>
+                                                  <property name="column">1</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1646,7 +1618,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">1</property>
+                                                  <property name="column">1</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1659,7 +1631,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">2</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1671,7 +1643,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">2</property>
-                                                  <property name="col">1</property>
+                                                  <property name="column">1</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1683,7 +1655,7 @@ Graphic Designers:
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">3</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                   <property name="column_span">2</property>
                                                 </layout>
                                               </object>
@@ -1704,8 +1676,8 @@ Graphic Designers:
                                           <object id="table87" class="GtkGrid">
                                             <property name="row_spacing">2</property>
                                             <property name="column_spacing">40</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <child>
@@ -1722,7 +1694,7 @@ Graphic Designers:
                                                 <property name="vexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">1</property>
+                                                  <property name="column">1</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1743,7 +1715,7 @@ Graphic Designers:
                                                 <property name="vexpand">true</property>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">1</property>
+                                                  <property name="column">1</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1757,7 +1729,7 @@ Graphic Designers:
                                                 <property name="vexpand">true</property>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1769,7 +1741,7 @@ Graphic Designers:
                                                 <property name="vexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -1806,7 +1778,7 @@ Graphic Designers:
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1819,7 +1791,7 @@ Graphic Designers:
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">1</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1847,7 +1819,7 @@ Graphic Designers:
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">1</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1859,7 +1831,7 @@ Graphic Designers:
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -1892,8 +1864,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image1464">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-go-back</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -1903,8 +1875,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -1923,8 +1895,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image1465">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-go-forward</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -1934,8 +1906,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -1955,8 +1927,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image95">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-ok</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -1966,8 +1938,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -1987,8 +1959,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image1508">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-ok</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -1998,8 +1970,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -2008,8 +1980,8 @@ Graphic Designers:
                             </child>
                           </object>
                         </child>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="hexpand">false</property>
                         <property name="vexpand">false</property>
                       </object>
@@ -2042,8 +2014,8 @@ Graphic Designers:
                       <object id="table14" class="GtkGrid">
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">12</property>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="hexpand">false</property>
                         <property name="vexpand">false</property>
                         <child>
@@ -2062,7 +2034,7 @@ Graphic Designers:
                             <property name="has_frame">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                               <property name="column_span">2</property>
                             </layout>
                           </object>
@@ -2084,8 +2056,8 @@ Graphic Designers:
                                       <object class="GtkImage" id="image96">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-save-as</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -2095,8 +2067,8 @@ Graphic Designers:
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -2122,7 +2094,7 @@ Graphic Designers:
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                               <property name="column_span">2</property>
                             </layout>
                           </object>
@@ -2152,8 +2124,8 @@ Graphic Designers:
             <layout>
               <property name="column">0</property>
               <property name="row">2</property>
-              <property name="hexpand">true</property>
             </layout>
+            <property name="hexpand">true</property>
           </object>
         </child>
         <child>
@@ -2261,14 +2233,12 @@ Graphic Designers:
                 <property name="label" translatable="1">Restore</property>
                 <property name="use_underline">1</property>
                 <signal name="clicked" handler="on_RestoreToolButton_clicked" />
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">1</property>
-                  <property name="xexpand">true</property>
-                  <property name="vexpand">true</property>
-                </layout>
               </object>
             </child>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+            </layout>
           </object>
         </child>
       </object>
@@ -2296,7 +2266,7 @@ Graphic Designers:
             </child>
             <layout>
               <property name="row">4</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2310,7 +2280,7 @@ Graphic Designers:
             <property name="margin_bottom">2</property>
             <layout>
               <property name="row">3</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2318,11 +2288,11 @@ Graphic Designers:
         <child>
           <object class="GtkImage" id="aboutProgramImage">
             <property name="icon_name">gtk-missing-image</property>
-            <property name="halign">GTK_ALIGN_CENTER</property>
-            <property name="valign">GTK_ALIGN_CENTER</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <layout>
               <property name="row">0</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2336,7 +2306,7 @@ Graphic Designers:
             <property name="ellipsize">end</property>
             <layout>
               <property name="row">1</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2348,7 +2318,7 @@ Graphic Designers:
             <property name="justify">center</property>
             <layout>
               <property name="row">2</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2370,7 +2340,7 @@ Graphic Designers:
             <property name="hexpand">true</property>
             <layout>
               <property name="row">6</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2435,7 +2405,7 @@ Graphic Designers:
             </child>
             <layout>
               <property name="row">5</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
               <property name="column_span">2</property>
             </layout>
           </object>
@@ -2470,8 +2440,8 @@ Graphic Designers:
               <object class="GtkImage" id="image70">
                 <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                 <property name="icon_name">gtk-dialog-warning</property>
-                <property name="halign">GTK_ALIGN_CENTER</property>
-                <property name="valign">GTK_ALIGN_START</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
               </object>
             </child>
             <child>
@@ -2549,8 +2519,8 @@ Secondary text</property>
               <object class="GtkImage" id="image91">
                 <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                 <property name="icon_name">gtk-dialog-error</property>
-                <property name="halign">GTK_ALIGN_CENTER</property>
-                <property name="valign">GTK_ALIGN_START</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
               </object>
             </child>
             <child>
@@ -2630,7 +2600,7 @@ Secondary text</property>
                 <property name="has_frame">true</property>
                 <layout>
                   <property name="row">2</property>
-                  <property name="col">1</property>
+                  <property name="column">1</property>
                   <property name="column_span">2</property>
                 </layout>
               </object>
@@ -2644,7 +2614,7 @@ Secondary text</property>
                 <property name="vexpand">true</property>
                 <layout>
                   <property name="row">3</property>
-                  <property name="col">1</property>
+                  <property name="column">1</property>
                 </layout>
               </object>
             </child>
@@ -2656,7 +2626,7 @@ Secondary text</property>
                 <property name="hexpand">true</property>
                 <layout>
                   <property name="row">0</property>
-                  <property name="col">1</property>
+                  <property name="column">1</property>
                   <property name="column_span">2</property>
                 </layout>
               </object>
@@ -2668,7 +2638,7 @@ Secondary text</property>
                 <property name="hexpand">true</property>
                 <layout>
                   <property name="row">1</property>
-                  <property name="col">1</property>
+                  <property name="column">1</property>
                   <property name="column_span">2</property>
                 </layout>
               </object>
@@ -2677,13 +2647,13 @@ Secondary text</property>
               <object class="GtkImage" id="image407">
                 <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                 <property name="icon_name">gtk-dialog-info</property>
-                <property name="halign">GTK_ALIGN_CENTER</property>
-                <property name="valign">GTK_ALIGN_START</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
                 <property name="hexpand">true</property>
                 <property name="vexpand">true</property>
                 <layout>
                   <property name="row">0</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                   <property name="row_span">4</property>
                 </layout>
               </object>
@@ -2694,7 +2664,7 @@ Secondary text</property>
                 <property name="vexpand">true</property>
                 <layout>
                   <property name="row">3</property>
-                  <property name="col">2</property>
+                  <property name="column">2</property>
                 </layout>
               </object>
             </child>
@@ -2755,8 +2725,8 @@ Secondary text</property>
                 <property name="hexpand">1</property>
                 <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                 <property name="icon_name">gtk-dialog-info</property>
-                <property name="halign">GTK_ALIGN_CENTER</property>
-                <property name="valign">GTK_ALIGN_START</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
               </object>
             </child>
             <child>
@@ -2833,7 +2803,7 @@ Secondary text</property>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -2849,7 +2819,7 @@ Secondary text</property>
                         </child>
                         <layout>
                           <property name="row">2</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -2871,7 +2841,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -2883,7 +2853,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -2893,18 +2863,17 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
                                 <child>
                                   <object class="GtkComboBox" id="restore1SetDateCombobox">
-                                    <signal name="changed" handler="on_main4SetDateBox_changed" />
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -2934,8 +2903,8 @@ Secondary text</property>
                                           <object class="GtkImage" id="image1457">
                                             <property name="halign">center</property>
                                             <property name="icon_name">gtk-open</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
                                         <child>
@@ -2945,15 +2914,15 @@ Secondary text</property>
                                             <property name="use_underline">1</property>
                                           </object>
                                         </child>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">true</property>
                                         <property name="vexpand">true</property>
                                       </object>
                                     </child>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -2964,7 +2933,7 @@ Secondary text</property>
                                     <property name="invisible_char">•</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -2976,7 +2945,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3006,8 +2975,8 @@ Secondary text</property>
                                           <object class="GtkImage" id="image1461">
                                             <property name="halign">center</property>
                                             <property name="icon_name">gtk-open</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
                                         <child>
@@ -3017,15 +2986,15 @@ Secondary text</property>
                                             <property name="use_underline">1</property>
                                           </object>
                                         </child>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">true</property>
                                         <property name="vexpand">true</property>
                                       </object>
                                     </child>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3036,7 +3005,7 @@ Secondary text</property>
                                     <property name="invisible_char">•</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3048,7 +3017,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3075,7 +3044,7 @@ Secondary text</property>
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">6</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3086,7 +3055,7 @@ Secondary text</property>
                                     <property name="invisible_char">•</property>
                                     <layout>
                                       <property name="row">5</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3098,7 +3067,7 @@ Secondary text</property>
                                     <property name="invisible_char">•</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3109,7 +3078,7 @@ Secondary text</property>
                                     <property name="invisible_char">•</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3122,7 +3091,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3135,7 +3104,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3148,7 +3117,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3160,7 +3129,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">5</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3187,7 +3156,7 @@ Secondary text</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">6</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3199,7 +3168,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                       <property name="column_span">2</property>
                                     </layout>
                                   </object>
@@ -3214,7 +3183,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">4</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3226,7 +3195,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">4</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3261,7 +3230,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -3274,15 +3243,15 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             </property>
                           </object>
                         </child>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="hexpand">false</property>
                         <property name="vexpand">false</property>
                         <property name="hexpand">true</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">3</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                           <property name="column_span">2</property>
                         </layout>
                       </object>
@@ -3296,7 +3265,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">2</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3309,7 +3278,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3319,8 +3288,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <child>
                           <object class="GtkImage" id="restore1DestinationPermissionImage">
                             <property name="icon_name">gtk-yes</property>
-                            <property name="halign">GTK_ALIGN_END</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -3344,8 +3313,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                   <object class="GtkImage" id="image1596">
                                     <property name="halign">center</property>
                                     <property name="icon_name">gtk-open</property>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                   </object>
                                 </child>
                                 <child>
@@ -3355,8 +3324,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="use_underline">1</property>
                                   </object>
                                 </child>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">true</property>
                                 <property name="vexpand">true</property>
                               </object>
@@ -3367,7 +3336,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3380,7 +3349,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3408,7 +3377,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3437,7 +3406,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3450,7 +3419,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3462,7 +3431,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="vexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3502,8 +3471,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                       <object class="GtkImage" id="image216">
                         <property name="halign">center</property>
                         <property name="icon_name">gtk-ok</property>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
                     <child>
@@ -3513,8 +3482,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="use_underline">1</property>
                       </object>
                     </child>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
                   </object>
@@ -3534,8 +3503,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                       <object class="GtkImage" id="image1531">
                         <property name="halign">center</property>
                         <property name="icon_name">gtk-ok</property>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
                     <child>
@@ -3545,8 +3514,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="use_underline">1</property>
                       </object>
                     </child>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
                   </object>
@@ -3577,8 +3546,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                   <object id="table77" class="GtkGrid">
                     <property name="row_spacing">2</property>
                     <property name="column_spacing">12</property>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">false</property>
                     <property name="vexpand">false</property>
                     <child>
@@ -3589,7 +3558,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <signal name="toggled" handler="on_preferencesMinimizeTrayCloseCheck_toggled" last_modification_time="Fri, 07 Mar 2008 19:30:22 GMT" />
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3603,7 +3572,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3616,7 +3585,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <signal name="toggled" handler="on_preferencesShowTrayIconCheck_toggled" />
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3629,7 +3598,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3644,7 +3613,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                 <property name="hexpand">true</property>
                 <layout>
                   <property name="row">0</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                 </layout>
               </object>
             </child>
@@ -3653,8 +3622,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                 <child>
                   <object id="table78" class="GtkGrid">
                     <property name="row_spacing">2</property>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">false</property>
                     <property name="vexpand">false</property>
                     <child>
@@ -3666,7 +3635,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3679,7 +3648,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">1</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3699,8 +3668,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                   <object class="GtkImage" id="image1534">
                                     <property name="halign">center</property>
                                     <property name="icon_name">gtk-open</property>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                   </object>
                                 </child>
                                 <child>
@@ -3710,8 +3679,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="use_underline">1</property>
                                   </object>
                                 </child>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">true</property>
                                 <property name="vexpand">true</property>
                               </object>
@@ -3719,7 +3688,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="hexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">2</property>
+                              <property name="column">2</property>
                             </layout>
                           </object>
                         </child>
@@ -3730,7 +3699,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="text" translatable="1" />
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -3743,7 +3712,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="hexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -3759,7 +3728,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                 </child>
                 <layout>
                   <property name="row">1</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                 </layout>
               </object>
             </child>
@@ -3770,8 +3739,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                   <object id="table81" class="GtkGrid">
                     <property name="row_spacing">2</property>
                     <property name="column_spacing">6</property>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">false</property>
                     <property name="vexpand">false</property>
                     <child>
@@ -3785,8 +3754,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                               <object class="GtkImage" id="image1533">
                                 <property name="halign">center</property>
                                 <property name="icon_name">gtk-open</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                               </object>
                             </child>
                             <child>
@@ -3796,8 +3765,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                 <property name="use_underline">1</property>
                               </object>
                             </child>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                             <property name="hexpand">true</property>
                             <property name="vexpand">true</property>
                           </object>
@@ -3805,7 +3774,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">2</property>
+                          <property name="column">2</property>
                         </layout>
                       </object>
                     </child>
@@ -3816,7 +3785,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="text" translatable="1" />
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">1</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -3827,7 +3796,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="row">0</property>
-                          <property name="col">0</property>
+                          <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
@@ -3842,7 +3811,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                 <property name="hexpand">true</property>
                 <layout>
                   <property name="row">2</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                 </layout>
               </object>
             </child>
@@ -3871,8 +3840,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="halign">center</property>
                         <property name="icon_name">gtk-refresh</property>
                         <property name="icon_size">normal</property>
-                        <property name="halign">GTK_ALIGN_CENTER</property>
-                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
                     <child>
@@ -3883,8 +3852,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <property name="use_markup">1</property>
                       </object>
                     </child>
-                    <property name="halign">GTK_ALIGN_CENTER</property>
-                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
                   </object>
@@ -3920,8 +3889,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                 <signal name="clicked" handler="on_preferencesCloseButton_clicked" />
               </object>
             </child>
-            <property name="halign">GTK_ALIGN_CENTER</property>
-            <property name="valign">GTK_ALIGN_CENTER</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <property name="hexpand">false</property>
             <property name="vexpand">false</property>
           </object>
@@ -3962,7 +3931,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
             </child>
             <layout>
               <property name="row">1</property>
-              <property name="col">1</property>
+              <property name="column">1</property>
             </layout>
           </object>
         </child>
@@ -3981,7 +3950,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
             </child>
             <layout>
               <property name="row">1</property>
-              <property name="col">0</property>
+              <property name="column">0</property>
             </layout>
           </object>
         </child>
@@ -4007,13 +3976,13 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="child">
                               <object class="GtkTreeView" id="backupset1PathsTreeview">
                                 <property name="focusable">1</property>
-                                <signal name="row_activated" handler="on_BackupDiaTreeview_row_activated" />
+                                <signal name="row_activated" handler="on_backupset1PathsTreeview_row_activated" />
                               </object>
                             </property>
                             <property name="has_frame">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                               <property name="row_span">2</property>
                             </layout>
                           </object>
@@ -4035,8 +4004,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                       <object class="GtkImage" id="image92">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-add</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -4046,8 +4015,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -4066,8 +4035,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                       <object class="GtkImage" id="image16">
                                         <property name="halign">center</property>
                                         <property name="icon_name">gtk-add</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -4077,8 +4046,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="use_underline">1</property>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">true</property>
                                     <property name="vexpand">true</property>
                                   </object>
@@ -4093,14 +4062,14 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                 <signal name="clicked" handler="on_backupset1RemoveButton_clicked" />
                               </object>
                             </child>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                             <property name="hexpand">false</property>
                             <property name="vexpand">false</property>
                             <property name="hexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                               <property name="row_span">2</property>
                             </layout>
                           </object>
@@ -4115,8 +4084,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="hexpand">1</property>
                             <property name="icon_name">gtk-open</property>
                             <property name="icon_size">normal</property>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -4147,7 +4116,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             </child>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -4159,7 +4128,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -4176,11 +4145,11 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <child>
                                       <object class="GtkImage" id="backupset2FolderPermissionImage">
                                         <property name="icon_name">gtk-yes</property>
-                                        <property name="halign">GTK_ALIGN_END</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4195,8 +4164,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                               <object class="GtkImage" id="image1473">
                                                 <property name="halign">center</property>
                                                 <property name="icon_name">gtk-open</property>
-                                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
                                               </object>
                                             </child>
                                             <child>
@@ -4206,15 +4175,15 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                                 <property name="use_underline">1</property>
                                               </object>
                                             </child>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">true</property>
                                             <property name="vexpand">true</property>
                                           </object>
                                         </child>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">3</property>
+                                          <property name="column">3</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4226,7 +4195,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <signal name="changed" handler="on_backupset2LocalFolderEntry_changed" />
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">2</property>
+                                          <property name="column">2</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4238,7 +4207,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4264,7 +4233,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="invisible_char">•</property>
                                         <layout>
                                           <property name="row">4</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4275,7 +4244,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="text" translatable="1" />
                                         <layout>
                                           <property name="row">2</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4286,7 +4255,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="invisible_char">•</property>
                                         <layout>
                                           <property name="row">1</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4298,7 +4267,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">4</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4311,7 +4280,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4324,7 +4293,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">1</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4337,7 +4306,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">2</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4363,7 +4332,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">5</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4377,7 +4346,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="hexpand">true</property>
                                         <layout>
                                           <property name="row">3</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4390,7 +4359,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">5</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4403,7 +4372,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">3</property>
-                                          <property name="col">0</property>
+                                          <property name="column">0</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4438,7 +4407,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="vexpand">true</property>
                                         <layout>
                                           <property name="row">0</property>
-                                          <property name="col">1</property>
+                                          <property name="column">1</property>
                                         </layout>
                                       </object>
                                     </child>
@@ -4451,14 +4420,14 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                 </property>
                               </object>
                             </child>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                             <property name="hexpand">false</property>
                             <property name="vexpand">false</property>
                             <property name="hexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                               <property name="column_span">2</property>
                             </layout>
                           </object>
@@ -4473,8 +4442,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="hexpand">1</property>
                             <property name="icon_name">gtk-directory</property>
                             <property name="icon_size">normal</property>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -4502,8 +4471,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                 <property name="sensitive">0</property>
                                 <property name="row_spacing">4</property>
                                 <property name="column_spacing">12</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -4514,8 +4483,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="focusable">1</property>
                                         <property name="text" translatable="1" />
                                         <property name="invisible_char">•</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                       </object>
@@ -4530,7 +4499,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4542,8 +4511,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                         <property name="focusable">1</property>
                                         <property name="text" translatable="1" />
                                         <property name="invisible_char">•</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                       </object>
@@ -4558,7 +4527,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4570,7 +4539,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                       <property name="column_span">4</property>
                                     </layout>
                                   </object>
@@ -4582,8 +4551,8 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                       <object class="GtkImage" id="image94">
                                         <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                                         <property name="icon_name">gtk-dialog-warning</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <child>
@@ -4597,7 +4566,7 @@ Please make sure there are no errors.</property>
                                     </child>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                       <property name="column_span">4</property>
                                     </layout>
                                   </object>
@@ -4609,7 +4578,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">3</property>
+                                      <property name="column">3</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4620,7 +4589,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                       <property name="column_span">2</property>
                                     </layout>
                                   </object>
@@ -4633,8 +4602,8 @@ Please make sure there are no errors.</property>
                                         <property name="focusable">1</property>
                                         <property name="text" translatable="1" />
                                         <property name="invisible_char">•</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                       </object>
@@ -4649,7 +4618,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4661,8 +4630,8 @@ Please make sure there are no errors.</property>
                                         <property name="focusable">1</property>
                                         <property name="text" translatable="1" />
                                         <property name="invisible_char">•</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                       </object>
@@ -4676,7 +4645,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4688,8 +4657,8 @@ Please make sure there are no errors.</property>
                                         <property name="focusable">1</property>
                                         <property name="text" translatable="1" />
                                         <property name="invisible_char">•</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                       </object>
@@ -4703,7 +4672,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -4717,7 +4686,7 @@ Please make sure there are no errors.</property>
                             </child>
                             <layout>
                               <property name="row">2</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -4735,8 +4704,8 @@ Please make sure there are no errors.</property>
                                     <child>
                                       <object id="table27" class="GtkGrid">
                                         <property name="row_spacing">2</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <child>
@@ -4746,7 +4715,7 @@ Please make sure there are no errors.</property>
                                             <property name="active">1</property>
                                             <layout>
                                               <property name="row">0</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4757,7 +4726,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">MonthAll</property>
                                             <layout>
                                               <property name="row">1</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4768,7 +4737,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">MonthAll</property>
                                             <layout>
                                               <property name="row">3</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4776,8 +4745,8 @@ Please make sure there are no errors.</property>
                                           <object id="table28" class="GtkGrid">
                                             <property name="row_spacing">4</property>
                                             <property name="column_spacing">6</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <child>
@@ -4792,7 +4761,7 @@ Please make sure there are no errors.</property>
                                                 </child>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4808,7 +4777,7 @@ Please make sure there are no errors.</property>
                                                 </child>
                                                 <layout>
                                                   <property name="row">2</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4819,7 +4788,7 @@ Please make sure there are no errors.</property>
                                                 <property name="ellipsize">end</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4835,13 +4804,13 @@ Please make sure there are no errors.</property>
                                                 <attribute name="text">0</attribute>
                                               </attributes>
                                             </child>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <layout>
                                               <property name="row">2</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4859,7 +4828,7 @@ Please make sure there are no errors.</property>
                                     </child>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                       <property name="row_span">2</property>
                                     </layout>
                                   </object>
@@ -4870,8 +4839,8 @@ Please make sure there are no errors.</property>
                                       <object id="table22" class="GtkGrid">
                                         <property name="row_spacing">2</property>
                                         <property name="column_spacing">6</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <child>
@@ -4880,7 +4849,7 @@ Please make sure there are no errors.</property>
                                             <property name="use_underline">1</property>
                                             <layout>
                                               <property name="row">1</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4892,7 +4861,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">DaysWeekOnly</property>
                                             <layout>
                                               <property name="row">0</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4903,7 +4872,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">DaysWeekOnly</property>
                                             <layout>
                                               <property name="row">3</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4911,8 +4880,8 @@ Please make sure there are no errors.</property>
                                           <object id="table26" class="GtkGrid">
                                             <property name="row_spacing">4</property>
                                             <property name="column_spacing">6</property>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <child>
@@ -4927,7 +4896,7 @@ Please make sure there are no errors.</property>
                                                 </child>
                                                 <layout>
                                                   <property name="row">2</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4943,7 +4912,7 @@ Please make sure there are no errors.</property>
                                                 </child>
                                                 <layout>
                                                   <property name="row">0</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4955,7 +4924,7 @@ Please make sure there are no errors.</property>
                                                 <property name="hexpand">true</property>
                                                 <layout>
                                                   <property name="row">1</property>
-                                                  <property name="col">0</property>
+                                                  <property name="column">0</property>
                                                 </layout>
                                               </object>
                                             </child>
@@ -4971,13 +4940,13 @@ Please make sure there are no errors.</property>
                                                 <attribute name="text">0</attribute>
                                               </attributes>
                                             </child>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <layout>
                                               <property name="row">2</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -4995,7 +4964,7 @@ Please make sure there are no errors.</property>
                                     </child>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                       <property name="row_span">2</property>
                                     </layout>
                                   </object>
@@ -5005,8 +4974,8 @@ Please make sure there are no errors.</property>
                                     <child>
                                       <object id="table23" class="GtkGrid">
                                         <property name="row_spacing">2</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <child>
@@ -5016,7 +4985,7 @@ Please make sure there are no errors.</property>
                                             <property name="active">1</property>
                                             <layout>
                                               <property name="row">1</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5027,7 +4996,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">HoursAt</property>
                                             <layout>
                                               <property name="row">0</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5041,13 +5010,13 @@ Please make sure there are no errors.</property>
                                                 <attribute name="text">0</attribute>
                                               </attributes>
                                             </child>
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <layout>
                                               <property name="row">2</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5066,7 +5035,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5075,8 +5044,8 @@ Please make sure there are no errors.</property>
                                     <child>
                                       <object id="table24" class="GtkGrid">
                                         <property name="row_spacing">2</property>
-                                        <property name="halign">GTK_ALIGN_CENTER</property>
-                                        <property name="valign">GTK_ALIGN_CENTER</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
                                         <property name="hexpand">false</property>
                                         <property name="vexpand">false</property>
                                         <child>
@@ -5086,7 +5055,7 @@ Please make sure there are no errors.</property>
                                             <property name="active">1</property>
                                             <layout>
                                               <property name="row">1</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5097,7 +5066,7 @@ Please make sure there are no errors.</property>
                                             <property name="group">MinutesAt</property>
                                             <layout>
                                               <property name="row">0</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5112,14 +5081,14 @@ Please make sure there are no errors.</property>
                                             <property name="inverted">False</property>
                                             <property name="adjustment">adjustment5</property>
                                             <signal name="change_value" handler="on_MinutesOnlyScale_change_value" />
-                                            <property name="halign">GTK_ALIGN_CENTER</property>
-                                            <property name="valign">GTK_ALIGN_CENTER</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
                                             <property name="hexpand">false</property>
                                             <property name="vexpand">false</property>
                                             <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                                             <layout>
                                               <property name="row">2</property>
-                                              <property name="col">0</property>
+                                              <property name="column">0</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -5138,7 +5107,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">2</property>
+                                      <property name="column">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5152,7 +5121,7 @@ Please make sure there are no errors.</property>
                             </child>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5165,7 +5134,7 @@ Please make sure there are no errors.</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5179,8 +5148,8 @@ Please make sure there are no errors.</property>
                             <property name="hexpand">1</property>
                             <property name="icon_size">normal</property>
                             <property name="icon_name">stock_form-time-field</property>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -5205,8 +5174,8 @@ Please make sure there are no errors.</property>
                               <object id="table15" class="GtkGrid">
                                 <property name="row_spacing">2</property>
                                 <property name="column_spacing">12</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -5219,7 +5188,7 @@ Please make sure there are no errors.</property>
                                     <property name="vexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5232,7 +5201,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5267,14 +5236,14 @@ Please make sure there are no errors.</property>
                                         </child>
                                       </object>
                                     </child>
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">false</property>
                                     <property name="vexpand">false</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5285,14 +5254,14 @@ Please make sure there are no errors.</property>
                                     <property name="label" translatable="1">Backups are incremental</property>
                                     <property name="use_underline">1</property>
                                     <signal name="toggled" handler="on_backupset4IncrementalCheck_toggled" last_modification_time="Sat, 31 May 2008 16:37:14 GMT" />
-                                    <property name="halign">GTK_ALIGN_CENTER</property>
-                                    <property name="valign">GTK_ALIGN_CENTER</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">false</property>
                                     <property name="vexpand">false</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5312,8 +5281,8 @@ Please make sure there are no errors.</property>
                               <object id="table83" class="GtkGrid">
                                 <property name="row_spacing">6</property>
                                 <property name="column_spacing">12</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -5325,7 +5294,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5338,7 +5307,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5351,7 +5320,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5364,7 +5333,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5377,7 +5346,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5389,7 +5358,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">2</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5401,7 +5370,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">3</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                       <property name="column_span">2</property>
                                     </layout>
                                   </object>
@@ -5422,8 +5391,8 @@ Please make sure there are no errors.</property>
                               <object id="table84" class="GtkGrid">
                                 <property name="row_spacing">6</property>
                                 <property name="column_spacing">12</property>
-                                <property name="halign">GTK_ALIGN_CENTER</property>
-                                <property name="valign">GTK_ALIGN_CENTER</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                                 <property name="hexpand">false</property>
                                 <property name="vexpand">false</property>
                                 <child>
@@ -5434,7 +5403,7 @@ Please make sure there are no errors.</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">0</property>
+                                      <property name="column">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5448,7 +5417,7 @@ Please make sure there are no errors.</property>
                                     <property name="adjustment">adjustment6</property>
                                     <layout>
                                       <property name="row">0</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5462,7 +5431,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                                     <property name="hexpand">true</property>
                                     <layout>
                                       <property name="row">1</property>
-                                      <property name="col">1</property>
+                                      <property name="column">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -5486,8 +5455,8 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="hexpand">1</property>
                             <property name="icon_name">gtk-preferences</property>
                             <property name="icon_size">normal</property>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -5518,7 +5487,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                             <layout>
                               <property name="row">4</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -5529,7 +5498,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="invisible_char">•</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -5540,7 +5509,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="invisible_char">•</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -5552,7 +5521,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">0</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5564,7 +5533,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">1</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5576,7 +5545,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">4</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5591,7 +5560,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">5</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                             </layout>
                           </object>
                         </child>
@@ -5613,7 +5582,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">5</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -5624,7 +5593,7 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                             <property name="vexpand">true</property>
                             <layout>
                               <property name="row">3</property>
-                              <property name="col">0</property>
+                              <property name="column">0</property>
                               <property name="column_span">2</property>
                             </layout>
                           </object>
@@ -5641,7 +5610,7 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                             <property name="hexpand">true</property>
                             <layout>
                               <property name="row">2</property>
-                              <property name="col">1</property>
+                              <property name="column">1</property>
                             </layout>
                           </object>
                         </child>
@@ -5655,8 +5624,8 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                             <property name="hexpand">1</property>
                             <property name="icon_name">gtk-preferences</property>
                             <property name="icon_size">normal</property>
-                            <property name="halign">GTK_ALIGN_CENTER</property>
-                            <property name="valign">GTK_ALIGN_CENTER</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -5671,7 +5640,7 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                 </child>
                 <layout>
                   <property name="row">1</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                   <property name="column_span">2</property>
                 </layout>
               </object>
@@ -5679,13 +5648,12 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
             <child>
               <object class="GtkEntry" id="backupset1NameEntry">
                 <property name="focusable">1</property>
-                <property name="has_focus">1</property>
                 <property name="text" translatable="1" />
                 <property name="invisible_char">•</property>
                 <property name="activates_default">1</property>
                 <layout>
                   <property name="row">0</property>
-                  <property name="col">1</property>
+                  <property name="column">1</property>
                 </layout>
               </object>
             </child>
@@ -5698,101 +5666,10 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                 <property name="vexpand">true</property>
                 <layout>
                   <property name="row">0</property>
-                  <property name="col">0</property>
+                  <property name="column">0</property>
                 </layout>
               </object>
             </child>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkWindow" id="splash">
-    <property name="width_request">400</property>
-    <property name="visible">1</property>
-    <property name="title" translatable="1">fwbackups Initializing...</property>
-    <property name="resizable">0</property>
-    <signal name="close_request" handler="hide" last_modification_time="Thu, 16 Aug 2007 14:33:04 GMT" />
-    <child>
-      <object id="table79" class="GtkGrid">
-        <property name="row_spacing">6</property>
-        <property name="column_spacing">12</property>
-        <child>
-          <object class="GtkLabel" id="label443">
-            <property name="label" translatable="1"> A feature-rich user backup program</property>
-            <property name="use_markup">1</property>
-            <property name="xalign">0</property>
-            <property name="hexpand">true</property>
-            <layout>
-              <property name="row">1</property>
-              <property name="col">1</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label436">
-            <property name="label" translatable="1">&lt;span size="xx-large" weight="bold"&gt;fwbackups&lt;/span&gt;</property>
-            <property name="use_markup">1</property>
-            <property name="xalign">0</property>
-            <layout>
-              <property name="row">0</property>
-              <property name="col">1</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkImage" id="splashIconImage">
-            <property name="icon_name">gtk-missing-image</property>
-            <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
-            <property name="halign">GTK_ALIGN_CENTER</property>
-            <property name="valign">GTK_ALIGN_START</property>
-            <property name="hexpand">true</property>
-            <property name="vexpand">true</property>
-            <layout>
-              <property name="row">0</property>
-              <property name="col">0</property>
-              <property name="row_span">2</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label437">
-            <property name="label" translatable="1">&lt;span size="small"&gt;Please wait while fwbackups initializes.&lt;/span&gt;</property>
-            <property name="use_markup">1</property>
-            <property name="xalign">0</property>
-            <property name="hexpand">true</property>
-            <layout>
-              <property name="row">2</property>
-              <property name="col">0</property>
-              <property name="column_span">2</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkProgressBar" id="splashProgress">
-            <property name="height_request">10</property>
-            <property name="pulse_step">0.10000000149</property>
-            <property name="text" translatable="1" />
-            <property name="ellipsize">end</property>
-            <property name="hexpand">true</property>
-            <layout>
-              <property name="row">4</property>
-              <property name="col">0</property>
-              <property name="column_span">2</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label444">
-            <property name="label" translatable="1" />
-            <property name="use_markup">1</property>
-            <property name="xalign">0</property>
-            <property name="hexpand">true</property>
-            <layout>
-              <property name="row">3</property>
-              <property name="col">0</property>
-              <property name="column_span">2</property>
-            </layout>
           </object>
         </child>
       </object>
@@ -5817,8 +5694,8 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                 <property name="hexpand">1</property>
                 <property name="icon_size">GTK_ICON_SIZE_LARGE</property>
                 <property name="icon_name">gtk-dialog-warning</property>
-                <property name="halign">GTK_ALIGN_CENTER</property>
-                <property name="valign">GTK_ALIGN_START</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
               </object>
             </child>
             <child>

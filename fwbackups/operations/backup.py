@@ -18,6 +18,7 @@
 """
 This file contains the logic for the backup operation
 """
+import base64
 import os
 import re
 import tempfile
@@ -58,7 +59,7 @@ class BackupOperation(operations.Common):
     else:
       options['RemotePort'] = int(options['RemotePort'])
     options['Nice'] = int(options['Nice'])
-    options['RemotePassword'] = options['RemotePassword'].decode('base64')
+    options['RemotePassword'] = base64.b64decode(options['RemotePassword']).decode('ascii')
     for option in ['Recursive', 'PkgListsToFile', 'DiskInfoToFile',
                    'BackupHidden', 'FollowLinks', 'Sparse']:
       options[option] = _bool(options[option])

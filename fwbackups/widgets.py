@@ -24,11 +24,15 @@ import codecs
 import logging
 import os
 import re
+import threading
+import time
 from xml.sax.saxutils import escape
 
 import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
+from gi.repository import Pango
+from gi.repository import GLib
 
 from fwbackups.i18n import _
 from fwbackups.const import *
@@ -45,13 +49,13 @@ class TextViewConsole:
     self.endMark = self.buffer.create_mark("End", self.buffer.get_end_iter(), False)
     self.startMark = self.buffer.create_mark("Start", self.buffer.get_start_iter(), False)
     #setup styles.
-    self.style_banner = Gtk.TextTag("banner")
+    self.style_banner = Gtk.TextTag.new("banner")
     self.style_banner.set_property("foreground", "saddle brown")
     self.style_banner.set_property("family", "Monospace")
     self.style_banner.set_property("size_points", 8)
 
 
-    self.style_ps1 = Gtk.TextTag("ps1")
+    self.style_ps1 = Gtk.TextTag.new("ps1")
     self.style_ps1.set_property("editable", False)
     if color:
       self.style_ps1.set_property("foreground", color)
@@ -63,18 +67,18 @@ class TextViewConsole:
       self.style_ps1.set_property("family", "Monospace")
       self.style_ps1.set_property("size_points", 8)
 
-    self.style_ps2 = Gtk.TextTag("ps2")
+    self.style_ps2 = Gtk.TextTag.new("ps2")
     self.style_ps2.set_property("foreground", "DarkOliveGreen")
     self.style_ps2.set_property("editable", False)
     self.style_ps2.set_property("font", "Monospace")
 
-    self.style_out = Gtk.TextTag("stdout")
+    self.style_out = Gtk.TextTag.new("stdout")
     self.style_out.set_property("foreground", "midnight blue")
     self.style_out.set_property("family", "Monospace")
     self.style_out.set_property("size_points", 8)
 
 
-    self.style_err = Gtk.TextTag("stderr")
+    self.style_err = Gtk.TextTag.new("stderr")
     #self.style_err.set_property("style", pango.STYLE_ITALIC)
     self.style_err.set_property("foreground", "red")
     if font:
@@ -83,7 +87,7 @@ class TextViewConsole:
       self.style_err.set_property("family", "Monospace")
       self.style_err.set_property("size_points", 8)
 
-    self.style_warn = Gtk.TextTag("warn")
+    self.style_warn = Gtk.TextTag.new("warn")
     self.style_warn.set_property("foreground", "darkorange")
     if font:
       self.style_warn.set_property("font", font)
@@ -119,7 +123,7 @@ class TextViewConsole:
       txt: Text to write
       style: (optional) Predefinded pango style to use.
   """
-    #txt = gobject.markup_escape_text(txt)
+    #txt = gi.markup_escape_text(txt)
     # FIXME: We may need this once we have translations
     #txt = self._toUTF(txt)
     start, end = self.buffer.get_bounds()
@@ -142,10 +146,10 @@ class TextViewConsole:
     self.history()
 
   def goTop(self):
-    self.textview.scroll_to_iter(self.buffer.get_start_iter(), 0.0)
+    self.textview.scroll_to_iter(self.buffer.get_start_iter(), 0.0, False, 0, 0)
 
   def goBottom(self):
-    self.textview.scroll_to_iter(self.buffer.get_end_iter(), 0.0)
+    self.textview.scroll_to_iter(self.buffer.get_end_iter(), 0.0, False, 0, 0)
 
   def write_log_line(self, i):
     """Wrapper for write_line for log messages"""
@@ -162,7 +166,7 @@ class TextViewConsole:
 
   def history(self):
     """Get + print all old log messages stored in the log file"""
-    stream = open(LOGLOC, 'r')
+    stream = open(LOGLOC, 'r', encoding='UTF-8')
     text = stream.read()
     stream.close()
     if text.strip() != '':
@@ -170,8 +174,7 @@ class TextViewConsole:
       for i in text.split('\n'):
         self.write_log_line(i)
     else:
-      self.write_line('-- %s --%s' % (_('No previous log messages to display'),\
-os.linesep), self.style_ps2)
+      self.write_line('-- %s --%s' % (_('No previous log messages to display'), os.linesep), self.style_ps2)
     self.write_line('-- %s --%s%s' % (_('Current session\'s log messages'), os.linesep, os.linesep), self.style_ps2)
 
 
@@ -263,12 +266,12 @@ class StatusBar:
     except AttributeError:
       pass
     self.statusbar.push(1, message)
-    self.message_timer = gobject.timeout_add(seconds*1000, self.message_timeout)
+    self.message_timer = GLib.timeout_add(seconds * 1000, self.message_timeout)
 
   def message_timeout(self):
     """Remove a message from the statusbar"""
     self.statusbar.pop(1)
-    gobject.source_remove(self.message_timer)
+    GLib.Source.remove(self.message_timer)
     return True
 
 class ProgressBar:
@@ -298,11 +301,11 @@ class ProgressBar:
     if self.pulsing:
       self.stopPulse()
     self.pulsing = True
-    self.pulsetimer = gobject.timeout_add(self.ms, self._pulse)
+    self.pulsetimer = GLib.timeout_add(self.ms, self._pulse)
 
   def stopPulse(self):
     """Stop auto-pulsing the progressbar"""
-    gobject.source_remove(self.pulsetimer)
+    GLib.Source.remove(self.pulsetimer)
     self.progressbar.set_fraction(0)
     self.pulsing = False
     return True
@@ -329,14 +332,15 @@ class GenericDia:
     self.dialog.set_title(title)
     self.dialog.set_transient_for(parent)
 
+    self.user_responded = threading.Event()
+    self.dialog.connect("response", self.on_response)
+
   def run(self):
     """Run the dialog"""
     self.dialog.show()
-    try:
-      return self.dialog.run()
-    except:
-      self.destroy()
-      raise
+    while self.user_responded.wait(0.01):
+      time.sleep(0.01)
+    return self.response
 
   def destroy(self):
     """Hide the dialog, don't kill it!"""
@@ -347,6 +351,10 @@ class GenericDia:
     response = self.run()
     self.destroy()
     return response
+
+  def on_response(self, response_id, user_data):
+    self.response = response_id
+    self.user_responded.set()
 
 class PathBrowser(GenericDia):
   """Wrapper for generic path dialogs"""
@@ -534,26 +542,26 @@ class PathView(View):
 
     # Give it columns
     cell = Gtk.CellRendererPixbuf()
-    col = Gtk.TreeViewColumn(_('Access'), cell, stock_id=0)
+    col = Gtk.TreeViewColumn(_('Access'), cell) # FIXME: stock_id
     col.set_resizable(True)
     self.treeview.append_column(col)
 
     cell = Gtk.CellRendererText()
-    cell.set_property('ellipsize', pango.ELLIPSIZE_MIDDLE)
+    cell.set_property('ellipsize', Pango.EllipsizeMode.END)
     col = Gtk.TreeViewColumn(_('Path'), cell, text=1)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
-    self.liststore = Gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
+    self.liststore = Gtk.ListStore(str, str)
     self.treeview.set_model(self.liststore)
     self.treeview.set_reorderable(False)
-    self.treeview.get_selection().set_mode(Gtk.SELECTION_MULTIPLE)
+    self.treeview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
 
     # Allow enable drag and drop of rows including row move
     #self.TARGETS = [('text/plain', 0, 1)]
     #self.treeview.enable_model_drag_dest(self.TARGETS, Gtk.gdk.ACTION_DEFAULT)
     target = [('text/uri-list', 0, 0)]
-    self.treeview.drag_dest_set(Gtk.DEST_DEFAULT_ALL, target, Gtk.gdk.ACTION_COPY)
+    #self.treeview.drag_dest_set(Gtk.DEST_DEFAULT_ALL, target, Gtk.gdk.ACTION_COPY) FIXME
 
     def escape(uri):
       "Convert each space to %20, etc"
@@ -610,7 +618,7 @@ class PathView(View):
         self.add([os.path.normpath(i)], self._buildListstoreIndex(self.liststore, 1))
       context.finish(True, False, time)
 
-    self.treeview.connect('drag_data_received', drag_data_received)
+    #self.treeview.connect('drag_data_received', drag_data_received) FIXME
     # Just to keep things clean.
     self.clear()
 
@@ -689,7 +697,7 @@ class ExportView(View):
     self.logger = fwlogger.getLogger()
     self.statusbar= statusbar
     self.ui = ui
-    self.liststore = Gtk.ListStore(gobject.TYPE_BOOLEAN, gobject.TYPE_STRING)
+    self.liststore = Gtk.ListStore(bool, str)
     # Give it columns
     cell = Gtk.CellRendererToggle()
     cell.connect('toggled', self._on_toggled, self.liststore)
@@ -699,7 +707,7 @@ class ExportView(View):
     self.treeview.append_column(col)
 
     cell = Gtk.CellRendererText()
-    cell.set_property('ellipsize', pango.ELLIPSIZE_MIDDLE)
+    cell.set_property('ellipsize', Pango.EllipsizeMode.END)
     col = Gtk.TreeViewColumn(_('Set'), cell, text=1)
     col.set_resizable(True)
     self.treeview.append_column(col)

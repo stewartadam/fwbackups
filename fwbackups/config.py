@@ -18,12 +18,13 @@
 """
 Configuration classes for fwbackups
 """
+import base64
 import configparser
-import locale
+import os
 import sys
 
 import fwbackups
-from fwbackups.i18n import _, encode, decode
+from fwbackups.i18n import _
 from fwbackups.const import *
 
 class ConfigError(Exception):
@@ -43,16 +44,16 @@ class ValidationError(Exception):
 def _setupConf():
   """Setup the configuration directory"""
   for directory in [LOC, SETLOC]:
-    if not os.path.exists(encode(directory)):
+    if not os.path.exists(directory):
       try:
-        os.mkdir(encode(directory), 0o700)
+        os.mkdir(directory, 0o700)
       except OSError as error:
         raise ConfigError(_("Could not create configuration folder `%s':" % error))
         sys.exit(1)
     # Passwords that are base64-encoded are stored, so make sure they are secure
     if LINUX or DARWIN:
-      if os.stat(encode(LOC)).st_mode != 16832:
-        os.chmod(encode(LOC), 0o700)
+      if os.stat(LOC).st_mode != 16832:
+        os.chmod(LOC, 0o700)
     if not fwbackups.CheckPerms(directory):
       raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % directory)
       sys.exit(1)
@@ -71,9 +72,9 @@ class ConfigFile(configparser.ConfigParser):
     # Renders options case-sensitive
     configparser.ConfigParser.optionxform = self.optionxform
     # conffile is a unicode string - make sure to encode() when appropriate
-    self.__conffile = encode(conffile)
+    self.__conffile = conffile
     if create and not os.path.exists(self.__conffile):
-      fh = open(self.__conffile, 'w')
+      fh = open(self.__conffile, 'w', encoding='UTF-8')
       fh.close()
     self.read()
 
@@ -88,7 +89,7 @@ class ConfigFile(configparser.ConfigParser):
 
   def read(self):
     """Read and parse the configuration file's data."""
-    fh = open(self.__conffile, 'r')
+    fh = open(self.__conffile, 'r', encoding="UTF-8")
     configparser.ConfigParser.readfp(self, fh)
     fh.close()
 
@@ -116,26 +117,24 @@ class ConfigFile(configparser.ConfigParser):
       else:
         configparser.ConfigParser.add_section(self, section)
       for option, value in list(dictobject[section].items()):
-        if isinstance(value, str):
-          value = encode(value)
         configparser.ConfigParser.set(self, section, option, str(value))
     # Write _once_ at the end once all changes are imported
     self.write()
 
   def write(self):
     """Write the text representation to the configuration file."""
-    fh = open(self.__conffile, 'w')
+    fh = open(self.__conffile, 'w', encoding="UTF-8")
     configparser.ConfigParser.write(self, fh)
     fh.close()
 
-  def get(self, section, option):
+  def get(self, section, option, *, raw=False, vars=None, fallback=configparser._UNSET):
     """Returns a Unicode object of the value stored in option of section"""
-    value = configparser.ConfigParser.get(self, section, option)
-    return decode(value)
+    value = configparser.ConfigParser.get(self, section, option, raw=raw, vars=vars, fallback=fallback)
+    return value
 
   def set(self, section, prop, value):
     """Set a value in a given section and save."""
-    configparser.ConfigParser.set(self, section, prop, encode(value))
+    configparser.ConfigParser.set(self, section, prop, value)
     self.write()
     return True
 
@@ -177,8 +176,8 @@ class BackupSetConf:
 
   def getSetName(self):
     """Returns the set name being used"""
-    setName = os.path.basename(os.path.splitext(encode(self.setPath))[0])
-    return decode(setName)
+    setName = os.path.basename(os.path.splitext(self.setPath)[0])
+    return setName
 
   def __initialize(self):
     """Initializes a basic set configuration file with default values"""
@@ -303,7 +302,7 @@ class BackupSetConf:
      # Remote password was obuscated in 1.43.3rc1
     if oldVersion == '1.43.2' or fromHereUp == True:
       fromHereUp = True
-      encoded = self.__config.get('Options', 'RemotePassword').encode('base64')
+      encoded = base64.b64encode(self.__config.get('Options', 'RemotePassword').encode('ascii')).decode('ascii')
       self.__config.set('Options', 'RemotePassword', encoded)
     # Nothing for these versions, but keep doing the below
     # However, there was a typo ("Sparce" vs "Sparse") in the upgrade procedures
@@ -323,22 +322,22 @@ class BackupSetConf:
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
-    def sorted(alist):
+    def sorted_copy(alist):
       """Sorts a list and returns it"""
       copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
-    if sorted(config.keys()) != ["General", "Options", "Paths", "Times"]:
+    if sorted_copy(config.keys()) != ["General", "Options", "Paths", "Times"]:
       raise ValidationError(_("Set '%s' failed to pass section validation") % self.getSetName())
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Set":
       raise ValidationError(_("'%(a)s' is not a set configuration file.") % self.setPath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
-    if not sorted(config["General"].keys()) == ["Type", "Version"]:
+    if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:
       raise ValidationError(_("Configuration section 'General' in the set configuration '%s' failed to validate") % self.getSetName())
     # Validate Times section - remember the list is sorted
-    if not sorted(config["Times"].keys()) == ["Custom", "Entry"]:
+    if not sorted_copy(config["Times"].keys()) == ["Custom", "Entry"]:
       raise ValidationError(_("Configuration section 'Times' in the set configuration '%s' failed to validate") % self.getSetName())
     # Validate Options section - remember the list is sorted
     validOptions = ['BackupHidden', 'CommandAfter', 'CommandBefore', "Destination",
@@ -346,7 +345,7 @@ class BackupSetConf:
       'FollowLinks', 'Incremental', 'Nice', 'OldToKeep', 'PkgListsToFile',
       'Recursive', 'RemoteFolder', 'RemoteHost', 'RemotePassword', 'RemotePort',
       'RemoteUsername', 'Sparse']
-    for option in sorted(config["Options"].keys()):
+    for option in sorted_copy(config["Options"].keys()):
       if not option in validOptions:
         # This must be placed in a separate if statement, as if it was placed in
         # the above statement when strictValidation=False and an invalid option
@@ -375,7 +374,7 @@ class BackupSetConf:
     """Returns a dictionary of all options and their values"""
     config = self.__config.generateDict(sections=["Options"])
     return config["Options"]
-  
+
   def getCronLineText(self):
     """Returns the cron line in text form"""
     try:
@@ -400,7 +399,7 @@ class BackupSetConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(encode(self.setPath))
+    os.remove(self.setPath)
     self.__config = ConfigFile(self.setPath, True)
     if mergeDefaults:
       self.__initialize()
@@ -425,7 +424,7 @@ class BackupSetConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(encode(self.setPath))
+      os.remove(self.setPath)
       self.__config = ConfigFile(self.setPath, True)
       self.__config.importDict(backup)
       raise
@@ -443,8 +442,8 @@ class OneTimeConf:
 
     if not self.__config.sections() or create:
       # Remove existing config if it exists
-      if os.path.exists(encode(self.onetPath)):
-        os.remove(encode(self.onetPath))
+      if os.path.exists(self.onetPath):
+        os.remove(self.onetPath)
         self.__config = ConfigFile(self.onetPath, True)
       # Initialize the defaults from our now-clean config
       self.__initialize()
@@ -485,26 +484,26 @@ class OneTimeConf:
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
-    def sorted(alist):
+    def sorted_copy(alist):
       """Sorts a list and returns it"""
       copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
-    if sorted(config.keys()) != ["General", "Options", "Paths"]:
+    if sorted_copy(config.keys()) != ["General", "Options", "Paths"]:
       raise ValidationError(_("One-time configuration failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "OneTime":
       raise ValidationError(_("'%(a)s' is not a one-time configuration file.") % self.onetPath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
-    if not sorted(config["General"].keys()) == ["Type", "Version"]:
+    if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:
       raise ValidationError(_("Configuration section 'General' in the one-time configuration file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['BackupHidden', "Destination", 'DestinationType',
       'DiskInfoToFile', 'Engine', 'Excludes', 'FollowLinks', 'Incremental',
       'Nice', 'PkgListsToFile', 'Recursive', 'RemoteFolder', 'RemoteHost',
       'RemotePassword', 'RemotePort', 'RemoteUsername', 'Sparse']
-    for option in sorted(config["Options"].keys()):
+    for option in sorted_copy(config["Options"].keys()):
       if not option in validOptions:
         # This must be placed in a separate if statement, as if it was placed in
         # the above statement when strictValidation=False and an invalid option
@@ -540,7 +539,7 @@ class OneTimeConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(encode(self.onetPath))
+    os.remove(self.onetPath)
     self.__config = ConfigFile(self.onetPath, True)
     if mergeDefaults:
       self.__initialize()
@@ -563,7 +562,7 @@ class OneTimeConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(encode(self.onetPath))
+      os.remove(self.onetPath)
       self.__config = ConfigFile(self.onetPath, True)
       self.__config.importDict(backup)
       raise
@@ -580,8 +579,8 @@ class RestoreConf:
 
     if not self.__config.sections() or create:
       # Remove existing config if it exists
-      if os.path.exists(encode(self.restorePath)):
-        os.remove(encode(self.restorePath))
+      if os.path.exists(self.restorePath):
+        os.remove(self.restorePath)
         self.__config = ConfigFile(self.restorePath, True)
       # Initialize the defaults from our now-clean config
       self.__initialize()
@@ -611,24 +610,24 @@ class RestoreConf:
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
-    def sorted(alist):
+    def sorted_copy(alist):
       """Sorts a list and returns it"""
       copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
-    if sorted(config.keys()) != ["General", "Options"]:
+    if sorted_copy(config.keys()) != ["General", "Options"]:
       raise ValidationError(_("Restore configuration failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Restore":
       raise ValidationError(_("'%(a)s' is not a restore configuration file.") % self.restorePath)
     # Check that all required values are present
     # Validate General section - remember the list is sorted
-    if not sorted(config["General"].keys()) == ["Type", "Version"]:
+    if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:
       raise ValidationError(_("Configuration section 'General' in the restore configuration file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['Destination', 'RemoteHost', 'RemotePassword', 'RemotePort',
                     'RemoteSource', 'RemoteUsername', 'Source', 'SourceType']
-    for option in sorted(config["Options"].keys()):
+    for option in sorted_copy(config["Options"].keys()):
       if not option in validOptions:
         # This must be placed in a separate if statement, as if it was placed in
         # the above statement when strictValidation=False and an invalid option
@@ -655,7 +654,7 @@ class RestoreConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(encode(self.restorePath))
+    os.remove(self.restorePath)
     self.__config = ConfigFile(self.restorePath, True)
     if mergeDefaults:
       self.__initialize()
@@ -673,7 +672,7 @@ class RestoreConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(encode(self.restorePath))
+      os.remove(self.restorePath)
       self.__config = ConfigFile(self.restorePath, True)
       self.__config.importDict(backup)
       raise
@@ -724,25 +723,25 @@ class PrefsConf:
     """Validates a set configuration file. Ensures all required sections and
        options are present, but does not validate their values."""
     config = self.__config.generateDict()
-    def sorted(alist):
+    def sorted_copy(alist):
       """Sorts a list and returns it"""
       copy = sorted(alist)
       return copy
     # Ensure the configuration sections are present - remember these are sorted
-    if sorted(config.keys()) != ["General", "Preferences"]:
+    if sorted_copy(config.keys()) != ["General", "Preferences"]:
       raise ValidationError(_("Preferences failed to pass section validation"))
     # Ensure the set configuration is really a set configuration file
     if self.__config.get("General", "Type") != "Preferences":
-      raise ValidationError(_("'%(a)s' is not a fwbackups preferences file.") % PREFSLOC)
+      raise ValidationError(_(f"'{PREFSLOC}' is not a fwbackups preferences file."))
     # Check that all required values are present
     # Validate General section - remember the list is sorted
-    if not sorted(config["General"].keys()) == ["Type", "Version"]:
+    if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:
       raise ValidationError(_("Configuration section 'General' in the preferences file failed to validate"))
     # Validate Options section - remember the list is sorted
     validOptions = ['AlwaysShowDebug', 'DontShowMe_OldVerWarn',
                     'DontShowMe_ClearLog', 'MinimizeTrayClose', 'pycronLoc',
                     'ShowNotifications', 'ShowTrayIcon', 'StartMinimized']
-    for option in sorted(config["Preferences"].keys()):
+    for option in sorted_copy(config["Preferences"].keys()):
       if not option in validOptions:
         # This must be placed in a separate if statement, as if it was placed in
         # the above statement when strictValidation=False and an invalid option
@@ -828,11 +827,11 @@ class PrefsConf:
           if line.get_raw_entry_text().find('fwbackups-run') == -1:
             cleanedLines.append(line)
       # re-schedule current sets
-      files = sorted(os.listdir(encode(SETLOC)))
+      files = sorted(os.listdir(SETLOC))
       for file in files:
         if file.endswith('.conf') and file != 'temporary_config.conf':
           try:
-            setPath = decode(os.path.join(encode(SETLOC), file))
+            setPath = os.path.join(SETLOC, file)
             setConf = BackupSetConf(setPath)
             entry = setConf.getCronLineText()
             crontabLine = cron.crontabLine(*entry)
@@ -869,7 +868,7 @@ class PrefsConf:
 
   def set(self, section, option, value):
     """Sets the value of option in section."""
-    return self.__config.set(section, option, value)
+    return self.__config.set(section, option, str(value))
 
   def save(self, options, mergeDefaults=False):
     """Saves a preferences configuration file from dict-dump object options. The
@@ -880,7 +879,7 @@ class PrefsConf:
     # Backup the current configuration in a dict in case it needs to be restored
     backup = self.__config.generateDict()
     # Remove the current configuration & create a blank one
-    os.remove(encode(PREFSLOC))
+    os.remove(PREFSLOC)
     self.__config = ConfigFile(PREFSLOC, True)
     if mergeDefaults:
       self.__initialize()
@@ -898,7 +897,7 @@ class PrefsConf:
     try: # Attempt to validate the file
       self.__validate()
     except: # Restore original backup configuration and raise an error
-      os.remove(encode(PREFSLOC))
+      os.remove(PREFSLOC)
       self.__config = ConfigFile(PREFSLOC, True)
       self.__config.importDict(backup)
       raise

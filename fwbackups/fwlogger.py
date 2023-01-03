@@ -23,7 +23,7 @@ import logging
 import types
 
 from fwbackups.const import *
-from fwbackups.i18n import _, encode
+from fwbackups.i18n import _
 
 L_DEBUG = logging.DEBUG
 L_INFO = logging.INFO
@@ -59,7 +59,7 @@ class fwLogger(logging.Logger):
     self.__newmessages = False
     try:
       # need a handler
-      loghandler = logging.FileHandler(encode(LOGLOC), 'a')
+      loghandler = logging.FileHandler(LOGLOC, 'a', encoding="UTF-8")
       # Create formatter & add formatter to handler
       logformatter = logging.Formatter("%(message)s")
       loghandler.setFormatter(logformatter)
@@ -100,10 +100,10 @@ class fwLogger(logging.Logger):
     date = datetime.datetime.now().strftime('%b %d %H:%M:%S')
     level = self.getEffectiveLevel()
     if level <= LEVELS[severity]:
-      entry = '%s :: %s : %s' % (date.decode('utf-8'), _(severity), message)
-      self.log(LEVELS[severity], entry.encode('utf-8'))
+      entry = '%s :: %s : %s' % (date, _(severity), message)
+      self.log(LEVELS[severity], entry)
       if self.__printToo:
-        print(entry.encode('utf-8'))
+        print(entry)
       # pull in & execute the appropriate function
       for i in self.__functions:
         i(severity, entry)

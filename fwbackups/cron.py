@@ -23,8 +23,6 @@ import os
 import re
 import subprocess
 import tempfile
-import time
-import types
 
 from .i18n import _, encode, decode
 from .const import *
@@ -126,10 +124,10 @@ def getPyCrontab():
   # See if the configuration file exists
   pycronConfig = os.path.join(encode(pycronLoc), 'pycron.cfg')
   if os.path.exists(pycronConfig):
-    pycronConf = config.ConfigFile(decode(pycronConfig))
+    pycronConf = config.ConfigFile(pycronConfig)
   # If not, does the sample configuation exist?
   elif os.path.exists('%s.sample' % pycronConfig):
-    pycronConf = config.ConfigFile(decode('%s.sample' % pycronConfig))
+    pycronConf = config.ConfigFile('%s.sample' % pycronConfig)
   # No cron file found!
   else:
     raise CronError(_("Could not locate the pycron or the sample pycron configuration in %s" % pycronLoc))
@@ -137,7 +135,7 @@ def getPyCrontab():
   pycrontab = os.path.join(pycronLoc, pycronConf.get('pycron', 'crontab_filename'))
   if not os.path.exists(pycrontab):
     try:
-      fh = open(pycrontab, 'w')
+      fh = open(pycrontab, 'w', encoding="utf-8")
       fh.write('# PyCron crontab file\n')
       fh.close()
     except:
@@ -150,7 +148,7 @@ def read():
   if MSWINDOWS:
     # Read from pycron's crontab file
     crontabLoc = getPyCrontab()
-    fh = open(crontabLoc, 'r')
+    fh = open(crontabLoc, 'r', encoding="utf-8")
   else:
     # Read from the user's crontab
     sub = executeSub(['crontab', '-l'], stdoutfd=subprocess.PIPE)
@@ -159,7 +157,7 @@ def read():
       raise CronError('stderr:\n%sstdout:\n%s' % (sub.stderr.readlines(), sub.stdout.readlines()))
     fh = sub.stdout
   # Parse the lines
-  lines = [rawCrontabLine(line) for line in fh.readlines()]
+  lines = [rawCrontabLine(line.decode('utf-8')) for line in fh.readlines()]
   if MSWINDOWS:
     fh.close()
   return lines
@@ -173,7 +171,7 @@ def write(crontabEntries=[]):
     if MSWINDOWS:
       # We'll edit PyCrontab directly
       crontab = getPyCrontab()
-      fh = open(crontab, 'w')
+      fh = open(crontab, 'w', encoding="utf-8")
     else:
       # We'll create a temporary file to pass to crontab as input
       fd, path = tempfile.mkstemp()
@@ -181,9 +179,9 @@ def write(crontabEntries=[]):
 
     for crontabEntry in crontabEntries:
       if isinstance(crontabEntry, crontabLine): # generate the entry text
-        fh.write(encode(crontabEntry.generate_entry_text()))
+        fh.write(crontabEntry.generate_entry_text().encode("utf-8"))
       else:
-        fh.write(encode(crontabEntry.get_raw_entry_text()))
+        fh.write(crontabEntry.get_raw_entry_text())
 
     fh.close()
     if not MSWINDOWS:
@@ -197,7 +195,7 @@ def remove():
   """Removes/empties a user's crontab"""
   if MSWINDOWS:
     crontab = getPyCrontab()
-    fh = open(crontab, 'w')
+    fh = open(crontab, 'w', encoding="utf-8")
     fh.write('')
     fh.close()
   else:
