@@ -6,30 +6,6 @@ docs/pdf
 docs/User_Guide/tmp
 docs/publican-diffingo/tmp
 
-# autotool stuff
-aclocal.m4
-autom4te.cache
-config.guess
-config.log
-config.status
-config.sub
-configure
-install-sh
-fwbackups.pc
-missing
-stamp-h1
-
-# these get generated from .in or .am files
-intltool-extract
-intltool-merge
-intltool-update
-Makefile.in
-Makefile
-fwbackups.spec
-src/fwbackups/__init__.py
-src/fwbackups/const.py
-bin/fwbackups
-
 # po
 po/POTFILES
 po/missing
@@ -46,7 +22,6 @@ tests/
 *.pyo
 *.old
 *.bak
-*.gladep
 *.gz
 *.rpm
 *.omf
