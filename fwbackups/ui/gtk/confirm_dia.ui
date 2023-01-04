@@ -4,7 +4,7 @@
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
   <object class="GtkDialog" id="confirm_dia">
-    <property name="icon-name"></property>
+    <property name="icon-name">dialog-question-symbolic</property>
     <property name="modal">1</property>
     <property name="resizable">0</property>
     <property name="title" translatable="yes"></property>
@@ -20,7 +20,7 @@
             <child>
               <object class="GtkImage" id="image70">
                 <property name="halign">center</property>
-                <property name="icon-name">gtk-dialog-warning</property>
+                <property name="icon-name">dialog-question-symbolic</property>
                 <property name="icon-size">large</property>
                 <property name="valign">start</property>
               </object>
@@ -57,27 +57,25 @@ Secondary text</property>
         </child>
       </object>
     </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area3">
-        <child>
-          <object class="GtkButton" id="cancelbutton2">
-            <property name="focusable">1</property>
-            <property name="label">_Yes</property>
-            <property name="receives-default">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="okbutton1">
-            <property name="focusable">1</property>
-            <property name="label">_No</property>
-            <property name="receives-default">1</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="button_yes">
+        <property name="focusable">1</property>
+        <property name="label">_Yes</property>
+        <property name="receives-default">1</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="button_no">
+        <property name="focusable">1</property>
+        <property name="label">_No</property>
+        <property name="receives-default">1</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-9">cancelbutton2</action-widget>
-      <action-widget response="-8">okbutton1</action-widget>
+      <action-widget response="-8">button_yes</action-widget>
+      <action-widget response="-9">button_no</action-widget>
     </action-widgets>
   </object>
 </interface>

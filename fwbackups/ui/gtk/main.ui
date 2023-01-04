@@ -54,7 +54,7 @@
           <object class="GtkStatusbar" id="statusbar1">
             <layout>
               <property name="column">0</property>
-              <property name="row">3</property>
+              <property name="row">2</property>
             </layout>
           </object>
         </child>
@@ -62,7 +62,10 @@
           <object class="GtkNotebook" id="mainControlNotebook">
             <property name="focusable">1</property>
             <property name="hexpand">1</property>
+            <property name="margin-end">18</property>
+            <property name="margin-start">18</property>
             <property name="scrollable">1</property>
+            <property name="vexpand">True</property>
             <child>
               <object class="GtkNotebookPage">
                 <property name="child">
@@ -74,18 +77,16 @@
                         <property name="margin-end">6</property>
                         <property name="margin-start">18</property>
                         <property name="row-spacing">6</property>
-                        <property name="valign">center</property>
+                        <property name="valign">start</property>
                         <child>
                           <object class="GtkFrame" id="frame2">
-                            <property name="vexpand">1</property>
                             <child>
                               <object class="GtkGrid" id="table17">
                                 <property name="column-spacing">12</property>
                                 <property name="halign">center</property>
                                 <property name="hexpand">0</property>
                                 <property name="row-spacing">12</property>
-                                <property name="valign">center</property>
-                                <property name="vexpand">0</property>
+                                <property name="vexpand">True</property>
                                 <child>
                                   <object class="GtkLabel" id="InstructionLabel">
                                     <property name="ellipsize">end</property>
@@ -94,7 +95,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">1</property>
+                                      <property name="row">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -105,7 +106,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">2</property>
+                                      <property name="row">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -129,17 +130,15 @@
                         </child>
                         <child>
                           <object class="GtkFrame" id="frame4">
-                            <property name="vexpand">1</property>
                             <child>
                               <object class="GtkGrid" id="table12">
                                 <property name="column-spacing">50</property>
-                                <property name="halign">center</property>
                                 <property name="hexpand">0</property>
                                 <property name="row-spacing">12</property>
-                                <property name="valign">center</property>
                                 <property name="vexpand">0</property>
                                 <child>
                                   <object class="GtkLabel" id="TotalSetsLabel">
+                                    <property name="hexpand">True</property>
                                     <property name="label" translatable="yes">&lt;i&gt;Not Loaded&lt;/i&gt;</property>
                                     <property name="use-markup">1</property>
                                     <property name="xalign">0</property>
@@ -163,7 +162,6 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label63">
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Total backup sets:</property>
                                     <property name="use-markup">1</property>
                                     <property name="xalign">0</property>
@@ -175,7 +173,6 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label3">
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Failed backup runs:</property>
                                     <property name="use-markup">1</property>
                                     <property name="visible">0</property>
@@ -233,11 +230,7 @@
                     <child>
                       <object class="GtkGrid" id="table3">
                         <property name="column-spacing">12</property>
-                        <property name="halign">center</property>
-                        <property name="hexpand">0</property>
                         <property name="row-spacing">6</property>
-                        <property name="valign">center</property>
-                        <property name="vexpand">0</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow5">
                             <property name="child">
@@ -249,7 +242,9 @@
                             </property>
                             <property name="focusable">1</property>
                             <property name="has-frame">1</property>
+                            <property name="hexpand">True</property>
                             <property name="hscrollbar-policy">never</property>
+                            <property name="vexpand">True</property>
                             <property name="vscrollbar-policy">always</property>
                             <layout>
                               <property name="column">1</property>
@@ -260,11 +255,9 @@
                         <child>
                           <object class="GtkBox" id="main2VButtonBox">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">24</property>
                             <property name="valign">center</property>
-                            <property name="vexpand">0</property>
                             <child>
                               <object class="GtkButton" id="main2NewSetButton">
                                 <property name="focusable">1</property>
@@ -273,14 +266,12 @@
                                 <child>
                                   <object class="GtkBox" id="hbox6">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image7">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-add</property>
+                                        <property name="icon-name">tab-new-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -303,14 +294,12 @@
                                 <child>
                                   <object class="GtkBox" id="hbox7">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image8">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-edit</property>
+                                        <property name="icon-name">document-edit-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -333,14 +322,12 @@
                                 <child>
                                   <object class="GtkBox" id="hbox8">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image9">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-delete</property>
+                                        <property name="icon-name">edit-delete-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -383,12 +370,11 @@
                           <object class="GtkBox" id="hbox76">
                             <property name="hexpand">1</property>
                             <property name="spacing">6</property>
-                            <property name="vexpand">1</property>
                             <child>
                               <object class="GtkProgressBar" id="main2BackupProgress">
                                 <property name="ellipsize">end</property>
                                 <property name="height-request">28</property>
-                                <property name="hexpand">1</property>
+                                <property name="hexpand">True</property>
                                 <property name="pulse-step">0.00999999977648</property>
                                 <property name="text" translatable="yes"></property>
                               </object>
@@ -399,6 +385,8 @@
                                 <property name="halign">center</property>
                                 <property name="label">_Cancel</property>
                                 <property name="sensitive">0</property>
+                                <property name="use-underline">True</property>
+                                <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main2CancelBackupButton_clicked"/>
                               </object>
                             </child>
@@ -406,7 +394,7 @@
                               <object class="GtkButton" id="main2FinishBackupButton">
                                 <property name="focusable">1</property>
                                 <property name="halign">center</property>
-                                <property name="visible">0</property>
+                                <property name="visible">False</property>
                                 <signal name="clicked" handler="on_main2FinishBackupButton_clicked"/>
                                 <child>
                                   <object class="GtkBox" id="hbox103">
@@ -442,8 +430,8 @@
                         <child>
                           <object class="GtkLabel" id="main2StatusLabel">
                             <property name="hexpand">1</property>
-                            <property name="label" translatable="yes">%s</property>
-                            <property name="vexpand">1</property>
+                            <property name="label">&lt;i&gt;Not Loaded&lt;/i&gt;</property>
+                            <property name="use-markup">True</property>
                             <property name="xalign">0</property>
                             <layout>
                               <property name="column">1</property>
@@ -453,9 +441,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label364">
-                            <property name="hexpand">1</property>
                             <property name="label" translatable="yes">Status:</property>
-                            <property name="vexpand">1</property>
                             <property name="xalign">0</property>
                             <layout>
                               <property name="column">0</property>
@@ -465,10 +451,8 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label244">
-                            <property name="hexpand">1</property>
                             <property name="label" translatable="yes">Backup progress:</property>
                             <property name="use-markup">1</property>
-                            <property name="vexpand">1</property>
                             <property name="xalign">0</property>
                             <layout>
                               <property name="column">0</property>
@@ -504,12 +488,8 @@
                   <object class="GtkFrame" id="frame8">
                     <child>
                       <object class="GtkBox" id="vbox25">
-                        <property name="halign">center</property>
-                        <property name="hexpand">0</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
-                        <property name="valign">center</property>
-                        <property name="vexpand">0</property>
                         <child>
                           <object class="GtkNotebook" id="main3ControlNotebook">
                             <property name="focusable">1</property>
@@ -531,7 +511,9 @@
                                         </property>
                                         <property name="focusable">1</property>
                                         <property name="has-frame">1</property>
+                                        <property name="hexpand">True</property>
                                         <property name="hscrollbar-policy">never</property>
+                                        <property name="vexpand">True</property>
                                         <property name="vscrollbar-policy">always</property>
                                         <layout>
                                           <property name="column">1</property>
@@ -542,7 +524,6 @@
                                     <child>
                                       <object class="GtkBox" id="main3VButtonBox">
                                         <property name="halign">center</property>
-                                        <property name="hexpand">1</property>
                                         <property name="orientation">vertical</property>
                                         <property name="spacing">24</property>
                                         <property name="valign">center</property>
@@ -555,7 +536,6 @@
                                             <child>
                                               <object class="GtkBox" id="hbox80">
                                                 <property name="halign">center</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="spacing">2</property>
                                                 <property name="valign">center</property>
                                                 <property name="vexpand">1</property>
@@ -585,7 +565,6 @@
                                             <child>
                                               <object class="GtkBox" id="hbox79">
                                                 <property name="halign">center</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="spacing">2</property>
                                                 <property name="valign">center</property>
                                                 <property name="vexpand">1</property>
@@ -652,10 +631,8 @@
                                     <child>
                                       <object class="GtkNotebook" id="main3DestinationTypeNotebook">
                                         <property name="focusable">1</property>
-                                        <property name="halign">center</property>
                                         <property name="hexpand">1</property>
                                         <property name="show-border">0</property>
-                                        <property name="valign">center</property>
                                         <property name="vexpand">1</property>
                                         <child>
                                           <object class="GtkNotebookPage">
@@ -663,10 +640,11 @@
                                               <object class="GtkGrid" id="main3DestinationTypeTable0">
                                                 <property name="column-spacing">12</property>
                                                 <property name="row-spacing">6</property>
+                                                <property name="valign">start</property>
                                                 <child>
                                                   <object class="GtkImage" id="main3FolderPermissionImage">
                                                     <property name="halign">end</property>
-                                                    <property name="icon-name">gtk-yes</property>
+                                                    <property name="icon-name">emblem-ok-symbolic</property>
                                                     <property name="valign">center</property>
                                                     <layout>
                                                       <property name="column">1</property>
@@ -681,7 +659,6 @@
                                                     <child>
                                                       <object class="GtkBox" id="hbox85">
                                                         <property name="halign">center</property>
-                                                        <property name="hexpand">1</property>
                                                         <property name="spacing">2</property>
                                                         <property name="valign">center</property>
                                                         <property name="vexpand">1</property>
@@ -710,6 +687,7 @@
                                                 <child>
                                                   <object class="GtkEntry" id="main3LocalFolderEntry">
                                                     <property name="focusable">1</property>
+                                                    <property name="hexpand">True</property>
                                                     <property name="invisible-char">•</property>
                                                     <property name="text" translatable="yes"></property>
                                                     <signal name="changed" handler="on_main3LocalFolderEntry_changed"/>
@@ -721,7 +699,6 @@
                                                 </child>
                                                 <child>
                                                   <object class="GtkLabel" id="label377">
-                                                    <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes">Folder:</property>
                                                     <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
@@ -773,7 +750,6 @@
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes">Host:</property>
                                                     <property name="use-markup">1</property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
                                                       <property name="column">0</property>
@@ -786,7 +762,6 @@
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes">Username:</property>
                                                     <property name="use-markup">1</property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
                                                       <property name="column">0</property>
@@ -799,7 +774,6 @@
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes">Password:</property>
                                                     <property name="use-markup">1</property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
                                                       <property name="column">0</property>
@@ -811,7 +785,6 @@
                                                   <object class="GtkLabel" id="label383">
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes">Folder:</property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
                                                       <property name="column">0</property>
@@ -823,7 +796,6 @@
                                                   <object class="GtkBox" id="hbox86">
                                                     <property name="hexpand">1</property>
                                                     <property name="spacing">6</property>
-                                                    <property name="vexpand">1</property>
                                                     <child>
                                                       <object class="GtkButton" id="main3TestSettingsButton">
                                                         <property name="focusable">1</property>
@@ -864,7 +836,6 @@
                                                   <object class="GtkLabel" id="label431">
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes"></property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
                                                       <property name="column">0</property>
@@ -887,7 +858,6 @@
                                                   <object class="GtkLabel" id="label388">
                                                     <property name="hexpand">1</property>
                                                     <property name="label" translatable="yes"></property>
-                                                    <property name="vexpand">1</property>
                                                     <property name="width-request">56</property>
                                                     <property name="xalign">0</property>
                                                     <layout>
@@ -900,7 +870,6 @@
                                                   <object class="GtkBox" id="hbox107">
                                                     <property name="hexpand">1</property>
                                                     <property name="spacing">6</property>
-                                                    <property name="vexpand">1</property>
                                                     <child>
                                                       <object class="GtkEntry" id="main3HostEntry">
                                                         <property name="focusable">1</property>
@@ -949,9 +918,8 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label368">
-                                        <property name="hexpand">1</property>
+                                        <property name="hexpand">True</property>
                                         <property name="label" translatable="yes">Destination type:</property>
-                                        <property name="vexpand">1</property>
                                         <property name="xalign">0</property>
                                         <layout>
                                           <property name="column">0</property>
@@ -979,7 +947,6 @@
                                         <child>
                                           <object class="GtkGrid" id="table86">
                                             <property name="column-spacing">12</property>
-                                            <property name="halign">center</property>
                                             <property name="hexpand">0</property>
                                             <property name="row-spacing">2</property>
                                             <property name="valign">center</property>
@@ -1012,8 +979,7 @@
                                             </child>
                                             <child>
                                               <object class="GtkBox" id="hbox105">
-                                                <property name="halign">center</property>
-                                                <property name="hexpand">0</property>
+                                                <property name="halign">start</property>
                                                 <property name="spacing">4</property>
                                                 <property name="valign">center</property>
                                                 <property name="vexpand">0</property>
@@ -1028,6 +994,7 @@
                                                 </child>
                                                 <child>
                                                   <object class="GtkComboBox" id="main3CompressCombo">
+                                                    <property name="entry-text-column">0</property>
                                                     <property name="hexpand">1</property>
                                                     <property name="model">model2</property>
                                                     <child>
@@ -1056,7 +1023,6 @@
                                         <child>
                                           <object class="GtkGrid" id="table85">
                                             <property name="column-spacing">12</property>
-                                            <property name="halign">center</property>
                                             <property name="hexpand">0</property>
                                             <property name="row-spacing">6</property>
                                             <property name="valign">center</property>
@@ -1167,10 +1133,8 @@
                                         <child>
                                           <object class="GtkGrid" id="table87">
                                             <property name="column-spacing">40</property>
-                                            <property name="halign">center</property>
                                             <property name="hexpand">0</property>
                                             <property name="row-spacing">2</property>
-                                            <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <child>
                                               <object class="GtkScale" id="main3NiceScale">
@@ -1179,7 +1143,6 @@
                                                 <property name="draw-value">1</property>
                                                 <property name="hexpand">1</property>
                                                 <property name="value-pos">left</property>
-                                                <property name="vexpand">1</property>
                                                 <layout>
                                                   <property name="column">1</property>
                                                   <property name="row">1</property>
@@ -1191,6 +1154,7 @@
                                                 <property name="child">
                                                   <object class="GtkTextView" id="main3ExcludesTextview">
                                                     <property name="focusable">1</property>
+                                                    <property name="hexpand">True</property>
                                                     <property name="left-margin">2</property>
                                                     <property name="pixels-above-lines">6</property>
                                                     <property name="pixels-below-lines">6</property>
@@ -1200,7 +1164,8 @@
                                                 <property name="focusable">1</property>
                                                 <property name="has-frame">1</property>
                                                 <property name="height-request">50</property>
-                                                <property name="vexpand">1</property>
+                                                <property name="hexpand">True</property>
+                                                <property name="vexpand">True</property>
                                                 <layout>
                                                   <property name="column">1</property>
                                                   <property name="row">0</property>
@@ -1209,10 +1174,8 @@
                                             </child>
                                             <child>
                                               <object class="GtkLabel" id="label405">
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Exclude from backup (newline separated):</property>
                                                 <property name="use-markup">1</property>
-                                                <property name="vexpand">1</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
                                                 <layout>
@@ -1223,9 +1186,7 @@
                                             </child>
                                             <child>
                                               <object class="GtkLabel" id="label406">
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Nice value of backup process:</property>
-                                                <property name="vexpand">1</property>
                                                 <property name="xalign">0</property>
                                                 <layout>
                                                   <property name="column">0</property>
@@ -1262,7 +1223,6 @@
                                       <object class="GtkLabel" id="label362">
                                         <property name="hexpand">1</property>
                                         <property name="label" translatable="yes">Status:</property>
-                                        <property name="vexpand">1</property>
                                         <property name="xalign">0</property>
                                         <layout>
                                           <property name="column">0</property>
@@ -1275,7 +1235,6 @@
                                         <property name="hexpand">1</property>
                                         <property name="label" translatable="yes">Backup progress:</property>
                                         <property name="use-markup">1</property>
-                                        <property name="vexpand">1</property>
                                         <property name="xalign">0</property>
                                         <layout>
                                           <property name="column">0</property>
@@ -1286,7 +1245,6 @@
                                     <child>
                                       <object class="GtkBox" id="hbox81">
                                         <property name="spacing">6</property>
-                                        <property name="vexpand">1</property>
                                         <child>
                                           <object class="GtkProgressBar" id="main3BackupProgress">
                                             <property name="height-request">28</property>
@@ -1302,6 +1260,7 @@
                                             <property name="label">_Cancel</property>
                                             <property name="receives-default">1</property>
                                             <property name="sensitive">0</property>
+                                            <property name="use-underline">True</property>
                                             <signal name="clicked" handler="on_main3CancelBackupButton_clicked"/>
                                           </object>
                                         </child>
@@ -1315,7 +1274,6 @@
                                       <object class="GtkLabel" id="main3StatusLabel">
                                         <property name="hexpand">1</property>
                                         <property name="label" translatable="yes">%s</property>
-                                        <property name="vexpand">1</property>
                                         <property name="xalign">0</property>
                                         <layout>
                                           <property name="column">1</property>
@@ -1336,24 +1294,26 @@
                         </child>
                         <child>
                           <object class="GtkBox" id="hbuttonbox9">
+                            <property name="halign">end</property>
+                            <property name="hexpand">True</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkButton" id="main3BackButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">end</property>
                                 <property name="receives-default">1</property>
                                 <property name="sensitive">0</property>
+                                <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main3BackButton_clicked"/>
                                 <child>
                                   <object class="GtkBox" id="hbox82">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image1464">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-go-back</property>
+                                        <property name="icon-name">go-previous-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -1371,19 +1331,19 @@
                             <child>
                               <object class="GtkButton" id="main3NextButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">end</property>
                                 <property name="receives-default">1</property>
+                                <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main3NextButton_clicked"/>
                                 <child>
                                   <object class="GtkBox" id="hbox83">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image1465">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-go-forward</property>
+                                        <property name="icon-name">go-next-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -1491,11 +1451,8 @@
                     <child>
                       <object class="GtkGrid" id="table14">
                         <property name="column-spacing">12</property>
-                        <property name="halign">center</property>
                         <property name="hexpand">0</property>
                         <property name="row-spacing">6</property>
-                        <property name="valign">center</property>
-                        <property name="vexpand">0</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow6">
                             <property name="child">
@@ -1509,6 +1466,8 @@
                             </property>
                             <property name="focusable">1</property>
                             <property name="has-frame">1</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
                             <property name="vscrollbar-policy">always</property>
                             <layout>
                               <property name="column">0</property>
@@ -1519,24 +1478,24 @@
                         </child>
                         <child>
                           <object class="GtkBox" id="hbuttonbox5">
+                            <property name="halign">end</property>
                             <property name="spacing">6</property>
-                            <property name="vexpand">1</property>
+                            <property name="valign">end</property>
                             <child>
                               <object class="GtkButton" id="LogViewerSaveToFileButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">end</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_LogViewerSaveToFileButton_clicked"/>
                                 <child>
                                   <object class="GtkBox" id="hbox43">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
                                     <property name="spacing">2</property>
                                     <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkImage" id="image96">
                                         <property name="halign">center</property>
-                                        <property name="icon-name">gtk-save-as</property>
+                                        <property name="icon-name">document-save-symbolic</property>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -1554,16 +1513,20 @@
                             <child>
                               <object class="GtkButton" id="LogViewerClearButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">end</property>
                                 <property name="label">C_lear</property>
                                 <property name="receives-default">1</property>
+                                <property name="use-underline">True</property>
                                 <signal name="clicked" handler="on_LogViewerClearButton_clicked"/>
                               </object>
                             </child>
                             <child>
                               <object class="GtkButton" id="LogViewerRefreshButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">end</property>
                                 <property name="label">_Refresh</property>
                                 <property name="receives-default">1</property>
+                                <property name="use-underline">True</property>
                                 <signal name="clicked" handler="on_LogViewerRefreshButton_clicked"/>
                               </object>
                             </child>
@@ -1598,13 +1561,15 @@
             </child>
             <layout>
               <property name="column">0</property>
-              <property name="row">2</property>
+              <property name="row">1</property>
             </layout>
           </object>
         </child>
         <child>
           <object class="GtkBox" id="toolbar1">
             <property name="css-classes">toolbar</property>
+            <property name="margin-end">18</property>
+            <property name="margin-start">18</property>
             <child>
               <object class="GtkToggleButton" id="OverviewRadioTool">
                 <property name="active">1</property>
@@ -1619,7 +1584,7 @@
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="icon-name">home</property>
+                        <property name="icon-name">user-home-symbolic</property>
                       </object>
                     </child>
                     <child>
@@ -1645,7 +1610,7 @@
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="icon-name">harddisk</property>
+                        <property name="icon-name">drive-harddisk-symbolic</property>
                       </object>
                     </child>
                     <child>
@@ -1667,7 +1632,7 @@
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="icon-name">execute</property>
+                        <property name="icon-name">application-x-executable-symbolic</property>
                       </object>
                     </child>
                     <child>
@@ -1693,7 +1658,7 @@
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="icon-name">file</property>
+                        <property name="icon-name">document-properties-symbolic</property>
                       </object>
                     </child>
                     <child>
@@ -1719,7 +1684,7 @@
             </child>
             <layout>
               <property name="column">0</property>
-              <property name="row">1</property>
+              <property name="row">0</property>
             </layout>
           </object>
         </child>

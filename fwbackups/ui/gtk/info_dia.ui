@@ -4,7 +4,7 @@
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
   <object class="GtkDialog" id="info_dia">
-    <property name="icon-name"></property>
+    <property name="icon-name">dialog-information-symbolic</property>
     <property name="resizable">0</property>
     <property name="title" translatable="yes"></property>
     <signal name="close-request" handler="hide"/>
@@ -19,8 +19,7 @@
             <child>
               <object class="GtkImage" id="InfoDiaImage">
                 <property name="halign">center</property>
-                <property name="hexpand">1</property>
-                <property name="icon-name">gtk-dialog-info</property>
+                <property name="icon-name">dialog-information-symbolic</property>
                 <property name="icon-size">large</property>
                 <property name="valign">start</property>
               </object>
@@ -56,19 +55,16 @@ Secondary text</property>
         </child>
       </object>
     </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="hbuttonbox16">
-        <child>
-          <object class="GtkButton" id="button73">
-            <property name="focusable">1</property>
-            <property name="label">_OK</property>
-            <property name="receives-default">1</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="button_close">
+        <property name="focusable">1</property>
+        <property name="label">_OK</property>
+        <property name="receives-default">1</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-5">button73</action-widget>
+      <action-widget response="-5">button_close</action-widget>
     </action-widgets>
   </object>
 </interface>

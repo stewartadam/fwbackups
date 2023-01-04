@@ -6,7 +6,12 @@
   <object class="GtkWindow" id="preferences">
     <property name="child">
       <object class="GtkBox" id="vbox23">
+        <property name="margin-bottom">18</property>
+        <property name="margin-end">18</property>
+        <property name="margin-start">18</property>
+        <property name="margin-top">18</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkGrid" id="table76">
             <property name="column-spacing">12</property>
@@ -189,7 +194,7 @@
                         </child>
                         <layout>
                           <property name="column">0</property>
-                          <property name="row">0</property>
+                          <property name="row">2</property>
                         </layout>
                       </object>
                     </child>
@@ -292,42 +297,25 @@
           </object>
         </child>
         <child>
-          <object class="GtkSeparator" id="hseparator2">
-            <property name="height-request">6</property>
-            <property name="vexpand">1</property>
-          </object>
+          <object class="GtkSeparator" id="hseparator2"/>
         </child>
         <child>
           <object class="GtkBox" id="hbox65">
+            <property name="halign">center</property>
             <property name="spacing">6</property>
-            <property name="vexpand">1</property>
             <child>
               <object class="GtkButton" id="preferencesResetDontShowMeButton">
                 <property name="focusable">1</property>
+                <property name="halign">end</property>
+                <property name="icon-name">view-refresh-symbolic</property>
+                <property name="valign">center</property>
                 <signal name="clicked" handler="on_preferencesResetDontShowMeButton_clicked"/>
                 <child>
-                  <object class="GtkBox" id="hbox98">
+                  <object class="GtkImage" id="image1696">
                     <property name="halign">center</property>
-                    <property name="hexpand">1</property>
-                    <property name="spacing">2</property>
+                    <property name="icon-name">view-refresh-symbolic</property>
+                    <property name="icon-size">normal</property>
                     <property name="valign">center</property>
-                    <property name="vexpand">1</property>
-                    <child>
-                      <object class="GtkImage" id="image1696">
-                        <property name="halign">center</property>
-                        <property name="icon-name">gtk-refresh</property>
-                        <property name="icon-size">normal</property>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label450">
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes"></property>
-                        <property name="use-markup">1</property>
-                        <property name="use-underline">1</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>
@@ -343,8 +331,7 @@
         </child>
         <child>
           <object class="GtkSeparator" id="hseparator3">
-            <property name="height-request">6</property>
-            <property name="vexpand">1</property>
+            <property name="hexpand">True</property>
           </object>
         </child>
         <child>
@@ -358,6 +345,7 @@
                 <property name="focusable">1</property>
                 <property name="label">_Close</property>
                 <property name="receives-default">1</property>
+                <property name="use-underline">True</property>
                 <signal name="clicked" handler="on_preferencesCloseButton_clicked"/>
               </object>
             </child>
@@ -365,8 +353,8 @@
         </child>
       </object>
     </property>
-    <property name="icon-name"></property>
-    <property name="resizable">0</property>
+    <property name="icon-name">preferences-system-symbolic</property>
+    <property name="modal">True</property>
     <property name="title" translatable="yes">Preferences</property>
     <signal name="close-request" handler="hide"/>
   </object>

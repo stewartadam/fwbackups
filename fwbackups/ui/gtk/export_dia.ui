@@ -6,7 +6,7 @@
   <object class="GtkDialog" id="export_dia">
     <property name="default-height">295</property>
     <property name="default-width">500</property>
-    <property name="icon-name"></property>
+    <property name="icon-name">edit-copy-symbolic</property>
     <property name="title" translatable="yes">Export Sets</property>
     <signal name="close-request" handler="hide"/>
     <child internal-child="content_area">
@@ -29,6 +29,7 @@
                 <property name="has-frame">1</property>
                 <property name="height-request">120</property>
                 <property name="hscrollbar-policy">never</property>
+                <property name="vexpand">True</property>
                 <layout>
                   <property name="column">1</property>
                   <property name="column-span">2</property>
@@ -41,7 +42,6 @@
                 <property name="hexpand">1</property>
                 <property name="label" translatable="yes">Export to:</property>
                 <property name="use-markup">1</property>
-                <property name="vexpand">1</property>
                 <property name="xalign">0</property>
                 <layout>
                   <property name="column">1</property>
@@ -78,7 +78,7 @@
               <object class="GtkImage" id="image407">
                 <property name="halign">center</property>
                 <property name="hexpand">1</property>
-                <property name="icon-name">gtk-dialog-info</property>
+                <property name="icon-name">edit-copy-symbolic</property>
                 <property name="icon-size">large</property>
                 <property name="valign">start</property>
                 <property name="vexpand">1</property>
@@ -92,7 +92,6 @@
             <child>
               <object class="GtkButton" id="ExportFileChooserButton">
                 <property name="label">Select file... FIXME</property>
-                <property name="vexpand">1</property>
                 <layout>
                   <property name="column">2</property>
                   <property name="row">3</property>
@@ -103,37 +102,33 @@
         </child>
       </object>
     </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="hbuttonbox13">
-        <child>
-          <object class="GtkButton" id="button63">
-            <property name="focusable">1</property>
-            <property name="label">_Cancel</property>
-            <property name="receives-default">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="button64">
-            <property name="focusable">1</property>
-            <property name="label" translatable="yes">_Export</property>
-            <property name="receives-default">1</property>
-            <property name="use-underline">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="button69">
-            <property name="focusable">1</property>
-            <property name="label">_Help</property>
-            <property name="receives-default">1</property>
-            <property name="visible">0</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="button_cancel">
+        <property name="focusable">1</property>
+        <property name="label">_Cancel</property>
+        <property name="use-underline">1</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="button_export">
+        <property name="focusable">1</property>
+        <property name="label" translatable="yes">_Export</property>
+        <property name="receives-default">1</property>
+        <property name="use-underline">1</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="button_help">
+        <property name="focusable">1</property>
+        <property name="label">_Help</property>
+        <property name="use-underline">True</property>
+        <property name="visible">0</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">button63</action-widget>
-      <action-widget response="-5">button64</action-widget>
-      <action-widget response="-11">button69</action-widget>
+      <action-widget response="-6">button_cancel</action-widget>
+      <action-widget response="-5">button_export</action-widget>
+      <action-widget response="-11">button_help</action-widget>
     </action-widgets>
   </object>
 </interface>

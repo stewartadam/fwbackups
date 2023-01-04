@@ -199,7 +199,7 @@ class BackupSetConf:
     config["Options"]["CommandAfter"] = ''
     config["Options"]["OldToKeep"] = 1
     config["Options"]["DestinationType"] = "local"
-    config["Options"]["Destination"] = USERHOME
+    config["Options"]["Destination"] = str(USERHOME)
     config["Options"]["Recursive"] = 1
     config["Options"]["PkgListsToFile"] = 1
     config["Options"]["DiskInfoToFile"] = 0
@@ -462,7 +462,7 @@ class OneTimeConf:
     # Set default options
     config["Options"] = {}
     config["Options"]["DestinationType"] = "local"
-    config["Options"]["Destination"] = USERHOME
+    config["Options"]["Destination"] = str(USERHOME)
     config["Options"]["Recursive"] = 1
     config["Options"]["PkgListsToFile"] = 1
     config["Options"]["DiskInfoToFile"] = 0
@@ -597,8 +597,8 @@ class RestoreConf:
     # Set default options
     config["Options"] = {}
     config["Options"]["SourceType"] = "local"
-    config["Options"]["Source"] = USERHOME
-    config["Options"]["Destination"] = USERHOME
+    config["Options"]["Source"] = str(USERHOME)
+    config["Options"]["Destination"] = str(USERHOME)
     config["Options"]["RemoteHost"] = ''
     config["Options"]["RemotePort"] = ''
     config["Options"]["RemoteUsername"] = ''

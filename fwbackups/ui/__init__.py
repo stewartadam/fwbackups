@@ -33,19 +33,13 @@ def busyCursor(mainwin,insensitive=False):
   mainwin.window.set_cursor(Gtk.gdk.Cursor(Gtk.gdk.WATCH))
   if insensitive:
     mainwin.set_sensitive(False)
-  doGtkEvents()
+  widgets.doGtkEvents()
 
 def normalCursor(mainwin):
   """Set Normal cursor in mainwin and make it sensitive"""
   mainwin.window.set_cursor(None)
   mainwin.set_sensitive(True)
-  doGtkEvents()
-
-def doGtkEvents():
-  """Process gtk events"""
-  context = GLib.MainContext.default()
-  while GLib.MainContext.pending(context):
-    GLib.MainContext.iteration(context)
+  widgets.doGtkEvents()
 
 def getSelectedItems(widget):
   """Get selected items from icon/tree view"""
@@ -218,7 +212,7 @@ class fwbackupsApp(Gtk.Application):
     self.ui.WelcomeLabel.set_markup(_('<b>Welcome</b>, %s') % USER)
     # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
     # Default Labels...
-    set_text_markup(self.ui.aboutVersionLabel, '<span size="xx-large" weight="bold">fwbackups %s</span>' % fwbackups.__version__)
+    self.ui.about.set_version(fwbackups.__version__)
     self.setStatus(_('Idle'))
     self.main2IconviewSetup()
     self.main3TabSetup()
@@ -270,7 +264,7 @@ class fwbackupsApp(Gtk.Application):
     except config.ValidationError as error:
       print(_("Validation error: %s") % error)
       response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
-      if response == Gtk.RESPONSE_YES:
+      if response == Gtk.ResponseType.YES:
         # check if file already exists
         prefsBack = '%s.bak' % PREFSLOC
         if os.path.isfile(prefsBack):
@@ -382,7 +376,7 @@ class fwbackupsApp(Gtk.Application):
       #1048576B is 1MB.
       size = '%s KB' % (statsize / 1024)
       response = self.displayConfirm(self.ui.splash, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
-      if response == Gtk.RESPONSE_YES:
+      if response == Gtk.ResponseType.YES:
         logfh = open(LOGLOC, 'w')
         logfh.write('')
         logfh.close()
@@ -577,7 +571,7 @@ class fwbackupsApp(Gtk.Application):
     """Regenerates the crontab"""
     self.logger.logmsg('DEBUG', _('Regenerating crontab'))
     self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
-    doGtkEvents()
+    widgets.doGtkEvents()
     # Purge existing fwbackups entries from the crontab
     originalCronLines = cron.read()
     fwbackupCronLines = cron.clean_fwbackups_entries()
@@ -640,7 +634,7 @@ class fwbackupsApp(Gtk.Application):
       response = self.displayConfirm(self.ui.main,
                                      _("fwbackups is working"),
                                      _("An operation is currently in progress. Would you like to cancel it and quit anyways?"))
-      if response == Gtk.RESPONSE_YES:
+      if response == Gtk.ResponseType.YES:
         self.statusbar.newmessage(_('Please wait... Canceling operations'), 10)
         try:
           self.backupHandle.cancelOperation()
@@ -691,7 +685,7 @@ class fwbackupsApp(Gtk.Application):
     thread = fwbackups.runFuncAsThread(sftp.testConnection, host, username, password, port, path)
     while thread.retval == None:
       progress.set_text(_('Attempting to connect'))
-      doGtkEvents()
+      widgets.doGtkEvents()
     progress.stopPulse()
     progress.set_text('')
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
@@ -709,6 +703,7 @@ class fwbackupsApp(Gtk.Application):
       self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error: %s. Please verify your settings and try again.") % str(thread.exception))
     else:
       self.displayInfo(parent, _("Unexpected error"), thread.traceback)
+
   ###
   ### MENUS ###
   ###
@@ -724,7 +719,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       oldSetPaths = [path for path in fileDialog.get_filenames()]
       for oldSetPath in oldSetPaths:
         # Attempt to use the original set name
@@ -784,7 +779,7 @@ class fwbackupsApp(Gtk.Application):
       if os.path.exists(destSetPath):
         response = self.displayConfirm(self.ui.export_dia, _("File Exists"),
                                     _("'%s.conf' already exists! Would you like to overwrite it?") % setName)
-        if response == Gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
           os.remove(destSetPath)
         else:
           return
@@ -799,14 +794,14 @@ class fwbackupsApp(Gtk.Application):
     response = exportDialog.run()
     runLoop = True
     while runLoop:
-      if response == Gtk.RESPONSE_HELP:
+      if response == Gtk.ResponseType.HELP:
         self.help()
-      elif response == Gtk.RESPONSE_OK:
+      elif response == Gtk.ResponseType.OK:
         destination = self.ui.ExportFileChooserButton.get_filename()
         self.ExportView1.liststore.foreach(self._exportSet, destination)
         self.displayInfo(self.ui.export_dia, _('Sets exported'), _('The selected sets were exported successfully.'))
         break
-      elif response == Gtk.RESPONSE_CANCEL or response == Gtk.RESPONSE_DELETE_EVENT:
+      elif response == Gtk.ResponseType.CANCEL or response == Gtk.ResponseType.DELETE_EVENT:
         break
       response = exportDialog.run()
     exportDialog.destroy()
@@ -890,7 +885,7 @@ class fwbackupsApp(Gtk.Application):
     self.ui.restore1SourceTypeCombobox.set_active(0)
     self.ui.restore1ArchiveEntry.set_text('')
     self.ui.restore1FolderEntry.set_text('')
-    self.ui.restore1DestinationEntry.set_text(USERHOME)
+    self.ui.restore1DestinationEntry.set_text(str(USERHOME))
     self.ui.restore1HostEntry.set_text('')
     self.ui.restore1UsernameEntry.set_text('')
     self.ui.restore1PasswordEntry.set_text('')
@@ -934,7 +929,7 @@ class fwbackupsApp(Gtk.Application):
       except:
         exists = False
     elif LINUX:
-      exists = os.path.exists('%s/.config/autostart/fwbackups-autostart.desktop' % USERHOME)
+      exists = USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').exists()
     elif DARWIN: # FIXME: Figure out autostart on OS X
       exists = False
     self.ui.preferencesSessionStartupCheck.set_active(exists)
@@ -1025,7 +1020,7 @@ class fwbackupsApp(Gtk.Application):
         winreg.SetValueEx(k, 'fwbackups', 0, winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.pyw'))
         winreg.CloseKey(k)
       else:
-        shutil_modded.copy('%s/fwbackups-autostart.desktop' % INSTALL_DIR, '%s/.config/autostart' % USERHOME)
+        shutil_modded.copy(os.path.join(INSTALL_DIR, "fwbackups-autostart.desktop"), str(USERHOME.joinpath('.config/autostart')))
     else: #remove
       if MSWINDOWS:
         import winreg
@@ -1037,7 +1032,7 @@ class fwbackupsApp(Gtk.Application):
           self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart regkey: %s' % error))
       else:
         try:
-          os.remove('%s/.config/autostart/fwbackups-autostart.desktop' % USERHOME)
+          USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').unlink()
         except Exception as error:
           self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart file: %s' % error))
 
@@ -1067,7 +1062,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       pycronInstallDir = fileDialog.get_filenames()[0]
       self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
     fileDialog.destroy()
@@ -1087,7 +1082,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       tempDir = fileDialog.get_filenames()[0]
       self.ui.preferencesCustomizeTempDirEntry.set_text(tempDir)
     fileDialog.destroy()
@@ -1188,7 +1183,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.backupset2LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1342,9 +1337,9 @@ class fwbackupsApp(Gtk.Application):
       self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to remove.'))
       return
     response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files."))
-    if response == Gtk.RESPONSE_NO:
+    if response == Gtk.ResponseType.NO:
       return
-    elif response == Gtk.RESPONSE_YES:
+    elif response == Gtk.ResponseType.YES:
       setConf = config.BackupSetConf(setPath)
       try:
         os.remove(setPath)
@@ -1545,7 +1540,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.main3LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1590,7 +1585,8 @@ class fwbackupsApp(Gtk.Application):
     response, dontShowMe = self.displayConfirm(self.ui.main, _("Clear the old log entries?"),
                                        _("This action will permanently remove all log entries."),
                                        dontShowMe=True)
-    if response == Gtk.RESPONSE_YES:
+    print(int(Gtk.ResponseType.YES), response, Gtk.ResponseType.YES == response)
+    if response == Gtk.ResponseType.YES:
       if dontShowMe:
         prefs.set('Preferences', 'DontShowMe_ClearLog', 1)
       else:
@@ -1674,7 +1670,7 @@ class fwbackupsApp(Gtk.Application):
       self.ui.restore1SetDateCombobox.set_active(0)
       thread = fwbackups.runFuncAsThread(self.getRemoteBackupDates, setConfig)
       while thread.retval == None:
-        doGtkEvents()
+        widgets.doGtkEvents()
       model.clear()
       # Default to None (see 'if listing == None' check later)
       listing = None
@@ -1738,7 +1734,7 @@ class fwbackupsApp(Gtk.Application):
     self.ui.restore1SetDateCombobox.set_active(0)
 
   def on_restore1SetNameCombobox_changed(self, widget):
-    activeText = self.ui.restore1SetNameCombobox.get_active_text()
+    activeText = widgets.get_active_text(self.ui.restore1SetNameCombobox)
     if activeText == None:
       return
     self._populateDates(activeText)
@@ -1772,13 +1768,13 @@ class fwbackupsApp(Gtk.Application):
     options["RemoteSource"] = ''
     if active == 0: # set
       sourceType = 'set'
-      date = ' - '.join(self.ui.restore1SetDateCombobox.get_active_text().split(' - ')[:-1])
+      date = ' - '.join(widgets.get_active_text(self.ui.restore1SetDateCombobox).split(' - ')[:-1])
       # Can't use this for calculating 'path' since we could backup with tar,
       # then change to tar.gz this would return tar.gz, when the extension
       # needs to be tar... so we use this_engine above which is specific to
       # this backup
       #engine = setConfig.get('Options', 'Engine')
-      this_engine = self.ui.restore1SetDateCombobox.get_active_text().split(' - ')[-1]
+      this_engine = widgets.get_active_text(self.ui.restore1SetDateCombobox).split(' - ')[-1]
       if this_engine == 'rsync':
         backupName = '%s-%s-%s' % (_('Backup'), setConfig.getSetName(), date)
       else:
@@ -1850,7 +1846,7 @@ class fwbackupsApp(Gtk.Application):
       setPath = os.path.join(SETLOC, "%s.conf" % setName)
       setConfig = config.BackupSetConf(setPath)
       # We can't start a restore if there are no set dates
-      if self.ui.restore1SetDateCombobox.get_active_text() == _("No backups found"):
+      if widgets.get_active_text(self.ui.restore1SetDateCombobox) == _("No backups found"):
         self.displayError(self.ui.restore, _("No backups found"), _("The backup set '%s' does not have any stored backups yet! Choose another set, or alternatively choose a different restore source.") % setName)
         return False
       if not self.saveRestoreConfiguration(restoreConfig, setConfig):
@@ -1924,7 +1920,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1DestinationEntry.set_text(destination)
     fileDialog.destroy()
@@ -1935,7 +1931,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.OPEN,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1ArchiveEntry.set_text(destination)
     fileDialog.destroy()
@@ -1946,7 +1942,7 @@ class fwbackupsApp(Gtk.Application):
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1FolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1965,7 +1961,7 @@ class fwbackupsApp(Gtk.Application):
       response = self.displayConfirm(self.ui.backupset,
                                          _("Overwrite settings for set '%s'?") % name,
                                          _("This will overwrite the stored settings with the current ones. Are you sure you want to continue?"))
-      if response == Gtk.RESPONSE_NO:
+      if response == Gtk.ResponseType.NO:
         return False
     return name
 
@@ -2489,7 +2485,7 @@ class fwbackupsApp(Gtk.Application):
       updateProgress(self)
       updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
-        doGtkEvents()
+        widgets.doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
       # -1 indicates a syntax error or other bug in the backup code
@@ -2646,7 +2642,7 @@ class fwbackupsApp(Gtk.Application):
       updateProgress(self)
       updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.backupThread.retval == None:
-        doGtkEvents()
+        widgets.doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.backupThread.retval))
       # -1 indicates a syntax error or other bug in the backup code
@@ -2732,7 +2728,7 @@ class fwbackupsApp(Gtk.Application):
       updateProgress(self)
       updateTimeout = GLib.timeout_add(1000, updateProgress, self)
       while self.restoreThread.retval == None:
-        doGtkEvents()
+        widgets.doGtkEvents()
       # thread returned
       self.logger.logmsg('DEBUG', _('Thread returned with retval %s' % self.restoreThread.retval))
       if self.restoreThread.retval == -1:

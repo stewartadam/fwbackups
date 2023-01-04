@@ -27,18 +27,17 @@ import re
 import threading
 import time
 from xml.sax.saxutils import escape
-
-import gi
-gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk
-from gi.repository import Pango
-from gi.repository import GLib
-
 from fwbackups.i18n import _
 from fwbackups.const import *
 import fwbackups
-from fwbackups import config
 from fwbackups import fwlogger
+
+import gi
+gi.require_version('Gtk', '4.0')
+from gi.repository import Gtk  # noqa: E402
+from gi.repository import Pango  # noqa: E402
+from gi.repository import GLib  # noqa: E402
+
 
 class TextViewConsole:
   """Encapsulate a Gtk.TextView"""
@@ -48,12 +47,12 @@ class TextViewConsole:
     self.buffer = self.textview.get_buffer()
     self.endMark = self.buffer.create_mark("End", self.buffer.get_end_iter(), False)
     self.startMark = self.buffer.create_mark("Start", self.buffer.get_start_iter(), False)
-    #setup styles.
+
+    # setup styles
     self.style_banner = Gtk.TextTag.new("banner")
     self.style_banner.set_property("foreground", "saddle brown")
     self.style_banner.set_property("family", "Monospace")
     self.style_banner.set_property("size_points", 8)
-
 
     self.style_ps1 = Gtk.TextTag.new("ps1")
     self.style_ps1.set_property("editable", False)
@@ -79,7 +78,6 @@ class TextViewConsole:
 
 
     self.style_err = Gtk.TextTag.new("stderr")
-    #self.style_err.set_property("style", pango.STYLE_ITALIC)
     self.style_err.set_property("foreground", "red")
     if font:
       self.style_err.set_property("font", font)
@@ -103,13 +101,14 @@ class TextViewConsole:
     self.buffer.get_tag_table().add(self.style_warn)
 
     if default_style:
-      self.default_style=default_style
+      self.default_style = default_style
     else:
-      self.default_style=self.style_out
+      self.default_style = self.style_out
+
     # fill it with content
     self.history()
 
-  def changeStyle(self,color,font,style=None):
+  def changeStyle(self, color, font, style=None):
     """Change the text style"""
     if not style:
       self.default_style.set_property("foreground", color)
@@ -119,27 +118,17 @@ class TextViewConsole:
       style.set_property("font", font)
 
   def write_line(self, txt, style=None):
-    """Write a line to the bottom of textview and scoll to end.
+    """
+    Write a line to the bottom of textview and scoll to end.
       txt: Text to write
       style: (optional) Predefinded pango style to use.
-  """
-    #txt = gi.markup_escape_text(txt)
-    # FIXME: We may need this once we have translations
-    #txt = self._toUTF(txt)
+    """
     start, end = self.buffer.get_bounds()
     if style == None:
       self.buffer.insert_with_tags(end, txt, self.default_style)
     else:
       self.buffer.insert_with_tags(end, txt, style)
     self.goBottom()
-
-  def _toUTF(self, txt):
-    rc=""
-    try:
-      rc = str(txt, 'utf-8')
-    except UnicodeDecodeError as e:
-      rc = str(txt, 'iso-8859-1')
-    return rc
 
   def clear(self):
     self.buffer.set_text('')
@@ -185,8 +174,7 @@ class TextViewLogHandler(logging.FileHandler):
     self.console = console
     self.history()
     self.stream = None
-    self.console.write_line('-- %s --%s%s' % (_('Current session\'s log \
-messages'), os.linesep, os.linesep), self.console.style_ps2)
+    self.console.write_line('-- %s --%s%s' % (_('Current session\'s log messages'), os.linesep, os.linesep), self.console.style_ps2)
 
   def history(self):
     """Get + print all old log messages stored in the log file"""
@@ -194,8 +182,7 @@ messages'), os.linesep, os.linesep), self.console.style_ps2)
     text = stream.read()
     stream.close()
     if text.strip() != '':
-      self.console.write_line('-- %s --%s%s' % (_('Previous log messages')\
-, os.linesep, os.linesep), self.console.style_ps2)
+      self.console.write_line('-- %s --%s%s' % (_('Previous log messages'), os.linesep, os.linesep), self.console.style_ps2)
       for i in text.split(os.linesep):
         errType = i.split(' ')
         if len(errType) >= 5:
@@ -208,8 +195,7 @@ messages'), os.linesep, os.linesep), self.console.style_ps2)
         else:
           self.console.write_line('%s%s' % (i, os.linesep), self.console.style_ps1)
     else:
-      self.console.write_line('-- %s --%s' % (_('No previous log messages to display'),\
-os.linesep), self.console.style_ps2)
+      self.console.write_line('-- %s --%s' % (_('No previous log messages to display'), os.linesep), self.console.style_ps2)
 
   def emit(self, record):
     """Emit a message"""
@@ -244,9 +230,6 @@ os.linesep), self.console.style_ps2)
     self.history()
 
 
-###################################################
-
-
 class StatusBar:
   def __init__(self, widget):
     """Initialize.
@@ -273,6 +256,7 @@ class StatusBar:
     self.statusbar.pop(1)
     GLib.Source.remove(self.message_timer)
     return True
+
 
 class ProgressBar:
   def __init__(self, widget, ms=15):
@@ -321,13 +305,12 @@ class ProgressBar:
     """Set the progressbar's text"""
     self.progressbar.set_text(text)
 
-###################################################
-
 
 class GenericDia:
   """Wrapper for the generic dialog"""
   def __init__(self, dialog, title, parent):
     """Initialize"""
+    self.response = 0
     self.dialog = dialog
     self.dialog.set_title(title)
     self.dialog.set_transient_for(parent)
@@ -338,7 +321,10 @@ class GenericDia:
   def run(self):
     """Run the dialog"""
     self.dialog.show()
-    while self.user_responded.wait(0.01):
+    # compat: preserve a blocking API without blocking the main UI thread now
+    # that Gtk.Dialog.run() is gone
+    while not self.user_responded.wait(0.01):
+      doGtkEvents()
       time.sleep(0.01)
     return self.response
 
@@ -352,9 +338,10 @@ class GenericDia:
     self.destroy()
     return response
 
-  def on_response(self, response_id, user_data):
+  def on_response(self, widget, response_id):
     self.response = response_id
     self.user_responded.set()
+
 
 class PathBrowser(GenericDia):
   """Wrapper for generic path dialogs"""
@@ -628,7 +615,7 @@ class PathView(View):
                      self.parent, Gtk.FILE_CHOOSER_ACTION_OPEN,
                      multiple=True)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
@@ -637,7 +624,7 @@ class PathView(View):
     """Add a folder to the pathview"""
     fileDialog = PathDia(self.ui.path_dia, _('Choose folder(s)'), self.parent, Gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, multiple=True)
     response = fileDialog.run()
-    if response == Gtk.RESPONSE_OK:
+    if response == Gtk.ResponseType.OK:
       paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
       self.add(paths, self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
@@ -737,7 +724,6 @@ class ExportView(View):
     self._clear()
     self._load()
 
-# *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 class bugReport(GenericDia):
   """Wrapper for a bug report dialog"""
@@ -747,19 +733,36 @@ class bugReport(GenericDia):
     GenericDia.__init__(self, dialog, _('Bug Report'), parent)
     textview.get_buffer().set_text(tracebackText)
 
+
 def saveFilename(parent):
   """Displays a filechooser (save) and returns the chosen filename"""
   fileChooser = Gtk.FileChooserDialog(title='Choose a destination',
                                       parent=parent,
                                       action=Gtk.FILE_CHOOSER_ACTION_SAVE,
                                       buttons=(Gtk.STOCK_CANCEL,
-                                                 Gtk.RESPONSE_CANCEL,
+                                                 Gtk.ResponseType.CANCEL,
                                                Gtk.STOCK_SAVE,
-                                                 Gtk.RESPONSE_OK))
+                                                 Gtk.ResponseType.OK))
   fileChooser.set_do_overwrite_confirmation(True)
-  if fileChooser.run() in [Gtk.RESPONSE_CANCEL, Gtk.RESPONSE_DELETE_EVENT]:
+  if fileChooser.run() in [Gtk.ResponseType.CANCEL, Gtk.ResponseType.DELETE_EVENT]:
     filename = None
   else:
     filename = fileChooser.get_filename()
   fileChooser.destroy()
   return filename
+
+
+def get_active_text(combobox):
+  """
+  Re-implememt the removed Gtk.Combobox.get_active_text()
+  """
+  model = combobox.get_model()
+  active_iter = combobox.get_active_iter()
+  return model.get_value(active_iter, 1)
+
+
+def doGtkEvents():
+  """Process gtk events"""
+  context = GLib.MainContext.default()
+  while GLib.MainContext.pending(context):
+    GLib.MainContext.iteration(context)
