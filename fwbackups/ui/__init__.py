@@ -67,15 +67,33 @@ class fwbackupsApp(Gtk.Application):
   """
   def __init__(self):
     super().__init__(application_id='com.diffingo.fwbackups', flags=Gio.ApplicationFlags.FLAGS_NONE)
-    self.ui = loader.UILoader(os.path.join('fwbackups/ui/gtk/fwbackups.ui'), self)
+    ui_files = [
+      "fwbackups/ui/gtk/BugReport.ui",
+      "fwbackups/ui/gtk/about.ui",
+      "fwbackups/ui/gtk/backupset.ui",
+      "fwbackups/ui/gtk/confirm_dia.ui",
+      "fwbackups/ui/gtk/error_dia.ui",
+      "fwbackups/ui/gtk/export_dia.ui",
+      "fwbackups/ui/gtk/info_dia.ui",
+      "fwbackups/ui/gtk/main.ui",
+      "fwbackups/ui/gtk/path_dia.ui",
+      "fwbackups/ui/gtk/preferences.ui",
+      "fwbackups/ui/gtk/restore.ui",
+      "fwbackups/ui/gtk/save_dia.ui",
+      "fwbackups/ui/gtk/template.ui",
+      "fwbackups/ui/gtk/warning_dia.ui",
+    ]
+    self.ui = loader.UILoader(ui_files, self)
     GLib.set_application_name(_("fwbackups"))
     GLib.set_prgname("fwbackups")
     self.verbose = False  # FIXME
 
   def do_startup(self):
     Gtk.Application.do_startup(self)
-    # FIXME /com/diffingo/fwbackups/gtk/menus.ui with widget name 'menubar' (instead of 'mainmenu')
-    self.set_menubar(self.ui.mainmenu)
+
+    builder = Gtk.Builder()
+    builder.add_from_file("fwbackups/ui/gtk/menus.ui")
+    self.set_menubar(builder.get_object("menubar"))
 
     accel_map = {
       "new_set1": "<Primary>n",

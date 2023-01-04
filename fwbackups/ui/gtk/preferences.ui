@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.11.3 -->
+<interface>
+  <!-- interface-name fwbackups.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkWindow" id="preferences">
+    <property name="child">
+      <object class="GtkBox" id="vbox23">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkGrid" id="table76">
+            <property name="column-spacing">12</property>
+            <property name="row-spacing">6</property>
+            <property name="vexpand">1</property>
+            <child>
+              <object class="GtkFrame" id="frame33">
+                <property name="hexpand">1</property>
+                <child>
+                  <object class="GtkGrid" id="table77">
+                    <property name="column-spacing">12</property>
+                    <property name="halign">center</property>
+                    <property name="hexpand">0</property>
+                    <property name="row-spacing">2</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">0</property>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesMinimizeTrayCloseCheck">
+                        <property name="focusable">1</property>
+                        <property name="label" translatable="yes">Minimize to tray on close</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesMinimizeTrayCloseCheck_toggled"/>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesShowNotificationsCheck">
+                        <property name="active">1</property>
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Show notifications in tray area</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesShowNotificationsCheck_toggled"/>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesShowTrayIconCheck">
+                        <property name="active">1</property>
+                        <property name="focusable">1</property>
+                        <property name="label" translatable="yes">Show tray icon</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesShowTrayIconCheck_toggled"/>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesStartMinimizedCheck">
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Start minimized</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesStartMinimizedCheck_toggled"/>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label433">
+                    <property name="label" translatable="yes">&lt;b&gt;Tray Options&lt;/b&gt;</property>
+                    <property name="use-markup">1</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame34">
+                <child>
+                  <object class="GtkGrid" id="table78">
+                    <property name="halign">center</property>
+                    <property name="hexpand">0</property>
+                    <property name="row-spacing">2</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">0</property>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesAlwaysShowDebugCheck">
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Always show debug messages in the log</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesAlwaysShowDebugCheck_toggled"/>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="preferencesSessionStartupCheck">
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Start fwbackups (minimized) when I login</property>
+                        <property name="use-underline">1</property>
+                        <signal name="toggled" handler="on_preferencesSessionStartupCheck_toggled"/>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="table811">
+                        <property name="column-spacing">6</property>
+                        <property name="hexpand">1</property>
+                        <property name="row-spacing">2</property>
+                        <child>
+                          <object class="GtkButton" id="preferencesCustomizeTempDirBrowseButton">
+                            <property name="focusable">1</property>
+                            <property name="hexpand">1</property>
+                            <signal name="clicked" handler="on_preferencesCustomizeTempDirBrowseButton_clicked"/>
+                            <child>
+                              <object class="GtkBox" id="hbox96">
+                                <property name="halign">center</property>
+                                <property name="hexpand">1</property>
+                                <property name="spacing">2</property>
+                                <property name="valign">center</property>
+                                <property name="vexpand">1</property>
+                                <child>
+                                  <object class="GtkImage" id="image1534">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">gtk-open</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label371">
+                                    <property name="halign">center</property>
+                                    <property name="label" translatable="yes">_Browse...</property>
+                                    <property name="use-underline">1</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="column">2</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="preferencesCustomizeTempDirEntry">
+                            <property name="focusable">1</property>
+                            <property name="text" translatable="yes"></property>
+                            <property name="width-request">250</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="preferencesCustomizeTempDirCheck">
+                            <property name="focusable">1</property>
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Customize temporary directory</property>
+                            <property name="use-underline">1</property>
+                            <signal name="toggled" handler="on_preferencesCustomizeTempDirCheck_toggled"/>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label434">
+                    <property name="label" translatable="yes">&lt;b&gt;Misc. Options&lt;/b&gt;</property>
+                    <property name="use-markup">1</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame" id="preferencesWindowsFrame">
+                <property name="hexpand">1</property>
+                <property name="sensitive">0</property>
+                <child>
+                  <object class="GtkGrid" id="table81">
+                    <property name="column-spacing">6</property>
+                    <property name="halign">center</property>
+                    <property name="hexpand">0</property>
+                    <property name="row-spacing">2</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">0</property>
+                    <child>
+                      <object class="GtkButton" id="preferencesPycronBrowseButton">
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <signal name="clicked" handler="on_preferencesPycronBrowseButton_clicked"/>
+                        <child>
+                          <object class="GtkBox" id="hbox109">
+                            <property name="halign">center</property>
+                            <property name="hexpand">1</property>
+                            <property name="spacing">2</property>
+                            <property name="valign">center</property>
+                            <property name="vexpand">1</property>
+                            <child>
+                              <object class="GtkImage" id="image1533">
+                                <property name="halign">center</property>
+                                <property name="icon-name">gtk-open</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label442">
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">_Browse...</property>
+                                <property name="use-underline">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="column">2</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="preferencesPycronEntry">
+                        <property name="focusable">1</property>
+                        <property name="text" translatable="yes"></property>
+                        <property name="width-request">250</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label441">
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Pycron installation directory:</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label439">
+                    <property name="label" translatable="yes">&lt;b&gt;Windows-specific options&lt;/b&gt;</property>
+                    <property name="use-markup">1</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparator" id="hseparator2">
+            <property name="height-request">6</property>
+            <property name="vexpand">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbox65">
+            <property name="spacing">6</property>
+            <property name="vexpand">1</property>
+            <child>
+              <object class="GtkButton" id="preferencesResetDontShowMeButton">
+                <property name="focusable">1</property>
+                <signal name="clicked" handler="on_preferencesResetDontShowMeButton_clicked"/>
+                <child>
+                  <object class="GtkBox" id="hbox98">
+                    <property name="halign">center</property>
+                    <property name="hexpand">1</property>
+                    <property name="spacing">2</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkImage" id="image1696">
+                        <property name="halign">center</property>
+                        <property name="icon-name">gtk-refresh</property>
+                        <property name="icon-size">normal</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label450">
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes"></property>
+                        <property name="use-markup">1</property>
+                        <property name="use-underline">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label272">
+                <property name="hexpand">1</property>
+                <property name="label" translatable="yes">Click to reset "Don't show me again" messages</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparator" id="hseparator3">
+            <property name="height-request">6</property>
+            <property name="vexpand">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbuttonbox18">
+            <property name="halign">center</property>
+            <property name="hexpand">0</property>
+            <property name="valign">center</property>
+            <property name="vexpand">0</property>
+            <child>
+              <object class="GtkButton" id="preferencesCloseButton">
+                <property name="focusable">1</property>
+                <property name="label">_Close</property>
+                <property name="receives-default">1</property>
+                <signal name="clicked" handler="on_preferencesCloseButton_clicked"/>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+    <property name="icon-name"></property>
+    <property name="resizable">0</property>
+    <property name="title" translatable="yes">Preferences</property>
+    <signal name="close-request" handler="hide"/>
+  </object>
+</interface>

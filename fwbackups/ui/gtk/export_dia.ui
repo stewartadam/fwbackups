@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.11.3 -->
+<interface>
+  <!-- interface-name fwbackups.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkDialog" id="export_dia">
+    <property name="default-height">295</property>
+    <property name="default-width">500</property>
+    <property name="icon-name"></property>
+    <property name="title" translatable="yes">Export Sets</property>
+    <signal name="close-request" handler="hide"/>
+    <child internal-child="content_area">
+      <object class="GtkBox" id="vbox10">
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkGrid" id="table47">
+            <property name="column-spacing">12</property>
+            <property name="row-spacing">6</property>
+            <property name="vexpand">1</property>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow7">
+                <property name="child">
+                  <object class="GtkTreeView" id="ExportTreeview">
+                    <property name="focusable">1</property>
+                  </object>
+                </property>
+                <property name="focusable">1</property>
+                <property name="has-frame">1</property>
+                <property name="height-request">120</property>
+                <property name="hscrollbar-policy">never</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">2</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label216">
+                <property name="hexpand">1</property>
+                <property name="label" translatable="yes">Export to:</property>
+                <property name="use-markup">1</property>
+                <property name="vexpand">1</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">3</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label292">
+                <property name="hexpand">1</property>
+                <property name="label" translatable="yes">&lt;span size="larger" weight="bold"&gt;Export Sets&lt;/span&gt;</property>
+                <property name="use-markup">1</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">2</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label215">
+                <property name="hexpand">1</property>
+                <property name="label" translatable="yes">Select the set you would like to export.</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">2</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImage" id="image407">
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="icon-name">gtk-dialog-info</property>
+                <property name="icon-size">large</property>
+                <property name="valign">start</property>
+                <property name="vexpand">1</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                  <property name="row-span">4</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="ExportFileChooserButton">
+                <property name="label">Select file... FIXME</property>
+                <property name="vexpand">1</property>
+                <layout>
+                  <property name="column">2</property>
+                  <property name="row">3</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child internal-child="action_area">
+      <object class="GtkBox" id="hbuttonbox13">
+        <child>
+          <object class="GtkButton" id="button63">
+            <property name="focusable">1</property>
+            <property name="label">_Cancel</property>
+            <property name="receives-default">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="button64">
+            <property name="focusable">1</property>
+            <property name="label" translatable="yes">_Export</property>
+            <property name="receives-default">1</property>
+            <property name="use-underline">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="button69">
+            <property name="focusable">1</property>
+            <property name="label">_Help</property>
+            <property name="receives-default">1</property>
+            <property name="visible">0</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button63</action-widget>
+      <action-widget response="-5">button64</action-widget>
+      <action-widget response="-11">button69</action-widget>
+    </action-widgets>
+  </object>
+</interface>

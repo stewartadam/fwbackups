@@ -18,7 +18,6 @@
 """
 Common classes for interfacing with UI files
 """
-import inspect
 from types import FunctionType
 
 import gi
@@ -30,10 +29,7 @@ class UILoader:
   """
   Helper class to automatically load UI objects by name and wire signals.
   """
-  def __init__(self, filename, signals_from=None):
-    self._filename = filename
-    self._objects = {}
-
+  def __init__(self, filenames, signals_from=None):
     if signals_from is not None:
       handlers = {}
       # get the bound class methods for the instance passed given the methods on the type definition
@@ -42,16 +38,11 @@ class UILoader:
       handlers.update(methods)
 
     self._builder = Gtk.Builder() if handlers is None else Gtk.Builder(handlers)
-    self._builder.add_from_file(filename)
+    for filename in filenames:
+      self._builder.add_from_file(filename)
 
-  def __getattr__(self, name: str):  # fixme: return type
-    """
-    Dynamically load objects from the UI file.
-    """
-    result = self._builder.get_object(name)
-    if result is None:
-      raise AttributeError(f"Cannot find widget {name} in {self._filename}.")
-
-    # Cache the widget to speed up future lookups
-    setattr(self, name, result)
-    return result
+    for buildable_obj in self._builder.get_objects():
+      if isinstance(buildable_obj, Gtk.Buildable):
+        buildable_id = Gtk.Buildable.get_buildable_id(buildable_obj)
+        if buildable_id is not None:
+          setattr(self, buildable_id, buildable_obj)
