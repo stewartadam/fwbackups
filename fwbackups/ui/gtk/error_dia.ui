@@ -20,7 +20,7 @@
             <child>
               <object class="GtkImage" id="image91">
                 <property name="halign">center</property>
-                <property name="icon-name">gtk-dialog-error</property>
+                <property name="icon-name">dialog-error-symbolic</property>
                 <property name="icon-size">large</property>
                 <property name="valign">start</property>
               </object>

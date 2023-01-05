@@ -35,6 +35,7 @@ from fwbackups import fwlogger
 import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk  # noqa: E402
+from gi.repository import Gio  # noqa: E402
 from gi.repository import Pango  # noqa: E402
 from gi.repository import GLib  # noqa: E402
 
@@ -365,8 +366,7 @@ class PathBrowser(GenericDia):
   def destroy(self):
     """Destroy the dialog and the filter"""
     GenericDia.destroy(self)
-    if self.ffilter:
-      self.dialog.remove_filter(self.ffilter)
+    self.dialog.destroy()
 
   def set_current_folder(self, path):
     """Wrapper: See GTK+ help."""
@@ -389,16 +389,16 @@ class PathBrowser(GenericDia):
     return self.dialog.set_title(title)
 
   def get_filename(self):
-    """Wrapper: See GTK+ help."""
-    return self.dialog.get_filenames()
+    """Wrapper+compat: See GTK+ help."""
+    return self.dialog.get_file().get_path()
 
   def get_filenames(self):
-    """Wrapper: See GTK+ help."""
-    return self.dialog.get_filenames()
+    """Wrapper+compat: See GTK+ help."""
+    return [gfile.get_path() for gfile in self.dialog.get_files()]
 
   def set_filename(self, filename):
-    """Wrapper: See GTK+ help."""
-    return self.dialog.set_filename(filename)
+    """Wrapper+compat: See GTK+ help."""
+    return self.dialog.set_file(Gio.File.new_for_path(filename))
 
   def add_filter(self, ffilter):
     """Wrapper: See GTK+ help."""
@@ -425,7 +425,7 @@ class SaveDia(PathBrowser):
   def __init__(self, dialog, title, parent, ffilter=None):
     """Inititalize."""
     PathBrowser.__init__(self, dialog, title, parent, ffilter)
-    dialog.set_action(Gtk.FILE_CHOOSER_ACTION_SAVE)
+    dialog.set_action(Gtk.FileChooserAction.SAVE)
     dialog.set_do_overwrite_confirmation(True)
     dialog.set_select_multiple(False)
 
@@ -512,10 +512,10 @@ class View:
   def _checkDestPerms(self, path, imgwidget):
     """Check perms on a path and set image accordingly"""
     if fwbackups.CheckPerms(path, mustExist=True):
-      imgwidget.set_from_stock(Gtk.STOCK_YES, Gtk.ICON_SIZE_BUTTON)
+      imgwidget.set_from_stock('gtk-yes', Gtk.IconSize.BUTTON)
       return True
     else:
-      imgwidget.set_from_stock(Gtk.STOCK_NO, Gtk.ICON_SIZE_BUTTON)
+      imgwidget.set_from_stock('gtk-no', Gtk.IconSize.BUTTON)
       return False
 
 class PathView(View):
@@ -611,39 +611,40 @@ class PathView(View):
 
   def addFile(self):
     """Add a file to the pathview"""
-    fileDialog = PathDia(self.ui.path_dia, _('Choose file(s)'),
-                     self.parent, Gtk.FILE_CHOOSER_ACTION_OPEN,
-                     multiple=True)
+    widget = Gtk.FileChooserNative.new(_('Choose file(s)'), self.parent,
+                                       Gtk.FileChooserAction.OPEN,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = PathDia(widget, _('Choose file(s)'), self.parent, Gtk.FileChooserAction.OPEN, multiple=True)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
-      paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
-      self.add(paths, self._buildListstoreIndex(self.liststore, 1))
+    print(response)
+    if response == Gtk.ResponseType.ACCEPT:
+      self.add(fileDialog.get_filenames(), self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
 
   def addFolder(self):
     """Add a folder to the pathview"""
-    fileDialog = PathDia(self.ui.path_dia, _('Choose folder(s)'), self.parent, Gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, multiple=True)
+    print("YES")
+    widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.parent,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = PathDia(widget, _('Choose folder(s)'), self.parent, Gtk.FileChooserAction.SELECT_FOLDER, multiple=True)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
-      paths = [path.decode('utf-8') for path in fileDialog.get_filenames()]
-      self.add(paths, self._buildListstoreIndex(self.liststore, 1))
+    if response == Gtk.ResponseType.ACCEPT:
+      self.add(fileDialog.get_filenames(), self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()
 
   def add(self, paths, values):
     """Add a generic path"""
-    for i in paths:
-      # Only if it doesn't already exist.
+    for path in paths:
       try:
-        values.index(i)
+        # check if path was added already
+        values.index(path)
       except ValueError:
-        # index() fails with ValueError when not found
-        # UI requires we store UTF-8 encoded string. This means we will need to
-        # decode from UTF-8 and then re-encode with the filesystem encoding
-        # before writing out the paths.
-        if fwbackups.CheckPermsRead(i, mustExist=True):
-          self.liststore.append([Gtk.STOCK_YES, i.encode('utf-8')])
+        # path wasn't found, add it
+        if fwbackups.CheckPermsRead(path, mustExist=True):
+          self.liststore.append(['gtk-yes', path])
         else:
-          self.liststore.append([Gtk.STOCK_NO, i.encode('utf-8')])
+          self.liststore.append(['gtk-no', path])
 
   def removePath(self):
     """Remote a path from the pathview"""
@@ -663,9 +664,9 @@ class PathView(View):
     for path in config.getPaths():
       # Comment note above abote UTF-8 stored strings in the UI
       if fwbackups.CheckPermsRead(path, mustExist=True):
-        self.liststore.append([Gtk.STOCK_YES, path.encode('utf-8')])
+        self.liststore.append(['gtk-yes', path.encode('utf-8')])
       else:
-        self.liststore.append([Gtk.STOCK_NO, path.encode('utf-8')])
+        self.liststore.append(['gtk-no', path.encode('utf-8')])
 
   def refresh(self, config):
     self.clear()
@@ -682,7 +683,7 @@ class ExportView(View):
   def __init__(self, treeview, statusbar, ui):
     self.treeview = treeview
     self.logger = fwlogger.getLogger()
-    self.statusbar= statusbar
+    self.statusbar = statusbar
     self.ui = ui
     self.liststore = Gtk.ListStore(bool, str)
     # Give it columns
@@ -736,18 +737,14 @@ class bugReport(GenericDia):
 
 def saveFilename(parent):
   """Displays a filechooser (save) and returns the chosen filename"""
-  fileChooser = Gtk.FileChooserDialog(title='Choose a destination',
-                                      parent=parent,
-                                      action=Gtk.FILE_CHOOSER_ACTION_SAVE,
-                                      buttons=(Gtk.STOCK_CANCEL,
-                                                 Gtk.ResponseType.CANCEL,
-                                               Gtk.STOCK_SAVE,
-                                                 Gtk.ResponseType.OK))
+  fileChooser = Gtk.FileChooserNative('Choose a destination', parent,
+                                      Gtk.FileChooserAction.SAVE,
+                                      _("_Save"), _("_Cancel"))
   fileChooser.set_do_overwrite_confirmation(True)
-  if fileChooser.run() in [Gtk.ResponseType.CANCEL, Gtk.ResponseType.DELETE_EVENT]:
-    filename = None
+  if fileChooser.run() == Gtk.ResponseType.ACCEPT:
+    filename = fileChooser.get_file().get_path()
   else:
-    filename = fileChooser.get_filename()
+    filename = None
   fileChooser.destroy()
   return filename
 
@@ -756,9 +753,12 @@ def get_active_text(combobox):
   """
   Re-implememt the removed Gtk.Combobox.get_active_text()
   """
-  model = combobox.get_model()
-  active_iter = combobox.get_active_iter()
-  return model.get_value(active_iter, 1)
+  if isinstance(combobox, Gtk.ComboBoxText):
+    return combobox.get_active_text()
+  else:
+    model = combobox.get_model()
+    active_iter = combobox.get_active_iter()
+    return model.get_value(active_iter, 1)
 
 
 def doGtkEvents():

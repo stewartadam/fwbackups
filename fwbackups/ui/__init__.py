@@ -13,6 +13,9 @@ from gi.repository import GLib  # noqa: E402
 from gi.repository import Gio  # noqa: E402
 from gi.repository import GdkPixbuf  # noqa: E402
 
+gi.require_version('Adw', '1')
+from gi.repository import Adw  # noqa: E402
+
 from . import loader
 
 from fwbackups.const import *
@@ -51,16 +54,23 @@ def getSelectedItems(widget):
     return False
 
 def set_text_markup(widget, text):
-  """Sets text of a gtk.Label and sets use_markup=True"""
+  """Sets text of a Gtk.Label and sets use_markup=True"""
   widget.set_text(text)
   widget.set_use_markup(True)
 
-class fwbackupsApp(Gtk.Application):
+class fwbackupsApp(Adw.Application):
   """
   Initialize a new instance.
   """
   def __init__(self):
     super().__init__(application_id='com.diffingo.fwbackups', flags=Gio.ApplicationFlags.FLAGS_NONE)
+    GLib.set_application_name(_("fwbackups"))
+    GLib.set_prgname("fwbackups")
+    self.verbose = False  # FIXME
+
+  def do_startup(self):
+    Adw.Application.do_startup(self)
+
     ui_files = [
       "fwbackups/ui/gtk/BugReport.ui",
       "fwbackups/ui/gtk/about.ui",
@@ -78,19 +88,21 @@ class fwbackupsApp(Gtk.Application):
       "fwbackups/ui/gtk/warning_dia.ui",
     ]
     self.ui = loader.UILoader(ui_files, self)
-    GLib.set_application_name(_("fwbackups"))
-    GLib.set_prgname("fwbackups")
-    self.verbose = False  # FIXME
-
-  def do_startup(self):
-    Gtk.Application.do_startup(self)
 
     builder = Gtk.Builder()
     builder.add_from_file("fwbackups/ui/gtk/menus.ui")
     self.set_menubar(builder.get_object("menubar"))
 
-    accel_map = {
+    css_provider = Gtk.CssProvider()
+    css_provider.load_from_file(Gio.File.new_for_path('fwbackups/ui/gtk/style.css'))
+    display = Gdk.Display.get_default()
+    priority = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+    Gtk.StyleContext.add_provider_for_display(display, css_provider, priority)
+
+    menu_map = {
       "new_set1": "<Primary>n",
+      "import_sets1": None,
+      "export_sets1": None,
       "quit1": "<Control>q",
       "edit_set1": "<Control>e",
       "remove_set1": "<Control>d",
@@ -104,11 +116,12 @@ class fwbackupsApp(Gtk.Application):
     }
 
     scope = "app"
-    for action_name, accel in accel_map.items():
+    for action_name, accel in menu_map.items():
       action = Gio.SimpleAction.new(name=action_name)
       handler_name = f"on_{action_name}_activate"
       handler = getattr(self, handler_name, None)
-      self.set_accels_for_action(f"{scope}.{action_name}", [accel])
+      if accel is not None:
+        self.set_accels_for_action(f"{scope}.{action_name}", [accel])
       if handler is not None:
         action.connect("activate", getattr(self, handler_name))
       else:
@@ -313,23 +326,18 @@ class fwbackupsApp(Gtk.Application):
       Gtk.window_set_default_icon_from_file(appIcon)
     self.statusbar = widgets.StatusBar(self.ui.statusbar1)
     self.ExportView1 = widgets.ExportView(self.ui.ExportTreeview, self.statusbar, self.ui)
-    self.ui.restore1SetNameCombobox.set_model(Gtk.ListStore(str))
-    # Tray icon - check for PyGTK 2.10+
-    if not hasattr(Gtk, 'StatusIcon'):
-      prefs.set('Preferences', 'ShowTrayIcon', 0)
-      prefs.set('Preferences', 'MinimizeTrayClose', 0)
-      prefs.set('Preferences', 'StartMinimized', 0)
-      self.ui.preferencesShowTrayIconCheck.set_active(False)
-      self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
-      self.ui.preferencesMinimizeTrayCloseCheck.set_active(False)
-      self.ui.preferencesMinimizeTrayCloseCheck.set_sensitive(False)
-      self.ui.preferencesStartMinimizedCheck.set_active(False)
-      self.ui.preferencesStartMinimizedCheck.set_sensitive(False)
-    else:
-      # PyGTK 2.10+ installed, gtk.StatusIcon exists
-      if prefs.getboolean('Preferences', 'ShowTrayIcon') or minimized:
-        self._setupTrayIcon()
-        self.trayicon.set_visible(True)
+
+    # Tray icon was removed in GTK4
+    prefs.set('Preferences', 'ShowTrayIcon', 0)
+    prefs.set('Preferences', 'MinimizeTrayClose', 0)
+    prefs.set('Preferences', 'StartMinimized', 0)
+    self.ui.preferencesShowTrayIconCheck.set_active(False)
+    self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
+    self.ui.preferencesMinimizeTrayCloseCheck.set_active(False)
+    self.ui.preferencesMinimizeTrayCloseCheck.set_sensitive(False)
+    self.ui.preferencesStartMinimizedCheck.set_active(False)
+    self.ui.preferencesStartMinimizedCheck.set_sensitive(False)
+
     self._setDefaults()
     # Clean up, clean up, everybody do your share...
     if os.path.exists('/etc/crontab') and fwbackups.CheckPermsRead('/etc/crontab'):
@@ -381,50 +389,6 @@ class fwbackupsApp(Gtk.Application):
         logfh.write('')
         logfh.close()
 
-  def _setupTrayIcon(self):
-    """Sets up the tray icon"""
-    prefs = config.PrefsConf()
-    if MSWINDOWS:
-      appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
-    else:
-      appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
-    if os.path.exists(appIcon):
-      pix = Gdk.Texture.new_for_pixbuf(appIcon)
-      self.trayicon = Gdk.Texture.new_from_file(pix)
-    else:
-      display = Gdk.Display.get_default()
-      icon_theme = Gtk.IconTheme.get_for_display(display)
-      self.trayicon = icon_theme.lookup_icon("edit-copy", None, 24, 1, Gtk.TextDirection.NONE, Gtk.IconLookupFlags.FORCE_SYMBOLIC)
-    self.trayicon.connect("popup_menu", self._Popup)
-    self.trayicon.connect("activate", self._clicked)
-    # now set the status of the checkmarks...
-    self.ui.display_notifications1.set_active(prefs.getboolean('Preferences', 'ShowNotifications'))
-    self.ui.minimize_to_tray_on_close1.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
-
-  def _clicked(self, status):
-    """Handles when gtk.StatusIcon `status' is clicked."""
-    # use me for other actions on click
-    if self.ui.main.get_property('visible'):
-      self.ui.main.hide()
-      self.ui.show_administrator1.set_active(False)
-    else:
-      self.ui.main.show()
-      self.ui.show_administrator1.set_active(True)
-    #self.ui.TrayMenu1.show()
-
-  def _Popup(self, status, button, time):
-    """Popup the menu at the right position"""
-    #--
-    def menu_pos(menu):
-      width, height, orientation = gtk.status_icon_position_menu(menu, self.trayicon)
-      return width, height, orientation
-    #--
-    if MSWINDOWS or DARWIN:
-      self.ui.TrayMenu1.popup(None, None, None, button, time)
-    else:
-      self.ui.TrayMenu1.popup(None, None, menu_pos, button, time)
-    self.ui.TrayMenu1.show()
-
   def displayInfo(self, parent, primaryText, secondaryText, dontShowMe=False):
     """Wrapper for displaying the confirm dialog"""
     if dontShowMe:
@@ -438,7 +402,6 @@ class fwbackupsApp(Gtk.Application):
     else:
       dialog.destroy()
       return
-
 
   def displayError(self, parent, primaryText, secondaryText):
     """Wrapper for displaying the confirm dialog"""
@@ -475,37 +438,10 @@ class fwbackupsApp(Gtk.Application):
       return response
 
   ###
-  ### TRAY ICON ###
-  ###
-
-  def on_show_administrator1_activate(self, widget, event=None):
-    """Hide/show the main window"""
-    if self.ui.show_administrator1.get_active():
-      self.ui.main.show()
-    else:
-      self.ui.main.hide()
-
-  def on_minimize_to_tray_on_close1_activate(self, widget, event=None):
-    """Minimize to tray on close?"""
-    self.ui.preferencesMinimizeTrayCloseCheck.set_active(self.ui.minimize_to_tray_on_close1.get_active())
-
-  def on_display_notifications1_activate(self, widget, event=None):
-    """Set display notifications from tray icon"""
-    self.ui.preferencesShowNotificationsCheck.set_active(self.ui.display_notifications1.get_active())
-
-  def on_preferences2_activate(self, widget, event=None):
-    """Hides the tray icon until it displays a notification again"""
-    self.on_preferences1_activate(None)
-
-  def on_quit2_activate(self, widget):
-    """Quit"""
-    return self.main_close(widget)
-
-  ###
   ### WRAPPERS ###
   ###
 
-  def trayNotify(self, summary, body, timeout=-1):
+  def trayNotify(self, summary, body, timeout=-1): # FIXME rename and port to gtk4 notifications
     """Display a notification attached to the tray icon if applicable"""
     # see /usr/share/doc/python-notify/examples for API
     #n.set_urgency(pynotify.URGENCY_NORMAL)
@@ -521,7 +457,7 @@ class fwbackupsApp(Gtk.Application):
       import pynotify
       notify = pynotify.Notification(summary, body)
       # icon
-      pix = Gtk.Widget.render_icon_pixbuf(gtk.STOCK_COPY, gtk.ICON_SIZE_DIALOG)
+      pix = Gtk.Widget.render_icon_pixbuf(Gtk.STOCK_COPY, Gtk.ICON_SIZE_DIALOG)
       notify.set_icon_from_pixbuf(pix)
       # location
       if hasattr(self, 'trayicon'):
@@ -618,16 +554,6 @@ class fwbackupsApp(Gtk.Application):
       except:
         self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored"))
 
-
-  def main_close_traywrapper(self, widget, event=None):
-    """Quit, but check if we should minimize first."""
-    prefs = config.PrefsConf()
-    if prefs.getboolean('Preferences', 'MinimizeTrayClose'):
-      self.ui.main.hide()
-      return True
-    else:
-      return self.main_close()
-
   def main_close(self, widget=None, event=None):
     """Wrapper for quitting"""
     if self.operationInProgress:
@@ -691,7 +617,7 @@ class fwbackupsApp(Gtk.Application):
     self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
     if thread.retval == True:
       self.displayInfo(parent, _("Success!"), _("fwbackups was able to connect and authenticate on '%s'.") % host)
-    elif isinstance(thread.exception, IOError):
+    elif thread.retval == False or isinstance(thread.exception, IOError):
       self.displayInfo(parent, _("Remote destination is not usable"), _("The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. Please verify your settings and try again.") % {'a': path, 'b': host})
     elif isinstance(thread.exception, paramiko.AuthenticationException):
       self.displayInfo(parent, _("Authentication failed"), _("A connection to '%s' was established, but authentication failed. Please verify the username and password and try again.") % host)
@@ -702,24 +628,27 @@ class fwbackupsApp(Gtk.Application):
     elif isinstance(thread.exception, paramiko.SSHException):
       self.displayInfo(parent, _("A connection to '%s' could not be established") % host, _("Error: %s. Please verify your settings and try again.") % str(thread.exception))
     else:
-      self.displayInfo(parent, _("Unexpected error"), thread.traceback)
+      self.displayInfo(parent, _("Unexpected error"), thread.traceback or _("An unknown error occurred while testing for connectivity."))
 
   ###
   ### MENUS ###
   ###
 
   ### FILE MENU
-  def on_new_set1_activate(self, widget, _): # FIXME
+  def on_new_set1_activate(self, widget, user_data):
     """New Set entry in menu"""
     self.on_main2NewSetButton_clicked(widget)
 
-  def on_import_sets1_activate(self, widget): # FIXME
+  def on_import_sets1_activate(self, widget, user_data):
     """Import Set entry in menu"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select file(s)'), self.ui.main,
+    widget = Gtk.FileChooserNative.new(_('Choose file(s)'), self.ui.main,
+                                       Gtk.FileChooserAction.OPEN,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Choose file(s)'), self.ui.main,
                                  Gtk.FileChooserAction.OPEN, ffilter=['*.conf',_('Configuration files (*.conf)')],
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       oldSetPaths = [path for path in fileDialog.get_filenames()]
       for oldSetPath in oldSetPaths:
         # Attempt to use the original set name
@@ -786,11 +715,10 @@ class fwbackupsApp(Gtk.Application):
       shutil_modded.copy(setPath, destSetPath)
       self.logger.logmsg('INFO', _('Exported set `%(a)s\' to `%(b)s\'' % {'a': setName, 'b': dest}))
 
-  def on_export_sets1_activate(self, widget):
+  def on_export_sets1_activate(self, widget, user_data): # FIXME replace use of deprecated FileChooserButton
     """Export Sets entry in menu"""
     self.ExportView1.refresh()
     exportDialog = widgets.GenericDia(self.ui.export_dia, _('Export Sets'), self.ui.main)
-    self.ui.ExportFileChooserButton.set_current_folder(USERHOME)
     response = exportDialog.run()
     runLoop = True
     while runLoop:
@@ -967,18 +895,10 @@ class fwbackupsApp(Gtk.Application):
   def on_preferencesShowTrayIconCheck_toggled(self, widget):
     """Show tray icon check"""
     prefs = config.PrefsConf()
-    # Tray icon
-    if self.ui.preferencesShowTrayIconCheck.get_active():
-      prefs.set('Preferences', 'ShowTrayIcon', 1)
-      if hasattr(self, 'trayicon'):
-        self.trayicon.set_visible(True)
-      else:
-        #self._setupTrayIcon() FIXME
-        pass
-    else:
-      prefs.set('Preferences', 'ShowTrayIcon', 0)
-      if hasattr(self, 'trayicon'):
-        self.trayicon.set_visible(False)
+
+    # Tray icon is removed from GTK4
+    self.ui.preferencesShowTrayIconCheck.set_active(False)
+    self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
 
   def on_preferencesMinimizeTrayCloseCheck_toggled(self, widget):
     """Minimize to tray on close?"""
@@ -986,10 +906,8 @@ class fwbackupsApp(Gtk.Application):
     # Tray icon
     if self.ui.preferencesMinimizeTrayCloseCheck.get_active():
       prefs.set('Preferences', 'MinimizeTrayClose', 1)
-      self.ui.minimize_to_tray_on_close1.set_active(True)
     else:
       prefs.set('Preferences', 'MinimizeTrayClose', 0)
-      self.ui.minimize_to_tray_on_close1.set_active(False)
 
   def on_preferencesStartMinimizedCheck_toggled(self, widget):
     """Start minimized?"""
@@ -1006,10 +924,8 @@ class fwbackupsApp(Gtk.Application):
     # Notifications
     if self.ui.preferencesShowNotificationsCheck.get_active():
       prefs.set('Preferences', 'ShowNotifications', 1)
-      self.ui.display_notifications1.set_active(True)
     else:
       prefs.set('Preferences', 'ShowNotifications', 0)
-      self.ui.display_notifications1.set_active(False)
 
   def on_preferencesSessionStartupCheck_toggled(self, widget):
     """Start fwbackups when we login"""
@@ -1057,12 +973,14 @@ class fwbackupsApp(Gtk.Application):
 
   def on_preferencesPycronBrowseButton_clicked(self, widget):
     """Open the file browser"""
-    prefs = config.PrefsConf()
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
+    widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.ui.main,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.main,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       pycronInstallDir = fileDialog.get_filenames()[0]
       self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
     fileDialog.destroy()
@@ -1078,11 +996,14 @@ class fwbackupsApp(Gtk.Application):
   def on_preferencesCustomizeTempDirBrowseButton_clicked(self, widget):
     """Open the file browser"""
     prefs = config.PrefsConf()
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
+    widget = Gtk.FileChooserNative.new(_('Choose file(s)'), self.ui.main,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.main,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       tempDir = fileDialog.get_filenames()[0]
       self.ui.preferencesCustomizeTempDirEntry.set_text(tempDir)
     fileDialog.destroy()
@@ -1166,8 +1087,8 @@ class fwbackupsApp(Gtk.Application):
     active = widget.get_active()
     self.ui.backupset2DestinationTypeNotebook.set_current_page(active)
     tables = [self.ui.backupset2DestinationTypeTable0, self.ui.backupset2DestinationTypeTable1]
-    for i in tables:
-      i.set_sensitive(False)
+    for table in tables:
+      table.set_sensitive(False)
     tables[active].set_sensitive(True)
 
     # disable incremental for remote
@@ -1179,11 +1100,14 @@ class fwbackupsApp(Gtk.Application):
 
   def on_backupset2FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.backupset,
+    widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.ui.backupset,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.backupset,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       destination = fileDialog.get_filenames()[0]
       self.ui.backupset2LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1525,8 +1449,8 @@ class fwbackupsApp(Gtk.Application):
     active = widget.get_active()
     self.ui.main3DestinationTypeNotebook.set_current_page(active)
     tables = [self.ui.main3DestinationTypeTable0, self.ui.main3DestinationTypeTable1]
-    for i in tables:
-      i.set_sensitive(False)
+    for table in tables:
+      table.set_sensitive(False)
     tables[active].set_sensitive(True)
 
   def on_main3LocalFolderEntry_changed(self, widget):
@@ -1536,11 +1460,14 @@ class fwbackupsApp(Gtk.Application):
 
   def on_main3FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.main,
+    widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.ui.main,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.main,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       destination = fileDialog.get_filenames()[0]
       self.ui.main3LocalFolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -1585,7 +1512,6 @@ class fwbackupsApp(Gtk.Application):
     response, dontShowMe = self.displayConfirm(self.ui.main, _("Clear the old log entries?"),
                                        _("This action will permanently remove all log entries."),
                                        dontShowMe=True)
-    print(int(Gtk.ResponseType.YES), response, Gtk.ResponseType.YES == response)
     if response == Gtk.ResponseType.YES:
       if dontShowMe:
         prefs.set('Preferences', 'DontShowMe_ClearLog', 1)
@@ -1615,17 +1541,15 @@ class fwbackupsApp(Gtk.Application):
     self.ui.restore1SourceTypeNotebook.set_current_page(active)
     tables = [self.ui.restore1SourceTypeTable0, self.ui.restore1SourceTypeTable1, \
              self.ui.restore1SourceTypeTable2, self.ui.restore1SourceTypeTable3]
-    for i in tables:
-      i.set_sensitive(False)
+    for table in tables:
+      table.set_sensitive(False)
     tables[active].set_sensitive(True)
 
   def _checkDestPerms(self, path, image):
     if fwbackups.CheckPerms(path, mustExist=True):
-      #image.set_from_icon_name("yes", Gtk.IconSize.NORMAL) # FIXME icon name?
-      pass
+      image.set_from_icon_name("emblem-ok-symbolic")
     else:
-      #image.set_from_icon_name("no", Gtk.IconSize.NORMAL) # FIXME icon name?
-      pass
+      image.set_from_icon_name("emblem-unreadable")
 
   def _setRestoreSetName(self, setName):
     """Set the box choices based on setname"""
@@ -1659,19 +1583,19 @@ class fwbackupsApp(Gtk.Application):
 
   def _populateDates(self, setName):
     """Populates restore1SetDateCombobox with the appropriate backup date entries"""
-    model = self.ui.restore1SetDateCombobox.get_model()
-    model.clear()
+    self.ui.restore1SetDateCombobox.remove_all()
     setPath = os.path.join(SETLOC, "%s.conf" % setName)
     setConfig = config.BackupSetConf(setPath)
     if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
       self.ui.restore1SourceTypeCombobox.set_sensitive(False)
       self.ui.restore1SetDateCombobox.set_sensitive(False)
-      model.append(["Connecting to server, please wait..."])
+      self.ui.restore1SetDateCombobox.append_text("Connecting to server, please wait...")
       self.ui.restore1SetDateCombobox.set_active(0)
       thread = fwbackups.runFuncAsThread(self.getRemoteBackupDates, setConfig)
       while thread.retval == None:
         widgets.doGtkEvents()
-      model.clear()
+        time.sleep(0.01)
+      self.ui.restore1SetDateCombobox.remove_all()
       # Default to None (see 'if listing == None' check later)
       listing = None
       # Check return value
@@ -1711,26 +1635,26 @@ class fwbackupsApp(Gtk.Application):
     listing.sort() # [oldest, older, old, new, newest]
     listing.reverse() # make newest first
     backupDates = []
-    for i in listing:
+    for entry in listing:
       # fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
-      if i.startswith('%s-%s-' % (_('Backup'), setName)):
-        backupDates.append(i)
+      if entry.startswith('%s-%s-' % (_('Backup'), setName)):
+        backupDates.append(entry)
     if backupDates == []:
       model.append([_('No backups found')])
-    for i in backupDates:
-      if i.endswith('tar.gz'):
+    for entry in backupDates:
+      if entry.endswith('tar.gz'):
         engine = 'tar.gz'
-      elif i.endswith('tar.bz2'):
+      elif entry.endswith('tar.bz2'):
         engine = 'tar.bz2'
-      elif i.endswith('.tar'):
+      elif entry.endswith('.tar'):
         engine = 'tar'
       else: # rsync
         engine = 'rsync'
-      date = '-'.join(i.split('-')[2:]).split('.')[0] # returns year-month-day
+      date = '-'.join(entry.split('-')[2:]).split('.')[0] # returns year-month-day
       # Can't use this below - the engine can change while we still have the
       # old engine's backup folders/archives still.
       #engine = setConf.get('Options', 'Engine')
-      model.append(['%s - %s' % (date, engine)])
+      self.ui.restore1SetDateCombobox.append_text('%s - %s' % (date, engine))
     self.ui.restore1SetDateCombobox.set_active(0)
 
   def on_restore1SetNameCombobox_changed(self, widget):
@@ -1916,33 +1840,42 @@ class fwbackupsApp(Gtk.Application):
 
   def on_restore1BrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
+    widget = Gtk.FileChooserNative.new(_('Select a Folder'), self.ui.restore,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Select a Folder'), self.ui.restore,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1DestinationEntry.set_text(destination)
     fileDialog.destroy()
 
   def on_restore1ArchiveBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
+    widget = Gtk.FileChooserNative.new(_('Select a Folder'), self.ui.restore,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Select a Folder'), self.ui.restore,
                                  Gtk.FileChooserAction.OPEN,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1ArchiveEntry.set_text(destination)
     fileDialog.destroy()
 
   def on_restore1FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
-    fileDialog = widgets.PathDia(self.ui.path_dia, _('Select a Folder'), self.ui.restore,
+    widget = Gtk.FileChooserNative.new(_('Select a Folder'), self.ui.restore,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       _("_Open"), _("_Cancel"))
+    fileDialog = widgets.PathDia(widget, _('Select a Folder'), self.ui.restore,
                                  Gtk.FileChooserAction.SELECT_FOLDER,
                                  multiple=False)
     response = fileDialog.run()
-    if response == Gtk.ResponseType.OK:
+    if response == Gtk.ResponseType.ACCEPT:
       destination = fileDialog.get_filenames()[0]
       self.ui.restore1FolderEntry.set_text(destination)
     fileDialog.destroy()
@@ -2336,7 +2269,7 @@ class fwbackupsApp(Gtk.Application):
           if icon.get_file().get_path() is not None:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(icon.get_file().get_path(), 32, 32, True)
           self.ui.main2Iconview.get_model().append([name.split('.conf')[0], pixbuf])
-          self.ui.restore1SetNameCombobox.get_model().append([name.split('.conf')[0]])
+          self.ui.restore1SetNameCombobox.append_text(name.split('.conf')[0])
           loaded_count += 1
         else:
           self.logger.logmsg('WARNING', _('Refusing to parse file `%s\': configuration files must end in `.conf\'') % name)

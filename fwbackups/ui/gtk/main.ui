@@ -3,6 +3,7 @@
 <interface>
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="page-increment">10</property>
     <property name="step-increment">1</property>
@@ -15,37 +16,11 @@
     <property name="step-increment">1</property>
     <property name="upper">19</property>
   </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Local folder</col>
-      </row>
-      <row>
-        <col id="0">Remote folder (SSH)</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model2">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">gzip: fast, lightweight</col>
-      </row>
-      <row>
-        <col id="0">bzip2: slower, more efficient</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkApplicationWindow" id="main">
     <property name="default-height">515</property>
     <property name="default-width">650</property>
     <property name="title" translatable="yes">fwbackups</property>
-    <signal name="close-request" handler="main_close_traywrapper"/>
+    <signal name="close-request" handler="main_close"/>
     <child>
       <object class="GtkGrid" id="table2">
         <property name="hexpand">1</property>
@@ -62,9 +37,7 @@
           <object class="GtkNotebook" id="mainControlNotebook">
             <property name="focusable">1</property>
             <property name="hexpand">1</property>
-            <property name="margin-end">18</property>
-            <property name="margin-start">18</property>
-            <property name="scrollable">1</property>
+            <property name="show-border">False</property>
             <property name="vexpand">True</property>
             <child>
               <object class="GtkNotebookPage">
@@ -73,17 +46,14 @@
                     <child>
                       <object class="GtkGrid" id="table11">
                         <property name="column-spacing">12</property>
-                        <property name="halign">center</property>
-                        <property name="margin-end">6</property>
-                        <property name="margin-start">18</property>
                         <property name="row-spacing">6</property>
                         <property name="valign">start</property>
                         <child>
                           <object class="GtkFrame" id="frame2">
+                            <property name="hexpand">True</property>
                             <child>
                               <object class="GtkGrid" id="table17">
                                 <property name="column-spacing">12</property>
-                                <property name="halign">center</property>
                                 <property name="hexpand">0</property>
                                 <property name="row-spacing">12</property>
                                 <property name="vexpand">True</property>
@@ -114,6 +84,7 @@
                             </child>
                             <child type="label">
                               <object class="GtkLabel" id="WelcomeLabel">
+                                <property name="css-classes">header</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Welcome&lt;/b&gt;</property>
                                 <property name="margin-bottom">2</property>
                                 <property name="margin-end">4</property>
@@ -187,6 +158,7 @@
                             </child>
                             <child type="label">
                               <object class="GtkLabel" id="label60">
+                                <property name="css-classes">header</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Status&lt;/b&gt;</property>
                                 <property name="margin-bottom">2</property>
                                 <property name="margin-end">4</property>
@@ -205,7 +177,8 @@
                     </child>
                     <child type="label">
                       <object class="GtkLabel" id="label94">
-                        <property name="label" translatable="yes">&lt;span size="large" weight="bold"&gt;Overview&lt;/span&gt;</property>
+                        <property name="css-classes">title-2</property>
+                        <property name="label" translatable="yes">Overview</property>
                         <property name="margin-bottom">6</property>
                         <property name="margin-end">2</property>
                         <property name="margin-start">2</property>
@@ -256,32 +229,21 @@
                           <object class="GtkBox" id="main2VButtonBox">
                             <property name="halign">center</property>
                             <property name="orientation">vertical</property>
-                            <property name="spacing">24</property>
-                            <property name="valign">center</property>
+                            <property name="spacing">12</property>
+                            <property name="valign">start</property>
                             <child>
                               <object class="GtkButton" id="main2NewSetButton">
                                 <property name="focusable">1</property>
+                                <property name="icon-name">list-add-symbolic</property>
+                                <property name="label">_New set</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_main2NewSetButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox6">
+                                  <object class="AdwButtonContent">
                                     <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image7">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">tab-new-symbolic</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label19">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_New Set</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="icon-name">document-new-symbolic</property>
+                                    <property name="label">_New set</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -292,24 +254,11 @@
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_main2EditSetButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox7">
+                                  <object class="AdwButtonContent">
                                     <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image8">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">document-edit-symbolic</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label20">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">Ed_it Set</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="icon-name">document-edit-symbolic</property>
+                                    <property name="label">_Edit set</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -317,27 +266,16 @@
                             <child>
                               <object class="GtkButton" id="main2RemoveSetButton">
                                 <property name="focusable">1</property>
+                                <property name="icon-name">edit-delete-symbolic</property>
+                                <property name="label">_Delete set</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_main2RemoveSetButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox8">
+                                  <object class="AdwButtonContent">
                                     <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image9">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">edit-delete-symbolic</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label21">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Delete Set</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="icon-name">edit-delete-symbolic</property>
+                                    <property name="label">_Delete set</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -349,6 +287,14 @@
                                 <property name="receives-default">1</property>
                                 <property name="use-underline">1</property>
                                 <signal name="clicked" handler="on_main2BackupSetNowButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">media-playback-start-symbolic</property>
+                                    <property name="label">_Backup set</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <child>
@@ -358,6 +304,14 @@
                                 <property name="receives-default">1</property>
                                 <property name="use-underline">1</property>
                                 <signal name="clicked" handler="on_main2RestoreSetButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">view-restore-symbolic</property>
+                                    <property name="label">_Restore set</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <layout>
@@ -373,18 +327,18 @@
                             <child>
                               <object class="GtkProgressBar" id="main2BackupProgress">
                                 <property name="ellipsize">end</property>
-                                <property name="height-request">28</property>
                                 <property name="hexpand">True</property>
                                 <property name="pulse-step">0.00999999977648</property>
                                 <property name="text" translatable="yes"></property>
+                                <property name="valign">center</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkButton" id="main2CancelBackupButton">
                                 <property name="focusable">1</property>
                                 <property name="halign">center</property>
-                                <property name="label">_Cancel</property>
-                                <property name="sensitive">0</property>
+                                <property name="icon-name">process-stop-symbolic</property>
+                                <property name="sensitive">False</property>
                                 <property name="use-underline">True</property>
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main2CancelBackupButton_clicked"/>
@@ -464,7 +418,8 @@
                     </child>
                     <child type="label">
                       <object class="GtkLabel" id="label50">
-                        <property name="label" translatable="yes">&lt;span size="large" weight="bold"&gt;Backups Sets&lt;/span&gt;</property>
+                        <property name="css-classes">title-2</property>
+                        <property name="label" translatable="yes">Backups Sets</property>
                         <property name="margin-bottom">6</property>
                         <property name="margin-end">2</property>
                         <property name="margin-start">2</property>
@@ -525,8 +480,8 @@
                                       <object class="GtkBox" id="main3VButtonBox">
                                         <property name="halign">center</property>
                                         <property name="orientation">vertical</property>
-                                        <property name="spacing">24</property>
-                                        <property name="valign">center</property>
+                                        <property name="spacing">12</property>
+                                        <property name="valign">start</property>
                                         <property name="vexpand">1</property>
                                         <child>
                                           <object class="GtkButton" id="main3AddFileButton">
@@ -534,25 +489,10 @@
                                             <property name="receives-default">1</property>
                                             <signal name="clicked" handler="on_main3AddFileButton_clicked"/>
                                             <child>
-                                              <object class="GtkBox" id="hbox80">
+                                              <object class="AdwButtonContent">
                                                 <property name="halign">center</property>
-                                                <property name="spacing">2</property>
-                                                <property name="valign">center</property>
-                                                <property name="vexpand">1</property>
-                                                <child>
-                                                  <object class="GtkImage" id="image1463">
-                                                    <property name="halign">center</property>
-                                                    <property name="icon-name">gtk-add</property>
-                                                    <property name="valign">center</property>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label369">
-                                                    <property name="halign">center</property>
-                                                    <property name="label" translatable="yes">_Add File(s)</property>
-                                                    <property name="use-underline">1</property>
-                                                  </object>
-                                                </child>
+                                                <property name="icon-name">document-new-symbolic</property>
+                                                <property name="label">Add files</property>
                                               </object>
                                             </child>
                                           </object>
@@ -563,25 +503,11 @@
                                             <property name="receives-default">1</property>
                                             <signal name="clicked" handler="on_main3AddFolderButton_clicked"/>
                                             <child>
-                                              <object class="GtkBox" id="hbox79">
+                                              <object class="AdwButtonContent">
                                                 <property name="halign">center</property>
-                                                <property name="spacing">2</property>
-                                                <property name="valign">center</property>
-                                                <property name="vexpand">1</property>
-                                                <child>
-                                                  <object class="GtkImage" id="image1462">
-                                                    <property name="halign">center</property>
-                                                    <property name="icon-name">gtk-add</property>
-                                                    <property name="valign">center</property>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label365">
-                                                    <property name="halign">center</property>
-                                                    <property name="label" translatable="yes">_Add Folder(s)</property>
-                                                    <property name="use-underline">1</property>
-                                                  </object>
-                                                </child>
+                                                <property name="icon-name">folder-new-symbolic</property>
+                                                <property name="label">_Add Folder</property>
+                                                <property name="use-underline">True</property>
                                               </object>
                                             </child>
                                           </object>
@@ -591,7 +517,16 @@
                                             <property name="focusable">1</property>
                                             <property name="label">_Remove</property>
                                             <property name="receives-default">1</property>
+                                            <property name="use-underline">True</property>
                                             <signal name="clicked" handler="on_main3RemoveButton_clicked"/>
+                                            <child>
+                                              <object class="AdwButtonContent">
+                                                <property name="halign">center</property>
+                                                <property name="icon-name">list-remove-symbolic</property>
+                                                <property name="label">_Remove</property>
+                                                <property name="use-underline">True</property>
+                                              </object>
+                                            </child>
                                           </object>
                                         </child>
                                         <layout>
@@ -616,12 +551,13 @@
                                     <property name="column-spacing">12</property>
                                     <property name="row-spacing">6</property>
                                     <child>
-                                      <object class="GtkComboBox" id="main3DestinationTypeCombobox">
-                                        <property name="model">model1</property>
+                                      <object class="GtkComboBoxText" id="main3DestinationTypeCombobox">
+                                        <property name="hexpand">True</property>
                                         <signal name="changed" handler="on_main3DestinationTypeCombobox_changed"/>
-                                        <child>
-                                          <object class="GtkCellRendererText" id="renderer1"/>
-                                        </child>
+                                        <items>
+                                          <item>Local folder</item>
+                                          <item>Remote folder (SSH)</item>
+                                        </items>
                                         <layout>
                                           <property name="column">1</property>
                                           <property name="row">0</property>
@@ -657,25 +593,10 @@
                                                     <property name="focusable">1</property>
                                                     <signal name="clicked" handler="on_main3FolderBrowseButton_clicked"/>
                                                     <child>
-                                                      <object class="GtkBox" id="hbox85">
-                                                        <property name="halign">center</property>
-                                                        <property name="spacing">2</property>
-                                                        <property name="valign">center</property>
-                                                        <property name="vexpand">1</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image1467">
-                                                            <property name="halign">center</property>
-                                                            <property name="icon-name">gtk-open</property>
-                                                            <property name="valign">center</property>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkLabel" id="label379">
-                                                            <property name="halign">center</property>
-                                                            <property name="label" translatable="yes">_Browse...</property>
-                                                            <property name="use-underline">1</property>
-                                                          </object>
-                                                        </child>
+                                                      <object class="AdwButtonContent">
+                                                        <property name="icon-name">folder-symbolic</property>
+                                                        <property name="label">_Browse...</property>
+                                                        <property name="use-underline">True</property>
                                                       </object>
                                                     </child>
                                                     <layout>
@@ -810,6 +731,7 @@
                                                       <object class="GtkProgressBar" id="main3TestSettingsProgress">
                                                         <property name="halign">center</property>
                                                         <property name="pulse-step">0.10000000149</property>
+                                                        <property name="valign">center</property>
                                                       </object>
                                                     </child>
                                                     <layout>
@@ -918,7 +840,6 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label368">
-                                        <property name="hexpand">True</property>
                                         <property name="label" translatable="yes">Destination type:</property>
                                         <property name="xalign">0</property>
                                         <layout>
@@ -993,13 +914,12 @@
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkComboBox" id="main3CompressCombo">
-                                                    <property name="entry-text-column">0</property>
+                                                  <object class="GtkComboBoxText" id="main3CompressCombo">
                                                     <property name="hexpand">1</property>
-                                                    <property name="model">model2</property>
-                                                    <child>
-                                                      <object class="GtkCellRendererText" id="renderer2"/>
-                                                    </child>
+                                                    <items>
+                                                      <item>gzip: fast, lightweight</item>
+                                                      <item>bzip2: slower, more efficient</item>
+                                                    </items>
                                                   </object>
                                                 </child>
                                                 <layout>
@@ -1031,7 +951,6 @@
                                               <object class="GtkCheckButton" id="main3EnableCheck">
                                                 <property name="active">1</property>
                                                 <property name="focusable">1</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Enabled</property>
                                                 <property name="sensitive">0</property>
                                                 <property name="use-underline">1</property>
@@ -1045,7 +964,6 @@
                                               <object class="GtkCheckButton" id="main3RecursiveCheck">
                                                 <property name="active">1</property>
                                                 <property name="focusable">1</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Recursive</property>
                                                 <property name="use-underline">1</property>
                                                 <layout>
@@ -1084,7 +1002,6 @@
                                               <object class="GtkCheckButton" id="main3BackupHiddenCheck">
                                                 <property name="active">1</property>
                                                 <property name="focusable">1</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Include hidden files</property>
                                                 <property name="use-underline">1</property>
                                                 <layout>
@@ -1108,7 +1025,6 @@
                                             <child>
                                               <object class="GtkCheckButton" id="main3FollowLinksCheck">
                                                 <property name="focusable">1</property>
-                                                <property name="hexpand">1</property>
                                                 <property name="label" translatable="yes">Follow links</property>
                                                 <property name="use-underline">1</property>
                                                 <layout>
@@ -1247,17 +1163,17 @@
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkProgressBar" id="main3BackupProgress">
-                                            <property name="height-request">28</property>
                                             <property name="hexpand">1</property>
                                             <property name="pulse-step">0.00999999977648</property>
                                             <property name="text" translatable="yes"></property>
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
                                         <child>
                                           <object class="GtkButton" id="main3CancelBackupButton">
                                             <property name="focusable">1</property>
                                             <property name="halign">center</property>
-                                            <property name="label">_Cancel</property>
+                                            <property name="icon-name">process-stop-symbolic</property>
                                             <property name="receives-default">1</property>
                                             <property name="sensitive">0</property>
                                             <property name="use-underline">True</property>
@@ -1306,85 +1222,43 @@
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main3BackButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox82">
-                                    <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image1464">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">go-previous-symbolic</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label366">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Back</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">go-previous-symbolic</property>
+                                    <property name="label">_Back</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
                             </child>
                             <child>
                               <object class="GtkButton" id="main3NextButton">
+                                <property name="css-classes">suggested-action</property>
                                 <property name="focusable">1</property>
                                 <property name="halign">end</property>
                                 <property name="receives-default">1</property>
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="on_main3NextButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox83">
-                                    <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image1465">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">go-next-symbolic</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label367">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Next</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">go-next-symbolic</property>
+                                    <property name="label">_Next</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
                             </child>
                             <child>
                               <object class="GtkButton" id="main3StartBackupButton">
+                                <property name="css-classes">suggested-action</property>
                                 <property name="focusable">1</property>
                                 <property name="receives-default">1</property>
                                 <property name="visible">0</property>
                                 <signal name="clicked" handler="on_main3StartBackupButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox42">
-                                    <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkImage" id="image95">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-ok</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label185">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Start Backup</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">media-playback-start-symbolic</property>
+                                    <property name="label">_Start backup</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -1396,26 +1270,10 @@
                                 <property name="visible">0</property>
                                 <signal name="clicked" handler="on_main3FinishButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox93">
-                                    <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkImage" id="image1508">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-ok</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label428">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Finish</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">emblem-ok-symbolic</property>
+                                    <property name="label">_Finish</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -1426,7 +1284,8 @@
                     </child>
                     <child type="label">
                       <object class="GtkLabel" id="label49">
-                        <property name="label" translatable="yes">&lt;span size="large" weight="bold"&gt;One-Time Backup&lt;/span&gt;</property>
+                        <property name="css-classes">title-2</property>
+                        <property name="label" translatable="yes">One-Time Backup</property>
                         <property name="margin-bottom">6</property>
                         <property name="margin-end">2</property>
                         <property name="margin-start">2</property>
@@ -1541,7 +1400,8 @@
                     </child>
                     <child type="label">
                       <object class="GtkLabel" id="label77">
-                        <property name="label" translatable="yes">&lt;span size="large" weight="bold"&gt;Log Viewer&lt;/span&gt;</property>
+                        <property name="css-classes">title-2</property>
+                        <property name="label" translatable="yes">Log Viewer</property>
                         <property name="margin-bottom">6</property>
                         <property name="margin-end">2</property>
                         <property name="margin-start">2</property>
@@ -1568,8 +1428,6 @@
         <child>
           <object class="GtkBox" id="toolbar1">
             <property name="css-classes">toolbar</property>
-            <property name="margin-end">18</property>
-            <property name="margin-start">18</property>
             <child>
               <object class="GtkToggleButton" id="OverviewRadioTool">
                 <property name="active">1</property>

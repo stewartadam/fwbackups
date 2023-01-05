@@ -28,6 +28,7 @@
                 <property name="focusable">1</property>
                 <property name="has-frame">1</property>
                 <property name="height-request">120</property>
+                <property name="hexpand">True</property>
                 <property name="hscrollbar-policy">never</property>
                 <property name="vexpand">True</property>
                 <layout>
@@ -91,7 +92,7 @@
             </child>
             <child>
               <object class="GtkButton" id="ExportFileChooserButton">
-                <property name="label">Select file... FIXME</property>
+                <property name="label">Select file...</property>
                 <layout>
                   <property name="column">2</property>
                   <property name="row">3</property>
@@ -111,6 +112,7 @@
     </child>
     <child type="action">
       <object class="GtkButton" id="button_export">
+        <property name="css-classes">suggested-action</property>
         <property name="focusable">1</property>
         <property name="label" translatable="yes">_Export</property>
         <property name="receives-default">1</property>

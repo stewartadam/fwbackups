@@ -3,6 +3,7 @@
 <interface>
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
   <object class="GtkWindow" id="restore">
     <property name="child">
       <object class="GtkBox" id="vbox24">
@@ -30,13 +31,15 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkComboBox" id="restore1SourceTypeCombobox">
-                        <property name="entry-text-column">0</property>
-                        <property name="model">model3</property>
+                      <object class="GtkComboBoxText" id="restore1SourceTypeCombobox">
                         <signal name="changed" handler="on_restore1SourceTypeCombobox_changed"/>
-                        <child>
-                          <object class="GtkCellRendererText" id="renderer3"/>
-                        </child>
+                        <items>
+                          <item>Set backup</item>
+                          <item>Local archive</item>
+                          <item>Local folder</item>
+                          <item>Remote archive (SSH)</item>
+                          <item>Remote folder (SSH)</item>
+                        </items>
                         <layout>
                           <property name="column">1</property>
                           <property name="row">2</property>
@@ -76,8 +79,7 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkComboBox" id="restore1SetNameCombobox">
-                                    <property name="entry-text-column">0</property>
+                                  <object class="GtkComboBoxText" id="restore1SetNameCombobox">
                                     <property name="hexpand">True</property>
                                     <signal name="changed" handler="on_restore1SetNameCombobox_changed"/>
                                     <layout>
@@ -87,8 +89,7 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkComboBox" id="restore1SetDateCombobox">
-                                    <property name="entry-text-column">0</property>
+                                  <object class="GtkComboBoxText" id="restore1SetDateCombobox">
                                     <property name="hexpand">1</property>
                                     <layout>
                                       <property name="column">1</property>
@@ -117,24 +118,10 @@
                                     <property name="focusable">1</property>
                                     <signal name="clicked" handler="on_restore1ArchiveBrowseButton_clicked"/>
                                     <child>
-                                      <object class="GtkBox" id="hbox70">
-                                        <property name="halign">center</property>
-                                        <property name="spacing">2</property>
-                                        <property name="valign">center</property>
-                                        <child>
-                                          <object class="GtkImage" id="image1457">
-                                            <property name="halign">center</property>
-                                            <property name="icon-name">folder-symbolic</property>
-                                            <property name="valign">center</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label332">
-                                            <property name="halign">center</property>
-                                            <property name="label" translatable="yes">Browse...</property>
-                                            <property name="use-underline">1</property>
-                                          </object>
-                                        </child>
+                                      <object class="AdwButtonContent">
+                                        <property name="icon-name">folder-symbolic</property>
+                                        <property name="label">_Browse...</property>
+                                        <property name="use-underline">True</property>
                                       </object>
                                     </child>
                                     <layout>
@@ -186,24 +173,10 @@
                                     <property name="focusable">1</property>
                                     <signal name="clicked" handler="on_restore1FolderBrowseButton_clicked"/>
                                     <child>
-                                      <object class="GtkBox" id="hbox77">
-                                        <property name="halign">center</property>
-                                        <property name="spacing">2</property>
-                                        <property name="valign">center</property>
-                                        <child>
-                                          <object class="GtkImage" id="image1461">
-                                            <property name="halign">center</property>
-                                            <property name="icon-name">folder-symbolic</property>
-                                            <property name="valign">center</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label356">
-                                            <property name="halign">center</property>
-                                            <property name="label" translatable="yes">Browse...</property>
-                                            <property name="use-underline">1</property>
-                                          </object>
-                                        </child>
+                                      <object class="AdwButtonContent">
+                                        <property name="icon-name">folder-symbolic</property>
+                                        <property name="label">_Browse...</property>
+                                        <property name="use-underline">True</property>
                                       </object>
                                     </child>
                                     <layout>
@@ -269,7 +242,7 @@
                                     <property name="text" translatable="yes">/</property>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">5</property>
+                                      <property name="row">4</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -281,7 +254,7 @@
                                     <property name="visibility">0</property>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">3</property>
+                                      <property name="row">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -292,7 +265,7 @@
                                     <property name="text" translatable="yes"></property>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">2</property>
+                                      <property name="row">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -304,7 +277,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">1</property>
+                                      <property name="row">0</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -316,7 +289,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">2</property>
+                                      <property name="row">1</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -328,7 +301,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">3</property>
+                                      <property name="row">2</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -339,7 +312,7 @@
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">5</property>
+                                      <property name="row">4</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -361,24 +334,25 @@
                                         <property name="ellipsize">end</property>
                                         <property name="pulse-step">0.10000000149</property>
                                         <property name="text" translatable="yes"></property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">6</property>
+                                      <property name="row">5</property>
                                     </layout>
                                   </object>
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label445">
-                                    <property name="label" translatable="yes">&lt;i&gt;Note: fwbackups will copy the remote backup to the disk first, then unpack it.
-Please ensure enough disk space is available.&lt;/i&gt;</property>
-                                    <property name="use-markup">1</property>
+                                    <property name="css-classes">dim-label</property>
+                                    <property name="label" translatable="yes">Note: fwbackups will copy the remote backup to the disk first, then unpack it. Please ensure enough disk space is available.</property>
+                                    <property name="natural-wrap-mode">word</property>
+                                    <property name="wrap">True</property>
                                     <property name="xalign">0</property>
                                     <layout>
-                                      <property name="column">0</property>
-                                      <property name="column-span">2</property>
-                                      <property name="row">0</property>
+                                      <property name="column">1</property>
+                                      <property name="row">6</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -392,7 +366,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <signal name="toggled" handler="on_restore1HidePasswordCheck_toggled"/>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">4</property>
+                                      <property name="row">3</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -404,7 +378,7 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="row">4</property>
+                                      <property name="row">3</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -438,7 +412,18 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                                     </child>
                                     <layout>
                                       <property name="column">1</property>
-                                      <property name="row">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label445_2">
+                                    <property name="natural-wrap-mode">word</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">5</property>
                                     </layout>
                                   </object>
                                 </child>
@@ -508,24 +493,10 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                             <property name="halign">end</property>
                             <signal name="clicked" handler="on_restore1BrowseButton_clicked"/>
                             <child>
-                              <object class="GtkBox" id="hbox97">
-                                <property name="halign">center</property>
-                                <property name="spacing">2</property>
-                                <property name="valign">center</property>
-                                <child>
-                                  <object class="GtkImage" id="image1596">
-                                    <property name="halign">center</property>
-                                    <property name="icon-name">folder-symbolic</property>
-                                    <property name="valign">center</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="label448">
-                                    <property name="halign">center</property>
-                                    <property name="label" translatable="yes">_Browse...</property>
-                                    <property name="use-underline">1</property>
-                                  </object>
-                                </child>
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">folder-symbolic</property>
+                                <property name="label">_Browse...</property>
+                                <property name="use-underline">True</property>
                               </object>
                             </child>
                           </object>
@@ -538,9 +509,9 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                     </child>
                     <child>
                       <object class="GtkLabel" id="label341">
+                        <property name="css-classes">dim-label</property>
                         <property name="hexpand">1</property>
-                        <property name="label" translatable="yes">&lt;i&gt;Tip: entering '/' or selecting &lt;/i&gt;'File System'&lt;i&gt; will restore files to their original locations.&lt;/i&gt;</property>
-                        <property name="use-markup">1</property>
+                        <property name="label" translatable="yes">Tip: entering '/' or selecting 'File System' will restore files to their original locations.</property>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="column">1</property>
@@ -581,10 +552,10 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
                         <child>
                           <object class="GtkProgressBar" id="restore2RestorationProgress">
                             <property name="ellipsize">end</property>
-                            <property name="height-request">28</property>
                             <property name="hexpand">1</property>
                             <property name="pulse-step">0.00999999977648</property>
                             <property name="text" translatable="yes"></property>
+                            <property name="valign">center</property>
                           </object>
                         </child>
                         <child>
@@ -654,32 +625,12 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
             </child>
             <child>
               <object class="GtkButton" id="restoreStartButton">
+                <property name="css-classes">suggested-action</property>
                 <property name="focusable">1</property>
+                <property name="label">Start _Restore</property>
                 <property name="receives-default">1</property>
+                <property name="use-underline">True</property>
                 <signal name="clicked" handler="on_restoreStartButton_clicked"/>
-                <child>
-                  <object class="GtkBox" id="hbox53">
-                    <property name="halign">center</property>
-                    <property name="hexpand">1</property>
-                    <property name="spacing">2</property>
-                    <property name="valign">center</property>
-                    <property name="vexpand">1</property>
-                    <child>
-                      <object class="GtkImage" id="image216">
-                        <property name="halign">center</property>
-                        <property name="icon-name">emblem-ok-symbolic</property>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label204">
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">Start _Restore</property>
-                        <property name="use-underline">1</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
               </object>
             </child>
             <child>
@@ -721,28 +672,6 @@ Please ensure enough disk space is available.&lt;/i&gt;</property>
     <property name="title" translatable="yes">Restore Files</property>
     <property name="width-request">600</property>
     <signal name="close-request" handler="hide"/>
-  </object>
-  <object class="GtkListStore" id="model3">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Set backup</col>
-      </row>
-      <row>
-        <col id="0">Local archive</col>
-      </row>
-      <row>
-        <col id="0">Local folder</col>
-      </row>
-      <row>
-        <col id="0">Remote archive (SSH)</col>
-      </row>
-      <row>
-        <col id="0">Remote folder (SSH)</col>
-      </row>
-    </data>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
     <property name="page-increment">10</property>

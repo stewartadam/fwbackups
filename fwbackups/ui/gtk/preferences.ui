@@ -3,28 +3,23 @@
 <interface>
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
   <object class="GtkWindow" id="preferences">
     <property name="child">
       <object class="GtkBox" id="vbox23">
-        <property name="margin-bottom">18</property>
-        <property name="margin-end">18</property>
-        <property name="margin-start">18</property>
-        <property name="margin-top">18</property>
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkGrid" id="table76">
             <property name="column-spacing">12</property>
-            <property name="row-spacing">6</property>
-            <property name="vexpand">1</property>
+            <property name="row-spacing">18</property>
+            <property name="vexpand">True</property>
             <child>
               <object class="GtkFrame" id="frame33">
                 <property name="hexpand">1</property>
                 <child>
                   <object class="GtkGrid" id="table77">
                     <property name="column-spacing">12</property>
-                    <property name="halign">center</property>
-                    <property name="hexpand">0</property>
                     <property name="row-spacing">2</property>
                     <property name="valign">center</property>
                     <property name="vexpand">0</property>
@@ -44,7 +39,6 @@
                       <object class="GtkCheckButton" id="preferencesShowNotificationsCheck">
                         <property name="active">1</property>
                         <property name="focusable">1</property>
-                        <property name="hexpand">1</property>
                         <property name="label" translatable="yes">Show notifications in tray area</property>
                         <property name="use-underline">1</property>
                         <signal name="toggled" handler="on_preferencesShowNotificationsCheck_toggled"/>
@@ -70,7 +64,6 @@
                     <child>
                       <object class="GtkCheckButton" id="preferencesStartMinimizedCheck">
                         <property name="focusable">1</property>
-                        <property name="hexpand">1</property>
                         <property name="label" translatable="yes">Start minimized</property>
                         <property name="use-underline">1</property>
                         <signal name="toggled" handler="on_preferencesStartMinimizedCheck_toggled"/>
@@ -98,7 +91,6 @@
               <object class="GtkFrame" id="frame34">
                 <child>
                   <object class="GtkGrid" id="table78">
-                    <property name="halign">center</property>
                     <property name="hexpand">0</property>
                     <property name="row-spacing">2</property>
                     <property name="valign">center</property>
@@ -137,29 +129,12 @@
                         <child>
                           <object class="GtkButton" id="preferencesCustomizeTempDirBrowseButton">
                             <property name="focusable">1</property>
-                            <property name="hexpand">1</property>
                             <signal name="clicked" handler="on_preferencesCustomizeTempDirBrowseButton_clicked"/>
                             <child>
-                              <object class="GtkBox" id="hbox96">
-                                <property name="halign">center</property>
-                                <property name="hexpand">1</property>
-                                <property name="spacing">2</property>
-                                <property name="valign">center</property>
-                                <property name="vexpand">1</property>
-                                <child>
-                                  <object class="GtkImage" id="image1534">
-                                    <property name="halign">center</property>
-                                    <property name="icon-name">gtk-open</property>
-                                    <property name="valign">center</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="label371">
-                                    <property name="halign">center</property>
-                                    <property name="label" translatable="yes">_Browse...</property>
-                                    <property name="use-underline">1</property>
-                                  </object>
-                                </child>
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">folder-symbolic</property>
+                                <property name="label">_Browse...</property>
+                                <property name="use-underline">True</property>
                               </object>
                             </child>
                             <layout>
@@ -171,6 +146,7 @@
                         <child>
                           <object class="GtkEntry" id="preferencesCustomizeTempDirEntry">
                             <property name="focusable">1</property>
+                            <property name="hexpand">True</property>
                             <property name="text" translatable="yes"></property>
                             <property name="width-request">250</property>
                             <layout>
@@ -182,8 +158,7 @@
                         <child>
                           <object class="GtkCheckButton" id="preferencesCustomizeTempDirCheck">
                             <property name="focusable">1</property>
-                            <property name="hexpand">1</property>
-                            <property name="label" translatable="yes">Customize temporary directory</property>
+                            <property name="label" translatable="yes">Override temporary directory:</property>
                             <property name="use-underline">1</property>
                             <signal name="toggled" handler="on_preferencesCustomizeTempDirCheck_toggled"/>
                             <layout>
@@ -219,7 +194,6 @@
                 <child>
                   <object class="GtkGrid" id="table81">
                     <property name="column-spacing">6</property>
-                    <property name="halign">center</property>
                     <property name="hexpand">0</property>
                     <property name="row-spacing">2</property>
                     <property name="valign">center</property>
@@ -227,29 +201,12 @@
                     <child>
                       <object class="GtkButton" id="preferencesPycronBrowseButton">
                         <property name="focusable">1</property>
-                        <property name="hexpand">1</property>
                         <signal name="clicked" handler="on_preferencesPycronBrowseButton_clicked"/>
                         <child>
-                          <object class="GtkBox" id="hbox109">
-                            <property name="halign">center</property>
-                            <property name="hexpand">1</property>
-                            <property name="spacing">2</property>
-                            <property name="valign">center</property>
-                            <property name="vexpand">1</property>
-                            <child>
-                              <object class="GtkImage" id="image1533">
-                                <property name="halign">center</property>
-                                <property name="icon-name">gtk-open</property>
-                                <property name="valign">center</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label442">
-                                <property name="halign">center</property>
-                                <property name="label" translatable="yes">_Browse...</property>
-                                <property name="use-underline">1</property>
-                              </object>
-                            </child>
+                          <object class="AdwButtonContent">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="label">_Browse...</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <layout>
@@ -261,6 +218,7 @@
                     <child>
                       <object class="GtkEntry" id="preferencesPycronEntry">
                         <property name="focusable">1</property>
+                        <property name="hexpand">True</property>
                         <property name="text" translatable="yes"></property>
                         <property name="width-request">250</property>
                         <layout>
@@ -271,7 +229,6 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="label441">
-                        <property name="hexpand">1</property>
                         <property name="label" translatable="yes">Pycron installation directory:</property>
                         <property name="xalign">0</property>
                         <layout>
@@ -294,54 +251,59 @@
                 </layout>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkSeparator" id="hseparator2"/>
-        </child>
-        <child>
-          <object class="GtkBox" id="hbox65">
-            <property name="halign">center</property>
-            <property name="spacing">6</property>
             <child>
-              <object class="GtkButton" id="preferencesResetDontShowMeButton">
-                <property name="focusable">1</property>
-                <property name="halign">end</property>
-                <property name="icon-name">view-refresh-symbolic</property>
-                <property name="valign">center</property>
-                <signal name="clicked" handler="on_preferencesResetDontShowMeButton_clicked"/>
+              <object class="GtkBox" id="hbox65">
+                <property name="halign">center</property>
+                <property name="spacing">6</property>
                 <child>
-                  <object class="GtkImage" id="image1696">
-                    <property name="halign">center</property>
+                  <object class="GtkButton" id="preferencesResetDontShowMeButton">
+                    <property name="focusable">1</property>
+                    <property name="halign">end</property>
                     <property name="icon-name">view-refresh-symbolic</property>
-                    <property name="icon-size">normal</property>
                     <property name="valign">center</property>
+                    <signal name="clicked" handler="on_preferencesResetDontShowMeButton_clicked"/>
+                    <child>
+                      <object class="GtkImage" id="image1696">
+                        <property name="halign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="icon-size">normal</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkLabel" id="label272">
+                    <property name="hexpand">1</property>
+                    <property name="label" translatable="yes">Click to reset "Don't show me again" messages</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">3</property>
+                </layout>
               </object>
             </child>
             <child>
-              <object class="GtkLabel" id="label272">
-                <property name="hexpand">1</property>
-                <property name="label" translatable="yes">Click to reset "Don't show me again" messages</property>
-                <property name="xalign">0</property>
+              <object class="GtkSeparator" id="hseparator3">
+                <property name="hexpand">True</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">4</property>
+                </layout>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkSeparator" id="hseparator3">
-            <property name="hexpand">True</property>
           </object>
         </child>
         <child>
           <object class="GtkBox" id="hbuttonbox18">
-            <property name="halign">center</property>
+            <property name="halign">end</property>
             <property name="hexpand">0</property>
-            <property name="valign">center</property>
-            <property name="vexpand">0</property>
+            <property name="valign">end</property>
             <child>
               <object class="GtkButton" id="preferencesCloseButton">
+                <property name="css-classes">suggested-action</property>
                 <property name="focusable">1</property>
                 <property name="label">_Close</property>
                 <property name="receives-default">1</property>

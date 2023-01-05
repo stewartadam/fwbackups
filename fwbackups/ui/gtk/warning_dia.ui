@@ -15,6 +15,9 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkBox" id="hbox100">
+            <property name="margin-end">6</property>
+            <property name="margin-start">12</property>
+            <property name="margin-top">6</property>
             <property name="spacing">12</property>
             <property name="vexpand">1</property>
             <child>

@@ -50,7 +50,7 @@ def exists(sftp, path):
 
 def isFolder(sftp, path):
   """Determines if path on remote host is a folder"""
-  if not exists:
+  if not exists(sftp, path):
     return False
   try:
     mode = sftp.lstat(path).st_mode
@@ -217,16 +217,12 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
     print(_('Could not copy some files due to errors:'))
     print('\n'.join(errors))
 
-# Remember we wrap this in callbacks.py
 def testConnection(host, username, password, port, path):
   """Tests connecting to a SSH/SFTP connection with the supplied arguments.
   Returns True if connection was successful."""
   client, sftp = connect(host, username, password, port, timeout=30)
   try:
-    doesExist = isFolder(sftp, path)
-  except IOError: # Not using finally: to remain compatible with python < 2.5
+    return isFolder(sftp, path)
+  finally:
     sftp.close()
     client.close()
-    raise
-  client.close()
-  return doesExist

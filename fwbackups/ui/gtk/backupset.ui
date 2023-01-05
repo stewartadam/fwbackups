@@ -3,6 +3,7 @@
 <interface>
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
   <object class="GtkWindow" id="backupset">
     <property name="default-width">650</property>
     <property name="destroy-with-parent">True</property>
@@ -29,6 +30,7 @@
             </child>
             <child>
               <object class="GtkButton" id="backupsetApplyButton">
+                <property name="css-classes">suggested-action</property>
                 <property name="focusable">1</property>
                 <property name="label">_Apply</property>
                 <property name="receives-default">1</property>
@@ -67,7 +69,7 @@
             <child>
               <object class="GtkNotebook" id="backupsetControlNotebook">
                 <property name="focusable">1</property>
-                <property name="scrollable">1</property>
+                <property name="show-border">False</property>
                 <child>
                   <object class="GtkNotebookPage">
                     <property name="child">
@@ -97,11 +99,10 @@
                         </child>
                         <child>
                           <object class="GtkBox" id="vbuttonbox3">
-                            <property name="halign">center</property>
                             <property name="hexpand">0</property>
                             <property name="orientation">vertical</property>
-                            <property name="spacing">24</property>
-                            <property name="valign">center</property>
+                            <property name="spacing">12</property>
+                            <property name="valign">start</property>
                             <property name="vexpand">0</property>
                             <child>
                               <object class="GtkButton" id="backupset1AddFileButton">
@@ -109,24 +110,10 @@
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_backupset1AddFileButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox33">
+                                  <object class="AdwButtonContent">
                                     <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image92">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-add</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label131">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Add File(s)</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="icon-name">document-new-symbolic</property>
+                                    <property name="label">Add files</property>
                                   </object>
                                 </child>
                               </object>
@@ -134,27 +121,14 @@
                             <child>
                               <object class="GtkButton" id="backupset1AddFolderButton">
                                 <property name="focusable">1</property>
+                                <property name="halign">center</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_backupset1AddFolderButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox15">
-                                    <property name="halign">center</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="image16">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-add</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label31">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Add Folder(s)</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">folder-new-symbolic</property>
+                                    <property name="label">_Add Folder</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -162,10 +136,16 @@
                             <child>
                               <object class="GtkButton" id="backupset1RemoveButton">
                                 <property name="focusable">1</property>
-                                <property name="label">_Remove</property>
                                 <property name="receives-default">1</property>
-                                <property name="use-underline">True</property>
                                 <signal name="clicked" handler="on_backupset1RemoveButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">list-remove-symbolic</property>
+                                    <property name="label">_Remove</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <layout>
@@ -183,7 +163,6 @@
                         <child>
                           <object class="GtkImage" id="image14">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="icon-name">document-open-symbolic</property>
                             <property name="icon-size">normal</property>
                             <property name="valign">center</property>
@@ -206,14 +185,13 @@
                         <property name="column-spacing">12</property>
                         <property name="row-spacing">6</property>
                         <child>
-                          <object class="GtkComboBox" id="backupset2DestinationTypeCombobox">
-                            <property name="entry-text-column">0</property>
+                          <object class="GtkComboBoxText" id="backupset2DestinationTypeCombobox">
                             <property name="hexpand">True</property>
-                            <property name="model">model4</property>
                             <signal name="changed" handler="on_backupset2DestinationTypeCombobox_changed"/>
-                            <child>
-                              <object class="GtkCellRendererText" id="renderer4"/>
-                            </child>
+                            <items>
+                              <item>Local folder</item>
+                              <item>Remote folder (SSH)</item>
+                            </items>
                             <layout>
                               <property name="column">1</property>
                               <property name="row">0</property>
@@ -222,7 +200,6 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label282">
-                            <property name="hexpand">True</property>
                             <property name="label" translatable="yes">Destination Type:</property>
                             <property name="xalign">0</property>
                             <layout>
@@ -259,24 +236,10 @@
                                         <property name="focusable">1</property>
                                         <signal name="clicked" handler="on_backupset2FolderBrowseButton_clicked"/>
                                         <child>
-                                          <object class="GtkBox" id="hbox90">
-                                            <property name="halign">center</property>
-                                            <property name="spacing">2</property>
-                                            <property name="valign">center</property>
-                                            <child>
-                                              <object class="GtkImage" id="image1473">
-                                                <property name="halign">center</property>
-                                                <property name="icon-name">folder-symbolic</property>
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label417">
-                                                <property name="halign">center</property>
-                                                <property name="label" translatable="yes">_Browse...</property>
-                                                <property name="use-underline">1</property>
-                                              </object>
-                                            </child>
+                                          <object class="AdwButtonContent">
+                                            <property name="icon-name">folder-symbolic</property>
+                                            <property name="label">_Browse...</property>
+                                            <property name="use-underline">True</property>
                                           </object>
                                         </child>
                                         <layout>
@@ -421,6 +384,7 @@
                                         <child>
                                           <object class="GtkProgressBar" id="backupset2TestSettingsProgress">
                                             <property name="pulse-step">0.10000000149</property>
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
                                         <layout>
@@ -525,7 +489,6 @@
                         <child>
                           <object class="GtkImage" id="image1453">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="icon-name">folder-download-symbolic</property>
                             <property name="icon-size">normal</property>
                             <property name="valign">center</property>
@@ -550,117 +513,74 @@
                         <child>
                           <object class="GtkExpander" id="backupset3ManualConfigExpander">
                             <property name="focusable">1</property>
+                            <property name="vexpand">True</property>
                             <signal name="activate" handler="on_backupset3ManualConfigExpander_activate"/>
                             <child>
                               <object class="GtkGrid" id="backupset3ManualConfigTable">
-                                <property name="column-spacing">12</property>
-                                <property name="halign">center</property>
-                                <property name="hexpand">0</property>
-                                <property name="row-spacing">4</property>
+                                <property name="column-spacing">6</property>
+                                <property name="row-spacing">12</property>
                                 <property name="sensitive">0</property>
-                                <property name="valign">center</property>
+                                <property name="valign">start</property>
                                 <property name="vexpand">0</property>
                                 <child>
-                                  <object class="GtkFrame" id="frame28">
-                                    <property name="hexpand">1</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkEntry" id="ManualDaysOfWeekEntry">
-                                        <property name="focusable">1</property>
-                                        <property name="halign">center</property>
-                                        <property name="hexpand">0</property>
-                                        <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
-                                        <property name="valign">center</property>
-                                        <property name="vexpand">0</property>
-                                        <property name="width-request">150</property>
-                                      </object>
-                                    </child>
-                                    <child type="label">
-                                      <object class="GtkLabel" id="label175">
-                                        <property name="label" translatable="yes">&lt;b&gt;Day(s) of the Week&lt;/b&gt;</property>
-                                        <property name="use-markup">1</property>
-                                      </object>
-                                    </child>
-                                    <layout>
-                                      <property name="column">1</property>
-                                      <property name="row">3</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkFrame" id="frame32">
-                                    <property name="hexpand">1</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkEntry" id="ManualMonthEntry">
-                                        <property name="focusable">1</property>
-                                        <property name="halign">center</property>
-                                        <property name="hexpand">0</property>
-                                        <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
-                                        <property name="valign">center</property>
-                                        <property name="vexpand">0</property>
-                                        <property name="width-request">150</property>
-                                      </object>
-                                    </child>
-                                    <child type="label">
-                                      <object class="GtkLabel" id="label194">
-                                        <property name="label" translatable="yes">&lt;b&gt;Month(s)&lt;/b&gt;</property>
-                                        <property name="use-markup">1</property>
-                                      </object>
-                                    </child>
-                                    <layout>
-                                      <property name="column">0</property>
-                                      <property name="row">3</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
                                   <object class="GtkLabel" id="label170">
-                                    <property name="label" translatable="yes">Please use the same syntax a crontab does to enter your settings.
-&lt;i&gt;To obtain examples and more information on crontab syntax, click 'Help'.&lt;/i&gt;</property>
+                                    <property name="label" translatable="yes">Use the same syntax a crontab does to enter your settings. To obtain examples and more information on crontab syntax, click 'Help'.</property>
                                     <property name="use-markup">1</property>
+                                    <property name="wrap">True</property>
                                     <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="column-span">4</property>
+                                      <property name="column-span">5</property>
                                       <property name="row">0</property>
                                     </layout>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="hbox47">
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <object class="GtkImage" id="image94">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-dialog-warning</property>
-                                        <property name="icon-size">large</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label140">
-                                        <property name="hexpand">1</property>
-                                        <property name="label" translatable="yes">No field verification is performed on a manual field to test if the input is valid.
-Please make sure there are no errors.</property>
-                                        <property name="use-markup">1</property>
-                                        <property name="xalign">0</property>
-                                      </object>
-                                    </child>
+                                  <object class="GtkLabel" id="label171">
+                                    <property name="label">minute</property>
+                                    <property name="use-markup">1</property>
                                     <layout>
                                       <property name="column">0</property>
-                                      <property name="column-span">4</property>
                                       <property name="row">1</property>
                                     </layout>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label483">
-                                    <property name="label" translatable="yes"> </property>
-                                    <property name="vexpand">1</property>
-                                    <property name="xalign">0</property>
+                                  <object class="GtkEntry" id="ManualMinuteEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label194">
+                                    <property name="label">month</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualMonthEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
                                     <layout>
                                       <property name="column">3</property>
                                       <property name="row">2</property>
@@ -668,66 +588,15 @@ Please make sure there are no errors.</property>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label484">
-                                    <property name="label" translatable="yes"> </property>
-                                    <property name="vexpand">1</property>
-                                    <property name="xalign">0</property>
-                                    <layout>
-                                      <property name="column">2</property>
-                                      <property name="column-span">2</property>
-                                      <property name="row">3</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkFrame" id="frame27">
-                                    <property name="hexpand">1</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkEntry" id="ManualDaysOfMonthEntry">
-                                        <property name="focusable">1</property>
-                                        <property name="halign">center</property>
-                                        <property name="hexpand">0</property>
-                                        <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
-                                        <property name="valign">center</property>
-                                        <property name="vexpand">0</property>
-                                        <property name="width-request">150</property>
-                                      </object>
-                                    </child>
-                                    <child type="label">
-                                      <object class="GtkLabel" id="label173">
-                                        <property name="label" translatable="yes">&lt;b&gt;Day(s) of Month&lt;/b&gt;</property>
-                                        <property name="use-markup">1</property>
-                                      </object>
-                                    </child>
-                                    <layout>
-                                      <property name="column">2</property>
-                                      <property name="row">2</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkFrame" id="frame26">
-                                    <property name="hexpand">1</property>
-                                    <child>
-                                      <object class="GtkEntry" id="ManualHourEntry">
-                                        <property name="focusable">1</property>
-                                        <property name="halign">center</property>
-                                        <property name="hexpand">0</property>
-                                        <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
-                                        <property name="valign">center</property>
-                                        <property name="vexpand">0</property>
-                                        <property name="width-request">150</property>
-                                      </object>
-                                    </child>
-                                    <child type="label">
-                                      <object class="GtkLabel" id="label172">
-                                        <property name="label" translatable="yes">&lt;b&gt;Hour(s)&lt;/b&gt;</property>
-                                        <property name="use-markup">1</property>
-                                      </object>
-                                    </child>
+                                  <object class="GtkEntry" id="ManualHourEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
                                     <layout>
                                       <property name="column">1</property>
                                       <property name="row">2</property>
@@ -735,28 +604,78 @@ Please make sure there are no errors.</property>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkFrame" id="frame25">
+                                  <object class="GtkLabel" id="label172">
+                                    <property name="label">hour</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label140">
+                                    <property name="css-classes">dim-label</property>
                                     <property name="hexpand">1</property>
-                                    <child>
-                                      <object class="GtkEntry" id="ManualMinuteEntry">
-                                        <property name="focusable">1</property>
-                                        <property name="halign">center</property>
-                                        <property name="hexpand">0</property>
-                                        <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
-                                        <property name="valign">center</property>
-                                        <property name="vexpand">0</property>
-                                        <property name="width-request">150</property>
-                                      </object>
-                                    </child>
-                                    <child type="label">
-                                      <object class="GtkLabel" id="label171">
-                                        <property name="label" translatable="yes">&lt;b&gt;Minute(s)&lt;/b&gt;</property>
-                                        <property name="use-markup">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="label" translatable="yes">No field verification is performed on a manual field to test if the input is valid. Please make sure there are no errors.</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
                                     <layout>
                                       <property name="column">0</property>
+                                      <property name="column-span">5</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label173">
+                                    <property name="label">day of month</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualDaysOfMonthEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label175">
+                                    <property name="label">day of week</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">4</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualDaysOfWeekEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">4</property>
                                       <property name="row">2</property>
                                     </layout>
                                   </object>
@@ -786,12 +705,12 @@ Please make sure there are no errors.</property>
                                 <property name="row-spacing">6</property>
                                 <child>
                                   <object class="GtkFrame" id="frame22">
+                                    <property name="hexpand">True</property>
                                     <child>
                                       <object class="GtkGrid" id="table27">
-                                        <property name="halign">center</property>
+                                        <property name="column-spacing">6</property>
                                         <property name="hexpand">0</property>
-                                        <property name="row-spacing">2</property>
-                                        <property name="valign">center</property>
+                                        <property name="row-spacing">12</property>
                                         <property name="vexpand">0</property>
                                         <child>
                                           <object class="GtkCheckButton" id="MonthAll">
@@ -800,6 +719,7 @@ Please make sure there are no errors.</property>
                                             <property name="use-underline">1</property>
                                             <layout>
                                               <property name="column">0</property>
+                                              <property name="column-span">2</property>
                                               <property name="row">0</property>
                                             </layout>
                                           </object>
@@ -820,9 +740,10 @@ Please make sure there are no errors.</property>
                                             <property name="group">MonthAll</property>
                                             <property name="label" translatable="yes">From:</property>
                                             <property name="use-underline">1</property>
+                                            <property name="valign">start</property>
                                             <layout>
                                               <property name="column">0</property>
-                                              <property name="row">3</property>
+                                              <property name="row">2</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -834,13 +755,22 @@ Please make sure there are no errors.</property>
                                             <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <child>
-                                              <object class="GtkComboBox" id="MonthFromBox1">
-                                                <property name="entry-text-column">0</property>
-                                                <property name="model">model5</property>
+                                              <object class="GtkComboBoxText" id="MonthFromBox1">
                                                 <signal name="changed" handler="on_MonthFromBox1_changed"/>
-                                                <child>
-                                                  <object class="GtkCellRendererText" id="renderer5"/>
-                                                </child>
+                                                <items>
+                                                  <item>January</item>
+                                                  <item>February</item>
+                                                  <item>March</item>
+                                                  <item>April</item>
+                                                  <item>May</item>
+                                                  <item>June</item>
+                                                  <item>July</item>
+                                                  <item>August</item>
+                                                  <item>September</item>
+                                                  <item>October</item>
+                                                  <item>November</item>
+                                                  <item>December</item>
+                                                </items>
                                                 <layout>
                                                   <property name="column">0</property>
                                                   <property name="row">0</property>
@@ -848,13 +778,22 @@ Please make sure there are no errors.</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBox" id="MonthFromBox2">
-                                                <property name="entry-text-column">0</property>
-                                                <property name="model">model6</property>
+                                              <object class="GtkComboBoxText" id="MonthFromBox2">
                                                 <signal name="changed" handler="on_MonthFromBox2_changed"/>
-                                                <child>
-                                                  <object class="GtkCellRendererText" id="renderer6"/>
-                                                </child>
+                                                <items>
+                                                  <item>January</item>
+                                                  <item>February</item>
+                                                  <item>March</item>
+                                                  <item>April</item>
+                                                  <item>May</item>
+                                                  <item>June</item>
+                                                  <item>July</item>
+                                                  <item>August</item>
+                                                  <item>September</item>
+                                                  <item>October</item>
+                                                  <item>November</item>
+                                                  <item>December</item>
+                                                </items>
                                                 <layout>
                                                   <property name="column">0</property>
                                                   <property name="row">2</property>
@@ -873,26 +812,35 @@ Please make sure there are no errors.</property>
                                               </object>
                                             </child>
                                             <layout>
-                                              <property name="column">0</property>
+                                              <property name="column">1</property>
                                               <property name="row">2</property>
                                             </layout>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="MonthOnlyBox">
-                                            <property name="entry-text-column">0</property>
+                                          <object class="GtkComboBoxText" id="MonthOnlyBox">
                                             <property name="halign">center</property>
                                             <property name="hexpand">0</property>
-                                            <property name="model">model7</property>
                                             <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <signal name="changed" handler="on_MonthOnlyBox_changed"/>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer7"/>
-                                            </child>
+                                            <items>
+                                              <item>January</item>
+                                              <item>February</item>
+                                              <item>March</item>
+                                              <item>April</item>
+                                              <item>May</item>
+                                              <item>June</item>
+                                              <item>July</item>
+                                              <item>August</item>
+                                              <item>September</item>
+                                              <item>October</item>
+                                              <item>November</item>
+                                              <item>December</item>
+                                            </items>
                                             <layout>
-                                              <property name="column">0</property>
-                                              <property name="row">4</property>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -917,13 +865,12 @@ Please make sure there are no errors.</property>
                                 </child>
                                 <child>
                                   <object class="GtkFrame" id="frame21">
+                                    <property name="hexpand">True</property>
                                     <child>
                                       <object class="GtkGrid" id="table22">
                                         <property name="column-spacing">6</property>
-                                        <property name="halign">center</property>
                                         <property name="hexpand">0</property>
-                                        <property name="row-spacing">2</property>
-                                        <property name="valign">center</property>
+                                        <property name="row-spacing">12</property>
                                         <property name="vexpand">0</property>
                                         <child>
                                           <object class="GtkCheckButton" id="DaysWeekOnly">
@@ -943,6 +890,7 @@ Please make sure there are no errors.</property>
                                             <property name="use-underline">1</property>
                                             <layout>
                                               <property name="column">0</property>
+                                              <property name="column-span">2</property>
                                               <property name="row">0</property>
                                             </layout>
                                           </object>
@@ -952,9 +900,10 @@ Please make sure there are no errors.</property>
                                             <property name="group">DaysWeekOnly</property>
                                             <property name="label" translatable="yes">From:</property>
                                             <property name="use-underline">1</property>
+                                            <property name="valign">start</property>
                                             <layout>
                                               <property name="column">0</property>
-                                              <property name="row">3</property>
+                                              <property name="row">2</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -967,13 +916,17 @@ Please make sure there are no errors.</property>
                                             <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <child>
-                                              <object class="GtkComboBox" id="DaysWeekFromBox2">
-                                                <property name="entry-text-column">0</property>
-                                                <property name="model">model8</property>
+                                              <object class="GtkComboBoxText" id="DaysWeekFromBox2">
                                                 <signal name="changed" handler="on_DaysWeekFromBox2_changed"/>
-                                                <child>
-                                                  <object class="GtkCellRendererText" id="renderer8"/>
-                                                </child>
+                                                <items>
+                                                  <item>Sunday</item>
+                                                  <item>Monday</item>
+                                                  <item>Tuesday</item>
+                                                  <item>Wednesday</item>
+                                                  <item>Thurday</item>
+                                                  <item>Friday</item>
+                                                  <item>Saturday</item>
+                                                </items>
                                                 <layout>
                                                   <property name="column">0</property>
                                                   <property name="row">2</property>
@@ -981,13 +934,17 @@ Please make sure there are no errors.</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBox" id="DaysWeekFromBox1">
-                                                <property name="entry-text-column">0</property>
-                                                <property name="model">model9</property>
+                                              <object class="GtkComboBoxText" id="DaysWeekFromBox1">
                                                 <signal name="changed" handler="on_DaysWeekFromBox1_changed"/>
-                                                <child>
-                                                  <object class="GtkCellRendererText" id="renderer9"/>
-                                                </child>
+                                                <items>
+                                                  <item>Sunday</item>
+                                                  <item>Monday</item>
+                                                  <item>Tuesday</item>
+                                                  <item>Wednesday</item>
+                                                  <item>Thurday</item>
+                                                  <item>Friday</item>
+                                                  <item>Saturday</item>
+                                                </items>
                                                 <layout>
                                                   <property name="column">0</property>
                                                   <property name="row">0</property>
@@ -1007,26 +964,30 @@ Please make sure there are no errors.</property>
                                               </object>
                                             </child>
                                             <layout>
-                                              <property name="column">0</property>
+                                              <property name="column">1</property>
                                               <property name="row">2</property>
                                             </layout>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="DaysWeekOnlyBox">
-                                            <property name="entry-text-column">0</property>
+                                          <object class="GtkComboBoxText" id="DaysWeekOnlyBox">
                                             <property name="halign">center</property>
                                             <property name="hexpand">0</property>
-                                            <property name="model">model10</property>
                                             <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <signal name="changed" handler="on_DaysWeekOnlyBox_changed"/>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer10"/>
-                                            </child>
+                                            <items>
+                                              <item>Sunday</item>
+                                              <item>Monday</item>
+                                              <item>Tuesday</item>
+                                              <item>Wednesday</item>
+                                              <item>Thurday</item>
+                                              <item>Friday</item>
+                                              <item>Saturday</item>
+                                            </items>
                                             <layout>
-                                              <property name="column">0</property>
-                                              <property name="row">4</property>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -1051,13 +1012,11 @@ Please make sure there are no errors.</property>
                                 </child>
                                 <child>
                                   <object class="GtkFrame" id="frame19">
-                                    <property name="vexpand">1</property>
+                                    <property name="hexpand">True</property>
                                     <child>
                                       <object class="GtkGrid" id="table23">
-                                        <property name="halign">center</property>
                                         <property name="hexpand">0</property>
-                                        <property name="row-spacing">2</property>
-                                        <property name="valign">center</property>
+                                        <property name="row-spacing">12</property>
                                         <property name="vexpand">0</property>
                                         <child>
                                           <object class="GtkCheckButton" id="HoursAt">
@@ -1077,25 +1036,47 @@ Please make sure there are no errors.</property>
                                             <property name="use-underline">1</property>
                                             <layout>
                                               <property name="column">0</property>
+                                              <property name="column-span">2</property>
                                               <property name="row">0</property>
                                             </layout>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="HoursAtBox">
-                                            <property name="entry-text-column">0</property>
+                                          <object class="GtkComboBoxText" id="HoursAtBox">
                                             <property name="halign">center</property>
                                             <property name="hexpand">0</property>
-                                            <property name="model">model11</property>
                                             <property name="valign">center</property>
                                             <property name="vexpand">0</property>
                                             <signal name="changed" handler="on_HoursAtBox_changed"/>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer11"/>
-                                            </child>
+                                            <items>
+                                              <item>0 (12am)</item>
+                                              <item>1 (1am)</item>
+                                              <item>2 (2am)</item>
+                                              <item>3 (3am)</item>
+                                              <item>4 (4am)</item>
+                                              <item>5 (5am)</item>
+                                              <item>6 (6am)</item>
+                                              <item>7 (7am)</item>
+                                              <item>8 (8am)</item>
+                                              <item>9 (9am)</item>
+                                              <item>10 (10am)</item>
+                                              <item>11 (11am)</item>
+                                              <item>12 (Noon)</item>
+                                              <item>13 (1pm)</item>
+                                              <item>14 (2pm)</item>
+                                              <item>15 (3pm)</item>
+                                              <item>16 (4pm)</item>
+                                              <item>17 (5pm)</item>
+                                              <item>18 (6pm)</item>
+                                              <item>19 (7pm)</item>
+                                              <item>20 (8pm)</item>
+                                              <item>21 (9pm)</item>
+                                              <item>22 (10pm)</item>
+                                              <item>23 (11pm)</item>
+                                            </items>
                                             <layout>
-                                              <property name="column">0</property>
-                                              <property name="row">2</property>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -1119,13 +1100,10 @@ Please make sure there are no errors.</property>
                                 </child>
                                 <child>
                                   <object class="GtkFrame" id="frame20">
-                                    <property name="vexpand">1</property>
                                     <child>
                                       <object class="GtkGrid" id="table24">
-                                        <property name="halign">center</property>
                                         <property name="hexpand">0</property>
                                         <property name="row-spacing">2</property>
-                                        <property name="valign">center</property>
                                         <property name="vexpand">0</property>
                                         <child>
                                           <object class="GtkCheckButton" id="MinutesAt">
@@ -1145,6 +1123,7 @@ Please make sure there are no errors.</property>
                                             <property name="use-underline">1</property>
                                             <layout>
                                               <property name="column">0</property>
+                                              <property name="column-span">2</property>
                                               <property name="row">0</property>
                                             </layout>
                                           </object>
@@ -1162,8 +1141,8 @@ Please make sure there are no errors.</property>
                                             <property name="width-request">125</property>
                                             <signal name="change-value" handler="on_MinutesOnlyScale_change_value"/>
                                             <layout>
-                                              <property name="column">0</property>
-                                              <property name="row">2</property>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
                                             </layout>
                                           </object>
                                         </child>
@@ -1201,10 +1180,10 @@ Please make sure there are no errors.</property>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label133">
+                            <property name="css-classes">warning</property>
                             <property name="hexpand">1</property>
-                            <property name="label" translatable="yes">&lt;i&gt;Tip: Your backup will run whenever &lt;b&gt;all&lt;/b&gt; of the criteria below match the system time and date.&lt;/i&gt;</property>
-                            <property name="use-markup">1</property>
-                            <property name="vexpand">1</property>
+                            <property name="label" translatable="yes">Your backup will run whenever &lt;b&gt;all&lt;/b&gt; of the criteria below match the system time and date.</property>
+                            <property name="use-markup">True</property>
                             <property name="xalign">0</property>
                             <layout>
                               <property name="column">0</property>
@@ -1220,7 +1199,6 @@ Please make sure there are no errors.</property>
                         <child>
                           <object class="GtkImage" id="image15">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="icon-name">preferences-system-time-symbolic</property>
                             <property name="icon-size">normal</property>
                             <property name="valign">center</property>
@@ -1296,18 +1274,18 @@ Please make sure there are no errors.</property>
                                             <property name="focusable">1</property>
                                             <property name="halign">center</property>
                                             <property name="label" translatable="yes">Compress archive using</property>
+                                            <property name="margin-start">24</property>
                                             <property name="use-underline">1</property>
                                             <signal name="toggled" handler="on_backupset4CompressCheck_toggled"/>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="backupset4CompressCombo">
-                                            <property name="entry-text-column">0</property>
+                                          <object class="GtkComboBoxText" id="backupset4CompressCombo">
                                             <property name="hexpand">1</property>
-                                            <property name="model">model12</property>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer12"/>
-                                            </child>
+                                            <items>
+                                              <item>gzip: fast, lightweight</item>
+                                              <item>bzip2: slower, more efficient</item>
+                                            </items>
                                           </object>
                                         </child>
                                       </object>
@@ -1323,6 +1301,7 @@ Please make sure there are no errors.</property>
                                     <property name="focusable">1</property>
                                     <property name="halign">start</property>
                                     <property name="label" translatable="yes">Backups are incremental</property>
+                                    <property name="margin-start">24</property>
                                     <property name="sensitive">0</property>
                                     <property name="use-underline">1</property>
                                     <property name="valign">center</property>
@@ -1349,7 +1328,6 @@ Please make sure there are no errors.</property>
                             <child>
                               <object class="GtkGrid" id="table83">
                                 <property name="column-spacing">12</property>
-                                <property name="halign">center</property>
                                 <property name="hexpand">0</property>
                                 <property name="row-spacing">6</property>
                                 <property name="valign">center</property>
@@ -1358,7 +1336,6 @@ Please make sure there are no errors.</property>
                                   <object class="GtkCheckButton" id="backupset4EnableCheck">
                                     <property name="active">1</property>
                                     <property name="focusable">1</property>
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Set is enabled</property>
                                     <property name="use-underline">1</property>
                                     <layout>
@@ -1371,7 +1348,6 @@ Please make sure there are no errors.</property>
                                   <object class="GtkCheckButton" id="backupset4RecursiveCheck">
                                     <property name="active">1</property>
                                     <property name="focusable">1</property>
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Include subfolders</property>
                                     <property name="use-underline">1</property>
                                     <layout>
@@ -1410,7 +1386,6 @@ Please make sure there are no errors.</property>
                                   <object class="GtkCheckButton" id="backupset4BackupHiddenCheck">
                                     <property name="active">1</property>
                                     <property name="focusable">1</property>
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Include hidden files</property>
                                     <property name="use-underline">1</property>
                                     <layout>
@@ -1434,7 +1409,6 @@ Please make sure there are no errors.</property>
                                 <child>
                                   <object class="GtkCheckButton" id="backupset4FollowLinksCheck">
                                     <property name="focusable">1</property>
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Follow links</property>
                                     <property name="use-underline">1</property>
                                     <layout>
@@ -1459,17 +1433,14 @@ Please make sure there are no errors.</property>
                             <child>
                               <object class="GtkGrid" id="table84">
                                 <property name="column-spacing">12</property>
-                                <property name="halign">center</property>
                                 <property name="hexpand">0</property>
                                 <property name="row-spacing">6</property>
                                 <property name="valign">center</property>
                                 <property name="vexpand">0</property>
                                 <child>
                                   <object class="GtkLabel" id="label177">
-                                    <property name="hexpand">1</property>
                                     <property name="label" translatable="yes">Number of old backups to keep:</property>
-                                    <property name="use-markup">1</property>
-                                    <property name="xalign">0</property>
+                                    <property name="xalign">0.0</property>
                                     <layout>
                                       <property name="column">0</property>
                                       <property name="row">0</property>
@@ -1481,6 +1452,8 @@ Please make sure there are no errors.</property>
                                     <property name="adjustment">adjustment6</property>
                                     <property name="climb-rate">1</property>
                                     <property name="focusable">1</property>
+                                    <property name="halign">start</property>
+                                    <property name="hexpand">True</property>
                                     <property name="numeric">1</property>
                                     <property name="snap-to-ticks">1</property>
                                     <property name="update-policy">if-valid</property>
@@ -1492,14 +1465,15 @@ Please make sure there are no errors.</property>
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label178">
+                                    <property name="css-classes">dim-label</property>
                                     <property name="hexpand">1</property>
                                     <property name="justify">center</property>
-                                    <property name="label" translatable="yes">&lt;i&gt;Tip: &lt;/i&gt;0&lt;i&gt; makes a new backup always replace an older one.
-This option is unavailable with incremental backups.&lt;/i&gt;</property>
-                                    <property name="use-markup">1</property>
+                                    <property name="label" translatable="yes">A value of  '0' makes a new backup always replace an older one. This option is unavailable with incremental backups.</property>
+                                    <property name="wrap">True</property>
                                     <property name="xalign">0</property>
                                     <layout>
-                                      <property name="column">1</property>
+                                      <property name="column">0</property>
+                                      <property name="column-span">2</property>
                                       <property name="row">1</property>
                                     </layout>
                                   </object>
@@ -1522,7 +1496,6 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                         <child>
                           <object class="GtkImage" id="image19">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="icon-name">preferences-system-symbolic</property>
                             <property name="icon-size">normal</property>
                             <property name="valign">center</property>
@@ -1658,12 +1631,14 @@ This option is unavailable with incremental backups.&lt;/i&gt;</property>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label482">
+                            <property name="css-classes">dim-label</property>
                             <property name="hexpand">1</property>
-                            <property name="label" translatable="yes">&lt;i&gt;Tip: The following tokens may be used in the commands:
+                            <property name="label" translatable="yes">The following tokens may be used in the commands:
 [destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]
 
-For a description of each, see the user manual.&lt;/i&gt;</property>
+For a description of each, see the user manual.</property>
                             <property name="use-markup">1</property>
+                            <property name="valign">start</property>
                             <property name="wrap">1</property>
                             <property name="xalign">0</property>
                             <layout>
@@ -1680,7 +1655,6 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
                         <child>
                           <object class="GtkImage" id="image1276">
                             <property name="halign">center</property>
-                            <property name="hexpand">1</property>
                             <property name="icon-name">preferences-other-symbolic</property>
                             <property name="icon-size">normal</property>
                             <property name="valign">center</property>
@@ -1707,6 +1681,7 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
               <object class="GtkEntry" id="backupset1NameEntry">
                 <property name="activates-default">1</property>
                 <property name="focusable">1</property>
+                <property name="hexpand">True</property>
                 <property name="invisible-char">•</property>
                 <property name="text" translatable="yes"></property>
                 <layout>
@@ -1717,10 +1692,8 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
             </child>
             <child>
               <object class="GtkLabel" id="label34">
-                <property name="hexpand">1</property>
                 <property name="label" translatable="yes">&lt;b&gt;Name:&lt;/b&gt;</property>
                 <property name="use-markup">1</property>
-                <property name="vexpand">1</property>
                 <property name="xalign">0</property>
                 <layout>
                   <property name="column">0</property>
@@ -1737,324 +1710,6 @@ For a description of each, see the user manual.&lt;/i&gt;</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="model9">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Sunday</col>
-      </row>
-      <row>
-        <col id="0">Monday</col>
-      </row>
-      <row>
-        <col id="0">Tuesday</col>
-      </row>
-      <row>
-        <col id="0">Wednesday</col>
-      </row>
-      <row>
-        <col id="0">Thurday</col>
-      </row>
-      <row>
-        <col id="0">Friday</col>
-      </row>
-      <row>
-        <col id="0">Saturday</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model4">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Local folder</col>
-      </row>
-      <row>
-        <col id="0">Remote folder (SSH)</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model5">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">January</col>
-      </row>
-      <row>
-        <col id="0">February</col>
-      </row>
-      <row>
-        <col id="0">March</col>
-      </row>
-      <row>
-        <col id="0">April</col>
-      </row>
-      <row>
-        <col id="0">May</col>
-      </row>
-      <row>
-        <col id="0">June</col>
-      </row>
-      <row>
-        <col id="0">July</col>
-      </row>
-      <row>
-        <col id="0">August</col>
-      </row>
-      <row>
-        <col id="0">September</col>
-      </row>
-      <row>
-        <col id="0">October</col>
-      </row>
-      <row>
-        <col id="0">November</col>
-      </row>
-      <row>
-        <col id="0">December</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model6">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">January</col>
-      </row>
-      <row>
-        <col id="0">February</col>
-      </row>
-      <row>
-        <col id="0">March</col>
-      </row>
-      <row>
-        <col id="0">April</col>
-      </row>
-      <row>
-        <col id="0">May</col>
-      </row>
-      <row>
-        <col id="0">June</col>
-      </row>
-      <row>
-        <col id="0">July</col>
-      </row>
-      <row>
-        <col id="0">August</col>
-      </row>
-      <row>
-        <col id="0">September</col>
-      </row>
-      <row>
-        <col id="0">October</col>
-      </row>
-      <row>
-        <col id="0">November</col>
-      </row>
-      <row>
-        <col id="0">December</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model7">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">January</col>
-      </row>
-      <row>
-        <col id="0">February</col>
-      </row>
-      <row>
-        <col id="0">March</col>
-      </row>
-      <row>
-        <col id="0">April</col>
-      </row>
-      <row>
-        <col id="0">May</col>
-      </row>
-      <row>
-        <col id="0">June</col>
-      </row>
-      <row>
-        <col id="0">July</col>
-      </row>
-      <row>
-        <col id="0">August</col>
-      </row>
-      <row>
-        <col id="0">September</col>
-      </row>
-      <row>
-        <col id="0">October</col>
-      </row>
-      <row>
-        <col id="0">November</col>
-      </row>
-      <row>
-        <col id="0">December</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model8">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Sunday</col>
-      </row>
-      <row>
-        <col id="0">Monday</col>
-      </row>
-      <row>
-        <col id="0">Tuesday</col>
-      </row>
-      <row>
-        <col id="0">Wednesday</col>
-      </row>
-      <row>
-        <col id="0">Thurday</col>
-      </row>
-      <row>
-        <col id="0">Friday</col>
-      </row>
-      <row>
-        <col id="0">Saturday</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model10">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">Sundays</col>
-      </row>
-      <row>
-        <col id="0">Mondays</col>
-      </row>
-      <row>
-        <col id="0">Tuesdays</col>
-      </row>
-      <row>
-        <col id="0">Wednesdays</col>
-      </row>
-      <row>
-        <col id="0">Thurdays</col>
-      </row>
-      <row>
-        <col id="0">Fridays</col>
-      </row>
-      <row>
-        <col id="0">Saturdays</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model11">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0 (12am)</col>
-      </row>
-      <row>
-        <col id="0">1 (1am)</col>
-      </row>
-      <row>
-        <col id="0">2 (2am)</col>
-      </row>
-      <row>
-        <col id="0">3 (3am)</col>
-      </row>
-      <row>
-        <col id="0">4 (4am)</col>
-      </row>
-      <row>
-        <col id="0">5 (5am)</col>
-      </row>
-      <row>
-        <col id="0">6 (6am)</col>
-      </row>
-      <row>
-        <col id="0">7 (7am)</col>
-      </row>
-      <row>
-        <col id="0">8 (8am)</col>
-      </row>
-      <row>
-        <col id="0">9 (9am)</col>
-      </row>
-      <row>
-        <col id="0">10 (10am)</col>
-      </row>
-      <row>
-        <col id="0">11 (11am)</col>
-      </row>
-      <row>
-        <col id="0">12 (Noon)</col>
-      </row>
-      <row>
-        <col id="0">13 (1pm)</col>
-      </row>
-      <row>
-        <col id="0">14 (2pm)</col>
-      </row>
-      <row>
-        <col id="0">15 (3pm)</col>
-      </row>
-      <row>
-        <col id="0">16 (4pm)</col>
-      </row>
-      <row>
-        <col id="0">17 (5pm)</col>
-      </row>
-      <row>
-        <col id="0">18 (6pm)</col>
-      </row>
-      <row>
-        <col id="0">19 (7pm)</col>
-      </row>
-      <row>
-        <col id="0">20 (8pm)</col>
-      </row>
-      <row>
-        <col id="0">21 (9pm)</col>
-      </row>
-      <row>
-        <col id="0">22 (10pm)</col>
-      </row>
-      <row>
-        <col id="0">23 (11pm)</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model12">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">gzip: fast, lightweight</col>
-      </row>
-      <row>
-        <col id="0">bzip2: slower, more efficient</col>
-      </row>
-    </data>
   </object>
   <object class="GtkAdjustment" id="adjustment4">
     <property name="page-increment">10</property>
