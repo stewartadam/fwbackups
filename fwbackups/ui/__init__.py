@@ -440,37 +440,15 @@ class fwbackupsApp(Adw.Application):
   ### WRAPPERS ###
   ###
 
-  def trayNotify(self, summary, body, timeout=-1): # FIXME rename and port to gtk4 notifications
-    """Display a notification attached to the tray icon if applicable"""
-    # see /usr/share/doc/python-notify/examples for API
-    #n.set_urgency(pynotify.URGENCY_NORMAL)
-    #n.set_timeout(pynotify.EXPIRES_NEVER)
-    #n.add_action("clicked","Button text", callback_function, None)
-    #def callback_function(notification=None, action=None, data=None):
-    #  pass
-    # -1 == pynotify.EXPIRES_DEFAULT
-    # 0 == pynotify.EXPIRES_NEVER
-    if True and not self.NOTIFY_AVAIL: # FIXME
-      return
-    try:
-      import pynotify
-      notify = pynotify.Notification(summary, body)
-      # icon
-      pix = Gtk.Widget.render_icon_pixbuf(Gtk.STOCK_COPY, Gtk.ICON_SIZE_DIALOG)
-      notify.set_icon_from_pixbuf(pix)
-      # location
-      if hasattr(self, 'trayicon'):
-        tray = self.trayicon
-        if tray.get_visible():
-          notify.set_property('status-icon', tray)
-      # timeout?
-      if timeout != 0:
-        notify.set_timeout(int(timeout) * 1000)
-
-      # finally, show it
-      notify.show()
-    except Exception as error:
-      self.logger.logmsg('DEBUG', _('Could not create notification: %s' % error))
+  def trayNotify(self, event_type, title, body, category='transfer'):
+    """
+    Trigger an OS notification
+    """
+    notification = Gio.Notification()
+    notification.set_title(title)
+    notification.set_body(body)
+    notification.set_category(category)
+    self.send_notification(None, notification)
 
   def _toggleLocked(self, bool, keepSensitive=[]):
     """Toggle locking in the UI"""
@@ -2400,7 +2378,7 @@ class fwbackupsApp(Adw.Application):
     self.operationInProgress = True
     self.setStatus(_('Initializing'))
     if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-      self.trayNotify(_('Status'), _('Starting a set backup operation of \'%(a)s\'' % {'a': name}), 5)
+      self.trayNotify('backup.started', _('Backup started'), _('Starting a set backup operation of \'%(a)s\'' % {'a': name}))
     self._toggleLocked(True, [self.ui.BackupSetsRadioTool])
     self.main2BackupProgress.startPulse()
     self.main2BackupProgress.set_text(_('Please wait...'))
@@ -2441,15 +2419,15 @@ class fwbackupsApp(Adw.Application):
     self.main2BackupProgress.set_fraction(1.0)
     if self.backupThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
+        self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.complete')
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
     elif self.backupThread.retval == -1 or self.backupThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), 5)
+        self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.error')
     else:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('The automatic backup operation of set `%(a)s\' was cancelled' % {'a': name}), 5)
+        self.trayNotify(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The automatic backup operation of set `%(a)s\' was cancelled' % {'a': name}), category='transfer.error')
       self.setStatus(_('<span color="red">Operation cancelled</span>'))
       self.main2BackupProgress.set_text(_('Operation cancelled'))
     self.ui.main2CancelBackupButton.hide()
@@ -2559,7 +2537,7 @@ class fwbackupsApp(Adw.Application):
     self.operationInProgress = True
     self.setStatus(_('Initializing'))
     if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-      self.trayNotify(_('Status'), _('Starting a one-time backup operation'))
+      self.trayNotify(fwbackups.EventType.BACKUP_STARTED.name, _('Backup started'), _('Starting a one-time backup operation'))
     self._toggleLocked(True, [self.ui.OneTimeRadioTool])
     action_names = ["one_time_backup1"]
     for action_name in action_names:
@@ -2603,17 +2581,17 @@ class fwbackupsApp(Adw.Application):
     self.main3BackupProgress.set_fraction(1.0)
     if self.backupThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('Finished the one-time backup operation'))
+        self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the one-time backup operation'))
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
     elif self.backupThread.retval == -1 or self.backupThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('An error occured while performing the one-time backup operation'), 5)
+        self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the one-time backup operation'), category='transfer.error')
       # just incase we have leftover stuff running
       self.backupHandle.cancelOperation()
     else:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('The one-time backup operation was cancelled'))
+        self.trayNotify(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The one-time backup operation was cancelled', category='transfer.error'))
       self.setStatus(_('<span color="red">Operation cancelled</span>'))
       self.main3BackupProgress.set_text(_('Operation cancelled'))
     self.ui.main3FinishButton.show()
@@ -2648,7 +2626,7 @@ class fwbackupsApp(Adw.Application):
     self.operationInProgress = True
     self.setStatus(_('Initializing'))
     if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-      self.trayNotify(_('Status'), _('Starting a restore operation'), 5)
+      self.trayNotify(fwbackups.EventType.RESTORE_STARTED.name, _('Restore started'), _('Starting a restore operation'))
     self._toggleLocked(True, [self.ui.restore])
     self.restore2RestorationProgress.startPulse()
     self.restore2RestorationProgress.set_text(_('Please wait...'))
@@ -2686,18 +2664,18 @@ class fwbackupsApp(Adw.Application):
     self.restore2RestorationProgress.set_fraction(1.0)
     if self.restoreThread.retval == True:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('Finished the restore operation'))
+        self.trayNotify(fwbackups.EventType.RESTORE_STARTED.name, _('Restore finished'), _('Finished the restore operation'), category='transfer.error')
       self.setStatus(_('<span color="dark green">Operation complete</span>'))
       self.restore2RestorationProgress.set_text('')
     elif self.restoreThread.retval == -1 or self.restoreThread.retval == False: # error
       self.setStatus(_('<span color="Red">Error</span>'))
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('An error occured while performing the restore operation'), 5)
+        self.trayNotify(fwbackups.EventType.RESTORE_ERROR.name, _('Error during restore'), _('An error occured while performing the restore operation'), category='transfer.error')
       # just incase we have leftover stuff running
       self.restoreHandle.cancelOperation()
     else:
       if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-        self.trayNotify(_('Status'), _('The restore operation was cancelled'))
+        self.trayNotify(fwbackups.EventType.RESTORE_CANCELLED.name, _('Restore cancelled'), _('The restore operation was cancelled'), category='transfer.error')
       self.setStatus(_('<span color="red">Operation cancelled</span>'))
       self.restore2RestorationProgress.set_text(_('Operation cancelled'))
     self.ui.restoreFinishButton.set_sensitive(True)

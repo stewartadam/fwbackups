@@ -5,14 +5,25 @@ import os
 import sys
 import subprocess
 
+from enum import Enum, auto
 from threading import Thread, Event
 from .i18n import encode
-
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
 __status__ = "beta"
 __version__ = "1.43.6" # FIXME
 __license__ = "GNU GPLv2+"
+
+
+class EventType(Enum):
+  BACKUP_STARTED = auto()
+  BACKUP_COMPLETE = auto()
+  BACKUP_ERROR = auto()
+  BACKUP_CANCELLED = auto()
+  RESTORE_STARTED = auto()
+  RESTORE_COMPLETE = auto()
+  RESTORE_ERROR = auto()
+  RESTORE_CANCELLED = auto()
 
 
 class fwbackupsError(Exception):
