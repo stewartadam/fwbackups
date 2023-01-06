@@ -46,92 +46,97 @@
       </object>
     </child>
     <child internal-child="content_area">
-      <object class="GtkGrid">
-        <property name="column-spacing">6</property>
-        <property name="row-spacing">12</property>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkImage" id="image543">
-            <property name="halign">center</property>
-            <property name="icon-name">dialog-error-symbolic</property>
-            <property name="icon-size">large</property>
-            <property name="valign">start</property>
-            <layout>
-              <property name="column">0</property>
-              <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label682">
-            <property name="label" translatable="yes">&lt;span size="larger" weight="bold"&gt;Sorry!&lt;/span&gt;</property>
-            <property name="use-markup">1</property>
-            <property name="valign">center</property>
-            <property name="xalign">0</property>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label680">
-            <property name="label" translatable="yes">fwbackups has run into an unexpected error. You may continue using the program, however it is recommended you quit and open fwbackups again.</property>
-            <property name="valign">center</property>
-            <property name="width-request">475</property>
-            <property name="wrap">1</property>
-            <property name="xalign">0</property>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">1</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkExpander" id="expander1">
-            <property name="focusable">1</property>
-            <property name="vexpand">1</property>
+          <object class="GtkGrid" id="content_area">
+            <property name="column-spacing">6</property>
+            <property name="row-spacing">12</property>
             <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow22">
-                <property name="child">
-                  <object class="GtkTextView" id="bugreportTextview">
-                    <property name="buffer">textbuffer1</property>
-                    <property name="editable">0</property>
-                    <property name="focusable">1</property>
-                    <property name="left-margin">4</property>
-                    <property name="right-margin">4</property>
-                  </object>
-                </property>
+              <object class="GtkImage" id="image543">
+                <property name="halign">center</property>
+                <property name="icon-name">dialog-error-symbolic</property>
+                <property name="icon-size">large</property>
+                <property name="valign">start</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label682">
+                <property name="label" translatable="yes">&lt;span size="larger" weight="bold"&gt;Sorry!&lt;/span&gt;</property>
+                <property name="use-markup">1</property>
+                <property name="valign">center</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label680">
+                <property name="label" translatable="yes">fwbackups has run into an unexpected error. You may continue using the program, however it is recommended you quit and open fwbackups again.</property>
+                <property name="valign">center</property>
+                <property name="width-request">475</property>
+                <property name="wrap">1</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkExpander" id="expander1">
                 <property name="focusable">1</property>
-                <property name="has-frame">1</property>
-                <property name="hexpand">True</property>
-                <property name="margin-start">22</property>
-                <property name="vexpand">True</property>
-                <property name="vscrollbar-policy">always</property>
+                <property name="vexpand">1</property>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow22">
+                    <property name="child">
+                      <object class="GtkTextView" id="bugreportTextview">
+                        <property name="buffer">textbuffer1</property>
+                        <property name="editable">0</property>
+                        <property name="focusable">1</property>
+                        <property name="left-margin">4</property>
+                        <property name="right-margin">4</property>
+                      </object>
+                    </property>
+                    <property name="focusable">1</property>
+                    <property name="has-frame">1</property>
+                    <property name="hexpand">True</property>
+                    <property name="margin-start">22</property>
+                    <property name="vexpand">True</property>
+                    <property name="vscrollbar-policy">always</property>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label681">
+                    <property name="label" translatable="yes">_Details</property>
+                    <property name="use-underline">1</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">2</property>
+                </layout>
               </object>
             </child>
-            <child type="label">
-              <object class="GtkLabel" id="label681">
-                <property name="label" translatable="yes">_Details</property>
-                <property name="use-underline">1</property>
+            <child>
+              <object class="GtkLabel" id="label680_2">
+                <property name="valign">center</property>
+                <property name="width-request">0</property>
+                <property name="wrap">1</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                  <property name="row-span">2</property>
+                </layout>
               </object>
             </child>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">2</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label680_2">
-            <property name="valign">center</property>
-            <property name="width-request">0</property>
-            <property name="wrap">1</property>
-            <property name="xalign">0</property>
-            <layout>
-              <property name="column">0</property>
-              <property name="row">1</property>
-              <property name="row-span">2</property>
-            </layout>
           </object>
         </child>
       </object>
