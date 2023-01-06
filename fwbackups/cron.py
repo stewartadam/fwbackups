@@ -24,44 +24,52 @@ import re
 import subprocess
 import tempfile
 
-from .i18n import _, encode, decode
+from .i18n import _, encode
 from .const import *
 
-from fwbackups import execute, executeSub, kill
+from fwbackups import execute
 from fwbackups import config
+
 
 class CronError(Exception):
   """Cron interfacing error."""
   def __init__(self, value):
     self.value = value
+
   def __str__(self):
     return repr(self.value)
+
 
 class ValidationError(Exception):
   """Cron interfacing error."""
   def __init__(self, value):
     self.value = value
+
   def __str__(self):
     return repr(self.value)
 
+
 class rawCrontabLine:
   """Represents a raw, unparsed line in the crontab"""
-  __rawtext = ''
+  __rawtext = b''
 
   def __init__(self, line):
     """Initialize the raw representation of the line"""
+    if not isinstance(line, bytes):
+      raise ValueError(f"raw crontab line expected byte input, got {type(line)} instead")
     self.__rawtext = line
 
   def is_comment_or_whitespace(self):
     """Returns True if the crontab entry is a comment"""
     entry_text = self.get_raw_entry_text()
-    if not entry_text.strip() or entry_text.lstrip().startswith("#"):
+    if not entry_text.strip() or entry_text.lstrip().startswith(b"#"):
       return True
     return False
 
   def get_raw_entry_text(self):
     """Return the raw text for the entry"""
     return self.__rawtext
+
 
 class crontabLine(rawCrontabLine):
   """Parses an entry in the crontab"""
@@ -87,7 +95,7 @@ class crontabLine(rawCrontabLine):
       return False
     # Basic sanity check on time fields for invalid (ie non-numeric) values
     for field in [self.__minute, self.__hour, self.__dayofmonth, self.__month, self.__dayofweek]:
-      if re.compile("^[0-9/\-,*]*$").search(field) == None:
+      if re.compile("^[0-9/\-,*]*$").search(field) is None:
         return False
     return True
 
@@ -103,7 +111,7 @@ class crontabLine(rawCrontabLine):
     self.__minute, self.__hour, self.__dayofmonth, self.__month, \
     self.__dayofweek, self.__command, self.__end_comment = minute, hour, \
       dayofmonth, month, dayofweek, command, end_comment or ''
-    self.__rawtext = self.generate_entry_text()
+    self.__rawtext = self.generate_entry_text().encode('utf-8')
 
   def validate(self):
     """If the entry was not parsable, a ValueError is raised."""
@@ -115,7 +123,8 @@ class crontabLine(rawCrontabLine):
     fields = [self.__minute, self.__hour, self.__dayofmonth, self.__month,
               self.__dayofweek, self.__command, self.__end_comment]
     # If we're here then all fields were validated
-    return ' '.join(fields).rstrip()+'\n'
+    return ' '.join(fields).rstrip() + '\n'
+
 
 def getPyCrontab():
   """Read the PyCron crontab file on Windows"""
@@ -142,25 +151,26 @@ def getPyCrontab():
       raise CronError(_("Could not locate the pycron or the sample pycron crontab file in %s" % pycronLoc))
   return pycrontab
 
+
 def read():
   """Read in crontab entires from a crontab-formatted file. Returns a list of
   rawCrontabLine objects, one for each line."""
   if MSWINDOWS:
     # Read from pycron's crontab file
     crontabLoc = getPyCrontab()
-    fh = open(crontabLoc, 'r', encoding="utf-8")
+    fh = open(crontabLoc, 'rb')
   else:
     # Read from the user's crontab
-    sub = executeSub(['crontab', '-l'], stdoutfd=subprocess.PIPE)
-    retval = sub.wait()
-    if retval != os.EX_OK and retval != 1:
-      raise CronError('stderr:\n%sstdout:\n%s' % (sub.stderr.readlines(), sub.stdout.readlines()))
-    fh = sub.stdout
+    retval, stdout, stderr = execute(['crontab', '-l'], stdoutfd=subprocess.PIPE, text=False)
+    if retval not in [os.EX_OK, 1]:  # retval=1 happens if user does not have a crontab to remove
+      raise CronError(f"Failure to remove crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
+    fh = stdout
   # Parse the lines
-  lines = [rawCrontabLine(line.decode('utf-8')) for line in fh.readlines()]
+  lines = [rawCrontabLine(line) for line in fh.readlines()]
   if MSWINDOWS:
     fh.close()
   return lines
+
 
 def write(crontabEntries=[]):
   """Write a crontab-formatted file from the list of fstabLines. Return values
@@ -171,7 +181,7 @@ def write(crontabEntries=[]):
     if MSWINDOWS:
       # We'll edit PyCrontab directly
       crontab = getPyCrontab()
-      fh = open(crontab, 'w', encoding="utf-8")
+      fh = open(crontab, 'wb')
     else:
       # We'll create a temporary file to pass to crontab as input
       fd, path = tempfile.mkstemp()
@@ -182,24 +192,30 @@ def write(crontabEntries=[]):
         fh.write(crontabEntry.generate_entry_text().encode("utf-8"))
       else:
         fh.write(crontabEntry.get_raw_entry_text())
-
     fh.close()
+
     if not MSWINDOWS:
-      execute(['crontab', path])
+      retval, stdout, stderr = execute(['crontab', path])
+      if retval != os.EX_OK:
+        raise CronError(f"Failure to install crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
       os.remove(path)
   except IOError:
     return False
   return True
 
+
 def remove():
   """Removes/empties a user's crontab"""
   if MSWINDOWS:
     crontab = getPyCrontab()
-    fh = open(crontab, 'w', encoding="utf-8")
+    fh = open(crontab, 'wb')
     fh.write('')
     fh.close()
   else:
-    sub, stdout, stderr = execute(['crontab', '-r'], stdoutfd=subprocess.PIPE)
+    retval, stdout, stderr = execute(['crontab', '-r'])
+    if retval not in [os.EX_OK, 1]:  # retval=1 happens if user does not have a crontab to list
+      raise CronError(f"Failure to read crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
+
 
 def clean_fwbackups_entries():
   """Reads the crontab and removes any fwbackups entries. Returns the cleaned
@@ -214,9 +230,9 @@ def clean_fwbackups_entries():
       cleanedLines.append(line)
     else:
       # if not comment or whitespace, try to parse it and see if it has our signature
-      rawtext = line.get_raw_entry_text()
-      match = re.match(r"^([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+(.+?)\s*(#.*)?$", rawtext.strip())
-      if match == None:
+      entry_text = line.get_raw_entry_text().decode('utf-8').strip()
+      match = re.match(r"^([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)\s+(.+?)\s*(#.*)?$", entry_text)
+      if match is None:
         cleanedLines.append(line)
         continue
       try:
@@ -225,7 +241,7 @@ def clean_fwbackups_entries():
           cleanedLines.append(line)
           continue
         fields = parsedLine.get_all_fields()
-        if rawtext.startswith('#') or not fields[6].startswith(CRON_SIGNATURE):
+        if entry_text.startswith('#') or not fields[6].startswith(CRON_SIGNATURE):
           cleanedLines.append(line)
       except ValueError:
         cleanedLines.append(line)

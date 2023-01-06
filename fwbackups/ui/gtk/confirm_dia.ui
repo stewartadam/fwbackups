@@ -62,7 +62,6 @@ Secondary text</property>
       <object class="GtkButton" id="button_no">
         <property name="focusable">1</property>
         <property name="label">_No</property>
-        <property name="receives-default">1</property>
         <property name="use-underline">True</property>
       </object>
     </child>

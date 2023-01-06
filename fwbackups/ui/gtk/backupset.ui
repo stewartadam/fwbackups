@@ -23,7 +23,6 @@
               <object class="GtkButton" id="backupsetCancelButton">
                 <property name="focusable">1</property>
                 <property name="label">_Cancel</property>
-                <property name="receives-default">1</property>
                 <property name="use-underline">True</property>
                 <signal name="clicked" handler="on_backupsetCancelButton_clicked"/>
               </object>

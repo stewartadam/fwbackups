@@ -552,7 +552,9 @@ class fwbackupsApp(Adw.Application):
         self.logger.logmsg('DEBUG', _("Saving set `%s' to the crontab") % setName)
     try:
       # Write the new crontab
-      cron.write(fwbackupCronLines)
+      success = cron.write(fwbackupCronLines)
+      if not success:
+        raise ValueError() # just to trigger catch
     except cron.ValidationError:
       raise
     except Exception as error:
@@ -560,13 +562,13 @@ class fwbackupsApp(Adw.Application):
       (etype, evalue, tb) = sys.exc_info()
       tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
       self.logger.logmsg('WARNING', _("Unable to write new crontab: %s" % tracebackText))
-      self.displayError(self.ui.main, _("Unable to save backup schedule to crontab"), _("There was an error saving the new backup schedule. A backup will be restored, however the changes made to the backup schedule may not have been correctly saved.\n\nIf you see this message, please report a bug against fwbackups."))
+      self.displayError(self.ui.main, _("Error saving backup schedule to crontab"), _("Changes made to the backup schedule may not have been correctly saved. If you are using custom cron entry for a backup set, verify the values are valid.\n\n") + error.args[0])
       # Restore backup
       try:
         cron.write(originalCronLines)
         self.logger.logmsg('INFO', _("A backup of the crontab was restored; the latest changes to the backup schedule not have been saved."))
-      except:
-        self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored"))
+      except Exception as error:
+        self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored: {error}"))
 
   def main_close(self, widget=None, event=None):
     """Wrapper for quitting"""

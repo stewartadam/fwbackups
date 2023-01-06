@@ -452,7 +452,7 @@ class ErrorDia(GenericDia):
   def __init__(self, dialog, parent, labelWidget, primaryText, secondaryText, dontShowMe=False):
     """Initialize"""
     GenericDia.__init__(self, dialog, '', parent)
-    labelWidget.set_text('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
+    labelWidget.set_markup('<span size="larger" weight="bold">%s</span>\n\n%s' % (escape(primaryText), escape(secondaryText)))
     labelWidget.set_use_markup(True)
 
 class InfoDia(GenericDia):

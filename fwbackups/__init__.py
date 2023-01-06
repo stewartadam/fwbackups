@@ -34,14 +34,14 @@ def escapeQuotes(string, noQuotes):
     string = string.replace('"', '\\"')
   return string
 
-def execute(command, env=None, shell=False, stdoutfd=None):
+def execute(command, env=None, shell=False, stdoutfd=None, text=True):
   """Execute a command, wait for it to finish"""
-  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
+  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=text)
   return sub.wait(), sub.stdout, sub.stderr
 
-def executeSub(command, env=None, shell=False, stdoutfd=None):
+def executeSub(command, env=None, shell=False, stdoutfd=None, text=True):
   """Execute a command in the background"""
-  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=True)
+  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=text)
   return sub
 
 def kill(PID, signal):
