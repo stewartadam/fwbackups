@@ -113,7 +113,8 @@
                                   <object class="AdwButtonContent">
                                     <property name="halign">center</property>
                                     <property name="icon-name">document-new-symbolic</property>
-                                    <property name="label">Add files</property>
+                                    <property name="label">Add _files</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -127,7 +128,7 @@
                                 <child>
                                   <object class="AdwButtonContent">
                                     <property name="icon-name">folder-new-symbolic</property>
-                                    <property name="label">_Add Folder</property>
+                                    <property name="label">_Add folder</property>
                                     <property name="use-underline">True</property>
                                   </object>
                                 </child>

@@ -351,26 +351,11 @@
                                 <property name="visible">False</property>
                                 <signal name="clicked" handler="on_main2FinishBackupButton_clicked"/>
                                 <child>
-                                  <object class="GtkBox" id="hbox103">
+                                  <object class="AdwButtonContent">
                                     <property name="halign">center</property>
-                                    <property name="hexpand">1</property>
-                                    <property name="spacing">2</property>
-                                    <property name="valign">center</property>
-                                    <property name="vexpand">1</property>
-                                    <child>
-                                      <object class="GtkImage" id="image1697">
-                                        <property name="halign">center</property>
-                                        <property name="icon-name">gtk-yes</property>
-                                        <property name="valign">center</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label481">
-                                        <property name="halign">center</property>
-                                        <property name="label" translatable="yes">_Finish</property>
-                                        <property name="use-underline">1</property>
-                                      </object>
-                                    </child>
+                                    <property name="icon-name">emblem-ok-symbolic</property>
+                                    <property name="label">_Finish</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -492,7 +477,8 @@
                                               <object class="AdwButtonContent">
                                                 <property name="halign">center</property>
                                                 <property name="icon-name">document-new-symbolic</property>
-                                                <property name="label">Add files</property>
+                                                <property name="label">Add _files</property>
+                                                <property name="use-underline">True</property>
                                               </object>
                                             </child>
                                           </object>
@@ -506,7 +492,7 @@
                                               <object class="AdwButtonContent">
                                                 <property name="halign">center</property>
                                                 <property name="icon-name">folder-new-symbolic</property>
-                                                <property name="label">_Add Folder</property>
+                                                <property name="label">_Add folder</property>
                                                 <property name="use-underline">True</property>
                                               </object>
                                             </child>

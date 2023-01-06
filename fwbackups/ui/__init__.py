@@ -722,7 +722,7 @@ class fwbackupsApp(Adw.Application):
       if os.path.exists(destSetPath):
         response = self.displayConfirm(self.ui.export_dia, _("File Exists"),
                                     _("'%s.conf' already exists! Would you like to overwrite it?") % setName)
-        if response == Gtk.ResponseType.OK:
+        if response == Gtk.ResponseType.YES:
           os.remove(destSetPath)
         else:
           return
@@ -1272,7 +1272,7 @@ class fwbackupsApp(Adw.Application):
     except IndexError:
       self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to remove.'))
       return
-    response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action does not delete any existing backups or files."))
+    response = self.displayConfirm(self.ui.main, _("Delete backup set '%s'?") % setName, _("This action will permanently delete the backup set configuration. This action will not delete any existing backups, or files and folders associated with the set."))
     if response == Gtk.ResponseType.NO:
       return
     elif response == Gtk.ResponseType.YES:
@@ -1648,7 +1648,7 @@ class fwbackupsApp(Adw.Application):
       if entry.startswith('%s-%s-' % (_('Backup'), setName)):
         backupDates.append(entry)
     if backupDates == []:
-      model.append([_('No backups found')])
+      self.ui.restore1SetDateCombobox.append_text(_('No backups found'))
     for entry in backupDates:
       if entry.endswith('tar.gz'):
         engine = 'tar.gz'

@@ -58,14 +58,6 @@ Secondary text</property>
       </object>
     </child>
     <child type="action">
-      <object class="GtkButton" id="button_yes">
-        <property name="focusable">1</property>
-        <property name="label">_Yes</property>
-        <property name="receives-default">1</property>
-        <property name="use-underline">True</property>
-      </object>
-    </child>
-    <child type="action">
       <object class="GtkButton" id="button_no">
         <property name="focusable">1</property>
         <property name="label">_No</property>
@@ -73,9 +65,18 @@ Secondary text</property>
         <property name="use-underline">True</property>
       </object>
     </child>
+    <child type="action">
+      <object class="GtkButton" id="button_yes">
+        <property name="css-classes">suggested-action</property>
+        <property name="focusable">1</property>
+        <property name="label">_Yes</property>
+        <property name="receives-default">1</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
     <action-widgets>
-      <action-widget response="-8">button_yes</action-widget>
       <action-widget response="-9">button_no</action-widget>
+      <action-widget response="-8">button_yes</action-widget>
     </action-widgets>
   </object>
 </interface>
