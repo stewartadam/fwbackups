@@ -105,11 +105,13 @@ class fwbackupsApp(Adw.Application):
       "remove_set1": "<Control>d",
       "duplicate_set1": "<Control><Shift>d",
       "preferences1": "<Control>comma",
-      "overview1": "<Alt><Shift>1",
-      "backup_sets1": "<Alt><Shift>2",
-      "one_time_backup1": "<Alt><Shift>3",
-      "log1": "<Alt><Shift>4",
-      "restore1": "<Alt><Shift>5",
+      "overview1": "<Control>1",
+      "backup_sets1": "<Control>2",
+      "one_time_backup1": "<Control>3",
+      "log1": "<Control>4",
+      "restore1": "<Control>5",
+      "about1": None,
+      "help1": None,
     }
 
     scope = "app"
@@ -472,23 +474,38 @@ class fwbackupsApp(Adw.Application):
 
   def _toggleLocked(self, bool, keepSensitive=[]):
     """Toggle locking in the UI"""
-    for widget in   [self.ui.BackupSetsRadioTool,
-                     self.ui.OneTimeRadioTool,
-                     self.ui.RestoreToolButton,
-                     self.ui.backupset, self.ui.restore,
-                     self.ui.main2VButtonBox, self.ui.main3VButtonBox,
-                     self.ui.main2Iconview,
-                    #  self.ui.new_set1,
-                    #  self.ui.import_sets1,
-                    #  self.ui.export_sets1 FIXME
-                    ]:
+    widgets_to_toggle = [
+      self.ui.BackupSetsRadioTool,
+      self.ui.OneTimeRadioTool,
+      self.ui.RestoreToolButton,
+      self.ui.backupset, self.ui.restore,
+      self.ui.main2VButtonBox, self.ui.main3VButtonBox,
+      self.ui.main2Iconview
+    ]
+    for widget in widgets_to_toggle:
       widget.set_sensitive(not bool)
+
+    actions_to_toggle = [
+      "new_set1",
+      "import_sets1",
+      "export_sets1",
+      "backup_sets1",
+      "one_time_backup1",
+      "restore1",
+    ]
+    for action_name in actions_to_toggle:
+      action = self.lookup_action(action_name)
+      action.set_enabled(not bool)
+
     for widget in keepSensitive:
       widget.set_sensitive(True)
-    # for widget in [self.ui.edit_set1, FIXME
-    #                self.ui.duplicate_set1,
-    #                self.ui.remove_set1]:
-    #   widget.set_sensitive(False)
+
+    # these get unlocked on change of selection
+    for action_name in ["edit_set1",
+                        "duplicate_set1",
+                        "remove_set1"]:
+      action = self.lookup_action(action_name)
+      action.set_enabled(False)
 
   def help(self):
     """Open the online user manual"""
@@ -775,28 +792,28 @@ class fwbackupsApp(Adw.Application):
      > If yes, switch me to the correct tab.
      > If no, do nothing as I shouldn't be switching!
  """
-  def on_overview1_activate(self, widget):
+  def on_overview1_activate(self, widget, user_data):
     if self.ui.OverviewRadioTool.get_property('sensitive') == 1:
       self.ui.mainControlNotebook.set_current_page(0)
       self.ui.OverviewRadioTool.set_active(True)
       return True
     else:
       return False
-  def on_user_backup_sets1_activate(self, widget):
+  def on_backup_sets1_activate(self, widget, user_data):
     if self.ui.BackupSetsRadioTool.get_property('sensitive') == 1:
       self.ui.mainControlNotebook.set_current_page(1)
       self.ui.BackupSetsRadioTool.set_active(True)
       return True
     else:
       return False
-  def on_one_time_backup1_activate(self, widget):
+  def on_one_time_backup1_activate(self, widget, user_data):
     if self.ui.OneTimeRadioTool.get_property('sensitive') == 1:
       self.ui.mainControlNotebook.set_current_page(2)
       self.ui.OneTimeRadioTool.set_active(True)
       return True
     else:
       return False
-  def on_log1_activate(self, widget):
+  def on_log1_activate(self, widget, user_data):
     if self.ui.LogViewRadioTool.get_property('sensitive') == 1:
       self.ui.mainControlNotebook.set_current_page(3)
       self.ui.LogViewRadioTool.set_active(True)
@@ -820,7 +837,7 @@ class fwbackupsApp(Adw.Application):
     self.ui.restore1SetNameCombobox.set_active(0)
     self.ui.restore1SetDateCombobox.set_active(0)
 
-  def on_restore1_activate(self, widget):
+  def on_restore1_activate(self, widget, user_data):
     """Show restore window"""
     self.on_RestoreToolButton_clicked(widget)
 
@@ -874,15 +891,13 @@ class fwbackupsApp(Adw.Application):
       self.ui.preferencesPycronEntry.set_text(prefs.get('Preferences', 'pycronLoc'))
 
   ### HELP MENU
-  def on_about1_activate(self, widget):
+  def on_about1_activate(self, widget, user_data):
     """Help > About"""
-    self.ui.aboutControlNotebook.set_current_page(0)
     self.ui.about.show()
 
-  def on_help1_activate(self, widget):
+  def on_help1_activate(self, widget, user_data):
     """Help > Help"""
     self.help()
-
 
   ###
   ### PREFERENCES ###
@@ -1291,19 +1306,12 @@ class fwbackupsApp(Adw.Application):
       self.displayInfo(self.ui.main, _("Unexpected error"), _("An unexpected error occured while attempting to obtain the selected set:\n%s" % error))
       self.main2IconviewRefresh()
       selected = False
-    # FIXME
-    # if selected == False or len(selected) <= 0:
-    #   self.ui.edit_set1.set_sensitive(False)
-    #   self.ui.remove_set1.set_sensitive(False)
-    #   self.ui.duplicate_set1.set_sensitive(False)
-    # elif selected:
-    #   self.ui.edit_set1.set_sensitive(True)
-    #   self.ui.remove_set1.set_sensitive(True)
-    #   self.ui.duplicate_set1.set_sensitive(True)
-    # else:
-    #   self.ui.edit_set1.set_sensitive(False)
-    #   self.ui.remove_set1.set_sensitive(False)
-    #   self.ui.duplicate_set1.set_sensitive(False)
+
+    desired_state = selected and len(selected) > 0
+    action_names = ["edit_set1", "remove_set1", "duplicate_set1"]
+    for action_name in action_names:
+      action = self.lookup_action(action_name)
+      action.set_enabled(desired_state)
 
   def on_main2BackupSetNowButton_clicked(self, widget):
     """Backup now button in main"""
@@ -1314,8 +1322,11 @@ class fwbackupsApp(Adw.Application):
     self.operationInProgress = False
     self.main2BackupProgress.set_fraction(0.0)
     self._toggleLocked(False)
-    # for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
-    #   widget.set_sensitive(True) FIXME
+    action_names = ["new_set1", "import_sets1", "export_sets1"]
+    for action_name in action_names:
+      action = self.lookup_action(action_name)
+      action.set_enabled(True)
+
     self.main2BackupProgress.set_text(_('Click \'Backup Set Now\' to begin'))
     self.setStatus(_('Idle'))
     self.ui.main2FinishBackupButton.hide()
@@ -1819,8 +1830,11 @@ class fwbackupsApp(Adw.Application):
   def on_restoreFinishButton_clicked(self, widget):
     """Finish the restore"""
     self._toggleLocked(False, [self.ui.restore])
-    # for widget in [self.ui.new_set1, self.ui.import_sets1, self.ui.export_sets1]:
-    #   widget.set_sensitive(True) FIXME
+    action_names = ["new_set1", "import_sets1", "export_sets1"]
+    for action_name in action_names:
+      action = self.lookup_action(action_name)
+      action.set_enabled(True)
+
     self.operationInProgress = False
     self.ui.restoreStartButton.show()
     self.ui.restoreCloseButton.show()
@@ -2401,7 +2415,7 @@ class fwbackupsApp(Adw.Application):
     self.setStatus(_('Initializing'))
     if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
       self.trayNotify(_('Status'), _('Starting a set backup operation of \'%(a)s\'' % {'a': name}), 5)
-    self._toggleLocked(True, [self.ui.BackupSetsRadioTool, self.ui.backup_sets1])
+    self._toggleLocked(True, [self.ui.BackupSetsRadioTool])
     self.main2BackupProgress.startPulse()
     self.main2BackupProgress.set_text(_('Please wait...'))
     try:
@@ -2560,7 +2574,11 @@ class fwbackupsApp(Adw.Application):
     self.setStatus(_('Initializing'))
     if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
       self.trayNotify(_('Status'), _('Starting a one-time backup operation'))
-    self._toggleLocked(True, [self.ui.OneTimeRadioTool, self.ui.one_time_backup1])
+    self._toggleLocked(True, [self.ui.OneTimeRadioTool])
+    action_names = ["one_time_backup1"]
+    for action_name in action_names:
+      action = self.lookup_action(action_name)
+      action.set_enabled(True)
     self.main3BackupProgress.startPulse()
     self.main3BackupProgress.set_text(_('Please wait...'))
     try:
