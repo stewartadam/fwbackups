@@ -46,7 +46,7 @@
                     <child>
                       <object class="GtkGrid" id="table11">
                         <property name="column-spacing">12</property>
-                        <property name="row-spacing">6</property>
+                        <property name="row-spacing">24</property>
                         <property name="valign">start</property>
                         <child>
                           <object class="GtkFrame" id="frame2">
@@ -234,8 +234,6 @@
                             <child>
                               <object class="GtkButton" id="main2NewSetButton">
                                 <property name="focusable">1</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="label">_New set</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_main2NewSetButton_clicked"/>
                                 <child>
@@ -266,8 +264,6 @@
                             <child>
                               <object class="GtkButton" id="main2RemoveSetButton">
                                 <property name="focusable">1</property>
-                                <property name="icon-name">edit-delete-symbolic</property>
-                                <property name="label">_Delete set</property>
                                 <property name="receives-default">1</property>
                                 <signal name="clicked" handler="on_main2RemoveSetButton_clicked"/>
                                 <child>
@@ -283,15 +279,13 @@
                             <child>
                               <object class="GtkButton" id="main2BackupSetNowButton">
                                 <property name="focusable">1</property>
-                                <property name="label" translatable="yes">_Backup Set Now</property>
                                 <property name="receives-default">1</property>
-                                <property name="use-underline">1</property>
                                 <signal name="clicked" handler="on_main2BackupSetNowButton_clicked"/>
                                 <child>
                                   <object class="AdwButtonContent">
                                     <property name="halign">center</property>
                                     <property name="icon-name">media-playback-start-symbolic</property>
-                                    <property name="label">_Backup set</property>
+                                    <property name="label">_Backup now</property>
                                     <property name="use-underline">True</property>
                                   </object>
                                 </child>
@@ -300,7 +294,6 @@
                             <child>
                               <object class="GtkButton" id="main2RestoreSetButton">
                                 <property name="focusable">1</property>
-                                <property name="label" translatable="yes">Re_store Set</property>
                                 <property name="receives-default">1</property>
                                 <property name="use-underline">1</property>
                                 <signal name="clicked" handler="on_main2RestoreSetButton_clicked"/>
@@ -308,7 +301,7 @@
                                   <object class="AdwButtonContent">
                                     <property name="halign">center</property>
                                     <property name="icon-name">view-restore-symbolic</property>
-                                    <property name="label">_Restore set</property>
+                                    <property name="label">Re_store</property>
                                     <property name="use-underline">True</property>
                                   </object>
                                 </child>
@@ -501,9 +494,7 @@
                                         <child>
                                           <object class="GtkButton" id="main3RemoveButton">
                                             <property name="focusable">1</property>
-                                            <property name="label">_Remove</property>
                                             <property name="receives-default">1</property>
-                                            <property name="use-underline">True</property>
                                             <signal name="clicked" handler="on_main3RemoveButton_clicked"/>
                                             <child>
                                               <object class="AdwButtonContent">
@@ -1357,9 +1348,10 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="LogViewerClearButton">
+                                <property name="css-classes">destructive-action</property>
                                 <property name="focusable">1</property>
                                 <property name="halign">end</property>
-                                <property name="label">C_lear</property>
+                                <property name="label">_Clear</property>
                                 <property name="receives-default">1</property>
                                 <property name="use-underline">True</property>
                                 <signal name="clicked" handler="on_LogViewerClearButton_clicked"/>
@@ -1367,12 +1359,19 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="LogViewerRefreshButton">
+                                <property name="css-classes">suggested-action</property>
                                 <property name="focusable">1</property>
                                 <property name="halign">end</property>
-                                <property name="label">_Refresh</property>
                                 <property name="receives-default">1</property>
-                                <property name="use-underline">True</property>
                                 <signal name="clicked" handler="on_LogViewerRefreshButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">view-refresh-symbolic</property>
+                                    <property name="label">_Refresh</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <layout>

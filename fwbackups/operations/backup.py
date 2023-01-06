@@ -25,7 +25,7 @@ import tempfile
 import time
 
 import fwbackups
-from fwbackups.i18n import _, encode, normalize
+from fwbackups.i18n import _, normalize
 from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
@@ -235,19 +235,19 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w')
-        for i in paths:
+        for path in paths:
           self.ifCancel()
           self._current += 1
-          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-          fh.add(i, recursive=self.options['Recursive'])
+          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
+          fh.add(path, recursive=self.options['Recursive'])
         fh.close()
       else: # not MSWINDOWS
-        for i in paths:
-          i = fwbackups.escapeQuotes(i, 1)
+        for path in paths:
+          path = fwbackups.escapeQuotes(path, 1)
           self.ifCancel()
           self._current += 1
-          self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s '%(c)s'" % {'a': self.options['Nice'], 'b': command, 'c': i}))
-          sub = fwbackups.executeSub("nice -n %i %s '%s'" % (self.options['Nice'], command, i), env=self.environment, shell=True)
+          self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s '%(c)s'" % {'a': self.options['Nice'], 'b': command, 'c': path}))
+          sub = fwbackups.executeSub("nice -n %i %s '%s'" % (self.options['Nice'], command, path), env=self.environment, shell=True)
           self.pids.append(sub.pid)
           self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
           # track stdout
@@ -267,8 +267,8 @@ class BackupOperation(operations.Common):
           # Something wrong?
           if retval != EXIT_STATUS_OK and retval != 2:
             wasAnError = True
-            self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-            self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
+            self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
+            self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
     elif self.options['Engine'] == 'tar.gz':
       self._total = 1
@@ -276,23 +276,23 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:gz')
-        for i in paths:
+        for path in paths:
           self._current += 1
           self.ifCancel()
-          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-          fh.add(i, recursive=self.options['Recursive'])
-          self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
+          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
+          fh.add(path, recursive=self.options['Recursive'])
+          self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % path))
         fh.close()
       else: # not MSWINDOWS
         self._current = 1
         escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
         # This is a fancy way for getting i = "'one' 'two' 'three'"
-        i = "'%s'" % "' '".join(escapedPaths)
+        path = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
-        self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i.replace("'", '')})
-        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+        self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': path.replace("'", '')})
+        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': path}))
         # Don't wrap i in quotes; we did this above already when mering the paths
-        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, i), env=self.environment, shell=True)
+        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, path), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # track stdout
@@ -312,8 +312,8 @@ class BackupOperation(operations.Common):
         # Something wrong?
         if retval != EXIT_STATUS_OK and retval != 2:
           wasAnError = True
-          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
+          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
+          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
     elif self.options['Engine'] == 'tar.bz2':
       self._total = 1
@@ -321,23 +321,23 @@ class BackupOperation(operations.Common):
         self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
         import tarfile
         fh = tarfile.open(self.dest, 'w:bz2')
-        for i in paths:
+        for path in paths:
           self._current += 1
           self.ifCancel()
-          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-          fh.add(i, recursive=self.options['Recursive'])
-          self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % i))
+          self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
+          fh.add(path, recursive=self.options['Recursive'])
+          self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % path))
         fh.close()
       else: # not MSWINDOWS
         self._current = 1
         escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
         # This is a fancy way for getting i = "'one' 'two' 'three'"
-        i = "'%s'" % "' '".join(escapedPaths)
+        path = "'%s'" % "' '".join(escapedPaths)
         self.logger.logmsg('INFO', _('Using %s: Must backup all paths at once - Progress notification will be disabled.' % self.options['Engine']))
-        self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
-        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': i}))
+        self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': path})
+        self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s" % {'a': self.options['Nice'], 'b': command, 'c': path}))
         # Don't wrap i in quotes; we did this above already when mering the paths
-        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, i), env=self.environment, shell=True)
+        sub = fwbackups.executeSub("nice -n %i %s %s" % (self.options['Nice'], command, path), env=self.environment, shell=True)
         self.pids.append(sub.pid)
         self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
         # track stdout
@@ -357,39 +357,39 @@ class BackupOperation(operations.Common):
         # Something wrong?
         if retval != EXIT_STATUS_OK and retval != 2:
           wasAnError = True
-          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
+          self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
+          self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
     elif self.options['Engine'] == 'rsync':
       # in this case, self.{folderdest,dest} both need to be created
       if self.options['DestinationType'] == 'remote (ssh)':
         client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
         if not wasAnError:
-          for i in paths:
+          for path in paths:
             if self.toCancel:
               # Check if we need to cancel in between paths
               # If so, break and close the SFTP session
               # Immediately after, self.ifCancel() is run.
               break
             self._current += 1
-            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': i})
-            if not os.path.exists(encode(i)):
-              self.logger.logmsg('WARNING', _("Path %s is missing or cannot be read and will be excluded from the backup.") % i)
-            sftp.put(sftpClient, encode(i), encode(os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(i))), symlinks=not self.options['FollowLinks'], excludes=encode(self.options['Excludes'].split('\n')))
+            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s') % {'a': self._current, 'b': self._total, 'c': path})
+            if not os.path.exists(path):
+              self.logger.logmsg('WARNING', _("Path %s is missing or cannot be read and will be excluded from the backup.") % path)
+            sftp.put(sftpClient, path, os.path.normpath(self.options['RemoteFolder']+os.sep+os.path.basename(self.dest)+os.sep+os.path.dirname(path)), symlinks=not self.options['FollowLinks'], excludes=self.options['Excludes'].split('\n'))
         sftpClient.close()
         client.close()
       else: # destination is local
-        for i in paths:
+        for path in paths:
           self.ifCancel()
           self._current += 1
           if MSWINDOWS:
             # let's deal with real paths
-            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': i}))
-            shutil_modded.copytree_fullpaths(encode(i), encode(self.dest))
+            self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
+            shutil_modded.copytree_fullpaths(path, self.dest)
           else: # not MSWINDOWS; UNIX/OS X can call rsync binary
-            i = fwbackups.escapeQuotes(i, 1)
-            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': i, 'd': fwbackups.escapeQuotes(self.dest, 1)}))
-            sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, i, fwbackups.escapeQuotes(self.dest, 1)), env=self.environment, shell=True)
+            path = fwbackups.escapeQuotes(path, 1)
+            self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': path, 'd': fwbackups.escapeQuotes(self.dest, 1)}))
+            sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, path, fwbackups.escapeQuotes(self.dest, 1)), env=self.environment, shell=True)
             self.pids.append(sub.pid)
             self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
             # track stdout
@@ -400,7 +400,7 @@ class BackupOperation(operations.Common):
             while sub.poll() in ["", None]:
               time.sleep(0.01)
               try:
-                errors += sub.stderr.readline()
+                errors.append(sub.stderr.readline())
               except IOError as description:
                 pass
             self.pids.remove(sub.pid)
@@ -409,13 +409,14 @@ class BackupOperation(operations.Common):
             # Something wrong?
             if retval not in [EXIT_STATUS_OK, 2]:
               wasAnError = True
-              self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(i))
-              self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
+              self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
+              print(retval, errors)
+              self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
     self.ifCancel()
     # A test is included to ensure sure the archive actually exists, as if
     # wasAnError = True the archive might not even exist.
-    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(encode(self.dest)):
+    if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(self.dest):
       self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
       self._status = STATUS_SENDING_TO_REMOTE
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
@@ -485,9 +486,9 @@ class OneTimeBackupOperation(BackupOperation):
        not self.options['DestinationType'] == 'remote (ssh)'):
       if not self.prepareDestinationFolder(self.options['Destination']):
         return False
-      if os.path.exists(encode(self.dest)):
+      if os.path.exists(self.dest):
         self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-        shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
+        shutil_modded.rmtree(self.dest, onerror=self.onError)
     self.ifCancel()
 
     command = self.parseCommand()
@@ -501,9 +502,10 @@ class OneTimeBackupOperation(BackupOperation):
 
     if self.options['DestinationType'] == 'local':
       try:
-        os.chmod(self.dest, 0o711)
+        octal_permissions = 0o700 if os.path.isdir(self.dest) else 0o600
+        os.chmod(self.dest, octal_permissions)
       except:
-        pass
+        pass  # might be ntfs
 
     # All done!
     self.logger.logmsg('INFO', _('Finished one-time backup'))
@@ -545,7 +547,7 @@ class SetBackupOperation(BackupOperation):
 
   def tokens_replace(self, text, date, successful=None):
     """Replace tokens in the supplied text"""
-    tokens = {'backup': os.path.basename(encode(self.dest)),
+    tokens = {'backup': os.path.basename(self.dest),
               'set': self.config.getSetName(),
               'date': date,
               'remote_host': self.options['RemoteHost'],
@@ -610,7 +612,7 @@ class SetBackupOperation(BackupOperation):
     # Something wrong?
     if retval != EXIT_STATUS_OK:
       self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status!'))
-      self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': retval, 'b': ''.join(errors)}))
+      self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
   def removeOldBackups(self):
     """Get list of old backups and remove them"""
@@ -619,44 +621,40 @@ class SetBackupOperation(BackupOperation):
       client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
       listing = sftpClient.listdir(self.options['RemoteFolder'])
     else:
-      listing = os.listdir(encode(self.options['Destination']))
-    # Normalize the unicode strings storing the filenames. This fixes a problem
-    # on HFS+ filesystems where supplying a set name on the command line
-    # resulted in a different Unicode string than the filename of the set.
-    listing = sorted([decode(i, filename=True) for i in listing])
+      listing = os.listdir(self.options['Destination'])
     oldbackups = []
-    for i in listing:
+    for path in sorted(listing):
       backupPrefix = '%s-%s-' % (_('Backup'), self.config.getSetName())
-      if i.startswith(backupPrefix):
-        oldbackups.append(i)
+      if path.startswith(backupPrefix):
+        oldbackups.append(path)
     # ...And remove them.
     oldbackups.reverse()
     if self.options['DestinationType'] == 'remote (ssh)':
-      for i in oldbackups[self.options['OldToKeep']:]:
-        remoteBackup = os.path.join(self.options['RemoteFolder'], i)
+      for path in oldbackups[self.options['OldToKeep']:]:
+        remoteBackup = os.path.join(self.options['RemoteFolder'], path)
         self.logger.logmsg('DEBUG', _('Removing old backup `%(a)s\' on %(b)s') % {'a': remoteBackup, 'b': self.options['RemoteHost']})
         sftp.remove(sftpClient, remoteBackup)
       sftpClient.close()
       client.close()
     else:
       if self.options['Engine'] == 'rsync' and self.options['Incremental'] and oldbackups:
-        for i in oldbackups[:-1]:
-          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          path = os.path.join(self.options['Destination'], i)
-          shutil_modded.rmtree(encode(path), onerror=self.onError)
+        for path in oldbackups[:-1]:
+          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % path)
+          path = os.path.join(self.options['Destination'], path)
+          shutil_modded.rmtree(path, onerror=self.onError)
         oldIncrementalBackup = os.path.join(self.options['Destination'], oldbackups[-1])
         if not oldIncrementalBackup.endswith('.tar') and not oldIncrementalBackup.endswith('.tar.gz') and \
             not oldIncrementalBackup.endswith('.tar.bz2'): # oldIncrementalBackup = rsync
           self.logger.logmsg('DEBUG', _('Moving  `%s\' to `%s\'') % (oldIncrementalBackup, self.dest))
-          shutil_modded.move(encode(oldIncrementalBackup), encode(self.dest))
+          shutil_modded.move(oldIncrementalBackup, self.dest)
         else: # source = is not a rsync backup - remove it and start fresh
           self.logger.logmsg('DEBUG', _('`%s\' is not an rsync backup - removing.') % oldIncrementalBackup)
-          shutil_modded.rmtree(encode(oldIncrementalBackup), onerror=self.onError)
+          shutil_modded.rmtree(oldIncrementalBackup, onerror=self.onError)
       else:
-        for i in oldbackups[self.options['OldToKeep']:]:
-          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % i)
-          path = os.path.join(self.options['Destination'], i)
-          shutil_modded.rmtree(encode(path), onerror=self.onError)
+        for path in oldbackups[self.options['OldToKeep']:]:
+          self.logger.logmsg('DEBUG', _('Removing old backup `%s\'') % path)
+          path = os.path.join(self.options['Destination'], path)
+          shutil_modded.rmtree(path, onerror=self.onError)
 
   def start(self):
     """Start the backup process. Should be called after executing user command."""
@@ -689,9 +687,9 @@ class SetBackupOperation(BackupOperation):
         if not self.prepareDestinationFolder(self.options['Destination']):
           return False
         if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) \
-        and os.path.exists(encode(self.dest)):
+        and os.path.exists(self.dest):
           self.logger.logmsg('WARNING', _('`%s\' exists and will be overwritten.') % self.dest)
-          shutil_modded.rmtree(encode(self.dest), onerror=self.onError)
+          shutil_modded.rmtree(self.dest, onerror=self.onError)
       self.ifCancel()
 
       # Remove old stuff
@@ -711,11 +709,14 @@ class SetBackupOperation(BackupOperation):
       # Now that the paths & commands are set up...
       retval = self.backupPaths(paths, command)
       self.deleteListFiles(pkgListfiles)
+
       if self.options['DestinationType'] == 'local':
         try:
-          os.chmod(self.dest, 0o711)
+          octal_permissions = 0o700 if os.path.isdir(self.dest) else 0o600
+          os.chmod(self.dest, octal_permissions)
         except:
-          pass
+          pass  # might be ntfs
+
     # Exception handlers in FuncAsThread() must return retval same values
     except SystemExit:
       # cancelled; the only time we skip the after command

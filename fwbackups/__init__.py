@@ -41,7 +41,7 @@ def execute(command, env=None, shell=False, stdoutfd=None):
 
 def executeSub(command, env=None, shell=False, stdoutfd=None):
   """Execute a command in the background"""
-  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env)
+  sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=True)
   return sub
 
 def kill(PID, signal):

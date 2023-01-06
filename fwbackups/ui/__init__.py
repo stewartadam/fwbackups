@@ -1210,6 +1210,7 @@ class fwbackupsApp(Adw.Application):
     """Unset the compression combo if not selected"""
     if self.ui.backupset4CompressCheck.get_active():
       self.ui.backupset4CompressCombo.set_sensitive(True)
+      self.ui.backupset4CompressCombo.set_active(0)
     else:
       self.ui.backupset4CompressCombo.set_active(-1)
       self.ui.backupset4CompressCombo.set_sensitive(False)
@@ -1378,6 +1379,7 @@ class fwbackupsApp(Adw.Application):
     """Unset the compression combo if not selected"""
     if self.ui.main3CompressCheck.get_active():
       self.ui.main3CompressCombo.set_sensitive(True)
+      self.ui.main3CompressCombo.set_active(0)
     else:
       self.ui.main3CompressCombo.set_active(-1)
       self.ui.main3CompressCombo.set_sensitive(False)

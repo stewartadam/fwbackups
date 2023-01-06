@@ -24,7 +24,7 @@ import tarfile
 import time
 #--
 import fwbackups
-from fwbackups.i18n import _, encode
+from fwbackups.i18n import _
 from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
@@ -135,35 +135,35 @@ class RestoreOperation(operations.Common):
     self._status = STATUS_RESTORING # restoring
     try:
       if self.options['SourceType'] == 'set': # we don't know the type
-        if os.path.isfile(encode(self.options['Source'])):
+        if os.path.isfile(self.options['Source']):
           fh = tarfile.open(self.options['Source'], 'r')
-          fh.extractall(encode(self.options['Destination']))
+          fh.extractall(self.options['Destination'])
           fh.close()
-        elif os.path.isdir(encode(self.options['Source'])): # we are dealing with rsync
-          shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
+        elif os.path.isdir(self.options['Source']): # we are dealing with rsync
+          shutil_modded.copytree(self.options['Source'], self.options['Destination'])
         else: # oops, something is up
           self.logger.logmsg('ERROR', _('Source `%s\' is not a file or folder!' % self.options['Source']))
           return False
 
       elif self.options['SourceType'] == 'local archive' or self.options['SourceType'] == 'remote archive (SSH)':
-        if os.path.isfile(encode(self.options['Source'])):
+        if os.path.isfile(self.options['Source']):
           fh = tarfile.open(self.options['Source'], 'r')
-          fh.extractall(encode(self.options['Destination']))
+          fh.extractall(self.options['Destination'])
           fh.close()
         else: # oops, something is up
           self.logger.logmsg('ERROR', _('Source `%s\' is not an archive!' % self.options['Source']))
           return False
       else: # folders
-        if not os.path.isdir(encode(self.options['Source'])):
+        if not os.path.isdir(self.options['Source']):
           self.logger.logmsg('ERROR', _('Source `%s\' is not a folder' % self.options['Source']))
           return False
         if not self.prepareDestinationFolder(self.options['Destination']):
           return False
-        shutil_modded.copytree(encode(self.options['Source']), encode(self.options['Destination']))
+        shutil_modded.copytree(self.options['Source'], self.options['Destination'])
 
       # Clean up transfered files from remote server
       if self.options['SourceType'] == 'remote archive (SSH)' or (self.options['SourceType'] == 'set' and self.options['RemoteSource']):
-        os.remove(encode(self.options['Source']))
+        os.remove(self.options['Source'])
 
     except:
       self.logger.logmsg('ERROR', 'Error(s) occurred while restoring certain files or folders.\nPlease check the traceback below to determine if any files are incomplete or missing.')
