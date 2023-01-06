@@ -1696,7 +1696,7 @@ class fwbackupsApp(Adw.Application):
     options["RemoteUsername"] = ''
     options["RemotePassword"] = ''
     options["RemoteSource"] = ''
-    if active == 0: # set
+    if active == 0:  # set backup
       sourceType = 'set'
       date = ' - '.join(widgets.get_active_text(self.ui.restore1SetDateCombobox).split(' - ')[:-1])
       # Can't use this for calculating 'path' since we could backup with tar,
@@ -1708,10 +1708,6 @@ class fwbackupsApp(Adw.Application):
       if this_engine == 'rsync':
         backupName = '%s-%s-%s' % (_('Backup'), setConfig.getSetName(), date)
       else:
-        # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
-        if sys.version_info[0] == 2 and sys.version_info[1] == 4:
-          self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
-          return False
         backupName = '%s-%s-%s.%s' % (_('Backup'), setConfig.getSetName(), date, this_engine)
       if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
         options["RemoteHost"] = setConfig.get('Options', 'RemoteHost')
@@ -1725,37 +1721,26 @@ class fwbackupsApp(Adw.Application):
       else:
         localDestination = setConfig.get('Options', 'Destination')
         options["Source"] = os.path.join(localDestination, backupName)
-    elif active == 1: # local archive
-      # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
-      if sys.version_info[0] == 2 and sys.version_info[1] == 4:
-        self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
-        return False
+    elif active == 1:  # local archive
       sourceType = 'local archive'
       options["Source"] = self.ui.restore1ArchiveEntry.get_text()
-    elif active == 2: # local folder
+    elif active == 2:  # local folder
       sourceType = 'local folder'
       options["Source"] = self.ui.restore1FolderEntry.get_text()
-    elif active == 3: # remote archive
-      # At the moment restore on Python 2.4 is not implemented; tarfile.extractall() doesn't exist.
-      if sys.version_info[0] == 2 and sys.version_info[1] == 4:
-        self.displayError(self.ui.restore, _("Automated restore not supported"), _("This backup set cannot be automatically restored because restoration of Archive backups has not been implemented for systems with Python 2.4. Please see the user guide for details on manual restoration."))
-        return False
-      sourceType = 'remote archive (SSH)'
+    elif active in [3, 4]:  # remote archive or remote folder
+      if active == 3:
+        sourceType = 'remote archive (SSH)'
+      elif active == 4:
+        sourceType = 'remote folder (SSH)'
+      else:
+        raise ValueError("Unknown restore source type")
       options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
       options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
       options["RemotePassword"] = base64.b64encode(self.ui.restore1PasswordEntry.get_text().encode('ascii')).decode('ascii')
       options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
       options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
       # RemoteSource is transferred to Destination before restoring begins
-      options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
-    elif active == 4: # remote folder
-      sourceType = 'remote folder (SSH)'
-      options["RemoteHost"] = self.ui.restore1HostEntry.get_text()
-      options["RemoteUsername"] = self.ui.restore1UsernameEntry.get_text()
-      options["RemotePassword"] = base64.b64encode(self.ui.restore1PasswordEntry.get_text().encode('ascii')).decode('ascii')
-      options["RemotePort"] = self.ui.restore1PortSpin.get_value_as_int()
-      options["RemoteSource"] = self.ui.restore1PathEntry.get_text()
-      # RemoteSource is transferred to Destination before restoring begins
+      # Source is ignored for remote folders, as transfering the folder to local finishes the backup
       options["Source"] = os.path.join(options["Destination"], os.path.basename(options["RemoteSource"]))
     # Finally, save all information
     options["SourceType"] = sourceType
@@ -1766,7 +1751,7 @@ class fwbackupsApp(Adw.Application):
     source = ''
     active = self.ui.restore1SourceTypeCombobox.get_active()
     restoreConfig = config.RestoreConf(RESTORELOC, True)
-    if active == 0: # Set backup
+    if active == 0:  # set backup
       if self.ui.restore1SetDateCombobox.get_active() == None:
         self.displayInfo(self.ui.restore, _('Missing information'), _('Please select a backup date.'))
         return False
@@ -1781,7 +1766,7 @@ class fwbackupsApp(Adw.Application):
         return False
       if not self.saveRestoreConfiguration(restoreConfig, setConfig):
         return False
-    elif active == 1: # Local archive
+    elif active == 1:  # local archive
       filename = self.ui.restore1ArchiveEntry.get_text()
       if not filename:
         self.displayInfo(self.ui.main, _('Restore source'), _('Please enter the location of the local archive.'))
@@ -1793,13 +1778,13 @@ class fwbackupsApp(Adw.Application):
         return False
       if not self.saveRestoreConfiguration(restoreConfig):
         return False
-    elif active == 2: # local folder
+    elif active == 2:  # local folder
       if not self.ui.restore1FolderEntry.get_text():
         self.displayInfo(self.ui.main, _('Restore source'), _('Please enter the location of the local folder.'))
         return False
       if not self.saveRestoreConfiguration(restoreConfig):
         return False
-    elif active == 3: # remote archive
+    elif active in [3, 4]:  # remote archive or remote folder
       host = self.ui.restore1HostEntry.get_text()
       username = self.ui.restore1UsernameEntry.get_text()
       port = self.ui.restore1PortSpin.get_value_as_int()
