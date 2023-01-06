@@ -616,7 +616,6 @@ class PathView(View):
                                        _("_Open"), _("_Cancel"))
     fileDialog = PathDia(widget, _('Choose file(s)'), self.parent, Gtk.FileChooserAction.OPEN, multiple=True)
     response = fileDialog.run()
-    print(response)
     if response == Gtk.ResponseType.ACCEPT:
       self.add(fileDialog.get_filenames(), self._buildListstoreIndex(self.liststore, 1))
     fileDialog.destroy()

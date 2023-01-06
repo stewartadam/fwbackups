@@ -80,11 +80,8 @@ class fwbackupsApp(Adw.Application):
       "fwbackups/ui/gtk/export_dia.ui",
       "fwbackups/ui/gtk/info_dia.ui",
       "fwbackups/ui/gtk/main.ui",
-      "fwbackups/ui/gtk/path_dia.ui",
       "fwbackups/ui/gtk/preferences.ui",
       "fwbackups/ui/gtk/restore.ui",
-      "fwbackups/ui/gtk/save_dia.ui",
-      "fwbackups/ui/gtk/template.ui",
       "fwbackups/ui/gtk/warning_dia.ui",
     ]
     self.ui = loader.UILoader(ui_files, self)
