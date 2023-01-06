@@ -18,9 +18,13 @@
 """
 This file contains generic code needed for all of the engines
 """
+
+
 class EngineError(Exception):
-  """An Engine error"""
-  def __init__(self, value):
-    self.value = value
-  def __str__(self):
-    return repr(self.value)
+    """An Engine error"""
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)

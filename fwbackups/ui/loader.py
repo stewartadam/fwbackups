@@ -26,23 +26,24 @@ from gi.repository import Gtk  # noqa: E402
 
 
 class UILoader:
-  """
-  Helper class to automatically load UI objects by name and wire signals.
-  """
-  def __init__(self, filenames, signals_from=None):
-    if signals_from is not None:
-      handlers = {}
-      # get the bound class methods for the instance passed given the methods on the type definition
-      # avoids a RuntimeError introspecting properties of Gtk.* parent classes
-      methods = [(ref_name, getattr(signals_from, ref_name)) for ref_name, ref in type(signals_from).__dict__.items() if isinstance(ref, (FunctionType, classmethod, staticmethod))]
-      handlers.update(methods)
+    """
+    Helper class to automatically load UI objects by name and wire signals.
+    """
 
-    self._builder = Gtk.Builder() if handlers is None else Gtk.Builder(handlers)
-    for filename in filenames:
-      self._builder.add_from_file(filename)
+    def __init__(self, filenames, signals_from=None):
+        if signals_from is not None:
+            handlers = {}
+            # get the bound class methods for the instance passed given the methods on the type definition
+            # avoids a RuntimeError introspecting properties of Gtk.* parent classes
+            methods = [(ref_name, getattr(signals_from, ref_name)) for ref_name, ref in type(signals_from).__dict__.items() if isinstance(ref, (FunctionType, classmethod, staticmethod))]
+            handlers.update(methods)
 
-    for buildable_obj in self._builder.get_objects():
-      if isinstance(buildable_obj, Gtk.Buildable):
-        buildable_id = Gtk.Buildable.get_buildable_id(buildable_obj)
-        if buildable_id is not None:
-          setattr(self, buildable_id, buildable_obj)
+        self._builder = Gtk.Builder() if handlers is None else Gtk.Builder(handlers)
+        for filename in filenames:
+            self._builder.add_from_file(filename)
+
+        for buildable_obj in self._builder.get_objects():
+            if isinstance(buildable_obj, Gtk.Buildable):
+                buildable_id = Gtk.Buildable.get_buildable_id(buildable_obj)
+                if buildable_id is not None:
+                    setattr(self, buildable_id, buildable_obj)
