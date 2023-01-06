@@ -1070,7 +1070,8 @@ class fwbackupsApp(Adw.Application):
   def on_backupset2LocalFolderEntry_changed(self, widget):
     """Called when the set destination entry changes.
         Check the permissions when the set destination change."""
-    self._checkDestPerms(widget.get_text(), self.ui.backupset2FolderPermissionImage)
+    icon_name = widgets.get_access_icon_for_path(widget.get_text())
+    self.ui.backupset2FolderPermissionImage.set_from_icon_name(icon_name)
 
   def on_backupset2HidePasswordCheck_toggled(self, widget):
     """Should we display plaintext passwords instead of circles?"""
@@ -1464,7 +1465,8 @@ class fwbackupsApp(Adw.Application):
   def on_main3LocalFolderEntry_changed(self, widget):
     """Called when the one-time destination's entry changes.
         Checks the permissions when the onetime destination changed."""
-    self._checkDestPerms(widget.get_text(), self.ui.main3FolderPermissionImage)
+    icon_name = widgets.get_access_icon_for_path(widget.get_text())
+    self.ui.main3FolderPermissionImage.set_from_icon_name(icon_name)
 
   def on_main3FolderBrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
@@ -1552,12 +1554,6 @@ class fwbackupsApp(Adw.Application):
     for table in tables:
       table.set_sensitive(False)
     tables[active].set_sensitive(True)
-
-  def _checkDestPerms(self, path, image):
-    if fwbackups.CheckPerms(path, mustExist=True):
-      image.set_from_icon_name("emblem-ok-symbolic")
-    else:
-      image.set_from_icon_name("emblem-unreadable")
 
   def _setRestoreSetName(self, setName):
     """Set the box choices based on setname"""
@@ -1847,7 +1843,8 @@ class fwbackupsApp(Adw.Application):
     self.ui.restore1PasswordEntry.set_visibility(not widget.get_active())
 
   def on_restore1DestinationEntry_changed(self, widget):
-    self._checkDestPerms(widget.get_text(), self.ui.restore1DestinationPermissionImage)
+    icon_name = widgets.get_access_icon_for_path(widget.get_text())
+    self.ui.restore1DestinationPermissionImage.set_from_icon_name(icon_name)
 
   def on_restore1BrowseButton_clicked(self, widget):
     """Open the file browser to choose a folder"""
@@ -2037,7 +2034,7 @@ class fwbackupsApp(Adw.Application):
     self.ui.backupset2RemoteFolderEntry.set_text(setConf.get('Options', 'RemoteFolder'))
     t = setConf.get('Options', 'Destination')
     self.ui.backupset2LocalFolderEntry.set_text(t)
-    self._checkDestPerms(t, self.ui.backupset2FolderPermissionImage)
+
     # Restore options
     t = setConf.get('Options', 'Enabled')
     if t == '1':

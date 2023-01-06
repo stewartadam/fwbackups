@@ -492,14 +492,11 @@ class WarningDia(GenericDia):
       self.dontShowMe.hide()
     GenericDia.destroy(self)
 
-###################################################
 
 class View:
-  """Generic view class. Should be subclassed."""
-  def __init__(self):
-    """Nothing here"""
-    pass
-
+  """
+  Generic view class. Should be subclassed.
+  """
   def _buildListstoreIndex(self, liststore, col):
     """Build a list of all values in a liststore"""
     items = []
@@ -509,14 +506,6 @@ class View:
       item = liststore.iter_next(item)
     return items
 
-  def _checkDestPerms(self, path, imgwidget):
-    """Check perms on a path and set image accordingly"""
-    if fwbackups.CheckPerms(path, mustExist=True):
-      imgwidget.set_from_stock('gtk-yes', Gtk.IconSize.BUTTON)
-      return True
-    else:
-      imgwidget.set_from_stock('gtk-no', Gtk.IconSize.BUTTON)
-      return False
 
 class PathView(View):
   """Wrapper for paths in a treeview"""
@@ -529,7 +518,7 @@ class PathView(View):
 
     # Give it columns
     cell = Gtk.CellRendererPixbuf()
-    col = Gtk.TreeViewColumn(_('Access'), cell) # FIXME: stock_id
+    col = Gtk.TreeViewColumn(_('Access'), cell, icon_name=0)
     col.set_resizable(True)
     self.treeview.append_column(col)
 
@@ -640,10 +629,7 @@ class PathView(View):
         values.index(path)
       except ValueError:
         # path wasn't found, add it
-        if fwbackups.CheckPermsRead(path, mustExist=True):
-          self.liststore.append(['gtk-yes', path])
-        else:
-          self.liststore.append(['gtk-no', path])
+        self.liststore.append([get_access_icon_for_path(path), path])
 
   def removePath(self):
     """Remote a path from the pathview"""
@@ -661,11 +647,7 @@ class PathView(View):
 
   def load(self, config):
     for path in config.getPaths():
-      # Comment note above abote UTF-8 stored strings in the UI
-      if fwbackups.CheckPermsRead(path, mustExist=True):
-        self.liststore.append(['gtk-yes', path.encode('utf-8')])
-      else:
-        self.liststore.append(['gtk-no', path.encode('utf-8')])
+      self.liststore.append([get_access_icon_for_path(path), path])
 
   def refresh(self, config):
     self.clear()
@@ -765,3 +747,10 @@ def doGtkEvents():
   context = GLib.MainContext.default()
   while GLib.MainContext.pending(context):
     GLib.MainContext.iteration(context)
+
+
+def get_access_icon_for_path(path):
+  if fwbackups.CheckPerms(path, mustExist=True):
+    return 'emblem-default-symbolic'
+  else:
+    return 'action-unavailable-symbolic'
