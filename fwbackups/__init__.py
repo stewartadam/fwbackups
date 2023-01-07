@@ -9,8 +9,7 @@ from threading import Thread
 from .i18n import encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
-__status__ = "beta"
-__version__ = "1.43.6"  # FIXME
+__version__ = "1.43.8"
 __license__ = "GNU GPLv2+"
 
 
