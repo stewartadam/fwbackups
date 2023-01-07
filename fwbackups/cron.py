@@ -24,11 +24,8 @@ import re
 import subprocess
 import tempfile
 
-from .i18n import _, encode
-from . import const as constants
-
 from fwbackups import execute
-from fwbackups import config
+from . import const as constants
 
 
 class CronError(Exception):
@@ -128,45 +125,14 @@ class crontabLine(rawCrontabLine):
         return ' '.join(fields).rstrip() + '\n'
 
 
-def getPyCrontab():
-    """Read the PyCron crontab file on Windows"""
-    prefConf = config.PrefsConf()
-    pycronLoc = prefConf.get('Preferences', 'pycronLoc')
-    # See if the configuration file exists
-    pycronConfig = os.path.join(encode(pycronLoc), 'pycron.cfg')
-    if os.path.exists(pycronConfig):
-        pycronConf = config.ConfigFile(pycronConfig)
-    # If not, does the sample configuation exist?
-    elif os.path.exists('%s.sample' % pycronConfig):
-        pycronConf = config.ConfigFile('%s.sample' % pycronConfig)
-    # No cron file found!
-    else:
-        raise CronError(_("Could not locate the pycron or the sample pycron configuration in %s" % pycronLoc))
-    # Read in the configuration file we found
-    pycrontab = os.path.join(pycronLoc, pycronConf.get('pycron', 'crontab_filename'))
-    if not os.path.exists(pycrontab):
-        try:
-            fh = open(pycrontab, 'w', encoding="utf-8")
-            fh.write('# PyCron crontab file\n')
-            fh.close()
-        except BaseException:
-            raise CronError(_("Could not locate the pycron or the sample pycron crontab file in %s" % pycronLoc))
-    return pycrontab
-
-
 def read():
     """Read in crontab entires from a crontab-formatted file. Returns a list of
     rawCrontabLine objects, one for each line."""
-    if constants.MSWINDOWS:
-        # Read from pycron's crontab file
-        crontabLoc = getPyCrontab()
-        fh = open(crontabLoc, 'rb')
-    else:
-        # Read from the user's crontab
-        retval, stdout, stderr = execute(['crontab', '-l'], stdoutfd=subprocess.PIPE, text=False)
-        if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to remove
-            raise CronError(f"Failure to remove crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
-        fh = stdout
+    # Read from the user's crontab
+    retval, stdout, stderr = execute(['crontab', '-l'], stdoutfd=subprocess.PIPE, text=False)
+    if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to remove
+        raise CronError(f"Failure to remove crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
+    fh = stdout
     # Parse the lines
     lines = [rawCrontabLine(line) for line in fh.readlines()]
     if constants.MSWINDOWS:
@@ -180,14 +146,9 @@ def write(crontabEntries=[]):
     respectively."""
     remove()
     try:
-        if constants.MSWINDOWS:
-            # We'll edit PyCrontab directly
-            crontab = getPyCrontab()
-            fh = open(crontab, 'wb')
-        else:
-            # We'll create a temporary file to pass to crontab as input
-            fd, path = tempfile.mkstemp()
-            fh = os.fdopen(fd, 'wb')
+        # We'll create a temporary file to pass to crontab as input
+        fd, path = tempfile.mkstemp()
+        fh = os.fdopen(fd, 'wb')
 
         for crontabEntry in crontabEntries:
             if isinstance(crontabEntry, crontabLine):  # generate the entry text
@@ -208,15 +169,9 @@ def write(crontabEntries=[]):
 
 def remove():
     """Removes/empties a user's crontab"""
-    if constants.MSWINDOWS:
-        crontab = getPyCrontab()
-        fh = open(crontab, 'wb')
-        fh.write('')
-        fh.close()
-    else:
-        retval, stdout, stderr = execute(['crontab', '-r'])
-        if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to list
-            raise CronError(f"Failure to read crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
+    retval, stdout, stderr = execute(['crontab', '-r'])
+    if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to list
+        raise CronError(f"Failure to read crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
 
 
 def clean_fwbackups_entries():

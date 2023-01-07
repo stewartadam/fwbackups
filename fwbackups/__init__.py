@@ -128,15 +128,3 @@ def runFuncAsThread(functorun, *kargs):
     thread = FuncAsThread(functorun, kargs)
     thread.start()
     return thread
-
-
-def getPyCronDir():
-    import winreg
-    try:
-        k = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Python Cron Service_is1")
-    except EnvironmentError:
-        print("You must install PyCron to run this program.")
-        print("Press any key to continue")
-        sys.exit(1)
-    cronDir = winreg.QueryValueEx(k, "InstallLocation")[0]
-    return cronDir

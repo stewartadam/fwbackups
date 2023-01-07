@@ -166,7 +166,6 @@ class fwbackupsApp(Adw.Application):
             adjustment.set_page_size(0)
 
         if constants.MSWINDOWS:
-            self.ui.preferencesWindowsFrame.set_sensitive(True)
             self.ui.backupset5NiceScale.set_value(0.0)
             self.ui.backupset5NiceScale.set_sensitive(False)
             self.ui.main3NiceScale.set_value(0.0)
@@ -325,17 +324,6 @@ class fwbackupsApp(Adw.Application):
         self.statusbar = widgets.StatusBar(self.ui.statusbar1)
         self.ExportView1 = widgets.ExportView(self.ui.ExportTreeview, self.statusbar, self.ui)
 
-        # Tray icon was removed in GTK4
-        prefs.set('Preferences', 'ShowTrayIcon', 0)
-        prefs.set('Preferences', 'MinimizeTrayClose', 0)
-        prefs.set('Preferences', 'StartMinimized', 0)
-        self.ui.preferencesShowTrayIconCheck.set_active(False)
-        self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
-        self.ui.preferencesMinimizeTrayCloseCheck.set_active(False)
-        self.ui.preferencesMinimizeTrayCloseCheck.set_sensitive(False)
-        self.ui.preferencesStartMinimizedCheck.set_active(False)
-        self.ui.preferencesStartMinimizedCheck.set_sensitive(False)
-
         self._setDefaults()
         # Clean up, clean up, everybody do your share...
         if os.path.exists('/etc/crontab') and fwbackups.CheckPermsRead('/etc/crontab'):
@@ -370,10 +358,7 @@ class fwbackupsApp(Adw.Application):
         # Welcome...
         self.operationInProgress = False
         self.logger.logmsg('INFO', _('fwbackups administrator started'))
-
-        # only if both are true, ie both say open normally
-        if not prefs.getboolean('Preferences', 'StartMinimized') and not minimized:
-            self.ui.main.show()
+        self.ui.main.show()
 
     def _checkLogSize(self):
         """Check the log size, clear if needed"""
@@ -439,10 +424,13 @@ class fwbackupsApp(Adw.Application):
     ### WRAPPERS ###
     ###
 
-    def trayNotify(self, event_type, title, body, category='transfer'):
+    def sendNotification(self, event_type, title, body, category='transfer'):
         """
         Trigger an OS notification
         """
+        prefs = config.PrefsConf()
+        if not prefs.getboolean('Preferences', 'ShowNotifications'):
+            return
         notification = Gio.Notification()
         notification.set_title(title)
         notification.set_body(body)
@@ -847,25 +835,8 @@ class fwbackupsApp(Adw.Application):
         # HKCU\Software\Microsoft\Windows\CurrentVersion\Run
         # HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit
         # HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows\{Run,Load}
-        self.ui.preferencesShowTrayIconCheck.set_active(prefs.getboolean('Preferences', 'ShowTrayIcon'))
-        self.ui.preferencesMinimizeTrayCloseCheck.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
-        self.ui.preferencesStartMinimizedCheck.set_active(prefs.getboolean('Preferences', 'StartMinimized'))
         self.ui.preferencesShowNotificationsCheck.set_active(prefs.getboolean('Preferences', 'ShowNotifications'))
-        if constants.MSWINDOWS:
-            import winreg
-            k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-            try:
-                winreg.QueryValueEx(k, 'fwbackups')
-                exists = True
-            except BaseException:
-                exists = False
-        elif constants.LINUX:
-            exists = constants.USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').exists()
-        elif constants.DARWIN:  # FIXME: Figure out autostart on OS X
-            exists = False
-        self.ui.preferencesSessionStartupCheck.set_active(exists)
         self.ui.preferencesAlwaysShowDebugCheck.set_active(prefs.getboolean('Preferences', 'AlwaysShowDebug'))
-        self.ui.preferencesMinimizeTrayCloseCheck.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
         tempDir = prefs.get('Preferences', 'TempDir')
         if (tempDir):
             self.ui.preferencesCustomizeTempDirCheck.set_active(True)
@@ -875,9 +846,6 @@ class fwbackupsApp(Adw.Application):
             self.ui.preferencesCustomizeTempDirEntry.set_text('')
             self.ui.preferencesCustomizeTempDirEntry.set_sensitive(False)
             self.ui.preferencesCustomizeTempDirBrowseButton.set_sensitive(False)
-
-        if constants.MSWINDOWS:
-            self.ui.preferencesPycronEntry.set_text(prefs.get('Preferences', 'pycronLoc'))
 
     # HELP MENU
     def on_about1_activate(self, widget, user_data):
@@ -892,31 +860,6 @@ class fwbackupsApp(Adw.Application):
     ### PREFERENCES ###
     ###
 
-    # FIXME: This can be optimized
-    def on_preferencesShowTrayIconCheck_toggled(self, widget):
-        """Show tray icon check"""
-        # Tray icon is removed from GTK4
-        self.ui.preferencesShowTrayIconCheck.set_active(False)
-        self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
-
-    def on_preferencesMinimizeTrayCloseCheck_toggled(self, widget):
-        """Minimize to tray on close?"""
-        prefs = config.PrefsConf()
-        # Tray icon
-        if self.ui.preferencesMinimizeTrayCloseCheck.get_active():
-            prefs.set('Preferences', 'MinimizeTrayClose', 1)
-        else:
-            prefs.set('Preferences', 'MinimizeTrayClose', 0)
-
-    def on_preferencesStartMinimizedCheck_toggled(self, widget):
-        """Start minimized?"""
-        prefs = config.PrefsConf()
-        # Tray icon
-        if self.ui.preferencesStartMinimizedCheck.get_active():
-            prefs.set('Preferences', 'StartMinimized', 1)
-        else:
-            prefs.set('Preferences', 'StartMinimized', 0)
-
     def on_preferencesShowNotificationsCheck_toggled(self, widget):
         """Show notifications check"""
         prefs = config.PrefsConf()
@@ -925,31 +868,6 @@ class fwbackupsApp(Adw.Application):
             prefs.set('Preferences', 'ShowNotifications', 1)
         else:
             prefs.set('Preferences', 'ShowNotifications', 0)
-
-    def on_preferencesSessionStartupCheck_toggled(self, widget):
-        """Start fwbackups when we login"""
-        if self.ui.preferencesSessionStartupCheck.get_active():  # add
-            if constants.MSWINDOWS:
-                import winreg
-                k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-                winreg.SetValueEx(k, 'fwbackups', 0, winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(constants.INSTALL_DIR, 'fwbackups-runapp.pyw'))
-                winreg.CloseKey(k)
-            else:
-                shutil_modded.copy(os.path.join(constants.INSTALL_DIR, "fwbackups-autostart.desktop"), str(constants.USERHOME.joinpath('.config/autostart')))
-        else:  # remove
-            if constants.MSWINDOWS:
-                import winreg
-                try:
-                    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-                    winreg.DeleteValue(k, 'fwbackups')
-                    winreg.CloseKey(k)
-                except BaseException as error:
-                    self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart regkey: %s' % error))
-            else:
-                try:
-                    constants.USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').unlink()
-                except Exception as error:
-                    self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart file: %s' % error))
 
     def on_preferencesAlwaysShowDebugCheck_toggled(self, widget):
         """Set always debug"""
@@ -969,20 +887,6 @@ class fwbackupsApp(Adw.Application):
             if option.lower().startswith('dontshowme_'):
                 prefs.set('Preferences', option, 0)
                 self.logger.logmsg('DEBUG', _('Resetting preference \'%(a)s\' to 0' % {'a': option}))
-
-    def on_preferencesPycronBrowseButton_clicked(self, widget):
-        """Open the file browser"""
-        widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.ui.main,
-                                           Gtk.FileChooserAction.SELECT_FOLDER,
-                                           _("_Open"), _("_Cancel"))
-        fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.main,
-                                     Gtk.FileChooserAction.SELECT_FOLDER,
-                                     multiple=False)
-        response = fileDialog.run()
-        if response == Gtk.ResponseType.ACCEPT:
-            pycronInstallDir = fileDialog.get_filenames()[0]
-            self.ui.preferencesPycronEntry.set_text(pycronInstallDir)
-        fileDialog.destroy()
 
     def on_preferencesCustomizeTempDirCheck_toggled(self, widget):
         active = self.ui.preferencesCustomizeTempDirCheck.get_active()
@@ -1011,25 +915,6 @@ class fwbackupsApp(Adw.Application):
 
         tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text()
         prefs.set('Preferences', 'TempDir', tempDir)
-
-        if constants.MSWINDOWS:
-            pycronLoc = self.ui.preferencesPycronEntry.get_text()
-            if not pycronLoc:
-                self.displayInfo(self.ui.preferences,
-                                 _('Missing information'),
-                                 _('Please enter a Pycron installation directory.'))
-                return
-            if not os.path.exists('%s/pycron.cfg' % pycronLoc) and not os.path.exists('%s/pycron.cfg.sample' % pycronLoc):
-                self.displayInfo(self.ui.preferences,
-                                 _('Configuration not found'),
-                                 _('The pycron configuration file was not found in ' +
-                                   'the directory entered. Please ensure that pycron ' +
-                                   'is installed in the selected installation folder ' +
-                                   'and that it contains either a pycron configuration file ' +
-                                   'or the sample pycron configuration.'))
-                return
-            else:
-                prefs.set('Preferences', 'pycronLoc', pycronLoc)
         self.ui.preferences.hide()
 
     ###
@@ -2376,7 +2261,7 @@ class fwbackupsApp(Adw.Application):
         self.operationInProgress = True
         self.setStatus(_('Initializing'))
         if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-            self.trayNotify('backup.started', _('Backup started'), _('Starting a set backup operation of \'%(a)s\'' % {'a': name}))
+            self.sendNotification('backup.started', _('Backup started'), _('Starting a set backup operation of \'%(a)s\'' % {'a': name}))
         self._toggleLocked(True, [self.ui.BackupSetsRadioTool])
         self.main2BackupProgress.startPulse()
         self.main2BackupProgress.set_text(_('Please wait...'))
@@ -2417,15 +2302,15 @@ class fwbackupsApp(Adw.Application):
         self.main2BackupProgress.set_fraction(1.0)
         if self.backupThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.complete')
+                self.sendNotification(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.complete')
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
         elif self.backupThread.retval == -1 or self.backupThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.error')
         else:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The automatic backup operation of set `%(a)s\' was cancelled' % {'a': name}), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The automatic backup operation of set `%(a)s\' was cancelled' % {'a': name}), category='transfer.error')
             self.setStatus(_('<span color="red">Operation cancelled</span>'))
             self.main2BackupProgress.set_text(_('Operation cancelled'))
         self.ui.main2CancelBackupButton.hide()
@@ -2532,7 +2417,7 @@ class fwbackupsApp(Adw.Application):
         self.operationInProgress = True
         self.setStatus(_('Initializing'))
         if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-            self.trayNotify(fwbackups.EventType.BACKUP_STARTED.name, _('Backup started'), _('Starting a one-time backup operation'))
+            self.sendNotification(fwbackups.EventType.BACKUP_STARTED.name, _('Backup started'), _('Starting a one-time backup operation'))
         self._toggleLocked(True, [self.ui.OneTimeRadioTool])
         action_names = ["one_time_backup1"]
         for action_name in action_names:
@@ -2576,17 +2461,17 @@ class fwbackupsApp(Adw.Application):
         self.main3BackupProgress.set_fraction(1.0)
         if self.backupThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the one-time backup operation'))
+                self.sendNotification(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the one-time backup operation'))
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
         elif self.backupThread.retval == -1 or self.backupThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the one-time backup operation'), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the one-time backup operation'), category='transfer.error')
             # just incase we have leftover stuff running
             self.backupHandle.cancelOperation()
         else:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The one-time backup operation was cancelled', category='transfer.error'))
+                self.sendNotification(fwbackups.EventType.BACKUP_CANCELLED.name, _('Backup cancelled'), _('The one-time backup operation was cancelled', category='transfer.error'))
             self.setStatus(_('<span color="red">Operation cancelled</span>'))
             self.main3BackupProgress.set_text(_('Operation cancelled'))
         self.ui.main3FinishButton.show()
@@ -2622,7 +2507,7 @@ class fwbackupsApp(Adw.Application):
         self.operationInProgress = True
         self.setStatus(_('Initializing'))
         if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-            self.trayNotify(fwbackups.EventType.RESTORE_STARTED.name, _('Restore started'), _('Starting a restore operation'))
+            self.sendNotification(fwbackups.EventType.RESTORE_STARTED.name, _('Restore started'), _('Starting a restore operation'))
         self._toggleLocked(True, [self.ui.restore])
         self.restore2RestorationProgress.startPulse()
         self.restore2RestorationProgress.set_text(_('Please wait...'))
@@ -2660,18 +2545,18 @@ class fwbackupsApp(Adw.Application):
         self.restore2RestorationProgress.set_fraction(1.0)
         if self.restoreThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.RESTORE_STARTED.name, _('Restore finished'), _('Finished the restore operation'), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.RESTORE_STARTED.name, _('Restore finished'), _('Finished the restore operation'), category='transfer.error')
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
             self.restore2RestorationProgress.set_text('')
         elif self.restoreThread.retval == -1 or self.restoreThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.RESTORE_ERROR.name, _('Error during restore'), _('An error occured while performing the restore operation'), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.RESTORE_ERROR.name, _('Error during restore'), _('An error occured while performing the restore operation'), category='transfer.error')
             # just incase we have leftover stuff running
             self.restoreHandle.cancelOperation()
         else:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
-                self.trayNotify(fwbackups.EventType.RESTORE_CANCELLED.name, _('Restore cancelled'), _('The restore operation was cancelled'), category='transfer.error')
+                self.sendNotification(fwbackups.EventType.RESTORE_CANCELLED.name, _('Restore cancelled'), _('The restore operation was cancelled'), category='transfer.error')
             self.setStatus(_('<span color="red">Operation cancelled</span>'))
             self.restore2RestorationProgress.set_text(_('Operation cancelled'))
         self.ui.restoreFinishButton.set_sensitive(True)

@@ -717,20 +717,10 @@ class PrefsConf:
         config["General"]["Type"] = "Preferences"
         # Set default options
         config["Preferences"] = {}
-        config["Preferences"]["ShowTrayIcon"] = 1
-        config["Preferences"]["MinimizeTrayClose"] = 0
-        config["Preferences"]["StartMinimized"] = 0
         config["Preferences"]["ShowNotifications"] = 1
         config["Preferences"]["DontShowMe_OldVerWarn"] = 0
         config["Preferences"]["DontShowMe_ClearLog"] = 0
         config["Preferences"]["TempDir"] = ''
-        pycronLoc = "C:\\Program Files\\pycron"
-        if constants.MSWINDOWS:
-            try:
-                pycronLoc = fwbackups.getPyCronDir()
-            except BaseException:
-                pass
-        config["Preferences"]["pycronLoc"] = pycronLoc
         config["Preferences"]["AlwaysShowDebug"] = 0
         self.__config.importDict(config)
 
@@ -755,8 +745,7 @@ class PrefsConf:
             raise ValidationError(_("Configuration section 'General' in the preferences file failed to validate"))
         # Validate Options section - remember the list is sorted
         validOptions = ['AlwaysShowDebug', 'DontShowMe_OldVerWarn',
-                        'DontShowMe_ClearLog', 'MinimizeTrayClose', 'pycronLoc',
-                        'ShowNotifications', 'ShowTrayIcon', 'StartMinimized']
+                        'DontShowMe_ClearLog', 'ShowNotifications']
         for option in sorted_copy(config["Preferences"].keys()):
             if option not in validOptions:
                 # This must be placed in a separate if statement, as if it was placed in
@@ -805,15 +794,15 @@ class PrefsConf:
                 self.__config.set('Preferences', 'startminimized', 0)
             for option in ['Version', 'Type']:
                 self.__config.set('General', option, self.__config.get('General', option.lower()))
-                self.remove_option('General', option.lower())
+                self.__config.remove_option('General', option.lower())
             for option in ['ShowTrayIcon', 'MinimizeTrayClose', 'StartMinimized',
                            'ShowNotifications', 'DontShowMe_OldVerWarn',
                            'DontShowMe_ClearLog', 'DontShowMe_NetConnectUnresponsive',
                            'pycronLoc', 'AlwaysShowDebug']:
                 self.__config.set('Preferences', option, self.__config.get('Preferences', option.lower()))
-                self.remove_option('Preferences', option.lower())
+                self.__config.remove_option('Preferences', option.lower())
             # --
-            self.remove_option('Preferences', 'DontShowMe_NetConnectUnresponsive')
+            self.__config.remove_option('Preferences', 'DontShowMe_NetConnectUnresponsive')
         # just do stuff below
         if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1',
                           '1.43.3rc2', '1.43.3rc3', '1.43.3rc4'] or fromHereUp:
@@ -862,10 +851,13 @@ class PrefsConf:
             except BaseException:  # write backup
                 cron.write(crontabLines)
                 raise
-                raise ConfigError(_("Unable to clean user crontab!"))
         if oldVersion in ['1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp:
             fromHereUp = True
             self.__config.set("Preferences", "TempDir", "")
+        if oldVersion in ['1.43.5', '1.43.6', '1.43.7'] or fromHereUp:
+            fromHereUp = True
+            for option in ['ShowTrayIcon', 'MinimizeTrayClose', 'StartMinimized', 'pycronLoc']:
+                self.__config.remove_option('Preferences', option)
 
         self.__config.set("General", "Version", fwbackups.__version__)
         return True
