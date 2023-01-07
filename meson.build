@@ -14,9 +14,15 @@ gtk4_dep = dependency('gtk4', version: '>= 4.5.0')
 adwaita_dep = dependency('libadwaita-1', version: '>= 1.2.0')
 
 # common definitions
-pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
+# pylib can be unreliable - https://github.com/mesonbuild/meson/issues/10459
 pylib = python.get_install_dir()
+pymoduledir = join_paths(pylib, meson.project_name())
 bindir = get_option('bindir')
+pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
+
+message('using prefix:', get_option('prefix'))
+message(' |- bin:', get_option('bindir'))
+message(' |- python lib dir:', pylib)
 
 conf = configuration_data()
 conf.set('PYTHON', python.full_path())
