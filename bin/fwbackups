@@ -15,7 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with fwbackups; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+import os
 import sys
+
+launched_from = os.path.dirname(os.path.realpath(__file__))
+if os.path.exists(os.path.join(launched_from, '../fwbackups/__init__.py')):  # check if we are running from source
+    sys.path.append('../fwbackups')
 
 from fwbackups.ui import main
 

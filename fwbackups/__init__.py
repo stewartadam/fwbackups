@@ -25,7 +25,7 @@ from threading import Thread
 from .i18n import encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
-__version__ = "@VERSION@"
+__version__ = "1.43.8"
 __license__ = "GPL-2.0-or-later"
 
 

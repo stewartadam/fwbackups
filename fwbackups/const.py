@@ -39,7 +39,7 @@ except ImportError:
     USER = False
 
 # Paths
-INSTALL_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
+INSTALL_DIR = os.path.abspath(os.path.dirname(__file__))
 USERHOME = pathlib.Path.home()
 
 LOC = USERHOME.joinpath('.fwbackups')  # The fwbackups configuration directory

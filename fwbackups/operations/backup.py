@@ -256,7 +256,7 @@ class BackupOperation(operations.Common):
                     self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
                     # track stdout
                     errors = []
-                    os.set_blocking(sub.stderr, False)
+                    os.set_blocking(sub.stderr.fileno(), False)
                     while sub.poll() in ["", None]:
                         time.sleep(0.01)
                         data = sub.stderr.readline()
@@ -299,7 +299,7 @@ class BackupOperation(operations.Common):
                 # track stdout
                 errors = []
                 # use nonblocking I/O
-                os.set_blocking(sub.stderr, False)
+                os.set_blocking(sub.stderr.fileno(), False)
                 while sub.poll() in ["", None]:
                     time.sleep(0.01)
                     data = sub.stderr.readline()
@@ -342,7 +342,7 @@ class BackupOperation(operations.Common):
                 # track stdout
                 errors = []
                 # use nonblocking I/O
-                os.set_blocking(sub.stderr, False)
+                os.set_blocking(sub.stderr.fileno(), False)
                 while sub.poll() in ["", None]:
                     time.sleep(0.01)
                     data = sub.stderr.readline()
@@ -392,7 +392,7 @@ class BackupOperation(operations.Common):
                         # track stdout
                         errors = []
                         # use nonblocking I/O
-                        os.set_blocking(sub.stderr, False)
+                        os.set_blocking(sub.stderr.fileno(), False)
                         while sub.poll() in ["", None]:
                             time.sleep(0.01)
                             data = sub.stderr.readline()
@@ -599,7 +599,7 @@ class SetBackupOperation(BackupOperation):
         # track stdout
         errors = []
         # use nonblocking I/O
-        os.set_blocking(sub.stderr, False)
+        os.set_blocking(sub.stderr.fileno(), False)
         while sub.poll() in ["", None]:
             time.sleep(0.01)
             data = sub.stderr.readline()
