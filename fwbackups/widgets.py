@@ -736,15 +736,16 @@ class bugReport(GenericDia):
 
 def saveFilename(parent):
     """Displays a filechooser (save) and returns the chosen filename"""
-    fileChooser = Gtk.FileChooserNative('Choose a destination', parent,
-                                        Gtk.FileChooserAction.SAVE,
-                                        _("_Save"), _("_Cancel"))
-    fileChooser.set_do_overwrite_confirmation(True)
-    if fileChooser.run() == Gtk.ResponseType.ACCEPT:
-        filename = fileChooser.get_file().get_path()
+    widget = Gtk.FileChooserNative.new(_('Choose a destination'), parent,
+                                       Gtk.FileChooserAction.SAVE,
+                                       _("_Save"), _("_Cancel"))
+    fileDialog = PathDia(widget, _('Choose file(s)'), parent, Gtk.FileChooserAction.SAVE, multiple=False)
+    response = fileDialog.run()
+    if response == Gtk.ResponseType.ACCEPT:
+        return fileDialog.get_filename()
     else:
         filename = None
-    fileChooser.destroy()
+    fileDialog.destroy()
     return filename
 
 
