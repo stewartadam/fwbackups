@@ -1650,6 +1650,7 @@
 	(28,109,"GtkCheckButton","use-underline","1",None,None,None,None,None),
 	(28,109,"GtkWidget","focusable","1",None,None,None,None,None),
 	(28,109,"GtkWidget","halign","center",None,None,None,None,None),
+	(28,109,"GtkWidget","margin-start","24",None,None,None,None,None),
 	(28,110,"GtkWidget","hexpand","1",None,None,None,None,None),
 	(28,111,"GtkLabel","label","&lt;b&gt;Backup Format&lt;/b&gt;","yes",None,None,None,None),
 	(28,111,"GtkLabel","use-markup","1",None,None,None,None,None),

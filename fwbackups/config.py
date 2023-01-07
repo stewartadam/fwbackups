@@ -23,9 +23,9 @@ import configparser
 import os
 import sys
 
+from . import const as constants
 import fwbackups
 from fwbackups.i18n import _
-from fwbackups.const import *
 
 
 class ConfigError(Exception):
@@ -50,7 +50,7 @@ class ValidationError(Exception):
 
 def _setupConf():
     """Setup the configuration directory"""
-    for directory in [LOC, SETLOC]:
+    for directory in [constants.LOC, constants.SETLOC]:
         if not os.path.exists(directory):
             try:
                 os.mkdir(directory, 0o700)
@@ -58,9 +58,9 @@ def _setupConf():
                 raise ConfigError(_("Could not create configuration folder `%s':" % error))
                 sys.exit(1)
         # Passwords that are base64-encoded are stored, so make sure they are secure
-        if LINUX or DARWIN:
-            if os.stat(LOC).st_mode != 16832:
-                os.chmod(LOC, 0o700)
+        if constants.LINUX or constants.DARWIN:
+            if os.stat(constants.LOC).st_mode != 16832:
+                os.chmod(constants.LOC, 0o700)
         if not fwbackups.CheckPerms(directory):
             raise ConfigError(_("You do not have read and write permissions on folder `%s'.") % directory)
             sys.exit(1)
@@ -208,7 +208,7 @@ class BackupSetConf:
         config["Options"]["CommandAfter"] = ''
         config["Options"]["OldToKeep"] = 1
         config["Options"]["DestinationType"] = "local"
-        config["Options"]["Destination"] = str(USERHOME)
+        config["Options"]["Destination"] = str(constants.USERHOME)
         config["Options"]["Recursive"] = 1
         config["Options"]["PkgListsToFile"] = 1
         config["Options"]["DiskInfoToFile"] = 0
@@ -248,7 +248,7 @@ class BackupSetConf:
         # The cron format changed in beta2 or beta3?
         # sparse, excludes and niceness options added in 1.43.0rc3
         # followlinks option added in 1.43.1
-        if oldVersion == '1.43' or oldVersion.startswith('1.43.0') or fromHereUp == True:
+        if oldVersion == '1.43' or oldVersion.startswith('1.43.0') or fromHereUp:
             fromHereUp = True
             cron = self.__config.get('Times', 'entry').split(' ')
             tempCron = cron[:5]
@@ -261,7 +261,7 @@ class BackupSetConf:
         # Excludes became newline-separated in 1.43.2
         # Support for remote destinations was added
         # Import in 1.43.1 for followlinks was messed up
-        if oldVersion == '1.43.1' or fromHereUp == True:
+        if oldVersion == '1.43.1' or fromHereUp:
             fromHereUp = True
             if not self.__config.has_option('Options', 'followlinks'):
                 self.__config.set('Options', 'followlinks', 0)
@@ -275,7 +275,7 @@ class BackupSetConf:
         # Beta 1 accidentally had version as '1.43.2' and there was no 1.43.2beta2
         # So the '1.43.2' version check below is targeting beta1, not the final.
         # This is why has_option is used before each option rename
-        if oldVersion in ['1.43.2beta3', '1.43.2'] or fromHereUp == True:
+        if oldVersion in ['1.43.2beta3', '1.43.2'] or fromHereUp:
             fromHereUp = True
             # For each option in each section, the lowercase option is read, written
             # to the case-sensitive equivalent, then the lowercase option is removed
@@ -301,26 +301,26 @@ class BackupSetConf:
                     self.__config.set('Options', option, self.__config.get('Options', option.lower()))
                     self.__config.remove_option('Options', option.lower())
         # Incremental backups was added in 1.43.2rc2
-        if oldVersion == '1.43.2rc1' or fromHereUp == True:
+        if oldVersion == '1.43.2rc1' or fromHereUp:
             fromHereUp = True
             if not self.__config.has_option('Options', 'Incremental'):
                 self.__config.set('Options', 'Incremental', 0)
         # Nothing for these versions, but keep doing the below
-        if oldVersion in ['1.43.2rc2', '1.43.2rc3'] or fromHereUp == True:
+        if oldVersion in ['1.43.2rc2', '1.43.2rc3'] or fromHereUp:
             fromHereUp = True
-           # Remote password was obuscated in 1.43.3rc1
-        if oldVersion == '1.43.2' or fromHereUp == True:
+            # Remote password was obuscated in 1.43.3rc1
+        if oldVersion == '1.43.2' or fromHereUp:
             fromHereUp = True
             encoded = base64.b64encode(self.__config.get('Options', 'RemotePassword').encode('ascii')).decode('ascii')
             self.__config.set('Options', 'RemotePassword', encoded)
         # Nothing for these versions, but keep doing the below
         # However, there was a typo ("Sparce" vs "Sparse") in the upgrade procedures
         # of previous versions, leaving a lowercase "sparce" key in the config
-        if oldVersion in ['1.43.3rc1', '1.43.3rc2'] or fromHereUp == True:
+        if oldVersion in ['1.43.3rc1', '1.43.3rc2'] or fromHereUp:
             fromHereUp = True
             if self.__config.has_option("Options", "sparce"):
                 self.__config.remove_option("Options", "sparce")
-        if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp == True:
+        if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp:
             fromHereUp = True
 
         # Now that the configuration file been imported, reset the version option
@@ -356,7 +356,7 @@ class BackupSetConf:
                         'Recursive', 'RemoteFolder', 'RemoteHost', 'RemotePassword', 'RemotePort',
                         'RemoteUsername', 'Sparse']
         for option in sorted_copy(config["Options"].keys()):
-            if not option in validOptions:
+            if option not in validOptions:
                 # This must be placed in a separate if statement, as if it was placed in
                 # the above statement when strictValidation=False and an invalid option
                 # is present, validOptions.remove(option) is attempted and fails
@@ -389,14 +389,14 @@ class BackupSetConf:
         """Returns the cron line in text form"""
         try:
             entry = self.__config.get('Times', 'Entry').split(' ')[:5]
-            if MSWINDOWS:  # needs an abs path because pycron=system user
-                entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, INSTALL_DIR, fwbackups.escapeQuotes(self.getSetName(), 2)))
+            if constants.MSWINDOWS:  # needs an abs path because pycron=system user
+                entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, constants.INSTALL_DIR, fwbackups.escapeQuotes(self.getSetName(), 2)))
             else:
                 entry.append('fwbackups-run -l \'%s\'' % fwbackups.escapeQuotes(self.getSetName(), 1))
             # Add signature to end
-            entry.append(CRON_SIGNATURE)
+            entry.append(constants.CRON_SIGNATURE)
             return entry
-        except Exception as error:
+        except Exception:
             return None
 
     def save(self, paths, options, times, mergeDefaults=False):
@@ -472,7 +472,7 @@ class OneTimeConf:
         # Set default options
         config["Options"] = {}
         config["Options"]["DestinationType"] = "local"
-        config["Options"]["Destination"] = str(USERHOME)
+        config["Options"]["Destination"] = str(constants.USERHOME)
         config["Options"]["Recursive"] = 1
         config["Options"]["PkgListsToFile"] = 1
         config["Options"]["DiskInfoToFile"] = 0
@@ -515,7 +515,7 @@ class OneTimeConf:
                         'Nice', 'PkgListsToFile', 'Recursive', 'RemoteFolder', 'RemoteHost',
                         'RemotePassword', 'RemotePort', 'RemoteUsername', 'Sparse']
         for option in sorted_copy(config["Options"].keys()):
-            if not option in validOptions:
+            if option not in validOptions:
                 # This must be placed in a separate if statement, as if it was placed in
                 # the above statement when strictValidation=False and an invalid option
                 # is present, validOptions.remove(option) is attempted and fails
@@ -609,8 +609,8 @@ class RestoreConf:
         # Set default options
         config["Options"] = {}
         config["Options"]["SourceType"] = "local"
-        config["Options"]["Source"] = str(USERHOME)
-        config["Options"]["Destination"] = str(USERHOME)
+        config["Options"]["Source"] = str(constants.USERHOME)
+        config["Options"]["Destination"] = str(constants.USERHOME)
         config["Options"]["RemoteHost"] = ''
         config["Options"]["RemotePort"] = ''
         config["Options"]["RemoteUsername"] = ''
@@ -641,7 +641,7 @@ class RestoreConf:
         validOptions = ['Destination', 'RemoteHost', 'RemotePassword', 'RemotePort',
                         'RemoteSource', 'RemoteUsername', 'Source', 'SourceType']
         for option in sorted_copy(config["Options"].keys()):
-            if not option in validOptions:
+            if option not in validOptions:
                 # This must be placed in a separate if statement, as if it was placed in
                 # the above statement when strictValidation=False and an invalid option
                 # is present, validOptions.remove(option) is attempted and fails
@@ -698,7 +698,7 @@ class PrefsConf:
         """Opens the user preferences file (at PREFSLOC) and ensures that it is
            valid. If create is True, then a new configuration file will be created
            if none already exists."""
-        self.__config = ConfigFile(PREFSLOC, create)
+        self.__config = ConfigFile(constants.PREFSLOC, create)
 
         if not self.__config.sections() and create:
             self.__initialize()
@@ -725,7 +725,7 @@ class PrefsConf:
         config["Preferences"]["DontShowMe_ClearLog"] = 0
         config["Preferences"]["TempDir"] = ''
         pycronLoc = "C:\\Program Files\\pycron"
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             try:
                 pycronLoc = fwbackups.getPyCronDir()
             except BaseException:
@@ -748,7 +748,7 @@ class PrefsConf:
             raise ValidationError(_("Preferences failed to pass section validation"))
         # Ensure the set configuration is really a set configuration file
         if self.__config.get("General", "Type") != "Preferences":
-            raise ValidationError(_(f"'{PREFSLOC}' is not a fwbackups preferences file."))
+            raise ValidationError(_(f"'{constants.PREFSLOC}' is not a fwbackups preferences file."))
         # Check that all required values are present
         # Validate General section - remember the list is sorted
         if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:
@@ -758,7 +758,7 @@ class PrefsConf:
                         'DontShowMe_ClearLog', 'MinimizeTrayClose', 'pycronLoc',
                         'ShowNotifications', 'ShowTrayIcon', 'StartMinimized']
         for option in sorted_copy(config["Preferences"].keys()):
-            if not option in validOptions:
+            if option not in validOptions:
                 # This must be placed in a separate if statement, as if it was placed in
                 # the above statement when strictValidation=False and an invalid option
                 # is present, validOptions.remove(option) is attempted and fails
@@ -783,20 +783,20 @@ class PrefsConf:
         fromHereUp = False
         # just make it add stuff from next
         # remember, preferences first started in 1.43.0 final
-        if oldVersion == '1.43.0' or fromHereUp == True:
+        if oldVersion == '1.43.0' or fromHereUp:
             fromHereUp = True
         # I added log verbosity overrides, pycron support (win32), network warning
         # (don't show me) in 1.43.2beta1
-        if oldVersion == '1.43.1' or fromHereUp == True:
+        if oldVersion == '1.43.1' or fromHereUp:
             fromHereUp = True
             self.__config.set('Preferences', 'alwaysshowdebug', 0)
             self.__config.set('Preferences', 'pycronloc', 'C:\\Program Files\\pycron')
             self.__config.set('Preferences', 'dontshowme_netconnectunresponsive', 0)
         # just do the other stuff
-        if oldVersion == '1.43.2beta1' or fromHereUp == True:
+        if oldVersion == '1.43.2beta1' or fromHereUp:
             fromHereUp = True
         # There was no 1.43.2beta2
-        if oldVersion == '1.43.2beta3' or fromHereUp == True:
+        if oldVersion == '1.43.2beta3' or fromHereUp:
             fromHereUp = True
             # we forgot to add the 1.43.2beta2 if clause in 1.43.2beta3
             if not self.__config.has_option('Preferences', 'minimizetrayclose'):
@@ -816,9 +816,9 @@ class PrefsConf:
             self.remove_option('Preferences', 'DontShowMe_NetConnectUnresponsive')
         # just do stuff below
         if oldVersion in ['1.43.2rc1', '1.43.2rc2', '1.43.2rc3', '1.43.2', '1.43.3rc1',
-                          '1.43.3rc2', '1.43.3rc3', '1.43.3rc4'] or fromHereUp == True:
+                          '1.43.3rc2', '1.43.3rc3', '1.43.3rc4'] or fromHereUp:
             fromHereUp = True
-        if oldVersion == '1.43.3rc5' or fromHereUp == True:
+        if oldVersion == '1.43.3rc5' or fromHereUp:
             fromHereUp = True
             # In 1.43.3rc5 we added an "# autogenerated" comment to any of the crontab
             # entries fwbackups generates to distinguish them. This removes any
@@ -843,26 +843,27 @@ class PrefsConf:
                     if line.get_raw_entry_text().find('fwbackups-run') == -1:
                         cleanedLines.append(line)
             # re-schedule current sets
-            files = sorted(os.listdir(SETLOC))
+            files = sorted(os.listdir(constants.SETLOC))
             for file in files:
                 if file.endswith('.conf') and file != 'temporary_config.conf':
                     try:
-                        setPath = os.path.join(SETLOC, file)
+                        setPath = os.path.join(constants.SETLOC, file)
                         setConf = BackupSetConf(setPath)
                         entry = setConf.getCronLineText()
                         crontabLine = cron.crontabLine(*entry)
                         if not crontabLine.is_parsable():
                             continue
                         cleanedLines.append(crontabLine)
-                    except Exception as error:
-                        continue  # set or cron entry text is not parsable, just move on
+                    except Exception:
+                        # set or cron entry text is not parsable, just move on
+                        continue
             try:  # write cleaned lines
                 cron.write(cleanedLines)
             except BaseException:  # write backup
                 cron.write(crontabLines)
                 raise
                 raise ConfigError(_("Unable to clean user crontab!"))
-        if oldVersion in ['1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp == True:
+        if oldVersion in ['1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp:
             fromHereUp = True
             self.__config.set("Preferences", "TempDir", "")
 
@@ -895,8 +896,8 @@ class PrefsConf:
         # Backup the current configuration in a dict in case it needs to be restored
         backup = self.__config.generateDict()
         # Remove the current configuration & create a blank one
-        os.remove(PREFSLOC)
-        self.__config = ConfigFile(PREFSLOC, True)
+        os.remove(constants.PREFSLOC)
+        self.__config = ConfigFile(constants.PREFSLOC, True)
         if mergeDefaults:
             self.__initialize()
         # Generate a new dictionary config dump, then import it
@@ -913,7 +914,7 @@ class PrefsConf:
         try:  # Attempt to validate the file
             self.__validate()
         except BaseException:  # Restore original backup configuration and raise an error
-            os.remove(PREFSLOC)
-            self.__config = ConfigFile(PREFSLOC, True)
+            os.remove(constants.PREFSLOC)
+            self.__config = ConfigFile(constants.PREFSLOC, True)
             self.__config.importDict(backup)
             raise

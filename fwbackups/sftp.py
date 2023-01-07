@@ -47,7 +47,7 @@ def exists(sftp, path):
     try:
         sftp.stat(path)
         return True
-    except IOError as errorDesc:
+    except IOError:
         return False
 
 

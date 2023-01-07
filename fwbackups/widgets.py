@@ -23,12 +23,13 @@ Classes used by the GUI, mostly to make callbacks easier
 import codecs
 import logging
 import os
+import platform
 import re
 import threading
 import time
 from xml.sax.saxutils import escape
 from fwbackups.i18n import _
-from fwbackups.const import *
+from . import const as constants
 import fwbackups
 from fwbackups import fwlogger
 
@@ -156,7 +157,7 @@ class TextViewConsole:
 
     def history(self):
         """Get + print all old log messages stored in the log file"""
-        stream = open(LOGLOC, 'r', encoding='UTF-8')
+        stream = open(constants.LOGLOC, 'r', encoding='UTF-8')
         text = stream.read()
         stream.close()
         if text.strip() != '':
@@ -172,7 +173,7 @@ class TextViewLogHandler(logging.FileHandler):
     """Python logging handler for writing in a TextViewConsole AND a file"""
 
     def __init__(self, console):
-        logging.FileHandler.__init__(self, LOGLOC)
+        logging.FileHandler.__init__(self, constants.LOGLOC)
         self.console = console
         self.history()
         self.stream = None
@@ -180,7 +181,7 @@ class TextViewLogHandler(logging.FileHandler):
 
     def history(self):
         """Get + print all old log messages stored in the log file"""
-        stream = open(LOGLOC, 'r')
+        stream = open(constants.LOGLOC, 'r')
         text = stream.read()
         stream.close()
         if text.strip() != '':
@@ -201,7 +202,7 @@ class TextViewLogHandler(logging.FileHandler):
 
     def emit(self, record):
         """Emit a message"""
-        self.stream = open(LOGLOC, 'a')
+        self.stream = open(constants.LOGLOC, 'a')
         msg = self.format(record)
 
         if self.console:
@@ -212,19 +213,16 @@ class TextViewLogHandler(logging.FileHandler):
             else:
                 self.console.write_line("%s\n" % msg, self.console.style_err)
         fs = "%s\n"
-        if not hasattr(types, "UnicodeType"):  # if no unicode support...
+        try:
             self.stream.write(fs % msg)
-        else:
-            try:
-                self.stream.write(fs % msg)
-            except UnicodeError:
-                self.stream.write(fs % msg.encode("UTF-8"))
+        except UnicodeError:
+            self.stream.write(fs % msg.encode("UTF-8"))
         self.flush()
 
     def clear(self):
         """Clear the log file and the text view"""
         self.console.clear()
-        stream = open(LOGLOC, 'w')
+        stream = open(constants.LOGLOC, 'w')
         stream.write('')
         stream.close()
         if self.stream:
@@ -585,12 +583,12 @@ class PathView(View):
                 if i == -1:
                     return None  # //something
                 if i == 2:
-                    if MSWINDOWS:
+                    if constants.MSWINDOWS:
                         return unescape(uri[3:])  # ///path - from the removal of file:///
                     else:
                         return unescape(uri[2:])  # ///path - from the removal of file:// as we need / (is root)
                 remote_host = uri[2:i]
-                if remote_host == our_host_name():
+                if remote_host in ['localhost', platform.node()]:
                     return unescape(uri[i:])  # //localhost/path
                 # //otherhost/path
             elif uri[:5].lower() == 'file:':
@@ -711,9 +709,8 @@ class ExportView(View):
 
     def _load(self):
         """Load all set .conf files into the view"""
-        loaded_count = 0
         self.logger.logmsg('DEBUG', _('Parsing configuration files'))
-        files = os.listdir(SETLOC)
+        files = os.listdir(constants.SETLOC)
         for file in files:
             if file.endswith('.conf'):
                 self.liststore.append([True, file.split('.conf')[0]])

@@ -1,13 +1,3 @@
-from fwbackups.operations import *
-from fwbackups import shutil_modded
-from fwbackups import cron
-from fwbackups import config
-from fwbackups import fwlogger
-from fwbackups import widgets
-import fwbackups
-from fwbackups.i18n import _
-from fwbackups.const import *
-from . import loader
 import base64
 import gi
 import paramiko
@@ -16,6 +6,19 @@ import re
 import socket
 import sys
 import time
+
+import fwbackups
+from fwbackups import shutil_modded
+from fwbackups import cron
+from fwbackups import config
+from fwbackups import fwlogger
+from fwbackups import widgets
+from fwbackups.i18n import _
+from .. import const as constants
+from . import loader
+from ..operations.backup import BackupStatus
+from ..operations.restore import RestoreStatus
+from ..operations import backup, restore
 
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk  # noqa: E402
@@ -46,7 +49,6 @@ def normalCursor(mainwin):
 def getSelectedItems(widget):
     """Get selected items from icon/tree view"""
     try:
-        model = widget.get_model()
         selected = widget.get_selected_items()
         return selected
     except BaseException:
@@ -78,13 +80,13 @@ class fwbackupsApp(Adw.Application):
             "fwbackups/ui/gtk/about.ui",
             "fwbackups/ui/gtk/backupset.ui",
             "fwbackups/ui/gtk/confirm_dia.ui",
-          "fwbackups/ui/gtk/error_dia.ui",
-          "fwbackups/ui/gtk/export_dia.ui",
-          "fwbackups/ui/gtk/info_dia.ui",
-          "fwbackups/ui/gtk/main.ui",
-          "fwbackups/ui/gtk/preferences.ui",
-          "fwbackups/ui/gtk/restore.ui",
-          "fwbackups/ui/gtk/warning_dia.ui",
+            "fwbackups/ui/gtk/error_dia.ui",
+            "fwbackups/ui/gtk/export_dia.ui",
+            "fwbackups/ui/gtk/info_dia.ui",
+            "fwbackups/ui/gtk/main.ui",
+            "fwbackups/ui/gtk/preferences.ui",
+            "fwbackups/ui/gtk/restore.ui",
+            "fwbackups/ui/gtk/warning_dia.ui",
         ]
         self.ui = loader.UILoader(ui_files, self)
 
@@ -103,17 +105,17 @@ class fwbackupsApp(Adw.Application):
             "import_sets1": None,
             "export_sets1": None,
             "quit1": "<Control>q",
-          "edit_set1": "<Control>e",
-          "remove_set1": "<Control>d",
-          "duplicate_set1": "<Control><Shift>d",
-          "preferences1": "<Control>comma",
-          "overview1": "<Control>1",
-          "backup_sets1": "<Control>2",
-          "one_time_backup1": "<Control>3",
-          "log1": "<Control>4",
-          "restore1": "<Control>5",
-          "about1": None,
-          "help1": None,
+            "edit_set1": "<Control>e",
+            "remove_set1": "<Control>d",
+            "duplicate_set1": "<Control><Shift>d",
+            "preferences1": "<Control>comma",
+            "overview1": "<Control>1",
+            "backup_sets1": "<Control>2",
+            "one_time_backup1": "<Control>3",
+            "log1": "<Control>4",
+            "restore1": "<Control>5",
+            "about1": None,
+            "help1": None,
         }
 
         scope = "app"
@@ -141,7 +143,7 @@ class fwbackupsApp(Adw.Application):
 
     def _setDefaults(self):
         """Setup default values"""
-        if USER != 'root':
+        if constants.USER != 'root':
             self.ui.backupset4DiskInfoToFileCheck.set_active(False)
             self.ui.backupset4DiskInfoToFileCheck.set_sensitive(False)
             self.ui.main3DiskInfoToFileCheck.set_active(False)
@@ -163,7 +165,7 @@ class fwbackupsApp(Adw.Application):
             adjustment.set_page_increment(5)
             adjustment.set_page_size(0)
 
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             self.ui.preferencesWindowsFrame.set_sensitive(True)
             self.ui.backupset5NiceScale.set_value(0.0)
             self.ui.backupset5NiceScale.set_sensitive(False)
@@ -223,7 +225,7 @@ class fwbackupsApp(Adw.Application):
         self.ui.backupset2DestinationTypeCombobox.set_active(0)
         self.ui.backupset2HidePasswordCheck.set_active(True)
         self.ui.main3HidePasswordCheck.set_active(True)
-        self.ui.WelcomeLabel.set_markup(_('<b>Welcome</b>, %s') % USER)
+        self.ui.WelcomeLabel.set_markup(_('<b>Welcome</b>, %s') % constants.USER)
         # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
         # Default Labels...
         self.ui.about.set_version(fwbackups.__version__)
@@ -256,10 +258,10 @@ class fwbackupsApp(Adw.Application):
         self.ui.preferences.set_transient_for(self.ui.main)
         self.ui.backupset.set_transient_for(self.ui.main)
         self.ui.restore.set_transient_for(self.ui.main)
-        if MSWINDOWS:
-            appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
+        if constants.MSWINDOWS:
+            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.ico')
         else:
-            appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
+            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.png')
         if os.path.exists(appIcon):
             self.ui.aboutProgramImage.set_from_file(appIcon)
 
@@ -280,11 +282,11 @@ class fwbackupsApp(Adw.Application):
             response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
             if response == Gtk.ResponseType.YES:
                 # check if file already exists
-                prefsBack = '%s.bak' % PREFSLOC
+                prefsBack = '%s.bak' % constants.PREFSLOC
                 if os.path.isfile(prefsBack):
                     os.remove(prefsBack)
                 # save a backup copy
-                os.rename(PREFSLOC, prefsBack)
+                os.rename(constants.PREFSLOC, prefsBack)
                 # initialize a fresh config
                 prefs = config.PrefsConf(create=True)
             else:
@@ -311,18 +313,13 @@ class fwbackupsApp(Adw.Application):
             sys.exit(1)
         # Step 3: See what's available and what's not
         self.action = None
-        try:
-            import pynotify
-            pynotify.init('fwbackups')
-            self.NOTIFY_AVAIL = True
-        except ImportError:
-            self.NOTIFY_AVAIL = False
-            self.logger.logmsg('DEBUG', _('pynotify was not found. Notifcations will not be displayed unless notify-python/pynotify is installed.'))
+        self.NOTIFY_AVAIL = False  # FIXME notifications
+
         # render icons: about dialog
-        if MSWINDOWS:
-            appIcon = os.path.join(INSTALL_DIR, 'fwbackups.ico')
+        if constants.MSWINDOWS:
+            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.ico')
         else:
-            appIcon = os.path.join(INSTALL_DIR, 'fwbackups.png')
+            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.png')
         if os.path.exists(appIcon):
             Gtk.window_set_default_icon_from_file(appIcon)
         self.statusbar = widgets.StatusBar(self.ui.statusbar1)
@@ -349,10 +346,10 @@ class fwbackupsApp(Adw.Application):
                     dontShowMe = self.displayInfo(self.ui.main, _("Previous installation of fwbackups 1.42.x or older detected"), _("Because of certain major changes in fwbackups, your configuration must be imported manually. To do this, run fwbackups as the root user and select <i>File > Import</i> from the menu to import your old configuration.\nIf this action is not completed, the backups from version 1.42.x <b>will not run automatically</b>.\n<i>Tip: The 1.42.x configuration was stored in /etc/fwbackups</i>."), dontShowMe=True)
                     if dontShowMe:
                         prefs.set('Preferences', 'DontShowMe_OldVerWarn', 1)
-            if UID == 0:
+            if constants.UID == 0:
                 try:
                     shutil_modded.copy('/etc/crontab', '/etc/crontab.fwbk')
-                except Exception as error:
+                except Exception:
                     self.displayInfo(self.ui.main, _("A backup of /etc/crontab could not be created"), _("You may wish to edit /etc/crontab manually and remove any fwbackups-related lines."))
                     self.logger.logmsg('ERROR', _("Could not create a backup of /etc/crontab; refusing to clean up."))
                 try:
@@ -380,13 +377,13 @@ class fwbackupsApp(Adw.Application):
 
     def _checkLogSize(self):
         """Check the log size, clear if needed"""
-        statsize = int(os.stat(LOGLOC)[6])
+        statsize = int(os.stat(constants.LOGLOC)[6])
         if statsize >= 1048577:
             # 1048576B is 1MB.
             size = '%s KB' % (statsize / 1024)
             response = self.displayConfirm(self.ui.splash, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
             if response == Gtk.ResponseType.YES:
-                logfh = open(LOGLOC, 'w')
+                logfh = open(constants.LOGLOC, 'w')
                 logfh.write('')
                 logfh.close()
 
@@ -470,8 +467,8 @@ class fwbackupsApp(Adw.Application):
             "import_sets1",
             "export_sets1",
             "backup_sets1",
-          "one_time_backup1",
-          "restore1",
+            "one_time_backup1",
+            "restore1",
         ]
         for action_name in actions_to_toggle:
             action = self.lookup_action(action_name)
@@ -506,12 +503,12 @@ class fwbackupsApp(Adw.Application):
         originalCronLines = cron.read()
         fwbackupCronLines = cron.clean_fwbackups_entries()
         # Generate the new fwbackups entries
-        files = sorted(os.listdir(SETLOC))
+        files = sorted(os.listdir(constants.SETLOC))
         for file in files:
             if file.endswith('.conf') and file != 'temporary_config.conf':
                 from configparser import NoOptionError
                 try:
-                    setConf = config.BackupSetConf(os.path.join(SETLOC, file))
+                    setConf = config.BackupSetConf(os.path.join(constants.SETLOC, file))
                 except (config.ConfigError, NoOptionError):
                     self.displayError(self.ui.main, _("Could not parse the configuration for set '%s'") % os.path.splitext(file)[0],
                                       _("The set configuration file '%s' failed to validate, so it may not be properly scheduled. Other sets are unaffected by this error." % file))
@@ -548,7 +545,7 @@ class fwbackupsApp(Adw.Application):
                 cron.write(originalCronLines)
                 self.logger.logmsg('INFO', _("A backup of the crontab was restored; the latest changes to the backup schedule not have been saved."))
             except Exception as error:
-                self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored: {error}"))
+                self.logger.logmsg('ERROR', _(f"A backup of the crontab could not be restored: {error}"))
 
     def main_close(self, widget=None, event=None):
         """Wrapper for quitting"""
@@ -610,9 +607,9 @@ class fwbackupsApp(Adw.Application):
         progress.stopPulse()
         progress.set_text('')
         self.logger.logmsg('DEBUG', _('testConnection(): Thread returning with retval %s' % str(thread.retval)))
-        if thread.retval == True:
+        if thread.retval is True:
             self.displayInfo(parent, _("Success!"), _("fwbackups was able to connect and authenticate on '%s'.") % host)
-        elif thread.retval == False or isinstance(thread.exception, IOError):
+        elif thread.retval is False or isinstance(thread.exception, IOError):
             self.displayInfo(parent, _("Remote destination is not usable"), _("The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. Please verify your settings and try again.") % {'a': path, 'b': host})
         elif isinstance(thread.exception, paramiko.AuthenticationException):
             self.displayInfo(parent, _("Authentication failed"), _("A connection to '%s' was established, but authentication failed. Please verify the username and password and try again.") % host)
@@ -649,18 +646,18 @@ class fwbackupsApp(Adw.Application):
                 # Attempt to use the original set name
                 oldSetName = os.path.basename(os.path.splitext(oldSetPath)[0])
                 setName = oldSetName
-                setPath = os.path.join(SETLOC, "%s.conf" % setName)
+                setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
                 # If original set name exists, append a number
-                if os.path.exists(os.path.join(SETLOC, "%s.conf" % setName)):
+                if os.path.exists(os.path.join(constants.SETLOC, "%s.conf" % setName)):
                     counter = 1
                     while True:
                         setName = "%s%s" % (oldSetName, counter)
-                        setPath = os.path.join(SETLOC, "%s.conf" % setname)
+                        setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
                         if os.path.exists(setPath):
                             counter += 1
                         else:
                             break
-                            os.path.join(SETLOC, "%s.conf" % setname)
+                            os.path.join(constants.SETLOC, "%s.conf" % setName)
                 # Load the old set configuration
                 oldSetConf = config.ConfigFile(oldSetPath)
                 if "General" not in oldSetConf.sections():
@@ -675,7 +672,7 @@ class fwbackupsApp(Adw.Application):
                     options = {}
                     options["PkgListsToFile"] = int(oldSetConf.get('prefs', 'autorpm'))
                     options["OldToKeep"] = int(oldSetConf.get('prefs', 'tokeep'))
-                    if UID == 0:  # this can only be done if the user is root
+                    if constants.UID == 0:  # this can only be done if the user is root
                         options["DiskInfoToFile"] = int(oldSetConf.get('prefs', 'autodiskinfo'))
                     # Save the options to the new/imported backup set configuration
                     setConf.save(paths, options, {}, mergeDefaults=True)
@@ -698,7 +695,7 @@ class fwbackupsApp(Adw.Application):
        """
         if model.get_value(iter, 0):
             setName = model.get_value(iter, 1)
-            setPath = os.path.join(SETLOC, "%s.conf" % setName)
+            setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
             destSetPath = os.path.join(dest, os.path.basename(setPath))
             if os.path.exists(destSetPath):
                 response = self.displayConfirm(self.ui.export_dia, _("File Exists"),
@@ -748,15 +745,14 @@ class fwbackupsApp(Adw.Application):
             selected = getSelectedItems(self.ui.main2Iconview)[0]
             iterator = self.ui.main2Iconview.get_model().get_iter(selected)
             setName = self.ui.main2Iconview.get_model().get_value(iterator, 0)
-            setPath = os.path.join(SETLOC, "%s.conf" % setName)
+            setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
         except IndexError:
             self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to duplicate.'))
             return
-        setConf = config.BackupSetConf(setPath)
         newSetName = setName
         while True:
             newSetName += _("_copy")
-            newSetPath = os.path.join(SETLOC, "%s.conf" % newSetName)
+            newSetPath = os.path.join(constants.SETLOC, "%s.conf" % newSetName)
             if not os.path.exists(newSetPath):
                 break
         shutil_modded.copy(setPath, newSetPath)
@@ -812,7 +808,7 @@ class fwbackupsApp(Adw.Application):
         self.ui.restore1SourceTypeCombobox.set_active(0)
         self.ui.restore1ArchiveEntry.set_text('')
         self.ui.restore1FolderEntry.set_text('')
-        self.ui.restore1DestinationEntry.set_text(str(USERHOME))
+        self.ui.restore1DestinationEntry.set_text(str(constants.USERHOME))
         self.ui.restore1HostEntry.set_text('')
         self.ui.restore1UsernameEntry.set_text('')
         self.ui.restore1PasswordEntry.set_text('')
@@ -850,7 +846,7 @@ class fwbackupsApp(Adw.Application):
         self.ui.preferencesMinimizeTrayCloseCheck.set_active(prefs.getboolean('Preferences', 'MinimizeTrayClose'))
         self.ui.preferencesStartMinimizedCheck.set_active(prefs.getboolean('Preferences', 'StartMinimized'))
         self.ui.preferencesShowNotificationsCheck.set_active(prefs.getboolean('Preferences', 'ShowNotifications'))
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             import winreg
             k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
             try:
@@ -858,9 +854,9 @@ class fwbackupsApp(Adw.Application):
                 exists = True
             except BaseException:
                 exists = False
-        elif LINUX:
-            exists = USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').exists()
-        elif DARWIN:  # FIXME: Figure out autostart on OS X
+        elif constants.LINUX:
+            exists = constants.USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').exists()
+        elif constants.DARWIN:  # FIXME: Figure out autostart on OS X
             exists = False
         self.ui.preferencesSessionStartupCheck.set_active(exists)
         self.ui.preferencesAlwaysShowDebugCheck.set_active(prefs.getboolean('Preferences', 'AlwaysShowDebug'))
@@ -875,7 +871,7 @@ class fwbackupsApp(Adw.Application):
             self.ui.preferencesCustomizeTempDirEntry.set_sensitive(False)
             self.ui.preferencesCustomizeTempDirBrowseButton.set_sensitive(False)
 
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             self.ui.preferencesPycronEntry.set_text(prefs.get('Preferences', 'pycronLoc'))
 
     # HELP MENU
@@ -894,8 +890,6 @@ class fwbackupsApp(Adw.Application):
     # FIXME: This can be optimized
     def on_preferencesShowTrayIconCheck_toggled(self, widget):
         """Show tray icon check"""
-        prefs = config.PrefsConf()
-
         # Tray icon is removed from GTK4
         self.ui.preferencesShowTrayIconCheck.set_active(False)
         self.ui.preferencesShowTrayIconCheck.set_sensitive(False)
@@ -930,25 +924,25 @@ class fwbackupsApp(Adw.Application):
     def on_preferencesSessionStartupCheck_toggled(self, widget):
         """Start fwbackups when we login"""
         if self.ui.preferencesSessionStartupCheck.get_active():  # add
-            if MSWINDOWS:
+            if constants.MSWINDOWS:
                 import winreg
                 k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-                winreg.SetValueEx(k, 'fwbackups', 0, winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(INSTALL_DIR, 'fwbackups-runapp.pyw'))
+                winreg.SetValueEx(k, 'fwbackups', 0, winreg.REG_SZ, '"%s" --start-minimized' % os.path.join(constants.INSTALL_DIR, 'fwbackups-runapp.pyw'))
                 winreg.CloseKey(k)
             else:
-                shutil_modded.copy(os.path.join(INSTALL_DIR, "fwbackups-autostart.desktop"), str(USERHOME.joinpath('.config/autostart')))
+                shutil_modded.copy(os.path.join(constants.INSTALL_DIR, "fwbackups-autostart.desktop"), str(constants.USERHOME.joinpath('.config/autostart')))
         else:  # remove
-            if MSWINDOWS:
+            if constants.MSWINDOWS:
                 import winreg
                 try:
                     k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run")
                     winreg.DeleteValue(k, 'fwbackups')
                     winreg.CloseKey(k)
-                except BaseException:
+                except BaseException as error:
                     self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart regkey: %s' % error))
             else:
                 try:
-                    USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').unlink()
+                    constants.USERHOME.joinpath('.config/autostart/fwbackups-autostart.desktop').unlink()
                 except Exception as error:
                     self.logger.logmsg('DEBUG', _('Could not remove fwbackup\'s session autostart file: %s' % error))
 
@@ -994,7 +988,6 @@ class fwbackupsApp(Adw.Application):
 
     def on_preferencesCustomizeTempDirBrowseButton_clicked(self, widget):
         """Open the file browser"""
-        prefs = config.PrefsConf()
         widget = Gtk.FileChooserNative.new(_('Choose file(s)'), self.ui.main,
                                            Gtk.FileChooserAction.SELECT_FOLDER,
                                            _("_Open"), _("_Cancel"))
@@ -1014,7 +1007,7 @@ class fwbackupsApp(Adw.Application):
         tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text()
         prefs.set('Preferences', 'TempDir', tempDir)
 
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             pycronLoc = self.ui.preferencesPycronEntry.get_text()
             if not pycronLoc:
                 self.displayInfo(self.ui.preferences,
@@ -1028,7 +1021,7 @@ class fwbackupsApp(Adw.Application):
                                    'the directory entered. Please ensure that pycron ' +
                                    'is installed in the selected installation folder ' +
                                    'and that it contains either a pycron configuration file ' +
-                                        'or the sample pycron configuration.'))
+                                   'or the sample pycron configuration.'))
                 return
             else:
                 prefs.set('Preferences', 'pycronLoc', pycronLoc)
@@ -1091,7 +1084,7 @@ class fwbackupsApp(Adw.Application):
         if active == 1:
             self.ui.backupset4IncrementalCheck.set_active(False)
             self.ui.backupset4IncrementalCheck.set_sensitive(False)
-        elif not MSWINDOWS:
+        elif not constants.MSWINDOWS:
             self.ui.backupset4IncrementalCheck.set_sensitive(True)
 
     def on_backupset2FolderBrowseButton_clicked(self, widget):
@@ -1180,7 +1173,7 @@ class fwbackupsApp(Adw.Application):
 
     def on_backupset4EngineRadio2_toggled(self, widget):
         """Set the sensibility of Incremental"""
-        if self.ui.backupset4EngineRadio2.get_active() and not MSWINDOWS and \
+        if self.ui.backupset4EngineRadio2.get_active() and not constants.MSWINDOWS and \
            self.ui.backupset2DestinationTypeCombobox.get_active() != 1:
             self.ui.backupset4IncrementalCheck.set_sensitive(True)
         else:
@@ -1220,7 +1213,7 @@ class fwbackupsApp(Adw.Application):
 
     def on_main2NewSetButton_clicked(self, widget):
         """New Set button in main"""
-        tempConfPath = os.path.join(SETLOC, "temporary_config.conf")
+        tempConfPath = os.path.join(constants.SETLOC, "temporary_config.conf")
         if os.path.exists(tempConfPath):
             try:
                 os.remove(tempConfPath)
@@ -1240,7 +1233,7 @@ class fwbackupsApp(Adw.Application):
             model = self.ui.main2Iconview.get_model()
             iterator = model.get_iter(selected)
             setName = model.get_value(iterator, 0)
-            setPath = os.path.join(SETLOC, "%s.conf" % setName)
+            setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
         except BaseException:
             self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to edit.'))
             return
@@ -1257,7 +1250,7 @@ class fwbackupsApp(Adw.Application):
             selected = getSelectedItems(self.ui.main2Iconview)[0]
             iterator = model.get_iter(selected)
             setName = model.get_value(iterator, 0)
-            setPath = os.path.join(SETLOC, "%s.conf" % setName)
+            setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
         except IndexError:
             self.displayWarning(self.ui.main, _('No set has been selected'), _('You must select a set to remove.'))
             return
@@ -1265,7 +1258,6 @@ class fwbackupsApp(Adw.Application):
         if response == Gtk.ResponseType.NO:
             return
         elif response == Gtk.ResponseType.YES:
-            setConf = config.BackupSetConf(setPath)
             try:
                 os.remove(setPath)
             except OSError as error:
@@ -1439,10 +1431,6 @@ class fwbackupsApp(Adw.Application):
         """Cancel one-time backup on Main"""
         self.cancelOneTimeBackup()
 
-    def on_main3HidePasswordCheck_toggled(self, widget):
-        """Should we display plaintext passwords instead of circles?"""
-        self.ui.main3PasswordEntry.set_visibility(not widget.get_active())
-
     def on_main3DestinationTypeCombobox_changed(self, widget):
         """Destination type changed"""
         active = widget.get_active()
@@ -1500,7 +1488,7 @@ class fwbackupsApp(Adw.Application):
         """Clear the log"""
         def clearlog():
             """Does the actual log clearing"""
-            overwrite = open(LOGLOC, 'w')
+            overwrite = open(constants.LOGLOC, 'w')
             overwrite.write('')
             overwrite.close()
             self.logconsole.clear()
@@ -1524,7 +1512,7 @@ class fwbackupsApp(Adw.Application):
         saveFilename = widgets.saveFilename(self.ui.main)
         if saveFilename:
             saveto = open(saveFilename, 'w')
-            readfrom = open(LOGLOC, 'r')
+            readfrom = open(constants.LOGLOC, 'r')
             saveto.write(readfrom.read())
             readfrom.close()
             saveto.close()
@@ -1576,7 +1564,7 @@ class fwbackupsApp(Adw.Application):
     def _populateDates(self, setName):
         """Populates restore1SetDateCombobox with the appropriate backup date entries"""
         self.ui.restore1SetDateCombobox.remove_all()
-        setPath = os.path.join(SETLOC, "%s.conf" % setName)
+        setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
         setConfig = config.BackupSetConf(setPath)
         if setConfig.get('Options', 'DestinationType') == 'remote (ssh)':
             self.ui.restore1SourceTypeCombobox.set_sensitive(False)
@@ -1734,9 +1722,8 @@ class fwbackupsApp(Adw.Application):
         return True
 
     def on_restoreStartButton_clicked(self, widget):
-        source = ''
         active = self.ui.restore1SourceTypeCombobox.get_active()
-        restoreConfig = config.RestoreConf(RESTORELOC, True)
+        restoreConfig = config.RestoreConf(constants.RESTORELOC, True)
         if active == 0:  # set backup
             if self.ui.restore1SetDateCombobox.get_active() is None:
                 self.displayInfo(self.ui.restore, _('Missing information'), _('Please select a backup date.'))
@@ -1744,7 +1731,7 @@ class fwbackupsApp(Adw.Application):
             setModel = self.ui.restore1SetNameCombobox.get_model()
             setActiveIter = self.ui.restore1SetNameCombobox.get_active_iter()
             setName = setModel.get_value(setActiveIter, 0)
-            setPath = os.path.join(SETLOC, "%s.conf" % setName)
+            setPath = os.path.join(constants.SETLOC, "%s.conf" % setName)
             setConfig = config.BackupSetConf(setPath)
             # We can't start a restore if there are no set dates
             if widgets.get_active_text(self.ui.restore1SetDateCombobox) == _("No backups found"):
@@ -1863,7 +1850,7 @@ class fwbackupsApp(Adw.Application):
 
     # ***********************************************************************
 
-    def _checkExistingOrNone(self, name, parent, entry):
+    def _verifySetName(self, name, parent, entry):
         """Check if a filename exists, or if none is set."""
         if name is None or name == '':
             self.displayInfo(self.ui.backupset, _("Invalid set name"), _("Please enter a set name."))
@@ -1871,7 +1858,7 @@ class fwbackupsApp(Adw.Application):
         if name == 'temporary_config':
             self.displayInfo(self.ui.backupset, _("Invalid set name"), _("'temporary_name' is a reserved name. Please choose another name for the set."))
             return False
-        if os.path.exists(os.path.join(SETLOC, "%s.conf" % name)):
+        if os.path.exists(os.path.join(constants.SETLOC, "%s.conf" % name)):
             response = self.displayConfirm(self.ui.backupset,
                                            _("Overwrite settings for set '%s'?") % name,
                                            _("This will overwrite the stored settings with the current ones. Are you sure you want to continue?"))
@@ -1923,124 +1910,124 @@ class fwbackupsApp(Adw.Application):
         # FIXME: If this fails, we should set defaults instead of halting
         self._backupsetDefaults()
         self.backupset1PathView.refresh(setConf)
-        t = setConf.get('Times', 'Custom')
-        l = setConf.get('Times', 'Entry').split(' ')
-        if t.strip() == 'False':  # easy config used
+        cron_is_custom = setConf.get('Times', 'Custom')
+        cron_entry = setConf.get('Times', 'Entry').split(' ')
+        if cron_is_custom.strip() == 'False':  # easy config used
             self.ui.backupset3EasyConfigExpander.set_expanded(True)
             self.ui.backupset3ManualConfigExpander.set_expanded(False)
             self.ui.backupset3EasyConfigTable.set_sensitive(True)
             self.ui.backupset3ManualConfigTable.set_sensitive(False)
-            if l[0] == '*':  # Minute
+            if cron_entry[0] == '*':  # Minute
                 self.ui.MinutesAll.set_active(True)
             else:
                 self.ui.MinutesAt.set_active(True)
-                self.ui.MinutesAtScale.set_value(float(l[0]))
+                self.ui.MinutesAtScale.set_value(float(cron_entry[0]))
             # Hour
-            if l[1] == '*':
+            if cron_entry[1] == '*':
                 self.ui.HoursAll.set_active(True)
             else:
                 self.ui.HoursAt.set_active(True)
-                self.ui.HoursAtBox.set_active(int(l[1]))
+                self.ui.HoursAtBox.set_active(int(cron_entry[1]))
             # l[2] **Days of month would go here
             # Months
-            t = l[3].split('-')
-            if l[3] == '*':
+            cron_is_custom = cron_entry[3].split('-')
+            if cron_entry[3] == '*':
                 self.ui.MonthAll.set_active(True)
-            elif len(t) == 1:  # only one month
+            elif len(cron_is_custom) == 1:  # only one month
                 self.ui.MonthOnly.set_active(True)
-                self.ui.MonthOnlyBox.set_active(int(l[3]) - 1)
-            elif len(t) == 3:  # 2x range of months
+                self.ui.MonthOnlyBox.set_active(int(cron_entry[3]) - 1)
+            elif len(cron_is_custom) == 3:  # 2x range of months
                 self.ui.MonthFrom.set_active(True)
-                self.ui.MonthFromBox1.set_active(int(t[1].split(',')[1]) - 1)
-                self.ui.MonthFromBox2.set_active(int(t[1].split(',')[0]) - 1)
+                self.ui.MonthFromBox1.set_active(int(cron_is_custom[1].split(',')[1]) - 1)
+                self.ui.MonthFromBox2.set_active(int(cron_is_custom[1].split(',')[0]) - 1)
             else:  # range of months
                 self.ui.MonthFrom.set_active(True)
-                self.ui.MonthFromBox1.set_active(int(t[0]) - 1)
-                self.ui.MonthFromBox2.set_active(int(t[1]) - 1)
+                self.ui.MonthFromBox1.set_active(int(cron_is_custom[0]) - 1)
+                self.ui.MonthFromBox2.set_active(int(cron_is_custom[1]) - 1)
             # Day of Week
-            t = l[4].split('-')
-            if l[4] == '*':
+            cron_is_custom = cron_entry[4].split('-')
+            if cron_entry[4] == '*':
                 self.ui.DaysWeekAll.set_active(True)
-            elif len(t) == 1:  # only one day
+            elif len(cron_is_custom) == 1:  # only one day
                 self.ui.DaysWeekOnly.set_active(True)
-                self.ui.DaysWeekOnlyBox.set_active(int(l[4]))
-            elif len(t) == 3:  # 2x range of days
+                self.ui.DaysWeekOnlyBox.set_active(int(cron_entry[4]))
+            elif len(cron_is_custom) == 3:  # 2x range of days
                 self.ui.DaysWeekFrom.set_active(True)
-                self.ui.DaysWeekFromBox1.set_active(int(t[1].split(',')[1]))
-                self.ui.DaysWeekFromBox2.set_active(int(t[1].split(',')[0]))
+                self.ui.DaysWeekFromBox1.set_active(int(cron_is_custom[1].split(',')[1]))
+                self.ui.DaysWeekFromBox2.set_active(int(cron_is_custom[1].split(',')[0]))
             else:  # range of days
                 self.ui.DaysWeekFrom.set_active(True)
-                self.ui.DaysWeekFromBox1.set_active(int(t[0]))
-                self.ui.DaysWeekFromBox2.set_active(int(t[1]))
+                self.ui.DaysWeekFromBox1.set_active(int(cron_is_custom[0]))
+                self.ui.DaysWeekFromBox2.set_active(int(cron_is_custom[1]))
         else:  # fill the manual fields
             self.ui.backupset3EasyConfigExpander.set_expanded(False)
             self.ui.backupset3ManualConfigExpander.set_expanded(True)
             self.ui.backupset3EasyConfigTable.set_sensitive(False)
             self.ui.backupset3ManualConfigTable.set_sensitive(True)
             try:
-                self.ui.ManualMinuteEntry.set_text(l[0])
-                self.ui.ManualHourEntry.set_text(l[1])
-                self.ui.ManualDaysOfMonthEntry.set_text(l[2])
-                self.ui.ManualMonthEntry.set_text(l[3])
-                self.ui.ManualDaysOfWeekEntry.set_text(l[4])
+                self.ui.ManualMinuteEntry.set_text(cron_entry[0])
+                self.ui.ManualHourEntry.set_text(cron_entry[1])
+                self.ui.ManualDaysOfMonthEntry.set_text(cron_entry[2])
+                self.ui.ManualMonthEntry.set_text(cron_entry[3])
+                self.ui.ManualDaysOfWeekEntry.set_text(cron_entry[4])
             except IndexError:  # list isn't long enough - something's gone horrible wrong.
                 self.displayInfo(self.ui.backupset,
                                  _("Error parsing configuration file"),
                                  _("fwbackups will using the default times instead."))
                 self._setDefaultTimes()
         # Restore destination
-        t = setConf.get('Options', 'DestinationType')
-        if t == 'local':
+        cron_is_custom = setConf.get('Options', 'DestinationType')
+        if cron_is_custom == 'local':
             # stupid hack because the combobox may not change but
             # the notebook is reset in setdefaults
             self.ui.backupset2DestinationTypeCombobox.set_active(1)
             self.ui.backupset2DestinationTypeCombobox.set_active(0)
-        elif t == 'remote (ssh)':
+        elif cron_is_custom == 'remote (ssh)':
             self.ui.backupset2DestinationTypeCombobox.set_active(0)
             self.ui.backupset2DestinationTypeCombobox.set_active(1)
         else:
-            raise fwbackups.fwbackupsError(_('Unknown destination type `%s\'' % t))
+            raise fwbackups.fwbackupsError(_('Unknown destination type `%s\'' % cron_is_custom))
         self.ui.backupset2HostEntry.set_text(setConf.get('Options', 'RemoteHost'))
         self.ui.backupset2PortSpin.set_value(float(setConf.get('Options', 'RemotePort') or 22))
         self.ui.backupset2UsernameEntry.set_text(setConf.get('Options', 'RemoteUsername'))
         self.ui.backupset2PasswordEntry.set_text(base64.b64decode(setConf.get('Options', 'RemotePassword').encode('ascii')).decode('ascii'))
         self.ui.backupset2RemoteFolderEntry.set_text(setConf.get('Options', 'RemoteFolder'))
-        t = setConf.get('Options', 'Destination')
-        self.ui.backupset2LocalFolderEntry.set_text(t)
+        cron_is_custom = setConf.get('Options', 'Destination')
+        self.ui.backupset2LocalFolderEntry.set_text(cron_is_custom)
 
         # Restore options
-        t = setConf.get('Options', 'Enabled')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'Enabled')
+        if cron_is_custom == '1':
             self.ui.backupset4EnableCheck.set_active(True)
         else:
             self.ui.backupset4EnableCheck.set_active(False)
-        t = setConf.get('Options', 'Recursive')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'Recursive')
+        if cron_is_custom == '1':
             self.ui.backupset4RecursiveCheck.set_active(True)
         else:
             self.ui.backupset4RecursiveCheck.set_active(False)
-        t = setConf.get('Options', 'PkgListsToFile')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'PkgListsToFile')
+        if cron_is_custom == '1':
             self.ui.backupset4PkgListsToFileCheck.set_active(True)
         else:
             self.ui.backupset4PkgListsToFileCheck.set_active(False)
-        t = setConf.get('Options', 'DiskInfoToFile')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'DiskInfoToFile')
+        if cron_is_custom == '1':
             self.ui.backupset4DiskInfoToFileCheck.set_active(True)
         else:
             self.ui.backupset4DiskInfoToFileCheck.set_active(False)
-        t = setConf.get('Options', 'BackupHidden')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'BackupHidden')
+        if cron_is_custom == '1':
             self.ui.backupset4BackupHiddenCheck.set_active(True)
         else:
             self.ui.backupset4BackupHiddenCheck.set_active(False)
-        t = setConf.get('Options', 'Sparse')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'Sparse')
+        if cron_is_custom == '1':
             self.ui.backupset4SparseCheck.set_active(True)
         else:
             self.ui.backupset4SparseCheck.set_active(False)
-        t = setConf.get('Options', 'FollowLinks')
-        if t == '1':
+        cron_is_custom = setConf.get('Options', 'FollowLinks')
+        if cron_is_custom == '1':
             self.ui.backupset4FollowLinksCheck.set_active(True)
         else:
             self.ui.backupset4FollowLinksCheck.set_active(False)
@@ -2051,19 +2038,19 @@ class fwbackupsApp(Adw.Application):
         self.ui.backupset4CompressCheck.set_active(False)
         self.ui.backupset4CompressCheck.emit('toggled')  # unsets the combobox
         # Check the engine types
-        t = setConf.get('Options', 'Engine')
-        if t == "tar":
+        cron_is_custom = setConf.get('Options', 'Engine')
+        if cron_is_custom == "tar":
             self.ui.backupset4EngineRadio1.set_active(True)
-        elif t == "rsync":
+        elif cron_is_custom == "rsync":
             self.ui.backupset4EngineRadio2.set_active(True)
             y = setConf.get('Options', 'Incremental')
-            if y == '1' and not MSWINDOWS:
+            if y == '1' and not constants.MSWINDOWS:
                 self.ui.backupset4IncrementalCheck.set_active(True)
-        elif t == "tar.gz":
+        elif cron_is_custom == "tar.gz":
             self.ui.backupset4EngineRadio1.set_active(True)
             self.ui.backupset4CompressCheck.set_active(True)
             self.ui.backupset4CompressCombo.set_active(0)
-        elif t == "tar.bz2":
+        elif cron_is_custom == "tar.bz2":
             self.ui.backupset4EngineRadio1.set_active(True)
             self.ui.backupset4CompressCheck.set_active(True)
             self.ui.backupset4CompressCombo.set_active(1)
@@ -2077,7 +2064,7 @@ class fwbackupsApp(Adw.Application):
         self.ui.backupset5CommandAfterEntry.set_text(setConf.get('Options', 'CommandAfter'))
         self.ui.backupset5ExcludesTextview.get_buffer().set_text(setConf.get('Options', 'Excludes'))
         # finally: disable what should be disabled
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             self.ui.backupset4PkgListsToFileCheck.set_active(False)
             self.ui.backupset4PkgListsToFileCheck.set_sensitive(False)
             self.ui.backupset4DiskInfoToFileCheck.set_active(False)
@@ -2095,7 +2082,6 @@ class fwbackupsApp(Adw.Application):
             treeiter = self.backupset1PathView.liststore.iter_next(treeiter)
         # Configure the Times dict
         times = {}
-        origEntry = setConf.get('Times', 'Entry').split(' ')
         if self.ui.backupset3EasyConfigExpander.get_expanded():
             # Easy configuration, must generate the crontab line manually
             times["Custom"] = False
@@ -2192,7 +2178,7 @@ class fwbackupsApp(Adw.Application):
         options["Nice"] = nice
         # Incase they copied configs with a niceness preset, reset it to 0
         # so the backup doesn't fail before it starts.
-        if UID != 0 and nice < 0:
+        if constants.UID != 0 and nice < 0:
             options["Nice"] = 0
         # Finally, save all the information
         setConf.save(paths, options, times)
@@ -2239,7 +2225,7 @@ class fwbackupsApp(Adw.Application):
         """Load all set .conf files"""
         loaded_count = 0
         self.logger.logmsg('DEBUG', _('Parsing configuration files'))
-        for root, dirs, files in os.walk(SETLOC):
+        for root, dirs, files in os.walk(constants.SETLOC):
             files.sort()
             for name in files:
                 if name.endswith('.conf') and not name.startswith('.conf') and not name == 'temporary_config.conf':
@@ -2272,7 +2258,7 @@ class fwbackupsApp(Adw.Application):
     def main3Refresh(self):
         """Clear paths"""
         self.ui.main3Treeview.get_model().clear()
-        self.ui.main3LocalFolderEntry.set_text(str(USERHOME))
+        self.ui.main3LocalFolderEntry.set_text(str(constants.USERHOME))
         self.ui.main3DestinationTypeCombobox.set_active(0)
         self.ui.main3EngineRadio1.set_active(True)
         self.ui.main3CompressCheck.set_active(False)
@@ -2289,19 +2275,19 @@ class fwbackupsApp(Adw.Application):
                     or not self.ui.backupset2PortSpin.get_value_as_int() or not self.ui.backupset2RemoteFolderEntry.get_text():
                 self.displayInfo(self.ui.backupset, _('Missing information'), _('Please fill in the Host, Username, Port and Folder fields.'))
                 return
-        newName = self._checkExistingOrNone(self.ui.backupset1NameEntry.get_text(),
-                                            self.ui.backupset,
-                                            self.ui.backupset1NameEntry)
-        if newName == False:
+        newName = self._verifySetName(self.ui.backupset1NameEntry.get_text(),
+                                      self.ui.backupset,
+                                      self.ui.backupset1NameEntry)
+        if newName is False:
             return
-        newPath = os.path.join(SETLOC, "%s.conf" % newName)
+        newPath = os.path.join(constants.SETLOC, "%s.conf" % newName)
         setConf = config.BackupSetConf(newPath, True)
         # editing a set - check if we need to rename
         if self.action is not None:
             action, name = self.action.split(';')
             if name != newName:
                 self.action = '%s;%s' % (action, newName)
-                namepath = os.path.join(SETLOC, "%s.conf" % name)
+                namepath = os.path.join(constants.SETLOC, "%s.conf" % name)
                 if os.path.isfile(namepath):
                     try:
                         os.remove(namepath)
@@ -2334,7 +2320,7 @@ class fwbackupsApp(Adw.Application):
 
     def on_backupsetCancelButton_clicked(self, widget):
         """Cancel - Run and hide!"""
-        tempConfigPath = os.path.join(SETLOC, "temporary_config.conf")
+        tempConfigPath = os.path.join(constants.SETLOC, "temporary_config.conf")
         if os.path.exists(tempConfigPath):
             try:
                 os.remove(tempConfigPath)
@@ -2356,19 +2342,19 @@ class fwbackupsApp(Adw.Application):
                 status, current, total, currentName = self.backupHandle.getProgress()
             else:
                 return
-            if status not in [backup.STATUS_INITIALIZING, backup.STATUS_EXECING_USER_COMMAND, backup.STATUS_CLEANING_OLD]:
+            if status not in [BackupStatus.INITIALIZING, BackupStatus.EXECING_USER_COMMAND, BackupStatus.CLEANING_OLD]:
                 self.main2BackupProgress.set_fraction(float(current - 1) / float(total))
             # There is a current filename
-            if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
+            if status == BackupStatus.BACKING_UP and currentName not in [None, '', '\n']:
                 self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
             # There is no current filename
-            elif status == backup.STATUS_BACKING_UP and not currentName:
+            elif status == BackupStatus.BACKING_UP and not currentName:
                 self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
-            elif status == backup.STATUS_CLEANING_OLD:
+            elif status == BackupStatus.CLEANING_OLD:
                 self.main2BackupProgress.set_text(_('Cleaning old backups'))
-            elif status == backup.STATUS_SENDING_TO_REMOTE:
+            elif status == BackupStatus.SENDING_TO_REMOTE:
                 self.main2BackupProgress.set_text(_('Sending files to remote server'))
-            elif status == backup.STATUS_EXECING_USER_COMMAND:
+            elif status == BackupStatus.EXECING_USER_COMMAND:
                 self.main2BackupProgress.set_text(_('Executing user command'))
             return self.updateReturn
 
@@ -2390,7 +2376,7 @@ class fwbackupsApp(Adw.Application):
         self.main2BackupProgress.startPulse()
         self.main2BackupProgress.set_text(_('Please wait...'))
         try:
-            self.backupHandle = backup.SetBackupOperation(os.path.join(SETLOC, "%s.conf" % name))
+            self.backupHandle = backup.SetBackupOperation(os.path.join(constants.SETLOC, "%s.conf" % name))
             self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
             self.ui.main2CancelBackupButton.show()
             self.ui.main2CancelBackupButton.set_sensitive(True)
@@ -2398,7 +2384,7 @@ class fwbackupsApp(Adw.Application):
             self.updateReturn = True
             self.main2BackupProgress.stopPulse()
             updateProgress(self)
-            updateTimeout = GLib.timeout_add(1000, updateProgress, self)
+            GLib.timeout_add(1000, updateProgress, self)
             while self.backupThread.retval is None:
                 widgets.doGtkEvents()
             # thread returned
@@ -2424,11 +2410,11 @@ class fwbackupsApp(Adw.Application):
         updateProgress(self)
         self.updateReturn = False
         self.main2BackupProgress.set_fraction(1.0)
-        if self.backupThread.retval == True:
+        if self.backupThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.complete')
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
-        elif self.backupThread.retval == -1 or self.backupThread.retval == False:  # error
+        elif self.backupThread.retval == -1 or self.backupThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the automatic backup operation of set `%(a)s\'' % {'a': name}), category='transfer.error')
@@ -2504,7 +2490,7 @@ class fwbackupsApp(Adw.Application):
         options["Nice"] = nice
         # Incase they copied configs with a niceness preset, reset it to 0
         # so the backup doesn't fail before it starts.
-        if UID != 0 and nice < 0:
+        if constants.UID != 0 and nice < 0:
             options["Nice"] = 0
         oneTimeConf.save(paths, options)
 
@@ -2517,23 +2503,23 @@ class fwbackupsApp(Adw.Application):
                 status, current, total, currentName = self.backupHandle.getProgress()
             else:
                 return
-            if status not in [backup.STATUS_INITIALIZING, backup.STATUS_EXECING_USER_COMMAND, backup.STATUS_CLEANING_OLD]:
+            if status not in [BackupStatus.INITIALIZING, BackupStatus.EXECING_USER_COMMAND, BackupStatus.CLEANING_OLD]:
                 self.main3BackupProgress.set_fraction(float(current - 1) / float(total))
             # There is a current filename
-            if status == backup.STATUS_BACKING_UP and currentName not in [None, '', '\n']:
+            if status == BackupStatus.BACKING_UP and currentName not in [None, '', '\n']:
                 self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
             # There is no current filename
-            elif status == backup.STATUS_BACKING_UP and not currentName:
+            elif status == BackupStatus.BACKING_UP and not currentName:
                 self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up files... Please wait') % {'a': current, 'b': total})
-            elif status == backup.STATUS_CLEANING_OLD:
+            elif status == BackupStatus.CLEANING_OLD:
                 self.main3BackupProgress.set_text(_('Cleaning old backups'))
-            elif status == backup.STATUS_SENDING_TO_REMOTE:
+            elif status == BackupStatus.SENDING_TO_REMOTE:
                 self.main3BackupProgress.set_text(_('Sending files to remote server'))
-            elif status == backup.STATUS_EXECING_USER_COMMAND:
+            elif status == BackupStatus.EXECING_USER_COMMAND:
                 self.main3BackupProgress.set_text(_('Executing user command'))
             return self.updateReturn
 
-        oneTimeConfig = config.OneTimeConf(ONETIMELOC, True)
+        oneTimeConfig = config.OneTimeConf(constants.ONETIMELOC, True)
         self.saveOneTimeConfiguration(oneTimeConfig)
         self.ui.main3ControlNotebook.set_current_page(3)
         self.ui.OneTimeRadioTool.set_active(True)
@@ -2550,13 +2536,13 @@ class fwbackupsApp(Adw.Application):
         self.main3BackupProgress.startPulse()
         self.main3BackupProgress.set_text(_('Please wait...'))
         try:
-            self.backupHandle = backup.OneTimeBackupOperation(ONETIMELOC, self.logger)
+            self.backupHandle = backup.OneTimeBackupOperation(constants.ONETIMELOC, self.logger)
             self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
             self.setStatus(_('Working'))
             self.updateReturn = True
             self.main3BackupProgress.stopPulse()
             updateProgress(self)
-            updateTimeout = GLib.timeout_add(1000, updateProgress, self)
+            GLib.timeout_add(1000, updateProgress, self)
             while self.backupThread.retval is None:
                 widgets.doGtkEvents()
             # thread returned
@@ -2583,11 +2569,11 @@ class fwbackupsApp(Adw.Application):
         updateProgress(self)
         self.updateReturn = False
         self.main3BackupProgress.set_fraction(1.0)
-        if self.backupThread.retval == True:
+        if self.backupThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.BACKUP_COMPLETE.name, _('Backup complete'), _('Finished the one-time backup operation'))
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
-        elif self.backupThread.retval == -1 or self.backupThread.retval == False:  # error
+        elif self.backupThread.retval == -1 or self.backupThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.BACKUP_ERROR.name, _('Error during backup'), _('An error occured while performing the one-time backup operation'), category='transfer.error')
@@ -2616,13 +2602,13 @@ class fwbackupsApp(Adw.Application):
 
         def updateProgress(self):
             """Updates the statusbar"""
-            if self.updateReturn == True:
+            if self.updateReturn is True:
                 status, current, total, currentName = self.restoreHandle.getProgress()
             else:
                 return
-            if status == restore.STATUS_RECEIVING_FROM_REMOTE:  # no "current file" yet
+            if status == RestoreStatus.RECEIVING_FROM_REMOTE:  # no "current file" yet
                 self.restore2RestorationProgress.set_text(_('Receiving files from remote server'))
-            elif status == restore.STATUS_RESTORING:  # we have a 'current file'
+            elif status == RestoreStatus.RESTORING:  # we have a 'current file'
                 self.restore2RestorationProgress.set_text(_('Restoring: %s') % os.path.basename(currentName))
             return self.updateReturn
 
@@ -2636,14 +2622,14 @@ class fwbackupsApp(Adw.Application):
         self.restore2RestorationProgress.startPulse()
         self.restore2RestorationProgress.set_text(_('Please wait...'))
         try:
-            self.restoreHandle = restore.RestoreOperation(RESTORELOC, self.logger)
+            self.restoreHandle = restore.RestoreOperation(constants.RESTORELOC, self.logger)
             self.restoreThread = fwbackups.runFuncAsThread(self.restoreHandle.start)
             self.ui.restore2CancelRestoreButton.set_sensitive(True)
             self.setStatus(_('Working'))
             self.updateReturn = True
             self.restore2RestorationProgress.startPulse()
             updateProgress(self)
-            updateTimeout = GLib.timeout_add(1000, updateProgress, self)
+            GLib.timeout_add(1000, updateProgress, self)
             while self.restoreThread.retval is None:
                 widgets.doGtkEvents()
             # thread returned
@@ -2667,12 +2653,12 @@ class fwbackupsApp(Adw.Application):
         self.restore2RestorationProgress.set_text('')
         self.restore2RestorationProgress.stopPulse()
         self.restore2RestorationProgress.set_fraction(1.0)
-        if self.restoreThread.retval == True:
+        if self.restoreThread.retval is True:
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.RESTORE_STARTED.name, _('Restore finished'), _('Finished the restore operation'), category='transfer.error')
             self.setStatus(_('<span color="dark green">Operation complete</span>'))
             self.restore2RestorationProgress.set_text('')
-        elif self.restoreThread.retval == -1 or self.restoreThread.retval == False:  # error
+        elif self.restoreThread.retval == -1 or self.restoreThread.retval is False:  # error
             self.setStatus(_('<span color="Red">Error</span>'))
             if int(prefs.get('Preferences', 'ShowNotifications')) == 1:
                 self.trayNotify(fwbackups.EventType.RESTORE_ERROR.name, _('Error during restore'), _('An error occured while performing the restore operation'), category='transfer.error')

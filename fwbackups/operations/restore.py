@@ -22,18 +22,21 @@ import base64
 import os
 import tarfile
 import time
-# --
+
+from enum import Enum
+
 import fwbackups
 from fwbackups.i18n import _
-from fwbackups.const import *
 from fwbackups import config
 from fwbackups import operations
 from fwbackups import shutil_modded
 from fwbackups import sftp
 
-STATUS_INITIALIZING = 0
-STATUS_RESTORING = 1
-STATUS_RECEIVING_FROM_REMOTE = 2
+
+class RestoreStatus(Enum):
+    INITIALIZING = 0
+    RESTORING = 1
+    RECEIVING_FROM_REMOTE = 2
 
 
 class RestoreOperation(operations.Common):
@@ -80,7 +83,7 @@ class RestoreOperation(operations.Common):
             # Check for errors, if any
             import paramiko
             import socket
-            if thread.retval == True:
+            if thread.retval is True:
                 pass
             elif isinstance(thread.exception, IOError):
                 self.logger.logmsg('ERROR', _('The restore source was either not ' +
@@ -116,7 +119,7 @@ class RestoreOperation(operations.Common):
         # Receive files from remote server
         if self.options['RemoteSource']:
             self.logger.logmsg('INFO', _('Receiving files from server'))
-            self._status = STATUS_RECEIVING_FROM_REMOTE  # receiving files
+            self._status = RestoreStatus.RECEIVING_FROM_REMOTE  # receiving files
             try:
                 # download file to location where we expect source to be
                 client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
@@ -133,7 +136,7 @@ class RestoreOperation(operations.Common):
                 # Either that or an error was encountered above
                 self.logger.logmsg('INFO', _('Finished restore operation'))
                 return not wasErrors
-        self._status = STATUS_RESTORING  # restoring
+        self._status = RestoreStatus.RESTORING  # restoring
         try:
             if self.options['SourceType'] == 'set':  # we don't know the type
                 if os.path.isfile(self.options['Source']):

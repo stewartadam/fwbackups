@@ -22,8 +22,6 @@ __all__ = ['backup', 'restore']
 
 import os
 import fwbackups
-# --
-from fwbackups.const import *
 from fwbackups.i18n import _, encode
 
 
@@ -39,7 +37,6 @@ class OperationError(Exception):
 
 class Common:
     """Base class for all operations"""
-
     def __init__(self, logger=None, printToo=True):
         """Initializes elements common to all operations. If no logger is specified,
         a new one will be created."""
@@ -69,7 +66,7 @@ class Common:
                     self.logger.logmsg('DEBUG', _('Stopping process with ID %s') % process)
                     fwbackups.kill(process, 9)
                 except Exception as error:
-                    self.logger.logmsg('WARNING', _('Could not stop process %(a)s: %(b)s' % (process, error)))
+                    self.logger.logmsg('WARNING', _('Could not stop process %s: %s') % (process, error))
                     continue
         self.toCancel = True
 

@@ -20,9 +20,8 @@ The fwbackups logger
 """
 import datetime
 import logging
-import types
 
-from fwbackups.const import *
+from . import const as constants
 from fwbackups.i18n import _
 
 L_DEBUG = logging.DEBUG
@@ -63,7 +62,7 @@ class fwLogger(logging.Logger):
         self.__newmessages = False
         try:
             # need a handler
-            loghandler = logging.FileHandler(LOGLOC, 'a', encoding="UTF-8")
+            loghandler = logging.FileHandler(constants.LOGLOC, 'a', encoding="UTF-8")
             # Create formatter & add formatter to handler
             logformatter = logging.Formatter("%(message)s")
             loghandler.setFormatter(logformatter)

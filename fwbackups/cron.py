@@ -25,7 +25,7 @@ import subprocess
 import tempfile
 
 from .i18n import _, encode
-from .const import *
+from . import const as constants
 
 from fwbackups import execute
 from fwbackups import config
@@ -157,19 +157,19 @@ def getPyCrontab():
 def read():
     """Read in crontab entires from a crontab-formatted file. Returns a list of
     rawCrontabLine objects, one for each line."""
-    if MSWINDOWS:
+    if constants.MSWINDOWS:
         # Read from pycron's crontab file
         crontabLoc = getPyCrontab()
         fh = open(crontabLoc, 'rb')
     else:
         # Read from the user's crontab
         retval, stdout, stderr = execute(['crontab', '-l'], stdoutfd=subprocess.PIPE, text=False)
-        if retval not in [os.EX_OK, 1]:  # retval=1 happens if user does not have a crontab to remove
+        if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to remove
             raise CronError(f"Failure to remove crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
         fh = stdout
     # Parse the lines
     lines = [rawCrontabLine(line) for line in fh.readlines()]
-    if MSWINDOWS:
+    if constants.MSWINDOWS:
         fh.close()
     return lines
 
@@ -180,7 +180,7 @@ def write(crontabEntries=[]):
     respectively."""
     remove()
     try:
-        if MSWINDOWS:
+        if constants.MSWINDOWS:
             # We'll edit PyCrontab directly
             crontab = getPyCrontab()
             fh = open(crontab, 'wb')
@@ -196,9 +196,9 @@ def write(crontabEntries=[]):
                 fh.write(crontabEntry.get_raw_entry_text())
         fh.close()
 
-        if not MSWINDOWS:
+        if not constants.MSWINDOWS:
             retval, stdout, stderr = execute(['crontab', path])
-            if retval != os.EX_OK:
+            if retval != constants.EXIT_STATUS_OK:
                 raise CronError(f"Failure to install crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
             os.remove(path)
     except IOError:
@@ -208,14 +208,14 @@ def write(crontabEntries=[]):
 
 def remove():
     """Removes/empties a user's crontab"""
-    if MSWINDOWS:
+    if constants.MSWINDOWS:
         crontab = getPyCrontab()
         fh = open(crontab, 'wb')
         fh.write('')
         fh.close()
     else:
         retval, stdout, stderr = execute(['crontab', '-r'])
-        if retval not in [os.EX_OK, 1]:  # retval=1 happens if user does not have a crontab to list
+        if retval not in [constants.EXIT_STATUS_OK, 1]:  # retval=1 happens if user does not have a crontab to list
             raise CronError(f"Failure to read crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
 
 
@@ -243,7 +243,7 @@ def clean_fwbackups_entries():
                     cleanedLines.append(line)
                     continue
                 fields = parsedLine.get_all_fields()
-                if entry_text.startswith('#') or not fields[6].startswith(CRON_SIGNATURE):
+                if entry_text.startswith('#') or not fields[6].startswith(constants.CRON_SIGNATURE):
                     cleanedLines.append(line)
             except ValueError:
                 cleanedLines.append(line)

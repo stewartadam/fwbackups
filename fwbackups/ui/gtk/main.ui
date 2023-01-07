@@ -886,6 +886,7 @@
                                                     <property name="focusable">1</property>
                                                     <property name="halign">center</property>
                                                     <property name="label" translatable="yes">Compress archive using</property>
+                                                    <property name="margin-start">24</property>
                                                     <property name="use-underline">1</property>
                                                     <signal name="toggled" handler="on_main3CompressCheck_toggled"/>
                                                   </object>

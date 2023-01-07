@@ -21,25 +21,27 @@ This file contains the logic for the backup operation
 import base64
 import os
 import re
+import sys
 import tempfile
 import time
 
+from enum import Enum
+
 import fwbackups
-from fwbackups.i18n import _, normalize
-from fwbackups.const import *
+from .. import const as constants
+from fwbackups.i18n import _
 from fwbackups import config
 from fwbackups import operations
 from fwbackups import shutil_modded
 from fwbackups import sftp
 
-if not MSWINDOWS:
-    import fcntl
 
-STATUS_INITIALIZING = 0
-STATUS_CLEANING_OLD = 1
-STATUS_BACKING_UP = 2
-STATUS_SENDING_TO_REMOTE = 3
-STATUS_EXECING_USER_COMMAND = 4
+class BackupStatus(Enum):
+    INITIALIZING = 0
+    CLEANING_OLD = 1
+    BACKING_UP = 2
+    SENDING_TO_REMOTE = 3
+    EXECING_USER_COMMAND = 4
 
 
 class BackupOperation(operations.Common):
@@ -194,7 +196,7 @@ class BackupOperation(operations.Common):
         # Check for errors, if any
         import paramiko
         import socket
-        if thread.retval == True:
+        if thread.retval is True:
             self.logger.logmsg('DEBUG', _('Attempt to connect succeeded.'))
             return True
         elif isinstance(thread.exception, IOError):
@@ -230,10 +232,10 @@ class BackupOperation(operations.Common):
         if len(paths) == 0:
             return True
         self._total = len(paths)
-        self._status = STATUS_BACKING_UP
+        self._status = BackupStatus.BACKING_UP
         wasAnError = False
         if self.options['Engine'] == 'tar':
-            if MSWINDOWS:
+            if constants.MSWINDOWS:
                 self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
                 import tarfile
                 fh = tarfile.open(self.dest, 'w')
@@ -243,7 +245,7 @@ class BackupOperation(operations.Common):
                     self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
                     fh.add(path, recursive=self.options['Recursive'])
                 fh.close()
-            else:  # not MSWINDOWS
+            else:  # not constants.MSWINDOWS
                 for path in paths:
                     path = fwbackups.escapeQuotes(path, 1)
                     self.ifCancel()
@@ -254,27 +256,24 @@ class BackupOperation(operations.Common):
                     self.logger.logmsg('DEBUG', _('Starting subprocess with PID %s') % sub.pid)
                     # track stdout
                     errors = []
-                    # use nonblocking I/O
-                    fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
-                    fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+                    os.set_blocking(sub.stderr, False)
                     while sub.poll() in ["", None]:
                         time.sleep(0.01)
-                        try:
-                            errors += sub.stderr.readline()
-                        except IOError as description:
-                            pass
+                        data = sub.stderr.readline()
+                        if data:
+                            errors += data
                     self.pids.remove(sub.pid)
                     retval = sub.poll()
                     self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
                     # Something wrong?
-                    if retval != EXIT_STATUS_OK and retval != 2:
+                    if retval != constants.EXIT_STATUS_OK and retval != 2:
                         wasAnError = True
                         self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
                         self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
         elif self.options['Engine'] == 'tar.gz':
             self._total = 1
-            if MSWINDOWS:
+            if constants.MSWINDOWS:
                 self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
                 import tarfile
                 fh = tarfile.open(self.dest, 'w:gz')
@@ -285,7 +284,7 @@ class BackupOperation(operations.Common):
                     fh.add(path, recursive=self.options['Recursive'])
                     self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % path))
                 fh.close()
-            else:  # not MSWINDOWS
+            else:  # not constants.MSWINDOWS
                 self._current = 1
                 escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
                 # This is a fancy way for getting i = "'one' 'two' 'three'"
@@ -300,26 +299,24 @@ class BackupOperation(operations.Common):
                 # track stdout
                 errors = []
                 # use nonblocking I/O
-                fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
-                fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+                os.set_blocking(sub.stderr, False)
                 while sub.poll() in ["", None]:
                     time.sleep(0.01)
-                    try:
-                        errors += sub.stderr.readline()
-                    except IOError as description:
-                        pass
+                    data = sub.stderr.readline()
+                    if data:
+                        errors += data
                 self.pids.remove(sub.pid)
                 retval = sub.poll()
                 self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
                 # Something wrong?
-                if retval != EXIT_STATUS_OK and retval != 2:
+                if retval != constants.EXIT_STATUS_OK and retval != 2:
                     wasAnError = True
                     self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
                     self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
         elif self.options['Engine'] == 'tar.bz2':
             self._total = 1
-            if MSWINDOWS:
+            if constants.MSWINDOWS:
                 self.logger.logmsg('INFO', _('Using %s on Windows: Cancel function will only take effect after a path has been completed.' % self.options['Engine']))
                 import tarfile
                 fh = tarfile.open(self.dest, 'w:bz2')
@@ -330,7 +327,7 @@ class BackupOperation(operations.Common):
                     fh.add(path, recursive=self.options['Recursive'])
                     self.logger.logmsg('DEBUG', _('Adding path `%s\' to the archive' % path))
                 fh.close()
-            else:  # not MSWINDOWS
+            else:  # not constants.MSWINDOWS
                 self._current = 1
                 escapedPaths = [fwbackups.escapeQuotes(i, 1) for i in paths]
                 # This is a fancy way for getting i = "'one' 'two' 'three'"
@@ -345,19 +342,17 @@ class BackupOperation(operations.Common):
                 # track stdout
                 errors = []
                 # use nonblocking I/O
-                fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
-                fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+                os.set_blocking(sub.stderr, False)
                 while sub.poll() in ["", None]:
                     time.sleep(0.01)
-                    try:
-                        errors += sub.stderr.readline()
-                    except IOError as description:
-                        pass
+                    data = sub.stderr.readline()
+                    if data:
+                        errors += data
                 self.pids.remove(sub.pid)
                 retval = sub.poll()
                 self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
                 # Something wrong?
-                if retval != EXIT_STATUS_OK and retval != 2:
+                if retval != constants.EXIT_STATUS_OK and retval != 2:
                     wasAnError = True
                     self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
                     self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
@@ -384,11 +379,11 @@ class BackupOperation(operations.Common):
                 for path in paths:
                     self.ifCancel()
                     self._current += 1
-                    if MSWINDOWS:
+                    if constants.MSWINDOWS:
                         # let's deal with real paths
                         self.logger.logmsg('DEBUG', _('Backing up path %(a)i/%(b)i: %(c)s' % {'a': self._current, 'b': self._total, 'c': path}))
                         shutil_modded.copytree_fullpaths(path, self.dest)
-                    else:  # not MSWINDOWS; UNIX/OS X can call rsync binary
+                    else:  # not constants.MSWINDOWS; UNIX/OS X can call rsync binary
                         path = fwbackups.escapeQuotes(path, 1)
                         self.logger.logmsg('DEBUG', _("Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'" % {'a': self.options['Nice'], 'b': command, 'c': path, 'd': fwbackups.escapeQuotes(self.dest, 1)}))
                         sub = fwbackups.executeSub("nice -n %i %s '%s' '%s'" % (self.options['Nice'], command, path, fwbackups.escapeQuotes(self.dest, 1)), env=self.environment, shell=True)
@@ -397,19 +392,17 @@ class BackupOperation(operations.Common):
                         # track stdout
                         errors = []
                         # use nonblocking I/O
-                        fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
-                        fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+                        os.set_blocking(sub.stderr, False)
                         while sub.poll() in ["", None]:
                             time.sleep(0.01)
-                            try:
-                                errors.append(sub.stderr.readline())
-                            except IOError as description:
-                                pass
+                            data = sub.stderr.readline()
+                            if data:
+                                errors += data
                         self.pids.remove(sub.pid)
                         retval = sub.poll()
                         self.logger.logmsg('DEBUG', _('Subprocess with PID %(a)s exited with status %(b)s' % {'a': sub.pid, 'b': retval}))
                         # Something wrong?
-                        if retval not in [EXIT_STATUS_OK, 2]:
+                        if retval not in [constants.EXIT_STATUS_OK, 2]:
                             wasAnError = True
                             self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
                             print(retval, errors)
@@ -420,7 +413,7 @@ class BackupOperation(operations.Common):
         # wasAnError = True the archive might not even exist.
         if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(self.dest):
             self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
-            self._status = STATUS_SENDING_TO_REMOTE
+            self._status = BackupStatus.SENDING_TO_REMOTE
             client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
             try:
                 sftp.put(sftpClient, self.dest, self.options['RemoteFolder'])
@@ -606,18 +599,16 @@ class SetBackupOperation(BackupOperation):
         # track stdout
         errors = []
         # use nonblocking I/O
-        fl = fcntl.fcntl(sub.stderr, fcntl.F_GETFL)
-        fcntl.fcntl(sub.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        os.set_blocking(sub.stderr, False)
         while sub.poll() in ["", None]:
             time.sleep(0.01)
-            try:
-                errors += sub.stderr.readline()
-            except IOError as description:
-                pass
+            data = sub.stderr.readline()
+            if data:
+                errors += data
         self.pids.remove(sub.pid)
         retval = sub.poll()
         # Something wrong?
-        if retval != EXIT_STATUS_OK:
+        if retval != constants.EXIT_STATUS_OK:
             self.logger.logmsg('ERROR', _('Command returned with a non-zero exit status!'))
             self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
@@ -671,7 +662,7 @@ class SetBackupOperation(BackupOperation):
         self.logger.logmsg('INFO', _('Starting automatic backup operation of set `%s\'') % self.config.getSetName())
 
         if self.options["CommandBefore"]:
-            self._status = STATUS_EXECING_USER_COMMAND
+            self._status = BackupStatus.EXECING_USER_COMMAND
             # Find tokens and substitute them
             tokenized_command = self.tokens_replace(self.options["CommandBefore"], self.date)
             self.execute_user_command(1, tokenized_command)
@@ -688,7 +679,7 @@ class SetBackupOperation(BackupOperation):
             if self.options['DestinationType'] == 'remote (ssh)':  # check if server settings are OK
                 self.checkRemoteServer()
 
-            self._status = STATUS_CLEANING_OLD
+            self._status = BackupStatus.CLEANING_OLD
             if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
                     not self.options['DestinationType'] == 'remote (ssh)':
                 if not self.prepareDestinationFolder(self.options['Destination']):
@@ -703,7 +694,7 @@ class SetBackupOperation(BackupOperation):
             self.removeOldBackups()
             self.ifCancel()
 
-            self._status = STATUS_INITIALIZING
+            self._status = BackupStatus.INITIALIZING
             if self.options['PkgListsToFile']:
                 pkgListfiles = self.createPkgLists()
             else:
@@ -739,7 +730,7 @@ class SetBackupOperation(BackupOperation):
             self.cancelOperation()
 
         if self.options["CommandAfter"]:
-            self._status = STATUS_EXECING_USER_COMMAND
+            self._status = BackupStatus.EXECING_USER_COMMAND
             # Find tokens and substitute them
             tokenized_command = self.tokens_replace(self.options["CommandAfter"], self.date, retval)
             self.execute_user_command(2, tokenized_command)
