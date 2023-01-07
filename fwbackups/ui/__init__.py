@@ -707,23 +707,28 @@ class fwbackupsApp(Adw.Application):
             shutil_modded.copy(setPath, destSetPath)
             self.logger.logmsg('INFO', _('Exported set `%(a)s\' to `%(b)s\'' % {'a': setName, 'b': dest}))
 
-    def on_export_sets1_activate(self, widget, user_data):  # FIXME replace use of deprecated FileChooserButton
+    def on_export_sets1_activate(self, widget, user_data):
         """Export Sets entry in menu"""
         self.ExportView1.refresh()
         exportDialog = widgets.GenericDia(self.ui.export_dia, _('Export Sets'), self.ui.main)
         response = exportDialog.run()
-        runLoop = True
-        while runLoop:
-            if response == Gtk.ResponseType.HELP:
-                self.help()
-            elif response == Gtk.ResponseType.OK:
-                destination = self.ui.ExportFileChooserButton.get_filename()
+        if response == Gtk.ResponseType.HELP:
+            self.help()
+        elif response == Gtk.ResponseType.OK:
+            widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.ui.export_dia,
+                                               Gtk.FileChooserAction.SELECT_FOLDER,
+                                               _("_Open"), _("_Cancel"))
+            fileDialog = widgets.PathDia(widget, _('Choose folder(s)'), self.ui.export_dia,
+                                         Gtk.FileChooserAction.SELECT_FOLDER,
+                                         multiple=False)
+            response = fileDialog.run()
+            if response == Gtk.ResponseType.ACCEPT:
+                destination = fileDialog.get_filename()
                 self.ExportView1.liststore.foreach(self._exportSet, destination)
                 self.displayInfo(self.ui.export_dia, _('Sets exported'), _('The selected sets were exported successfully.'))
-                break
-            elif response == Gtk.ResponseType.CANCEL or response == Gtk.ResponseType.DELETE_EVENT:
-                break
-            response = exportDialog.run()
+                fileDialog.destroy()
+            else:
+                fileDialog.destroy()
         exportDialog.destroy()
 
     def on_quit1_activate(self, widget, user_data):

@@ -39,18 +39,6 @@
               </object>
             </child>
             <child>
-              <object class="GtkLabel" id="label216">
-                <property name="hexpand">1</property>
-                <property name="label" translatable="yes">Export to:</property>
-                <property name="use-markup">1</property>
-                <property name="xalign">0</property>
-                <layout>
-                  <property name="column">1</property>
-                  <property name="row">3</property>
-                </layout>
-              </object>
-            </child>
-            <child>
               <object class="GtkLabel" id="label292">
                 <property name="hexpand">1</property>
                 <property name="label" translatable="yes">&lt;span size="larger" weight="bold"&gt;Export Sets&lt;/span&gt;</property>
@@ -86,16 +74,7 @@
                 <layout>
                   <property name="column">0</property>
                   <property name="row">0</property>
-                  <property name="row-span">4</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="ExportFileChooserButton">
-                <property name="label">Select file...</property>
-                <layout>
-                  <property name="column">2</property>
-                  <property name="row">3</property>
+                  <property name="row-span">3</property>
                 </layout>
               </object>
             </child>
