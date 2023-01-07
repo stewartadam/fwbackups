@@ -77,7 +77,6 @@ class fwbackupsApp(Adw.Application):
 
         ui_files = [
             "fwbackups/ui/gtk/BugReport.ui",
-            "fwbackups/ui/gtk/about.ui",
             "fwbackups/ui/gtk/backupset.ui",
             "fwbackups/ui/gtk/confirm_dia.ui",
             "fwbackups/ui/gtk/error_dia.ui",
@@ -227,7 +226,6 @@ class fwbackupsApp(Adw.Application):
         self.ui.WelcomeLabel.set_markup(_('<b>Welcome</b>, %s') % constants.USER)
         # done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
         # Default Labels...
-        self.ui.about.set_version(fwbackups.__version__)
         self.setStatus(_('Idle'))
         self.main2IconviewSetup()
         self.main3TabSetup()
@@ -253,16 +251,9 @@ class fwbackupsApp(Adw.Application):
         # let's pretend we're doing something so we can't quit as we start
         self.operationInProgress = True
         # transient windows
-        self.ui.about.set_transient_for(self.ui.main)
         self.ui.preferences.set_transient_for(self.ui.main)
         self.ui.backupset.set_transient_for(self.ui.main)
         self.ui.restore.set_transient_for(self.ui.main)
-        if constants.MSWINDOWS:
-            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.ico')
-        else:
-            appIcon = os.path.join(constants.INSTALL_DIR, 'fwbackups.png')
-        if os.path.exists(appIcon):
-            self.ui.aboutProgramImage.set_from_file(appIcon)
 
         # Step 1: Setup the configuration directory
         try:
@@ -850,7 +841,19 @@ class fwbackupsApp(Adw.Application):
     # HELP MENU
     def on_about1_activate(self, widget, user_data):
         """Help > About"""
-        self.ui.about.show()
+        about = Adw.AboutWindow(transient_for=self.props.active_window,
+                                application_name='fwbackups',
+                                application_icon='com.diffingo.fwbackups',
+                                developer_name='Stewart Adam',
+                                comments=_('A feature-rich user backup program'),
+                                version=fwbackups.__version__,
+                                developers=['Stewart Adam'],
+                                documenters=['Stewart Adam'],
+                                copyright='© 2005 - 2022 Stewart Adam',
+                                license_type=Gtk.License.GPL_2_0,
+                                website="https://diffingo.com/oss/fwbackups")
+        about.set_transient_for(self.ui.main)
+        about.present()
 
     def on_help1_activate(self, widget, user_data):
         """Help > Help"""
@@ -916,18 +919,6 @@ class fwbackupsApp(Adw.Application):
         tempDir = self.ui.preferencesCustomizeTempDirEntry.get_text()
         prefs.set('Preferences', 'TempDir', tempDir)
         self.ui.preferences.hide()
-
-    ###
-    ### ABOUT WINDOW ###
-    ###
-
-    def on_aboutCloseButton_clicked(self, widget):
-        """Close button for About"""
-        self.hide(self.ui.about)
-
-    def on_aboutWebsiteButton_clicked(self, widget):
-        import webbrowser
-        webbrowser.open_new('http://www.diffingo.com/opensource')
 
     ###
     ### BACKUPSET WINDOW ###
