@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "fwbackups"
+version = "1.43.8"
+description = "A feature-rich, user-friendly backup program"
+authors = ["Stewart Adam <s.adam@diffingo.com>"]
+license = "GPLv2"
+readme = "README.md"
+
+homepage = "https://diffingo.com/oss/fwbackups"
+repository = "https://github.com/stewartadma/fwbackups"
+documentation = "https://downloads.diffingo.com/fwbackups/docs/html/"
+
+keywords = ["gtk+", "backups"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+paramiko = "^2.12.0"
+PyGObject = "^3.42.2"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+
+[tool.poetry.group.packaging]
+optional=true
+
+[tool.poetry.group.packaging.dependencies]
+pyinstaller = "^5.7.0"
+pyinstaller-versionfile = "^2.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

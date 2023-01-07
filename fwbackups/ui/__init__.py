@@ -1,3 +1,19 @@
+# Copyright (C) 2023 Stewart Adam
+# This file is part of fwbackups.
+
+# fwbackups is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
+# fwbackups is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with fwbackups; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 import base64
 import gi
 import paramiko
@@ -74,27 +90,26 @@ class fwbackupsApp(Adw.Application):
 
     def do_startup(self):
         Adw.Application.do_startup(self)
-
         ui_files = [
-            "fwbackups/ui/gtk/BugReport.ui",
-            "fwbackups/ui/gtk/backupset.ui",
-            "fwbackups/ui/gtk/confirm_dia.ui",
-            "fwbackups/ui/gtk/error_dia.ui",
-            "fwbackups/ui/gtk/export_dia.ui",
-            "fwbackups/ui/gtk/info_dia.ui",
-            "fwbackups/ui/gtk/main.ui",
-            "fwbackups/ui/gtk/preferences.ui",
-            "fwbackups/ui/gtk/restore.ui",
-            "fwbackups/ui/gtk/warning_dia.ui",
+            "BugReport.ui",
+            "backupset.ui",
+            "confirm_dia.ui",
+            "error_dia.ui",
+            "export_dia.ui",
+            "info_dia.ui",
+            "main.ui",
+            "preferences.ui",
+            "restore.ui",
+            "warning_dia.ui",
         ]
-        self.ui = loader.UILoader(ui_files, self)
+        self.ui = loader.UILoader([os.path.join(constants.INSTALL_DIR, "ui/gtk", file) for file in ui_files], self)
 
         builder = Gtk.Builder()
-        builder.add_from_file("fwbackups/ui/gtk/menus.ui")
+        builder.add_from_file(os.path.join(constants.INSTALL_DIR, "ui/gtk", "menus.ui"))
         self.set_menubar(builder.get_object("menubar"))
 
         css_provider = Gtk.CssProvider()
-        css_provider.load_from_file(Gio.File.new_for_path('fwbackups/ui/gtk/style.css'))
+        css_provider.load_from_file(Gio.File.new_for_path(os.path.join(constants.INSTALL_DIR, "ui/gtk", "style.css")))
         display = Gdk.Display.get_default()
         priority = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         Gtk.StyleContext.add_provider_for_display(display, css_provider, priority)

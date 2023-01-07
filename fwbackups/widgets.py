@@ -554,6 +554,7 @@ class PathView(View):
         target = [('text/uri-list', 0, 0)]
         # self.treeview.drag_dest_set(Gtk.DEST_DEFAULT_ALL, target, Gtk.gdk.ACTION_COPY) FIXME
 
+        # escape(), unescape() and get_local_path() helpers are based on code in ROX-lib2
         def escape(uri):
             "Convert each space to %20, etc"
             _to_utf8 = codecs.getencoder('utf-8')
