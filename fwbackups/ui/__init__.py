@@ -494,7 +494,11 @@ class fwbackupsApp(Adw.Application):
         self.statusbar.newmessage(_('Please wait... Regenerating crontab'), 10)
         widgets.doGtkEvents()
         # Purge existing fwbackups entries from the crontab
-        originalCronLines = cron.read()
+        try:
+          originalCronLines = cron.read()
+        except FileNotFoundError:
+            self.displayWarning(self.ui.main, _("Failed to schedule backups"), _("A cron service was not found on your system, and fwbackups will be unable to schedule backups as a result. Please install a cron service from your package manager and try again."))
+            return False
         fwbackupCronLines = cron.clean_fwbackups_entries()
         # Generate the new fwbackups entries
         files = sorted(os.listdir(constants.SETLOC))
