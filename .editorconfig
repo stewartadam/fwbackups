@@ -1,0 +1,37 @@
+# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# All files
+[*]
+end_of_line = lf
+indent_style = space
+trim_trailing_whitespace = true
+
+# Code files
+[*.py]
+indent_size = 4
+insert_final_newline = true
+charset = utf-8
+
+# JSON files
+[*.{ui,xml}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
+
+# Shell script files
+[*.sh]
+end_of_line = lf
+indent_size = 2
+
+# Windows scripts that are sensitive to line endings
+[*.{bat,cmd,ps,ps1}]
+end_of_line = crlf
