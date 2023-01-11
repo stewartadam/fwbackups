@@ -15,6 +15,7 @@ po/*.pot
 
 tests/
 _build/
+poetry.toml
 
 # ignore these file types
 *.exe
