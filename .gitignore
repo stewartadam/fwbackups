@@ -26,3 +26,7 @@ poetry.toml
 *.gz
 *.rpm
 *.omf
+
+# OS metadata
+.DS_Store
+Thumbs.db
