@@ -9,10 +9,6 @@ i18n = import('i18n')
 python = import('python').find_installation('python3')
 gnome = import('gnome')
 
-# dependencies
-gtk4_dep = dependency('gtk4', version: '>= 4.5.0')
-adwaita_dep = dependency('libadwaita-1', version: '>= 1.2.0')
-
 # common definitions
 bindir = get_option('bindir')
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
