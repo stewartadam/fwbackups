@@ -868,9 +868,10 @@ class fwbackupsApp(Adw.Application):
                                 version=fwbackups.__version__,
                                 developers=['Stewart Adam'],
                                 documenters=['Stewart Adam'],
-                                copyright='© 2005 - 2022 Stewart Adam',
+                                copyright='© 2005 - 2023 Stewart Adam',
                                 license_type=Gtk.License.GPL_2_0,
-                                website="https://diffingo.com/oss/fwbackups")
+                                website="https://diffingo.com/oss/fwbackups",
+                                issue_url="https://github.com/stewartadam/fwbackups/issues")
         about.set_transient_for(self.ui.main)
         about.present()
 

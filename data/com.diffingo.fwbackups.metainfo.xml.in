@@ -35,4 +35,9 @@
   <releases>
     <release date="2023-01-17" version="1.43.8" />
   </releases>
+  <categories>
+    <category>Utility</category>
+    <category>Archiving</category>
+    <category>GTK</category>
+  </categories>
 </component>

@@ -8,3 +8,4 @@ Icon=com.diffingo.fwbackups
 Terminal=false
 Type=Application
 StartupNotify=true
+X-GNOME-UsesNotifications=true
