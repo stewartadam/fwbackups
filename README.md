@@ -21,10 +21,7 @@ It is compatible with MacOS and Linux systems with Python 3 and GTK 4.
 
 ## User guide
 
-A copy of the user guide is available in HTML and PDF form in the `docs/` folder
-included with a release download of fwbackups.
-
-You can also view the most recent version of user guide online [here](https://www.diffingo.com/oss/fwbackups/documentation).
+The most recent version of user guide is available online, in HTML or PDF, [here](https://www.diffingo.com/oss/fwbackups/documentation).
 
 ## Building & Installation
 
