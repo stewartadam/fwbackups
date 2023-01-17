@@ -4,6 +4,7 @@
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
   <object class="GtkDialog" id="warning_dia">
+    <property name="default-width">500</property>
     <property name="icon-name">dialog-warning-symbolic</property>
     <property name="modal">1</property>
     <property name="resizable">0</property>
