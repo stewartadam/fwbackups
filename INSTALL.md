@@ -1,34 +1,109 @@
+# Building fwbackups from source
+
+It is strongly recommended to download fwbackups from your package manager or by
+using an application distribution system like Flatpak, which will automatically
+include all dependencies.
+
+If you wish to manually build and install fwbackups, read on.
+
 ## Dependencies
-* `python` version 2.x, min. version 2.4
-* `pygtk` python package >= 2.10 (with Glade support)
-* `crontab` (any cron service - `dcron`, `vixie-cron` or `cronie` for example)
-* `paramiko` python package for remote host (SFTP) support
-* Optional: `libnotify` bindings for Python (often called python-notify)
 
-Developers and/or users wanting to build from source will also require `autotools`, `intltool` and `gettext`.
+If you do want to build from source, fwbackups uses the [meson build system](https://mesonbuild.com/) and requires:
 
-## Building from source
-If you are **not** using a release download, you will need to generate the `configure` script by running `./autogen.sh` before running the steps below.
+- Python 3
+  - paramiko package
+  - pygobject package
+- GTK 4
+- libadwaita 1.x
+- gettext
 
-Configure and build fwbackups:
+These packages can be installed on Fedora-based systems:
+
+```sh
+dnf install meson gettext gtk4 libadwaita python3-paramiko python3-gobject
 ```
-./configure --prefix=/usr
-make
+
+On Ubuntu/Debian-based systems:
+
+```sh
+apt-get install meson gettext gtk4 libadwaita-1-0 python3-paramiko python3-gi
 ```
-Then run `make install` as root (or use sudo) to permanently install it on your system.
 
-## Uninstalling
-If you have installed fwbackups from source, you may uninstall it by running `make uninstall` from the original source directory you built fwbackups in.
+On MacOS:
 
-## Platform-specific notes
-### Windows
-*Note: fwbackups is no longer compatible with modern versions of Windows due to incompatibility with UAC and the unavailability of a dependency for Windows Vista+. **The Windows port of fwbackups is now unmaintained**. The text below refers was indended for use with Windows XP and will remain for archival purposes.*
+```sh
+brew install meson gettext gtk4 libadwaita gobject-introspection pygobject3
+python3 -m pip install paramiko
+```
 
-fwbackups packages most of the dependencies for Windows in an easy-to-use installer. Simply visit the Downloads page and use the full setup installer to install Python 2.6, PyCron 0.5.9 as well as the required Python modules and GTK+ runtime.
+## Try fwbackups (run from source)
 
-Due to cryptography software export restrictions, binary versions of the paramiko or pycrypto libraries are not distributed in this installer. You can build your own NSIS cryptography module installer from the fwbackups source, or install these two modules manually to the fwbackups python add-on module directory in `C:\Program Files\fwbackups`.
+If the above dependencies are installed, one can run fwbackups directly from the
+source tree without building:
 
-### OS X
-Although fwbackups does run on OS X, its dependencies need to be installed manually:
-* PyGTK and gtk-mac-integration can be installed easily via [homebrew](https://brew.sh/): `brew install pygtk gtk-mac-integration`
-* Python modules can be installed with: `pip --user install paramiko pycrypto`
+```sh
+python -m fwbackups
+```
+
+Note that any backups sets will **not** run as scheduled when fwbackups is run
+directly from source.
+
+## Build & install
+
+fwbackups can be built and installed to your system with:
+
+```sh
+meson setup _build -Dpython.install_env=auto --prefix=/usr
+sudo ninja -C _build install
+```
+
+### Customized Python installations
+
+On MacOS and systems with customized Python installations outside `/usr`, meson
+may incorrectly identify the installation path due to [this issue]( https://github.com/mesonbuild/meson/issues/10459).
+
+In these situations, the `force_system_python` build option should be enabled
+to ensure the package folder for the detected python installation is used:
+
+```sh
+meson setup _build -Dpython.install_env=auto -Dforce_system_python=true
+sudo ninja -C _build install
+```
+
+### Installing Python packages
+
+If you cannot install the Python packages with your OS package manger (e.g
+`apt-get`), it is recommended you setup a virtual environment to contain your
+dependencies.
+
+`poetry` can be used to install them in a Python virtual environment:
+
+```sh
+python3 -m pip install -U poetry
+poetry install
+```
+
+It may be useful to include your system site packages to avoid installing GTK4 bindings within the virtual environment (i.e. on MacOS, where GTK4 is provided via `brew`):
+
+```sh
+poetry config virtualenvs.options.system-site-packages true
+poetry install
+```
+
+Run fwbackups from the virtual environment with:
+
+```sh
+poetry run python -m fwbackups
+```
+
+## Troubleshooting
+
+### Poetry install hangs on package installation with 'pending'
+
+Try disabling the experimental installer:
+
+```sh
+poetry config experimental.new-installer false
+```
+
+More details at [poetry issue #3352](https://github.com/python-poetry/poetry/issues/3352).
