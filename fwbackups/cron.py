@@ -19,7 +19,6 @@
 Python interface to 'crontab' binary
 """
 
-import os
 import re
 import subprocess
 import tempfile
@@ -135,8 +134,6 @@ def read():
     fh = stdout
     # Parse the lines
     lines = [rawCrontabLine(line) for line in fh.readlines()]
-    if constants.MSWINDOWS:
-        fh.close()
     return lines
 
 
@@ -147,21 +144,20 @@ def write(crontabEntries=[]):
     remove()
     try:
         # We'll create a temporary file to pass to crontab as input
-        fd, path = tempfile.mkstemp()
-        fh = os.fdopen(fd, 'wb')
+        fh = tempfile.NamedTemporaryFile(dir=constants.LOC, prefix='.cron-')
+        path = fh.name
 
         for crontabEntry in crontabEntries:
             if isinstance(crontabEntry, crontabLine):  # generate the entry text
                 fh.write(crontabEntry.generate_entry_text().encode("utf-8"))
             else:
                 fh.write(crontabEntry.get_raw_entry_text())
-        fh.close()
+        fh.flush()
 
-        if not constants.MSWINDOWS:
-            retval, stdout, stderr = execute(['crontab', path])
-            if retval != constants.EXIT_STATUS_OK:
-                raise CronError(f"Failure to install crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
-            os.remove(path)
+        retval, stdout, stderr = execute(['crontab', path])
+        if retval != constants.EXIT_STATUS_OK:
+            raise CronError(f"Failure to install crontab: program exited with status {retval}, {stdout.read() if stdout else ''} {stderr.read() if stderr else ''}")
+        fh.close()
     except IOError:
         return False
     return True
