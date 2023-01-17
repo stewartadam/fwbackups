@@ -54,7 +54,7 @@ fwbackups can be built and installed to your system with:
 
 ```sh
 meson setup _build -Dpython.install_env=auto --prefix=/usr
-sudo ninja -C _build install
+meson install -C _build
 ```
 
 ### Customized Python installations
@@ -67,7 +67,7 @@ to ensure the package folder for the detected python installation is used:
 
 ```sh
 meson setup _build -Dpython.install_env=auto -Dforce_system_python=true
-sudo ninja -C _build install
+meson install -C _build
 ```
 
 ### Installing Python packages
