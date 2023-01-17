@@ -392,7 +392,10 @@ class BackupSetConf:
             if constants.MSWINDOWS:  # needs an abs path because pycron=system user
                 entry.append('"%s" "%s\\fwbackups-run.py" -l "%s"' % (sys.executable, constants.INSTALL_DIR, fwbackups.escapeQuotes(self.getSetName(), 2)))
             else:
-                entry.append('fwbackups-run -l \'%s\'' % fwbackups.escapeQuotes(self.getSetName(), 1))
+                command = 'fwbackups-run -l \'%s\'' % fwbackups.escapeQuotes(self.getSetName(), 1)
+                if constants.IS_FLATPAK:
+                    command = 'flatpak run --command=/bin/env com.diffingo.fwbackups -- ' + command
+                entry.append(command)
             # Add signature to end
             entry.append(constants.CRON_SIGNATURE)
             return entry
