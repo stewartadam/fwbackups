@@ -30,4 +30,4 @@ bin/fwbackups-runonce
 bin/fwbackups
 bin/fwbackups-run
 data/com.diffingo.fwbackups.desktop.in
-data/com.diffingo.fwbackups.appdata.xml.in
+data/com.diffingo.fwbackups.metainfo.xml.in

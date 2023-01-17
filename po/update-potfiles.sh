@@ -17,6 +17,6 @@ find fwbackups -name '*.py' >> "$POTFILES"
 find bin -name 'fwbackups*' >> "$POTFILES"
 
 echo "data/com.diffingo.fwbackups.desktop.in" >> "$POTFILES"
-echo "data/com.diffingo.fwbackups.appdata.xml.in" >> "$POTFILES"
+echo "data/com.diffingo.fwbackups.metainfo.xml.in" >> "$POTFILES"
 
 popd

@@ -1,5 +1,3 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-
 Name:              fwbackups
 Version:           @VERSION@
 Release:           1%{?dist}
@@ -7,22 +5,21 @@ Summary:           A feature-rich user backup program
 Group:             Applications/Archiving
 License:           GPLv2+
 URL:               http://www.diffingo.com/oss/fwbackups/
-Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}.tar.bz2
+Source0:           http://downloads.diffingo.com/fwbackups/fwbackups-%{version}.tar.xz
 BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:         noarch
 
+BuildRequires:     python3-devel
 BuildRequires:     desktop-file-utils
-# Pulls gettext, autotools
-BuildRequires:     intltool
-BuildRequires:     glib2-devel
-BuildRequires:     python-devel >= 2.4
+BuildRequires:     gettext
+BuildRequires:     meson
 
 Requires:          /usr/bin/crontab
 Requires:          tar, rsync
-Requires:          notify-python
-Requires:          pygtk2, pygtk2-libglade
-Requires:          python >= 2.4
+Requires:          gtk4, python3-gobject
+Requires:          python >= 3.9
 Requires:          python-paramiko
+Requires:          hicolor-icon-theme
 
 %description
 fwbackups is a feature-rich user backup program that allows users (including
@@ -32,52 +29,30 @@ groups of files and folders to different destinations at different times.
 Restores can be performed at any time using an existing backup from fwbackups
 or from the contents of an external folder or archive.
 
-
 %prep
 %setup -q -n %{name}-%{version}
 
 %build
-autoreconf -fi
-%configure
-# We don't implement this yet: make %{?_smp_mflags}
-make
+%meson -Dpython.install_env=auto
+%meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-
-desktop-file-install \
-    --dir ${RPM_BUILD_ROOT}%{_datadir}/applications\
-    --delete-original \
-    ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
-
+%meson_install
+%py3_shebang_fix %{buildroot}%{_bindir}/%{name}*
 %find_lang %{name}
 
-%post
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
-
-%postun
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files -f %{name}.lang
-%defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING README.md TODO.md
-%{_bindir}/*
-%{_datadir}/%{name}/
-%{_iconsdir}/hicolor/*/apps/%{name}.*
-%{_datadir}/applications/*.desktop
-%{python_sitelib}/%{name}/
+%doc AUTHORS ChangeLog COPYING README.md
+%{_metainfodir}/*%{name}*.xml
+%{_bindir}/%{name}*
+%{_datadir}/icons/hicolor/*/apps/*%{name}*
+%{_datadir}/applications/*%{name}*.desktop
+%{python3_sitelib}/%{name}/
 
 %changelog
+* Mon Jan 16 2023 Stewart Adam <s.adam at diffingo.com> - 1.43.8-1
+- Update to 1.43.8 (GTK 4 and Python 3)
+
 * Tue Dec 26 2017 Stewart Adam <s.adam at diffingo.com> - 1.43.7-1
 - Update to 1.43.7
 

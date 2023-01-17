@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+	<id>com.diffingo.fwbackups.desktop</id>
+	<metadata_license>CC0-1.0</metadata_license>
+	<project_license>GPL-2.0-or-later</project_license>
+	<name translatable="no">fwbackups</name>
+	<developer_name translatable="no">Stewart Adam</developer_name>
+  <summary>A feature-rich, user-friendly backup program</summary>
+	<description>
+	  <p>A feature-rich user backup program that allows you to backup your documents on a one-off or recurring scheduled basis.</p>
+	</description>
+	<screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+      <image>https://diffingo.com/oss/sites/default/files/screenshots/fwbackups/OneTime-Paths.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Backup settings</caption>
+      <image>https://diffingo.com/oss/sites/default/files/screenshots/fwbackups/OneTime-Settings.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Backup schedule configuration</caption>
+      <image>https://diffingo.com/oss/sites/default/files/screenshots/fwbackups/Set-Times.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Log viewer</caption>
+      <image>https://diffingo.com/oss/sites/default/files/screenshots/fwbackups/LogViewer.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.diffingo.fwbackups.desktop</launchable>
+	<url type="homepage">https://diffingo.com/oss/fwbackups/</url>
+  <url type="translate">https://github.com/stewartadam/fwbackups/tree/master/po</url>
+  <url type="bugtracker">https://github.com/stewartadam/fwbackups/issues</url>
+	<content_rating type="oars-1.1" />
+  <releases>
+    <release date="2023-01-17" version="1.43.8" />
+  </releases>
+</component>

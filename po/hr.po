@@ -34,7 +34,7 @@ msgstr ""
 msgid "backup;archive;archiving;"
 msgstr ""
 
-#: data/com.diffingo.fwbackups.appdata.xml.in:7 fwbackups/ui/__init__.py:848
+#: data/com.diffingo.fwbackups.metainfo.xml.in:7 fwbackups/ui/__init__.py:848
 msgid "A feature-rich user backup program"
 msgstr ""
 
