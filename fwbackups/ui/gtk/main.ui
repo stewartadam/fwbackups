@@ -19,6 +19,7 @@
   <object class="GtkApplicationWindow" id="main">
     <property name="default-height">515</property>
     <property name="default-width">650</property>
+    <property name="show-menubar">True</property>
     <property name="title" translatable="yes">fwbackups</property>
     <signal name="close-request" handler="main_close"/>
     <child>
