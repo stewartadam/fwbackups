@@ -16,17 +16,18 @@ If you do want to build from source, fwbackups uses the [meson build system](htt
 - GTK 4
 - libadwaita 1.x
 - gettext
+- cronie (or any other cron service that provides `crontab`)
 
 These packages can be installed on Fedora-based systems:
 
 ```sh
-dnf install meson gettext gtk4 libadwaita python3-paramiko python3-gobject
+dnf install meson gettext gtk4 libadwaita python3-paramiko python3-gobject cronie
 ```
 
 On Ubuntu/Debian-based systems:
 
 ```sh
-apt-get install meson gettext gtk4 libadwaita-1-0 python3-paramiko python3-gi
+apt-get install meson gettext gtk4 libadwaita-1-0 python3-paramiko python3-gi cron
 ```
 
 On MacOS:
