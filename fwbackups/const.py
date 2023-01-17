@@ -27,6 +27,8 @@ from enum import Enum, auto
 MSWINDOWS = sys.platform.startswith('win')
 LINUX = sys.platform.startswith('linux')
 DARWIN = sys.platform == 'darwin'
+IS_FLATPAK = os.path.exists('/.flatpak-info')
+
 if MSWINDOWS:
     UID = 1
     ROOTDRIVE = os.path.splitdrive(sys.argv[0])[0]

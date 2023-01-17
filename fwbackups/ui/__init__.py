@@ -2244,7 +2244,7 @@ class fwbackupsApp(Adw.Application):
             else:
                 return
             if status not in [BackupStatus.INITIALIZING, BackupStatus.EXECING_USER_COMMAND, BackupStatus.CLEANING_OLD]:
-                self.main2BackupProgress.set_fraction(float(current - 1) / float(total))
+                self.main2BackupProgress.set_fraction(0 if not total else float(current - 1) / float(total))
             # There is a current filename
             if status == BackupStatus.BACKING_UP and currentName not in [None, '', '\n']:
                 self.main2BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
@@ -2304,7 +2304,13 @@ class fwbackupsApp(Adw.Application):
             self.main2BackupProgress.stopPulse()
             self.main2BackupProgress.set_text('')
             self.displayInfo(self.ui.main, _("Error initializing backup"), message)
-            self.logger.logmsg('DEBUG', message)
+            self.logger.logmsg('ERROR', message)
+
+            import traceback
+            (etype, evalue, tb) = sys.exc_info()
+            tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
+            self.logger.logmsg('DEBUG', tracebackText)
+
             self.ui.main2CancelBackupButton.hide()
             self.ui.main2FinishBackupButton.show()
             return False
@@ -2405,7 +2411,7 @@ class fwbackupsApp(Adw.Application):
             else:
                 return
             if status not in [BackupStatus.INITIALIZING, BackupStatus.EXECING_USER_COMMAND, BackupStatus.CLEANING_OLD]:
-                self.main3BackupProgress.set_fraction(float(current - 1) / float(total))
+                self.main3BackupProgress.set_fraction(0 if not total else float(current - 1) / float(total))
             # There is a current filename
             if status == BackupStatus.BACKING_UP and currentName not in [None, '', '\n']:
                 self.main3BackupProgress.set_text(_('[%(a)i/%(b)i] Backing up: %(c)s') % {'a': current, 'b': total, 'c': os.path.basename(currentName).strip('\n')})
@@ -2462,7 +2468,13 @@ class fwbackupsApp(Adw.Application):
             self.main3BackupProgress.set_text('')
             message = _("An error occurred while initializing the backup operation: %s" % error)
             self.displayInfo(self.ui.main, _("Error initializing backup"), message)
-            self.logger.logmsg('DEBUG', message)
+            self.logger.logmsg('ERROR', message)
+
+            import traceback
+            (etype, evalue, tb) = sys.exc_info()
+            tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
+            self.logger.logmsg('DEBUG', tracebackText)
+
             self.ui.main3FinishButton.show()
             self.ui.main3FinishButton.set_sensitive(True)
             self.ui.main3CancelBackupButton.set_sensitive(False)
@@ -2545,7 +2557,13 @@ class fwbackupsApp(Adw.Application):
             self.restore2RestorationProgress.stopPulse()
             message = _("An error occurred while initializing the restore operation: %s" % error)
             self.displayInfo(self.ui.main, _("Error initializing restore operation"), message)
-            self.logger.logmsg('DEBUG', message)
+            self.logger.logmsg('ERROR', message)
+
+            import traceback
+            (etype, evalue, tb) = sys.exc_info()
+            tracebackText = ''.join(traceback.format_exception(etype, evalue, tb))
+            self.logger.logmsg('DEBUG', tracebackText)
+
             self.ui.restoreFinishButton.set_sensitive(True)
             self.ui.restore2CancelRestoreButton.set_sensitive(False)
             return False

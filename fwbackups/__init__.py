@@ -22,6 +22,7 @@ import sys
 import subprocess
 
 from threading import Thread
+from . import const as constants
 from .i18n import encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
@@ -52,15 +53,24 @@ def escapeQuotes(string, noQuotes):
     return string
 
 
-def execute(command, env=None, shell=False, stdoutfd=None, text=True):
+def execute(*args, **kwargs):
     """Execute a command, wait for it to finish"""
-    sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=text)
+    sub = executeSub(*args, **kwargs)
     return sub.wait(), sub.stdout, sub.stderr
 
 
 def executeSub(command, env=None, shell=False, stdoutfd=None, text=True):
     """Execute a command in the background"""
-    sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=text)
+    if env is None:
+        env = {}
+
+    if constants.IS_FLATPAK:
+        if type(command) is list:
+            command = ['flatpak-spawn', '--host'] + command
+        else:
+            command = 'flatpak-spawn --host ' + command
+
+    sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=dict(os.environ, **env), text=text)
     return sub
 
 

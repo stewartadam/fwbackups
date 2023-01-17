@@ -47,9 +47,9 @@ def encode(item):
     the determined system encoding (see above). If item is a list, the operation
     is performed to each item in the list. If the item is not a string, it is
     converted to one before applying the encoding."""
-    if isinstance(item, list):
+    if type(item) is list:
         return [encode(i) for i in item]
-    elif type(item) not in [str, str]:
+    elif type(item) is not str:
         item = str(item)
     return item.encode(encoding)
 
@@ -60,11 +60,11 @@ def decode(item, filename=False):
     performed to each item in the list. If the item is not a string, it is
     converted to one before applying the encoding. If filename is True, then item
     will be normalized to NFC form first using the normalize() function below."""
-    if isinstance(item, str):
+    if type(item) is str:
         return item
-    if isinstance(item, list):
+    elif type(item) is list:
         return [decode(i) for i in item]
-    elif type(item) not in [str, str]:
+    else:
         item = str(item)
     item = item.decode(encoding)
     if filename:
