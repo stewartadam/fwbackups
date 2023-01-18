@@ -488,8 +488,8 @@ class OneTimeBackupOperation(BackupOperation):
         if self.options['DiskInfoToFile']:
             pkgListfiles.append(self.createDiskInfo())
 
-        if not (self.options['Engine'] == 'rsync' and self.options['Incremental'] and
-           not self.options['DestinationType'] == 'remote (ssh)'):
+        if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
+                not self.options['DestinationType'] == 'remote (ssh)':
             if not self.prepareDestinationFolder(self.options['Destination']):
                 return False
             if os.path.exists(self.dest):
