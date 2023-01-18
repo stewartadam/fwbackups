@@ -1,11 +1,21 @@
-# fwbackups
+<!-- omit from toc -->
+# Overview of fwbackups
 
 A feature-rich user backup program that allows you to backup your documents on a
-one-off or recurring scheduled basis.
-
-It is compatible with MacOS and Linux systems with Python 3 and GTK 4.
+one-off or recurring scheduled basis. It is compatible with MacOS and Linux systems with Python 3 and GTK 4.
 
 ***Note: fwbackups is in maintenance only mode.*** See below for details.
+
+Table of contents:
+- [Features](#features)
+- [User guide](#user-guide)
+- [Building \& Installation](#building--installation)
+- [Usage](#usage)
+- [Translations](#translations)
+- [Known Issues](#known-issues)
+  - [Linux-specific](#linux-specific)
+- [Maintenance status](#maintenance-status)
+
 
 ## Features
 
@@ -28,7 +38,7 @@ The most recent version of user guide is available online, in HTML or PDF, [here
 If your distribution offers fwbackups in its software repositories, it is
 recommended you install fwbackups that way instead.
 
-fwbackups is also available as a Flatpak image under the name *com.diffingo.fwbackups*.
+fwbackups is also available as a Flatpak image under the name *com.diffingo.fwbackups*. Please note it leverages system binaries, so make sure you have a cron daemon (such as `cronie`) and `rsync` installed if you want to use the direct copy engine.
 
 For instructions on how to build from source, read on in [INSTALL.md](INSTALL.md).
 
@@ -66,10 +76,10 @@ Translations are available [here](https://www.transifex.com/Magic/fwbackups/) - 
 
 ### Linux-specific
 
-* If you previously installed fwbackups a 1.43.3 release candidate from source
+- If you previously installed fwbackups a 1.43.3 release candidate from source
   (for example on Ubuntu), please remove the `/usr/share/fwbackups/fwbackups`
   directory manually before installing 1.43.4.
-* An issue was identified in the previous version of fwbackups (1.43.3) where
+- An issue was identified in the previous version of fwbackups (1.43.3) where
   after upgrading, the backup schedule may have been erased. If you have been
   affected by this problem, simply open the administrator utility and then close
   it to reschedule all backups.
@@ -77,7 +87,7 @@ Translations are available [here](https://www.transifex.com/Magic/fwbackups/) - 
 ## Maintenance status
 
 fwbackups is in maintenance mode, and releases will be published for only major
-bugfixes (or if a new feature is added **and tested** with a pull request).
+bugfixes (or if a new feature is added **and tested*- with a pull request).
 
 Although I would love to keep working on fwbackups, I unfortunately no longer
 have the free time to give fwbackups the attention that it deserves. I have
