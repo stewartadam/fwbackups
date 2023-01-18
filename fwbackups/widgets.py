@@ -15,15 +15,11 @@
 # along with fwbackups; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-# Parts (C) Thomas Leonard (taken from ROX-lib2)
 """
 Classes used by the GUI, mostly to make callbacks easier
 """
-import codecs
 import logging
 import os
-import platform
-import re
 import threading
 import time
 from xml.sax.saxutils import escape
@@ -547,70 +543,6 @@ class PathView(View):
         self.treeview.set_reorderable(False)
         self.treeview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
 
-        # Allow enable drag and drop of rows including row move
-        # self.TARGETS = [('text/plain', 0, 1)]
-        # self.treeview.enable_model_drag_dest(self.TARGETS, Gtk.gdk.ACTION_DEFAULT)
-        target = [('text/uri-list', 0, 0)]
-        # self.treeview.drag_dest_set(Gtk.DEST_DEFAULT_ALL, target, Gtk.gdk.ACTION_COPY) FIXME
-
-        # escape(), unescape() and get_local_path() helpers are based on code in ROX-lib2
-        def escape(uri):
-            "Convert each space to %20, etc"
-            _to_utf8 = codecs.getencoder('utf-8')
-            return re.sub('[^:-_./a-zA-Z0-9]',
-                          lambda match: '%%%02x' % ord(match.group(0)),
-                          _to_utf8(uri)[0])
-
-        def unescape(uri):
-            "Convert each %20 to a space, etc"
-            if '%' not in uri:
-                return uri
-            return re.sub('%[0-9a-fA-F][0-9a-fA-F]',
-                          lambda match: chr(int(match.group(0)[1:], 16)),
-                          uri)
-
-        def get_local_path(uri):
-            """Convert 'uri' to a local path and return, if possible. If 'uri'
-            is a resource on a remote machine, return None. URI is in the escaped form
-            (%20 for space)."""
-            if not uri:
-                return None
-
-            if uri[0] == '/':
-                if uri[1:2] != '/':
-                    return unescape(uri)  # A normal Unix pathname
-                i = uri.find('/', 2)
-                if i == -1:
-                    return None  # //something
-                if i == 2:
-                    if constants.MSWINDOWS:
-                        return unescape(uri[3:])  # ///path - from the removal of file:///
-                    else:
-                        return unescape(uri[2:])  # ///path - from the removal of file:// as we need / (is root)
-                remote_host = uri[2:i]
-                if remote_host in ['localhost', platform.node()]:
-                    return unescape(uri[i:])  # //localhost/path
-                # //otherhost/path
-            elif uri[:5].lower() == 'file:':
-                if uri[5:6] == '/':
-                    return get_local_path(uri[5:])
-            elif uri[:2] == './' or uri[:3] == '../':
-                return unescape(uri)
-            return None
-
-        def drag_data_received(w, context, x, y, data, info, time):
-            paths = []
-            if data and data.format == 8:
-                for i in data.data.split('\r\n'):
-                    if i != "" or i is not None:
-                        path = get_local_path(i)
-                        if path is not None:
-                            paths.append(path.decode('utf-8'))
-            for i in paths:
-                self.add([os.path.normpath(i)], self._buildListstoreIndex(self.liststore, 1))
-            context.finish(True, False, time)
-
-        # self.treeview.connect('drag_data_received', drag_data_received) FIXME
         # Just to keep things clean.
         self.clear()
 
