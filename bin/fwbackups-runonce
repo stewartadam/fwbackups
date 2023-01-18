@@ -15,11 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with fwbackups; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+import base64
+import getopt
 import os
+import signal
 import sys
 import time
-import signal
-import getopt
 
 launched_from = os.path.dirname(os.path.realpath(__file__))
 if os.path.exists(os.path.join(launched_from, '../fwbackups/__init__.py')):  # check if we are running from source
@@ -53,7 +54,7 @@ Options:
   -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to 19)
   --destination-type=TYPE  :  Destination type (`local' or `remote (ssh)')
   --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'
-  --remote-user=USERNAME  :  Connect as specified username
+  --remote-username=USERNAME  :  Connect as specified username
   --remote-password=PASSWORD  :  Connect using password `PASSWORD'
   --remote-port=PORT  :  Connect on specified port (default 22)
 
@@ -143,10 +144,10 @@ if __name__ == "__main__":
                 options["DestinationType"] = value
             if opt == "--remote-host":
                 options["RemoteHost"] = value
-            if opt == "--remote-user":
+            if opt == "--remote-username":
                 options["RemoteUsername"] = value
             if opt == "--remote-password":
-                options["RemotePassword"] = value
+                options["RemotePassword"] = base64.b64encode(value.encode('ascii')).decode('ascii')
             if opt == "--remote-port":
                 options["RemotePort"] = value
     # handle ctrl + c
@@ -185,7 +186,7 @@ if __name__ == "__main__":
         sys.exit(1)
     backupThread.start()
     try:
-        while backupThread.isAlive():
+        while backupThread.is_alive():
             time.sleep(0.1)
     except IOError:  # ctrl+c raises this on Win32
         print('IOError while sleep!')
