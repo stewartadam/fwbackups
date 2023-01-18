@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=fwbackups
 Comment=Backup or restore your files
-Categories=GTK;System;Archiving;Utility;
+Categories=GTK;Archiving;Utility;
 Keywords=backup;archive;archiving;
 Exec=fwbackups
 Icon=com.diffingo.fwbackups

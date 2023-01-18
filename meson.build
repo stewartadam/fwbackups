@@ -1,5 +1,5 @@
 project('fwbackups',
-          version: '1.43.8',
+          version: '1.43.8-rc1',
     meson_version: '>= 0.62.0',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )
@@ -30,6 +30,7 @@ pymoduledir = join_paths(pylib, meson.project_name())
 conf = configuration_data()
 conf.set('PYTHON', python.full_path())
 conf.set('VERSION', meson.project_version())
+conf.set('RPM_VERSION', meson.project_version().replace('-', '~'))
 conf.set('localedir', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('pkgdatadir', pkgdatadir)
 
