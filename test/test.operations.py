@@ -51,11 +51,35 @@ for directory in [TESTDIR, SOURCEDIR, DESTDIR_BACKUP, DESTDIR_RESTORE]:
     shutil_modded.rmtree(directory)
   os.mkdir(directory)
 
-# Initialize 50MB of files
-for num in range(0, 50):
-  fh = open(os.path.join(SOURCEDIR, "file%s" % num), 'w')
-  fh.write(random.choice('abcdefghijklmnopqrstuvwxyz1234567890-=+_;"}{[]|<>/?.,`~')*1048576)
-  fh.close()
+# Initialize a collection of 1MB of files
+MEGABYTE_BYTES = 1048576
+FILE_COUNT=50
+
+def write_file(filename, length_bytes):
+    fh = open(filename, 'w')
+    fh.write(random.choice('abcdefghijklmnopqrstuvwxyz1234567890-=+_;"}{[]|<>/?.,`~')*length_bytes)
+    fh.close()
+
+# Particular filenames to test encodings
+utf8_filenames = [
+    'file-emoji-🤷‍♂️',
+    'file-diacritics-éàîçüø',
+    'file-math-÷± a⋅b n→∞ ∑x ¬(α∨β),',
+    'file-science-H₂O',
+    'file-symbols-© Ω “” ‚ ¿?',
+    'file-pronounciation-ˈɪŋɡlənd',
+    'file-currencies-$€£¥₹',
+    'file-korean-프로그램',
+    'file-greek-مرحبا بالعالم',
+    'file-chinese-simplified-你好世界',
+    'file-russian-Здравствуй, мир!'
+]
+
+for filename in utf8_filenames:
+    write_file(os.path.join(SOURCEDIR, filename), MEGABYTE_BYTES)
+
+for num in range(0, FILE_COUNT-len(utf8_filenames)):
+  write_file(os.path.join(SOURCEDIR, f"file{num}"), MEGABYTE_BYTES)
 
 print(_("*** Remote settings"))
 hostname = input(_("Hostname [localhost]: ")) or 'localhost'
@@ -70,7 +94,7 @@ username = input(_("Username [%s]: ") % USER) or USER
 from getpass import getpass
 raw_password = getpass(prompt=_("Password: "))
 password = base64.b64encode(raw_password.encode('ascii')).decode('ascii')
-remotefolder = input(_("Remote folder [%s]: ") % USERHOME) or str(USERHOME)
+remotefolder = input(_("Remote folder [%s]: ") % DESTDIR_RESTORE) or DESTDIR_RESTORE
 
 options = {}
 options["BackupHidden"] = 1
