@@ -33,6 +33,11 @@ from fwbackups.operations import backup
 from fwbackups import config
 from fwbackups import fwlogger
 
+if constants.IS_FLATPAK and 'XDG_RUNTIME_DIR' in os.environ and 'FLATPAK_ID' in os.environ:
+    XDG_RUNTIME_DIR = os.environ.get('XDG_RUNTIME_DIR')
+    FLATPAK_ID = os.environ.get('FLATPAK_ID')
+    os.environ['TMPDIR'] = f"{XDG_RUNTIME_DIR}/app/{FLATPAK_ID}"
+
 
 def usage(error=None):
     if error:

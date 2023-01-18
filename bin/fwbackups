@@ -23,6 +23,12 @@ if os.path.exists(os.path.join(launched_from, '../fwbackups/__init__.py')):  # c
     sys.path.append('../fwbackups')
 
 from fwbackups.ui import main
+from fwbackups import const as constants
 
 if __name__ == "__main__":
+    if constants.IS_FLATPAK and 'XDG_RUNTIME_DIR' in os.environ and 'FLATPAK_ID' in os.environ:
+        XDG_RUNTIME_DIR = os.environ.get('XDG_RUNTIME_DIR')
+        FLATPAK_ID = os.environ.get('FLATPAK_ID')
+        os.environ['TMPDIR'] = f"{XDG_RUNTIME_DIR}/app/{FLATPAK_ID}"
+
     sys.exit(main(sys.argv))
