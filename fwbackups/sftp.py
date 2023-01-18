@@ -235,7 +235,7 @@ def putFolder(sftp, src, dst, symlinks=False, excludes=[]):
 def testConnection(host, username, password, port, path):
     """Tests connecting to a SSH/SFTP connection with the supplied arguments.
     Returns True if connection was successful."""
-    client, sftp = connect(host, username, password, port, timeout=30)
+    client, sftp = connect(host, username, password, port, timeout=10)
     try:
         return isFolder(sftp, path)
     finally:

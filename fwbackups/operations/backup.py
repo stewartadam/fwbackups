@@ -186,44 +186,49 @@ class BackupOperation(operations.Common):
 
     def checkRemoteServer(self):
         """Checks if a connection to the remote server can be established"""
-        self.logger.logmsg('DEBUG', _('Attempting to connect to server %s...') % self.options['RemoteHost'])
+        if self.options['DestinationType'] != 'remote (ssh)':
+            # back-compat, but this should be refactored
+            return True
+
+        self.logger.logmsg('DEBUG', _('Attempting to connect to SFTP server %s...') % self.options['RemoteHost'])
         thread = fwbackups.runFuncAsThread(sftp.testConnection,
                                            self.options['RemoteHost'], self.options['RemoteUsername'],
                                            self.options['RemotePassword'], self.options['RemotePort'],
                                            self.options['RemoteFolder'])
         while thread.retval is None:
             time.sleep(0.1)
-        # Check for errors, if any
+
+        # check for errors, if any
         import paramiko
         import socket
         if thread.retval is True:
-            self.logger.logmsg('DEBUG', _('Attempt to connect succeeded.'))
+            self.logger.logmsg('DEBUG', _('Connecting to SFTP host {RemoteHost} succeeded.').format(RemoteHost=self.options['RemoteHost']))
             return True
-        elif isinstance(thread.exception, IOError):
-            self.logger.logmsg('ERROR', _('The backup destination was either not ' +
-                                          'found or it cannot be written to due to insufficient permissions.'))
+        else:
+            if isinstance(thread.exception, paramiko.AuthenticationException):
+                self.logger.logmsg('ERROR', _('A connection was established, but authentication ' +
+                                            'failed. Please verify the username and password ' +
+                                            'and try again.'))
+            elif isinstance(thread.exception, socket.timeout):
+                self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' +
+                                            'Please verify your settings and try again.'))
+            elif isinstance(thread.exception, socket.gaierror) or isinstance(thread.exception, socket.error):
+                self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' +
+                                            'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} +
+                                            '\nPlease verify your settings and try again.'))
+            elif isinstance(thread.exception, paramiko.SSHException):
+                self.logger.logmsg('ERROR', _('A connection to the server could not be established ' +
+                                            'because an error occurred: %s' % str(thread.exception) +
+                                            '\nPlease verify your settings and try again.'))
+            elif isinstance(thread.exception, IOError):
+                self.logger.logmsg('ERROR', _('The backup destination was either not ' +
+                                            'found or it cannot be written to due to insufficient permissions.'))
+            # push actual error to logs
+            import traceback
+            tracebackText = ''.join(traceback.format_exception(thread.exception))
+            self.logger.logmsg('DEBUG', _('Connecting to SFTP server {RemoteHost} failed:').format(RemoteHost=self.options['RemoteHost']) + "\n" + tracebackText)
+
             return False
-        elif isinstance(thread.exception, paramiko.AuthenticationException):
-            self.logger.logmsg('ERROR', _('A connection was established, but authentication ' +
-                                          'failed. Please verify the username and password ' +
-                                          'and try again.'))
-            return False
-        elif isinstance(thread.exception, socket.gaierror) or isinstance(thread.exception, socket.error):
-            self.logger.logmsg('ERROR', _('A connection to the server could not be established.\n' +
-                                          'Error %(a)s: %(b)s' % {'a': type(thread.exception), 'b': str(thread.exception)} +
-                                          '\nPlease verify your settings and try again.'))
-            return False
-        elif isinstance(thread.exception, socket.timeout):
-            self.logger.logmsg('ERROR', _('A connection to the server has timed out. ' +
-                                          'Please verify your settings and try again.'))
-            return False
-        elif isinstance(thread.exception, paramiko.SSHException):
-            self.logger.logmsg('ERROR', _('A connection to the server could not be established ' +
-                                          'because an error occurred: %s' % str(thread.exception) +
-                                          '\nPlease verify your settings and try again.'))
-            return False
-        else:  # not remote, just pass
-            return True
 
     def backupPaths(self, paths, command):
         """Does the actual copying dirty work"""
@@ -361,6 +366,7 @@ class BackupOperation(operations.Common):
             # in this case, self.{folderdest,dest} both need to be created
             if self.options['DestinationType'] == 'remote (ssh)':
                 client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+                self.logger.logmsg('DEBUG', _('Connected to SFTP server {RemoteHost}; backing up paths directly to remote host.').format(RemoteHost=self.options['RemoteHost']))
                 if not wasAnError:
                     for path in paths:
                         if self.toCancel:
@@ -410,22 +416,26 @@ class BackupOperation(operations.Common):
         self.ifCancel()
         # A test is included to ensure sure the archive actually exists, as if
         # wasAnError = True the archive might not even exist.
-        if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)' and os.path.exists(self.dest):
-            self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
-            self._status = BackupStatus.SENDING_TO_REMOTE
-            client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
-            try:
-                sftp.put(sftpClient, self.dest, self.options['RemoteFolder'])
-                os.remove(self.dest)
-            except BaseException:
-                import sys
-                import traceback
+        if self.options['Engine'].startswith('tar') and self.options['DestinationType'] == 'remote (ssh)':
+            if not os.path.exists(self.dest):
+                self.logger.logmsg('WARN' if wasAnError else 'ERROR', _("Could not sent backup archive to remote server because temporary destination '{dest}' was not found").format(dest=self.dest))
                 wasAnError = True
-                self.logger.logmsg('DEBUG', _('Could not send file(s) or folder to server:'))
-                (etype, value, tb) = sys.exc_info()
-                self.logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
-            sftpClient.close()
-            client.close()
+            else:
+                self.logger.logmsg('DEBUG', _('Sending files to server via SFTP'))
+                self._status = BackupStatus.SENDING_TO_REMOTE
+                client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
+                try:
+                    sftp.put(sftpClient, self.dest, self.options['RemoteFolder'])
+                    os.remove(self.dest)
+                except BaseException:
+                    import sys
+                    import traceback
+                    wasAnError = True
+                    self.logger.logmsg('DEBUG', _('Could not send file(s) or folder to server:'))
+                    (etype, value, tb) = sys.exc_info()
+                    self.logger.logmsg('DEBUG', ''.join(traceback.format_exception(etype, value, tb)))
+                sftpClient.close()
+                client.close()
 
         # finally, we do this
         self._current = self._total
@@ -469,7 +479,8 @@ class OneTimeBackupOperation(BackupOperation):
             return False
 
         if self.options['DestinationType'] == 'remote (ssh)':  # check if server settings are OK
-            self.checkRemoteServer()
+            if not self.checkRemoteServer():
+                return False
 
         if self.options['PkgListsToFile']:
             pkgListfiles = self.createPkgLists()
@@ -676,7 +687,8 @@ class SetBackupOperation(BackupOperation):
             self.ifCancel()
 
             if self.options['DestinationType'] == 'remote (ssh)':  # check if server settings are OK
-                self.checkRemoteServer()
+                if not self.checkRemoteServer():
+                    return False
 
             self._status = BackupStatus.CLEANING_OLD
             if not (self.options['Engine'] == 'rsync' and self.options['Incremental']) and \
