@@ -82,11 +82,67 @@ class fwbackupsApp(Adw.Application):
     Initialize a new instance.
     """
 
-    def __init__(self):
-        super().__init__(application_id='com.diffingo.fwbackups', flags=Gio.ApplicationFlags.FLAGS_NONE)
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            application_id='com.diffingo.fwbackups',
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            **kwargs
+        )
         GLib.set_application_name(_("fwbackups"))
         GLib.set_prgname("fwbackups")
-        self.verbose = False  # FIXME
+        self.verbose = False
+        self.setup_cli()
+
+    def setup_cli(self):
+        NO_SHORT_FORM = 0
+
+        self.add_main_option(
+            "version",
+            NO_SHORT_FORM,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Display application version.",
+            None,
+        )
+
+        self.add_main_option(
+            "verbose",
+            ord("v"),
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Print log messages to console in addition to log file.",
+            None,
+        )
+
+        self.add_main_option(
+            "debug",
+            NO_SHORT_FORM,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Show debug messages. Implies -v.",
+            None,
+        )
+
+        self.add_main_option(
+            "start-minimized",
+            NO_SHORT_FORM,
+            GLib.OptionFlags.HIDDEN,
+            GLib.OptionArg.NONE,
+            "Deprecated flag; exists for backwards compatibility only",
+            None,
+        )
+
+    def do_command_line(self, command_line):
+        options = command_line.get_options_dict().end().unpack()
+        if 'verbose' in options:
+            self.verbose = 1
+
+        if 'debug' in options:
+            self.verbose = 2
+
+        self.do_activate()
+        return 0
 
     def do_startup(self):
         Adw.Application.do_startup(self)
@@ -142,7 +198,7 @@ class fwbackupsApp(Adw.Application):
             if handler is not None:
                 action.connect("activate", getattr(self, handler_name))
             else:
-                print(f"skipping connect for signal with missing handler {handler_name}")  # FIXME logging
+                print(f"skipping connect for signal with missing handler {handler_name}")
             self.add_action(action)
 
     def do_activate(self):
@@ -318,7 +374,6 @@ class fwbackupsApp(Adw.Application):
             sys.exit(1)
         # Step 3: See what's available and what's not
         self.action = None
-        self.NOTIFY_AVAIL = False  # FIXME notifications
 
         # render icons: about dialog
         if constants.MSWINDOWS:

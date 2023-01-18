@@ -405,7 +405,6 @@ class BackupOperation(operations.Common):
                         if retval not in [constants.EXIT_STATUS_OK, 2]:
                             wasAnError = True
                             self.logger.logmsg('ERROR', 'An error occurred while backing up path \'%s\'.\nPlease check the error output below to determine if any files are incomplete or missing.' % str(path))
-                            print(retval, errors)
                             self.logger.logmsg('ERROR', _('Process exited with status %(a)s. Errors: %(b)s' % {'a': str(retval), 'b': ''.join(errors)}))
 
         self.ifCancel()

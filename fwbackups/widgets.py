@@ -628,7 +628,6 @@ class PathView(View):
 
     def addFolder(self):
         """Add a folder to the pathview"""
-        print("YES")
         widget = Gtk.FileChooserNative.new(_('Choose folder(s)'), self.parent,
                                            Gtk.FileChooserAction.SELECT_FOLDER,
                                            _("_Open"), _("_Cancel"))
