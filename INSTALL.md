@@ -32,19 +32,19 @@ If you do want to build from source, fwbackups uses the [meson build system](htt
 These packages can be installed on Fedora-based systems:
 
 ```sh
-dnf install meson gettext gtk4 libadwaita python3-paramiko python3-gobject cronie rsync
+dnf install meson cronie rsync gettext gtk4 libadwaita adwaita-icon-theme python3-paramiko python3-gobject
 ```
 
 On Ubuntu/Debian-based systems:
 
 ```sh
-apt-get install meson gettext gtk4 libadwaita-1-0 python3-paramiko python3-gi cron rsync
+apt-get install meson cron rsync gettext gtk4 libadwaita-1-0 adwaita-icon-theme python3-paramiko python3-gi
 ```
 
 On MacOS:
 
 ```sh
-brew install meson gettext gtk4 libadwaita gobject-introspection pygobject3 rsync
+brew install meson rsync gettext gtk4 libadwaita adwaita-icon-theme pygobject3
 python3 -m pip install paramiko
 ```
 
