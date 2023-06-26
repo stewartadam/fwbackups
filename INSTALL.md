@@ -132,25 +132,20 @@ mkdir -p _build_flatpak
 Build and test the image locally:
 
 ```sh
-flatpak-builder --user --install --force-clean build-dir com.diffingo.fwbackups.json
+flatpak-builder --user --install --force-clean _build_flatpak com.diffingo.fwbackups.json
 flatpak run com.diffingo.fwbackups
 ```
 
-Install it:
-
-```sh
-flatpak-builder --repo=repo --force-clean _build_flatpak com.diffingo.fwbackups.json
-flatpak build-update-repo repo
-```
+*Note if you have made local changes to the source code, they need to be committed in order for them to be included in the built flatpak.*
 
 Run the administrator GUI:
 
 ```sh
-flatpak-run com.diffingo.fwbackups
+flatpak run com.diffingo.fwbackups
 ```
 
 Run one of the CLI commands:
 
 ```sh
-flatpak-run com.diffingo.fwbackups --command=/bin/env -- fwbackups-run 'setname'
+flatpak run com.diffingo.fwbackups --command=/bin/env -- fwbackups-run 'setname'
 ```

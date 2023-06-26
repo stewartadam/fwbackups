@@ -1,7 +1,10 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.8 changes ||
-  * Sat Jan 7 2022 Stewart Adam <s.adam at diffingo.com>
+  * Mon Jun 26 2023 Stewart Adam <s.adam at diffingo.com>
+    - Launch dbus session when running fwbackups-run from cron (fixes #17)
+
+  * Sat Jan 7 2023 Stewart Adam <s.adam at diffingo.com>
     - Update to GTK 4 and Python 3
     - Migrate to adwaita iconography and widgets
     - Remove tray icon, use system notifications instead

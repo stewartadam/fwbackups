@@ -7,7 +7,7 @@
 	<title>Revision History</title>
 	<simpara>
 		<revhistory>
-    <revision>
+			<revision>
 				<revnumber>4-4</revnumber>
 				<date>Tue Jan 17 2023</date>
 				<author>
@@ -17,11 +17,11 @@
 				</author>
 				<revdescription>
 					<simplelist>
-						<member>Release 1.43.8 &amp; slight change to CLI usage</member>
+						<member>Release 1.43.8-rc1 &amp; slight change to CLI usage</member>
 					</simplelist>
 				</revdescription>
 			</revision>
-		<revision>
+			<revision>
 				<revnumber>4-3</revnumber>
 				<date>Tue Dec 26 2017</date>
 				<author>
