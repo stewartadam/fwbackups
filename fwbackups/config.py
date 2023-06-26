@@ -393,7 +393,7 @@ class BackupSetConf:
             else:
                 command = 'fwbackups-run -l \'%s\'' % fwbackups.escapeQuotes(self.getSetName(), 1)
                 if constants.IS_FLATPAK:
-                    command = 'flatpak run --command=/bin/env com.diffingo.fwbackups -- ' + command
+                    command = 'dbus-run-session -- flatpak run --command=/bin/env com.diffingo.fwbackups -- ' + command
                 entry.append(command)
             # Add signature to end
             entry.append(constants.CRON_SIGNATURE)
