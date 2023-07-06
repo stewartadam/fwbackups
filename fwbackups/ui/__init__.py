@@ -2332,7 +2332,7 @@ class fwbackupsApp(Adw.Application):
         self.main2BackupProgress.startPulse()
         self.main2BackupProgress.set_text(_('Please wait...'))
         try:
-            self.backupHandle = backup.SetBackupOperation(os.path.join(constants.SETLOC, "%s.conf" % name))
+            self.backupHandle = backup.SetBackupOperation(os.path.join(constants.SETLOC, "%s.conf" % name), forceRun=True)
             self.backupThread = fwbackups.runFuncAsThread(self.backupHandle.start)
             self.ui.main2CancelBackupButton.show()
             self.ui.main2CancelBackupButton.set_sensitive(True)

@@ -204,6 +204,8 @@ class BackupOperation(operations.Common):
             self.logger.logmsg('DEBUG', _('Connecting to SFTP host {RemoteHost} succeeded.').format(RemoteHost=self.options['RemoteHost']))
             return True
         else:
+            if thread.exception is None:
+                self.logger.logmsg('ERROR', _('Connecting succeeded, but the SFTP destination path "%s" is not a folder.' % self.options['RemoteFolder']))
             if isinstance(thread.exception, paramiko.AuthenticationException):
                 self.logger.logmsg('ERROR', _('A connection was established, but authentication ' +
                                             'failed. Please verify the username and password ' +
