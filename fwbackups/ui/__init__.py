@@ -330,7 +330,7 @@ class fwbackupsApp(Adw.Application):
         try:
             config._setupConf()
         except config.ConfigError as error:
-            self.displayInfo(self.ui.splash,
+            self.displayInfo(None,
                              _("Could not setup the fwbackups configuration folder"),
                              _("The following error occured: %s" % error))
             sys.exit(1)
@@ -340,7 +340,7 @@ class fwbackupsApp(Adw.Application):
             prefs = config.PrefsConf(create=True)
         except config.ValidationError as error:
             print(_("Validation error: %s") % error)
-            response = self.displayConfirm(self.ui.splash, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
+            response = self.displayConfirm(None, _("Preferences could not be read"), _("The preferences file may be corrupted and could not be read by fwbackups. Would you like to initialize a new one from the default values? If not, fwbackups will exit."))
             if response == Gtk.ResponseType.YES:
                 # check if file already exists
                 prefsBack = '%s.bak' % constants.PREFSLOC
@@ -368,7 +368,7 @@ class fwbackupsApp(Adw.Application):
             self._checkLogSize()
             self.logconsole = widgets.TextViewConsole(self.ui.LogViewerTextview)
         except Exception as error:
-            self.displayInfo(self.ui.splash,
+            self.displayInfo(None,
                              _("Could not setup the logger"),
                              _("The following error occured: %s" % error))
             sys.exit(1)
@@ -427,7 +427,7 @@ class fwbackupsApp(Adw.Application):
         if statsize >= 1048577:
             # 1048576B is 1MB.
             size = '%s KB' % (statsize / 1024)
-            response = self.displayConfirm(self.ui.splash, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
+            response = self.displayConfirm(None, _("Would you like to clean up the log file?"), _("The log file is becoming large (%s). Would you like to clear it? This will permanently remove all entries from the log.") % size)
             if response == Gtk.ResponseType.YES:
                 logfh = open(constants.LOGLOC, 'w')
                 logfh.write('')
