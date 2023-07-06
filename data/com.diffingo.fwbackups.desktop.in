@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=fwbackups
+Comment=Backup or restore your files
+Categories=GTK;Archiving;Utility;
+Keywords=backup;archive;archiving;
+Exec=fwbackups
+Icon=com.diffingo.fwbackups
+Terminal=false
+Type=Application
+StartupNotify=true
+X-GNOME-UsesNotifications=true

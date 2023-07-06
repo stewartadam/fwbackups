@@ -1,0 +1,681 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.11.3 -->
+<interface>
+  <!-- interface-name fwbackups.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
+  <object class="GtkWindow" id="restore">
+    <property name="child">
+      <object class="GtkBox" id="vbox24">
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkNotebook" id="restoreControlNotebook">
+            <property name="focusable">1</property>
+            <property name="show-border">0</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="child">
+                  <object class="GtkGrid" id="table44">
+                    <property name="column-spacing">12</property>
+                    <property name="row-spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="label340">
+                        <property name="label" translatable="yes"></property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="restore1SourceTypeCombobox">
+                        <signal name="changed" handler="on_restore1SourceTypeCombobox_changed"/>
+                        <items>
+                          <item>Set backup</item>
+                          <item>Local archive</item>
+                          <item>Local folder</item>
+                          <item>Remote archive (SSH)</item>
+                          <item>Remote folder (SSH)</item>
+                        </items>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkNotebook" id="restore1SourceTypeNotebook">
+                        <property name="focusable">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="show-border">0</property>
+                        <property name="vexpand">1</property>
+                        <child>
+                          <object class="GtkNotebookPage">
+                            <property name="child">
+                              <object class="GtkGrid" id="restore1SourceTypeTable0">
+                                <property name="column-spacing">12</property>
+                                <property name="row-spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="label313">
+                                    <property name="label" translatable="yes">Set:</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label210">
+                                    <property name="label" translatable="yes">Date:</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="restore1SetNameCombobox">
+                                    <property name="hexpand">True</property>
+                                    <signal name="changed" handler="on_restore1SetNameCombobox_changed"/>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="restore1SetDateCombobox">
+                                    <property name="hexpand">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
+                            <property name="tab">
+                              <object class="GtkLabel" id="label328">
+                                <property name="label" translatable="yes"></property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkNotebookPage">
+                            <property name="child">
+                              <object class="GtkGrid" id="restore1SourceTypeTable1">
+                                <property name="column-spacing">12</property>
+                                <property name="row-spacing">6</property>
+                                <property name="valign">start</property>
+                                <child>
+                                  <object class="GtkButton" id="restore1ArchiveBrowseButton">
+                                    <property name="focusable">1</property>
+                                    <signal name="clicked" handler="on_restore1ArchiveBrowseButton_clicked"/>
+                                    <child>
+                                      <object class="AdwButtonContent">
+                                        <property name="icon-name">folder-symbolic</property>
+                                        <property name="label">_Browse...</property>
+                                        <property name="use-underline">True</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="restore1ArchiveEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label320">
+                                    <property name="label" translatable="yes">Archive:</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
+                            <property name="tab">
+                              <object class="GtkLabel" id="label329">
+                                <property name="label" translatable="yes"></property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkNotebookPage">
+                            <property name="child">
+                              <object class="GtkGrid" id="restore1SourceTypeTable2">
+                                <property name="column-spacing">12</property>
+                                <property name="row-spacing">6</property>
+                                <property name="valign">start</property>
+                                <child>
+                                  <object class="GtkButton" id="restore1FolderBrowseButton">
+                                    <property name="focusable">1</property>
+                                    <signal name="clicked" handler="on_restore1FolderBrowseButton_clicked"/>
+                                    <child>
+                                      <object class="AdwButtonContent">
+                                        <property name="icon-name">folder-symbolic</property>
+                                        <property name="label">_Browse...</property>
+                                        <property name="use-underline">True</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="restore1FolderEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label333">
+                                    <property name="label" translatable="yes">Folder:</property>
+                                    <property name="vexpand">1</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
+                            <property name="tab">
+                              <object class="GtkLabel" id="label330">
+                                <property name="label" translatable="yes"></property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkNotebookPage">
+                            <property name="child">
+                              <object class="GtkGrid" id="restore1SourceTypeTable3">
+                                <property name="column-spacing">12</property>
+                                <property name="row-spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="label335">
+                                    <property name="label" translatable="yes"></property>
+                                    <property name="visible">0</property>
+                                    <property name="width-request">56</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">6</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="restore1PathEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes">/</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">4</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="restore1PasswordEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="visibility">0</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="restore1UsernameEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label308">
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Host:</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label312">
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Username:</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label311">
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Password:</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label310">
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Location:</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">4</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="hbox87">
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkButton" id="restore1TestSettingsButton">
+                                        <property name="focusable">1</property>
+                                        <property name="halign">center</property>
+                                        <property name="label" translatable="yes">Test Settings</property>
+                                        <property name="receives-default">1</property>
+                                        <property name="use-underline">1</property>
+                                        <signal name="clicked" handler="on_restore1TestSettingsButton_clicked"/>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkProgressBar" id="restore1TestSettingsProgress">
+                                        <property name="ellipsize">end</property>
+                                        <property name="pulse-step">0.10000000149</property>
+                                        <property name="text" translatable="yes"></property>
+                                        <property name="valign">center</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">5</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label445">
+                                    <property name="css-classes">dim-label</property>
+                                    <property name="label" translatable="yes">Note: fwbackups will copy the remote backup to the disk first, then unpack it. Please ensure enough disk space is available.</property>
+                                    <property name="natural-wrap-mode">word</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">6</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="restore1HidePasswordCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Hide password</property>
+                                    <property name="use-underline">1</property>
+                                    <signal name="toggled" handler="on_restore1HidePasswordCheck_toggled"/>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label447">
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes"></property>
+                                    <property name="width-request">56</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="hbox108">
+                                    <property name="hexpand">1</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkEntry" id="restore1HostEntry">
+                                        <property name="focusable">1</property>
+                                        <property name="hexpand">1</property>
+                                        <property name="invisible-char">•</property>
+                                        <property name="text" translatable="yes"></property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label309">
+                                        <property name="halign">center</property>
+                                        <property name="label" translatable="yes">Port:</property>
+                                        <property name="use-markup">1</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSpinButton" id="restore1PortSpin">
+                                        <property name="adjustment">adjustment3</property>
+                                        <property name="climb-rate">1</property>
+                                        <property name="focusable">1</property>
+                                        <property name="numeric">1</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label445_2">
+                                    <property name="natural-wrap-mode">word</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">5</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
+                            <property name="tab">
+                              <object class="GtkLabel" id="label331">
+                                <property name="label" translatable="yes"></property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="column-span">2</property>
+                          <property name="row">3</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label306">
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Source type:</property>
+                        <property name="use-markup">1</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label343">
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Restore to:</property>
+                        <property name="use-markup">1</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="hbox75">
+                        <property name="hexpand">1</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkImage" id="restore1DestinationPermissionImage">
+                            <property name="halign">end</property>
+                            <property name="icon-name">emblem-ok-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="restore1DestinationEntry">
+                            <property name="focusable">1</property>
+                            <property name="hexpand">True</property>
+                            <property name="invisible-char">•</property>
+                            <property name="text" translatable="yes"></property>
+                            <signal name="changed" handler="on_restore1DestinationEntry_changed"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="restore1BrowseButton">
+                            <property name="focusable">1</property>
+                            <property name="halign">end</property>
+                            <signal name="clicked" handler="on_restore1BrowseButton_clicked"/>
+                            <child>
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">folder-symbolic</property>
+                                <property name="label">_Browse...</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label341">
+                        <property name="css-classes">dim-label</property>
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Tip: entering '/' or selecting 'File System' will restore files to their original locations.</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel" id="label370">
+                    <property name="label" translatable="yes"></property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="child">
+                  <object class="GtkGrid" id="table66">
+                    <property name="column-spacing">12</property>
+                    <property name="row-spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="label339">
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Restore Progress:</property>
+                        <property name="use-markup">1</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="hbox72">
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkProgressBar" id="restore2RestorationProgress">
+                            <property name="ellipsize">end</property>
+                            <property name="hexpand">1</property>
+                            <property name="pulse-step">0.00999999977648</property>
+                            <property name="text" translatable="yes"></property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="restore2CancelRestoreButton">
+                            <property name="focusable">1</property>
+                            <property name="halign">center</property>
+                            <property name="label">_Cancel</property>
+                            <property name="receives-default">1</property>
+                            <property name="sensitive">0</property>
+                            <property name="use-underline">True</property>
+                            <signal name="clicked" handler="on_restore2CancelRestoreButton_clicked"/>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label357">
+                        <property name="hexpand">1</property>
+                        <property name="label" translatable="yes">Status:</property>
+                        <property name="use-markup">1</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="restore2StatusLabel">
+                        <property name="label" translatable="yes">%s</property>
+                        <property name="use-markup">1</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel" id="label336">
+                    <property name="label" translatable="yes"></property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbuttonbox17">
+            <property name="halign">end</property>
+            <property name="spacing">6</property>
+            <property name="valign">end</property>
+            <child>
+              <object class="GtkButton" id="restoreCloseButton">
+                <property name="focusable">1</property>
+                <property name="label">_Close</property>
+                <property name="use-underline">True</property>
+                <signal name="clicked" handler="on_restoreCloseButton_clicked"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="restoreStartButton">
+                <property name="css-classes">suggested-action</property>
+                <property name="focusable">1</property>
+                <property name="label">Start _Restore</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">True</property>
+                <signal name="clicked" handler="on_restoreStartButton_clicked"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="restoreFinishButton">
+                <property name="focusable">1</property>
+                <property name="receives-default">1</property>
+                <property name="visible">0</property>
+                <signal name="clicked" handler="on_restoreFinishButton_clicked"/>
+                <child>
+                  <object class="GtkBox" id="hbox95">
+                    <property name="halign">center</property>
+                    <property name="hexpand">1</property>
+                    <property name="spacing">2</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkImage" id="image1531">
+                        <property name="halign">center</property>
+                        <property name="icon-name">emblem-ok-symbolic</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label430">
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Finish</property>
+                        <property name="use-underline">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+    <property name="icon-name">view-restore-symbolic</property>
+    <property name="title" translatable="yes">Restore Files</property>
+    <property name="width-request">600</property>
+    <signal name="close-request" handler="hide"/>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="page-increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="upper">65535</property>
+    <property name="value">22</property>
+  </object>
+</interface>

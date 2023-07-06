@@ -1,5 +1,0 @@
-== Summary of major changes for this version ==
-* Fixed a problem that could cause the crontab to be removed if the backup 
-  administrator is not run before the next scheduled backup
-* Better handling of Unicode strings when running on HFS+ filesystems
-

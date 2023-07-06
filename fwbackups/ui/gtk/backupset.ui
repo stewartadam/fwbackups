@@ -1,0 +1,1737 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.11.3 -->
+<interface>
+  <!-- interface-name fwbackups.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.1"/>
+  <object class="GtkWindow" id="backupset">
+    <property name="default-width">650</property>
+    <property name="destroy-with-parent">True</property>
+    <property name="icon-name">document-edit-symbolic</property>
+    <property name="title" translatable="yes">Configure Set</property>
+    <signal name="close-request" handler="hide"/>
+    <child>
+      <object class="GtkGrid" id="table75">
+        <property name="column-spacing">12</property>
+        <property name="row-spacing">6</property>
+        <property name="width-request">0</property>
+        <child>
+          <object class="GtkBox" id="hbuttonbox20">
+            <property name="halign">end</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkButton" id="backupsetCancelButton">
+                <property name="focusable">1</property>
+                <property name="label">_Cancel</property>
+                <property name="use-underline">True</property>
+                <signal name="clicked" handler="on_backupsetCancelButton_clicked"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="backupsetApplyButton">
+                <property name="css-classes">suggested-action</property>
+                <property name="focusable">1</property>
+                <property name="label">_Apply</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">True</property>
+                <signal name="clicked" handler="on_backupsetApplyButton_clicked"/>
+              </object>
+            </child>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbuttonbox19">
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkButton" id="backupsetHelpButton">
+                <property name="focusable">1</property>
+                <property name="label">_Help</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">True</property>
+                <signal name="clicked" handler="on_backupsetHelpButton_clicked"/>
+              </object>
+            </child>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="GtkGrid" id="table6">
+            <property name="column-spacing">12</property>
+            <property name="row-spacing">6</property>
+            <child>
+              <object class="GtkNotebook" id="backupsetControlNotebook">
+                <property name="focusable">1</property>
+                <property name="show-border">False</property>
+                <child>
+                  <object class="GtkNotebookPage">
+                    <property name="child">
+                      <object class="GtkGrid" id="table7">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">4</property>
+                        <child>
+                          <object class="GtkScrolledWindow" id="scrolledwindow4">
+                            <property name="child">
+                              <object class="GtkTreeView" id="backupset1PathsTreeview">
+                                <property name="focusable">1</property>
+                                <signal name="row-activated" handler="on_backupset1PathsTreeview_row_activated"/>
+                              </object>
+                            </property>
+                            <property name="focusable">1</property>
+                            <property name="has-frame">1</property>
+                            <property name="hexpand">True</property>
+                            <property name="hscrollbar-policy">never</property>
+                            <property name="vexpand">True</property>
+                            <property name="vscrollbar-policy">always</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                              <property name="row-span">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="vbuttonbox3">
+                            <property name="hexpand">0</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">12</property>
+                            <property name="valign">start</property>
+                            <property name="vexpand">0</property>
+                            <child>
+                              <object class="GtkButton" id="backupset1AddFileButton">
+                                <property name="focusable">1</property>
+                                <property name="receives-default">1</property>
+                                <signal name="clicked" handler="on_backupset1AddFileButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">document-new-symbolic</property>
+                                    <property name="label">Add _files</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="backupset1AddFolderButton">
+                                <property name="focusable">1</property>
+                                <property name="halign">center</property>
+                                <property name="receives-default">1</property>
+                                <signal name="clicked" handler="on_backupset1AddFolderButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="icon-name">folder-new-symbolic</property>
+                                    <property name="label">_Add folder</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="backupset1RemoveButton">
+                                <property name="focusable">1</property>
+                                <property name="receives-default">1</property>
+                                <signal name="clicked" handler="on_backupset1RemoveButton_clicked"/>
+                                <child>
+                                  <object class="AdwButtonContent">
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">list-remove-symbolic</property>
+                                    <property name="label">_Remove</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                              <property name="row-span">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <property name="tab">
+                      <object class="GtkBox" id="hbox13">
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkImage" id="image14">
+                            <property name="halign">center</property>
+                            <property name="icon-name">document-open-symbolic</property>
+                            <property name="icon-size">normal</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label28">
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Paths</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkNotebookPage">
+                    <property name="child">
+                      <object class="GtkGrid" id="table60">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">6</property>
+                        <child>
+                          <object class="GtkComboBoxText" id="backupset2DestinationTypeCombobox">
+                            <property name="hexpand">True</property>
+                            <signal name="changed" handler="on_backupset2DestinationTypeCombobox_changed"/>
+                            <items>
+                              <item>Local folder</item>
+                              <item>Remote folder (SSH)</item>
+                            </items>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label282">
+                            <property name="label" translatable="yes">Destination Type:</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkNotebook" id="backupset2DestinationTypeNotebook">
+                            <property name="focusable">1</property>
+                            <property name="hexpand">True</property>
+                            <property name="show-border">0</property>
+                            <property name="vexpand">True</property>
+                            <child>
+                              <object class="GtkNotebookPage">
+                                <property name="child">
+                                  <object class="GtkGrid" id="backupset2DestinationTypeTable0">
+                                    <property name="column-spacing">12</property>
+                                    <property name="row-spacing">4</property>
+                                    <child>
+                                      <object class="GtkImage" id="backupset2FolderPermissionImage">
+                                        <property name="halign">end</property>
+                                        <property name="icon-name">emblem-ok-symbolic</property>
+                                        <property name="valign">center</property>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="backupset2FolderBrowseButton">
+                                        <property name="focusable">1</property>
+                                        <signal name="clicked" handler="on_backupset2FolderBrowseButton_clicked"/>
+                                        <child>
+                                          <object class="AdwButtonContent">
+                                            <property name="icon-name">folder-symbolic</property>
+                                            <property name="label">_Browse...</property>
+                                            <property name="use-underline">True</property>
+                                          </object>
+                                        </child>
+                                        <layout>
+                                          <property name="column">3</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="backupset2LocalFolderEntry">
+                                        <property name="focusable">1</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="invisible-char">•</property>
+                                        <property name="text" translatable="yes"></property>
+                                        <signal name="changed" handler="on_backupset2LocalFolderEntry_changed"/>
+                                        <layout>
+                                          <property name="column">2</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label416">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Folder:</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </property>
+                                <property name="tab">
+                                  <object class="GtkLabel" id="label419">
+                                    <property name="label" translatable="yes"></property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkNotebookPage">
+                                <property name="child">
+                                  <object class="GtkGrid" id="backupset2DestinationTypeTable1">
+                                    <property name="column-spacing">12</property>
+                                    <property name="row-spacing">6</property>
+                                    <child>
+                                      <object class="GtkEntry" id="backupset2RemoteFolderEntry">
+                                        <property name="focusable">1</property>
+                                        <property name="invisible-char">•</property>
+                                        <property name="text" translatable="yes">/folder</property>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">4</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="backupset2PasswordEntry">
+                                        <property name="focusable">1</property>
+                                        <property name="text" translatable="yes"></property>
+                                        <property name="visibility">0</property>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="backupset2UsernameEntry">
+                                        <property name="focusable">1</property>
+                                        <property name="invisible-char">•</property>
+                                        <property name="text" translatable="yes"></property>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label422">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Folder:</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">4</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label420">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Host:</property>
+                                        <property name="use-markup">1</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label424">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Username:</property>
+                                        <property name="use-markup">1</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label423">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Password:</property>
+                                        <property name="use-markup">1</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="hbox91">
+                                        <property name="hexpand">1</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkButton" id="backupset2TestSettingsButton">
+                                            <property name="focusable">1</property>
+                                            <property name="halign">center</property>
+                                            <property name="label" translatable="yes">_Test Settings</property>
+                                            <property name="receives-default">1</property>
+                                            <property name="use-underline">1</property>
+                                            <signal name="clicked" handler="on_backupset2TestSettingsButton_clicked"/>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkProgressBar" id="backupset2TestSettingsProgress">
+                                            <property name="pulse-step">0.10000000149</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">5</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="backupset2HidePasswordCheck">
+                                        <property name="active">1</property>
+                                        <property name="focusable">1</property>
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes">Hide password</property>
+                                        <property name="use-underline">1</property>
+                                        <signal name="toggled" handler="on_backupset2HidePasswordCheck_toggled"/>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">3</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label425">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes"></property>
+                                        <property name="width-request">56</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">5</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label432">
+                                        <property name="hexpand">1</property>
+                                        <property name="label" translatable="yes"></property>
+                                        <property name="width-request">56</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="column">0</property>
+                                          <property name="row">3</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="hbox106">
+                                        <property name="hexpand">1</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkEntry" id="backupset2HostEntry">
+                                            <property name="focusable">1</property>
+                                            <property name="hexpand">1</property>
+                                            <property name="invisible-char">•</property>
+                                            <property name="text" translatable="yes"></property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="label421">
+                                            <property name="halign">center</property>
+                                            <property name="label" translatable="yes">Port:</property>
+                                            <property name="use-markup">1</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="backupset2PortSpin">
+                                            <property name="adjustment">adjustment4</property>
+                                            <property name="climb-rate">1</property>
+                                            <property name="focusable">1</property>
+                                            <property name="numeric">1</property>
+                                          </object>
+                                        </child>
+                                        <layout>
+                                          <property name="column">1</property>
+                                          <property name="row">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </property>
+                                <property name="tab">
+                                  <object class="GtkLabel" id="label427">
+                                    <property name="label" translatable="yes"></property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="column-span">2</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <property name="tab">
+                      <object class="GtkBox" id="hbox66">
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkImage" id="image1453">
+                            <property name="halign">center</property>
+                            <property name="icon-name">folder-download-symbolic</property>
+                            <property name="icon-size">normal</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label278">
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Destination</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkNotebookPage">
+                    <property name="child">
+                      <object class="GtkGrid" id="backupset1">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">4</property>
+                        <child>
+                          <object class="GtkExpander" id="backupset3ManualConfigExpander">
+                            <property name="focusable">1</property>
+                            <property name="vexpand">True</property>
+                            <signal name="activate" handler="on_backupset3ManualConfigExpander_activate"/>
+                            <child>
+                              <object class="GtkGrid" id="backupset3ManualConfigTable">
+                                <property name="column-spacing">6</property>
+                                <property name="row-spacing">12</property>
+                                <property name="sensitive">0</property>
+                                <property name="valign">start</property>
+                                <property name="vexpand">0</property>
+                                <child>
+                                  <object class="GtkLabel" id="label170">
+                                    <property name="label" translatable="yes">Use the same syntax a crontab does to enter your settings. To obtain examples and more information on crontab syntax, click 'Help'.</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="column-span">5</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label171">
+                                    <property name="label">minute</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualMinuteEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label194">
+                                    <property name="label">month</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualMonthEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualHourEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label172">
+                                    <property name="label">hour</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label140">
+                                    <property name="css-classes">dim-label</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">No field verification is performed on a manual field to test if the input is valid. Please make sure there are no errors.</property>
+                                    <property name="use-markup">1</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="column-span">5</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label173">
+                                    <property name="label">day of month</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualDaysOfMonthEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label175">
+                                    <property name="label">day of week</property>
+                                    <property name="use-markup">1</property>
+                                    <layout>
+                                      <property name="column">4</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="ManualDaysOfWeekEntry">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">0</property>
+                                    <property name="invisible-char">•</property>
+                                    <property name="text" translatable="yes"></property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <property name="width-request">100</property>
+                                    <layout>
+                                      <property name="column">4</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label176">
+                                <property name="label" translatable="yes">Manual Configuration</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkExpander" id="backupset3EasyConfigExpander">
+                            <property name="expanded">1</property>
+                            <property name="focusable">1</property>
+                            <signal name="activate" handler="on_backupset3EasyConfigExpander_activate"/>
+                            <child>
+                              <object class="GtkGrid" id="backupset3EasyConfigTable">
+                                <property name="column-spacing">12</property>
+                                <property name="row-spacing">6</property>
+                                <child>
+                                  <object class="GtkFrame" id="frame22">
+                                    <property name="hexpand">True</property>
+                                    <child>
+                                      <object class="GtkGrid" id="table27">
+                                        <property name="column-spacing">6</property>
+                                        <property name="hexpand">0</property>
+                                        <property name="row-spacing">12</property>
+                                        <property name="vexpand">0</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="MonthAll">
+                                            <property name="active">1</property>
+                                            <property name="label" translatable="yes">All Months</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="column-span">2</property>
+                                              <property name="row">0</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="MonthOnly">
+                                            <property name="group">MonthAll</property>
+                                            <property name="label" translatable="yes">Only during:</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="MonthFrom">
+                                            <property name="group">MonthAll</property>
+                                            <property name="label" translatable="yes">From:</property>
+                                            <property name="use-underline">1</property>
+                                            <property name="valign">start</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">2</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkGrid" id="table28">
+                                            <property name="column-spacing">6</property>
+                                            <property name="halign">center</property>
+                                            <property name="row-spacing">4</property>
+                                            <property name="valign">center</property>
+                                            <property name="vexpand">0</property>
+                                            <child>
+                                              <object class="GtkComboBoxText" id="MonthFromBox1">
+                                                <signal name="changed" handler="on_MonthFromBox1_changed"/>
+                                                <items>
+                                                  <item>January</item>
+                                                  <item>February</item>
+                                                  <item>March</item>
+                                                  <item>April</item>
+                                                  <item>May</item>
+                                                  <item>June</item>
+                                                  <item>July</item>
+                                                  <item>August</item>
+                                                  <item>September</item>
+                                                  <item>October</item>
+                                                  <item>November</item>
+                                                  <item>December</item>
+                                                </items>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">0</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkComboBoxText" id="MonthFromBox2">
+                                                <signal name="changed" handler="on_MonthFromBox2_changed"/>
+                                                <items>
+                                                  <item>January</item>
+                                                  <item>February</item>
+                                                  <item>March</item>
+                                                  <item>April</item>
+                                                  <item>May</item>
+                                                  <item>June</item>
+                                                  <item>July</item>
+                                                  <item>August</item>
+                                                  <item>September</item>
+                                                  <item>October</item>
+                                                  <item>November</item>
+                                                  <item>December</item>
+                                                </items>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">2</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label138">
+                                                <property name="ellipsize">end</property>
+                                                <property name="label" translatable="yes">To:</property>
+                                                <property name="xalign">0</property>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">1</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">2</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkComboBoxText" id="MonthOnlyBox">
+                                            <property name="halign">center</property>
+                                            <property name="hexpand">0</property>
+                                            <property name="valign">center</property>
+                                            <property name="vexpand">0</property>
+                                            <signal name="changed" handler="on_MonthOnlyBox_changed"/>
+                                            <items>
+                                              <item>January</item>
+                                              <item>February</item>
+                                              <item>March</item>
+                                              <item>April</item>
+                                              <item>May</item>
+                                              <item>June</item>
+                                              <item>July</item>
+                                              <item>August</item>
+                                              <item>September</item>
+                                              <item>October</item>
+                                              <item>November</item>
+                                              <item>December</item>
+                                            </items>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child type="label">
+                                      <object class="GtkLabel" id="label139">
+                                        <property name="label" translatable="yes">&lt;b&gt;Months&lt;/b&gt;</property>
+                                        <property name="margin-bottom">2</property>
+                                        <property name="margin-end">4</property>
+                                        <property name="margin-start">4</property>
+                                        <property name="margin-top">2</property>
+                                        <property name="use-markup">1</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                      <property name="row-span">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFrame" id="frame21">
+                                    <property name="hexpand">True</property>
+                                    <child>
+                                      <object class="GtkGrid" id="table22">
+                                        <property name="column-spacing">6</property>
+                                        <property name="hexpand">0</property>
+                                        <property name="row-spacing">12</property>
+                                        <property name="vexpand">0</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="DaysWeekOnly">
+                                            <property name="label" translatable="yes">Only on:</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="DaysWeekAll">
+                                            <property name="active">1</property>
+                                            <property name="group">DaysWeekOnly</property>
+                                            <property name="label" translatable="yes">All days of the week</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="column-span">2</property>
+                                              <property name="row">0</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="DaysWeekFrom">
+                                            <property name="group">DaysWeekOnly</property>
+                                            <property name="label" translatable="yes">From:</property>
+                                            <property name="use-underline">1</property>
+                                            <property name="valign">start</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">2</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkGrid" id="table26">
+                                            <property name="column-spacing">6</property>
+                                            <property name="halign">center</property>
+                                            <property name="hexpand">0</property>
+                                            <property name="row-spacing">4</property>
+                                            <property name="valign">center</property>
+                                            <property name="vexpand">0</property>
+                                            <child>
+                                              <object class="GtkComboBoxText" id="DaysWeekFromBox2">
+                                                <signal name="changed" handler="on_DaysWeekFromBox2_changed"/>
+                                                <items>
+                                                  <item>Sunday</item>
+                                                  <item>Monday</item>
+                                                  <item>Tuesday</item>
+                                                  <item>Wednesday</item>
+                                                  <item>Thurday</item>
+                                                  <item>Friday</item>
+                                                  <item>Saturday</item>
+                                                </items>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">2</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkComboBoxText" id="DaysWeekFromBox1">
+                                                <signal name="changed" handler="on_DaysWeekFromBox1_changed"/>
+                                                <items>
+                                                  <item>Sunday</item>
+                                                  <item>Monday</item>
+                                                  <item>Tuesday</item>
+                                                  <item>Wednesday</item>
+                                                  <item>Thurday</item>
+                                                  <item>Friday</item>
+                                                  <item>Saturday</item>
+                                                </items>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">0</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label136">
+                                                <property name="ellipsize">end</property>
+                                                <property name="hexpand">1</property>
+                                                <property name="label" translatable="yes">To:</property>
+                                                <property name="xalign">0</property>
+                                                <layout>
+                                                  <property name="column">0</property>
+                                                  <property name="row">1</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">2</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkComboBoxText" id="DaysWeekOnlyBox">
+                                            <property name="halign">center</property>
+                                            <property name="hexpand">0</property>
+                                            <property name="valign">center</property>
+                                            <property name="vexpand">0</property>
+                                            <signal name="changed" handler="on_DaysWeekOnlyBox_changed"/>
+                                            <items>
+                                              <item>Sunday</item>
+                                              <item>Monday</item>
+                                              <item>Tuesday</item>
+                                              <item>Wednesday</item>
+                                              <item>Thurday</item>
+                                              <item>Friday</item>
+                                              <item>Saturday</item>
+                                            </items>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child type="label">
+                                      <object class="GtkLabel" id="label137">
+                                        <property name="label" translatable="yes">&lt;b&gt;Days of the week&lt;/b&gt;</property>
+                                        <property name="margin-bottom">2</property>
+                                        <property name="margin-end">4</property>
+                                        <property name="margin-start">4</property>
+                                        <property name="margin-top">2</property>
+                                        <property name="use-markup">1</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                      <property name="row-span">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFrame" id="frame19">
+                                    <property name="hexpand">True</property>
+                                    <child>
+                                      <object class="GtkGrid" id="table23">
+                                        <property name="hexpand">0</property>
+                                        <property name="row-spacing">12</property>
+                                        <property name="vexpand">0</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="HoursAt">
+                                            <property name="active">1</property>
+                                            <property name="label" translatable="yes">At:</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="HoursAll">
+                                            <property name="group">HoursAt</property>
+                                            <property name="label" translatable="yes">All Hours</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="column-span">2</property>
+                                              <property name="row">0</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkComboBoxText" id="HoursAtBox">
+                                            <property name="halign">center</property>
+                                            <property name="hexpand">0</property>
+                                            <property name="valign">center</property>
+                                            <property name="vexpand">0</property>
+                                            <signal name="changed" handler="on_HoursAtBox_changed"/>
+                                            <items>
+                                              <item>0 (12am)</item>
+                                              <item>1 (1am)</item>
+                                              <item>2 (2am)</item>
+                                              <item>3 (3am)</item>
+                                              <item>4 (4am)</item>
+                                              <item>5 (5am)</item>
+                                              <item>6 (6am)</item>
+                                              <item>7 (7am)</item>
+                                              <item>8 (8am)</item>
+                                              <item>9 (9am)</item>
+                                              <item>10 (10am)</item>
+                                              <item>11 (11am)</item>
+                                              <item>12 (Noon)</item>
+                                              <item>13 (1pm)</item>
+                                              <item>14 (2pm)</item>
+                                              <item>15 (3pm)</item>
+                                              <item>16 (4pm)</item>
+                                              <item>17 (5pm)</item>
+                                              <item>18 (6pm)</item>
+                                              <item>19 (7pm)</item>
+                                              <item>20 (8pm)</item>
+                                              <item>21 (9pm)</item>
+                                              <item>22 (10pm)</item>
+                                              <item>23 (11pm)</item>
+                                            </items>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child type="label">
+                                      <object class="GtkLabel" id="label134">
+                                        <property name="label" translatable="yes">&lt;b&gt;Hours&lt;/b&gt;</property>
+                                        <property name="margin-bottom">2</property>
+                                        <property name="margin-end">4</property>
+                                        <property name="margin-start">4</property>
+                                        <property name="margin-top">2</property>
+                                        <property name="use-markup">1</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFrame" id="frame20">
+                                    <child>
+                                      <object class="GtkGrid" id="table24">
+                                        <property name="hexpand">0</property>
+                                        <property name="row-spacing">2</property>
+                                        <property name="vexpand">0</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="MinutesAt">
+                                            <property name="active">1</property>
+                                            <property name="label" translatable="yes">Only at:</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="MinutesAll">
+                                            <property name="group">MinutesAt</property>
+                                            <property name="label" translatable="yes">All Minutes</property>
+                                            <property name="use-underline">1</property>
+                                            <layout>
+                                              <property name="column">0</property>
+                                              <property name="column-span">2</property>
+                                              <property name="row">0</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkScale" id="MinutesAtScale">
+                                            <property name="adjustment">adjustment5</property>
+                                            <property name="digits">0</property>
+                                            <property name="draw-value">1</property>
+                                            <property name="halign">center</property>
+                                            <property name="hexpand">0</property>
+                                            <property name="valign">center</property>
+                                            <property name="value-pos">left</property>
+                                            <property name="vexpand">0</property>
+                                            <property name="width-request">125</property>
+                                            <signal name="change-value" handler="on_MinutesOnlyScale_change_value"/>
+                                            <layout>
+                                              <property name="column">1</property>
+                                              <property name="row">1</property>
+                                            </layout>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child type="label">
+                                      <object class="GtkLabel" id="label135">
+                                        <property name="label" translatable="yes">&lt;b&gt;Minute&lt;/b&gt;</property>
+                                        <property name="margin-bottom">2</property>
+                                        <property name="margin-end">4</property>
+                                        <property name="margin-start">4</property>
+                                        <property name="margin-top">2</property>
+                                        <property name="use-markup">1</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label187">
+                                <property name="label" translatable="yes">Easy Configuration</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label133">
+                            <property name="css-classes">warning</property>
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Your backup will run whenever &lt;b&gt;all&lt;/b&gt; of the criteria below match the system time and date.</property>
+                            <property name="use-markup">True</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <property name="tab">
+                      <object class="GtkBox" id="hbox14">
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkImage" id="image15">
+                            <property name="halign">center</property>
+                            <property name="icon-name">preferences-system-time-symbolic</property>
+                            <property name="icon-size">normal</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label29">
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Times</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkNotebookPage">
+                    <property name="child">
+                      <object class="GtkBox" id="vbox36">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">18</property>
+                        <child>
+                          <object class="GtkFrame" id="frame39">
+                            <child>
+                              <object class="GtkGrid" id="table15">
+                                <property name="column-spacing">12</property>
+                                <property name="hexpand">0</property>
+                                <property name="row-spacing">2</property>
+                                <property name="valign">center</property>
+                                <property name="vexpand">0</property>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4EngineRadio1">
+                                    <property name="active">1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Archive (files and folders are packed into a tar archive)</property>
+                                    <property name="use-underline">1</property>
+                                    <property name="vexpand">1</property>
+                                    <signal name="toggled" handler="on_backupset4EngineRadio1_toggled"/>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4EngineRadio2">
+                                    <property name="group">backupset4EngineRadio1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Direct copy of the files and folders</property>
+                                    <property name="use-underline">1</property>
+                                    <signal name="toggled" handler="on_backupset4EngineRadio2_toggled"/>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="vbox40">
+                                    <property name="hexpand">0</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">2</property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <child>
+                                      <object class="GtkBox" id="hbox104">
+                                        <property name="halign">start</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="spacing">4</property>
+                                        <property name="valign">center</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="backupset4CompressCheck">
+                                            <property name="focusable">1</property>
+                                            <property name="halign">center</property>
+                                            <property name="label" translatable="yes">Compress archive using</property>
+                                            <property name="margin-start">24</property>
+                                            <property name="use-underline">1</property>
+                                            <signal name="toggled" handler="on_backupset4CompressCheck_toggled"/>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkComboBoxText" id="backupset4CompressCombo">
+                                            <property name="hexpand">1</property>
+                                            <items>
+                                              <item>gzip: fast, lightweight</item>
+                                              <item>bzip2: slower, more efficient</item>
+                                            </items>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4IncrementalCheck">
+                                    <property name="focusable">1</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Backups are incremental</property>
+                                    <property name="margin-start">24</property>
+                                    <property name="sensitive">0</property>
+                                    <property name="use-underline">1</property>
+                                    <property name="valign">center</property>
+                                    <property name="vexpand">0</property>
+                                    <signal name="toggled" handler="on_backupset4IncrementalCheck_toggled"/>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label467">
+                                <property name="label" translatable="yes">&lt;b&gt;Backup Format&lt;/b&gt;</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkFrame" id="frame37">
+                            <child>
+                              <object class="GtkGrid" id="table83">
+                                <property name="column-spacing">12</property>
+                                <property name="hexpand">0</property>
+                                <property name="row-spacing">6</property>
+                                <property name="valign">center</property>
+                                <property name="vexpand">0</property>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4EnableCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="label" translatable="yes">Set is enabled</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4RecursiveCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="label" translatable="yes">Include subfolders</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4DiskInfoToFileCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Print disk geometry information to a file</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4PkgListsToFileCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Print installed packages to a text file</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4BackupHiddenCheck">
+                                    <property name="active">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="label" translatable="yes">Include hidden files</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4SparseCheck">
+                                    <property name="focusable">1</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="label" translatable="yes">Handle sparse files efficiently</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="backupset4FollowLinksCheck">
+                                    <property name="focusable">1</property>
+                                    <property name="label" translatable="yes">Follow links</property>
+                                    <property name="use-underline">1</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="column-span">2</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label465">
+                                <property name="label" translatable="yes">&lt;b&gt;Backup Options&lt;/b&gt;</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkFrame" id="frame38">
+                            <child>
+                              <object class="GtkGrid" id="table84">
+                                <property name="column-spacing">12</property>
+                                <property name="hexpand">0</property>
+                                <property name="row-spacing">6</property>
+                                <property name="valign">center</property>
+                                <property name="vexpand">0</property>
+                                <child>
+                                  <object class="GtkLabel" id="label177">
+                                    <property name="label" translatable="yes">Number of old backups to keep:</property>
+                                    <property name="xalign">0.0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="backupset4OldToKeepSpin">
+                                    <property name="adjustment">adjustment6</property>
+                                    <property name="climb-rate">1</property>
+                                    <property name="focusable">1</property>
+                                    <property name="halign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="numeric">1</property>
+                                    <property name="snap-to-ticks">1</property>
+                                    <property name="update-policy">if-valid</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label178">
+                                    <property name="css-classes">dim-label</property>
+                                    <property name="hexpand">1</property>
+                                    <property name="justify">center</property>
+                                    <property name="label" translatable="yes">A value of  '0' makes a new backup always replace an older one. This option is unavailable with incremental backups.</property>
+                                    <property name="wrap">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="column-span">2</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label466">
+                                <property name="label" translatable="yes">&lt;b&gt;Backup Options&lt;/b&gt;</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <property name="tab">
+                      <object class="GtkBox" id="hbox18">
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkImage" id="image19">
+                            <property name="halign">center</property>
+                            <property name="icon-name">preferences-system-symbolic</property>
+                            <property name="icon-size">normal</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label35">
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Options (Simple)</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkNotebookPage">
+                    <property name="child">
+                      <object class="GtkGrid" id="table53">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">6</property>
+                        <child>
+                          <object class="GtkScale" id="backupset5NiceScale">
+                            <property name="adjustment">adjustment7</property>
+                            <property name="digits">0</property>
+                            <property name="draw-value">1</property>
+                            <property name="value-pos">left</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">4</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="backupset5CommandAfterEntry">
+                            <property name="focusable">1</property>
+                            <property name="invisible-char">•</property>
+                            <property name="text" translatable="yes"></property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="backupset5CommandBeforeEntry">
+                            <property name="focusable">1</property>
+                            <property name="invisible-char">•</property>
+                            <property name="text" translatable="yes"></property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label255">
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Command to run before backup:</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label256">
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Command to run after backup:</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label269">
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Nice value of backup process:</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">4</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label411">
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">Exclude from backup:
+ (newline separated)</property>
+                            <property name="use-markup">1</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">5</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="scrolledwindow8">
+                            <property name="child">
+                              <object class="GtkTextView" id="backupset5ExcludesTextview">
+                                <property name="focusable">1</property>
+                                <property name="left-margin">2</property>
+                                <property name="pixels-above-lines">6</property>
+                                <property name="pixels-below-lines">6</property>
+                                <property name="right-margin">2</property>
+                              </object>
+                            </property>
+                            <property name="focusable">1</property>
+                            <property name="has-frame">1</property>
+                            <property name="height-request">200</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">1</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">5</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator" id="hseparator4">
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="column-span">2</property>
+                              <property name="row">3</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label482">
+                            <property name="css-classes">dim-label</property>
+                            <property name="hexpand">1</property>
+                            <property name="label" translatable="yes">The following tokens may be used in the commands:
+[destination], [set], [date], [backup], [remote_host], [remote_port], [remote_username], [remote_password]
+
+For a description of each, see the user manual.</property>
+                            <property name="use-markup">1</property>
+                            <property name="valign">start</property>
+                            <property name="wrap">1</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <property name="tab">
+                      <object class="GtkBox" id="hbox64">
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkImage" id="image1276">
+                            <property name="halign">center</property>
+                            <property name="icon-name">preferences-other-symbolic</property>
+                            <property name="icon-size">normal</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label253">
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Options (Advanced)</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">2</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEntry" id="backupset1NameEntry">
+                <property name="activates-default">1</property>
+                <property name="focusable">1</property>
+                <property name="hexpand">True</property>
+                <property name="invisible-char">•</property>
+                <property name="text" translatable="yes"></property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label34">
+                <property name="label" translatable="yes">&lt;b&gt;Name:&lt;/b&gt;</property>
+                <property name="use-markup">1</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <layout>
+              <property name="column">0</property>
+              <property name="column-span">2</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="page-increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="upper">65535</property>
+    <property name="value">22</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="page-increment">5</property>
+    <property name="step-increment">5</property>
+    <property name="upper">59</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="page-increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="upper">365</property>
+    <property name="value">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment7">
+    <property name="lower">-20</property>
+    <property name="page-increment">5</property>
+    <property name="step-increment">1</property>
+    <property name="upper">19</property>
+  </object>
+</interface>

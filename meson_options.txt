@@ -1,0 +1,5 @@
+option('force_system_python', type : 'boolean', value : false,
+       description : 'If enabled, ignores meson-detected python.get_install_dir() ' +
+                     'and uses the module paths provided by sysconfig in the ' +
+                     'system python installation instead. ' +
+                     'See: https://github.com/mesonbuild/meson/issues/10459#issuecomment-1376843163')

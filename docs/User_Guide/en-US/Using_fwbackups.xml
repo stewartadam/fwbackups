@@ -108,7 +108,7 @@
 			<para>
 				If you wish to further customize the times at which the backup operation starts, you may use the manual configuration method to do so. It uses crontab syntax:
 			</para>
-			 
+
 <literallayout>							+-------------- minute (0 - 59)
 						|	+------------ hour (0 - 23)
 						|	 |	+---------- day of month (1 - 31)
@@ -203,7 +203,7 @@
 							Your backup will be stored differently depending on the backup format selected (this option replaces the <guilabel>Backup Engine</guilabel> selection in versions 1.43.2 and earlier).
 						</para>
 						<para>
-							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively). 
+							An <guilabel>Archive</guilabel> backup packs all of the files into a single (often large) "tar" archive file. Archive backups do not support incremental backups; a full snapshot must be created each time. Archive backups support both gzip and bzip2 on-the-fly compression. This backup format was formerly called the "tar" backup engine (".gz" or ".bz2" was appended if gzip or bzip2 compression was enabled, respectively).
 							<note>
 								<title>Reducing backup size with compression</title>
 								<para>
@@ -214,7 +214,7 @@
 
 						</para>
 						<para>
-							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine. 
+							A <guilabel>Direct copy</guilabel> backup will simply copy your files and folder structure as-is (similar to a drag-and-drop copy in your file browser). Although this backup type does not support compression, incremental backups are available. This backup format was formerly called the "rsync" backup engine.
 							<note>
 								<title>Increasing backup speed</title>
 								<para>
@@ -462,7 +462,7 @@
 						</para>
 						<example id="exam-fwbackups-User_Guide-Exclude_from_backup-Excluding_files">
 							<title>Excluding files</title>
-							 
+
 <literallayout>/home/username/Exclude/*
 *.png
 /home/username/foobar.jpg
@@ -660,77 +660,32 @@ specificname.txt
 
 		</figure>
 		<variablelist>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Show_tray_icon">
-				<term>Show tray icon</term>
+			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Enable_notifications">
+				<term>Enable notifications</term>
 				<listitem>
 					<para>
-						Toggling this checkbox will show or hide the tray icon.
+						If checked, fwbackups will attempt to display system notifications for important events like a backup/restore operation finishing, or errors during a backup/restore operation.
 					</para>
 
 				</listitem>
 
 			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Show_notifications_in_tray_area">
-				<term>Show notifications in tray area</term>
+
+			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Enable_debug_log_messages">
+				<term>Enable debug log messages</term>
 				<listitem>
 					<para>
-						Select this is you wish to receive notifications like the one below for important events:
+						This option enables debugging messages in the log viewer. Use this if you are trying to troubleshoot a problem.
 					</para>
 
 				</listitem>
 
 			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Minimize_to_tray_on_close">
-				<term>Minimize to tray on close</term>
+      <varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Override_temporary_directory">
+				<term>Override temporary directory</term>
 				<listitem>
 					<para>
-						Selecting this checkbox will make <application>fwbackups</application> minimize to the tray icon when closing instead of quitting.
-					</para>
-					<note>
-						<para>
-							Clicking the tray icon will reopen the main <application>fwbackups</application> window.
-						</para>
-
-					</note>
-
-				</listitem>
-
-			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Start_minimized">
-				<term>Start minimized</term>
-				<listitem>
-					<para>
-						Select to have <application>fwbackups</application> to only show the tray icon and to hide the main window when starting.
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Always_show_debug_messages">
-				<term>Always show debug messages</term>
-				<listitem>
-					<para>
-						This option enables all debugging messages in the log viewer. Use this if you are trying to troubleshoot a problem.
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Start_fwbackups_minimized_when_I_login">
-				<term>Start fwbackups (minimized) when I login</term>
-				<listitem>
-					<para>
-						Select to have fwbackups start minimized, but only when you login.
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			<varlistentry id="varl-fwbackups-User_Guide-Changing_your_preferences-Pycron_installation_folder">
-				<term>Pycron installation folder</term>
-				<listitem>
-					<para>
-						When running on the Windows platform, <application>fwbackups</application> will use pycron to schedule tasks and must know where pycron has been installed. The installation folder will be auto-detected in most cases, but in the event that it isn't use the <guibutton>Browse</guibutton> button to select the pycron installation folder.
+						Use this directory instead of /tmp (the default).
 					</para>
 
 				</listitem>

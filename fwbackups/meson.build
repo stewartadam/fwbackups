@@ -1,0 +1,1 @@
+install_subdir('.', install_dir: pymoduledir, strip_directory: true)

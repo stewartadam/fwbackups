@@ -1,0 +1,45 @@
+window {
+  padding: 1em;
+}
+.dialog-action-area {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+frame {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 1em;
+}
+
+frame > label {
+  margin-bottom: 1em;
+}
+
+window#main notebook > stack > grid,
+window#main notebook > stack > box {
+  padding: 1em;
+}
+
+notebook > stack > frame {
+  border-width: 0px;
+}
+
+notebook > stack > grid, notebook > stack > box {
+  margin-top: 1em;
+}
+
+expander-widget {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+expander-widget > box > grid, expander-widget > box > box {
+  margin-left: 1.3em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+statusbar {
+  border-top: 1px solid @borders;
+}

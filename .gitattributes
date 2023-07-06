@@ -1,0 +1,36 @@
+# Setting text=auto enables automatic crlf transformations and can cause issues
+# with files sensitive to line endings or (rarely) corrupt binary data.
+#* text=auto
+
+# So why not disable it then? gitattributes only apples *after* clone so
+# disabling CRLF conversions creates the opposite problem, where Windows users
+# core.autocrlf=true (by default) get their repo CRLF-converted will proceed to
+# check those CRLF files in on any subsequent edits.
+#* -text
+
+# Setting text=false was sometimes recommended on older Git versions, but is
+# equivalent to leaving it unset: https://git-scm.com/docs/gitattributes#_text
+#
+# Unset behavior uses client preference from core.autocrlf setting. This is the
+# course of action with the least overall impact to users and smallest chance of
+# accidental CRLF checkins.
+#* text=false
+
+# Windows scripts - must be CRLF
+*.ps text eol=crlf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Linux scripts - must be LF
+*.sh text eol=lf
+*.Dockerfile text eol=lf
+Dockerfile text eol=lf
+
+# User-generated code and text - LF by preference
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+
+.gitignore text eol=lf

@@ -16,11 +16,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with fwbackups; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+import base64
 import os
 import random
 import sys
 
-sys.path.append(os.path.join(os.getcwd(), '..', 'src'))
+# flake8: noqa E402
+sys.path.append(os.path.join(os.getcwd(), '..'))
+
 from fwbackups.i18n import _
 from fwbackups.const import USER, USERHOME
 from fwbackups import config
@@ -35,37 +38,63 @@ DESTDIR_RESTORE = os.path.join(TESTDIR, 'restores')
 
 paths = [SOURCEDIR]
 
-print _("*** Initializing files")
+print(_("*** Initializing files"))
 for directory in [TESTDIR, SOURCEDIR, DESTDIR_BACKUP, DESTDIR_RESTORE]:
   if os.path.exists(directory):
-    print _("Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> to cancel...") % directory
+    print(_("Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> to cancel...") % directory)
     try:
-      raw_input()
+      input()
     except KeyboardInterrupt:
-      print
+      print()
       sys.exit(0)
-    print _("Cleaning folder %s...") % directory
+    print(_("Cleaning folder %s...") % directory)
     shutil_modded.rmtree(directory)
   os.mkdir(directory)
 
-# Initialize 50MB of files
-for num in range(0, 50):
-  fh = open(os.path.join(SOURCEDIR, "file%s" % num), 'w')
-  fh.write(random.choice('abcdefghijklmnopqrstuvwxyz1234567890-=+_;"}{[]|<>/?.,`~')*1048576)
-  fh.close()
+# Initialize a collection of 1MB of files
+MEGABYTE_BYTES = 1048576
+FILE_COUNT=50
 
-print _("*** Remote settings")
-hostname = raw_input(_("Hostname [localhost]: ")) or 'localhost'
+def write_file(filename, length_bytes):
+    fh = open(filename, 'w')
+    fh.write(random.choice('abcdefghijklmnopqrstuvwxyz1234567890-=+_;"}{[]|<>/?.,`~')*length_bytes)
+    fh.close()
+
+# Particular filenames to test encodings
+utf8_filenames = [
+    'file-emoji-🤷‍♂️',
+    'file-diacritics-éàîçüø',
+    'file-math-÷± a⋅b n→∞ ∑x ¬(α∨β),',
+    'file-science-H₂O',
+    'file-symbols-© Ω “” ‚ ¿?',
+    'file-pronounciation-ˈɪŋɡlənd',
+    'file-currencies-$€£¥₹',
+    'file-korean-프로그램',
+    'file-greek-مرحبا بالعالم',
+    'file-chinese-simplified-你好世界',
+    'file-russian-Здравствуй, мир!'
+]
+
+for filename in utf8_filenames:
+    write_file(os.path.join(SOURCEDIR, filename), MEGABYTE_BYTES)
+
+for num in range(0, FILE_COUNT-len(utf8_filenames)):
+  write_file(os.path.join(SOURCEDIR, f"file{num}"), MEGABYTE_BYTES)
+
+print(_("*** Remote settings"))
+hostname = input(_("Hostname [localhost]: ")) or 'localhost'
 while True:
-  port = raw_input(_("Port [22]: ")) or '22'
+  port = input(_("Port [22]: ")) or '22'
   try:
     int(port)
     break
   except:
-    print _("The port field can only contain numbers. Please try again.")
-username = raw_input(_("Username [%s]: ") % USER) or USER
-password = raw_input(_("Password: ")).encode("base64")
-remotefolder = raw_input(_("Remote folder [%s]: ") % USERHOME) or USERHOME
+    print(_("The port field can only contain numbers. Please try again."))
+username = input(_("Username [%s]: ") % USER) or USER
+from getpass import getpass
+raw_password = getpass(prompt=_("Password: "))
+password = base64.b64encode(raw_password.encode('ascii')).decode('ascii')
+remotefolder = input(_("Remote folder [%s]: ") % DESTDIR_RESTORE) or DESTDIR_RESTORE
 
 options = {}
 options["BackupHidden"] = 1
@@ -93,7 +122,7 @@ times["Entry"] = "0 0 * 1 0"
 
 for destType in ["remote (ssh)", "local"]:
   for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
-    print _("*** Running %(a)s backup with engine %(b)s" % {'a': destType, 'b': engine})
+    print(_("*** Running %(a)s backup with engine %(b)s" % {'a': destType, 'b': engine}))
     options["DestinationType"] = destType
     options["Engine"] = engine
     SETPATH = os.path.join(TESTDIR, "backup-%s-%s.conf" % (destType, engine))
@@ -103,9 +132,9 @@ for destType in ["remote (ssh)", "local"]:
     setConf.save(paths, options, times)
     operation = backup.SetBackupOperation(SETPATH)
     operation.logger.setPrintToo(True)
-    if not operation.start() == True:
+    if not operation.start():
       raise OperationError(_("Backup failed!"))
-    print '\n'
+    print('\n')
 
 #
 # Restore
@@ -121,13 +150,13 @@ options["SourceType"] = "set"
 
 for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setName = "backup-remote (ssh)-%s" % engine
-  print _("*** Running restore of remote test backup %s" % setName)
+  print(_("*** Running restore of remote test backup %s" % setName))
   RESTOREPATH = os.path.join(TESTDIR, "restore-remote (ssh)-%s.conf" % engine)
   SETPATH = os.path.join(TESTDIR, "%s.conf" % setName)
   setConfig = config.BackupSetConf(SETPATH)
   restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
   remoteFolder = setConfig.get("Options", "RemoteFolder")
-  client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
+  client, sftpClient = sftp.connect(hostname, username, raw_password, port)
   listing = sftpClient.listdir(remoteFolder)
   sftpClient.close()
   client.close()
@@ -143,9 +172,9 @@ for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   restoreConfig.save(options)
   operation = restore.RestoreOperation(RESTOREPATH)
   operation.logger.setPrintToo(True)
-  if not operation.start() == True:
+  if not operation.start():
     raise OperationError(_("Restore failed!"))
-  print '\n'
+  print('\n')
 
 # Local set backups
 options = {}
@@ -157,7 +186,7 @@ options["RemoteSource"] = ''
 options["SourceType"] = "set"
 for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   setName = "backup-local-%s" % engine
-  print _("*** Running restore of local test backup %s" % setName)
+  print(_("*** Running restore of local test backup %s" % setName))
   RESTOREPATH = os.path.join(TESTDIR, "restore-local-%s.conf" % engine)
   restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
   listing = os.listdir(DESTDIR_BACKUP)
@@ -172,12 +201,12 @@ for engine in ["rsync", "tar", "tar.gz", "tar.bz2"]:
   restoreConfig.save(options)
   operation = restore.RestoreOperation(RESTOREPATH)
   operation.logger.setPrintToo(True)
-  if not operation.start() == True:
+  if not operation.start():
     raise OperationError(_("Restore failed!"))
-  print '\n'
+  print('\n')
 
 # Local archive
-print _("*** Running restore of a local archive")
+print(_("*** Running restore of a local archive"))
 name = "restore-local-archive"
 restoreDestination = os.path.join(DESTDIR_RESTORE, name)
 options = {}
@@ -197,12 +226,12 @@ restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
 restoreConfig.save(options)
 operation = restore.RestoreOperation(RESTOREPATH)
 operation.logger.setPrintToo(True)
-if not operation.start() == True:
+if not operation.start():
   raise OperationError(_("Restore failed!"))
-print '\n'
+print('\n')
 
 # Local folder
-print _("*** Running restore of a local folder")
+print(_("*** Running restore of a local folder"))
 name = "restore-local-folder"
 restoreDestination = os.path.join(DESTDIR_RESTORE, name)
 options = {}
@@ -222,12 +251,12 @@ restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
 restoreConfig.save(options)
 operation = restore.RestoreOperation(RESTOREPATH)
 operation.logger.setPrintToo(True)
-if not operation.start() == True:
+if not operation.start():
   raise OperationError(_("Restore failed!"))
-print '\n'
+print('\n')
 
 # Remote archive (SSH)
-print _("*** Running restore of a remote archive (SSH)")
+print(_("*** Running restore of a remote archive (SSH)"))
 name = "restore-remote-archive (SSH)"
 restoreDestination = os.path.join(DESTDIR_RESTORE, name)
 options = {}
@@ -236,7 +265,7 @@ options["RemoteHost"] = hostname
 options["RemotePassword"] = password
 options["RemotePort"] = 22
 options["RemoteUsername"] = username
-client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
+client, sftpClient = sftp.connect(hostname, username, raw_password, port)
 try:
   listing = sftpClient.listdir(remotefolder)
 finally:
@@ -253,12 +282,12 @@ restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
 restoreConfig.save(options)
 operation = restore.RestoreOperation(RESTOREPATH)
 operation.logger.setPrintToo(True)
-if not operation.start() == True:
+if not operation.start():
   raise OperationError(_("Restore failed!"))
-print '\n'
+print('\n')
 
 # Remote folder (SSH)
-print _("*** Running restore of a remote folder (SSH)")
+print(_("*** Running restore of a remote folder (SSH)"))
 name = "restore-remote-folder (SSH)"
 restoreDestination = os.path.join(DESTDIR_RESTORE, name)
 options = {}
@@ -267,7 +296,7 @@ options["RemoteHost"] = hostname
 options["RemotePassword"] = password
 options["RemotePort"] = 22
 options["RemoteUsername"] = username
-client, sftpClient = sftp.connect(hostname, username, password.decode('base64'), port)
+client, sftpClient = sftp.connect(hostname, username, raw_password, port)
 try:
   listing = sftpClient.listdir(remotefolder)
   for item in listing:
@@ -284,6 +313,6 @@ restoreConfig = config.RestoreConf(RESTOREPATH, create=True)
 restoreConfig.save(options)
 operation = restore.RestoreOperation(RESTOREPATH)
 operation.logger.setPrintToo(True)
-if not operation.start() == True:
+if not operation.start():
   raise OperationError(_("Restore failed!"))
-print '\n'
+print('\n')
