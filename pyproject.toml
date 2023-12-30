@@ -19,12 +19,12 @@ PyGObject = "^3.42.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^6.0.0"
-# Unversioned dependencies for pyinstaller to grab the latest version, always.
+# Python version will need to be manually updated new releases because
+# pyinstaller uses upper version constraints:
 # - https://github.com/python-poetry/poetry/issues/1413
-# - https://github.com/numpy/numpy/issues/24810#issuecomment-1768722310
 # - https://github.com/pyinstaller/pyinstaller/pull/6322
-pyinstaller = "*"
-pyinstaller-versionfile = "*"
+pyinstaller = { version = ">=5.13.1", python = "<3.13" }
+pyinstaller-versionfile = ">=2.1.1"
 
 [build-system]
 requires = ["poetry-core"]
