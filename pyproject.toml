@@ -13,15 +13,19 @@ documentation = "https://downloads.diffingo.com/fwbackups/docs/html/"
 keywords = ["gtk+", "backups"]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
-paramiko = "^2.12.0"
+python = "^3.10"
+paramiko = "^3.4.0"
 PyGObject = "^3.42.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^6.0.0"
-pyinstaller = "^5.7.0"
-pyinstaller-versionfile = "^2.1.1"
+# Unversioned dependencies for pyinstaller to grab the latest version, always.
+# - https://github.com/python-poetry/poetry/issues/1413
+# - https://github.com/numpy/numpy/issues/24810#issuecomment-1768722310
+# - https://github.com/pyinstaller/pyinstaller/pull/6322
+pyinstaller = "*"
+pyinstaller-versionfile = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
