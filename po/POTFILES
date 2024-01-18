@@ -13,6 +13,7 @@ fwbackups/ui/__init__.py
 fwbackups/ui/loader.py
 fwbackups/config.py
 fwbackups/cron.py
+fwbackups/__init__.py
 fwbackups/operations/backup.py
 fwbackups/operations/__init__.py
 fwbackups/operations/restore.py
