@@ -9,7 +9,7 @@
     <property name="destroy-with-parent">True</property>
     <property name="icon-name">document-edit-symbolic</property>
     <property name="title" translatable="yes">Configure Set</property>
-    <signal name="close-request" handler="hide"/>
+    <signal name="close-request" handler="on_backupsetCancelButton_clicked"/>
     <child>
       <object class="GtkGrid" id="table75">
         <property name="column-spacing">12</property>
