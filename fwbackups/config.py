@@ -98,7 +98,7 @@ class ConfigFile(configparser.ConfigParser):
     def read(self):
         """Read and parse the configuration file's data."""
         fh = open(self.__conffile, 'r', encoding="UTF-8")
-        configparser.ConfigParser.readfp(self, fh)
+        configparser.ConfigParser.read_file(self, fh)
         fh.close()
 
     def generateDict(self, sections=None):

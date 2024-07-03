@@ -19,6 +19,7 @@ fwbackups package initialization.
 """
 import os
 import sys
+import shutil
 import subprocess
 
 from threading import Thread
@@ -62,15 +63,22 @@ def execute(*args, **kwargs):
 def executeSub(command, env=None, shell=False, stdoutfd=None, text=True):
     """Execute a command in the background"""
     if env is None:
-        env = {}
+        # default behavior of subprocess is to copy, but we preempt it here so
+        # as to remove environment variables harmful to flatpak operation below
+        env = dict(os.environ)
 
-    if constants.IS_FLATPAK:
+    if constants.IS_FLATPAK or True:
+        # https://github.com/flatpak/flatpak/issues/3207#issuecomment-1968552804
+        env.pop('G_MESSAGES_DEBUG', None)
+        env.pop('G_DEBUG', None)
+
+        flatpak_spawn = shutil.which("flatpak-spawn")
         if type(command) is list:
-            command = ['flatpak-spawn', '--host'] + command
+            command = [flatpak_spawn, '--host'] + command
         else:
-            command = 'flatpak-spawn --host ' + command
+            command = f'{flatpak_spawn} --host {command}'
 
-    sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=dict(os.environ, **env), text=text)
+    sub = subprocess.Popen(encode(command), stdin=subprocess.PIPE, stdout=stdoutfd, stderr=subprocess.PIPE, shell=shell, env=env, text=text)
     return sub
 
 
