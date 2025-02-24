@@ -67,7 +67,7 @@ def executeSub(command, env=None, shell=False, stdoutfd=None, text=True):
         # as to remove environment variables harmful to flatpak operation below
         env = dict(os.environ)
 
-    if constants.IS_FLATPAK or True:
+    if constants.IS_FLATPAK:
         # https://github.com/flatpak/flatpak/issues/3207#issuecomment-1968552804
         env.pop('G_MESSAGES_DEBUG', None)
         env.pop('G_DEBUG', None)
