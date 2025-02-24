@@ -1,31 +1,33 @@
-[tool.poetry]
+[project]
 name = "fwbackups"
 version = "1.43.8"
 description = "A feature-rich, user-friendly backup program"
-authors = ["Stewart Adam <s.adam@diffingo.com>"]
-license = "GPLv2"
+authors = [{ name = "Stewart Adam", email = "s.adam@diffingo.com" }]
+requires-python = "~=3.13"
 readme = "README.md"
+license = "GPL-2.0-or-later"
+license-files = ["COPYING"]
+keywords = [
+    "gtk+",
+    "backups",
+]
+dependencies = [
+    "paramiko>=3.5.1,<4",
+    "PyGObject>=3.42.2,<4",
+]
 
-homepage = "https://diffingo.com/oss/fwbackups"
-repository = "https://github.com/stewartadma/fwbackups"
-documentation = "https://downloads.diffingo.com/fwbackups/docs/html/"
+[project.urls]
+Homepage = "https://diffingo.com/oss/fwbackups"
+Repository = "https://github.com/stewartadma/fwbackups"
+Documentation = "https://downloads.diffingo.com/fwbackups/docs/html/"
 
-keywords = ["gtk+", "backups"]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-paramiko = "^3.4.0"
-PyGObject = "^3.42.2"
-
-[tool.poetry.dev-dependencies]
-flake8 = "^6.0.0"
-# Python version will need to be manually updated new releases because
-# pyinstaller uses upper version constraints:
-# - https://github.com/python-poetry/poetry/issues/1413
-# - https://github.com/pyinstaller/pyinstaller/pull/6322
-pyinstaller = { version = ">=5.13.1", python = "<3.13" }
-pyinstaller-versionfile = ">=2.1.1"
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.12.0",
+    "pyinstaller-versionfile>=2.1.1",
+    "ruff>=0.9.7",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

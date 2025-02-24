@@ -48,8 +48,8 @@
       "name": "python-deps",
       "buildsystem": "simple",
       "build-commands": [
-        "pip3 install --prefix=${FLATPAK_DEST} poetry",
-        "${FLATPAK_DEST}/bin/poetry export --output=requirements.txt",
+        "pip3 install --prefix=${FLATPAK_DEST} uv",
+        "${FLATPAK_DEST}/bin/uv export --no-emit-project --output-file=requirements.txt",
         "pip3 install --ignore-installed --prefix=${FLATPAK_DEST} -r requirements.txt"
       ],
       "sources": [
@@ -59,7 +59,7 @@
         },
         {
           "type": "file",
-          "path": "poetry.lock"
+          "path": "uv.lock"
         }
       ]
     }
