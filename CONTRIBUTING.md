@@ -11,3 +11,7 @@ To release a new version, please:
 * Generate docs using publican (see `docs/README`)
 
 Then do `meson setup _build;meson dist -C _build`.
+
+## Editing the UI
+
+With Glade now deprecated, to interactively edit the UI use the [cambalache](https://github.com/xjuan/cambalache) RAD tool.

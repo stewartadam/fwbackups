@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!-- Created with Cambalache 0.11.3 -->
+<!-- Created with Cambalache 0.94.1 -->
 <interface>
   <!-- interface-name fwbackups.ui -->
   <requires lib="gtk" version="4.0"/>
@@ -22,7 +22,7 @@
                     <property name="row-spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="label340">
-                        <property name="label" translatable="yes"></property>
+                        <property name="label" translatable="yes"/>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="column">0</property>
@@ -101,7 +101,7 @@
                             </property>
                             <property name="tab">
                               <object class="GtkLabel" id="label328">
-                                <property name="label" translatable="yes"></property>
+                                <property name="label" translatable="yes"/>
                               </object>
                             </property>
                           </object>
@@ -135,7 +135,7 @@
                                     <property name="focusable">1</property>
                                     <property name="hexpand">True</property>
                                     <property name="invisible-char">•</property>
-                                    <property name="text" translatable="yes"></property>
+                                    <property name="text" translatable="yes"/>
                                     <layout>
                                       <property name="column">1</property>
                                       <property name="row">0</property>
@@ -156,7 +156,7 @@
                             </property>
                             <property name="tab">
                               <object class="GtkLabel" id="label329">
-                                <property name="label" translatable="yes"></property>
+                                <property name="label" translatable="yes"/>
                               </object>
                             </property>
                           </object>
@@ -190,7 +190,7 @@
                                     <property name="focusable">1</property>
                                     <property name="hexpand">True</property>
                                     <property name="invisible-char">•</property>
-                                    <property name="text" translatable="yes"></property>
+                                    <property name="text" translatable="yes"/>
                                     <layout>
                                       <property name="column">1</property>
                                       <property name="row">0</property>
@@ -212,7 +212,7 @@
                             </property>
                             <property name="tab">
                               <object class="GtkLabel" id="label330">
-                                <property name="label" translatable="yes"></property>
+                                <property name="label" translatable="yes"/>
                               </object>
                             </property>
                           </object>
@@ -225,7 +225,7 @@
                                 <property name="row-spacing">6</property>
                                 <child>
                                   <object class="GtkLabel" id="label335">
-                                    <property name="label" translatable="yes"></property>
+                                    <property name="label" translatable="yes"/>
                                     <property name="visible">0</property>
                                     <property name="width-request">56</property>
                                     <property name="xalign">0</property>
@@ -250,7 +250,7 @@
                                   <object class="GtkEntry" id="restore1PasswordEntry">
                                     <property name="focusable">1</property>
                                     <property name="invisible-char">•</property>
-                                    <property name="text" translatable="yes"></property>
+                                    <property name="text" translatable="yes"/>
                                     <property name="visibility">0</property>
                                     <layout>
                                       <property name="column">1</property>
@@ -262,7 +262,7 @@
                                   <object class="GtkEntry" id="restore1UsernameEntry">
                                     <property name="focusable">1</property>
                                     <property name="invisible-char">•</property>
-                                    <property name="text" translatable="yes"></property>
+                                    <property name="text" translatable="yes"/>
                                     <layout>
                                       <property name="column">1</property>
                                       <property name="row">1</property>
@@ -333,7 +333,7 @@
                                       <object class="GtkProgressBar" id="restore1TestSettingsProgress">
                                         <property name="ellipsize">end</property>
                                         <property name="pulse-step">0.10000000149</property>
-                                        <property name="text" translatable="yes"></property>
+                                        <property name="text" translatable="yes"/>
                                         <property name="valign">center</property>
                                       </object>
                                     </child>
@@ -373,7 +373,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label447">
                                     <property name="hexpand">1</property>
-                                    <property name="label" translatable="yes"></property>
+                                    <property name="label" translatable="yes"/>
                                     <property name="width-request">56</property>
                                     <property name="xalign">0</property>
                                     <layout>
@@ -391,7 +391,7 @@
                                         <property name="focusable">1</property>
                                         <property name="hexpand">1</property>
                                         <property name="invisible-char">•</property>
-                                        <property name="text" translatable="yes"></property>
+                                        <property name="text" translatable="yes"/>
                                       </object>
                                     </child>
                                     <child>
@@ -431,7 +431,7 @@
                             </property>
                             <property name="tab">
                               <object class="GtkLabel" id="label331">
-                                <property name="label" translatable="yes"></property>
+                                <property name="label" translatable="yes"/>
                               </object>
                             </property>
                           </object>
@@ -483,7 +483,7 @@
                             <property name="focusable">1</property>
                             <property name="hexpand">True</property>
                             <property name="invisible-char">•</property>
-                            <property name="text" translatable="yes"></property>
+                            <property name="text" translatable="yes"/>
                             <signal name="changed" handler="on_restore1DestinationEntry_changed"/>
                           </object>
                         </child>
@@ -523,7 +523,7 @@
                 </property>
                 <property name="tab">
                   <object class="GtkLabel" id="label370">
-                    <property name="label" translatable="yes"></property>
+                    <property name="label" translatable="yes"/>
                   </object>
                 </property>
               </object>
@@ -554,7 +554,7 @@
                             <property name="ellipsize">end</property>
                             <property name="hexpand">1</property>
                             <property name="pulse-step">0.00999999977648</property>
-                            <property name="text" translatable="yes"></property>
+                            <property name="text" translatable="yes"/>
                             <property name="valign">center</property>
                           </object>
                         </child>
@@ -602,7 +602,7 @@
                 </property>
                 <property name="tab">
                   <object class="GtkLabel" id="label336">
-                    <property name="label" translatable="yes"></property>
+                    <property name="label" translatable="yes"/>
                   </object>
                 </property>
               </object>
