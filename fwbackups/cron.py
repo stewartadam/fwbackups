@@ -25,7 +25,6 @@ import tempfile
 from fwbackups import execute
 from . import const as constants
 
-
 class CronError(Exception):
     """Cron interfacing error."""
 

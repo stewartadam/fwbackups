@@ -21,11 +21,13 @@ import os
 import random
 import sys
 
+from getpass import getpass
+
 # flake8: noqa E402
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
 from fwbackups.i18n import _
-from fwbackups.const import USER, USERHOME
+from fwbackups.const import USER
 from fwbackups import config
 from fwbackups.operations import backup, restore, OperationError
 from fwbackups import sftp
@@ -88,10 +90,9 @@ while True:
   try:
     int(port)
     break
-  except:
+  except ValueError:
     print(_("The port field can only contain numbers. Please try again."))
 username = input(_("Username [%s]: ") % USER) or USER
-from getpass import getpass
 raw_password = getpass(prompt=_("Password: "))
 password = base64.b64encode(raw_password.encode('ascii')).decode('ascii')
 remotefolder = input(_("Remote folder [%s]: ") % DESTDIR_RESTORE) or DESTDIR_RESTORE

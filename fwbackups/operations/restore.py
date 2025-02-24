@@ -122,7 +122,7 @@ class RestoreOperation(operations.Common):
             try:
                 # download file to location where we expect source to be
                 client, sftpClient = sftp.connect(self.options['RemoteHost'], self.options['RemoteUsername'], self.options['RemotePassword'], self.options['RemotePort'])
-                retval = sftp.receive(sftpClient, self.options['RemoteSource'], self.options['Destination'])
+                sftp.receive(sftpClient, self.options['RemoteSource'], self.options['Destination'])
                 # This is used later to terminate the restore operation early
                 remoteSourceIsFolder = sftp.isFolder(sftpClient, self.options['RemoteSource'])
                 sftpClient.close()
