@@ -1,7 +1,7 @@
 {
   "app-id": "com.diffingo.fwbackups",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "43",
+  "runtime-version": "47",
   "sdk": "org.gnome.Sdk",
   "command": "fwbackups",
   "build-options": {
