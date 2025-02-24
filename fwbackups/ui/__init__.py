@@ -261,6 +261,11 @@ class fwbackupsApp(Adw.Application):
             self.ui.main3BackupHiddenCheck.set_active(True)
             self.ui.main3BackupHiddenCheck.set_sensitive(False)
 
+            self.ui.backupset4SingleFilesystemCheck.set_active(True)
+            self.ui.backupset4SingleFilesystemCheck.set_sensitive(False)
+            self.ui.main3SingleFilesystemCheck.set_active(True)
+            self.ui.main3SingleFilesystemCheck.set_sensitive(False)
+
             self.ui.backupset4IncrementalCheck.set_sensitive(False)
 
             self.ui.backupset4FollowLinksCheck.set_active(True)
@@ -552,7 +557,7 @@ class fwbackupsApp(Adw.Application):
         try:
           originalCronLines = cron.read()
         except FileNotFoundError:
-            self.displayWarning(self.ui.main, _("Failed to schedule backups"), _("A cron service was not found on your system, and fwbackups will be unable to schedule backups as a result. Please install a cron service from your package manager and try again."))
+            self.displayWarning(self.ui.main, _("Failed to schedule backups"), _("A cron service was not found on your system, and fwbackups will be unable to schedule backups as a result.\nPlease install a cron service from your package manager and try again."))
             return False
         fwbackupCronLines = cron.clean_fwbackups_entries()
         # Generate the new fwbackups entries
@@ -1952,41 +1957,15 @@ class fwbackupsApp(Adw.Application):
         self.ui.backupset2LocalFolderEntry.set_text(cron_is_custom)
 
         # Restore options
-        cron_is_custom = setConf.get('Options', 'Enabled')
-        if cron_is_custom == '1':
-            self.ui.backupset4EnableCheck.set_active(True)
-        else:
-            self.ui.backupset4EnableCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'Recursive')
-        if cron_is_custom == '1':
-            self.ui.backupset4RecursiveCheck.set_active(True)
-        else:
-            self.ui.backupset4RecursiveCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'PkgListsToFile')
-        if cron_is_custom == '1':
-            self.ui.backupset4PkgListsToFileCheck.set_active(True)
-        else:
-            self.ui.backupset4PkgListsToFileCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'DiskInfoToFile')
-        if cron_is_custom == '1':
-            self.ui.backupset4DiskInfoToFileCheck.set_active(True)
-        else:
-            self.ui.backupset4DiskInfoToFileCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'BackupHidden')
-        if cron_is_custom == '1':
-            self.ui.backupset4BackupHiddenCheck.set_active(True)
-        else:
-            self.ui.backupset4BackupHiddenCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'Sparse')
-        if cron_is_custom == '1':
-            self.ui.backupset4SparseCheck.set_active(True)
-        else:
-            self.ui.backupset4SparseCheck.set_active(False)
-        cron_is_custom = setConf.get('Options', 'FollowLinks')
-        if cron_is_custom == '1':
-            self.ui.backupset4FollowLinksCheck.set_active(True)
-        else:
-            self.ui.backupset4FollowLinksCheck.set_active(False)
+        self.ui.backupset4EnableCheck.set_active(setConf.get('Options', 'Enabled') == '1')
+        self.ui.backupset4RecursiveCheck.set_active(setConf.get('Options', 'Recursive') == '1')
+        self.ui.backupset4PkgListsToFileCheck.set_active(setConf.get('Options', 'PkgListsToFile') == '1')
+        self.ui.backupset4DiskInfoToFileCheck.set_active(setConf.get('Options', 'DiskInfoToFile') == '1')
+        self.ui.backupset4BackupHiddenCheck.set_active(setConf.get('Options', 'BackupHidden') == '1')
+        self.ui.backupset4SingleFilesystemCheck.set_active(setConf.get('Options', 'SingleFilesystem') == '1')
+        self.ui.backupset4SparseCheck.set_active(setConf.get('Options', 'Sparse') == '1')
+        self.ui.backupset4FollowLinksCheck.set_active(setConf.get('Options', 'FollowLinks') == '1')
+
         # The following options may be enabled depending on the engine selection
         # We don't want any UI leftovers from the last time we opened a set, so
         # disable them now and re-enable them later if applicable.
@@ -2110,6 +2089,7 @@ class fwbackupsApp(Adw.Application):
         options["PkgListsToFile"] = int(self.ui.backupset4PkgListsToFileCheck.get_active())
         options["DiskInfoToFile"] = int(self.ui.backupset4DiskInfoToFileCheck.get_active())
         options["BackupHidden"] = int(self.ui.backupset4BackupHiddenCheck.get_active())
+        options["SingleFilesystem"] = int(self.ui.backupset4SingleFilesystemCheck.get_active())
         options["Sparse"] = int(self.ui.backupset4SparseCheck.get_active())
         options["FollowLinks"] = int(self.ui.backupset4FollowLinksCheck.get_active())
         options["Incremental"] = int(self.ui.backupset4IncrementalCheck.get_active())
@@ -2430,6 +2410,7 @@ class fwbackupsApp(Adw.Application):
         options["PkgListsToFile"] = int(self.ui.main3PkgListsToFileCheck.get_active())
         options["DiskInfoToFile"] = int(self.ui.main3DiskInfoToFileCheck.get_active())
         options["BackupHidden"] = int(self.ui.main3BackupHiddenCheck.get_active())
+        options["SingleFilesystem"] = int(self.ui.main3SingleFilesystemCheck.get_active())
         options["Sparse"] = int(self.ui.main3SparseCheck.get_active())
         options["FollowLinks"] = int(self.ui.main3FollowLinksCheck.get_active())
         # no incremental for one-time

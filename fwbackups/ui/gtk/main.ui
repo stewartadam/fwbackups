@@ -1007,7 +1007,17 @@
                                                 <property name="use-underline">1</property>
                                                 <layout>
                                                   <property name="column">0</property>
-                                                  <property name="column-span">2</property>
+                                                  <property name="row">3</property>
+                                                </layout>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkCheckButton" id="main3SingleFilesystemCheck">
+                                                <property name="focusable">1</property>
+                                                <property name="label" translatable="yes">Do not cross filesystems</property>
+                                                <property name="use-underline">1</property>
+                                                <layout>
+                                                  <property name="column">1</property>
                                                   <property name="row">3</property>
                                                 </layout>
                                               </object>

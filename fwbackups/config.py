@@ -142,7 +142,7 @@ class ConfigFile(configparser.ConfigParser):
 
     def set(self, section, prop, value):
         """Set a value in a given section and save."""
-        configparser.ConfigParser.set(self, section, prop, value)
+        configparser.ConfigParser.set(self, section, prop, str(value))
         self.write()
         return True
 
@@ -212,6 +212,7 @@ class BackupSetConf:
         config["Options"]["PkgListsToFile"] = 1
         config["Options"]["DiskInfoToFile"] = 0
         config["Options"]["BackupHidden"] = 1
+        config["Options"]["SingleFilesystem"] = 1
         config["Options"]["Incremental"] = 0
         config["Options"]["Engine"] = "tar"
         config["Options"]["Sparse"] = 0
@@ -226,7 +227,9 @@ class BackupSetConf:
         self.__config.importDict(config)
 
     def __import(self):
-        """Import old configurations. Only runs if not current version"""
+        """
+        Import old configurations. Only runs if not current version.
+        """
         try:
             oldVersion = self.__config.get('General', 'Version')
         except BaseException:  # old config which was non-case sensitive
@@ -256,7 +259,7 @@ class BackupSetConf:
             self.__config.set('Options', 'excludes', '')
             self.__config.set('Options', 'nice', 0)
             self.__config.set('Options', 'sparse', 0)
-            self.__config.set('Options', 'followlinks', '0')
+            self.__config.set('Options', 'followlinks', 0)
         # Excludes became newline-separated in 1.43.2
         # Support for remote destinations was added
         # Import in 1.43.1 for followlinks was messed up
@@ -319,8 +322,15 @@ class BackupSetConf:
             fromHereUp = True
             if self.__config.has_option("Options", "sparce"):
                 self.__config.remove_option("Options", "sparce")
-        if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6', '1.43.3', '1.43.4'] or fromHereUp:
+
+        if oldVersion in ['1.43.3rc3', '1.43.3rc4', '1.43.3rc5', '1.43.3rc6'] \
+          or oldVersion.startswith('1.43.3') or oldVersion.startswith('1.43.4') \
+          or oldVersion.startswith('1.43.5') or oldVersion.startswith('1.43.6') \
+          or oldVersion.startswith('1.43.7') or oldVersion in ['1.43.8-rc1', '1.43.8-rc2'] \
+          or fromHereUp:
             fromHereUp = True
+            # default migrating to cross-filesystem to preserve original behavior
+            self.__config.set('Options', 'SingleFilesystem', 0)
 
         # Now that the configuration file been imported, reset the version option
         self.__config.set("General", "Version", fwbackups.__version__)

@@ -64,7 +64,7 @@ class BackupOperation(operations.Common):
         options['Nice'] = int(options['Nice'])
         options['RemotePassword'] = base64.b64decode(options['RemotePassword']).decode('ascii')
         for option in ['Recursive', 'PkgListsToFile', 'DiskInfoToFile',
-                       'BackupHidden', 'FollowLinks', 'Sparse']:
+                       'BackupHidden', 'FollowLinks', 'Sparse', 'SingleFilesystem']:
             options[option] = _bool(options[option])
         return options
 
@@ -138,6 +138,8 @@ class BackupOperation(operations.Common):
                 command += ' -r'
             if not self.options['BackupHidden']:
                 command += ' --exclude=.*'
+            if self.options['SingleFilesystem']:
+                command += ' --one-file-system'
             if self.options['Sparse']:
                 command += ' -S'
             if self.options['FollowLinks']:
@@ -165,6 +167,11 @@ class BackupOperation(operations.Common):
                 command += ' -S'
             if self.options['FollowLinks']:
                 command += ' -h'
+            if self.options['SingleFilesystem']:
+                if constants.DARWIN:
+                    self.logger.logmsg('ERROR', _('Do not cross filesystem boundaries was enabled, but MacOS tar does not support this. Disable this option in your backup configuration and try again.'))
+                    raise ValueError
+                command += ' --one-file-system'
         if self.options['Excludes']:
             for i in self.options['Excludes'].split('\n'):
                 command += ' --exclude="%s"' % i
