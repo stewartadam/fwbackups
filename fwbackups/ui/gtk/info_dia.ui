@@ -65,7 +65,7 @@ Secondary text</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-5"/>
+      <action-widget response="-5">button_close</action-widget>
     </action-widgets>
   </object>
 </interface>

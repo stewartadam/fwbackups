@@ -75,8 +75,8 @@ Secondary text</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-9"/>
-      <action-widget response="-8"/>
+      <action-widget response="-9">button_no</action-widget>
+      <action-widget response="-8">button_yes</action-widget>
     </action-widgets>
   </object>
 </interface>

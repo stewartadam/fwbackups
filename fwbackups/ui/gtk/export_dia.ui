@@ -107,9 +107,9 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6"/>
-      <action-widget response="-5"/>
-      <action-widget response="-11"/>
+      <action-widget response="-6">button_cancel</action-widget>
+      <action-widget response="-5">button_export</action-widget>
+      <action-widget response="-11">button_help</action-widget>
     </action-widgets>
   </object>
 </interface>
