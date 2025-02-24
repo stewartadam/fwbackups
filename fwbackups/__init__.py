@@ -27,7 +27,7 @@ from . import const as constants
 from .i18n import encode
 
 __author__ = "Stewart Adam <s.adam@diffingo.com>"
-__version__ = "1.43.8-rc2"
+__version__ = "1.43.8-rc3"
 __license__ = "GPL-2.0-or-later"
 
 

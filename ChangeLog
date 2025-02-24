@@ -1,6 +1,9 @@
 # This is the full fwbackups changelog, with detailed listing of changes between
 # various versions dating all the way back from the very beginning.
 || Version 1.43.8 changes ||
+  * Mon Feb 24 2025 Stewart Adam <s.adam at diffingo.com>
+    - Add option to constrain backups to single filesystem (fixes #32)
+
   * Mon Jun 26 2023 Stewart Adam <s.adam at diffingo.com>
     - Launch dbus session when running fwbackups-run from cron (fixes #17)
 
