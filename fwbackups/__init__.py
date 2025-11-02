@@ -68,6 +68,12 @@ def executeSub(command, env=None, shell=False, stdoutfd=None, text=True):
         env = dict(os.environ)
 
     if constants.IS_FLATPAK:
+        # flatpak requires some variables to run flatpak-spawn correctly
+        flatpak_env = {}
+        for i in ['DBUS_SESSION_BUS_ADDRESS', 'DISPLAY', 'WAYLAND_DISPLAY']:
+            flatpak_env[i] = os.environ.get(i, '')
+        env = {**flatpak_env, **env}
+
         # https://github.com/flatpak/flatpak/issues/3207#issuecomment-1968552804
         env.pop('G_MESSAGES_DEBUG', None)
         env.pop('G_DEBUG', None)
