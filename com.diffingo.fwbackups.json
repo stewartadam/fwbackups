@@ -1,7 +1,7 @@
 {
   "app-id": "com.diffingo.fwbackups",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "47",
+  "runtime-version": "49",
   "sdk": "org.gnome.Sdk",
   "command": "fwbackups",
   "build-options": {
@@ -38,9 +38,8 @@
       "buildsystem": "meson",
       "sources": [
         {
-          "type": "git",
-          "url": ".",
-          "branch": "HEAD"
+          "type": "dir",
+          "url": "."
         }
       ]
     },
