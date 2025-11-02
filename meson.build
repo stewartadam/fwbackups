@@ -1,5 +1,5 @@
 project('fwbackups',
-          version: '1.43.8-rc2',
+          version: '1.43.8-rc4',
     meson_version: '>= 0.62.0',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )

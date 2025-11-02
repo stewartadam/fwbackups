@@ -332,6 +332,10 @@ class BackupSetConf:
             # default migrating to cross-filesystem to preserve original behavior
             self.__config.set('Options', 'SingleFilesystem', 0)
 
+        if oldVersion in ['1.43.8-rc3']:
+            # No config changes to migrate, but apply future migrations
+            fromHereUp = True
+
         # Now that the configuration file been imported, reset the version option
         self.__config.set("General", "Version", fwbackups.__version__)
         return True
