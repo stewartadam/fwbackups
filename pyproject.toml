@@ -3,7 +3,7 @@ name = "fwbackups"
 version = "1.43.8"
 description = "A feature-rich, user-friendly backup program"
 authors = [{ name = "Stewart Adam", email = "s.adam@diffingo.com" }]
-requires-python = "~=3.13"
+requires-python = "~=3.13.0"
 readme = "README.md"
 license = "GPL-2.0-or-later"
 license-files = ["COPYING"]
