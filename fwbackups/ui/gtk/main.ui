@@ -26,10 +26,18 @@
         <property name="hexpand">1</property>
         <property name="vexpand">1</property>
         <child>
+          <object class="GtkBox" id="menubar_placeholder">
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
           <object class="GtkStatusbar" id="statusbar1">
             <layout>
               <property name="column">0</property>
-              <property name="row">2</property>
+              <property name="row">3</property>
             </layout>
           </object>
         </child>
@@ -1417,7 +1425,7 @@
             </child>
             <layout>
               <property name="column">0</property>
-              <property name="row">1</property>
+              <property name="row">2</property>
             </layout>
           </object>
         </child>
@@ -1538,7 +1546,7 @@
             </child>
             <layout>
               <property name="column">0</property>
-              <property name="row">0</property>
+              <property name="row">1</property>
             </layout>
           </object>
         </child>
