@@ -162,7 +162,9 @@ class fwbackupsApp(Adw.Application):
 
         builder = Gtk.Builder()
         builder.add_from_file(os.path.join(constants.INSTALL_DIR, "ui/gtk", "menus.ui"))
-        self.set_menubar(builder.get_object("menubar"))
+    
+        menubar = Gtk.PopoverMenuBar.new_from_model(builder.get_object("menubar"))
+        self.ui.menubar_placeholder.append(menubar)
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_file(Gio.File.new_for_path(os.path.join(constants.INSTALL_DIR, "ui/gtk", "style.css")))
