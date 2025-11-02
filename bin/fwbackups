@@ -18,9 +18,14 @@
 import os
 import sys
 
-launched_from = os.path.dirname(os.path.realpath(__file__))
-if os.path.exists(os.path.join(launched_from, '../fwbackups/__init__.py')):  # check if we are running from source
-    sys.path.append('../fwbackups')
+from pathlib import Path
+
+launched_from = Path(__file__)
+local_fwbackups_root = launched_from.parent.parent
+init_py_file = local_fwbackups_root / 'fwbackups' / '__init__.py'
+if init_py_file.exists():  # check if we are running from source
+    sys.path.insert(0, str(local_fwbackups_root))
+    print("Running from source: ", local_fwbackups_root)
 
 from fwbackups.ui import main
 from fwbackups import const as constants
