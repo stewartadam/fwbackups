@@ -1,0 +1,8 @@
+services:
+  ssh-operations-test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ssh-test
+    environment:
+      FWBACKUPS_TEST_FILE_COUNT: "12"
+      FWBACKUPS_TEST_FILE_SIZE_BYTES: "8192"

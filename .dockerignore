@@ -1,0 +1,16 @@
+.git
+.flatpak-builder
+.idea
+.serena
+.venv
+.vscode
+_build
+_build_flatpak
+_linuxbuild
+build
+docs
+po
+tests
+**/__pycache__
+*.pyc
+*.pyo

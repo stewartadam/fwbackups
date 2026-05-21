@@ -12,7 +12,7 @@ keywords = [
     "backups",
 ]
 dependencies = [
-    "paramiko>=3.5.1,<4",
+    "paramiko>=5.0.0,<6",
     "PyGObject>=3.42.2,<4",
 ]
 

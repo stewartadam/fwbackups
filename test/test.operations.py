@@ -40,22 +40,40 @@ DESTDIR_RESTORE = os.path.join(TESTDIR, 'restores')
 
 paths = [SOURCEDIR]
 
+
+def env_bool(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.lower() in ('1', 'true', 'yes', 'on')
+
+
+def prompt_or_env(env_name, prompt, default=None):
+    value = os.environ.get(env_name)
+    if value is not None:
+        return value
+    return input(prompt) or default
+
+
 print(_("*** Initializing files"))
+noninteractive = env_bool('FWBACKUPS_TEST_NONINTERACTIVE')
+clean_existing = env_bool('FWBACKUPS_TEST_CLEAN', default=noninteractive)
 for directory in [TESTDIR, SOURCEDIR, DESTDIR_BACKUP, DESTDIR_RESTORE]:
   if os.path.exists(directory):
-    print(_("Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> to cancel...") % directory)
-    try:
-      input()
-    except KeyboardInterrupt:
-      print()
-      sys.exit(0)
+    if not clean_existing:
+      print(_("Folder %s exists and will be emptied. Press <Enter> to confirm or <ctrl+c> to cancel...") % directory)
+      try:
+        input()
+      except KeyboardInterrupt:
+        print()
+        sys.exit(0)
     print(_("Cleaning folder %s...") % directory)
     shutil_modded.rmtree(directory)
   os.mkdir(directory)
 
 # Initialize a collection of 1MB of files
-MEGABYTE_BYTES = 1048576
-FILE_COUNT=50
+MEGABYTE_BYTES = int(os.environ.get('FWBACKUPS_TEST_FILE_SIZE_BYTES', 1048576))
+FILE_COUNT = int(os.environ.get('FWBACKUPS_TEST_FILE_COUNT', 50))
 
 def write_file(filename, length_bytes):
     fh = open(filename, 'w')
@@ -84,18 +102,27 @@ for num in range(0, FILE_COUNT-len(utf8_filenames)):
   write_file(os.path.join(SOURCEDIR, f"file{num}"), MEGABYTE_BYTES)
 
 print(_("*** Remote settings"))
-hostname = input(_("Hostname [localhost]: ")) or 'localhost'
-while True:
+hostname = prompt_or_env('FWBACKUPS_TEST_SSH_HOST', _("Hostname [localhost]: "), 'localhost')
+port = os.environ.get('FWBACKUPS_TEST_SSH_PORT')
+while port is None:
   port = input(_("Port [22]: ")) or '22'
   try:
     int(port)
     break
   except ValueError:
     print(_("The port field can only contain numbers. Please try again."))
-username = input(_("Username [%s]: ") % USER) or USER
-raw_password = getpass(prompt=_("Password: "))
+    port = None
+try:
+  int(port)
+except ValueError:
+  print(_("The port field can only contain numbers. Please try again."))
+  sys.exit(1)
+username = prompt_or_env('FWBACKUPS_TEST_SSH_USER', _("Username [%s]: ") % USER, USER)
+raw_password = os.environ.get('FWBACKUPS_TEST_SSH_PASSWORD')
+if raw_password is None:
+  raw_password = getpass(prompt=_("Password: "))
 password = base64.b64encode(raw_password.encode('ascii')).decode('ascii')
-remotefolder = input(_("Remote folder [%s]: ") % DESTDIR_RESTORE) or DESTDIR_RESTORE
+remotefolder = prompt_or_env('FWBACKUPS_TEST_REMOTE_FOLDER', _("Remote folder [%s]: ") % DESTDIR_RESTORE, DESTDIR_RESTORE)
 
 options = {}
 options["BackupHidden"] = 1
@@ -117,6 +144,7 @@ options["RemotePassword"] = password
 options["RemotePort"] = port
 options["RemoteUsername"] = username
 options["Sparse"] = "0"
+options["SingleFilesystem"] = 0
 times = {}
 times["Custom"] = "False"
 times["Entry"] = "0 0 * 1 0"

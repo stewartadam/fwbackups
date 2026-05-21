@@ -7,6 +7,7 @@ If you wish to manually build and install fwbackups, read on.
 - [Building fwbackups from source](#building-fwbackups-from-source)
   - [Dependencies](#dependencies)
   - [Try fwbackups (run from source)](#try-fwbackups-run-from-source)
+  - [Docker SSH operations test](#docker-ssh-operations-test)
   - [Build \& install](#build--install)
     - [Customized Python installations](#customized-python-installations)
     - [Installing Python packages](#installing-python-packages)
@@ -59,6 +60,19 @@ python -m fwbackups
 
 Note that any backups sets will **not** run as scheduled when fwbackups is run
 directly from source.
+
+## Docker SSH operations test
+
+The operations test can be run in Docker with a temporary OpenSSH server:
+
+```sh
+docker compose -f docker-compose.test.yml run --rm ssh-operations-test
+```
+
+This runs `test/test.operations.py` non-interactively against an SSH server in
+the same container. The compose file uses a smaller test data set by default;
+override `FWBACKUPS_TEST_FILE_COUNT` and `FWBACKUPS_TEST_FILE_SIZE_BYTES` for a
+larger run.
 
 ## Build & install
 
