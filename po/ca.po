@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 01:37-0800\n"
+"POT-Creation-Date: 2026-11-04 05:14+0000\n"
 "PO-Revision-Date: 2017-09-22 11:45+0000\n"
 "Last-Translator: AlexL <loginov.alex.valer@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/Magic/fwbackups/language/"
@@ -18,21 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/com.diffingo.fwbackups.desktop.in:3 fwbackups/ui/gtk/main.ui:22
-#: fwbackups/ui/__init__.py:71
-msgid "fwbackups"
-msgstr ""
-
-#: data/com.diffingo.fwbackups.desktop.in:4
-msgid "Backup or restore your files"
-msgstr ""
-
-#: data/com.diffingo.fwbackups.desktop.in:6
-msgid "backup;archive;archiving;"
-msgstr ""
-
-#: data/com.diffingo.fwbackups.metainfo.xml.in:7 fwbackups/ui/__init__.py:848
-msgid "A feature-rich user backup program"
+#: fwbackups/ui/gtk/error_dia.ui:36 fwbackups/ui/gtk/confirm_dia.ui:36
+#: fwbackups/ui/gtk/info_dia.ui:35 fwbackups/ui/gtk/warning_dia.ui:39
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
+"\n"
+"Secondary text"
 msgstr ""
 
 #: fwbackups/ui/gtk/BugReport.ui:69
@@ -49,6 +40,51 @@ msgstr ""
 msgid "_Details"
 msgstr ""
 
+#: fwbackups/ui/gtk/confirm_dia.ui:49 fwbackups/ui/gtk/info_dia.ui:47
+#: fwbackups/ui/gtk/warning_dia.ui:52
+msgid "Don't show me this message again"
+msgstr ""
+
+#: fwbackups/ui/gtk/export_dia.ui:10 fwbackups/ui/__init__.py:773
+msgid "Export Sets"
+msgstr ""
+
+#: fwbackups/ui/gtk/export_dia.ui:44
+msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
+msgstr ""
+
+#: fwbackups/ui/gtk/export_dia.ui:57
+msgid "Select the set you would like to export."
+msgstr ""
+
+#: fwbackups/ui/gtk/export_dia.ui:96
+msgid "_Export"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:29
+msgid "Enable debug log messages"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:75
+msgid "Override temporary directory:"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:94
+msgid "Enable notifications"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:107
+msgid "<b>Options</b>"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:141
+msgid "Click to reset \"Don't show me again\" messages"
+msgstr ""
+
+#: fwbackups/ui/gtk/preferences.ui:174
+msgid "Preferences"
+msgstr ""
+
 #: fwbackups/ui/gtk/backupset.ui:11
 msgid "Configure Set"
 msgstr ""
@@ -62,40 +98,40 @@ msgid "Destination Type:"
 msgstr ""
 
 #: fwbackups/ui/gtk/backupset.ui:267 fwbackups/ui/gtk/backupset.ui:326
-#: fwbackups/ui/gtk/main.ui:600 fwbackups/ui/gtk/main.ui:685
+#: fwbackups/ui/gtk/main.ui:608 fwbackups/ui/gtk/main.ui:693
 #: fwbackups/ui/gtk/restore.ui:202
 msgid "Folder:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:294 fwbackups/ui/gtk/main.ui:628
+#: fwbackups/ui/gtk/backupset.ui:294 fwbackups/ui/gtk/main.ui:636
 msgid "/folder"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:337 fwbackups/ui/gtk/main.ui:649
+#: fwbackups/ui/gtk/backupset.ui:337 fwbackups/ui/gtk/main.ui:657
 #: fwbackups/ui/gtk/restore.ui:275
 msgid "Host:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:349 fwbackups/ui/gtk/main.ui:661
+#: fwbackups/ui/gtk/backupset.ui:349 fwbackups/ui/gtk/main.ui:669
 #: fwbackups/ui/gtk/restore.ui:287
 msgid "Username:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:361 fwbackups/ui/gtk/main.ui:673
+#: fwbackups/ui/gtk/backupset.ui:361 fwbackups/ui/gtk/main.ui:681
 #: fwbackups/ui/gtk/restore.ui:299
 msgid "Password:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:378 fwbackups/ui/gtk/main.ui:701
+#: fwbackups/ui/gtk/backupset.ui:378 fwbackups/ui/gtk/main.ui:709
 msgid "_Test Settings"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:401 fwbackups/ui/gtk/main.ui:725
+#: fwbackups/ui/gtk/backupset.ui:401 fwbackups/ui/gtk/main.ui:733
 #: fwbackups/ui/gtk/restore.ui:364
 msgid "Hide password"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:449 fwbackups/ui/gtk/main.ui:783
+#: fwbackups/ui/gtk/backupset.ui:449 fwbackups/ui/gtk/main.ui:791
 #: fwbackups/ui/gtk/restore.ui:400
 msgid "Port:"
 msgstr ""
@@ -190,15 +226,15 @@ msgstr ""
 msgid "Times"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1236 fwbackups/ui/gtk/main.ui:856
+#: fwbackups/ui/gtk/backupset.ui:1236 fwbackups/ui/gtk/main.ui:864
 msgid "Archive (files and folders are packed into a tar archive)"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1250 fwbackups/ui/gtk/main.ui:870
+#: fwbackups/ui/gtk/backupset.ui:1250 fwbackups/ui/gtk/main.ui:878
 msgid "Direct copy of the files and folders"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1276 fwbackups/ui/gtk/main.ui:888
+#: fwbackups/ui/gtk/backupset.ui:1276 fwbackups/ui/gtk/main.ui:896
 msgid "Compress archive using"
 msgstr ""
 
@@ -206,7 +242,7 @@ msgstr ""
 msgid "Backups are incremental"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1320 fwbackups/ui/gtk/main.ui:913
+#: fwbackups/ui/gtk/backupset.ui:1320 fwbackups/ui/gtk/main.ui:921
 msgid "<b>Backup Format</b>"
 msgstr ""
 
@@ -218,64 +254,68 @@ msgstr ""
 msgid "Include subfolders"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1364 fwbackups/ui/gtk/main.ui:971
+#: fwbackups/ui/gtk/backupset.ui:1364 fwbackups/ui/gtk/main.ui:979
 msgid "Print disk geometry information to a file"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1377 fwbackups/ui/gtk/main.ui:958
+#: fwbackups/ui/gtk/backupset.ui:1377 fwbackups/ui/gtk/main.ui:966
 msgid "Print installed packages to a text file"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1389 fwbackups/ui/gtk/main.ui:983
+#: fwbackups/ui/gtk/backupset.ui:1389 fwbackups/ui/gtk/main.ui:991
 msgid "Include hidden files"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1401 fwbackups/ui/gtk/main.ui:995
+#: fwbackups/ui/gtk/backupset.ui:1401 fwbackups/ui/gtk/main.ui:1003
 msgid "Handle sparse files efficiently"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1412 fwbackups/ui/gtk/main.ui:1006
+#: fwbackups/ui/gtk/backupset.ui:1412 fwbackups/ui/gtk/main.ui:1014
 msgid "Follow links"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1425 fwbackups/ui/gtk/backupset.ui:1485
-#: fwbackups/ui/gtk/main.ui:1019
+#: fwbackups/ui/gtk/backupset.ui:1424 fwbackups/ui/gtk/main.ui:1025
+msgid "Do not cross filesystems"
+msgstr ""
+
+#: fwbackups/ui/gtk/backupset.ui:1436 fwbackups/ui/gtk/backupset.ui:1496
+#: fwbackups/ui/gtk/main.ui:1037
 msgid "<b>Backup Options</b>"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1442
+#: fwbackups/ui/gtk/backupset.ui:1453
 msgid "Number of old backups to keep:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1471
+#: fwbackups/ui/gtk/backupset.ui:1482
 msgid ""
 "A value of  '0' makes a new backup always replace an older one. This option "
 "is unavailable with incremental backups."
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1507
+#: fwbackups/ui/gtk/backupset.ui:1518
 msgid "Options (Simple)"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1557
+#: fwbackups/ui/gtk/backupset.ui:1568
 msgid "Command to run before backup:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1568
+#: fwbackups/ui/gtk/backupset.ui:1579
 msgid "Command to run after backup:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1579 fwbackups/ui/gtk/main.ui:1083
+#: fwbackups/ui/gtk/backupset.ui:1590 fwbackups/ui/gtk/main.ui:1101
 msgid "Nice value of backup process:"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1590
+#: fwbackups/ui/gtk/backupset.ui:1601
 msgid ""
 "Exclude from backup:\n"
 " (newline separated)"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1636
+#: fwbackups/ui/gtk/backupset.ui:1647
 msgid ""
 "The following tokens may be used in the commands:\n"
 "[destination], [set], [date], [backup], [remote_host], [remote_port], "
@@ -284,152 +324,105 @@ msgid ""
 "For a description of each, see the user manual."
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1666
+#: fwbackups/ui/gtk/backupset.ui:1677
 msgid "Options (Advanced)"
 msgstr ""
 
-#: fwbackups/ui/gtk/backupset.ui:1695
+#: fwbackups/ui/gtk/backupset.ui:1706
 msgid "<b>Name:</b>"
 msgstr ""
 
-#: fwbackups/ui/gtk/confirm_dia.ui:36 fwbackups/ui/gtk/error_dia.ui:36
-#: fwbackups/ui/gtk/info_dia.ui:35 fwbackups/ui/gtk/warning_dia.ui:39
-msgid ""
-"<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
-"\n"
-"Secondary text"
+#: fwbackups/ui/gtk/main.ui:22 fwbackups/ui/__init__.py:92
+#: data/com.diffingo.fwbackups.desktop.in:3
+#: data/com.diffingo.fwbackups.metainfo.xml.in:6
+msgid "fwbackups"
 msgstr ""
 
-#: fwbackups/ui/gtk/confirm_dia.ui:49 fwbackups/ui/gtk/info_dia.ui:47
-#: fwbackups/ui/gtk/warning_dia.ui:52
-msgid "Don't show me this message again"
-msgstr ""
-
-#: fwbackups/ui/gtk/export_dia.ui:10 fwbackups/ui/__init__.py:692
-msgid "Export Sets"
-msgstr ""
-
-#: fwbackups/ui/gtk/export_dia.ui:44
-msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
-msgstr ""
-
-#: fwbackups/ui/gtk/export_dia.ui:57
-msgid "Select the set you would like to export."
-msgstr ""
-
-#: fwbackups/ui/gtk/export_dia.ui:96
-msgid "_Export"
-msgstr ""
-
-#: fwbackups/ui/gtk/main.ui:63
+#: fwbackups/ui/gtk/main.ui:71
 msgid "To start, click one of the buttons on the above or use the menus."
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:74
+#: fwbackups/ui/gtk/main.ui:82
 msgid ""
 "Please do not forget to check your fwbackups log regularly to be informed "
 "about any errors and/or failed backup runs."
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:88
+#: fwbackups/ui/gtk/main.ui:96
 msgid "<b>Welcome</b>"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:113 fwbackups/ui/gtk/main.ui:124
+#: fwbackups/ui/gtk/main.ui:121 fwbackups/ui/gtk/main.ui:132
 msgid "<i>Not Loaded</i>"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:136
+#: fwbackups/ui/gtk/main.ui:144
 msgid "Total backup sets:"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:147
+#: fwbackups/ui/gtk/main.ui:155
 msgid "Failed backup runs:"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:162
+#: fwbackups/ui/gtk/main.ui:170
 msgid "<b>Status</b>"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:181
+#: fwbackups/ui/gtk/main.ui:189
 msgid "Overview"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:376 fwbackups/ui/gtk/main.ui:1119
+#: fwbackups/ui/gtk/main.ui:384 fwbackups/ui/gtk/main.ui:1137
 #: fwbackups/ui/gtk/restore.ui:581
 msgid "Status:"
 msgstr "Estat:"
 
-#: fwbackups/ui/gtk/main.ui:386 fwbackups/ui/gtk/main.ui:1130
+#: fwbackups/ui/gtk/main.ui:394 fwbackups/ui/gtk/main.ui:1148
 msgid "Backup progress:"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:400
+#: fwbackups/ui/gtk/main.ui:408
 msgid "Backups Sets"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:820
+#: fwbackups/ui/gtk/main.ui:828
 msgid "Destination type:"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:932
+#: fwbackups/ui/gtk/main.ui:940
 msgid "Enabled"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:945
+#: fwbackups/ui/gtk/main.ui:953
 msgid "Recursive"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1071
+#: fwbackups/ui/gtk/main.ui:1089
 msgid "Exclude from backup (newline separated):"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1095
+#: fwbackups/ui/gtk/main.ui:1113
 msgid "<b>Advanced Options</b>"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1170 fwbackups/ui/gtk/restore.ui:592
+#: fwbackups/ui/gtk/main.ui:1188 fwbackups/ui/gtk/restore.ui:592
 msgid "%s"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1266
+#: fwbackups/ui/gtk/main.ui:1284
 msgid "One-Time Backup"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1342
+#: fwbackups/ui/gtk/main.ui:1360
 msgid "_Save to File"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1390
+#: fwbackups/ui/gtk/main.ui:1408
 msgid "Log Viewer"
 msgstr ""
 
-#: fwbackups/ui/gtk/main.ui:1524
+#: fwbackups/ui/gtk/main.ui:1542
 msgid "Restore"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:29
-msgid "Enable debug log messages"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:75
-msgid "Override temporary directory:"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:94
-msgid "Enable notifications"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:107
-msgid "<b>Options</b>"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:141
-msgid "Click to reset \"Don't show me again\" messages"
-msgstr ""
-
-#: fwbackups/ui/gtk/preferences.ui:174
-msgid "Preferences"
 msgstr ""
 
 #: fwbackups/ui/gtk/restore.ui:63
@@ -488,541 +481,65 @@ msgstr ""
 msgid "Restore Files"
 msgstr ""
 
-#: fwbackups/config.py:58
-#, python-format
-msgid "Could not create configuration folder `%s':"
-msgstr ""
-
-#: fwbackups/config.py:65
-#, python-format
-msgid "You do not have read and write permissions on folder `%s'."
-msgstr ""
-
-#: fwbackups/config.py:125
-#, python-format
-msgid "Key %s of is not a dictionary of options"
-msgstr ""
-
-#: fwbackups/config.py:341
-#, python-format
-msgid "Set '%s' failed to pass section validation"
-msgstr ""
-
-#: fwbackups/config.py:344
-#, python-format
-msgid "'%(a)s' is not a set configuration file."
-msgstr ""
-
-#: fwbackups/config.py:348
-#, python-format
-msgid ""
-"Configuration section 'General' in the set configuration '%s' failed to "
-"validate"
-msgstr ""
-
-#: fwbackups/config.py:351
-#, python-format
-msgid ""
-"Configuration section 'Times' in the set configuration '%s' failed to "
-"validate"
-msgstr ""
-
-#: fwbackups/config.py:364
-#, python-format
-msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
-msgstr ""
-
-#: fwbackups/config.py:369
-#, python-format
-msgid ""
-"Configuration section 'Options' in set configuration '%(a)s' failed to "
-"validate: Missing options '%(b)s'"
-msgstr ""
-
-#: fwbackups/config.py:504
-msgid "One-time configuration failed to pass section validation"
-msgstr ""
-
-#: fwbackups/config.py:507
-#, python-format
-msgid "'%(a)s' is not a one-time configuration file."
-msgstr ""
-
-#: fwbackups/config.py:511
-msgid ""
-"Configuration section 'General' in the one-time configuration file failed to "
-"validate"
-msgstr ""
-
-#: fwbackups/config.py:523
-#, python-format
-msgid "Unknown option key '%s' present in one-time backup configuration file"
-msgstr ""
-
-#: fwbackups/config.py:528
-#, python-format
-msgid ""
-"Configuration section 'Options' in the one-time backup configuration file "
-"failed to validate: Missing options '%s'"
-msgstr ""
-
-#: fwbackups/config.py:632
-msgid "Restore configuration failed to pass section validation"
-msgstr ""
-
-#: fwbackups/config.py:635
-#, python-format
-msgid "'%(a)s' is not a restore configuration file."
-msgstr ""
-
-#: fwbackups/config.py:639
-msgid ""
-"Configuration section 'General' in the restore configuration file failed to "
-"validate"
-msgstr ""
-
-#: fwbackups/config.py:649
-#, python-format
-msgid "Unknown option key '%s' present in restore configuration file"
-msgstr ""
-
-#: fwbackups/config.py:654
-#, python-format
-msgid ""
-"Configuration section 'Options' in the restore configuration file failed to "
-"validate: Missing options '%s'"
-msgstr ""
-
-#: fwbackups/config.py:738
-msgid "Preferences failed to pass section validation"
-msgstr ""
-
-#: fwbackups/config.py:741
-#, python-brace-format
-msgid "'{constants.PREFSLOC}' is not a fwbackups preferences file."
-msgstr ""
-
-#: fwbackups/config.py:745
-msgid ""
-"Configuration section 'General' in the preferences file failed to validate"
-msgstr ""
-
-#: fwbackups/config.py:755
-#, python-format
-msgid "Unknown option key '%s' present in preferences file"
-msgstr ""
-
-#: fwbackups/config.py:760
-#, python-format
-msgid ""
-"Configuration section 'Options' in the preferences file failed to validate: "
-"Missing options '%s'"
-msgstr ""
-
-#: fwbackups/fwlogger.py:73
-#, python-format
-msgid "Could not set up the logger: %s"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:62
-msgid "Canceling the current operation!"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:66
-#, python-format
-msgid "Stopping process with ID %s"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:69
-#, python-format
-msgid "Could not stop process %s: %s"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:77
-msgid "The operation has been cancelled."
-msgstr ""
-
-#: fwbackups/operations/__init__.py:90
-#, python-format
-msgid "Error handling file `%s'"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:91
-#, python-format
-msgid ""
-"Output:\n"
-"%s"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:96
-#, python-format
-msgid "Destination folder `%s' exists"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:101
-#, python-format
-msgid "Created destination folder `%s'"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:103
-#, python-format
-msgid "The destination folder `%(a)s' could not be created: %(b)s"
-msgstr ""
-
-#: fwbackups/operations/__init__.py:107
-#, python-format
-msgid ""
-"You do not have read and write permissions on the destination `%s' - if you "
-"backed up system files, this operation may fail."
-msgstr ""
-
-#: fwbackups/operations/backup.py:86
-msgid "rpm - Package list"
-msgstr ""
-
-#: fwbackups/operations/backup.py:105
-msgid "Pacman - Package list"
-msgstr ""
-
-#: fwbackups/operations/backup.py:111
-msgid "dpkg - Package list"
-msgstr ""
-
-#: fwbackups/operations/backup.py:121
-msgid "Disk Information"
-msgstr ""
-
-#: fwbackups/operations/backup.py:189
-#, python-format
-msgid "Attempting to connect to server %s..."
-msgstr ""
-
-#: fwbackups/operations/backup.py:200
-msgid "Attempt to connect succeeded."
-msgstr ""
-
-#: fwbackups/operations/backup.py:203
-msgid ""
-"The backup destination was either not found or it cannot be written to due "
-"to insufficient permissions."
-msgstr ""
-
-#: fwbackups/operations/backup.py:207 fwbackups/operations/restore.py:93
-msgid ""
-"A connection was established, but authentication failed. Please verify the "
-"username and password and try again."
-msgstr ""
-
-#: fwbackups/operations/backup.py:212 fwbackups/operations/restore.py:98
-#, python-format
-msgid ""
-"A connection to the server could not be established.\n"
-"Error %(a)s: %(b)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:217 fwbackups/operations/restore.py:103
-msgid ""
-"A connection to the server has timed out. Please verify your settings and "
-"try again."
-msgstr ""
-
-#: fwbackups/operations/backup.py:221 fwbackups/operations/restore.py:107
-#, python-format
-msgid ""
-"A connection to the server could not be established because an error "
-"occurred: %s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:239 fwbackups/operations/backup.py:277
-#: fwbackups/operations/backup.py:320
-#, python-format
-msgid ""
-"Using %s on Windows: Cancel function will only take effect after a path has "
-"been completed."
-msgstr ""
-
-#. let's deal with real paths
-#: fwbackups/operations/backup.py:245 fwbackups/operations/backup.py:283
-#: fwbackups/operations/backup.py:293 fwbackups/operations/backup.py:326
-#: fwbackups/operations/backup.py:336 fwbackups/operations/backup.py:372
-#: fwbackups/operations/backup.py:384
-#, python-format
-msgid "Backing up path %(a)i/%(b)i: %(c)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:253
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
-msgstr ""
-
-#: fwbackups/operations/backup.py:256 fwbackups/operations/backup.py:298
-#: fwbackups/operations/backup.py:341 fwbackups/operations/backup.py:391
-#: fwbackups/operations/backup.py:598
-#, python-format
-msgid "Starting subprocess with PID %s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:267 fwbackups/operations/backup.py:310
-#: fwbackups/operations/backup.py:353 fwbackups/operations/backup.py:403
-#, python-format
-msgid "Subprocess with PID %(a)s exited with status %(b)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:272 fwbackups/operations/backup.py:315
-#: fwbackups/operations/backup.py:358 fwbackups/operations/backup.py:409
-#: fwbackups/operations/backup.py:613
-#, python-format
-msgid "Process exited with status %(a)s. Errors: %(b)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:285 fwbackups/operations/backup.py:328
-#, python-format
-msgid "Adding path `%s' to the archive"
-msgstr ""
-
-#: fwbackups/operations/backup.py:292 fwbackups/operations/backup.py:335
-#, python-format
-msgid ""
-"Using %s: Must backup all paths at once - Progress notification will be "
-"disabled."
-msgstr ""
-
-#: fwbackups/operations/backup.py:294 fwbackups/operations/backup.py:337
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s %(c)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:374
-#, python-format
-msgid ""
-"Path %s is missing or cannot be read and will be excluded from the backup."
-msgstr ""
-
-#: fwbackups/operations/backup.py:388
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
-msgstr ""
-
-#: fwbackups/operations/backup.py:415
-msgid "Sending files to server via SFTP"
-msgstr ""
-
-#: fwbackups/operations/backup.py:425
-msgid "Could not send file(s) or folder to server:"
-msgstr ""
-
-#: fwbackups/operations/backup.py:439
-msgid "This function is designed to be subclassed"
-msgstr ""
-
-#: fwbackups/operations/backup.py:450
-msgid "Starting one-time backup operation"
-msgstr ""
-
-#. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
-#: fwbackups/operations/backup.py:455 fwbackups/operations/backup.py:527
-#: fwbackups/operations/backup.py:625 fwbackups/ui/__init__.py:1501
-#: fwbackups/ui/__init__.py:1564 fwbackups/ui/__init__.py:1566
-msgid "Backup"
-msgstr ""
-
-#: fwbackups/operations/backup.py:455
-msgid "OneTime"
-msgstr ""
-
-#: fwbackups/operations/backup.py:469 fwbackups/operations/backup.py:674
-msgid "There are no paths to backup!"
-msgstr ""
-
-#: fwbackups/operations/backup.py:487 fwbackups/operations/backup.py:689
-#, python-format
-msgid "`%s' exists and will be overwritten."
-msgstr ""
-
-#. might be ntfs
-#. All done!
-#: fwbackups/operations/backup.py:508
-msgid "Finished one-time backup"
-msgstr ""
-
-#. Execute the command
-#: fwbackups/operations/backup.py:595
-#, python-format
-msgid "Executing '%s' command"
-msgstr ""
-
-#: fwbackups/operations/backup.py:612
-msgid "Command returned with a non-zero exit status!"
-msgstr ""
-
-#: fwbackups/operations/backup.py:633
-#, python-format
-msgid "Removing old backup `%(a)s' on %(b)s"
-msgstr ""
-
-#: fwbackups/operations/backup.py:640 fwbackups/operations/backup.py:653
-#, python-format
-msgid "Removing old backup `%s'"
-msgstr ""
-
-#. oldIncrementalBackup = rsync
-#: fwbackups/operations/backup.py:646
-#, python-format
-msgid "Moving  `%s' to `%s'"
-msgstr ""
-
-#. source = is not a rsync backup - remove it and start fresh
-#: fwbackups/operations/backup.py:649
-#, python-format
-msgid "`%s' is not an rsync backup - removing."
-msgstr ""
-
-#: fwbackups/operations/backup.py:662
-#, python-format
-msgid "Starting automatic backup operation of set `%s'"
-msgstr ""
-
-#: fwbackups/operations/backup.py:727 fwbackups/ui/__init__.py:2277
-#: fwbackups/ui/__init__.py:2435
-msgid "There was an error while performing the backup!"
-msgstr ""
-
-#. All done!
-#: fwbackups/operations/backup.py:739
-#, python-format
-msgid "Finished automatic backup operation of set '%s'"
-msgstr ""
-
-#: fwbackups/operations/restore.py:47
-msgid "Starting restore operation"
-msgstr ""
-
-#. check if server settings are OK
-#: fwbackups/operations/restore.py:76
-msgid "Attempting to connect to server"
-msgstr ""
-
-#: fwbackups/operations/restore.py:89
-msgid ""
-"The restore source was either not found or it cannot be read due to "
-"insufficient permissions."
-msgstr ""
-
-#: fwbackups/operations/restore.py:121
-msgid "Receiving files from server"
-msgstr ""
-
-#: fwbackups/operations/restore.py:132
-#, python-format
-msgid "Could not receive file from server: %s"
-msgstr ""
-
-#. We are dealing with a remote folder - our job here is done
-#. Either that or an error was encountered above
-#. All done!
-#: fwbackups/operations/restore.py:137 fwbackups/operations/restore.py:182
-msgid "Finished restore operation"
-msgstr ""
-
-#. oops, something is up
-#: fwbackups/operations/restore.py:149
-#, python-format
-msgid "Source `%s' is not a file or folder!"
-msgstr ""
-
-#. oops, something is up
-#: fwbackups/operations/restore.py:158
-#, python-format
-msgid "Source `%s' is not an archive!"
-msgstr ""
-
-#: fwbackups/operations/restore.py:162
-#, python-format
-msgid "Source `%s' is not a folder"
-msgstr ""
-
-#: fwbackups/operations/restore.py:178
-#, python-format
-msgid "Traceback: %s"
-msgstr ""
-
-#: fwbackups/sftp.py:226
-#, python-format
-msgid "`%s' is not a file, folder or link! Skipping."
-msgstr ""
-
-#: fwbackups/sftp.py:231
-msgid "Could not copy some files due to errors:"
-msgstr ""
-
-#: fwbackups/shutil_modded.py:136
-#, python-format
-msgid "`%s' isn't a file, folder or link! Skipping."
-msgstr ""
-
-#: fwbackups/shutil_modded.py:147
-msgid "Couldn't copy some files due to errors:"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:226
+#: fwbackups/ui/__init__.py:304
 #, python-format
 msgid "<b>Welcome</b>, %s"
 msgstr ""
 
 #. done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
 #. Default Labels...
-#: fwbackups/ui/__init__.py:229 fwbackups/ui/__init__.py:1193
-#: fwbackups/ui/__init__.py:1298 fwbackups/ui/__init__.py:1680
+#: fwbackups/ui/__init__.py:307 fwbackups/ui/__init__.py:1275
+#: fwbackups/ui/__init__.py:1380 fwbackups/ui/__init__.py:1762
 msgid "Idle"
 msgstr "Inactiu"
 
 #. Default progressbars...
-#: fwbackups/ui/__init__.py:234 fwbackups/ui/__init__.py:1192
+#: fwbackups/ui/__init__.py:312 fwbackups/ui/__init__.py:1274
 msgid "Click 'Backup Set Now' to begin"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:235
+#: fwbackups/ui/__init__.py:313
 msgid "Click 'Start Backup' to begin"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:236
+#: fwbackups/ui/__init__.py:314
 msgid "Click 'Start Restore' to begin"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:263
+#: fwbackups/ui/__init__.py:341
 msgid "Could not setup the fwbackups configuration folder"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:264 fwbackups/ui/__init__.py:302
+#: fwbackups/ui/__init__.py:342 fwbackups/ui/__init__.py:380
 #, python-format
 msgid "The following error occured: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:271
+#: fwbackups/ui/__init__.py:349
 #, python-format
 msgid "Validation error: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:272
+#: fwbackups/ui/__init__.py:350
 msgid "Preferences could not be read"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:272
+#: fwbackups/ui/__init__.py:350
 msgid ""
 "The preferences file may be corrupted and could not be read by fwbackups. "
 "Would you like to initialize a new one from the default values? If not, "
 "fwbackups will exit."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:301
+#: fwbackups/ui/__init__.py:379
 msgid "Could not setup the logger"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:325
+#: fwbackups/ui/__init__.py:402
 msgid "Previous installation of fwbackups 1.42.x or older detected"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:325
+#: fwbackups/ui/__init__.py:402
 msgid ""
 "Because of certain major changes in fwbackups, your configuration must be "
 "imported manually. To do this, run fwbackups as the root user and select "
@@ -1032,88 +549,99 @@ msgid ""
 "<i>Tip: The 1.42.x configuration was stored in /etc/fwbackups</i>."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:332
+#: fwbackups/ui/__init__.py:409
 msgid "A backup of /etc/crontab could not be created"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:332
+#: fwbackups/ui/__init__.py:409
 msgid ""
 "You may wish to edit /etc/crontab manually and remove any fwbackups-related "
 "lines."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:333
+#: fwbackups/ui/__init__.py:410
 msgid "Could not create a backup of /etc/crontab; refusing to clean up."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:336
+#: fwbackups/ui/__init__.py:413
 msgid "Cleaning up /etc/crontab from previous installation of fwbackups"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:345
+#: fwbackups/ui/__init__.py:422
 #, python-format
 msgid ""
 "fwbackups was unable to clean up the system crontab: %s. You may wish to "
 "edit /etc/crontab manually and remove any fwbackups-related lines."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:346
+#: fwbackups/ui/__init__.py:423
 msgid "Cleanup of the system crontab failed"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:351
+#: fwbackups/ui/__init__.py:428
 msgid "fwbackups administrator started"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:360
+#: fwbackups/ui/__init__.py:437
 msgid "Would you like to clean up the log file?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:360
+#: fwbackups/ui/__init__.py:437
 #, python-format
 msgid ""
 "The log file is becoming large (%s). Would you like to clear it? This will "
 "permanently remove all entries from the log."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:478
+#: fwbackups/ui/__init__.py:555
 msgid "Regenerating crontab"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:479
+#: fwbackups/ui/__init__.py:556
 msgid "Please wait... Regenerating crontab"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:492
+#: fwbackups/ui/__init__.py:562
+msgid "Failed to schedule backups"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:562
+msgid ""
+"A cron service was not found on your system, and fwbackups will be unable to "
+"schedule backups as a result.\n"
+"Please install a cron service from your package manager and try again."
+msgstr ""
+
+#: fwbackups/ui/__init__.py:573
 #, python-format
 msgid "Could not parse the configuration for set '%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:493
+#: fwbackups/ui/__init__.py:574
 #, python-format
 msgid ""
 "The set configuration file '%s' failed to validate, so it may not be "
 "properly scheduled. Other sets are unaffected by this error."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:500
+#: fwbackups/ui/__init__.py:581
 #, python-format
 msgid ""
 "Internal error: generated entry for set '%s' was not parsable. Please submit "
 "a bug report."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:503
+#: fwbackups/ui/__init__.py:584
 #, python-format
 msgid "Could not schedule automated backups for set '%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:504
+#: fwbackups/ui/__init__.py:585
 msgid ""
 "fwbackups could not regenerate a crontab entry because an error occured:\n"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:505
+#: fwbackups/ui/__init__.py:586
 #, python-format
 msgid ""
 "%(a)s\n"
@@ -1123,21 +651,21 @@ msgid ""
 msgstr ""
 
 #. After all is done, log an message
-#: fwbackups/ui/__init__.py:508
+#: fwbackups/ui/__init__.py:589
 #, python-format
 msgid "Saving set `%s' to the crontab"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:520
+#: fwbackups/ui/__init__.py:601
 #, python-format
 msgid "Unable to write new crontab: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:521
+#: fwbackups/ui/__init__.py:602
 msgid "Error saving backup schedule to crontab"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:521
+#: fwbackups/ui/__init__.py:602
 msgid ""
 "Changes made to the backup schedule may not have been correctly saved. If "
 "you are using custom cron entry for a backup set, verify the values are "
@@ -1145,55 +673,55 @@ msgid ""
 "\n"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:525
+#: fwbackups/ui/__init__.py:606
 msgid ""
 "A backup of the crontab was restored; the latest changes to the backup "
 "schedule not have been saved."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:527
+#: fwbackups/ui/__init__.py:608
 #, python-brace-format
 msgid "A backup of the crontab could not be restored: {error}"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:533
+#: fwbackups/ui/__init__.py:614
 msgid "fwbackups is working"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:534
+#: fwbackups/ui/__init__.py:615
 msgid ""
 "An operation is currently in progress. Would you like to cancel it and quit "
 "anyways?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:536
+#: fwbackups/ui/__init__.py:617
 msgid "Please wait... Canceling operations"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:549
+#: fwbackups/ui/__init__.py:630
 msgid "fwbackups detected more than one alive threads!"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:554
+#: fwbackups/ui/__init__.py:635
 #, python-format
 msgid "Closed dead Paramiko thread: %s"
 msgstr ""
 
 #. FIXME: Figure out how to kill other thread types. For now, just log.
-#: fwbackups/ui/__init__.py:557
+#: fwbackups/ui/__init__.py:638
 #, python-format
 msgid "Could not close thread %s!"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:558
+#: fwbackups/ui/__init__.py:639
 msgid "Please submit a bug report and include this message."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:567 fwbackups/ui/__init__.py:2192
+#: fwbackups/ui/__init__.py:648 fwbackups/ui/__init__.py:2249
 msgid "Could not save backup schedule"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:567
+#: fwbackups/ui/__init__.py:648
 msgid ""
 "fwbackups was unable to save the backup scheduling information to the "
 "crontab. If you are using manual times entry in one of your sets, please "
@@ -1201,282 +729,286 @@ msgid ""
 msgstr ""
 
 #. Shutdown logging & quit the GTK mainloop
-#: fwbackups/ui/__init__.py:569
+#: fwbackups/ui/__init__.py:650
 msgid "fwbackups administrator closed"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:580
+#: fwbackups/ui/__init__.py:661
 msgid "Creating thread"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:581
+#: fwbackups/ui/__init__.py:662
 msgid "testConnection(): Creating thread"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:584
+#: fwbackups/ui/__init__.py:665
 msgid "Attempting to connect"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:588
+#: fwbackups/ui/__init__.py:669
 #, python-format
 msgid "testConnection(): Thread returning with retval %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:590
+#: fwbackups/ui/__init__.py:671
 msgid "Success!"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:590
+#: fwbackups/ui/__init__.py:671
 #, python-format
 msgid "fwbackups was able to connect and authenticate on '%s'."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:592
+#: fwbackups/ui/__init__.py:673
 msgid "Remote destination is not usable"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:592
+#: fwbackups/ui/__init__.py:673
 #, python-format
 msgid ""
 "The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. "
 "Please verify your settings and try again."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:594 fwbackups/ui/__init__.py:1469
+#: fwbackups/ui/__init__.py:675 fwbackups/ui/__init__.py:1551
 msgid "Authentication failed"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:594
+#: fwbackups/ui/__init__.py:675
 #, python-format
 msgid ""
 "A connection to '%s' was established, but authentication failed. Please "
 "verify the username and password and try again."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:596 fwbackups/ui/__init__.py:600
+#: fwbackups/ui/__init__.py:677 fwbackups/ui/__init__.py:681
 #, python-format
 msgid "A connection to '%s' could not be established"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:596
+#: fwbackups/ui/__init__.py:677
 #, python-format
 msgid "Error %(a)s: %(b)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:598
+#: fwbackups/ui/__init__.py:679
 #, python-format
 msgid "The server '%s' is not responding"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:598 fwbackups/ui/__init__.py:1476
+#: fwbackups/ui/__init__.py:679 fwbackups/ui/__init__.py:1558
 msgid "Please verify your settings and try again."
-msgstr ""
-
-#: fwbackups/ui/__init__.py:600
-#, python-format
-msgid "Error: %s. Please verify your settings and try again."
-msgstr ""
-
-#: fwbackups/ui/__init__.py:602 fwbackups/ui/__init__.py:1168
-#: fwbackups/ui/__init__.py:1481
-msgid "Unexpected error"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:602
-msgid "An unknown error occurred while testing for connectivity."
-msgstr ""
-
-#: fwbackups/ui/__init__.py:615 fwbackups/ui/__init__.py:618
-#: fwbackups/ui/__init__.py:903 fwbackups/widgets.py:619
-#: fwbackups/widgets.py:622
-msgid "Choose file(s)"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:617 fwbackups/ui/__init__.py:699
-#: fwbackups/ui/__init__.py:905 fwbackups/ui/__init__.py:975
-#: fwbackups/ui/__init__.py:1334 fwbackups/ui/__init__.py:1694
-#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1722
-#: fwbackups/widgets.py:621 fwbackups/widgets.py:633
-msgid "_Open"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:617 fwbackups/ui/__init__.py:699
-#: fwbackups/ui/__init__.py:905 fwbackups/ui/__init__.py:975
-#: fwbackups/ui/__init__.py:1334 fwbackups/ui/__init__.py:1694
-#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1722
-#: fwbackups/widgets.py:621 fwbackups/widgets.py:633 fwbackups/widgets.py:740
-msgid "_Cancel"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:619
-msgid "Configuration files (*.conf)"
-msgstr ""
-
-#: fwbackups/ui/__init__.py:680
-msgid "File Exists"
 msgstr ""
 
 #: fwbackups/ui/__init__.py:681
 #, python-format
+msgid "Error: %s. Please verify your settings and try again."
+msgstr ""
+
+#: fwbackups/ui/__init__.py:683 fwbackups/ui/__init__.py:1250
+#: fwbackups/ui/__init__.py:1563
+msgid "Unexpected error"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:683
+msgid "An unknown error occurred while testing for connectivity."
+msgstr ""
+
+#: fwbackups/ui/__init__.py:696 fwbackups/ui/__init__.py:699
+#: fwbackups/ui/__init__.py:985 fwbackups/widgets.py:551
+#: fwbackups/widgets.py:554 fwbackups/widgets.py:672
+msgid "Choose file(s)"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:698 fwbackups/ui/__init__.py:780
+#: fwbackups/ui/__init__.py:987 fwbackups/ui/__init__.py:1057
+#: fwbackups/ui/__init__.py:1416 fwbackups/ui/__init__.py:1776
+#: fwbackups/ui/__init__.py:1790 fwbackups/ui/__init__.py:1804
+#: fwbackups/widgets.py:553 fwbackups/widgets.py:564
+msgid "_Open"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:698 fwbackups/ui/__init__.py:780
+#: fwbackups/ui/__init__.py:987 fwbackups/ui/__init__.py:1057
+#: fwbackups/ui/__init__.py:1416 fwbackups/ui/__init__.py:1776
+#: fwbackups/ui/__init__.py:1790 fwbackups/ui/__init__.py:1804
+#: fwbackups/widgets.py:553 fwbackups/widgets.py:564 fwbackups/widgets.py:671
+msgid "_Cancel"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:700
+msgid "Configuration files (*.conf)"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:761
+msgid "File Exists"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:762
+#, python-format
 msgid "'%s.conf' already exists! Would you like to overwrite it?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:687
+#: fwbackups/ui/__init__.py:768
 #, python-format
 msgid "Exported set `%(a)s' to `%(b)s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:697 fwbackups/ui/__init__.py:700
-#: fwbackups/ui/__init__.py:906 fwbackups/ui/__init__.py:973
-#: fwbackups/ui/__init__.py:976 fwbackups/ui/__init__.py:1332
-#: fwbackups/ui/__init__.py:1335 fwbackups/widgets.py:631
-#: fwbackups/widgets.py:634
+#: fwbackups/ui/__init__.py:778 fwbackups/ui/__init__.py:781
+#: fwbackups/ui/__init__.py:988 fwbackups/ui/__init__.py:1055
+#: fwbackups/ui/__init__.py:1058 fwbackups/ui/__init__.py:1414
+#: fwbackups/ui/__init__.py:1417 fwbackups/widgets.py:562
+#: fwbackups/widgets.py:565
 msgid "Choose folder(s)"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:707
+#: fwbackups/ui/__init__.py:788
 msgid "Sets exported"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:707
+#: fwbackups/ui/__init__.py:788
 msgid "The selected sets were exported successfully."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:734 fwbackups/ui/__init__.py:1119
-#: fwbackups/ui/__init__.py:1136 fwbackups/ui/__init__.py:1210
-#: fwbackups/ui/__init__.py:2247
+#: fwbackups/ui/__init__.py:815 fwbackups/ui/__init__.py:1201
+#: fwbackups/ui/__init__.py:1218 fwbackups/ui/__init__.py:1292
+#: fwbackups/ui/__init__.py:2304
 msgid "No set has been selected"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:734
+#: fwbackups/ui/__init__.py:815
 msgid "You must select a set to duplicate."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:738
+#: fwbackups/ui/__init__.py:819
 msgid "_copy"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:892
+#: fwbackups/ui/__init__.py:929
+msgid "A feature-rich user backup program"
+msgstr ""
+
+#: fwbackups/ui/__init__.py:974
 #, python-format
 msgid "Resetting preference '%(a)s' to 0"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:993 fwbackups/ui/__init__.py:1256
-#: fwbackups/ui/__init__.py:1261 fwbackups/ui/__init__.py:1352
-#: fwbackups/ui/__init__.py:1535 fwbackups/ui/__init__.py:1610
-#: fwbackups/ui/__init__.py:1647 fwbackups/ui/__init__.py:2152
-#: fwbackups/ui/__init__.py:2157
+#: fwbackups/ui/__init__.py:1075 fwbackups/ui/__init__.py:1338
+#: fwbackups/ui/__init__.py:1343 fwbackups/ui/__init__.py:1434
+#: fwbackups/ui/__init__.py:1617 fwbackups/ui/__init__.py:1692
+#: fwbackups/ui/__init__.py:1729 fwbackups/ui/__init__.py:2209
+#: fwbackups/ui/__init__.py:2214
 msgid "Missing information"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:993
+#: fwbackups/ui/__init__.py:1075
 msgid "Please complete the host, username, folder and port fields."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1119
+#: fwbackups/ui/__init__.py:1201
 msgid "You must select a set to edit."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1136
+#: fwbackups/ui/__init__.py:1218
 msgid "You must select a set to remove."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1138
+#: fwbackups/ui/__init__.py:1220
 #, python-format
 msgid "Delete backup set '%s'?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1138
+#: fwbackups/ui/__init__.py:1220
 msgid ""
 "This action will permanently delete the backup set configuration. This "
 "action will not delete any existing backups, or files and folders associated "
 "with the set."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1145 fwbackups/ui/__init__.py:1153
+#: fwbackups/ui/__init__.py:1227 fwbackups/ui/__init__.py:1235
 #, python-format
 msgid ""
 "An error occured while removing set `%(a)s':\n"
 "%(b)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1146
+#: fwbackups/ui/__init__.py:1228
 #, python-format
 msgid "Could not remove backup set '%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1154
+#: fwbackups/ui/__init__.py:1236
 #, python-format
 msgid "Could not remove the automated backup schedule for set '%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1158
+#: fwbackups/ui/__init__.py:1240
 #, python-format
 msgid "Removing set `%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1168
+#: fwbackups/ui/__init__.py:1250
 #, python-format
 msgid ""
 "An unexpected error occured while attempting to obtain the selected set:\n"
 "%s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1210
+#: fwbackups/ui/__init__.py:1292
 msgid "You must select a set to restore."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1256 fwbackups/ui/__init__.py:2152
+#: fwbackups/ui/__init__.py:1338 fwbackups/ui/__init__.py:2209
 msgid "Please fill in the Folder field."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1261 fwbackups/ui/__init__.py:2157
+#: fwbackups/ui/__init__.py:1343 fwbackups/ui/__init__.py:2214
 msgid "Please fill in the Host, Username, Port and Folder fields."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1352 fwbackups/ui/__init__.py:1535
-#: fwbackups/ui/__init__.py:1647
+#: fwbackups/ui/__init__.py:1434 fwbackups/ui/__init__.py:1617
+#: fwbackups/ui/__init__.py:1729
 msgid "Please complete all of the host, username, folder and port fields."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1376
+#: fwbackups/ui/__init__.py:1458
 msgid "Log cleared"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1381
+#: fwbackups/ui/__init__.py:1463
 msgid "Clear the old log entries?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1382
+#: fwbackups/ui/__init__.py:1464
 msgid "This action will permanently remove all log entries."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1400
+#: fwbackups/ui/__init__.py:1482
 #, python-format
 msgid "Log saved to file `%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1466
+#: fwbackups/ui/__init__.py:1548
 msgid "Previous backups could not be found"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1467
+#: fwbackups/ui/__init__.py:1549
 #, python-format
 msgid "The destination folder for set '%s' was not found."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1470
+#: fwbackups/ui/__init__.py:1552
 #, python-format
 msgid ""
 "fwbackups was unable to authenticate on the remote server. Please verify the "
 "username and password for set '%s' and try again."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1472 fwbackups/ui/__init__.py:1478
+#: fwbackups/ui/__init__.py:1554 fwbackups/ui/__init__.py:1560
 msgid "Connection failed"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1473
+#: fwbackups/ui/__init__.py:1555
 #, python-format
 msgid ""
 "A connection to the server could not be established:\n"
@@ -1484,11 +1016,11 @@ msgid ""
 "Please verify your settings and try again."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1475
+#: fwbackups/ui/__init__.py:1557
 msgid "Remote server is not responding"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1479
+#: fwbackups/ui/__init__.py:1561
 #, python-format
 msgid ""
 "A connection to the server could not be established because an error "
@@ -1496,411 +1028,1048 @@ msgid ""
 "Please verify your settings and try again."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1493
+#: fwbackups/ui/__init__.py:1575
 #, python-format
 msgid ""
 "Error obtaining file listing in destination %(a)s:\n"
 "%(b)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1494
+#: fwbackups/ui/__init__.py:1576
 #, python-format
 msgid "Could not get a list of old backups for set '%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1494
+#: fwbackups/ui/__init__.py:1576
 msgid ""
 "If the destination is on removable media such as an external hard disk, "
 "please attach it and try again."
 msgstr ""
 
+#. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
+#: fwbackups/ui/__init__.py:1583 fwbackups/ui/__init__.py:1646
+#: fwbackups/ui/__init__.py:1648 fwbackups/operations/backup.py:472
+#: fwbackups/operations/backup.py:545 fwbackups/operations/backup.py:643
+msgid "Backup"
+msgstr ""
+
 #. We can't start a restore if there are no set dates
-#: fwbackups/ui/__init__.py:1504 fwbackups/ui/__init__.py:1618
-#: fwbackups/ui/__init__.py:1619
+#: fwbackups/ui/__init__.py:1586 fwbackups/ui/__init__.py:1700
+#: fwbackups/ui/__init__.py:1701
 msgid "No backups found"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1610
+#: fwbackups/ui/__init__.py:1692
 msgid "Please select a backup date."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1619
+#: fwbackups/ui/__init__.py:1701
 #, python-format
 msgid ""
 "The backup set '%s' does not have any stored backups yet! Choose another "
 "set, or alternatively choose a different restore source."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1626 fwbackups/ui/__init__.py:1637
+#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1719
 msgid "Restore source"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1626
+#: fwbackups/ui/__init__.py:1708
 msgid "Please enter the location of the local archive."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1629
+#: fwbackups/ui/__init__.py:1711
 msgid "Wrong file type"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1630
+#: fwbackups/ui/__init__.py:1712
 msgid ""
 "The file you selected is not a supported archive.\n"
 "Supported archives types are tar with no, gzip or bzip2 compression."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1637
+#: fwbackups/ui/__init__.py:1719
 msgid "Please enter the location of the local folder."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1692 fwbackups/ui/__init__.py:1695
-#: fwbackups/ui/__init__.py:1706 fwbackups/ui/__init__.py:1709
-#: fwbackups/ui/__init__.py:1720 fwbackups/ui/__init__.py:1723
+#: fwbackups/ui/__init__.py:1774 fwbackups/ui/__init__.py:1777
+#: fwbackups/ui/__init__.py:1788 fwbackups/ui/__init__.py:1791
+#: fwbackups/ui/__init__.py:1802 fwbackups/ui/__init__.py:1805
 msgid "Select a Folder"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1737 fwbackups/ui/__init__.py:1740
+#: fwbackups/ui/__init__.py:1819 fwbackups/ui/__init__.py:1822
 msgid "Invalid set name"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1737
+#: fwbackups/ui/__init__.py:1819
 msgid "Please enter a set name."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1740
+#: fwbackups/ui/__init__.py:1822
 msgid ""
 "'temporary_name' is a reserved name. Please choose another name for the set."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1744
+#: fwbackups/ui/__init__.py:1826
 #, python-format
 msgid "Overwrite settings for set '%s'?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1745
+#: fwbackups/ui/__init__.py:1827
 msgid ""
 "This will overwrite the stored settings with the current ones. Are you sure "
 "you want to continue?"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1856
+#: fwbackups/ui/__init__.py:1938
 msgid "Error parsing configuration file"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1857
+#: fwbackups/ui/__init__.py:1939
 msgid "fwbackups will using the default times instead."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:1870
+#: fwbackups/ui/__init__.py:1952
 #, python-format
 msgid "Unknown destination type `%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2072
+#: fwbackups/ui/__init__.py:2129
 msgid "Error creating the automated backup schedules"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2073
+#: fwbackups/ui/__init__.py:2130
 #, python-format
 msgid ""
 "The crontab could not be written because an error occured:\n"
 "%s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2108 fwbackups/widgets.py:712
+#: fwbackups/ui/__init__.py:2165 fwbackups/widgets.py:643
 msgid "Parsing configuration files"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2123 fwbackups/widgets.py:718
+#: fwbackups/ui/__init__.py:2180 fwbackups/widgets.py:649
 #, python-format
 msgid "Refusing to parse file `%s': configuration files must end in `.conf'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2175
+#: fwbackups/ui/__init__.py:2232
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2177
+#: fwbackups/ui/__init__.py:2234
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s failed: %(c)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2178
+#: fwbackups/ui/__init__.py:2235
 #, python-format
 msgid "Could not rename set '%(a)s' to '%(b)s'"
 msgstr ""
 
 #. creating a set
-#: fwbackups/ui/__init__.py:2184
+#: fwbackups/ui/__init__.py:2241
 #, python-format
 msgid "Creating set `%s'"
 msgstr ""
 
 #. editing a set
-#: fwbackups/ui/__init__.py:2188
+#: fwbackups/ui/__init__.py:2245
 #, python-format
 msgid "Saving changes to set `%s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2192
+#: fwbackups/ui/__init__.py:2249
 msgid ""
 "Your set configuration changes were saved, but fwbackups was unable to save "
 "the backup scheduling information to the crontab. If you are using manual "
 "times entry, please verify that all five fields are using the correct syntax."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2230 fwbackups/ui/__init__.py:2391
+#: fwbackups/ui/__init__.py:2287 fwbackups/ui/__init__.py:2455
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up: %(c)s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2233 fwbackups/ui/__init__.py:2394
+#: fwbackups/ui/__init__.py:2290 fwbackups/ui/__init__.py:2458
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up files... Please wait"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2235 fwbackups/ui/__init__.py:2396
+#: fwbackups/ui/__init__.py:2292 fwbackups/ui/__init__.py:2460
 msgid "Cleaning old backups"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2237 fwbackups/ui/__init__.py:2398
+#: fwbackups/ui/__init__.py:2294 fwbackups/ui/__init__.py:2462
 msgid "Sending files to remote server"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2239 fwbackups/ui/__init__.py:2400
+#: fwbackups/ui/__init__.py:2296 fwbackups/ui/__init__.py:2464
 msgid "Executing user command"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2247
+#: fwbackups/ui/__init__.py:2304
 msgid "You must select to initiate a manual set backup."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2253 fwbackups/ui/__init__.py:2409
-#: fwbackups/ui/__init__.py:2499
+#: fwbackups/ui/__init__.py:2310 fwbackups/ui/__init__.py:2473
+#: fwbackups/ui/__init__.py:2569
 msgid "Initializing"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2255 fwbackups/ui/__init__.py:2411
+#: fwbackups/ui/__init__.py:2312 fwbackups/ui/__init__.py:2475
 msgid "Backup started"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2255
+#: fwbackups/ui/__init__.py:2312
 #, python-format
 msgid "Starting a set backup operation of '%(a)s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2258 fwbackups/ui/__init__.py:2316
-#: fwbackups/ui/__init__.py:2418 fwbackups/ui/__init__.py:2478
-#: fwbackups/ui/__init__.py:2504 fwbackups/ui/__init__.py:2562
+#: fwbackups/ui/__init__.py:2315 fwbackups/ui/__init__.py:2379
+#: fwbackups/ui/__init__.py:2482 fwbackups/ui/__init__.py:2548
+#: fwbackups/ui/__init__.py:2574 fwbackups/ui/__init__.py:2638
 msgid "Please wait..."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2264 fwbackups/ui/__init__.py:2422
-#: fwbackups/ui/__init__.py:2509
+#: fwbackups/ui/__init__.py:2321 fwbackups/ui/__init__.py:2486
+#: fwbackups/ui/__init__.py:2579
 msgid "Working"
 msgstr ""
 
 #. thread returned
-#: fwbackups/ui/__init__.py:2272 fwbackups/ui/__init__.py:2430
-#: fwbackups/ui/__init__.py:2517
+#: fwbackups/ui/__init__.py:2329 fwbackups/ui/__init__.py:2494
+#: fwbackups/ui/__init__.py:2587 bin/fwbackups-runonce.py:204
+#: bin/fwbackups-run.py:140
 #, python-format
 msgid "Thread returned with retval %s"
 msgstr ""
 
+#: fwbackups/ui/__init__.py:2334 fwbackups/ui/__init__.py:2499
+#: fwbackups/operations/backup.py:746 bin/fwbackups-runonce.py:206
+#: bin/fwbackups-run.py:142
+msgid "There was an error while performing the backup!"
+msgstr ""
+
 #. error
-#: fwbackups/ui/__init__.py:2281 fwbackups/ui/__init__.py:2299
-#: fwbackups/ui/__init__.py:2439 fwbackups/ui/__init__.py:2458
-#: fwbackups/ui/__init__.py:2523 fwbackups/ui/__init__.py:2543
+#: fwbackups/ui/__init__.py:2338 fwbackups/ui/__init__.py:2362
+#: fwbackups/ui/__init__.py:2503 fwbackups/ui/__init__.py:2528
+#: fwbackups/ui/__init__.py:2593 fwbackups/ui/__init__.py:2619
 msgid "<span color=\"Red\">Error</span>"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2282 fwbackups/ui/__init__.py:2443
+#: fwbackups/ui/__init__.py:2339 fwbackups/ui/__init__.py:2507
 #, python-format
 msgid "An error occurred while initializing the backup operation: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2286 fwbackups/ui/__init__.py:2444
+#: fwbackups/ui/__init__.py:2343 fwbackups/ui/__init__.py:2508
 msgid "Error initializing backup"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2296 fwbackups/ui/__init__.py:2455
+#: fwbackups/ui/__init__.py:2359 fwbackups/ui/__init__.py:2525
 msgid "Backup complete"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2296
+#: fwbackups/ui/__init__.py:2359
 #, python-format
 msgid "Finished the automatic backup operation of set `%(a)s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2297 fwbackups/ui/__init__.py:2456
-#: fwbackups/ui/__init__.py:2540
+#: fwbackups/ui/__init__.py:2360 fwbackups/ui/__init__.py:2526
+#: fwbackups/ui/__init__.py:2616
 msgid "<span color=\"dark green\">Operation complete</span>"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2301 fwbackups/ui/__init__.py:2460
+#: fwbackups/ui/__init__.py:2364 fwbackups/ui/__init__.py:2530
 msgid "Error during backup"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2301
+#: fwbackups/ui/__init__.py:2364
 #, python-format
 msgid ""
 "An error occured while performing the automatic backup operation of set "
 "`%(a)s'"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2304 fwbackups/ui/__init__.py:2465
+#: fwbackups/ui/__init__.py:2367 fwbackups/ui/__init__.py:2535
 msgid "Backup cancelled"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2304
+#: fwbackups/ui/__init__.py:2367
 #, python-format
 msgid "The automatic backup operation of set `%(a)s' was cancelled"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2305 fwbackups/ui/__init__.py:2466
-#: fwbackups/ui/__init__.py:2551
+#: fwbackups/ui/__init__.py:2368 fwbackups/ui/__init__.py:2536
+#: fwbackups/ui/__init__.py:2627
 msgid "<span color=\"red\">Operation cancelled</span>"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2306 fwbackups/ui/__init__.py:2467
-#: fwbackups/ui/__init__.py:2552
+#: fwbackups/ui/__init__.py:2369 fwbackups/ui/__init__.py:2537
+#: fwbackups/ui/__init__.py:2628
 msgid "Operation cancelled"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2317 fwbackups/ui/__init__.py:2479
-#: fwbackups/ui/__init__.py:2563
+#: fwbackups/ui/__init__.py:2380 fwbackups/ui/__init__.py:2549
+#: fwbackups/ui/__init__.py:2639
 msgid "Cancelling..."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2411
+#: fwbackups/ui/__init__.py:2475
 msgid "Starting a one-time backup operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2455
+#: fwbackups/ui/__init__.py:2525
 msgid "Finished the one-time backup operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2460
+#: fwbackups/ui/__init__.py:2530
 msgid "An error occured while performing the one-time backup operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2465
+#: fwbackups/ui/__init__.py:2535
 msgid "The one-time backup operation was cancelled"
 msgstr ""
 
 #. no "current file" yet
-#: fwbackups/ui/__init__.py:2491
+#: fwbackups/ui/__init__.py:2561
 msgid "Receiving files from remote server"
 msgstr ""
 
 #. we have a 'current file'
-#: fwbackups/ui/__init__.py:2493
+#: fwbackups/ui/__init__.py:2563
 #, python-format
 msgid "Restoring: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2501
+#: fwbackups/ui/__init__.py:2571
 msgid "Restore started"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2501
+#: fwbackups/ui/__init__.py:2571
 msgid "Starting a restore operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2519
+#: fwbackups/ui/__init__.py:2589
 msgid ""
 "There was an error while performing the restore! Enable debug messages for "
 "more information."
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2526
+#: fwbackups/ui/__init__.py:2596
 #, python-format
 msgid "An error occurred while initializing the restore operation: %s"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2527
+#: fwbackups/ui/__init__.py:2597
 msgid "Error initializing restore operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2539
+#: fwbackups/ui/__init__.py:2615
 msgid "Restore finished"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2539
+#: fwbackups/ui/__init__.py:2615
 msgid "Finished the restore operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2545
+#: fwbackups/ui/__init__.py:2621
 msgid "Error during restore"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2545
+#: fwbackups/ui/__init__.py:2621
 msgid "An error occured while performing the restore operation"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2550
+#: fwbackups/ui/__init__.py:2626
 msgid "Restore cancelled"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:2550
+#: fwbackups/ui/__init__.py:2626
 msgid "The restore operation was cancelled"
 msgstr ""
 
-#: fwbackups/widgets.py:149 fwbackups/widgets.py:192
+#: fwbackups/config.py:57
+#, python-format
+msgid "Could not create configuration folder `%s':"
+msgstr ""
+
+#: fwbackups/config.py:64
+#, python-format
+msgid "You do not have read and write permissions on folder `%s'."
+msgstr ""
+
+#: fwbackups/config.py:124
+#, python-format
+msgid "Key %s of is not a dictionary of options"
+msgstr ""
+
+#: fwbackups/config.py:354
+#, python-format
+msgid "Set '%s' failed to pass section validation"
+msgstr ""
+
+#: fwbackups/config.py:357
+#, python-format
+msgid "'%(a)s' is not a set configuration file."
+msgstr ""
+
+#: fwbackups/config.py:361
+#, python-format
+msgid ""
+"Configuration section 'General' in the set configuration '%s' failed to "
+"validate"
+msgstr ""
+
+#: fwbackups/config.py:364
+#, python-format
+msgid ""
+"Configuration section 'Times' in the set configuration '%s' failed to "
+"validate"
+msgstr ""
+
+#: fwbackups/config.py:377
+#, python-format
+msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
+msgstr ""
+
+#: fwbackups/config.py:382
+#, python-format
+msgid ""
+"Configuration section 'Options' in set configuration '%(a)s' failed to "
+"validate: Missing options '%(b)s'"
+msgstr ""
+
+#: fwbackups/config.py:520
+msgid "One-time configuration failed to pass section validation"
+msgstr ""
+
+#: fwbackups/config.py:523
+#, python-format
+msgid "'%(a)s' is not a one-time configuration file."
+msgstr ""
+
+#: fwbackups/config.py:527
+msgid ""
+"Configuration section 'General' in the one-time configuration file failed to "
+"validate"
+msgstr ""
+
+#: fwbackups/config.py:539
+#, python-format
+msgid "Unknown option key '%s' present in one-time backup configuration file"
+msgstr ""
+
+#: fwbackups/config.py:544
+#, python-format
+msgid ""
+"Configuration section 'Options' in the one-time backup configuration file "
+"failed to validate: Missing options '%s'"
+msgstr ""
+
+#: fwbackups/config.py:648
+msgid "Restore configuration failed to pass section validation"
+msgstr ""
+
+#: fwbackups/config.py:651
+#, python-format
+msgid "'%(a)s' is not a restore configuration file."
+msgstr ""
+
+#: fwbackups/config.py:655
+msgid ""
+"Configuration section 'General' in the restore configuration file failed to "
+"validate"
+msgstr ""
+
+#: fwbackups/config.py:665
+#, python-format
+msgid "Unknown option key '%s' present in restore configuration file"
+msgstr ""
+
+#: fwbackups/config.py:670
+#, python-format
+msgid ""
+"Configuration section 'Options' in the restore configuration file failed to "
+"validate: Missing options '%s'"
+msgstr ""
+
+#: fwbackups/config.py:754
+msgid "Preferences failed to pass section validation"
+msgstr ""
+
+#: fwbackups/config.py:757
+#, python-brace-format
+msgid "'{path}' is not a fwbackups preferences file."
+msgstr ""
+
+#: fwbackups/config.py:761
+msgid ""
+"Configuration section 'General' in the preferences file failed to validate"
+msgstr ""
+
+#: fwbackups/config.py:771
+#, python-format
+msgid "Unknown option key '%s' present in preferences file"
+msgstr ""
+
+#: fwbackups/config.py:776
+#, python-format
+msgid ""
+"Configuration section 'Options' in the preferences file failed to validate: "
+"Missing options '%s'"
+msgstr ""
+
+#: fwbackups/operations/backup.py:85
+msgid "rpm - Package list"
+msgstr ""
+
+#: fwbackups/operations/backup.py:104
+msgid "Pacman - Package list"
+msgstr ""
+
+#: fwbackups/operations/backup.py:110
+msgid "dpkg - Package list"
+msgstr ""
+
+#: fwbackups/operations/backup.py:120
+msgid "Disk Information"
+msgstr ""
+
+#: fwbackups/operations/backup.py:172
+msgid ""
+"Do not cross filesystem boundaries was enabled, but MacOS tar does not "
+"support this. Disable this option in your backup configuration and try again."
+msgstr ""
+
+#: fwbackups/operations/backup.py:199
+#, python-format
+msgid "Attempting to connect to SFTP server %s..."
+msgstr ""
+
+#: fwbackups/operations/backup.py:211
+#, python-brace-format
+msgid "Connecting to SFTP host {RemoteHost} succeeded."
+msgstr ""
+
+#: fwbackups/operations/backup.py:215
+#, python-format
+msgid ""
+"Connecting succeeded, but the SFTP destination path \"%s\" is not a folder."
+msgstr ""
+
+#: fwbackups/operations/backup.py:217 fwbackups/operations/restore.py:92
+msgid ""
+"A connection was established, but authentication failed. Please verify the "
+"username and password and try again."
+msgstr ""
+
+#: fwbackups/operations/backup.py:221 fwbackups/operations/restore.py:102
+msgid ""
+"A connection to the server has timed out. Please verify your settings and "
+"try again."
+msgstr ""
+
+#: fwbackups/operations/backup.py:224 fwbackups/operations/restore.py:97
+#, python-format
+msgid ""
+"A connection to the server could not be established.\n"
+"Error %(a)s: %(b)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:228 fwbackups/operations/restore.py:106
+#, python-format
+msgid ""
+"A connection to the server could not be established because an error "
+"occurred: %s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:232
+msgid ""
+"The backup destination was either not found or it cannot be written to due "
+"to insufficient permissions."
+msgstr ""
+
+#: fwbackups/operations/backup.py:237
+#, python-brace-format
+msgid "Connecting to SFTP server {RemoteHost} failed:"
+msgstr ""
+
+#: fwbackups/operations/backup.py:252 fwbackups/operations/backup.py:290
+#: fwbackups/operations/backup.py:333
+#, python-format
+msgid ""
+"Using %s on Windows: Cancel function will only take effect after a path has "
+"been completed."
+msgstr ""
+
+#. let's deal with real paths
+#: fwbackups/operations/backup.py:258 fwbackups/operations/backup.py:296
+#: fwbackups/operations/backup.py:306 fwbackups/operations/backup.py:339
+#: fwbackups/operations/backup.py:349 fwbackups/operations/backup.py:386
+#: fwbackups/operations/backup.py:398
+#, python-format
+msgid "Backing up path %(a)i/%(b)i: %(c)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:266
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
+msgstr ""
+
+#: fwbackups/operations/backup.py:269 fwbackups/operations/backup.py:311
+#: fwbackups/operations/backup.py:354 fwbackups/operations/backup.py:405
+#: fwbackups/operations/backup.py:616
+#, python-format
+msgid "Starting subprocess with PID %s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:280 fwbackups/operations/backup.py:323
+#: fwbackups/operations/backup.py:366 fwbackups/operations/backup.py:417
+#, python-format
+msgid "Subprocess with PID %(a)s exited with status %(b)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:285 fwbackups/operations/backup.py:328
+#: fwbackups/operations/backup.py:371 fwbackups/operations/backup.py:422
+#: fwbackups/operations/backup.py:631
+#, python-format
+msgid "Process exited with status %(a)s. Errors: %(b)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:298 fwbackups/operations/backup.py:341
+#, python-format
+msgid "Adding path `%s' to the archive"
+msgstr ""
+
+#: fwbackups/operations/backup.py:305 fwbackups/operations/backup.py:348
+#, python-format
+msgid ""
+"Using %s: Must backup all paths at once - Progress notification will be "
+"disabled."
+msgstr ""
+
+#: fwbackups/operations/backup.py:307 fwbackups/operations/backup.py:350
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:377
+#, python-brace-format
+msgid ""
+"Connected to SFTP server {RemoteHost}; backing up paths directly to remote "
+"host."
+msgstr ""
+
+#: fwbackups/operations/backup.py:388
+#, python-format
+msgid ""
+"Path %s is missing or cannot be read and will be excluded from the backup."
+msgstr ""
+
+#: fwbackups/operations/backup.py:402
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
+msgstr ""
+
+#: fwbackups/operations/backup.py:429
+#, python-brace-format
+msgid ""
+"Could not sent backup archive to remote server because temporary destination "
+"'{dest}' was not found"
+msgstr ""
+
+#: fwbackups/operations/backup.py:432
+msgid "Sending files to server via SFTP"
+msgstr ""
+
+#: fwbackups/operations/backup.py:442
+msgid "Could not send file(s) or folder to server:"
+msgstr ""
+
+#: fwbackups/operations/backup.py:456
+msgid "This function is designed to be subclassed"
+msgstr ""
+
+#: fwbackups/operations/backup.py:467
+msgid "Starting one-time backup operation"
+msgstr ""
+
+#: fwbackups/operations/backup.py:472
+msgid "OneTime"
+msgstr ""
+
+#: fwbackups/operations/backup.py:486 fwbackups/operations/backup.py:692
+msgid "There are no paths to backup!"
+msgstr ""
+
+#: fwbackups/operations/backup.py:505 fwbackups/operations/backup.py:708
+#, python-format
+msgid "`%s' exists and will be overwritten."
+msgstr ""
+
+#. might be ntfs
+#. All done!
+#: fwbackups/operations/backup.py:526
+msgid "Finished one-time backup"
+msgstr ""
+
+#. Execute the command
+#: fwbackups/operations/backup.py:613
+#, python-format
+msgid "Executing '%s' command"
+msgstr ""
+
+#: fwbackups/operations/backup.py:630
+msgid "Command returned with a non-zero exit status!"
+msgstr ""
+
+#: fwbackups/operations/backup.py:651
+#, python-format
+msgid "Removing old backup `%(a)s' on %(b)s"
+msgstr ""
+
+#: fwbackups/operations/backup.py:658 fwbackups/operations/backup.py:671
+#, python-format
+msgid "Removing old backup `%s'"
+msgstr ""
+
+#. oldIncrementalBackup = rsync
+#: fwbackups/operations/backup.py:664
+#, python-format
+msgid "Moving  `%s' to `%s'"
+msgstr ""
+
+#. source = is not a rsync backup - remove it and start fresh
+#: fwbackups/operations/backup.py:667
+#, python-format
+msgid "`%s' is not an rsync backup - removing."
+msgstr ""
+
+#: fwbackups/operations/backup.py:680
+#, python-format
+msgid "Starting automatic backup operation of set `%s'"
+msgstr ""
+
+#. All done!
+#: fwbackups/operations/backup.py:758
+#, python-format
+msgid "Finished automatic backup operation of set '%s'"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:61
+msgid "Canceling the current operation!"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:65
+#, python-format
+msgid "Stopping process with ID %s"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:68
+#, python-format
+msgid "Could not stop process %s: %s"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:76
+msgid "The operation has been cancelled."
+msgstr ""
+
+#: fwbackups/operations/__init__.py:89
+#, python-format
+msgid "Error handling file `%s'"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:90
+#, python-format
+msgid ""
+"Output:\n"
+"%s"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:95
+#, python-format
+msgid "Destination folder `%s' exists"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:100
+#, python-format
+msgid "Created destination folder `%s'"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:102
+#, python-format
+msgid "The destination folder `%(a)s' could not be created: %(b)s"
+msgstr ""
+
+#: fwbackups/operations/__init__.py:106
+#, python-format
+msgid ""
+"You do not have read and write permissions on the destination `%s' - if you "
+"backed up system files, this operation may fail."
+msgstr ""
+
+#: fwbackups/operations/restore.py:46
+msgid "Starting restore operation"
+msgstr ""
+
+#. check if server settings are OK
+#: fwbackups/operations/restore.py:75
+msgid "Attempting to connect to server"
+msgstr ""
+
+#: fwbackups/operations/restore.py:88
+msgid ""
+"The restore source was either not found or it cannot be read due to "
+"insufficient permissions."
+msgstr ""
+
+#: fwbackups/operations/restore.py:120
+msgid "Receiving files from server"
+msgstr ""
+
+#: fwbackups/operations/restore.py:131
+#, python-format
+msgid "Could not receive file from server: %s"
+msgstr ""
+
+#. We are dealing with a remote folder - our job here is done
+#. Either that or an error was encountered above
+#. All done!
+#: fwbackups/operations/restore.py:136 fwbackups/operations/restore.py:181
+msgid "Finished restore operation"
+msgstr ""
+
+#. oops, something is up
+#: fwbackups/operations/restore.py:148
+#, python-format
+msgid "Source `%s' is not a file or folder!"
+msgstr ""
+
+#. oops, something is up
+#: fwbackups/operations/restore.py:157
+#, python-format
+msgid "Source `%s' is not an archive!"
+msgstr ""
+
+#: fwbackups/operations/restore.py:161
+#, python-format
+msgid "Source `%s' is not a folder"
+msgstr ""
+
+#: fwbackups/operations/restore.py:177
+#, python-format
+msgid "Traceback: %s"
+msgstr ""
+
+#: fwbackups/widgets.py:144 fwbackups/widgets.py:187
 msgid "CRITICAL"
 msgstr ""
 
-#: fwbackups/widgets.py:149 fwbackups/widgets.py:192
+#: fwbackups/widgets.py:144 fwbackups/widgets.py:187
 msgid "ERROR"
 msgstr ""
 
-#: fwbackups/widgets.py:151 fwbackups/widgets.py:194
+#: fwbackups/widgets.py:146 fwbackups/widgets.py:189
 msgid "WARNING"
 msgstr ""
 
-#: fwbackups/widgets.py:164 fwbackups/widgets.py:188
+#: fwbackups/widgets.py:159 fwbackups/widgets.py:183
 msgid "Previous log messages"
 msgstr ""
 
-#: fwbackups/widgets.py:168 fwbackups/widgets.py:201
+#: fwbackups/widgets.py:163 fwbackups/widgets.py:196
 msgid "No previous log messages to display"
 msgstr ""
 
-#: fwbackups/widgets.py:169 fwbackups/widgets.py:180
+#: fwbackups/widgets.py:164 fwbackups/widgets.py:175
 msgid "Current session's log messages"
 msgstr ""
 
-#: fwbackups/widgets.py:536
+#: fwbackups/widgets.py:531
 msgid "Access"
 msgstr ""
 
-#: fwbackups/widgets.py:542
+#: fwbackups/widgets.py:537
 msgid "Path"
 msgstr ""
 
-#: fwbackups/widgets.py:658
+#: fwbackups/widgets.py:589
 msgid "Please select a path before choosing an action."
 msgstr ""
 
-#: fwbackups/widgets.py:691
+#: fwbackups/widgets.py:622
 msgid "Export"
 msgstr "Exporta"
 
-#: fwbackups/widgets.py:697
+#: fwbackups/widgets.py:628
 msgid "Set"
 msgstr ""
 
-#: fwbackups/widgets.py:732
+#: fwbackups/widgets.py:663
 msgid "Bug Report"
 msgstr ""
 
-#: fwbackups/widgets.py:740
+#: fwbackups/widgets.py:669
+msgid "Choose a destination"
+msgstr ""
+
+#: fwbackups/widgets.py:671
 msgid "_Save"
 msgstr ""
 
-#~ msgid "_File"
-#~ msgstr "_Fitxer"
+#: fwbackups/sftp.py:225
+#, python-format
+msgid "`%s' is not a file, folder or link! Skipping."
+msgstr ""
 
-#~ msgid "_Help"
-#~ msgstr "_Ajuda"
+#: fwbackups/sftp.py:230
+msgid "Could not copy some files due to errors:"
+msgstr ""
+
+#: fwbackups/shutil_modded.py:135
+#, python-format
+msgid "`%s' isn't a file, folder or link! Skipping."
+msgstr ""
+
+#: fwbackups/shutil_modded.py:146
+msgid "Couldn't copy some files due to errors:"
+msgstr ""
+
+#: fwbackups/fwlogger.py:72
+#, python-format
+msgid "Could not set up the logger: %s"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:49 bin/fwbackups-run.py:49
+#, python-format
+msgid "Error: %s"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:50 bin/fwbackups-run.py:50
+msgid "Run with --help for usage information."
+msgstr ""
+
+#: bin/fwbackups-runonce.py:52
+msgid ""
+"Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE [OPTIONS] "
+"Path(s) Destination\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -r, --recursive  :  Perform a recursive backup\n"
+"  -i, --hidden  :  Include hidden files in the backup\n"
+"  -p, --packages2file  :  Print installed package list to a text file\n"
+"  -d, --diskinfo2file  :  Print disk geometry to a file (must be root)\n"
+"  -s, --sparse  :  Handle sparse files efficiently\n"
+"  -e, --engine=ENGINE  :  Use specified backup engine.\n"
+"              Valid engines are tar, tar.gz, tar.bz2 and rsync.\n"
+"  -x, --exclude='PATTERN'  :  Skip files matching PATTERN.\n"
+"  -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to "
+"19)\n"
+"  --destination-type=TYPE  :  Destination type (`local' or `remote (ssh)')\n"
+"  --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'\n"
+"  --remote-username=USERNAME  :  Connect as specified username\n"
+"  --remote-password=PASSWORD  :  Connect using password `PASSWORD'\n"
+"  --remote-port=PORT  :  Connect on specified port (default 22)\n"
+"\n"
+"Path(s) is space-seperated list of paths to include in the backup.\n"
+"Destination is the directory where the OneTime backup should be placed "
+"within.\n"
+"\n"
+"Defaults to tar engine and local destination unless specified otherwise.\n"
+"Supplying --remote* will have no effect unless thedestination type is\n"
+"`remote (ssh)'."
+msgstr ""
+
+#: bin/fwbackups-runonce.py:140
+#, python-format
+msgid "No such engine `%s'"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:147
+msgid "You must be root to set a niceness below 0"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:151
+msgid "Nice value must be an integer between -20 and 19"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:167
+msgid "Requires at least one path to backup and a destination"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:181
+msgid "Destination type was not specified"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:184
+msgid "An engine was not specified"
+msgstr ""
+
+#: bin/fwbackups-runonce.py:194 bin/fwbackups-run.py:130
+msgid "An error occurred while initializing the backup operation!"
+msgstr ""
+
+#: bin/fwbackups-run.py:52
+msgid ""
+"Usage: fwbackups-run [OPTIONS] Set_Name(s)\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -l, --silent  :  Print messages to log file only\n"
+"  -f, --force :  Run the backup even if the set is disabled.\n"
+"\n"
+"Set_Name(s) is space-seperated list of set names to run backups of."
+msgstr ""
+
+#: bin/fwbackups-run.py:103
+msgid "Invalid usage: Requires at least one set name to backup"
+msgstr ""
+
+#: bin/fwbackups-run.py:120
+#, python-format
+msgid "The set configuration for '%s' was not found - skipping."
+msgstr ""
+
+#: data/com.diffingo.fwbackups.desktop.in:4
+msgid "Backup or restore your files"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.desktop.in:6
+msgid "backup;archive;archiving;"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:7
+msgid "Stewart Adam"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:8
+msgid "A feature-rich, user-friendly backup program"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:10
+msgid ""
+"A feature-rich user backup program that allows you to backup your documents "
+"on a one-off or recurring scheduled basis."
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:14
+msgid "Main window"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:18
+msgid "Backup settings"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:22
+msgid "Backup schedule configuration"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:26
+msgid "Log viewer"
+msgstr ""

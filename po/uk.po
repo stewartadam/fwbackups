@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 01:37-0800\n"
+"POT-Creation-Date: 2026-11-04 05:14+0000\n"
 "PO-Revision-Date: 2017-09-22 11:45+0000\n"
 "Last-Translator: Микола Ткач <chistomov@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/Magic/fwbackups/language/"
@@ -23,23 +23,16 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: data/com.diffingo.fwbackups.desktop.in:3 fwbackups/ui/gtk/main.ui:22
-#: fwbackups/ui/__init__.py:71
-msgid "fwbackups"
-msgstr "fwbackups"
-
-#: data/com.diffingo.fwbackups.desktop.in:4
-msgid "Backup or restore your files"
+#: fwbackups/ui/gtk/error_dia.ui:36 fwbackups/ui/gtk/confirm_dia.ui:36
+#: fwbackups/ui/gtk/info_dia.ui:35 fwbackups/ui/gtk/warning_dia.ui:39
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
+"\n"
+"Secondary text"
 msgstr ""
-
-#: data/com.diffingo.fwbackups.desktop.in:6
-msgid "backup;archive;archiving;"
-msgstr ""
-
-#: data/com.diffingo.fwbackups.metainfo.xml.in:7 fwbackups/ui/__init__.py:848
-#, fuzzy
-msgid "A feature-rich user backup program"
-msgstr "Проґрама для резервного копіювання з просунутими можливостями"
+"<span size=\"larger\" weight=\"bold\">Основний текст</span>\n"
+"\n"
+"Додатковий текст"
 
 #: fwbackups/ui/gtk/BugReport.ui:69
 msgid "<span size=\"larger\" weight=\"bold\">Sorry!</span>"
@@ -58,6 +51,55 @@ msgstr ""
 msgid "_Details"
 msgstr "_Деталі"
 
+#: fwbackups/ui/gtk/confirm_dia.ui:49 fwbackups/ui/gtk/info_dia.ui:47
+#: fwbackups/ui/gtk/warning_dia.ui:52
+msgid "Don't show me this message again"
+msgstr "Не показувати більше це повідомлення"
+
+#: fwbackups/ui/gtk/export_dia.ui:10 fwbackups/ui/__init__.py:773
+msgid "Export Sets"
+msgstr "Експорт наборів"
+
+#: fwbackups/ui/gtk/export_dia.ui:44
+msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
+msgstr "<span weight=\"bold\" size=\"larger\">Експорт наборів</span>"
+
+#: fwbackups/ui/gtk/export_dia.ui:57
+msgid "Select the set you would like to export."
+msgstr "Вибір наборів для експорту."
+
+#: fwbackups/ui/gtk/export_dia.ui:96
+msgid "_Export"
+msgstr "_Експорт"
+
+#: fwbackups/ui/gtk/preferences.ui:29
+#, fuzzy
+msgid "Enable debug log messages"
+msgstr "Попередні повідомлення журналу"
+
+#: fwbackups/ui/gtk/preferences.ui:75
+#, fuzzy
+msgid "Override temporary directory:"
+msgstr "Налаштувати тимчасову теку"
+
+#: fwbackups/ui/gtk/preferences.ui:94
+#, fuzzy
+msgid "Enable notifications"
+msgstr "Показувати _сповіщення"
+
+#: fwbackups/ui/gtk/preferences.ui:107
+#, fuzzy
+msgid "<b>Options</b>"
+msgstr "<b>Параметри трею</b>"
+
+#: fwbackups/ui/gtk/preferences.ui:141
+msgid "Click to reset \"Don't show me again\" messages"
+msgstr "Натисніть для скидання повідомлення \"Більше не показувати\""
+
+#: fwbackups/ui/gtk/preferences.ui:174
+msgid "Preferences"
+msgstr "Параметри"
+
 #: fwbackups/ui/gtk/backupset.ui:11
 msgid "Configure Set"
 msgstr "Налаштувати набір"
@@ -71,40 +113,40 @@ msgid "Destination Type:"
 msgstr "Тип призначення:"
 
 #: fwbackups/ui/gtk/backupset.ui:267 fwbackups/ui/gtk/backupset.ui:326
-#: fwbackups/ui/gtk/main.ui:600 fwbackups/ui/gtk/main.ui:685
+#: fwbackups/ui/gtk/main.ui:608 fwbackups/ui/gtk/main.ui:693
 #: fwbackups/ui/gtk/restore.ui:202
 msgid "Folder:"
 msgstr "Тека:"
 
-#: fwbackups/ui/gtk/backupset.ui:294 fwbackups/ui/gtk/main.ui:628
+#: fwbackups/ui/gtk/backupset.ui:294 fwbackups/ui/gtk/main.ui:636
 msgid "/folder"
 msgstr "/тека"
 
-#: fwbackups/ui/gtk/backupset.ui:337 fwbackups/ui/gtk/main.ui:649
+#: fwbackups/ui/gtk/backupset.ui:337 fwbackups/ui/gtk/main.ui:657
 #: fwbackups/ui/gtk/restore.ui:275
 msgid "Host:"
 msgstr "Хост:"
 
-#: fwbackups/ui/gtk/backupset.ui:349 fwbackups/ui/gtk/main.ui:661
+#: fwbackups/ui/gtk/backupset.ui:349 fwbackups/ui/gtk/main.ui:669
 #: fwbackups/ui/gtk/restore.ui:287
 msgid "Username:"
 msgstr "Ім’я користувача:"
 
-#: fwbackups/ui/gtk/backupset.ui:361 fwbackups/ui/gtk/main.ui:673
+#: fwbackups/ui/gtk/backupset.ui:361 fwbackups/ui/gtk/main.ui:681
 #: fwbackups/ui/gtk/restore.ui:299
 msgid "Password:"
 msgstr "Пароль:"
 
-#: fwbackups/ui/gtk/backupset.ui:378 fwbackups/ui/gtk/main.ui:701
+#: fwbackups/ui/gtk/backupset.ui:378 fwbackups/ui/gtk/main.ui:709
 msgid "_Test Settings"
 msgstr "_Тест налаштувань"
 
-#: fwbackups/ui/gtk/backupset.ui:401 fwbackups/ui/gtk/main.ui:725
+#: fwbackups/ui/gtk/backupset.ui:401 fwbackups/ui/gtk/main.ui:733
 #: fwbackups/ui/gtk/restore.ui:364
 msgid "Hide password"
 msgstr "Приховати пароль"
 
-#: fwbackups/ui/gtk/backupset.ui:449 fwbackups/ui/gtk/main.ui:783
+#: fwbackups/ui/gtk/backupset.ui:449 fwbackups/ui/gtk/main.ui:791
 #: fwbackups/ui/gtk/restore.ui:400
 msgid "Port:"
 msgstr "Порт:"
@@ -209,15 +251,15 @@ msgstr ""
 msgid "Times"
 msgstr "Час"
 
-#: fwbackups/ui/gtk/backupset.ui:1236 fwbackups/ui/gtk/main.ui:856
+#: fwbackups/ui/gtk/backupset.ui:1236 fwbackups/ui/gtk/main.ui:864
 msgid "Archive (files and folders are packed into a tar archive)"
 msgstr "Архів (файли та теки будуть запаковані у tar архів)"
 
-#: fwbackups/ui/gtk/backupset.ui:1250 fwbackups/ui/gtk/main.ui:870
+#: fwbackups/ui/gtk/backupset.ui:1250 fwbackups/ui/gtk/main.ui:878
 msgid "Direct copy of the files and folders"
 msgstr "Пряме копіювання файлів та тек"
 
-#: fwbackups/ui/gtk/backupset.ui:1276 fwbackups/ui/gtk/main.ui:888
+#: fwbackups/ui/gtk/backupset.ui:1276 fwbackups/ui/gtk/main.ui:896
 msgid "Compress archive using"
 msgstr "Запакувати у архів використовуючи"
 
@@ -225,7 +267,7 @@ msgstr "Запакувати у архів використовуючи"
 msgid "Backups are incremental"
 msgstr "Використовувати наростаюче резервування"
 
-#: fwbackups/ui/gtk/backupset.ui:1320 fwbackups/ui/gtk/main.ui:913
+#: fwbackups/ui/gtk/backupset.ui:1320 fwbackups/ui/gtk/main.ui:921
 msgid "<b>Backup Format</b>"
 msgstr "<b>Формат резервування</b>"
 
@@ -237,36 +279,40 @@ msgstr "Набір увімкнений"
 msgid "Include subfolders"
 msgstr "Включаючи вкладені теки"
 
-#: fwbackups/ui/gtk/backupset.ui:1364 fwbackups/ui/gtk/main.ui:971
+#: fwbackups/ui/gtk/backupset.ui:1364 fwbackups/ui/gtk/main.ui:979
 msgid "Print disk geometry information to a file"
 msgstr "Вивід геометрії диску у файл"
 
-#: fwbackups/ui/gtk/backupset.ui:1377 fwbackups/ui/gtk/main.ui:958
+#: fwbackups/ui/gtk/backupset.ui:1377 fwbackups/ui/gtk/main.ui:966
 msgid "Print installed packages to a text file"
 msgstr "Вивід встановлених пакунків у файл"
 
-#: fwbackups/ui/gtk/backupset.ui:1389 fwbackups/ui/gtk/main.ui:983
+#: fwbackups/ui/gtk/backupset.ui:1389 fwbackups/ui/gtk/main.ui:991
 msgid "Include hidden files"
 msgstr "Включаючи приховані файли"
 
-#: fwbackups/ui/gtk/backupset.ui:1401 fwbackups/ui/gtk/main.ui:995
+#: fwbackups/ui/gtk/backupset.ui:1401 fwbackups/ui/gtk/main.ui:1003
 msgid "Handle sparse files efficiently"
 msgstr "Ефективна підтримка розріджених файлів"
 
-#: fwbackups/ui/gtk/backupset.ui:1412 fwbackups/ui/gtk/main.ui:1006
+#: fwbackups/ui/gtk/backupset.ui:1412 fwbackups/ui/gtk/main.ui:1014
 msgid "Follow links"
 msgstr "Йти за посиланнями"
 
-#: fwbackups/ui/gtk/backupset.ui:1425 fwbackups/ui/gtk/backupset.ui:1485
-#: fwbackups/ui/gtk/main.ui:1019
+#: fwbackups/ui/gtk/backupset.ui:1424 fwbackups/ui/gtk/main.ui:1025
+msgid "Do not cross filesystems"
+msgstr ""
+
+#: fwbackups/ui/gtk/backupset.ui:1436 fwbackups/ui/gtk/backupset.ui:1496
+#: fwbackups/ui/gtk/main.ui:1037
 msgid "<b>Backup Options</b>"
 msgstr "<b>Параметри резервування</b>"
 
-#: fwbackups/ui/gtk/backupset.ui:1442
+#: fwbackups/ui/gtk/backupset.ui:1453
 msgid "Number of old backups to keep:"
 msgstr "Число старих резервних копій, що зберігаються:"
 
-#: fwbackups/ui/gtk/backupset.ui:1471
+#: fwbackups/ui/gtk/backupset.ui:1482
 #, fuzzy
 msgid ""
 "A value of  '0' makes a new backup always replace an older one. This option "
@@ -275,23 +321,23 @@ msgstr ""
 "<i>Порада: </i>0<i> буде замінювати старі резервні копії новими. Цей "
 "параметр незастосовуваний при інкрементному резервуванні.</i>"
 
-#: fwbackups/ui/gtk/backupset.ui:1507
+#: fwbackups/ui/gtk/backupset.ui:1518
 msgid "Options (Simple)"
 msgstr "Основні опції"
 
-#: fwbackups/ui/gtk/backupset.ui:1557
+#: fwbackups/ui/gtk/backupset.ui:1568
 msgid "Command to run before backup:"
 msgstr "Команда для запуску перед резервуванням:"
 
-#: fwbackups/ui/gtk/backupset.ui:1568
+#: fwbackups/ui/gtk/backupset.ui:1579
 msgid "Command to run after backup:"
 msgstr "Команда для запуску після резервування:"
 
-#: fwbackups/ui/gtk/backupset.ui:1579 fwbackups/ui/gtk/main.ui:1083
+#: fwbackups/ui/gtk/backupset.ui:1590 fwbackups/ui/gtk/main.ui:1101
 msgid "Nice value of backup process:"
 msgstr "Значення nice для процесу резервування:"
 
-#: fwbackups/ui/gtk/backupset.ui:1590
+#: fwbackups/ui/gtk/backupset.ui:1601
 msgid ""
 "Exclude from backup:\n"
 " (newline separated)"
@@ -299,7 +345,7 @@ msgstr ""
 "Виключити з копії:\n"
 "(новий пункт у новому рядку)"
 
-#: fwbackups/ui/gtk/backupset.ui:1636
+#: fwbackups/ui/gtk/backupset.ui:1647
 #, fuzzy
 msgid ""
 "The following tokens may be used in the commands:\n"
@@ -314,51 +360,25 @@ msgstr ""
 "\n"
 "За описом кожного дивіться посібник користувача.</i>"
 
-#: fwbackups/ui/gtk/backupset.ui:1666
+#: fwbackups/ui/gtk/backupset.ui:1677
 msgid "Options (Advanced)"
 msgstr "Додаткові опції"
 
-#: fwbackups/ui/gtk/backupset.ui:1695
+#: fwbackups/ui/gtk/backupset.ui:1706
 msgid "<b>Name:</b>"
 msgstr "<b>Ім’я:</b>"
 
-#: fwbackups/ui/gtk/confirm_dia.ui:36 fwbackups/ui/gtk/error_dia.ui:36
-#: fwbackups/ui/gtk/info_dia.ui:35 fwbackups/ui/gtk/warning_dia.ui:39
-msgid ""
-"<span size=\"larger\" weight=\"bold\">Primary text</span>\n"
-"\n"
-"Secondary text"
-msgstr ""
-"<span size=\"larger\" weight=\"bold\">Основний текст</span>\n"
-"\n"
-"Додатковий текст"
+#: fwbackups/ui/gtk/main.ui:22 fwbackups/ui/__init__.py:92
+#: data/com.diffingo.fwbackups.desktop.in:3
+#: data/com.diffingo.fwbackups.metainfo.xml.in:6
+msgid "fwbackups"
+msgstr "fwbackups"
 
-#: fwbackups/ui/gtk/confirm_dia.ui:49 fwbackups/ui/gtk/info_dia.ui:47
-#: fwbackups/ui/gtk/warning_dia.ui:52
-msgid "Don't show me this message again"
-msgstr "Не показувати більше це повідомлення"
-
-#: fwbackups/ui/gtk/export_dia.ui:10 fwbackups/ui/__init__.py:692
-msgid "Export Sets"
-msgstr "Експорт наборів"
-
-#: fwbackups/ui/gtk/export_dia.ui:44
-msgid "<span size=\"larger\" weight=\"bold\">Export Sets</span>"
-msgstr "<span weight=\"bold\" size=\"larger\">Експорт наборів</span>"
-
-#: fwbackups/ui/gtk/export_dia.ui:57
-msgid "Select the set you would like to export."
-msgstr "Вибір наборів для експорту."
-
-#: fwbackups/ui/gtk/export_dia.ui:96
-msgid "_Export"
-msgstr "_Експорт"
-
-#: fwbackups/ui/gtk/main.ui:63
+#: fwbackups/ui/gtk/main.ui:71
 msgid "To start, click one of the buttons on the above or use the menus."
 msgstr "Для запуску натисніть на вказані кнопки або використовуйте меню."
 
-#: fwbackups/ui/gtk/main.ui:74
+#: fwbackups/ui/gtk/main.ui:82
 #, fuzzy
 msgid ""
 "Please do not forget to check your fwbackups log regularly to be informed "
@@ -368,114 +388,86 @@ msgstr ""
 "повідомлень\n"
 "про помилки і/або збої резервування."
 
-#: fwbackups/ui/gtk/main.ui:88
+#: fwbackups/ui/gtk/main.ui:96
 msgid "<b>Welcome</b>"
 msgstr "<b>Ласкаво просимо</b>"
 
-#: fwbackups/ui/gtk/main.ui:113 fwbackups/ui/gtk/main.ui:124
+#: fwbackups/ui/gtk/main.ui:121 fwbackups/ui/gtk/main.ui:132
 msgid "<i>Not Loaded</i>"
 msgstr "<i>Не завантажений</i>"
 
-#: fwbackups/ui/gtk/main.ui:136
+#: fwbackups/ui/gtk/main.ui:144
 msgid "Total backup sets:"
 msgstr "Усього наборів резервування:"
 
-#: fwbackups/ui/gtk/main.ui:147
+#: fwbackups/ui/gtk/main.ui:155
 msgid "Failed backup runs:"
 msgstr "Помилка запуску резервування:"
 
-#: fwbackups/ui/gtk/main.ui:162
+#: fwbackups/ui/gtk/main.ui:170
 msgid "<b>Status</b>"
 msgstr "<b>Статус</b>"
 
-#: fwbackups/ui/gtk/main.ui:181
+#: fwbackups/ui/gtk/main.ui:189
 msgid "Overview"
 msgstr "Огляд"
 
-#: fwbackups/ui/gtk/main.ui:376 fwbackups/ui/gtk/main.ui:1119
+#: fwbackups/ui/gtk/main.ui:384 fwbackups/ui/gtk/main.ui:1137
 #: fwbackups/ui/gtk/restore.ui:581
 msgid "Status:"
 msgstr "Стан:"
 
-#: fwbackups/ui/gtk/main.ui:386 fwbackups/ui/gtk/main.ui:1130
+#: fwbackups/ui/gtk/main.ui:394 fwbackups/ui/gtk/main.ui:1148
 msgid "Backup progress:"
 msgstr "Поступ резервування:"
 
-#: fwbackups/ui/gtk/main.ui:400
+#: fwbackups/ui/gtk/main.ui:408
 #, fuzzy
 msgid "Backups Sets"
 msgstr "Набори"
 
-#: fwbackups/ui/gtk/main.ui:820
+#: fwbackups/ui/gtk/main.ui:828
 msgid "Destination type:"
 msgstr "Тип призначення:"
 
-#: fwbackups/ui/gtk/main.ui:932
+#: fwbackups/ui/gtk/main.ui:940
 msgid "Enabled"
 msgstr "Увімкнений"
 
-#: fwbackups/ui/gtk/main.ui:945
+#: fwbackups/ui/gtk/main.ui:953
 msgid "Recursive"
 msgstr "Рекурсивно"
 
-#: fwbackups/ui/gtk/main.ui:1071
+#: fwbackups/ui/gtk/main.ui:1089
 #, fuzzy
 msgid "Exclude from backup (newline separated):"
 msgstr ""
 "Виключити з копії:\n"
 "(новий пункт у новому рядку)"
 
-#: fwbackups/ui/gtk/main.ui:1095
+#: fwbackups/ui/gtk/main.ui:1113
 msgid "<b>Advanced Options</b>"
 msgstr "<b>Додатково</b>"
 
-#: fwbackups/ui/gtk/main.ui:1170 fwbackups/ui/gtk/restore.ui:592
+#: fwbackups/ui/gtk/main.ui:1188 fwbackups/ui/gtk/restore.ui:592
 msgid "%s"
 msgstr "%s"
 
-#: fwbackups/ui/gtk/main.ui:1266
+#: fwbackups/ui/gtk/main.ui:1284
 msgid "One-Time Backup"
 msgstr "Разова копія"
 
-#: fwbackups/ui/gtk/main.ui:1342
+#: fwbackups/ui/gtk/main.ui:1360
 msgid "_Save to File"
 msgstr "_Зберегти у файл"
 
-#: fwbackups/ui/gtk/main.ui:1390
+#: fwbackups/ui/gtk/main.ui:1408
 msgid "Log Viewer"
 msgstr "Журнал"
 
-#: fwbackups/ui/gtk/main.ui:1524
+#: fwbackups/ui/gtk/main.ui:1542
 msgid "Restore"
 msgstr "Відновити"
-
-#: fwbackups/ui/gtk/preferences.ui:29
-#, fuzzy
-msgid "Enable debug log messages"
-msgstr "Попередні повідомлення журналу"
-
-#: fwbackups/ui/gtk/preferences.ui:75
-#, fuzzy
-msgid "Override temporary directory:"
-msgstr "Налаштувати тимчасову теку"
-
-#: fwbackups/ui/gtk/preferences.ui:94
-#, fuzzy
-msgid "Enable notifications"
-msgstr "Показувати _сповіщення"
-
-#: fwbackups/ui/gtk/preferences.ui:107
-#, fuzzy
-msgid "<b>Options</b>"
-msgstr "<b>Параметри трею</b>"
-
-#: fwbackups/ui/gtk/preferences.ui:141
-msgid "Click to reset \"Don't show me again\" messages"
-msgstr "Натисніть для скидання повідомлення \"Більше не показувати\""
-
-#: fwbackups/ui/gtk/preferences.ui:174
-msgid "Preferences"
-msgstr "Параметри"
 
 #: fwbackups/ui/gtk/restore.ui:63
 msgid "Set:"
@@ -540,557 +532,50 @@ msgstr "_Виконано"
 msgid "Restore Files"
 msgstr "Відновлення файлів"
 
-#: fwbackups/config.py:58
-#, python-format
-msgid "Could not create configuration folder `%s':"
-msgstr "Неможливо створити теку конфігурації `%s':"
-
-#: fwbackups/config.py:65
-#, python-format
-msgid "You do not have read and write permissions on folder `%s'."
-msgstr "В Вас немає прав на читання/запис теки `%s'."
-
-#: fwbackups/config.py:125
-#, python-format
-msgid "Key %s of is not a dictionary of options"
-msgstr "Ключ %s не у словнику варіянтів"
-
-#: fwbackups/config.py:341
-#, python-format
-msgid "Set '%s' failed to pass section validation"
-msgstr "Набір '%s' не пройшов перевірку секції"
-
-#: fwbackups/config.py:344
-#, python-format
-msgid "'%(a)s' is not a set configuration file."
-msgstr "'%(a)s' не є файлом конфігурації набору."
-
-#: fwbackups/config.py:348
-#, python-format
-msgid ""
-"Configuration section 'General' in the set configuration '%s' failed to "
-"validate"
-msgstr "Секція 'General' у файлі конфігурації набору '%s' не пройшла перевірку"
-
-#: fwbackups/config.py:351
-#, python-format
-msgid ""
-"Configuration section 'Times' in the set configuration '%s' failed to "
-"validate"
-msgstr "Секція 'Time' у файлі конфігурації набору '%s' не пройшла перевірку"
-
-#: fwbackups/config.py:364
-#, python-format
-msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
-msgstr "Невідомий ключ '%(a)s' у конфігурації набору '%(b)s'"
-
-#: fwbackups/config.py:369
-#, python-format
-msgid ""
-"Configuration section 'Options' in set configuration '%(a)s' failed to "
-"validate: Missing options '%(b)s'"
-msgstr ""
-"Секція 'Options' у файлі конфігурації набору '%(a)s' не пройшла перевірку: "
-"Пропущено параметр '%(b)s'"
-
-#: fwbackups/config.py:504
-msgid "One-time configuration failed to pass section validation"
-msgstr "Разове резервування не пройшло перевірку розділу"
-
-#: fwbackups/config.py:507
-#, python-format
-msgid "'%(a)s' is not a one-time configuration file."
-msgstr "'%(a)s' не є файлом конфігурації разового резервування"
-
-#: fwbackups/config.py:511
-msgid ""
-"Configuration section 'General' in the one-time configuration file failed to "
-"validate"
-msgstr ""
-"Секція 'General' файлу конфігурації разового резервування не пройшла "
-"перевірку"
-
-#: fwbackups/config.py:523
-#, python-format
-msgid "Unknown option key '%s' present in one-time backup configuration file"
-msgstr "Неправильний параметр '%s' у файлі конфігурації разового резервування"
-
-#: fwbackups/config.py:528
-#, python-format
-msgid ""
-"Configuration section 'Options' in the one-time backup configuration file "
-"failed to validate: Missing options '%s'"
-msgstr ""
-"Секція 'Options' файлу конфігурації разового резервування не пройшла "
-"перевірку: Відсутній параметр '%s'"
-
-#: fwbackups/config.py:632
-msgid "Restore configuration failed to pass section validation"
-msgstr "Конфігурація відновлення не пройшла перевірку секції"
-
-#: fwbackups/config.py:635
-#, python-format
-msgid "'%(a)s' is not a restore configuration file."
-msgstr "'%(a)s' не є файлом конфігурації відновлення"
-
-#: fwbackups/config.py:639
-msgid ""
-"Configuration section 'General' in the restore configuration file failed to "
-"validate"
-msgstr "Секція 'General' файлу конфігурації відновлення не пройшла перевірку"
-
-#: fwbackups/config.py:649
-#, python-format
-msgid "Unknown option key '%s' present in restore configuration file"
-msgstr "Невідомий ключ '%s' у файлі конфігурації відновлення"
-
-#: fwbackups/config.py:654
-#, python-format
-msgid ""
-"Configuration section 'Options' in the restore configuration file failed to "
-"validate: Missing options '%s'"
-msgstr ""
-"Секція 'Options' файлу конфігурації відновлення не пройшла перевірку: "
-"Пропущено параметр '%s'"
-
-#: fwbackups/config.py:738
-msgid "Preferences failed to pass section validation"
-msgstr "Файл налаштувань не пройшов перевірку секції"
-
-#: fwbackups/config.py:741
-#, fuzzy, python-brace-format
-msgid "'{constants.PREFSLOC}' is not a fwbackups preferences file."
-msgstr "'%(a)s' не є файлом налаштувань fwbackups."
-
-#: fwbackups/config.py:745
-msgid ""
-"Configuration section 'General' in the preferences file failed to validate"
-msgstr "Секція 'General' файлу налаштувань не пройшла перевірку"
-
-#: fwbackups/config.py:755
-#, python-format
-msgid "Unknown option key '%s' present in preferences file"
-msgstr "Невідомий ключ '%s' виявлено у файлі налаштувань"
-
-#: fwbackups/config.py:760
-#, python-format
-msgid ""
-"Configuration section 'Options' in the preferences file failed to validate: "
-"Missing options '%s'"
-msgstr ""
-"Секція 'Options' файлу налаштувань не пройшла перевірку: Пропущено параметр "
-"'%s'"
-
-#: fwbackups/fwlogger.py:73
-#, python-format
-msgid "Could not set up the logger: %s"
-msgstr "Неможливо налаштувати журналювання: %s"
-
-#: fwbackups/operations/__init__.py:62
-msgid "Canceling the current operation!"
-msgstr "Скасовується поточна операція!"
-
-#: fwbackups/operations/__init__.py:66
-#, python-format
-msgid "Stopping process with ID %s"
-msgstr "Зупинка процесу з ID %s"
-
-#: fwbackups/operations/__init__.py:69
-#, fuzzy, python-format
-msgid "Could not stop process %s: %s"
-msgstr "Неможливо зупинити процес %(a)s: %(b)s"
-
-#: fwbackups/operations/__init__.py:77
-msgid "The operation has been cancelled."
-msgstr "Операція була скасована."
-
-#: fwbackups/operations/__init__.py:90
-#, python-format
-msgid "Error handling file `%s'"
-msgstr "Помилка опрацювання файлу `%s'"
-
-#: fwbackups/operations/__init__.py:91
-#, python-format
-msgid ""
-"Output:\n"
-"%s"
-msgstr ""
-"Вивід:\n"
-"%s"
-
-#: fwbackups/operations/__init__.py:96
-#, python-format
-msgid "Destination folder `%s' exists"
-msgstr "Тека призначення `%s' вже існує"
-
-#: fwbackups/operations/__init__.py:101
-#, python-format
-msgid "Created destination folder `%s'"
-msgstr "Створена тека призначення `%s'"
-
-#: fwbackups/operations/__init__.py:103
-#, python-format
-msgid "The destination folder `%(a)s' could not be created: %(b)s"
-msgstr "Тека призначення `%(a)s' не може бути створена: %(b)s"
-
-#: fwbackups/operations/__init__.py:107
-#, python-format
-msgid ""
-"You do not have read and write permissions on the destination `%s' - if you "
-"backed up system files, this operation may fail."
-msgstr ""
-"В Вас немає прав на читання/запис у призначенні `%s - якщо Ви виконаєте "
-"резервне копіювання системних файлів, то ця операція може завершитися "
-"невдачею."
-
-#: fwbackups/operations/backup.py:86
-msgid "rpm - Package list"
-msgstr "rpm - перелік пакунків"
-
-#: fwbackups/operations/backup.py:105
-msgid "Pacman - Package list"
-msgstr "Pacman - перелік пакунків"
-
-#: fwbackups/operations/backup.py:111
-msgid "dpkg - Package list"
-msgstr "dpkg - перелік пакунків"
-
-#: fwbackups/operations/backup.py:121
-msgid "Disk Information"
-msgstr "Відомості про диск"
-
-#: fwbackups/operations/backup.py:189
-#, python-format
-msgid "Attempting to connect to server %s..."
-msgstr "Спроба з’єднання з сервером %s..."
-
-#: fwbackups/operations/backup.py:200
-msgid "Attempt to connect succeeded."
-msgstr "З’єднання відбулося успішно."
-
-#: fwbackups/operations/backup.py:203
-msgid ""
-"The backup destination was either not found or it cannot be written to due "
-"to insufficient permissions."
-msgstr ""
-"Призначення для резервування або не було знайдено, або не може бути записане "
-"з-за недоліку прав."
-
-#: fwbackups/operations/backup.py:207 fwbackups/operations/restore.py:93
-msgid ""
-"A connection was established, but authentication failed. Please verify the "
-"username and password and try again."
-msgstr ""
-"З’єднання встановлено, але автентифікація не відбулася. Перевірте ім’я "
-"користувача та пароль."
-
-#: fwbackups/operations/backup.py:212 fwbackups/operations/restore.py:98
-#, python-format
-msgid ""
-"A connection to the server could not be established.\n"
-"Error %(a)s: %(b)s"
-msgstr ""
-"З’єднання з сервером не може бути виконано.\n"
-"Помилка %(a)s: %(b)s"
-
-#: fwbackups/operations/backup.py:217 fwbackups/operations/restore.py:103
-msgid ""
-"A connection to the server has timed out. Please verify your settings and "
-"try again."
-msgstr ""
-"З’єднання з сервером досягло таймауту. Будь ласка, перевірте Ваші "
-"налаштування та спробуйте знову."
-
-#: fwbackups/operations/backup.py:221 fwbackups/operations/restore.py:107
-#, python-format
-msgid ""
-"A connection to the server could not be established because an error "
-"occurred: %s"
-msgstr "З’єднання з сервером не встановлено з-за помилки: %s"
-
-#: fwbackups/operations/backup.py:239 fwbackups/operations/backup.py:277
-#: fwbackups/operations/backup.py:320
-#, python-format
-msgid ""
-"Using %s on Windows: Cancel function will only take effect after a path has "
-"been completed."
-msgstr ""
-"Використовуйте %s у Windows: Функція скасування буде мати ефект лише після "
-"завершення шляху."
-
-#. let's deal with real paths
-#: fwbackups/operations/backup.py:245 fwbackups/operations/backup.py:283
-#: fwbackups/operations/backup.py:293 fwbackups/operations/backup.py:326
-#: fwbackups/operations/backup.py:336 fwbackups/operations/backup.py:372
-#: fwbackups/operations/backup.py:384
-#, python-format
-msgid "Backing up path %(a)i/%(b)i: %(c)s"
-msgstr "Резервувати шлях %(a)i/%(b)i: %(c)s"
-
-#: fwbackups/operations/backup.py:253
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
-msgstr "Запуск команди: nice -n %(a)i %(b)s '%(c)s'"
-
-#: fwbackups/operations/backup.py:256 fwbackups/operations/backup.py:298
-#: fwbackups/operations/backup.py:341 fwbackups/operations/backup.py:391
-#: fwbackups/operations/backup.py:598
-#, python-format
-msgid "Starting subprocess with PID %s"
-msgstr "Запуск підпроцесу з PID %s"
-
-#: fwbackups/operations/backup.py:267 fwbackups/operations/backup.py:310
-#: fwbackups/operations/backup.py:353 fwbackups/operations/backup.py:403
-#, python-format
-msgid "Subprocess with PID %(a)s exited with status %(b)s"
-msgstr "Підпроцес з PID %(a)s завершився зі статусом %(b)s"
-
-#: fwbackups/operations/backup.py:272 fwbackups/operations/backup.py:315
-#: fwbackups/operations/backup.py:358 fwbackups/operations/backup.py:409
-#: fwbackups/operations/backup.py:613
-#, python-format
-msgid "Process exited with status %(a)s. Errors: %(b)s"
-msgstr "Процес завершено зі статусом %(a)s. Помилка: %(b)s"
-
-#: fwbackups/operations/backup.py:285 fwbackups/operations/backup.py:328
-#, python-format
-msgid "Adding path `%s' to the archive"
-msgstr "Додавання шляху `%s' у архів"
-
-#: fwbackups/operations/backup.py:292 fwbackups/operations/backup.py:335
-#, python-format
-msgid ""
-"Using %s: Must backup all paths at once - Progress notification will be "
-"disabled."
-msgstr ""
-"Використовуйте %s: Має зарезервувати усі шляхи за раз - вивід поступу "
-"операції викнений."
-
-#: fwbackups/operations/backup.py:294 fwbackups/operations/backup.py:337
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s %(c)s"
-msgstr "Запуск команди: nice -n %(a)i %(b)s %(c)s"
-
-#: fwbackups/operations/backup.py:374
-#, python-format
-msgid ""
-"Path %s is missing or cannot be read and will be excluded from the backup."
-msgstr ""
-"Шлях %s відсутній або не може бути прочитаний й буде виключений з "
-"резервування."
-
-#: fwbackups/operations/backup.py:388
-#, python-format
-msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
-msgstr "Запуск команди: nice -n %(a)i %(b)s %(c)s '%(d)s'"
-
-#: fwbackups/operations/backup.py:415
-msgid "Sending files to server via SFTP"
-msgstr "Посилання файлів на сервер через SFTP"
-
-#: fwbackups/operations/backup.py:425
-msgid "Could not send file(s) or folder to server:"
-msgstr "Неможливо послати файл(и) або теку на сервер:"
-
-#: fwbackups/operations/backup.py:439
-msgid "This function is designed to be subclassed"
-msgstr "Ця функція спроєктована як підкляс"
-
-#: fwbackups/operations/backup.py:450
-msgid "Starting one-time backup operation"
-msgstr "Запуск разового резервування"
-
-#. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
-#: fwbackups/operations/backup.py:455 fwbackups/operations/backup.py:527
-#: fwbackups/operations/backup.py:625 fwbackups/ui/__init__.py:1501
-#: fwbackups/ui/__init__.py:1564 fwbackups/ui/__init__.py:1566
-msgid "Backup"
-msgstr "Резервна копія"
-
-#: fwbackups/operations/backup.py:455
-msgid "OneTime"
-msgstr "Разове"
-
-#: fwbackups/operations/backup.py:469 fwbackups/operations/backup.py:674
-msgid "There are no paths to backup!"
-msgstr "Немає шляхів для резервування!"
-
-#: fwbackups/operations/backup.py:487 fwbackups/operations/backup.py:689
-#, python-format
-msgid "`%s' exists and will be overwritten."
-msgstr "`%s' існує й буде перезаписаний."
-
-#. might be ntfs
-#. All done!
-#: fwbackups/operations/backup.py:508
-msgid "Finished one-time backup"
-msgstr "Закінчено разове резервування"
-
-#. Execute the command
-#: fwbackups/operations/backup.py:595
-#, python-format
-msgid "Executing '%s' command"
-msgstr "Виконання команди '%s'"
-
-#: fwbackups/operations/backup.py:612
-msgid "Command returned with a non-zero exit status!"
-msgstr "Команда повернула не нульовий статус завершення!"
-
-#: fwbackups/operations/backup.py:633
-#, python-format
-msgid "Removing old backup `%(a)s' on %(b)s"
-msgstr "Вилучення старої резервної копії: `%(a)s' на %(b)s"
-
-#: fwbackups/operations/backup.py:640 fwbackups/operations/backup.py:653
-#, python-format
-msgid "Removing old backup `%s'"
-msgstr "Вилучення старої резервної копії `%s'"
-
-#. oldIncrementalBackup = rsync
-#: fwbackups/operations/backup.py:646
-#, python-format
-msgid "Moving  `%s' to `%s'"
-msgstr "Переміщення `%s' у `%s'"
-
-#. source = is not a rsync backup - remove it and start fresh
-#: fwbackups/operations/backup.py:649
-#, python-format
-msgid "`%s' is not an rsync backup - removing."
-msgstr "`%s' не є резервною копією rsync - вилучаємо."
-
-#: fwbackups/operations/backup.py:662
-#, python-format
-msgid "Starting automatic backup operation of set `%s'"
-msgstr "Запуск автоматичного резервування для набору `%s'"
-
-#: fwbackups/operations/backup.py:727 fwbackups/ui/__init__.py:2277
-#: fwbackups/ui/__init__.py:2435
-msgid "There was an error while performing the backup!"
-msgstr "Помилка при виконанні резервування!"
-
-#. All done!
-#: fwbackups/operations/backup.py:739
-#, python-format
-msgid "Finished automatic backup operation of set '%s'"
-msgstr "Закінчено автоматичне резервування для набору '%s'"
-
-#: fwbackups/operations/restore.py:47
-msgid "Starting restore operation"
-msgstr "Початок операції відновлення"
-
-#. check if server settings are OK
-#: fwbackups/operations/restore.py:76
-msgid "Attempting to connect to server"
-msgstr "Спроба з’єднання з сервером"
-
-#: fwbackups/operations/restore.py:89
-msgid ""
-"The restore source was either not found or it cannot be read due to "
-"insufficient permissions."
-msgstr ""
-"Відновлюване джерело або не було знайдено, або не може бути прочитане з-за "
-"недоліку прав."
-
-#: fwbackups/operations/restore.py:121
-msgid "Receiving files from server"
-msgstr "Приймання файлів з сервера"
-
-#: fwbackups/operations/restore.py:132
-#, python-format
-msgid "Could not receive file from server: %s"
-msgstr "Неможливо прийняти файли з сервера: %s"
-
-#. We are dealing with a remote folder - our job here is done
-#. Either that or an error was encountered above
-#. All done!
-#: fwbackups/operations/restore.py:137 fwbackups/operations/restore.py:182
-msgid "Finished restore operation"
-msgstr "Операція відновлення закінчена"
-
-#. oops, something is up
-#: fwbackups/operations/restore.py:149
-#, python-format
-msgid "Source `%s' is not a file or folder!"
-msgstr "Джерело `%s' не файл чи тека!"
-
-#. oops, something is up
-#: fwbackups/operations/restore.py:158
-#, python-format
-msgid "Source `%s' is not an archive!"
-msgstr "Джерело `%s' не архів!"
-
-#: fwbackups/operations/restore.py:162
-#, python-format
-msgid "Source `%s' is not a folder"
-msgstr "Джерело `%s' не тека"
-
-#: fwbackups/operations/restore.py:178
-#, python-format
-msgid "Traceback: %s"
-msgstr "Traceback: %s"
-
-#: fwbackups/sftp.py:226
-#, python-format
-msgid "`%s' is not a file, folder or link! Skipping."
-msgstr "`%s' це не файл, тека чи посилання! Пропускається."
-
-#: fwbackups/sftp.py:231
-msgid "Could not copy some files due to errors:"
-msgstr "Неможливо скопіювати деякі файли з-за помилки:"
-
-#: fwbackups/shutil_modded.py:136
-#, python-format
-msgid "`%s' isn't a file, folder or link! Skipping."
-msgstr "`%s' це не файл, тека чи посилання! Пропускається."
-
-#: fwbackups/shutil_modded.py:147
-msgid "Couldn't copy some files due to errors:"
-msgstr "Неможливо скопіювати деякі файли з-за помилки:"
-
-#: fwbackups/ui/__init__.py:226
+#: fwbackups/ui/__init__.py:304
 #, fuzzy, python-format
 msgid "<b>Welcome</b>, %s"
 msgstr "<b>Ласкаво просимо</b>"
 
 #. done in main3Refresh() #self.ui.main3DestinationTypeCombobox.set_active(0)
 #. Default Labels...
-#: fwbackups/ui/__init__.py:229 fwbackups/ui/__init__.py:1193
-#: fwbackups/ui/__init__.py:1298 fwbackups/ui/__init__.py:1680
+#: fwbackups/ui/__init__.py:307 fwbackups/ui/__init__.py:1275
+#: fwbackups/ui/__init__.py:1380 fwbackups/ui/__init__.py:1762
 msgid "Idle"
 msgstr "Очікування"
 
 #. Default progressbars...
-#: fwbackups/ui/__init__.py:234 fwbackups/ui/__init__.py:1192
+#: fwbackups/ui/__init__.py:312 fwbackups/ui/__init__.py:1274
 msgid "Click 'Backup Set Now' to begin"
 msgstr "Натисніть 'Резервувати зараз' для початку"
 
-#: fwbackups/ui/__init__.py:235
+#: fwbackups/ui/__init__.py:313
 msgid "Click 'Start Backup' to begin"
 msgstr "Натисніть \"Початок резервування\" для початку"
 
-#: fwbackups/ui/__init__.py:236
+#: fwbackups/ui/__init__.py:314
 msgid "Click 'Start Restore' to begin"
 msgstr "Натисніть 'Початок відновлення' для початку"
 
-#: fwbackups/ui/__init__.py:263
+#: fwbackups/ui/__init__.py:341
 msgid "Could not setup the fwbackups configuration folder"
 msgstr "Неможливо вказати теку налаштувань fwbackups"
 
-#: fwbackups/ui/__init__.py:264 fwbackups/ui/__init__.py:302
+#: fwbackups/ui/__init__.py:342 fwbackups/ui/__init__.py:380
 #, python-format
 msgid "The following error occured: %s"
 msgstr "Сталася наступна помилка: %s"
 
-#: fwbackups/ui/__init__.py:271
+#: fwbackups/ui/__init__.py:349
 #, python-format
 msgid "Validation error: %s"
 msgstr "Помилка перевірки: %s"
 
-#: fwbackups/ui/__init__.py:272
+#: fwbackups/ui/__init__.py:350
 msgid "Preferences could not be read"
 msgstr "Неможливо прочитати налаштування"
 
-#: fwbackups/ui/__init__.py:272
+#: fwbackups/ui/__init__.py:350
 msgid ""
 "The preferences file may be corrupted and could not be read by fwbackups. "
 "Would you like to initialize a new one from the default values? If not, "
@@ -1100,15 +585,15 @@ msgstr ""
 "fwbackups. Ви бажаєте створити новий з типовими налаштуваннями ? Якщо ні, то "
 "fwbackups припинить роботу."
 
-#: fwbackups/ui/__init__.py:301
+#: fwbackups/ui/__init__.py:379
 msgid "Could not setup the logger"
 msgstr "Неможливо налаштувати журналювання"
 
-#: fwbackups/ui/__init__.py:325
+#: fwbackups/ui/__init__.py:402
 msgid "Previous installation of fwbackups 1.42.x or older detected"
 msgstr "Виявлена попередня (1.42) або старіша версія fwbackups."
 
-#: fwbackups/ui/__init__.py:325
+#: fwbackups/ui/__init__.py:402
 msgid ""
 "Because of certain major changes in fwbackups, your configuration must be "
 "imported manually. To do this, run fwbackups as the root user and select "
@@ -1125,11 +610,11 @@ msgstr ""
 "<i>Порада: Конфігурація версії 1.42.x зберігається у файлі /etc/fwbackups</"
 "i>."
 
-#: fwbackups/ui/__init__.py:332
+#: fwbackups/ui/__init__.py:409
 msgid "A backup of /etc/crontab could not be created"
 msgstr "Резервна копія /etc/crontab не може бути створена"
 
-#: fwbackups/ui/__init__.py:332
+#: fwbackups/ui/__init__.py:409
 msgid ""
 "You may wish to edit /etc/crontab manually and remove any fwbackups-related "
 "lines."
@@ -1137,15 +622,15 @@ msgstr ""
 "Ви можете відредагувати etc/crontab й вилучити рядки, що відносяться до "
 "fwbackups."
 
-#: fwbackups/ui/__init__.py:333
+#: fwbackups/ui/__init__.py:410
 msgid "Could not create a backup of /etc/crontab; refusing to clean up."
 msgstr "Неможливо створити резервну копію /etc/crontab; потрібна очистка."
 
-#: fwbackups/ui/__init__.py:336
+#: fwbackups/ui/__init__.py:413
 msgid "Cleaning up /etc/crontab from previous installation of fwbackups"
 msgstr "Очищення /etc/crontab від попереднього встановлення fwbackups"
 
-#: fwbackups/ui/__init__.py:345
+#: fwbackups/ui/__init__.py:422
 #, python-format
 msgid ""
 "fwbackups was unable to clean up the system crontab: %s. You may wish to "
@@ -1154,19 +639,19 @@ msgstr ""
 "fwbackups не може очистити системний crontab: %s. Ви можете відредагувати "
 "etc/crontab й вилучити рядки, що відносяться до fwbackups."
 
-#: fwbackups/ui/__init__.py:346
+#: fwbackups/ui/__init__.py:423
 msgid "Cleanup of the system crontab failed"
 msgstr "Збій очистки системного crontab"
 
-#: fwbackups/ui/__init__.py:351
+#: fwbackups/ui/__init__.py:428
 msgid "fwbackups administrator started"
 msgstr "Запуск керування fwbackups"
 
-#: fwbackups/ui/__init__.py:360
+#: fwbackups/ui/__init__.py:437
 msgid "Would you like to clean up the log file?"
 msgstr "Ви бажаєте очистити файл журналу?"
 
-#: fwbackups/ui/__init__.py:360
+#: fwbackups/ui/__init__.py:437
 #, python-format
 msgid ""
 "The log file is becoming large (%s). Would you like to clear it? This will "
@@ -1175,20 +660,33 @@ msgstr ""
 "Файл журналу стає завеликим (%s). Не бажаєте його очистити? Це знищить усі "
 "записи в журналі."
 
-#: fwbackups/ui/__init__.py:478
+#: fwbackups/ui/__init__.py:555
 msgid "Regenerating crontab"
 msgstr "Регенерація crontab"
 
-#: fwbackups/ui/__init__.py:479
+#: fwbackups/ui/__init__.py:556
 msgid "Please wait... Regenerating crontab"
 msgstr "Зачекайте... Йде регенерація crontab"
 
-#: fwbackups/ui/__init__.py:492
+#: fwbackups/ui/__init__.py:562
+#, fuzzy
+#| msgid "Failed backup runs:"
+msgid "Failed to schedule backups"
+msgstr "Помилка запуску резервування:"
+
+#: fwbackups/ui/__init__.py:562
+msgid ""
+"A cron service was not found on your system, and fwbackups will be unable to "
+"schedule backups as a result.\n"
+"Please install a cron service from your package manager and try again."
+msgstr ""
+
+#: fwbackups/ui/__init__.py:573
 #, python-format
 msgid "Could not parse the configuration for set '%s'"
 msgstr "Неможливо прочитати конфігурацію для набору '%s'"
 
-#: fwbackups/ui/__init__.py:493
+#: fwbackups/ui/__init__.py:574
 #, python-format
 msgid ""
 "The set configuration file '%s' failed to validate, so it may not be "
@@ -1198,7 +696,7 @@ msgstr ""
 "вірно повторений за розкладом. Інші налаштування мають допомогти обійти "
 "помилку."
 
-#: fwbackups/ui/__init__.py:500
+#: fwbackups/ui/__init__.py:581
 #, python-format
 msgid ""
 "Internal error: generated entry for set '%s' was not parsable. Please submit "
@@ -1207,17 +705,17 @@ msgstr ""
 "Внутрішня помилка: згенерований запис для набору '%s' не розбирається. "
 "Відправте повідомлення про ваду."
 
-#: fwbackups/ui/__init__.py:503
+#: fwbackups/ui/__init__.py:584
 #, python-format
 msgid "Could not schedule automated backups for set '%s'"
 msgstr "Неможливо створити розклад автоматичного резервування для набору '%s'"
 
-#: fwbackups/ui/__init__.py:504
+#: fwbackups/ui/__init__.py:585
 msgid ""
 "fwbackups could not regenerate a crontab entry because an error occured:\n"
 msgstr "fwbackups не може регенерувати запис crontab з-за помилки:\n"
 
-#: fwbackups/ui/__init__.py:505
+#: fwbackups/ui/__init__.py:586
 #, python-format
 msgid ""
 "%(a)s\n"
@@ -1231,22 +729,22 @@ msgstr ""
 "%(b)s"
 
 #. After all is done, log an message
-#: fwbackups/ui/__init__.py:508
+#: fwbackups/ui/__init__.py:589
 #, python-format
 msgid "Saving set `%s' to the crontab"
 msgstr "Запис набору `%s' у crontab"
 
-#: fwbackups/ui/__init__.py:520
+#: fwbackups/ui/__init__.py:601
 #, python-format
 msgid "Unable to write new crontab: %s"
 msgstr "Не можу записати нове завдання crontab: %s"
 
-#: fwbackups/ui/__init__.py:521
+#: fwbackups/ui/__init__.py:602
 #, fuzzy
 msgid "Error saving backup schedule to crontab"
 msgstr "Неможливо записати розклад резервування у crontab"
 
-#: fwbackups/ui/__init__.py:521
+#: fwbackups/ui/__init__.py:602
 msgid ""
 "Changes made to the backup schedule may not have been correctly saved. If "
 "you are using custom cron entry for a backup set, verify the values are "
@@ -1254,7 +752,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:525
+#: fwbackups/ui/__init__.py:606
 msgid ""
 "A backup of the crontab was restored; the latest changes to the backup "
 "schedule not have been saved."
@@ -1262,49 +760,49 @@ msgstr ""
 "Резервна копія crontab відновлена; останні зміни у розклад резервного "
 "копіювання не були збережені."
 
-#: fwbackups/ui/__init__.py:527
+#: fwbackups/ui/__init__.py:608
 #, fuzzy, python-brace-format
 msgid "A backup of the crontab could not be restored: {error}"
 msgstr "Резервна копія crontab не може бути відновлена"
 
-#: fwbackups/ui/__init__.py:533
+#: fwbackups/ui/__init__.py:614
 msgid "fwbackups is working"
 msgstr "fwbackups працює"
 
-#: fwbackups/ui/__init__.py:534
+#: fwbackups/ui/__init__.py:615
 msgid ""
 "An operation is currently in progress. Would you like to cancel it and quit "
 "anyways?"
 msgstr "Операція усе ще виконується. Ви бажаєте її припинити і вийти?"
 
-#: fwbackups/ui/__init__.py:536
+#: fwbackups/ui/__init__.py:617
 msgid "Please wait... Canceling operations"
 msgstr "Зачекайте... Операція скасовується"
 
-#: fwbackups/ui/__init__.py:549
+#: fwbackups/ui/__init__.py:630
 msgid "fwbackups detected more than one alive threads!"
 msgstr "fwbackups виявив більше одного живого потоку!"
 
-#: fwbackups/ui/__init__.py:554
+#: fwbackups/ui/__init__.py:635
 #, python-format
 msgid "Closed dead Paramiko thread: %s"
 msgstr "Закрито померлий потік Paramiko: %s"
 
 #. FIXME: Figure out how to kill other thread types. For now, just log.
-#: fwbackups/ui/__init__.py:557
+#: fwbackups/ui/__init__.py:638
 #, python-format
 msgid "Could not close thread %s!"
 msgstr "Неможливо закрити потік %s!"
 
-#: fwbackups/ui/__init__.py:558
+#: fwbackups/ui/__init__.py:639
 msgid "Please submit a bug report and include this message."
 msgstr "Відправте звіт про ваду, включивши у нього даний текст."
 
-#: fwbackups/ui/__init__.py:567 fwbackups/ui/__init__.py:2192
+#: fwbackups/ui/__init__.py:648 fwbackups/ui/__init__.py:2249
 msgid "Could not save backup schedule"
 msgstr "Не вдалося зберегти розклад резервування"
 
-#: fwbackups/ui/__init__.py:567
+#: fwbackups/ui/__init__.py:648
 msgid ""
 "fwbackups was unable to save the backup scheduling information to the "
 "crontab. If you are using manual times entry in one of your sets, please "
@@ -1315,41 +813,41 @@ msgstr ""
 "у використанні правильного синтаксису."
 
 #. Shutdown logging & quit the GTK mainloop
-#: fwbackups/ui/__init__.py:569
+#: fwbackups/ui/__init__.py:650
 msgid "fwbackups administrator closed"
 msgstr "Керування fwbackups закрите"
 
-#: fwbackups/ui/__init__.py:580
+#: fwbackups/ui/__init__.py:661
 msgid "Creating thread"
 msgstr "Створюється потік"
 
-#: fwbackups/ui/__init__.py:581
+#: fwbackups/ui/__init__.py:662
 msgid "testConnection(): Creating thread"
 msgstr "testConnection(): Створення потоку"
 
-#: fwbackups/ui/__init__.py:584
+#: fwbackups/ui/__init__.py:665
 msgid "Attempting to connect"
 msgstr "Спроба з’єднання"
 
-#: fwbackups/ui/__init__.py:588
+#: fwbackups/ui/__init__.py:669
 #, python-format
 msgid "testConnection(): Thread returning with retval %s"
 msgstr "testConnection(): Потік повернув значення %s"
 
-#: fwbackups/ui/__init__.py:590
+#: fwbackups/ui/__init__.py:671
 msgid "Success!"
 msgstr "Успіх!"
 
-#: fwbackups/ui/__init__.py:590
+#: fwbackups/ui/__init__.py:671
 #, python-format
 msgid "fwbackups was able to connect and authenticate on '%s'."
 msgstr "fwbackups успішно під’єднався і авторизувався на '%s'."
 
-#: fwbackups/ui/__init__.py:592
+#: fwbackups/ui/__init__.py:673
 msgid "Remote destination is not usable"
 msgstr "Віддалене призначення не може використовуватися"
 
-#: fwbackups/ui/__init__.py:592
+#: fwbackups/ui/__init__.py:673
 #, python-format
 msgid ""
 "The folder '%(a)s' on '%(b)s' either does not exist or it is not a folder. "
@@ -1358,11 +856,11 @@ msgstr ""
 "Тека '%(a)s' на '%(b)s' не існує або не є текою. Перевірте налаштування й "
 "спробуйте знову."
 
-#: fwbackups/ui/__init__.py:594 fwbackups/ui/__init__.py:1469
+#: fwbackups/ui/__init__.py:675 fwbackups/ui/__init__.py:1551
 msgid "Authentication failed"
 msgstr "Невдача автентифікації"
 
-#: fwbackups/ui/__init__.py:594
+#: fwbackups/ui/__init__.py:675
 #, python-format
 msgid ""
 "A connection to '%s' was established, but authentication failed. Please "
@@ -1371,142 +869,147 @@ msgstr ""
 "З’єднання з '%s' встановлено, але автентифікація не відбулася. Перевірте "
 "ім’я користувача та пароль."
 
-#: fwbackups/ui/__init__.py:596 fwbackups/ui/__init__.py:600
+#: fwbackups/ui/__init__.py:677 fwbackups/ui/__init__.py:681
 #, python-format
 msgid "A connection to '%s' could not be established"
 msgstr "З’єднання з '%s' не може бути встановлено"
 
-#: fwbackups/ui/__init__.py:596
+#: fwbackups/ui/__init__.py:677
 #, python-format
 msgid "Error %(a)s: %(b)s"
 msgstr "Помилка %(a)s: %(b)s"
 
-#: fwbackups/ui/__init__.py:598
+#: fwbackups/ui/__init__.py:679
 #, python-format
 msgid "The server '%s' is not responding"
 msgstr "Сервер '%s' не відповідає"
 
-#: fwbackups/ui/__init__.py:598 fwbackups/ui/__init__.py:1476
+#: fwbackups/ui/__init__.py:679 fwbackups/ui/__init__.py:1558
 msgid "Please verify your settings and try again."
 msgstr "Перевірте параметри й спробуйте ще раз."
 
-#: fwbackups/ui/__init__.py:600
+#: fwbackups/ui/__init__.py:681
 #, python-format
 msgid "Error: %s. Please verify your settings and try again."
 msgstr "Помилка: %s. Перевірте Ваші налаштування й спробуйте знову."
 
-#: fwbackups/ui/__init__.py:602 fwbackups/ui/__init__.py:1168
-#: fwbackups/ui/__init__.py:1481
+#: fwbackups/ui/__init__.py:683 fwbackups/ui/__init__.py:1250
+#: fwbackups/ui/__init__.py:1563
 msgid "Unexpected error"
 msgstr "Сталася непередбачена помилка"
 
-#: fwbackups/ui/__init__.py:602
+#: fwbackups/ui/__init__.py:683
 #, fuzzy
 msgid "An unknown error occurred while testing for connectivity."
 msgstr "Помилка при імпорті gtk/gobject."
 
-#: fwbackups/ui/__init__.py:615 fwbackups/ui/__init__.py:618
-#: fwbackups/ui/__init__.py:903 fwbackups/widgets.py:619
-#: fwbackups/widgets.py:622
+#: fwbackups/ui/__init__.py:696 fwbackups/ui/__init__.py:699
+#: fwbackups/ui/__init__.py:985 fwbackups/widgets.py:551
+#: fwbackups/widgets.py:554 fwbackups/widgets.py:672
 msgid "Choose file(s)"
 msgstr "Виберіть файл(и)"
 
-#: fwbackups/ui/__init__.py:617 fwbackups/ui/__init__.py:699
-#: fwbackups/ui/__init__.py:905 fwbackups/ui/__init__.py:975
-#: fwbackups/ui/__init__.py:1334 fwbackups/ui/__init__.py:1694
-#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1722
-#: fwbackups/widgets.py:621 fwbackups/widgets.py:633
+#: fwbackups/ui/__init__.py:698 fwbackups/ui/__init__.py:780
+#: fwbackups/ui/__init__.py:987 fwbackups/ui/__init__.py:1057
+#: fwbackups/ui/__init__.py:1416 fwbackups/ui/__init__.py:1776
+#: fwbackups/ui/__init__.py:1790 fwbackups/ui/__init__.py:1804
+#: fwbackups/widgets.py:553 fwbackups/widgets.py:564
 msgid "_Open"
 msgstr ""
 
-#: fwbackups/ui/__init__.py:617 fwbackups/ui/__init__.py:699
-#: fwbackups/ui/__init__.py:905 fwbackups/ui/__init__.py:975
-#: fwbackups/ui/__init__.py:1334 fwbackups/ui/__init__.py:1694
-#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1722
-#: fwbackups/widgets.py:621 fwbackups/widgets.py:633 fwbackups/widgets.py:740
+#: fwbackups/ui/__init__.py:698 fwbackups/ui/__init__.py:780
+#: fwbackups/ui/__init__.py:987 fwbackups/ui/__init__.py:1057
+#: fwbackups/ui/__init__.py:1416 fwbackups/ui/__init__.py:1776
+#: fwbackups/ui/__init__.py:1790 fwbackups/ui/__init__.py:1804
+#: fwbackups/widgets.py:553 fwbackups/widgets.py:564 fwbackups/widgets.py:671
 #, fuzzy
 msgid "_Cancel"
 msgstr "Скасування..."
 
-#: fwbackups/ui/__init__.py:619
+#: fwbackups/ui/__init__.py:700
 msgid "Configuration files (*.conf)"
 msgstr "Файли конфігурації (*.conf)"
 
-#: fwbackups/ui/__init__.py:680
+#: fwbackups/ui/__init__.py:761
 msgid "File Exists"
 msgstr "Файл вже існує"
 
-#: fwbackups/ui/__init__.py:681
+#: fwbackups/ui/__init__.py:762
 #, python-format
 msgid "'%s.conf' already exists! Would you like to overwrite it?"
 msgstr "'%s.conf' вже існує. Замінити його?"
 
-#: fwbackups/ui/__init__.py:687
+#: fwbackups/ui/__init__.py:768
 #, python-format
 msgid "Exported set `%(a)s' to `%(b)s'"
 msgstr "Екпортований набір `%(a)s' у `%(b)s"
 
-#: fwbackups/ui/__init__.py:697 fwbackups/ui/__init__.py:700
-#: fwbackups/ui/__init__.py:906 fwbackups/ui/__init__.py:973
-#: fwbackups/ui/__init__.py:976 fwbackups/ui/__init__.py:1332
-#: fwbackups/ui/__init__.py:1335 fwbackups/widgets.py:631
-#: fwbackups/widgets.py:634
+#: fwbackups/ui/__init__.py:778 fwbackups/ui/__init__.py:781
+#: fwbackups/ui/__init__.py:988 fwbackups/ui/__init__.py:1055
+#: fwbackups/ui/__init__.py:1058 fwbackups/ui/__init__.py:1414
+#: fwbackups/ui/__init__.py:1417 fwbackups/widgets.py:562
+#: fwbackups/widgets.py:565
 msgid "Choose folder(s)"
 msgstr "Виберіть теку(и)"
 
-#: fwbackups/ui/__init__.py:707
+#: fwbackups/ui/__init__.py:788
 msgid "Sets exported"
 msgstr "Набори експортовані"
 
-#: fwbackups/ui/__init__.py:707
+#: fwbackups/ui/__init__.py:788
 msgid "The selected sets were exported successfully."
 msgstr "Обрані потоки успішно експортовані."
 
-#: fwbackups/ui/__init__.py:734 fwbackups/ui/__init__.py:1119
-#: fwbackups/ui/__init__.py:1136 fwbackups/ui/__init__.py:1210
-#: fwbackups/ui/__init__.py:2247
+#: fwbackups/ui/__init__.py:815 fwbackups/ui/__init__.py:1201
+#: fwbackups/ui/__init__.py:1218 fwbackups/ui/__init__.py:1292
+#: fwbackups/ui/__init__.py:2304
 msgid "No set has been selected"
 msgstr "Немає вибраних наборів"
 
-#: fwbackups/ui/__init__.py:734
+#: fwbackups/ui/__init__.py:815
 msgid "You must select a set to duplicate."
 msgstr "Ви повинні вибрати набір для дублювання."
 
-#: fwbackups/ui/__init__.py:738
+#: fwbackups/ui/__init__.py:819
 msgid "_copy"
 msgstr "_копіювання"
 
-#: fwbackups/ui/__init__.py:892
+#: fwbackups/ui/__init__.py:929
+#, fuzzy
+msgid "A feature-rich user backup program"
+msgstr "Проґрама для резервного копіювання з просунутими можливостями"
+
+#: fwbackups/ui/__init__.py:974
 #, python-format
 msgid "Resetting preference '%(a)s' to 0"
 msgstr "Скидання налаштування '%(a)s' у 0"
 
-#: fwbackups/ui/__init__.py:993 fwbackups/ui/__init__.py:1256
-#: fwbackups/ui/__init__.py:1261 fwbackups/ui/__init__.py:1352
-#: fwbackups/ui/__init__.py:1535 fwbackups/ui/__init__.py:1610
-#: fwbackups/ui/__init__.py:1647 fwbackups/ui/__init__.py:2152
-#: fwbackups/ui/__init__.py:2157
+#: fwbackups/ui/__init__.py:1075 fwbackups/ui/__init__.py:1338
+#: fwbackups/ui/__init__.py:1343 fwbackups/ui/__init__.py:1434
+#: fwbackups/ui/__init__.py:1617 fwbackups/ui/__init__.py:1692
+#: fwbackups/ui/__init__.py:1729 fwbackups/ui/__init__.py:2209
+#: fwbackups/ui/__init__.py:2214
 msgid "Missing information"
 msgstr "Інформація відсутня"
 
-#: fwbackups/ui/__init__.py:993
+#: fwbackups/ui/__init__.py:1075
 msgid "Please complete the host, username, folder and port fields."
 msgstr "Вкажіть сервер, ім’я користувача, теку та порт."
 
-#: fwbackups/ui/__init__.py:1119
+#: fwbackups/ui/__init__.py:1201
 msgid "You must select a set to edit."
 msgstr "Ви повинні вибрати набір для редагування."
 
-#: fwbackups/ui/__init__.py:1136
+#: fwbackups/ui/__init__.py:1218
 msgid "You must select a set to remove."
 msgstr "Ви повинні вибрати набір для вилучення."
 
-#: fwbackups/ui/__init__.py:1138
+#: fwbackups/ui/__init__.py:1220
 #, python-format
 msgid "Delete backup set '%s'?"
 msgstr "Вилучити набір резервування '%s'?"
 
-#: fwbackups/ui/__init__.py:1138
+#: fwbackups/ui/__init__.py:1220
 #, fuzzy
 msgid ""
 "This action will permanently delete the backup set configuration. This "
@@ -1516,7 +1019,7 @@ msgstr ""
 "Ця дія повністю вилучить налаштування набору резервування, але не зачепить "
 "існуючих резервних копій або файлів."
 
-#: fwbackups/ui/__init__.py:1145 fwbackups/ui/__init__.py:1153
+#: fwbackups/ui/__init__.py:1227 fwbackups/ui/__init__.py:1235
 #, python-format
 msgid ""
 "An error occured while removing set `%(a)s':\n"
@@ -1525,22 +1028,22 @@ msgstr ""
 "Помилка при вилученні набору `%(a)s':\n"
 "%(b)s"
 
-#: fwbackups/ui/__init__.py:1146
+#: fwbackups/ui/__init__.py:1228
 #, python-format
 msgid "Could not remove backup set '%s'"
 msgstr "Неможливо вилучити набір резервування '%s'"
 
-#: fwbackups/ui/__init__.py:1154
+#: fwbackups/ui/__init__.py:1236
 #, python-format
 msgid "Could not remove the automated backup schedule for set '%s'"
 msgstr "Не можу вилучити розклад автоматичного резервування для набору '%s'"
 
-#: fwbackups/ui/__init__.py:1158
+#: fwbackups/ui/__init__.py:1240
 #, python-format
 msgid "Removing set `%s'"
 msgstr "Вилучення набору `%s'"
 
-#: fwbackups/ui/__init__.py:1168
+#: fwbackups/ui/__init__.py:1250
 #, python-format
 msgid ""
 "An unexpected error occured while attempting to obtain the selected set:\n"
@@ -1549,50 +1052,50 @@ msgstr ""
 "Сталася непередбачена помилка при спробі отримати вибраний набір:\n"
 "%s"
 
-#: fwbackups/ui/__init__.py:1210
+#: fwbackups/ui/__init__.py:1292
 msgid "You must select a set to restore."
 msgstr "Ви повинні вибрати набір для відновлення."
 
-#: fwbackups/ui/__init__.py:1256 fwbackups/ui/__init__.py:2152
+#: fwbackups/ui/__init__.py:1338 fwbackups/ui/__init__.py:2209
 msgid "Please fill in the Folder field."
 msgstr "Заповніть поле Тека."
 
-#: fwbackups/ui/__init__.py:1261 fwbackups/ui/__init__.py:2157
+#: fwbackups/ui/__init__.py:1343 fwbackups/ui/__init__.py:2214
 msgid "Please fill in the Host, Username, Port and Folder fields."
 msgstr "Вкажіть сервер, ім’я користувача, теку та порт."
 
-#: fwbackups/ui/__init__.py:1352 fwbackups/ui/__init__.py:1535
-#: fwbackups/ui/__init__.py:1647
+#: fwbackups/ui/__init__.py:1434 fwbackups/ui/__init__.py:1617
+#: fwbackups/ui/__init__.py:1729
 msgid "Please complete all of the host, username, folder and port fields."
 msgstr "Вкажіть усі поля: сервер, ім’я користувача, тека та порт."
 
-#: fwbackups/ui/__init__.py:1376
+#: fwbackups/ui/__init__.py:1458
 msgid "Log cleared"
 msgstr "Журнал очищено"
 
-#: fwbackups/ui/__init__.py:1381
+#: fwbackups/ui/__init__.py:1463
 msgid "Clear the old log entries?"
 msgstr "Вилучити старі записи журналу?"
 
-#: fwbackups/ui/__init__.py:1382
+#: fwbackups/ui/__init__.py:1464
 msgid "This action will permanently remove all log entries."
 msgstr "Ця дія повністю вилучить усі записи журналу."
 
-#: fwbackups/ui/__init__.py:1400
+#: fwbackups/ui/__init__.py:1482
 #, python-format
 msgid "Log saved to file `%s'"
 msgstr "Журнал збережено у файл '%s'"
 
-#: fwbackups/ui/__init__.py:1466
+#: fwbackups/ui/__init__.py:1548
 msgid "Previous backups could not be found"
 msgstr "Неможливо знайти попередню резервну копію"
 
-#: fwbackups/ui/__init__.py:1467
+#: fwbackups/ui/__init__.py:1549
 #, python-format
 msgid "The destination folder for set '%s' was not found."
 msgstr "Тека призначення для набору '%s' не знайдена."
 
-#: fwbackups/ui/__init__.py:1470
+#: fwbackups/ui/__init__.py:1552
 #, python-format
 msgid ""
 "fwbackups was unable to authenticate on the remote server. Please verify the "
@@ -1601,11 +1104,11 @@ msgstr ""
 "fwbackups не може автентифікуватися на віддаленому сервері. Перевірте ім’я "
 "користувача і пароль для набору '%s' й спробуйте знову."
 
-#: fwbackups/ui/__init__.py:1472 fwbackups/ui/__init__.py:1478
+#: fwbackups/ui/__init__.py:1554 fwbackups/ui/__init__.py:1560
 msgid "Connection failed"
 msgstr "З’єднання не вдалося"
 
-#: fwbackups/ui/__init__.py:1473
+#: fwbackups/ui/__init__.py:1555
 #, python-format
 msgid ""
 "A connection to the server could not be established:\n"
@@ -1616,11 +1119,11 @@ msgstr ""
 "Помилка %(a)s: %(b)s\n"
 "Перевірте Ваші налаштування та спробуйте знову."
 
-#: fwbackups/ui/__init__.py:1475
+#: fwbackups/ui/__init__.py:1557
 msgid "Remote server is not responding"
 msgstr "Віддалений сервер не доступний"
 
-#: fwbackups/ui/__init__.py:1479
+#: fwbackups/ui/__init__.py:1561
 #, python-format
 msgid ""
 "A connection to the server could not be established because an error "
@@ -1630,7 +1133,7 @@ msgstr ""
 "З’єднання з сервером не встановлено з-за помилки: %s\n"
 "Перевірте Ваші налаштування й спробуйте знову."
 
-#: fwbackups/ui/__init__.py:1493
+#: fwbackups/ui/__init__.py:1575
 #, python-format
 msgid ""
 "Error obtaining file listing in destination %(a)s:\n"
@@ -1639,12 +1142,12 @@ msgstr ""
 "Помилка отримання переліку файлів у призначенні %(a)s:\n"
 " %(b)s"
 
-#: fwbackups/ui/__init__.py:1494
+#: fwbackups/ui/__init__.py:1576
 #, python-format
 msgid "Could not get a list of old backups for set '%s'"
 msgstr "Неможливо отримати перелік старих резервних копій для набору '%s'"
 
-#: fwbackups/ui/__init__.py:1494
+#: fwbackups/ui/__init__.py:1576
 msgid ""
 "If the destination is on removable media such as an external hard disk, "
 "please attach it and try again."
@@ -1652,17 +1155,24 @@ msgstr ""
 "Якщо призначення є знімним носієм, таким як зовнішній жорсткий диск, "
 "під’єднайте його та спробуйте знову."
 
+#. fmt: Backup-SetName from Backup-Setname-2009-03-22_20-46[.tar[.gz|.bz2]]
+#: fwbackups/ui/__init__.py:1583 fwbackups/ui/__init__.py:1646
+#: fwbackups/ui/__init__.py:1648 fwbackups/operations/backup.py:472
+#: fwbackups/operations/backup.py:545 fwbackups/operations/backup.py:643
+msgid "Backup"
+msgstr "Резервна копія"
+
 #. We can't start a restore if there are no set dates
-#: fwbackups/ui/__init__.py:1504 fwbackups/ui/__init__.py:1618
-#: fwbackups/ui/__init__.py:1619
+#: fwbackups/ui/__init__.py:1586 fwbackups/ui/__init__.py:1700
+#: fwbackups/ui/__init__.py:1701
 msgid "No backups found"
 msgstr "Не знайдено резервних копій"
 
-#: fwbackups/ui/__init__.py:1610
+#: fwbackups/ui/__init__.py:1692
 msgid "Please select a backup date."
 msgstr "Оберіть дату резервування."
 
-#: fwbackups/ui/__init__.py:1619
+#: fwbackups/ui/__init__.py:1701
 #, python-format
 msgid ""
 "The backup set '%s' does not have any stored backups yet! Choose another "
@@ -1671,19 +1181,19 @@ msgstr ""
 "Набір відновлення '%s' не має збережених копій. Виберіть інший набір або "
 "інше джерело відновлення."
 
-#: fwbackups/ui/__init__.py:1626 fwbackups/ui/__init__.py:1637
+#: fwbackups/ui/__init__.py:1708 fwbackups/ui/__init__.py:1719
 msgid "Restore source"
 msgstr "Відновити джерело"
 
-#: fwbackups/ui/__init__.py:1626
+#: fwbackups/ui/__init__.py:1708
 msgid "Please enter the location of the local archive."
 msgstr "Вкажіть розташування локального архіву."
 
-#: fwbackups/ui/__init__.py:1629
+#: fwbackups/ui/__init__.py:1711
 msgid "Wrong file type"
 msgstr "Хибний тип файлу"
 
-#: fwbackups/ui/__init__.py:1630
+#: fwbackups/ui/__init__.py:1712
 msgid ""
 "The file you selected is not a supported archive.\n"
 "Supported archives types are tar with no, gzip or bzip2 compression."
@@ -1691,60 +1201,60 @@ msgstr ""
 "Файл, вибраний Вами, не є підтримуваним архівом.\n"
 "Типи підтримуваних архівів: tar без стиснення, gzip або bzip2 стиснення."
 
-#: fwbackups/ui/__init__.py:1637
+#: fwbackups/ui/__init__.py:1719
 msgid "Please enter the location of the local folder."
 msgstr "Вкажіть розташування локальної теки."
 
-#: fwbackups/ui/__init__.py:1692 fwbackups/ui/__init__.py:1695
-#: fwbackups/ui/__init__.py:1706 fwbackups/ui/__init__.py:1709
-#: fwbackups/ui/__init__.py:1720 fwbackups/ui/__init__.py:1723
+#: fwbackups/ui/__init__.py:1774 fwbackups/ui/__init__.py:1777
+#: fwbackups/ui/__init__.py:1788 fwbackups/ui/__init__.py:1791
+#: fwbackups/ui/__init__.py:1802 fwbackups/ui/__init__.py:1805
 msgid "Select a Folder"
 msgstr "Вибір теки"
 
-#: fwbackups/ui/__init__.py:1737 fwbackups/ui/__init__.py:1740
+#: fwbackups/ui/__init__.py:1819 fwbackups/ui/__init__.py:1822
 msgid "Invalid set name"
 msgstr "Хибне ім’я набору"
 
-#: fwbackups/ui/__init__.py:1737
+#: fwbackups/ui/__init__.py:1819
 msgid "Please enter a set name."
 msgstr "Уведіть ім’я набору."
 
-#: fwbackups/ui/__init__.py:1740
+#: fwbackups/ui/__init__.py:1822
 msgid ""
 "'temporary_name' is a reserved name. Please choose another name for the set."
 msgstr ""
 "'temporary_name' - це зарезервоване ім'я. Виберіть інше ім’я для набору."
 
-#: fwbackups/ui/__init__.py:1744
+#: fwbackups/ui/__init__.py:1826
 #, python-format
 msgid "Overwrite settings for set '%s'?"
 msgstr "Перезаписати налаштування для набору '%s'?"
 
-#: fwbackups/ui/__init__.py:1745
+#: fwbackups/ui/__init__.py:1827
 msgid ""
 "This will overwrite the stored settings with the current ones. Are you sure "
 "you want to continue?"
 msgstr ""
 "Ця дія перезапише збережені налаштування на поточні. Ви бажаєте продовжити?"
 
-#: fwbackups/ui/__init__.py:1856
+#: fwbackups/ui/__init__.py:1938
 msgid "Error parsing configuration file"
 msgstr "Помилка аналізу файлу конфігурації"
 
-#: fwbackups/ui/__init__.py:1857
+#: fwbackups/ui/__init__.py:1939
 msgid "fwbackups will using the default times instead."
 msgstr "fwbackups буде використовувати типовий час."
 
-#: fwbackups/ui/__init__.py:1870
+#: fwbackups/ui/__init__.py:1952
 #, python-format
 msgid "Unknown destination type `%s'"
 msgstr "Невідомий тип призначення `%s'"
 
-#: fwbackups/ui/__init__.py:2072
+#: fwbackups/ui/__init__.py:2129
 msgid "Error creating the automated backup schedules"
 msgstr "Помилка створення розкладу автоматичного резервування"
 
-#: fwbackups/ui/__init__.py:2073
+#: fwbackups/ui/__init__.py:2130
 #, python-format
 msgid ""
 "The crontab could not be written because an error occured:\n"
@@ -1753,44 +1263,44 @@ msgstr ""
 "Сrontab не може бути записаний з-за помилки:\n"
 "%s"
 
-#: fwbackups/ui/__init__.py:2108 fwbackups/widgets.py:712
+#: fwbackups/ui/__init__.py:2165 fwbackups/widgets.py:643
 msgid "Parsing configuration files"
 msgstr "Розбір файлу конфігурації"
 
-#: fwbackups/ui/__init__.py:2123 fwbackups/widgets.py:718
+#: fwbackups/ui/__init__.py:2180 fwbackups/widgets.py:649
 #, python-format
 msgid "Refusing to parse file `%s': configuration files must end in `.conf'"
 msgstr ""
 "Збій розбору файлу `%s': файл конфігурації повинен мати розширення `.conf'"
 
-#: fwbackups/ui/__init__.py:2175
+#: fwbackups/ui/__init__.py:2232
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s"
 msgstr "Перейменувати набір `%(a)s' на `%(b)s"
 
-#: fwbackups/ui/__init__.py:2177
+#: fwbackups/ui/__init__.py:2234
 #, python-format
 msgid "Renaming set `%(a)s' to `%(b)s failed: %(c)s"
 msgstr "Перейменування набору `%(a)s' на `%(b)s не вдалося: %(c)s"
 
-#: fwbackups/ui/__init__.py:2178
+#: fwbackups/ui/__init__.py:2235
 #, python-format
 msgid "Could not rename set '%(a)s' to '%(b)s'"
 msgstr "Неможливо перейменувати набір '%(a)s' на '%(b)s'"
 
 #. creating a set
-#: fwbackups/ui/__init__.py:2184
+#: fwbackups/ui/__init__.py:2241
 #, python-format
 msgid "Creating set `%s'"
 msgstr "Створюється набір `%s'"
 
 #. editing a set
-#: fwbackups/ui/__init__.py:2188
+#: fwbackups/ui/__init__.py:2245
 #, python-format
 msgid "Saving changes to set `%s'"
 msgstr "Запис змін у набір `%s'"
 
-#: fwbackups/ui/__init__.py:2192
+#: fwbackups/ui/__init__.py:2249
 msgid ""
 "Your set configuration changes were saved, but fwbackups was unable to save "
 "the backup scheduling information to the crontab. If you are using manual "
@@ -1800,170 +1310,177 @@ msgstr ""
 "зберегти розклад резервування у crontab. Якщо Ви використовуєте ручне "
 "вказування часу, перевірте, аби усі поля мали вірний синтаксис."
 
-#: fwbackups/ui/__init__.py:2230 fwbackups/ui/__init__.py:2391
+#: fwbackups/ui/__init__.py:2287 fwbackups/ui/__init__.py:2455
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up: %(c)s"
 msgstr "[%(a)i/%(b)i] Резервування: %(c)s"
 
-#: fwbackups/ui/__init__.py:2233 fwbackups/ui/__init__.py:2394
+#: fwbackups/ui/__init__.py:2290 fwbackups/ui/__init__.py:2458
 #, python-format
 msgid "[%(a)i/%(b)i] Backing up files... Please wait"
 msgstr "[%(a)i/%(b)i] Резервуються файли... Зачекайте"
 
-#: fwbackups/ui/__init__.py:2235 fwbackups/ui/__init__.py:2396
+#: fwbackups/ui/__init__.py:2292 fwbackups/ui/__init__.py:2460
 msgid "Cleaning old backups"
 msgstr "Очищення старих резервних копій"
 
-#: fwbackups/ui/__init__.py:2237 fwbackups/ui/__init__.py:2398
+#: fwbackups/ui/__init__.py:2294 fwbackups/ui/__init__.py:2462
 msgid "Sending files to remote server"
 msgstr "Відсилання файлів на віддалений сервер"
 
-#: fwbackups/ui/__init__.py:2239 fwbackups/ui/__init__.py:2400
+#: fwbackups/ui/__init__.py:2296 fwbackups/ui/__init__.py:2464
 msgid "Executing user command"
 msgstr "Виконання команди користувача"
 
-#: fwbackups/ui/__init__.py:2247
+#: fwbackups/ui/__init__.py:2304
 msgid "You must select to initiate a manual set backup."
 msgstr "Ви повинні вибрати для початку вказаний вручну набір."
 
-#: fwbackups/ui/__init__.py:2253 fwbackups/ui/__init__.py:2409
-#: fwbackups/ui/__init__.py:2499
+#: fwbackups/ui/__init__.py:2310 fwbackups/ui/__init__.py:2473
+#: fwbackups/ui/__init__.py:2569
 msgid "Initializing"
 msgstr "Ініціялізація"
 
-#: fwbackups/ui/__init__.py:2255 fwbackups/ui/__init__.py:2411
+#: fwbackups/ui/__init__.py:2312 fwbackups/ui/__init__.py:2475
 #, fuzzy
 msgid "Backup started"
 msgstr "Збій створення резервної копії!"
 
-#: fwbackups/ui/__init__.py:2255
+#: fwbackups/ui/__init__.py:2312
 #, python-format
 msgid "Starting a set backup operation of '%(a)s'"
 msgstr "Запуск операції резервування для набору '%(a)s'"
 
-#: fwbackups/ui/__init__.py:2258 fwbackups/ui/__init__.py:2316
-#: fwbackups/ui/__init__.py:2418 fwbackups/ui/__init__.py:2478
-#: fwbackups/ui/__init__.py:2504 fwbackups/ui/__init__.py:2562
+#: fwbackups/ui/__init__.py:2315 fwbackups/ui/__init__.py:2379
+#: fwbackups/ui/__init__.py:2482 fwbackups/ui/__init__.py:2548
+#: fwbackups/ui/__init__.py:2574 fwbackups/ui/__init__.py:2638
 msgid "Please wait..."
 msgstr "Зачекайте..."
 
-#: fwbackups/ui/__init__.py:2264 fwbackups/ui/__init__.py:2422
-#: fwbackups/ui/__init__.py:2509
+#: fwbackups/ui/__init__.py:2321 fwbackups/ui/__init__.py:2486
+#: fwbackups/ui/__init__.py:2579
 msgid "Working"
 msgstr "Працює"
 
 #. thread returned
-#: fwbackups/ui/__init__.py:2272 fwbackups/ui/__init__.py:2430
-#: fwbackups/ui/__init__.py:2517
+#: fwbackups/ui/__init__.py:2329 fwbackups/ui/__init__.py:2494
+#: fwbackups/ui/__init__.py:2587 bin/fwbackups-runonce.py:204
+#: bin/fwbackups-run.py:140
 #, python-format
 msgid "Thread returned with retval %s"
 msgstr "Потік повернув помилку %s"
 
+#: fwbackups/ui/__init__.py:2334 fwbackups/ui/__init__.py:2499
+#: fwbackups/operations/backup.py:746 bin/fwbackups-runonce.py:206
+#: bin/fwbackups-run.py:142
+msgid "There was an error while performing the backup!"
+msgstr "Помилка при виконанні резервування!"
+
 #. error
-#: fwbackups/ui/__init__.py:2281 fwbackups/ui/__init__.py:2299
-#: fwbackups/ui/__init__.py:2439 fwbackups/ui/__init__.py:2458
-#: fwbackups/ui/__init__.py:2523 fwbackups/ui/__init__.py:2543
+#: fwbackups/ui/__init__.py:2338 fwbackups/ui/__init__.py:2362
+#: fwbackups/ui/__init__.py:2503 fwbackups/ui/__init__.py:2528
+#: fwbackups/ui/__init__.py:2593 fwbackups/ui/__init__.py:2619
 msgid "<span color=\"Red\">Error</span>"
 msgstr "<span color=\"Red\">Помилка</span>"
 
-#: fwbackups/ui/__init__.py:2282 fwbackups/ui/__init__.py:2443
+#: fwbackups/ui/__init__.py:2339 fwbackups/ui/__init__.py:2507
 #, python-format
 msgid "An error occurred while initializing the backup operation: %s"
 msgstr "Помилка при ініціялізації операції резервування: %s"
 
-#: fwbackups/ui/__init__.py:2286 fwbackups/ui/__init__.py:2444
+#: fwbackups/ui/__init__.py:2343 fwbackups/ui/__init__.py:2508
 msgid "Error initializing backup"
 msgstr "Помилка ініціялізації резервної копії"
 
-#: fwbackups/ui/__init__.py:2296 fwbackups/ui/__init__.py:2455
+#: fwbackups/ui/__init__.py:2359 fwbackups/ui/__init__.py:2525
 #, fuzzy
 msgid "Backup complete"
 msgstr "Набори"
 
-#: fwbackups/ui/__init__.py:2296
+#: fwbackups/ui/__init__.py:2359
 #, python-format
 msgid "Finished the automatic backup operation of set `%(a)s'"
 msgstr "Завершено автоматичне резервування для набору `%(a)s'"
 
-#: fwbackups/ui/__init__.py:2297 fwbackups/ui/__init__.py:2456
-#: fwbackups/ui/__init__.py:2540
+#: fwbackups/ui/__init__.py:2360 fwbackups/ui/__init__.py:2526
+#: fwbackups/ui/__init__.py:2616
 msgid "<span color=\"dark green\">Operation complete</span>"
 msgstr "<span color=\"dark green\">Операція завершена</span>"
 
-#: fwbackups/ui/__init__.py:2301 fwbackups/ui/__init__.py:2460
+#: fwbackups/ui/__init__.py:2364 fwbackups/ui/__init__.py:2530
 #, fuzzy
 msgid "Error during backup"
 msgstr "Помилка ініціялізації резервної копії"
 
-#: fwbackups/ui/__init__.py:2301
+#: fwbackups/ui/__init__.py:2364
 #, python-format
 msgid ""
 "An error occured while performing the automatic backup operation of set "
 "`%(a)s'"
 msgstr "Помилка при виконанні автоматичного резервування для набору `%(a)s'"
 
-#: fwbackups/ui/__init__.py:2304 fwbackups/ui/__init__.py:2465
+#: fwbackups/ui/__init__.py:2367 fwbackups/ui/__init__.py:2535
 #, fuzzy
 msgid "Backup cancelled"
 msgstr "Збій створення резервної копії!"
 
-#: fwbackups/ui/__init__.py:2304
+#: fwbackups/ui/__init__.py:2367
 #, python-format
 msgid "The automatic backup operation of set `%(a)s' was cancelled"
 msgstr "Операція автоматичного резервування для набору `%(a)s' скасована"
 
-#: fwbackups/ui/__init__.py:2305 fwbackups/ui/__init__.py:2466
-#: fwbackups/ui/__init__.py:2551
+#: fwbackups/ui/__init__.py:2368 fwbackups/ui/__init__.py:2536
+#: fwbackups/ui/__init__.py:2627
 msgid "<span color=\"red\">Operation cancelled</span>"
 msgstr "<span color=\"red\">Операція скасована</span>"
 
-#: fwbackups/ui/__init__.py:2306 fwbackups/ui/__init__.py:2467
-#: fwbackups/ui/__init__.py:2552
+#: fwbackups/ui/__init__.py:2369 fwbackups/ui/__init__.py:2537
+#: fwbackups/ui/__init__.py:2628
 msgid "Operation cancelled"
 msgstr "Операція була скасована"
 
-#: fwbackups/ui/__init__.py:2317 fwbackups/ui/__init__.py:2479
-#: fwbackups/ui/__init__.py:2563
+#: fwbackups/ui/__init__.py:2380 fwbackups/ui/__init__.py:2549
+#: fwbackups/ui/__init__.py:2639
 msgid "Cancelling..."
 msgstr "Скасування..."
 
-#: fwbackups/ui/__init__.py:2411
+#: fwbackups/ui/__init__.py:2475
 msgid "Starting a one-time backup operation"
 msgstr "Запуск разового резервування"
 
-#: fwbackups/ui/__init__.py:2455
+#: fwbackups/ui/__init__.py:2525
 msgid "Finished the one-time backup operation"
 msgstr "Кінець разового резервування"
 
-#: fwbackups/ui/__init__.py:2460
+#: fwbackups/ui/__init__.py:2530
 msgid "An error occured while performing the one-time backup operation"
 msgstr "Помилка при виконанні операції разового резервування"
 
-#: fwbackups/ui/__init__.py:2465
+#: fwbackups/ui/__init__.py:2535
 msgid "The one-time backup operation was cancelled"
 msgstr "Операція разового резервування була скасована."
 
 #. no "current file" yet
-#: fwbackups/ui/__init__.py:2491
+#: fwbackups/ui/__init__.py:2561
 msgid "Receiving files from remote server"
 msgstr "Приймання файлів з віддаленого сервера"
 
 #. we have a 'current file'
-#: fwbackups/ui/__init__.py:2493
+#: fwbackups/ui/__init__.py:2563
 #, python-format
 msgid "Restoring: %s"
 msgstr "Відновлення: %s"
 
-#: fwbackups/ui/__init__.py:2501
+#: fwbackups/ui/__init__.py:2571
 #, fuzzy
 msgid "Restore started"
 msgstr "Відновити джерело"
 
-#: fwbackups/ui/__init__.py:2501
+#: fwbackups/ui/__init__.py:2571
 msgid "Starting a restore operation"
 msgstr "Початок операції відновлення"
 
-#: fwbackups/ui/__init__.py:2519
+#: fwbackups/ui/__init__.py:2589
 msgid ""
 "There was an error while performing the restore! Enable debug messages for "
 "more information."
@@ -1971,836 +1488,840 @@ msgstr ""
 "Помилка при виконанні відновлення! Увімкніть повідомлення дебагінгу для "
 "отримання докладнішої інформації."
 
-#: fwbackups/ui/__init__.py:2526
+#: fwbackups/ui/__init__.py:2596
 #, python-format
 msgid "An error occurred while initializing the restore operation: %s"
 msgstr "Помилка при ініціялізації операції відновлення: %s"
 
-#: fwbackups/ui/__init__.py:2527
+#: fwbackups/ui/__init__.py:2597
 msgid "Error initializing restore operation"
 msgstr "Помилка ініціялізації операції відновлення"
 
-#: fwbackups/ui/__init__.py:2539
+#: fwbackups/ui/__init__.py:2615
 #, fuzzy
 msgid "Restore finished"
 msgstr "Відновлення не вдалося!"
 
-#: fwbackups/ui/__init__.py:2539
+#: fwbackups/ui/__init__.py:2615
 msgid "Finished the restore operation"
 msgstr "Операція відновлення закінчена"
 
-#: fwbackups/ui/__init__.py:2545
+#: fwbackups/ui/__init__.py:2621
 #, fuzzy
 msgid "Error during restore"
 msgstr "Помилка ініціялізації операції відновлення"
 
-#: fwbackups/ui/__init__.py:2545
+#: fwbackups/ui/__init__.py:2621
 msgid "An error occured while performing the restore operation"
 msgstr "Помилка при виконанні операції відновлення"
 
-#: fwbackups/ui/__init__.py:2550
+#: fwbackups/ui/__init__.py:2626
 #, fuzzy
 msgid "Restore cancelled"
 msgstr "Відновлення не вдалося!"
 
-#: fwbackups/ui/__init__.py:2550
+#: fwbackups/ui/__init__.py:2626
 msgid "The restore operation was cancelled"
 msgstr "Операція відновлення була скасована."
 
-#: fwbackups/widgets.py:149 fwbackups/widgets.py:192
+#: fwbackups/config.py:57
+#, python-format
+msgid "Could not create configuration folder `%s':"
+msgstr "Неможливо створити теку конфігурації `%s':"
+
+#: fwbackups/config.py:64
+#, python-format
+msgid "You do not have read and write permissions on folder `%s'."
+msgstr "В Вас немає прав на читання/запис теки `%s'."
+
+#: fwbackups/config.py:124
+#, python-format
+msgid "Key %s of is not a dictionary of options"
+msgstr "Ключ %s не у словнику варіянтів"
+
+#: fwbackups/config.py:354
+#, python-format
+msgid "Set '%s' failed to pass section validation"
+msgstr "Набір '%s' не пройшов перевірку секції"
+
+#: fwbackups/config.py:357
+#, python-format
+msgid "'%(a)s' is not a set configuration file."
+msgstr "'%(a)s' не є файлом конфігурації набору."
+
+#: fwbackups/config.py:361
+#, python-format
+msgid ""
+"Configuration section 'General' in the set configuration '%s' failed to "
+"validate"
+msgstr "Секція 'General' у файлі конфігурації набору '%s' не пройшла перевірку"
+
+#: fwbackups/config.py:364
+#, python-format
+msgid ""
+"Configuration section 'Times' in the set configuration '%s' failed to "
+"validate"
+msgstr "Секція 'Time' у файлі конфігурації набору '%s' не пройшла перевірку"
+
+#: fwbackups/config.py:377
+#, python-format
+msgid "Unknown option key '%(a)s' present in set configuration '%(b)s'"
+msgstr "Невідомий ключ '%(a)s' у конфігурації набору '%(b)s'"
+
+#: fwbackups/config.py:382
+#, python-format
+msgid ""
+"Configuration section 'Options' in set configuration '%(a)s' failed to "
+"validate: Missing options '%(b)s'"
+msgstr ""
+"Секція 'Options' у файлі конфігурації набору '%(a)s' не пройшла перевірку: "
+"Пропущено параметр '%(b)s'"
+
+#: fwbackups/config.py:520
+msgid "One-time configuration failed to pass section validation"
+msgstr "Разове резервування не пройшло перевірку розділу"
+
+#: fwbackups/config.py:523
+#, python-format
+msgid "'%(a)s' is not a one-time configuration file."
+msgstr "'%(a)s' не є файлом конфігурації разового резервування"
+
+#: fwbackups/config.py:527
+msgid ""
+"Configuration section 'General' in the one-time configuration file failed to "
+"validate"
+msgstr ""
+"Секція 'General' файлу конфігурації разового резервування не пройшла "
+"перевірку"
+
+#: fwbackups/config.py:539
+#, python-format
+msgid "Unknown option key '%s' present in one-time backup configuration file"
+msgstr "Неправильний параметр '%s' у файлі конфігурації разового резервування"
+
+#: fwbackups/config.py:544
+#, python-format
+msgid ""
+"Configuration section 'Options' in the one-time backup configuration file "
+"failed to validate: Missing options '%s'"
+msgstr ""
+"Секція 'Options' файлу конфігурації разового резервування не пройшла "
+"перевірку: Відсутній параметр '%s'"
+
+#: fwbackups/config.py:648
+msgid "Restore configuration failed to pass section validation"
+msgstr "Конфігурація відновлення не пройшла перевірку секції"
+
+#: fwbackups/config.py:651
+#, python-format
+msgid "'%(a)s' is not a restore configuration file."
+msgstr "'%(a)s' не є файлом конфігурації відновлення"
+
+#: fwbackups/config.py:655
+msgid ""
+"Configuration section 'General' in the restore configuration file failed to "
+"validate"
+msgstr "Секція 'General' файлу конфігурації відновлення не пройшла перевірку"
+
+#: fwbackups/config.py:665
+#, python-format
+msgid "Unknown option key '%s' present in restore configuration file"
+msgstr "Невідомий ключ '%s' у файлі конфігурації відновлення"
+
+#: fwbackups/config.py:670
+#, python-format
+msgid ""
+"Configuration section 'Options' in the restore configuration file failed to "
+"validate: Missing options '%s'"
+msgstr ""
+"Секція 'Options' файлу конфігурації відновлення не пройшла перевірку: "
+"Пропущено параметр '%s'"
+
+#: fwbackups/config.py:754
+msgid "Preferences failed to pass section validation"
+msgstr "Файл налаштувань не пройшов перевірку секції"
+
+#: fwbackups/config.py:757
+#, fuzzy, python-brace-format
+msgid "'{path}' is not a fwbackups preferences file."
+msgstr "'%(a)s' не є файлом налаштувань fwbackups."
+
+#: fwbackups/config.py:761
+msgid ""
+"Configuration section 'General' in the preferences file failed to validate"
+msgstr "Секція 'General' файлу налаштувань не пройшла перевірку"
+
+#: fwbackups/config.py:771
+#, python-format
+msgid "Unknown option key '%s' present in preferences file"
+msgstr "Невідомий ключ '%s' виявлено у файлі налаштувань"
+
+#: fwbackups/config.py:776
+#, python-format
+msgid ""
+"Configuration section 'Options' in the preferences file failed to validate: "
+"Missing options '%s'"
+msgstr ""
+"Секція 'Options' файлу налаштувань не пройшла перевірку: Пропущено параметр "
+"'%s'"
+
+#: fwbackups/operations/backup.py:85
+msgid "rpm - Package list"
+msgstr "rpm - перелік пакунків"
+
+#: fwbackups/operations/backup.py:104
+msgid "Pacman - Package list"
+msgstr "Pacman - перелік пакунків"
+
+#: fwbackups/operations/backup.py:110
+msgid "dpkg - Package list"
+msgstr "dpkg - перелік пакунків"
+
+#: fwbackups/operations/backup.py:120
+msgid "Disk Information"
+msgstr "Відомості про диск"
+
+#: fwbackups/operations/backup.py:172
+msgid ""
+"Do not cross filesystem boundaries was enabled, but MacOS tar does not "
+"support this. Disable this option in your backup configuration and try again."
+msgstr ""
+
+#: fwbackups/operations/backup.py:199
+#, fuzzy, python-format
+#| msgid "Attempting to connect to server %s..."
+msgid "Attempting to connect to SFTP server %s..."
+msgstr "Спроба з’єднання з сервером %s..."
+
+#: fwbackups/operations/backup.py:211
+#, python-brace-format
+msgid "Connecting to SFTP host {RemoteHost} succeeded."
+msgstr ""
+
+#: fwbackups/operations/backup.py:215
+#, python-format
+msgid ""
+"Connecting succeeded, but the SFTP destination path \"%s\" is not a folder."
+msgstr ""
+
+#: fwbackups/operations/backup.py:217 fwbackups/operations/restore.py:92
+msgid ""
+"A connection was established, but authentication failed. Please verify the "
+"username and password and try again."
+msgstr ""
+"З’єднання встановлено, але автентифікація не відбулася. Перевірте ім’я "
+"користувача та пароль."
+
+#: fwbackups/operations/backup.py:221 fwbackups/operations/restore.py:102
+msgid ""
+"A connection to the server has timed out. Please verify your settings and "
+"try again."
+msgstr ""
+"З’єднання з сервером досягло таймауту. Будь ласка, перевірте Ваші "
+"налаштування та спробуйте знову."
+
+#: fwbackups/operations/backup.py:224 fwbackups/operations/restore.py:97
+#, python-format
+msgid ""
+"A connection to the server could not be established.\n"
+"Error %(a)s: %(b)s"
+msgstr ""
+"З’єднання з сервером не може бути виконано.\n"
+"Помилка %(a)s: %(b)s"
+
+#: fwbackups/operations/backup.py:228 fwbackups/operations/restore.py:106
+#, python-format
+msgid ""
+"A connection to the server could not be established because an error "
+"occurred: %s"
+msgstr "З’єднання з сервером не встановлено з-за помилки: %s"
+
+#: fwbackups/operations/backup.py:232
+msgid ""
+"The backup destination was either not found or it cannot be written to due "
+"to insufficient permissions."
+msgstr ""
+"Призначення для резервування або не було знайдено, або не може бути записане "
+"з-за недоліку прав."
+
+#: fwbackups/operations/backup.py:237
+#, python-brace-format
+msgid "Connecting to SFTP server {RemoteHost} failed:"
+msgstr ""
+
+#: fwbackups/operations/backup.py:252 fwbackups/operations/backup.py:290
+#: fwbackups/operations/backup.py:333
+#, python-format
+msgid ""
+"Using %s on Windows: Cancel function will only take effect after a path has "
+"been completed."
+msgstr ""
+"Використовуйте %s у Windows: Функція скасування буде мати ефект лише після "
+"завершення шляху."
+
+#. let's deal with real paths
+#: fwbackups/operations/backup.py:258 fwbackups/operations/backup.py:296
+#: fwbackups/operations/backup.py:306 fwbackups/operations/backup.py:339
+#: fwbackups/operations/backup.py:349 fwbackups/operations/backup.py:386
+#: fwbackups/operations/backup.py:398
+#, python-format
+msgid "Backing up path %(a)i/%(b)i: %(c)s"
+msgstr "Резервувати шлях %(a)i/%(b)i: %(c)s"
+
+#: fwbackups/operations/backup.py:266
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s '%(c)s'"
+msgstr "Запуск команди: nice -n %(a)i %(b)s '%(c)s'"
+
+#: fwbackups/operations/backup.py:269 fwbackups/operations/backup.py:311
+#: fwbackups/operations/backup.py:354 fwbackups/operations/backup.py:405
+#: fwbackups/operations/backup.py:616
+#, python-format
+msgid "Starting subprocess with PID %s"
+msgstr "Запуск підпроцесу з PID %s"
+
+#: fwbackups/operations/backup.py:280 fwbackups/operations/backup.py:323
+#: fwbackups/operations/backup.py:366 fwbackups/operations/backup.py:417
+#, python-format
+msgid "Subprocess with PID %(a)s exited with status %(b)s"
+msgstr "Підпроцес з PID %(a)s завершився зі статусом %(b)s"
+
+#: fwbackups/operations/backup.py:285 fwbackups/operations/backup.py:328
+#: fwbackups/operations/backup.py:371 fwbackups/operations/backup.py:422
+#: fwbackups/operations/backup.py:631
+#, python-format
+msgid "Process exited with status %(a)s. Errors: %(b)s"
+msgstr "Процес завершено зі статусом %(a)s. Помилка: %(b)s"
+
+#: fwbackups/operations/backup.py:298 fwbackups/operations/backup.py:341
+#, python-format
+msgid "Adding path `%s' to the archive"
+msgstr "Додавання шляху `%s' у архів"
+
+#: fwbackups/operations/backup.py:305 fwbackups/operations/backup.py:348
+#, python-format
+msgid ""
+"Using %s: Must backup all paths at once - Progress notification will be "
+"disabled."
+msgstr ""
+"Використовуйте %s: Має зарезервувати усі шляхи за раз - вивід поступу "
+"операції викнений."
+
+#: fwbackups/operations/backup.py:307 fwbackups/operations/backup.py:350
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s"
+msgstr "Запуск команди: nice -n %(a)i %(b)s %(c)s"
+
+#: fwbackups/operations/backup.py:377
+#, python-brace-format
+msgid ""
+"Connected to SFTP server {RemoteHost}; backing up paths directly to remote "
+"host."
+msgstr ""
+
+#: fwbackups/operations/backup.py:388
+#, python-format
+msgid ""
+"Path %s is missing or cannot be read and will be excluded from the backup."
+msgstr ""
+"Шлях %s відсутній або не може бути прочитаний й буде виключений з "
+"резервування."
+
+#: fwbackups/operations/backup.py:402
+#, python-format
+msgid "Running command: nice -n %(a)i %(b)s %(c)s '%(d)s'"
+msgstr "Запуск команди: nice -n %(a)i %(b)s %(c)s '%(d)s'"
+
+#: fwbackups/operations/backup.py:429
+#, python-brace-format
+msgid ""
+"Could not sent backup archive to remote server because temporary destination "
+"'{dest}' was not found"
+msgstr ""
+
+#: fwbackups/operations/backup.py:432
+msgid "Sending files to server via SFTP"
+msgstr "Посилання файлів на сервер через SFTP"
+
+#: fwbackups/operations/backup.py:442
+msgid "Could not send file(s) or folder to server:"
+msgstr "Неможливо послати файл(и) або теку на сервер:"
+
+#: fwbackups/operations/backup.py:456
+msgid "This function is designed to be subclassed"
+msgstr "Ця функція спроєктована як підкляс"
+
+#: fwbackups/operations/backup.py:467
+msgid "Starting one-time backup operation"
+msgstr "Запуск разового резервування"
+
+#: fwbackups/operations/backup.py:472
+msgid "OneTime"
+msgstr "Разове"
+
+#: fwbackups/operations/backup.py:486 fwbackups/operations/backup.py:692
+msgid "There are no paths to backup!"
+msgstr "Немає шляхів для резервування!"
+
+#: fwbackups/operations/backup.py:505 fwbackups/operations/backup.py:708
+#, python-format
+msgid "`%s' exists and will be overwritten."
+msgstr "`%s' існує й буде перезаписаний."
+
+#. might be ntfs
+#. All done!
+#: fwbackups/operations/backup.py:526
+msgid "Finished one-time backup"
+msgstr "Закінчено разове резервування"
+
+#. Execute the command
+#: fwbackups/operations/backup.py:613
+#, python-format
+msgid "Executing '%s' command"
+msgstr "Виконання команди '%s'"
+
+#: fwbackups/operations/backup.py:630
+msgid "Command returned with a non-zero exit status!"
+msgstr "Команда повернула не нульовий статус завершення!"
+
+#: fwbackups/operations/backup.py:651
+#, python-format
+msgid "Removing old backup `%(a)s' on %(b)s"
+msgstr "Вилучення старої резервної копії: `%(a)s' на %(b)s"
+
+#: fwbackups/operations/backup.py:658 fwbackups/operations/backup.py:671
+#, python-format
+msgid "Removing old backup `%s'"
+msgstr "Вилучення старої резервної копії `%s'"
+
+#. oldIncrementalBackup = rsync
+#: fwbackups/operations/backup.py:664
+#, python-format
+msgid "Moving  `%s' to `%s'"
+msgstr "Переміщення `%s' у `%s'"
+
+#. source = is not a rsync backup - remove it and start fresh
+#: fwbackups/operations/backup.py:667
+#, python-format
+msgid "`%s' is not an rsync backup - removing."
+msgstr "`%s' не є резервною копією rsync - вилучаємо."
+
+#: fwbackups/operations/backup.py:680
+#, python-format
+msgid "Starting automatic backup operation of set `%s'"
+msgstr "Запуск автоматичного резервування для набору `%s'"
+
+#. All done!
+#: fwbackups/operations/backup.py:758
+#, python-format
+msgid "Finished automatic backup operation of set '%s'"
+msgstr "Закінчено автоматичне резервування для набору '%s'"
+
+#: fwbackups/operations/__init__.py:61
+msgid "Canceling the current operation!"
+msgstr "Скасовується поточна операція!"
+
+#: fwbackups/operations/__init__.py:65
+#, python-format
+msgid "Stopping process with ID %s"
+msgstr "Зупинка процесу з ID %s"
+
+#: fwbackups/operations/__init__.py:68
+#, fuzzy, python-format
+msgid "Could not stop process %s: %s"
+msgstr "Неможливо зупинити процес %(a)s: %(b)s"
+
+#: fwbackups/operations/__init__.py:76
+msgid "The operation has been cancelled."
+msgstr "Операція була скасована."
+
+#: fwbackups/operations/__init__.py:89
+#, python-format
+msgid "Error handling file `%s'"
+msgstr "Помилка опрацювання файлу `%s'"
+
+#: fwbackups/operations/__init__.py:90
+#, python-format
+msgid ""
+"Output:\n"
+"%s"
+msgstr ""
+"Вивід:\n"
+"%s"
+
+#: fwbackups/operations/__init__.py:95
+#, python-format
+msgid "Destination folder `%s' exists"
+msgstr "Тека призначення `%s' вже існує"
+
+#: fwbackups/operations/__init__.py:100
+#, python-format
+msgid "Created destination folder `%s'"
+msgstr "Створена тека призначення `%s'"
+
+#: fwbackups/operations/__init__.py:102
+#, python-format
+msgid "The destination folder `%(a)s' could not be created: %(b)s"
+msgstr "Тека призначення `%(a)s' не може бути створена: %(b)s"
+
+#: fwbackups/operations/__init__.py:106
+#, python-format
+msgid ""
+"You do not have read and write permissions on the destination `%s' - if you "
+"backed up system files, this operation may fail."
+msgstr ""
+"В Вас немає прав на читання/запис у призначенні `%s - якщо Ви виконаєте "
+"резервне копіювання системних файлів, то ця операція може завершитися "
+"невдачею."
+
+#: fwbackups/operations/restore.py:46
+msgid "Starting restore operation"
+msgstr "Початок операції відновлення"
+
+#. check if server settings are OK
+#: fwbackups/operations/restore.py:75
+msgid "Attempting to connect to server"
+msgstr "Спроба з’єднання з сервером"
+
+#: fwbackups/operations/restore.py:88
+msgid ""
+"The restore source was either not found or it cannot be read due to "
+"insufficient permissions."
+msgstr ""
+"Відновлюване джерело або не було знайдено, або не може бути прочитане з-за "
+"недоліку прав."
+
+#: fwbackups/operations/restore.py:120
+msgid "Receiving files from server"
+msgstr "Приймання файлів з сервера"
+
+#: fwbackups/operations/restore.py:131
+#, python-format
+msgid "Could not receive file from server: %s"
+msgstr "Неможливо прийняти файли з сервера: %s"
+
+#. We are dealing with a remote folder - our job here is done
+#. Either that or an error was encountered above
+#. All done!
+#: fwbackups/operations/restore.py:136 fwbackups/operations/restore.py:181
+msgid "Finished restore operation"
+msgstr "Операція відновлення закінчена"
+
+#. oops, something is up
+#: fwbackups/operations/restore.py:148
+#, python-format
+msgid "Source `%s' is not a file or folder!"
+msgstr "Джерело `%s' не файл чи тека!"
+
+#. oops, something is up
+#: fwbackups/operations/restore.py:157
+#, python-format
+msgid "Source `%s' is not an archive!"
+msgstr "Джерело `%s' не архів!"
+
+#: fwbackups/operations/restore.py:161
+#, python-format
+msgid "Source `%s' is not a folder"
+msgstr "Джерело `%s' не тека"
+
+#: fwbackups/operations/restore.py:177
+#, python-format
+msgid "Traceback: %s"
+msgstr "Traceback: %s"
+
+#: fwbackups/widgets.py:144 fwbackups/widgets.py:187
 msgid "CRITICAL"
 msgstr "КРИТИЧНО"
 
-#: fwbackups/widgets.py:149 fwbackups/widgets.py:192
+#: fwbackups/widgets.py:144 fwbackups/widgets.py:187
 msgid "ERROR"
 msgstr "ПОМИЛКА"
 
-#: fwbackups/widgets.py:151 fwbackups/widgets.py:194
+#: fwbackups/widgets.py:146 fwbackups/widgets.py:189
 msgid "WARNING"
 msgstr "ПОПЕРЕДЖЕННЯ"
 
-#: fwbackups/widgets.py:164 fwbackups/widgets.py:188
+#: fwbackups/widgets.py:159 fwbackups/widgets.py:183
 msgid "Previous log messages"
 msgstr "Попередні повідомлення журналу"
 
-#: fwbackups/widgets.py:168 fwbackups/widgets.py:201
+#: fwbackups/widgets.py:163 fwbackups/widgets.py:196
 msgid "No previous log messages to display"
 msgstr "Немає повідомлень попереднього журналу для відображення"
 
-#: fwbackups/widgets.py:169 fwbackups/widgets.py:180
+#: fwbackups/widgets.py:164 fwbackups/widgets.py:175
 msgid "Current session's log messages"
 msgstr "Журнал повідомлень поточної сесії"
 
-#: fwbackups/widgets.py:536
+#: fwbackups/widgets.py:531
 msgid "Access"
 msgstr "Доступ"
 
-#: fwbackups/widgets.py:542
+#: fwbackups/widgets.py:537
 msgid "Path"
 msgstr "Шлях"
 
-#: fwbackups/widgets.py:658
+#: fwbackups/widgets.py:589
 msgid "Please select a path before choosing an action."
 msgstr "Виберіть шлях перед вказуванням дії."
 
-#: fwbackups/widgets.py:691
+#: fwbackups/widgets.py:622
 msgid "Export"
 msgstr "Експорт"
 
-#: fwbackups/widgets.py:697
+#: fwbackups/widgets.py:628
 msgid "Set"
 msgstr "Набір"
 
-#: fwbackups/widgets.py:732
+#: fwbackups/widgets.py:663
 msgid "Bug Report"
 msgstr "Відіслати повідомлення про ваду"
 
-#: fwbackups/widgets.py:740
+#: fwbackups/widgets.py:669
+#, fuzzy
+#| msgid "Destination"
+msgid "Choose a destination"
+msgstr "Призначення"
+
+#: fwbackups/widgets.py:671
 msgid "_Save"
 msgstr ""
 
-#~ msgid "*** Initializing files"
-#~ msgstr "*** Ініціялізація файлів"
-
+#: fwbackups/sftp.py:225
 #, python-format
-#~ msgid ""
-#~ "Folder %s exists and will be emptied. Press <Enter> to confirm or "
-#~ "<ctrl+c> to cancel..."
-#~ msgstr ""
-#~ "Тека %s існує й має бути очищена. Натисніть <Enter> для підтвердження або "
-#~ "<ctrl+c> для скасування..."
+msgid "`%s' is not a file, folder or link! Skipping."
+msgstr "`%s' це не файл, тека чи посилання! Пропускається."
 
+#: fwbackups/sftp.py:230
+msgid "Could not copy some files due to errors:"
+msgstr "Неможливо скопіювати деякі файли з-за помилки:"
+
+#: fwbackups/shutil_modded.py:135
 #, python-format
-#~ msgid "Cleaning folder %s..."
-#~ msgstr "Очищення теки %s..."
+msgid "`%s' isn't a file, folder or link! Skipping."
+msgstr "`%s' це не файл, тека чи посилання! Пропускається."
 
-#~ msgid "*** Remote settings"
-#~ msgstr "*** Віддалені налаштування"
+#: fwbackups/shutil_modded.py:146
+msgid "Couldn't copy some files due to errors:"
+msgstr "Неможливо скопіювати деякі файли з-за помилки:"
 
-#~ msgid "Hostname [localhost]: "
-#~ msgstr "Ім’я хосту [localhost]:"
-
-#~ msgid "Port [22]: "
-#~ msgstr "Порт [22]: "
-
-#~ msgid "The port field can only contain numbers. Please try again."
-#~ msgstr "Поле Порт може містити лише число. Уведіть заново."
-
+#: fwbackups/fwlogger.py:72
 #, python-format
-#~ msgid "Username [%s]: "
-#~ msgstr "Ім’я користувача [%s]:"
+msgid "Could not set up the logger: %s"
+msgstr "Неможливо налаштувати журналювання: %s"
 
-#~ msgid "Password: "
-#~ msgstr "Пароль: "
-
+#: bin/fwbackups-runonce.py:49 bin/fwbackups-run.py:49
 #, python-format
-#~ msgid "Remote folder [%s]: "
-#~ msgstr "Віддалена тека [%s]: "
+msgid "Error: %s"
+msgstr "Помилка: %s"
 
+#: bin/fwbackups-runonce.py:50 bin/fwbackups-run.py:50
+msgid "Run with --help for usage information."
+msgstr "Запустіть з --help для отримання додаткової інформації."
+
+#: bin/fwbackups-runonce.py:52
+#, fuzzy
+#| msgid ""
+#| "Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE "
+#| "[OPTIONS] Path(s) Destination\n"
+#| "Options:\n"
+#| "  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+#| "  -h, --help  :  Print this message and exit\n"
+#| "  -r, --recursive  :  Perform a recursive backup\n"
+#| "  -i, --hidden  :  Include hidden files in the backup\n"
+#| "  -p, --packages2file  :  Print installed package list to a text file\n"
+#| "  -d, --diskinfo2file  :  Print disk geometry to a file (must be root)\n"
+#| "  -s, --sparse  :  Handle sparse files efficiently\n"
+#| "  -e, --engine=ENGINE  :  Use specified backup engine.\n"
+#| "              Valid engines are tar, tar.gz, tar.bz2 and rsync.\n"
+#| "  -x, --exclude='PATTERN'  :  Skip files matching PATTERN.\n"
+#| "  -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to "
+#| "19)\n"
+#| "  --destination-type=TYPE  :  Destination type (`local' or `remote "
+#| "(ssh)')\n"
+#| "  --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'\n"
+#| "  --remote-user=USERNAME  :  Connect as specified username\n"
+#| "  --remote-password=PASSWORD  :  Connect using password `PASSWORD'\n"
+#| "  --remote-port=PORT  :  Connect on specified port (default 22)\n"
+#| "\n"
+#| "Path(s) is space-seperated list of paths to include in the backup.\n"
+#| "Destination is the directory where the OneTime backup should be placed "
+#| "within.\n"
+#| "\n"
+#| "Defaults to tar engine and local destination unless specified otherwise.\n"
+#| "Supplying --remote* will have no effect unless thedestination type is\n"
+#| "`remote (ssh)'."
+msgid ""
+"Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE [OPTIONS] "
+"Path(s) Destination\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -r, --recursive  :  Perform a recursive backup\n"
+"  -i, --hidden  :  Include hidden files in the backup\n"
+"  -p, --packages2file  :  Print installed package list to a text file\n"
+"  -d, --diskinfo2file  :  Print disk geometry to a file (must be root)\n"
+"  -s, --sparse  :  Handle sparse files efficiently\n"
+"  -e, --engine=ENGINE  :  Use specified backup engine.\n"
+"              Valid engines are tar, tar.gz, tar.bz2 and rsync.\n"
+"  -x, --exclude='PATTERN'  :  Skip files matching PATTERN.\n"
+"  -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to "
+"19)\n"
+"  --destination-type=TYPE  :  Destination type (`local' or `remote (ssh)')\n"
+"  --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'\n"
+"  --remote-username=USERNAME  :  Connect as specified username\n"
+"  --remote-password=PASSWORD  :  Connect using password `PASSWORD'\n"
+"  --remote-port=PORT  :  Connect on specified port (default 22)\n"
+"\n"
+"Path(s) is space-seperated list of paths to include in the backup.\n"
+"Destination is the directory where the OneTime backup should be placed "
+"within.\n"
+"\n"
+"Defaults to tar engine and local destination unless specified otherwise.\n"
+"Supplying --remote* will have no effect unless thedestination type is\n"
+"`remote (ssh)'."
+msgstr ""
+"Використання: wbackups-runonce --destination-type=ТИП --engine=РУШІЙ "
+"[ПАРАМЕТРИ] Шлях(Шляхи) Призначення\n"
+"Параметри:\n"
+" -v, --verbose : Видати більше інформації (друк повідомлення дебагінгу)\n"
+" -h, --help : Надрукувати це повідомлення і вийти\n"
+" -r, --recursive : Виконати рекурсивне резервування \n"
+"-i, --hidden : Включити у резервну копію приховані файли \n"
+"-p, --packages2file : Вивести перелік встановлених пакунків у текстовий "
+"файл \n"
+"-d, --diskinfo2file : Вивести геометрію диску у файл (повинні бути права "
+"root) \n"
+"-s, --sparse : Ефективніше підтримувати розріджені файли \n"
+"-e, --engine=РУШІЙ : Використовувати певний рушій резервування. \n"
+"Доступні наступні рушії: tar, tar.gz, tar.bz2 і rsync. \n"
+"-x, --exclude='МАСКА' : Пропустити файли що збігаються з МАСКОЮ. \n"
+"-n, --nice=NICE : задати nice для процесу резервування (від -20 до 19) \n"
+"--destination-type=ТИП : Тип призначення (`local' або `remote (ssh)')\n"
+"--remote-host=ІМ’Я_ХОСТУ : Під’єднатися до віддаленого хосту з іменем "
+"`ІМ’Я_ХОСТУ' \n"
+"--remote-user=ІМ’Я_КОРИСТУВАЧА : Під’єднатися під певним користувачем \n"
+"--remote-password=ПАРОЛЬ : Під’єднатися з використанням паролю `ПАРОЛЬ \n"
+"--remote-port=PORT : Під’єднатися до заданого порту (типово 22)\n"
+" \n"
+"Шлях(шляхи) - шляхи для резервування через пробіл. \n"
+"Призначення - директорія де повинна бути поміщена Одномоментна резервна "
+"копія.\n"
+" \n"
+"Типово у якості рушія використовується tar і локальне розташування копії. \n"
+"Параметри віддаленого сервера не будуть застосовані, поки призначення не "
+"буде встановлено у \n"
+"`remote (ssh)'."
+
+#: bin/fwbackups-runonce.py:140
 #, python-format
-#~ msgid "*** Running %(a)s backup with engine %(b)s"
-#~ msgstr "*** Запуск %(a)s резервування на рушії %(b)s"
+msgid "No such engine `%s'"
+msgstr "Немає такого рушія: `%s'"
 
+#: bin/fwbackups-runonce.py:147
+msgid "You must be root to set a niceness below 0"
+msgstr "Ви повинні мати права root для nice нижче 0"
+
+#: bin/fwbackups-runonce.py:151
+msgid "Nice value must be an integer between -20 and 19"
+msgstr "Значення nice може бути числом від -20 до 19"
+
+#: bin/fwbackups-runonce.py:167
+msgid "Requires at least one path to backup and a destination"
+msgstr "Потрібен щонайменше один шлях для резервування і призначення"
+
+#: bin/fwbackups-runonce.py:181
+msgid "Destination type was not specified"
+msgstr "Тип призначення не визначений"
+
+#: bin/fwbackups-runonce.py:184
+msgid "An engine was not specified"
+msgstr "Не заданий рушій"
+
+#: bin/fwbackups-runonce.py:194 bin/fwbackups-run.py:130
+msgid "An error occurred while initializing the backup operation!"
+msgstr "Помилка при ініціялізації операції резервування!"
+
+#: bin/fwbackups-run.py:52
+#, fuzzy
+#| msgid ""
+#| "Usage: fwbackups-run [OPTIONS] Set_Name(s)\n"
+#| "Options:\n"
+#| "  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+#| "  -h, --help  :  Print this message and exit\n"
+#| "  -l, --silent  :  Print messages to log file only\n"
+#| "\n"
+#| "Set_Name(s) is space-seperated list of set names to run backups of."
+msgid ""
+"Usage: fwbackups-run [OPTIONS] Set_Name(s)\n"
+"Options:\n"
+"  -v, --verbose  :  Increase verbosity (print debug messages)\n"
+"  -h, --help  :  Print this message and exit\n"
+"  -l, --silent  :  Print messages to log file only\n"
+"  -f, --force :  Run the backup even if the set is disabled.\n"
+"\n"
+"Set_Name(s) is space-seperated list of set names to run backups of."
+msgstr ""
+"Використання: fwbackups-run [параметри] імена_наборів\n"
+"Параметри:\n"
+"-v, --verbose : Видати більше інформації (друк повідомлення дебагінгу) \n"
+"-h, --help : Надрукувати це повідомлення і вийти \n"
+"-l, --silent : Виводити повідомлення лише у файл журналу\n"
+"\n"
+"Імена_наборів являють собою задані через пробіл набори для резервування."
+
+#: bin/fwbackups-run.py:103
+msgid "Invalid usage: Requires at least one set name to backup"
+msgstr ""
+"Хибне використання: Потрібно щонайменше одне ім’я конфігурації для "
+"резервування"
+
+#: bin/fwbackups-run.py:120
 #, python-format
-#~ msgid "*** Running restore of remote test backup %s"
-#~ msgstr "*** Запуск відновлення зовнішньої тестової копії %s"
-
-#, python-format
-#~ msgid "*** Running restore of local test backup %s"
-#~ msgstr "*** Запуск відновлення локальної тестової копії %s"
-
-#~ msgid "*** Running restore of a local archive"
-#~ msgstr "*** Запуск відновлення локального архіву"
-
-#~ msgid "*** Running restore of a local folder"
-#~ msgstr "*** Запуск відновлення локальної теки"
-
-#~ msgid "*** Running restore of a remote archive (SSH)"
-#~ msgstr "*** Запуск відновлення зовнішнього архіву (SSH)"
-
-#~ msgid "*** Running restore of a remote folder (SSH)"
-#~ msgstr "*** Запуск відновлення зовнішньої теки (SSH)"
-
-#, python-format
-#~ msgid "Error: %s"
-#~ msgstr "Помилка: %s"
-
-#~ msgid "Run with --help for usage information."
-#~ msgstr "Запустіть з --help для отримання додаткової інформації."
-
-#~ msgid ""
-#~ "Usage: fwbackups-run [OPTIONS] Set_Name(s)\n"
-#~ "Options:\n"
-#~ "  -v, --verbose  :  Increase verbosity (print debug messages)\n"
-#~ "  -h, --help  :  Print this message and exit\n"
-#~ "  -l, --silent  :  Print messages to log file only\n"
-#~ "\n"
-#~ "Set_Name(s) is space-seperated list of set names to run backups of."
-#~ msgstr ""
-#~ "Використання: fwbackups-run [параметри] імена_наборів\n"
-#~ "Параметри:\n"
-#~ "-v, --verbose : Видати більше інформації (друк повідомлення дебагінгу) \n"
-#~ "-h, --help : Надрукувати це повідомлення і вийти \n"
-#~ "-l, --silent : Виводити повідомлення лише у файл журналу\n"
-#~ "\n"
-#~ "Імена_наборів являють собою задані через пробіл набори для резервування."
-
-#~ msgid "Invalid usage: Requires at least one set name to backup"
-#~ msgstr ""
-#~ "Хибне використання: Потрібно щонайменше одне ім’я конфігурації для "
-#~ "резервування"
-
-#, python-format
-#~ msgid "The set configuration for '%s' was not found - skipping."
-#~ msgstr "Налаштування набору для '%s' не знайде - пропуск."
-
-#~ msgid "An error occurred while initializing the backup operation!"
-#~ msgstr "Помилка при ініціялізації операції резервування!"
-
-#~ msgid ""
-#~ "Usage: fwbackups-runonce --destination-type=TYPE --engine=ENGINE "
-#~ "[OPTIONS] Path(s) Destination\n"
-#~ "Options:\n"
-#~ "  -v, --verbose  :  Increase verbosity (print debug messages)\n"
-#~ "  -h, --help  :  Print this message and exit\n"
-#~ "  -r, --recursive  :  Perform a recursive backup\n"
-#~ "  -i, --hidden  :  Include hidden files in the backup\n"
-#~ "  -p, --packages2file  :  Print installed package list to a text file\n"
-#~ "  -d, --diskinfo2file  :  Print disk geometry to a file (must be root)\n"
-#~ "  -s, --sparse  :  Handle sparse files efficiently\n"
-#~ "  -e, --engine=ENGINE  :  Use specified backup engine.\n"
-#~ "              Valid engines are tar, tar.gz, tar.bz2 and rsync.\n"
-#~ "  -x, --exclude='PATTERN'  :  Skip files matching PATTERN.\n"
-#~ "  -n, --nice=NICE  :  Indicate the niceness of the backup process (-20 to "
-#~ "19)\n"
-#~ "  --destination-type=TYPE  :  Destination type (`local' or `remote "
-#~ "(ssh)')\n"
-#~ "  --remote-host=HOSTNAME  :  Connect to remote host `HOSTNAME'\n"
-#~ "  --remote-user=USERNAME  :  Connect as specified username\n"
-#~ "  --remote-password=PASSWORD  :  Connect using password `PASSWORD'\n"
-#~ "  --remote-port=PORT  :  Connect on specified port (default 22)\n"
-#~ "\n"
-#~ "Path(s) is space-seperated list of paths to include in the backup.\n"
-#~ "Destination is the directory where the OneTime backup should be placed "
-#~ "within.\n"
-#~ "\n"
-#~ "Defaults to tar engine and local destination unless specified otherwise.\n"
-#~ "Supplying --remote* will have no effect unless thedestination type is\n"
-#~ "`remote (ssh)'."
-#~ msgstr ""
-#~ "Використання: wbackups-runonce --destination-type=ТИП --engine=РУШІЙ "
-#~ "[ПАРАМЕТРИ] Шлях(Шляхи) Призначення\n"
-#~ "Параметри:\n"
-#~ " -v, --verbose : Видати більше інформації (друк повідомлення дебагінгу)\n"
-#~ " -h, --help : Надрукувати це повідомлення і вийти\n"
-#~ " -r, --recursive : Виконати рекурсивне резервування \n"
-#~ "-i, --hidden : Включити у резервну копію приховані файли \n"
-#~ "-p, --packages2file : Вивести перелік встановлених пакунків у текстовий "
-#~ "файл \n"
-#~ "-d, --diskinfo2file : Вивести геометрію диску у файл (повинні бути права "
-#~ "root) \n"
-#~ "-s, --sparse : Ефективніше підтримувати розріджені файли \n"
-#~ "-e, --engine=РУШІЙ : Використовувати певний рушій резервування. \n"
-#~ "Доступні наступні рушії: tar, tar.gz, tar.bz2 і rsync. \n"
-#~ "-x, --exclude='МАСКА' : Пропустити файли що збігаються з МАСКОЮ. \n"
-#~ "-n, --nice=NICE : задати nice для процесу резервування (від -20 до 19) \n"
-#~ "--destination-type=ТИП : Тип призначення (`local' або `remote (ssh)')\n"
-#~ "--remote-host=ІМ’Я_ХОСТУ : Під’єднатися до віддаленого хосту з іменем "
-#~ "`ІМ’Я_ХОСТУ' \n"
-#~ "--remote-user=ІМ’Я_КОРИСТУВАЧА : Під’єднатися під певним користувачем \n"
-#~ "--remote-password=ПАРОЛЬ : Під’єднатися з використанням паролю `ПАРОЛЬ \n"
-#~ "--remote-port=PORT : Під’єднатися до заданого порту (типово 22)\n"
-#~ " \n"
-#~ "Шлях(шляхи) - шляхи для резервування через пробіл. \n"
-#~ "Призначення - директорія де повинна бути поміщена Одномоментна резервна "
-#~ "копія.\n"
-#~ " \n"
-#~ "Типово у якості рушія використовується tar і локальне розташування "
-#~ "копії. \n"
-#~ "Параметри віддаленого сервера не будуть застосовані, поки призначення не "
-#~ "буде встановлено у \n"
-#~ "`remote (ssh)'."
-
-#, python-format
-#~ msgid "No such engine `%s'"
-#~ msgstr "Немає такого рушія: `%s'"
-
-#~ msgid "You must be root to set a niceness below 0"
-#~ msgstr "Ви повинні мати права root для nice нижче 0"
-
-#~ msgid "Nice value must be an integer between -20 and 19"
-#~ msgstr "Значення nice може бути числом від -20 до 19"
-
-#~ msgid "Requires at least one path to backup and a destination"
-#~ msgstr "Потрібен щонайменше один шлях для резервування і призначення"
-
-#~ msgid "Destination type was not specified"
-#~ msgstr "Тип призначення не визначений"
-
-#~ msgid "An engine was not specified"
-#~ msgstr "Не заданий рушій"
-
-#~ msgid "Please make sure you have a valid GTK+ Runtime Environment."
-#~ msgstr "Переконайтеся що в Вас встановлена потрібна версія GTK+."
-
-#, python-format
-#~ msgid "fwbackups bug report written saved at %s"
-#~ msgstr "Звіт про ваду fwbackups записаний як %s"
-
-#~ msgid "Could not write bug report due to insufficient permissions."
-#~ msgstr "Неможливо записати повідомлення про ваду, бракує прав."
-
-#~ msgid "Please install pycrypto (python-crypto)"
-#~ msgstr "Встановіть pycrypto (python-crypto)"
-
-#~ msgid "Please install paramiko (python-paramiko)"
-#~ msgstr "Встановіть paramiko (python-paramiko)"
-
-#, python-format
-#~ msgid "<span size=\"small\">%s%% complete: %s</span>"
-#~ msgstr "<span size=\"small\">%s%% завершено: %s</span>"
-
-#~ msgid "Checking permissions"
-#~ msgstr "Перевірка прав"
-
-#~ msgid "Setting up the logger and user preferences"
-#~ msgstr "Налаштування журналу та прав користувача"
-
-#~ msgid "Populating the log viewer"
-#~ msgstr "Заповнення переглядача журналу"
-
-#~ msgid ""
-#~ "pynotify was not found. Notifcations will not be displayed unless notify-"
-#~ "python/pynotify is installed."
-#~ msgstr ""
-#~ "pynotify не знайдений. Сповіщення не будуть показуватися, доки не буде "
-#~ "встановлено notify-python/pynotify."
-
-#~ msgid "Cleaning after previous versions"
-#~ msgstr "Очищення після попередньої версії"
-
-#~ msgid "Ready!"
-#~ msgstr "Готовий!"
-
-#, python-format
-#~ msgid "Could not create notification: %s"
-#~ msgstr "Неможливо створити сповіщення: %s"
-
-#~ msgid ""
-#~ "There was an error saving the new backup schedule. A backup will be "
-#~ "restored, however the changes made to the backup schedule may not have "
-#~ "been correctly saved.\n"
-#~ "\n"
-#~ "If you see this message, please report a bug against fwbackups."
-#~ msgstr ""
-#~ "Виникла помилка при збереженні нового розкладу резервного копіювання. "
-#~ "Резервна копія буде відновлена, однак зміни, зроблені у розкладі "
-#~ "резервного копіювання, можуть бути збережені некоректно.\n"
-#~ "\n"
-#~ "Якщо Ви бачите це повідомлення, будь ласка, повідомте про помилку в "
-#~ "fwbackups."
-
-#~ msgid "Select file(s)"
-#~ msgstr "Оберіть файл(и)"
-
-#, python-format
-#~ msgid "Could not remove fwbackup's session autostart regkey: %s"
-#~ msgstr "Неможливо вилучити ключ реєстру автозапуску сесії fwbackup '%s'"
-
-#, python-format
-#~ msgid "Could not remove fwbackup's session autostart file: %s"
-#~ msgstr "Неможливо вилучити файл автозапуску сесії fwbackups '%s'"
-
-#~ msgid "Please enter a Pycron installation directory."
-#~ msgstr "Вкажіть директорію встановлення Pycron."
-
-#~ msgid "Configuration not found"
-#~ msgstr "Файл конфігурації не знайдено"
-
-#~ msgid ""
-#~ "The pycron configuration file was not found in the directory entered. "
-#~ "Please ensure that pycron is installed in the selected installation "
-#~ "folder and that it contains either a pycron configuration file or the "
-#~ "sample pycron configuration."
-#~ msgstr ""
-#~ "Файл конфігурації pycron не був знайдений у теці входу. Будь ласка, "
-#~ "переконайтеся, що pycron встановлений у вибрану теку встановлення, й що "
-#~ "він містить або конфігураційний файл pycron, або приклад конфігурації "
-#~ "pycron."
-
-#~ msgid "Automated restore not supported"
-#~ msgstr "Автоматичне відновлення не підтримується"
-
-#~ msgid ""
-#~ "This backup set cannot be automatically restored because restoration of "
-#~ "Archive backups has not been implemented for systems with Python 2.4. "
-#~ "Please see the user guide for details on manual restoration."
-#~ msgstr ""
-#~ "Цей набір резервування не може бути автоматично відновлений, бо "
-#~ "відновлення з архіву не доступне на системах з Python 2.4. Прочитайте "
-#~ "посібник користувача з ручного відновлення."
-
-#~ msgid "Status"
-#~ msgstr "Статус"
-
-#~ msgid "Show this program's version and exit"
-#~ msgstr "Показати версію встановленої проґрами та закінчити роботу"
-
-#~ msgid "Show this help message and exit"
-#~ msgstr "Показати це повідомлення і закінчити роботу"
-
-#~ msgid "print log messages to the terminal. Use this option twice"
-#~ msgstr ""
-#~ "Вивід повідомлень журналу на термінал. Використовуйте цей параметр двічі"
-
-#~ msgid "start GUI minimized in the system tray"
-#~ msgstr "Згортати проґраму у трей"
-
-#~ msgid "[ set by runapp.py ]"
-#~ msgstr "[ set by runapp.py ]"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Overview</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Огляд</span>"
-
-#~ msgid "_New Set"
-#~ msgstr "_Новий набір"
-
-#~ msgid "Ed_it Set"
-#~ msgstr "_Редагувати набір"
-
-#~ msgid "_Delete Set"
-#~ msgstr "_Вилучити набір"
-
-#~ msgid "_Backup Set Now"
-#~ msgstr "_Резервувати зараз"
-
-#~ msgid "Re_store Set"
-#~ msgstr "_Відновити набір"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Backups Sets</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Набори резервування</span>"
-
-#~ msgid "_Add File(s)"
-#~ msgstr "_Додати файл(и)"
-
-#~ msgid "_Add Folder(s)"
-#~ msgstr "_Додати теку(и)"
-
-#~ msgid ""
-#~ "Local folder\n"
-#~ "Remote folder (SSH)"
-#~ msgstr ""
-#~ "Локальна тека\n"
-#~ "Віддалена тека (SSH)"
-
-#~ msgid "_Browse..."
-#~ msgstr "_Огляд..."
-
-#~ msgid ""
-#~ "gzip: fast, lightweight\n"
-#~ "bzip2: slower, more efficient"
-#~ msgstr ""
-#~ "gzip: швидко, не потребує ресурсів\n"
-#~ "bzip2: повільніше, більше стискання"
-
-#~ msgid "_Back"
-#~ msgstr "_Назад"
-
-#~ msgid "_Next"
-#~ msgstr "_Наступний"
-
-#~ msgid "_Start Backup"
-#~ msgstr "_Запуск резервування"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">One-Time Backup</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Разове резервування</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Log Viewer</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Перегляд журналу</span>"
-
-#~ msgid "_File"
-#~ msgstr "_Файл"
-
-#~ msgid "Create a new backup set"
-#~ msgstr "Створити новий набір резервування"
-
-#~ msgid "Import a set from a .conf file"
-#~ msgstr "Імпортувати набір з .conf файлу"
-
-#~ msgid "_Import Sets"
-#~ msgstr "_Імпорт наборів"
-
-#~ msgid "Export one or more sets to .conf files"
-#~ msgstr "Експортувати один або декілька наборів у .conf файл"
-
-#~ msgid "E_xport Sets"
-#~ msgstr "_Експорт наборів"
-
-#~ msgid "_Edit"
-#~ msgstr "_Змінити"
-
-#~ msgid "Edit the selected backup set"
-#~ msgstr "Редагувати вибраний набір"
-
-#~ msgid "_Edit Set"
-#~ msgstr "_Змінити набір"
-
-#~ msgid "Remove the selected backup set"
-#~ msgstr "Вилучити вибраний набір резервування"
-
-#~ msgid "Duplicate the selected backup set"
-#~ msgstr "Дублювати вибраний набір"
-
-#~ msgid "D_uplicate Set"
-#~ msgstr "Дублювати набір"
-
-#~ msgid "_View"
-#~ msgstr "_Вигляд"
-
-#~ msgid "Switch to Overview"
-#~ msgstr "Перемикнутися у Огляд"
-
-#~ msgid "_Overview"
-#~ msgstr "_Огляд"
-
-#~ msgid "Switch to User Backup Sets"
-#~ msgstr "Перемикнути у Користувацький набір резервування"
-
-#~ msgid "_Backup Sets"
-#~ msgstr "_Набори для резервування"
-
-#~ msgid "Switch to One-Time Backup"
-#~ msgstr "Перемикнутися на Разове резервування"
-
-#~ msgid "O_ne-Time Backup"
-#~ msgstr "_Разове резервування"
-
-#~ msgid "Switch to Log Viewer"
-#~ msgstr "Перемикнутися у Перегляд журналу"
-
-#~ msgid "_Log"
-#~ msgstr "_Журнал"
-
-#~ msgid "Switch to Restore"
-#~ msgstr "Перемикнутися у Відновлення"
-
-#~ msgid "_Restore"
-#~ msgstr "_Відновити"
-
-#~ msgid "_Help"
-#~ msgstr "_Довідка"
-
-#~ msgid "Check for _Updates"
-#~ msgstr "Перевірити _оновлення"
-
-#~ msgid "About fwbackups"
-#~ msgstr "Про fwbackups"
-
-#~ msgid ""
-#~ "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
-#~ msgstr ""
-#~ "<span color=\"blue\"><u>http://www.diffingo.com/opensource</u></span>"
-
-#~ msgid "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
-#~ msgstr "<span size=\"small\">(C) 2005 - 2010 Stewart Adam</span>"
-
-#, no-c-format
-#~ msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
-#~ msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups %s</span>"
-
-#~ msgid "<span size=\"large\"> A feature-rich user backup program</span>"
-#~ msgstr ""
-#~ "<span size=\"large\"> Проґрама резервування з просунутими налаштуваннями</"
-#~ "span>"
-
-#~ msgid ""
-#~ "    This program is free software; you can redistribute it and/or modify\n"
-#~ "    it under the terms of the GNU General Public License as published by\n"
-#~ "    the Free Software Foundation; either version 2 of the License, or\n"
-#~ "    (at your option) any later version.\n"
-#~ "\n"
-#~ "    This program is distributed in the hope that it will be useful,\n"
-#~ "    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-#~ "    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-#~ "    See the GNU General Public License for more details.\n"
-#~ "\n"
-#~ "    You should have received a copy of the GNU General Public License\n"
-#~ "    along with this program; if not, write to the\n"
-#~ "    Free Software Foundation, Inc.,\n"
-#~ "    51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n"
-#~ msgstr ""
-#~ "Ця проґрама є вільним проґрамним забезпеченням; Ви можете розповсюджувати "
-#~ "її та/або змінювати відповідно до умов GNU General Public License, "
-#~ "оголошеній Фондом Вільного Проґрамного забезпечення; ліцензії версії 2, "
-#~ "або (за бажанням) будь-якої пізнішої версії. \n"
-#~ "\n"
-#~ "Ця проґрама поширюється зі сподіванням, що вона буде корисною, але без "
-#~ "будь-яких гарантій; навіть без неявної гарантії її ПРИДАТНОСТІ або "
-#~ "придатності для КОНКРЕТНОЇ МЕТИ. Перегляньте GNU General Public License "
-#~ "для докладнішої інформації.\n"
-#~ "\n"
-#~ "Ви повинні були отримати копію GNU General Public License разом з цією "
-#~ "проґрамою; Якщо ні, то напишіть у Фонд вільного проґрамного забезпечення, "
-#~ "Inc.,\n"
-#~ "51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n"
-
-#~ msgid "License"
-#~ msgstr "Ліцензія"
-
-#~ msgid ""
-#~ "\n"
-#~ "Developers:\n"
-#~ "          Stewart Adam < s.adam@diffingo.com >\n"
-#~ "\n"
-#~ "Documenters:\n"
-#~ "          Stewart Adam < s.adam@diffingo.com >\n"
-#~ "\n"
-#~ "Translators:\n"
-#~ "\tN/A\n"
-#~ "\n"
-#~ "Graphic Designers:\n"
-#~ "\tStewart Adam < s.adam@diffingo.com >\n"
-#~ "        * Based on gnome-icon-theme icons\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Розробники:\n"
-#~ "Stewart Adam < s.adam@diffingo.com >\n"
-#~ "\n"
-#~ "Документація:\n"
-#~ "Stewart Adam < s.adam@diffingo.com >\n"
-#~ "\n"
-#~ "Перекладачі:\n"
-#~ "⇥Микола Ткач Stuartlittle1970@gmail.com\n"
-#~ "\n"
-#~ "Дизайн:\n"
-#~ "⇥Stewart Adam < s.adam@diffingo.com >\n"
-#~ "* Based on gnome-icon-theme icons\n"
-
-#~ msgid "Credits"
-#~ msgstr "Автори"
-
-#~ msgid "Select a file or folder"
-#~ msgstr "Вибір файлу або теки"
-
-#~ msgid "Save to..."
-#~ msgstr "Збереження у..."
-
-#~ msgid "Status: fwbackups is running"
-#~ msgstr "Стан: fwbackups запущений"
-
-#~ msgid "_Show Administrator"
-#~ msgstr "_Показати вікно керування"
-
-#~ msgid "_Minimize to tray on close"
-#~ msgstr "_Мінімізувати у трей при закритті"
-
-#~ msgid "Edit preferences"
-#~ msgstr "Редагувати параметри"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Параметри"
-
-#~ msgid "_Quit"
-#~ msgstr "_Вийти"
-
-#~ msgid "Export to:"
-#~ msgstr "Експорт у:"
-
-#~ msgid ""
-#~ "Set backup\n"
-#~ "Local archive\n"
-#~ "Local folder\n"
-#~ "Remote archive (SSH)\n"
-#~ "Remote folder (SSH)"
-#~ msgstr ""
-#~ "Набір резервування\n"
-#~ "Локальний архів\n"
-#~ "Локальна тека\n"
-#~ "Віддалений архів (SSH)\n"
-#~ "Віддалена тека (SSH)"
-
-#~ msgid "Browse..."
-#~ msgstr "Огляд..."
-
-#~ msgid "Start _Restore"
-#~ msgstr "Запуск_відновлення"
-
-#~ msgid "Minimize to tray on close"
-#~ msgstr "Згортати у трей при закритті"
-
-#~ msgid "Show notifications in tray area"
-#~ msgstr "Показувати сповіщення у треї"
-
-#~ msgid "Show tray icon"
-#~ msgstr "Показувати піктограму у треї"
-
-#~ msgid "Start minimized"
-#~ msgstr "Запускати у згорнутому вигляді"
-
-#~ msgid "Always show debug messages in the log"
-#~ msgstr "Завжди показувати повідомлення дебагінгу у журналі"
-
-#~ msgid "Start fwbackups (minimized) when I login"
-#~ msgstr "Запускати fwbackups (згорнувши) при кожному вході"
-
-#~ msgid "<b>Misc. Options</b>"
-#~ msgstr "<b>Різне</b>"
-
-#~ msgid "Pycron installation directory:"
-#~ msgstr "Директорія встановлення pycron:"
-
-#~ msgid "<b>Windows-specific options</b>"
-#~ msgstr "<b>Параметри лише для ОС Windows</b>"
-
-#~ msgid "<b>Day(s) of the Week</b>"
-#~ msgstr "<b>Дні тижня</b>"
-
-#~ msgid "<b>Month(s)</b>"
-#~ msgstr "<b>Місяць(і)</b>"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "<b>Day(s) of Month</b>"
-#~ msgstr "<b>Дні місяця</b>"
-
-#~ msgid "<b>Hour(s)</b>"
-#~ msgstr "<b>Година(и)</b>"
-
-#~ msgid "<b>Minute(s)</b>"
-#~ msgstr "<b>Хвилина(и)</b>"
-
-#~ msgid ""
-#~ "January\n"
-#~ "February\n"
-#~ "March\n"
-#~ "April\n"
-#~ "May\n"
-#~ "June\n"
-#~ "July\n"
-#~ "August\n"
-#~ "September\n"
-#~ "October\n"
-#~ "November\n"
-#~ "December"
-#~ msgstr ""
-#~ "Січень\n"
-#~ "Лютий\n"
-#~ "Березень\n"
-#~ "Квітень\n"
-#~ "Травень\n"
-#~ "Червень\n"
-#~ "Липень\n"
-#~ "Серпень\n"
-#~ "Вересень\n"
-#~ "Жовтень\n"
-#~ "Листопад\n"
-#~ "Грудень"
-
-#~ msgid ""
-#~ "Sunday\n"
-#~ "Monday\n"
-#~ "Tuesday\n"
-#~ "Wednesday\n"
-#~ "Thurday\n"
-#~ "Friday\n"
-#~ "Saturday"
-#~ msgstr ""
-#~ "Неділі\n"
-#~ "Понеділка\n"
-#~ "Вівторка\n"
-#~ "Середи\n"
-#~ "Четверга\n"
-#~ "П’ятниці\n"
-#~ "Суботи"
-
-#~ msgid ""
-#~ "Sundays\n"
-#~ "Mondays\n"
-#~ "Tuesdays\n"
-#~ "Wednesdays\n"
-#~ "Thurdays\n"
-#~ "Fridays\n"
-#~ "Saturdays"
-#~ msgstr ""
-#~ "Неділя\n"
-#~ "Понеділок\n"
-#~ "Вівторок\n"
-#~ "Середа\n"
-#~ "Четверг\n"
-#~ "П’ятниця\n"
-#~ "Субота"
-
-#~ msgid ""
-#~ "0 (12am)\n"
-#~ "1 (1am)\n"
-#~ "2 (2am)\n"
-#~ "3 (3am)\n"
-#~ "4 (4am)\n"
-#~ "5 (5am)\n"
-#~ "6 (6am)\n"
-#~ "7 (7am)\n"
-#~ "8 (8am)\n"
-#~ "9 (9am)\n"
-#~ "10 (10am)\n"
-#~ "11 (11am)\n"
-#~ "12 (Noon)\n"
-#~ "13 (1pm)\n"
-#~ "14 (2pm)\n"
-#~ "15 (3pm)\n"
-#~ "16 (4pm)\n"
-#~ "17 (5pm)\n"
-#~ "18 (6pm)\n"
-#~ "19 (7pm)\n"
-#~ "20 (8pm)\n"
-#~ "21 (9pm)\n"
-#~ "22 (10pm)\n"
-#~ "23 (11pm)"
-#~ msgstr ""
-#~ "0\n"
-#~ "1\n"
-#~ "2\n"
-#~ "3\n"
-#~ "4\n"
-#~ "5\n"
-#~ "6\n"
-#~ "7\n"
-#~ "8\n"
-#~ "9\n"
-#~ "10\n"
-#~ "11\n"
-#~ "12\n"
-#~ "13\n"
-#~ "14\n"
-#~ "15\n"
-#~ "16\n"
-#~ "17\n"
-#~ "18\n"
-#~ "19\n"
-#~ "20\n"
-#~ "21\n"
-#~ "22\n"
-#~ "23"
-
-#~ msgid "fwbackups Initializing..."
-#~ msgstr "Ініціялізація fwbackups..."
-
-#~ msgid "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
-#~ msgstr "<span size=\"xx-large\" weight=\"bold\">fwbackups</span>"
-
-#~ msgid "<span size=\"small\">Please wait while fwbackups initializes.</span>"
-#~ msgstr "<span size=\"small\">Дочекайтеся ініціялізації fwbackups.</span>"
-
-#~ msgid "Traceback Here"
-#~ msgstr "Тут Traceback"
-
-#~ msgid "Unable to clean user crontab!"
-#~ msgstr "Неможливо очистити crontab користувача!"
-
-#, python-format
-#~ msgid "Could not locate the pycron or the sample pycron configuration in %s"
-#~ msgstr "Не виявлено pycron або зразок файлу конфігурації pycron у %s"
-
-#, python-format
-#~ msgid "Could not locate the pycron or the sample pycron crontab file in %s"
-#~ msgstr "Не виявлено pycron або зразок файлу pycron crontab у %s"
+msgid "The set configuration for '%s' was not found - skipping."
+msgstr "Налаштування набору для '%s' не знайде - пропуск."
+
+#: data/com.diffingo.fwbackups.desktop.in:4
+msgid "Backup or restore your files"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.desktop.in:6
+msgid "backup;archive;archiving;"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:7
+msgid "Stewart Adam"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:8
+#, fuzzy
+msgid "A feature-rich, user-friendly backup program"
+msgstr "Проґрама для резервного копіювання з просунутими можливостями"
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:10
+msgid ""
+"A feature-rich user backup program that allows you to backup your documents "
+"on a one-off or recurring scheduled basis."
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:14
+msgid "Main window"
+msgstr ""
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:18
+#, fuzzy
+#| msgid "_Backup Sets"
+msgid "Backup settings"
+msgstr "_Набори для резервування"
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:22
+#, fuzzy
+#| msgid "Manual Configuration"
+msgid "Backup schedule configuration"
+msgstr "Ручне налаштування"
+
+#: data/com.diffingo.fwbackups.metainfo.xml.in:26
+#, fuzzy
+#| msgid "Log Viewer"
+msgid "Log viewer"
+msgstr "Журнал"
