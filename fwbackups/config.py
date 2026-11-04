@@ -754,7 +754,7 @@ class PrefsConf:
             raise ValidationError(_("Preferences failed to pass section validation"))
         # Ensure the set configuration is really a set configuration file
         if self.__config.get("General", "Type") != "Preferences":
-            raise ValidationError(_(f"'{constants.PREFSLOC}' is not a fwbackups preferences file."))
+            raise ValidationError(_("'{path}' is not a fwbackups preferences file.").format(path=constants.PREFSLOC))
         # Check that all required values are present
         # Validate General section - remember the list is sorted
         if not sorted_copy(config["General"].keys()) == ["Type", "Version"]:

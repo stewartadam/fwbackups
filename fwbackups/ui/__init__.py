@@ -605,7 +605,7 @@ class fwbackupsApp(Adw.Application):
                 cron.write(originalCronLines)
                 self.logger.logmsg('INFO', _("A backup of the crontab was restored; the latest changes to the backup schedule not have been saved."))
             except Exception as error:
-                self.logger.logmsg('ERROR', _(f"A backup of the crontab could not be restored: {error}"))
+                self.logger.logmsg('ERROR', _("A backup of the crontab could not be restored: {error}").format(error=error))
 
     def main_close(self, widget=None, event=None):
         """Wrapper for quitting"""

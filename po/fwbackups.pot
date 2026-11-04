@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fwbackups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 05:12+0000\n"
+"POT-Creation-Date: 2026-11-04 05:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1503,7 +1503,7 @@ msgstr ""
 
 #: fwbackups/config.py:757
 #, python-brace-format
-msgid "'{constants.PREFSLOC}' is not a fwbackups preferences file."
+msgid "'{path}' is not a fwbackups preferences file."
 msgstr ""
 
 #: fwbackups/config.py:761
