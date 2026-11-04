@@ -1,0 +1,45 @@
+name: Translations
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pot-up-to-date:
+    name: Translation template is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install meson and gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson gettext
+
+      - name: Check po/POTFILES lists every translatable source
+        run: |
+          cd po
+          bash update-potfiles.sh
+          cd ..
+          if ! diff <(sort po/POTFILES) <(git show HEAD:po/POTFILES | sort); then
+            echo "::error::po/POTFILES is out of date. Run 'bash update-potfiles.sh' from po/ and commit the result."
+            exit 1
+          fi
+
+      - name: Regenerate po/fwbackups.pot
+        run: |
+          git checkout po/POTFILES
+          meson setup _build
+          meson compile -C _build fwbackups-pot
+
+      - name: Check po/fwbackups.pot is committed and current
+        run: |
+          # POT-Creation-Date changes on every run, so ignore it
+          if ! git diff --exit-code -I '^"POT-Creation-Date:' -- po/fwbackups.pot; then
+            echo "::error::po/fwbackups.pot is out of date. Run 'meson compile -C _build fwbackups-pot' and commit the result."
+            exit 1
+          fi

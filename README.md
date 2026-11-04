@@ -70,7 +70,7 @@ details.
 
 ## Translations
 
-Translations are available [here](https://www.transifex.com/Magic/fwbackups/) - you're welcome to add or correct translations!
+Translations are managed on [Weblate](https://hosted.weblate.org/projects/fwbackups/) - you're welcome to add or correct translations there!
 
 ## Known Issues
 
