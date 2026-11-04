@@ -1,0 +1,48 @@
+name: Translations
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pot-up-to-date:
+    name: Translation template is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install meson and gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson gettext
+
+      - name: Check po/POTFILES lists every translatable source
+        run: |
+          cd po
+          bash update-potfiles.sh
+          cd ..
+          if ! diff <(sort po/POTFILES) <(git show HEAD:po/POTFILES | sort); then
+            echo "::error::po/POTFILES is out of date. Run 'bash update-potfiles.sh' from po/ and commit the result."
+            exit 1
+          fi
+
+      - name: Check po/fwbackups.pot has every translatable string
+        run: |
+          git checkout po/POTFILES
+          git show HEAD:po/fwbackups.pot > "$RUNNER_TEMP/committed.pot"
+          meson setup _build
+          meson compile -C _build fwbackups-pot
+          # Compare only the strings: source locations, flags and dates
+          # vary between gettext versions and aren't worth failing on.
+          strings() {
+            msgcat --no-location --no-wrap --sort-output "$1" \
+              | awk '/^(msgctxt|msgid|msgid_plural) /{k=1} /^msgstr/{k=0} k'
+          }
+          if ! diff -u <(strings "$RUNNER_TEMP/committed.pot") <(strings po/fwbackups.pot); then
+            echo "::error::po/fwbackups.pot is out of date. Run 'meson compile -C _build fwbackups-pot' and commit the result."
+            exit 1
+          fi

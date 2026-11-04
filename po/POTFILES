@@ -27,8 +27,8 @@ fwbackups/__main__.py
 fwbackups/const.py
 fwbackups/shutil_modded.py
 fwbackups/fwlogger.py
-bin/fwbackups-runonce
-bin/fwbackups
-bin/fwbackups-run
+bin/fwbackups-runonce.py
+bin/fwbackups.py
+bin/fwbackups-run.py
 data/com.diffingo.fwbackups.desktop.in
 data/com.diffingo.fwbackups.metainfo.xml.in
